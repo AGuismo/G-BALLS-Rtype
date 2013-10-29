@@ -1,0 +1,67 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Threads", "Threads\Threads.vcxproj", "{58935438-3F38-49E8-AC0D-A66DC7E8EF08}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "testEvent", "testEvent\testEvent.vcxproj", "{16603531-3A18-447A-931F-26FF8A798B13}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "testThreadPool", "testThreadPool\testThreadPool.vcxproj", "{781D1D37-DC53-4977-AA0C-FCEA870F3002}"
+	ProjectSection(ProjectDependencies) = postProject
+		{58935438-3F38-49E8-AC0D-A66DC7E8EF08} = {58935438-3F38-49E8-AC0D-A66DC7E8EF08}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "testConsumer", "testConsumer\testConsumer.vcxproj", "{D2D4D4FB-BBD4-41D8-B374-D0DF2A802DB0}"
+	ProjectSection(ProjectDependencies) = postProject
+		{58935438-3F38-49E8-AC0D-A66DC7E8EF08} = {58935438-3F38-49E8-AC0D-A66DC7E8EF08}
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		compileTests|Win32 = compileTests|Win32
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+		testConsumer|Win32 = testConsumer|Win32
+		testEvent|Win32 = testEvent|Win32
+		testThreadPool|Win32 = testThreadPool|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{58935438-3F38-49E8-AC0D-A66DC7E8EF08}.compileTests|Win32.ActiveCfg = Debug|Win32
+		{58935438-3F38-49E8-AC0D-A66DC7E8EF08}.compileTests|Win32.Build.0 = Debug|Win32
+		{58935438-3F38-49E8-AC0D-A66DC7E8EF08}.Debug|Win32.ActiveCfg = Debug|Win32
+		{58935438-3F38-49E8-AC0D-A66DC7E8EF08}.Debug|Win32.Build.0 = Debug|Win32
+		{58935438-3F38-49E8-AC0D-A66DC7E8EF08}.Release|Win32.ActiveCfg = Release|Win32
+		{58935438-3F38-49E8-AC0D-A66DC7E8EF08}.Release|Win32.Build.0 = Release|Win32
+		{58935438-3F38-49E8-AC0D-A66DC7E8EF08}.testConsumer|Win32.ActiveCfg = Debug|Win32
+		{58935438-3F38-49E8-AC0D-A66DC7E8EF08}.testConsumer|Win32.Build.0 = Debug|Win32
+		{58935438-3F38-49E8-AC0D-A66DC7E8EF08}.testEvent|Win32.ActiveCfg = Debug|Win32
+		{58935438-3F38-49E8-AC0D-A66DC7E8EF08}.testEvent|Win32.Build.0 = Debug|Win32
+		{58935438-3F38-49E8-AC0D-A66DC7E8EF08}.testThreadPool|Win32.ActiveCfg = Debug|Win32
+		{58935438-3F38-49E8-AC0D-A66DC7E8EF08}.testThreadPool|Win32.Build.0 = Debug|Win32
+		{16603531-3A18-447A-931F-26FF8A798B13}.compileTests|Win32.ActiveCfg = Debug|Win32
+		{16603531-3A18-447A-931F-26FF8A798B13}.compileTests|Win32.Build.0 = Debug|Win32
+		{16603531-3A18-447A-931F-26FF8A798B13}.Debug|Win32.ActiveCfg = Debug|Win32
+		{16603531-3A18-447A-931F-26FF8A798B13}.Release|Win32.ActiveCfg = Release|Win32
+		{16603531-3A18-447A-931F-26FF8A798B13}.testConsumer|Win32.ActiveCfg = testConsumer|Win32
+		{16603531-3A18-447A-931F-26FF8A798B13}.testEvent|Win32.ActiveCfg = Debug|Win32
+		{16603531-3A18-447A-931F-26FF8A798B13}.testThreadPool|Win32.ActiveCfg = testThreadPool|Win32
+		{781D1D37-DC53-4977-AA0C-FCEA870F3002}.compileTests|Win32.ActiveCfg = Debug|Win32
+		{781D1D37-DC53-4977-AA0C-FCEA870F3002}.compileTests|Win32.Build.0 = Debug|Win32
+		{781D1D37-DC53-4977-AA0C-FCEA870F3002}.Debug|Win32.ActiveCfg = Debug|Win32
+		{781D1D37-DC53-4977-AA0C-FCEA870F3002}.Release|Win32.ActiveCfg = Release|Win32
+		{781D1D37-DC53-4977-AA0C-FCEA870F3002}.testConsumer|Win32.ActiveCfg = testConsumer|Win32
+		{781D1D37-DC53-4977-AA0C-FCEA870F3002}.testEvent|Win32.ActiveCfg = Debug|Win32
+		{781D1D37-DC53-4977-AA0C-FCEA870F3002}.testThreadPool|Win32.ActiveCfg = Debug|Win32
+		{781D1D37-DC53-4977-AA0C-FCEA870F3002}.testThreadPool|Win32.Build.0 = Debug|Win32
+		{D2D4D4FB-BBD4-41D8-B374-D0DF2A802DB0}.compileTests|Win32.ActiveCfg = Debug|Win32
+		{D2D4D4FB-BBD4-41D8-B374-D0DF2A802DB0}.compileTests|Win32.Build.0 = Debug|Win32
+		{D2D4D4FB-BBD4-41D8-B374-D0DF2A802DB0}.Debug|Win32.ActiveCfg = Debug|Win32
+		{D2D4D4FB-BBD4-41D8-B374-D0DF2A802DB0}.Release|Win32.ActiveCfg = Release|Win32
+		{D2D4D4FB-BBD4-41D8-B374-D0DF2A802DB0}.testConsumer|Win32.ActiveCfg = Debug|Win32
+		{D2D4D4FB-BBD4-41D8-B374-D0DF2A802DB0}.testConsumer|Win32.Build.0 = Debug|Win32
+		{D2D4D4FB-BBD4-41D8-B374-D0DF2A802DB0}.testEvent|Win32.ActiveCfg = Debug|Win32
+		{D2D4D4FB-BBD4-41D8-B374-D0DF2A802DB0}.testThreadPool|Win32.ActiveCfg = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
