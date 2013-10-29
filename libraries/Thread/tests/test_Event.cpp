@@ -70,14 +70,14 @@ void		consumer(int id)
 
 int			main()
 {
-  Threads<int, void (*)(int)>	consumer1(&consumer, 1);
-  Threads<int, void (*)(int)>	consumer2(&consumer, 2);
-  Threads<int, void (*)(int)>	consumer3(&consumer, 3);
-  Threads<int, void (*)(int)>	consumer4(&consumer, 4);
-  Threads<int, void (*)(int)>	consumer5(&consumer, 5);
-  Threads<int, void (*)(int)>	producer1(&producer, 1);
-  Threads<int, void (*)(int)>	producer2(&producer, 2);
-  std::vector<Threads<int, void (*)(int)> *>	threads;
+  Threads<void, int>	consumer1(Func::Bind(&consumer, 1));
+  Threads<void, int>	consumer2(Func::Bind(&consumer, 2));
+  Threads<void, int>	consumer3(Func::Bind(&consumer, 3));
+  Threads<void, int>	consumer4(Func::Bind(&consumer, 4));
+  Threads<void, int>	consumer5(Func::Bind(&consumer, 5));
+  Threads<void, int>	producer1(Func::Bind(&producer, 1));
+  Threads<void, int>	producer2(Func::Bind(&producer, 2));
+  std::vector<Threads<void, int> *>	threads;
 
   threads.push_back(&consumer1);
   threads.push_back(&consumer2);

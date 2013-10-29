@@ -5,7 +5,7 @@
 // Login   <lamber_k@epitech.net>
 //
 // Started on  Mon Apr 15 12:27:48 2013 lambert kevin
-// Last update Sun Oct 27 02:39:02 2013 lambert kevin
+// Last update Wed Oct 30 00:15:32 2013 lambert kevin
 //
 
 #ifndef		WINTHREAD_HPP_
@@ -14,20 +14,25 @@
 # include	<Windows.h>
 # include	<tchar.h>
 # include	<strsafe.h>
+# include	"Bind.hpp"
 
 template <typename T, typename U>
 class		Threads
 {
-  T					_func;
-  U					_param;
-  HANDLE				_th;
-  DWORD					_thid;
-  bool					_detached;
-  bool					_activated;
+  Function<T, U>	_func;
+  HANDLE		_th;
+  DWORD			_thid;
+  bool			_detached;
+  bool			_activated;
 
 public:
-   Threads(T func, U param = 0) :
-    _func(func), _param(param), _detached(false), _activated(false)
+  Threads(Function<T, U> func) :
+    _func(func), _detached(false), _activated(false)
+  {
+  }
+
+  Threads(T (*func)(U), U param) :
+    _func(Func::Bind(func, param)), _detached(false), _activated(false)
   {
   }
 
@@ -40,8 +45,8 @@ public:
   {
     if (_activated)
       return (false);
-	if ((_th = CreateThread(NULL, 0, reinterpret_cast<LPTHREAD_START_ROUTINE>(_func),
-							reinterpret_cast<LPVOID>(_param), 0, &_thid)) == NULL)
+	if ((_th = CreateThread(NULL, 0, reinterpret_cast<LPTHREAD_START_ROUTINE>(routine),
+							reinterpret_cast<LPVOID>(this), 0, &_thid)) == NULL)
       return (false);
     _activated = true;
     return (true);
@@ -84,6 +89,15 @@ public:
   {
     return (_activated);
   }
+
+private:
+  static void	routine(Threads<T, U> *instance);
 };
+
+template <typename T, typename U>
+void		Threads<T, U>::routine(Threads<T, U> *instance)
+{
+  instance->_func();
+}
 
 #endif /* WINTHREAD_HPP_ */
