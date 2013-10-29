@@ -23,7 +23,7 @@ namespace	botLoader
     Manager& operator=(Manager const&);
 
   private:
-    Threads<void (*)(void *), void *>	_th;
+    Threads<void, Manager *>	_th;
   };
 
 }

@@ -3,7 +3,7 @@
 namespace	botLoader
 {
   Manager::Manager():
-    _th(&Manager::routine, (void *)0)
+    _th(&Manager::routine, this)
   {
 
   }
@@ -25,6 +25,6 @@ namespace	botLoader
 
   void	Manager::routine(Manager *thisPtr)
   {
-
+    (void)thisPtr;
   }
 }
