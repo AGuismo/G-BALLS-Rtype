@@ -29,10 +29,14 @@ testThreadPool:	debug
 compileTests:	testEvent testConsumer testThreadPool
 
 clean:
-		@make --no-print-directory -C ./Threads fclean
+		@make --no-print-directory -C ./Threads clean
 		@make --no-print-directory -C ./tests clean
 
+fclean:
+		@make --no-print-directory -C ./Threads fclean
+		@make --no-print-directory -C ./tests fclean
 
+re:		fclean all
 
 
 

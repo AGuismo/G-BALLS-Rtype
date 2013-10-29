@@ -31,6 +31,8 @@ clean:
 	rm -f	$(EVENT)
 	rm -f	$(THREAD_POOL)
 
+fclean:
+
 re:		all
 
 
