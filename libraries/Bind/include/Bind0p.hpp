@@ -5,19 +5,26 @@
 # include	"Bind.hpp"
 
 template <typename Ret>
-class Bind0p
+class Function<Ret>
 {
   typedef	Ret (*Func)();
 public:
-  Bind0p(Ret (*f)(void)) :
+  Function(Ret (*f)(void)) :
   _func(f)
   {
 
   }
-  virtual ~Bind0p() {};
+  virtual ~Function() {};
   Ret	operator()()
   {
     return (_func());
+  }
+  Function(const Function &src) : _func(src._func) {}
+  Function	&operator=(const Function &src)
+  {
+    if (&src != this)
+      _func = src._func;
+    return (*this);
   }
 
 protected:
@@ -25,9 +32,30 @@ protected:
 };
 
 template <>
-void	Bind0p<void>::operator()()
+class Function<void>
 {
-  _func();
-}
+  typedef	void (*Func)();
+public:
+  Function(void (*f)(void)) :
+  _func(f)
+  {
+
+  }
+  virtual ~Function() {};
+  void	operator()()
+  {
+    _func();
+  }
+  Function(const Function &src) : _func(src._func) {}
+  Function	&operator=(const Function &src)
+  {
+    if (&src != this)
+      _func = src._func;
+    return (*this);
+  }
+
+protected:
+  Func	_func;
+};
 
 #endif /* BIND0P_H_ */

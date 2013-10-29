@@ -33,10 +33,10 @@ int	_fooRet1p(int a)
 
 int		main()
 {
-  Bind0p<void>		foo(&::_foo);
-  Bind0p<int>		fooRet(&::_fooRet);
-  Bind1p<void, int>	foo1p(&::_foo1p, 10);
-  Bind1p<int, int>	fooRet1p(&::_fooRet1p, 20);
+  Function<void>	foo = Func::Bind(&::_foo);
+  Function<int>		fooRet = Func::Bind(&::_fooRet);
+  Function<void, int>	foo1p = Func::Bind(&::_foo1p, 10);
+  Function<int, int>	fooRet1p = Func::Bind(&::_fooRet1p, 20);
 
   foo();
   std::cout << "Retval: " << fooRet() << std::endl;

@@ -1,31 +1,12 @@
-## ┌───────────────────────────────────────────────────────────────────────────┐
-## │                                MAKEFILE                                   │
-## └───────────────────────────────────────────────────────────────────────────┘
-
-
-
 NAME	     ?=	server_r-type
-
 
 SRCS =	      	main.cpp	\
 		Application.cpp	\
 
-DIR.GAME=	./game/
-
-DIR.LOADER=	./loader/
-
-DIR.MENU=	./menu/
-
-DIR.THREADS=	./deps/Threads
-
-LNK.MODULES=	-L$(DIR.MENU) -lmenu -L$(DIR.LOADER) -lloader -L$(DIR.GAME) -lgame -L$(DIR.THREADS) -lThread
-INC.MODULES=	-I$(DIR.MENU)/include -I$(DIR.LOADER)/include -I$(DIR.GAME)/include -I$(DIR.THREADS)/include
-
 F.C	     +=	-W -Wall -Werror
-F.I	     +=	-I $(DIR.H) $(INC.MODULES)
-F.L	     += $(LNK.MODULES)
-F.D	     += -DNDEBUG
-
+F.I	     +=	
+F.L	     += 
+F.D	     += 
 
 all:		start $(NAME)
 
@@ -54,59 +35,5 @@ clean:		remove_objects clean_deps
 fclean:		clean remove_name fclean_deps
 
 re:		fclean all
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 include .libmake
