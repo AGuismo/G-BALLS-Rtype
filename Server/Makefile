@@ -10,7 +10,7 @@ DIR.MENU=	./menu/
 DIR.LOAD=	./loader/
 DIR.DEPS=	./deps/
 
-DEPS.INC=	-I$(DIR.DEPS)/Threads/include
+DEPS.INC=	-I$(DIR.DEPS)/Threads/include -I$(DIR.DEPS)/Bind/include
 
 DEPS.LNK=	-L$(DIR.DEPS)/Threads/ -lThread -lpthread
 
@@ -21,7 +21,7 @@ MOD.LNK=	-L$(DIR.GAME) -lgame -L$(DIR.MENU) -lmenu -L$(DIR.LOAD) -lloader
 F.C	     +=	-W -Wall -Werror
 F.I	     +=	$(DEPS.INC) $(MOD.INC)
 F.L	     += $(DEPS.LNK) $(MOD.LNK)
-F.D	     += 
+F.D	     +=
 
 all:		start $(NAME)
 

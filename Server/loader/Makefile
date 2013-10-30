@@ -11,9 +11,10 @@ SRCS =	      	LoaderManager.cpp	\
 		LoaderException.cpp	\
 
 DIR.THREADS=	../deps/Threads
+DIR.BIND=	../deps/Bind
 
 F.C	     +=	-W -Wall -Werror
-F.I	     +=	-I $(DIR.H) -I$(DIR.THREADS)/include
+F.I	     +=	-I $(DIR.H) -I$(DIR.BIND)/include -I$(DIR.THREADS)/include
 F.D	     +=
 
 
