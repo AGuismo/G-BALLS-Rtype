@@ -1,11 +1,12 @@
 #include	<iostream>
 #include	"sys.hh"
+#include	"Bind.hpp"
 #include	"GameManager.hh"
 
 namespace	game
 {
   Manager::Manager():
-    _th(&Manager::routine, this)
+    _th(Func::Bind(&Manager::routine, this))
   {
 
   }

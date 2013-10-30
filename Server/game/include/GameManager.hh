@@ -23,7 +23,7 @@ namespace	game
     Manager& operator=(Manager const&);
 
   private:
-    Threads<void, Manager *>	_th;
+    Threads<void (*)(Manager *)>	_th;
   };
 }
 
