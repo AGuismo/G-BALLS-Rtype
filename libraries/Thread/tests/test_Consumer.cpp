@@ -57,12 +57,12 @@ void		consumer(int id)
 
 int			main()
 {
-  Threads<void, int>	consumer1(&consumer, 1);
-  Threads<void, int>	consumer2(&consumer, 2);
-  Threads<void, int>	consumer3(&consumer, 3);
-  Threads<void, int>	consumer4(&consumer, 4);
-  Threads<void, int>	producer1(&producer, 1);
-  std::vector<Threads<void, int> *>	threads;
+  Threads<void (*)(int)>	consumer1(Func::Bind(&consumer, 1));
+  Threads<void (*)(int)>	consumer2(Func::Bind(&consumer, 2));
+  Threads<void (*)(int)>	consumer3(Func::Bind(&consumer, 3));
+  Threads<void (*)(int)>	consumer4(Func::Bind(&consumer, 4));
+  Threads<void (*)(int)>	producer1(Func::Bind(&producer, 1));
+  std::vector<Threads<void (*)(int)> *>	threads;
 
   producer1.run();
   threads.push_back(&consumer1);
@@ -80,7 +80,7 @@ int			main()
 #else
 #error "Unsupported Operating System"
 #endif
-  for (std::vector<Threads<void, int> *>::iterator it = threads.begin(); it != threads.end(); ++it)
+  for (std::vector<Threads<void (*)(int)> *>::iterator it = threads.begin(); it != threads.end(); ++it)
     {
       (*it)->cancel();
     }

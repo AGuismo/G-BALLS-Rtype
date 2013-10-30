@@ -5,7 +5,7 @@
 // Login   <lamber_k@epitech.net>
 //
 // Started on  Tue Apr 16 10:32:04 2013 lambert kevin
-// Last update Wed Oct 30 02:07:21 2013 lambert kevin
+// Last update Wed Oct 30 12:22:49 2013 lambert kevin
 //
 
 #ifndef THREADPOOL_HH_
@@ -44,16 +44,16 @@ namespace	Thread
 
   class		Pool : protected PoolQueue
   {
-    std::vector<Threads<void, Pool *> *>	Th;
-    std::list<IWork *>	listWork;
-    unsigned int		numThread;
+    std::vector<Threads<void (*)(Pool *)> *>	Th;
+    std::list<IWork *>				listWork;
+    unsigned int				numThread;
 
   public:
     Pool(unsigned int numTh, unsigned int maxQueueSize, bool doNotBlockWhenFull = true) :
       PoolQueue(maxQueueSize, doNotBlockWhenFull), numThread(numTh)
     {
       for (unsigned int i = 0; i < numThread; i++)
-      	Th.insert(Th.begin(), new Threads<void, Pool *>(&routine, this));
+      	Th.insert(Th.begin(), new Threads<void (*)(Pool *)>(Func::Bind(&routine, this)));
     }
 
     virtual ~Pool()

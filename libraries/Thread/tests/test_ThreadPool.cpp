@@ -21,7 +21,7 @@ int					main()
   pool.run();
   while (i < 10000)
     {
-      pool.addWork(new Thread::Work<int>(&foo, i));
+      pool.addWork(new Thread::Work<void (*)(int)>(Func::Bind(&foo, i)));
       ++i;
     }
   pool.stop(true);

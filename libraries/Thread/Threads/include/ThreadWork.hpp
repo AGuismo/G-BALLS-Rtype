@@ -5,7 +5,7 @@
 // Login   <lamber_k@epitech.net>
 //
 // Started on  Tue Apr 16 11:56:49 2013 lambert kevin
-// Last update Sun Apr 21 00:39:03 2013 lambert kevin
+// Last update Wed Oct 30 12:25:54 2013 lambert kevin
 //
 
 #ifndef THREADWORK_HPP_
@@ -15,36 +15,34 @@
 
 namespace	Thread
 {
-  
+
   class		IWork
   {
   public:
-	virtual ~IWork() {};
-	virtual void	operator()() = 0;
+    virtual ~IWork() {};
+    virtual void	operator()() = 0;
   };
 
-  template <typename Param>
+  template <typename Func>
   class		Work : public IWork
   {
-    void	(*_func)(Param);
-    Param	_arg;
+    Function<Func>	_func;
 
   public:
-    Work(void (*func)(Param), Param arg) : _func(func), _arg(arg) {}
-	Work(const Work &src) : _func(src._func), _arg(src._arg) {}
-	Work	&operator=(const Work &src)
+    Work(Function<Func> f) : _func(f) {}
+    Work(const Work &src) : _func(src._func) {}
+    Work	&operator=(const Work &src)
+    {
+      if (&src != *this)
 	{
-		if (&src != *this)
-		{
-			_func = src._func;
-			_arg = src._arg;
-		}
-		return (*this);
+	  _func = src._func;
 	}
+      return (*this);
+    }
     virtual ~Work() {}
     void	operator()()
     {
-      _func(_arg);
+      _func();
     }
   };
 

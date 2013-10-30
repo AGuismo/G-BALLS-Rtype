@@ -5,7 +5,7 @@
 // Login   <lamber_k@epitech.net>
 //
 // Started on  Mon Apr 15 12:27:48 2013 lambert kevin
-// Last update Wed Oct 30 00:15:32 2013 lambert kevin
+// Last update Wed Oct 30 12:21:20 2013 lambert kevin
 //
 
 #ifndef		WINTHREAD_HPP_
@@ -16,23 +16,18 @@
 # include	<strsafe.h>
 # include	"Bind.hpp"
 
-template <typename T, typename U>
+template <typename T>
 class		Threads
 {
-  Function<T, U>	_func;
+  Function<T>		_func;
   HANDLE		_th;
   DWORD			_thid;
   bool			_detached;
   bool			_activated;
 
 public:
-  Threads(Function<T, U> func) :
+  Threads(Function<T> func) :
     _func(func), _detached(false), _activated(false)
-  {
-  }
-
-  Threads(T (*func)(U), U param) :
-    _func(Func::Bind(func, param)), _detached(false), _activated(false)
   {
   }
 
@@ -61,7 +56,7 @@ public:
 	return (true);
   }
 
-   bool		join(U *ret = 0)
+  bool		join()
   {
     if (_detached || !_activated)
       return (false);
@@ -91,11 +86,11 @@ public:
   }
 
 private:
-  static void	routine(Threads<T, U> *instance);
+  static void	routine(Threads<T> *instance);
 };
 
-template <typename T, typename U>
-void		Threads<T, U>::routine(Threads<T, U> *instance)
+template <typename T>
+void		Threads<T>::routine(Threads<T> *instance)
 {
   instance->_func();
 }

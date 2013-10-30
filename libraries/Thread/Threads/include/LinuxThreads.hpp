@@ -5,7 +5,7 @@
 // Login   <lamber_k@epitech.net>
 //
 // Started on  Mon Apr 15 12:27:48 2013 lambert kevin
-// Last update Wed Oct 30 00:12:51 2013 lambert kevin
+// Last update Wed Oct 30 12:21:39 2013 lambert kevin
 //
 
 #ifndef		LINUXTHREAD_HH_
@@ -14,24 +14,18 @@
 # include	<pthread.h>
 # include	"Bind.hpp"
 
-template <typename T, typename U>
+template <typename T>
 class Threads
 {
-  Function<T, U>	_func;
+  Function<T>		_func;
   pthread_t		_th;
   pthread_attr_t	_attr;
   bool			_detached;
   bool			_activated;
 
 public:
-  Threads(Function<T, U> func) :
+  Threads(Function<T> func) :
     _func(func), _detached(false), _activated(false)
-  {
-    pthread_attr_init(&_attr);
-  }
-
-  Threads(T (*func)(U), U param) :
-    _func(Func::Bind(func, param)), _detached(false), _activated(false)
   {
     pthread_attr_init(&_attr);
   }
@@ -62,11 +56,22 @@ public:
     return (true);
   }
 
+  template <typename U>
   bool		join(U *ret = 0)
   {
     if (_detached || !_activated)
       return (false);
     if (pthread_join(_th, reinterpret_cast<void **>(&ret)) != 0)
+      return (false);
+    _activated = false;
+    return (true);
+  }
+
+  bool		join()
+  {
+    if (_detached || !_activated)
+      return (false);
+    if (pthread_join(_th, 0) != 0)
       return (false);
     _activated = false;
     return (true);
@@ -98,11 +103,11 @@ public:
   }
 
 private:
-  static void	routine(Threads<T, U> *instance);
+  static void	routine(Threads<T> *instance);
 };
 
-template <typename T, typename U>
-void		Threads<T, U>::routine(Threads<T, U> *instance)
+template <typename T>
+void		Threads<T>::routine(Threads<T> *instance)
 {
   instance->_func();
 }
