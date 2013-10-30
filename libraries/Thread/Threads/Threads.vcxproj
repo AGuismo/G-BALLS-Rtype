@@ -75,7 +75,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(ProjectDir)\include;$(IncludePath)</IncludePath>
+    <IncludePath>C:\Users\Kevin\Documents\GitHub\G-BALLS-Rtype\libraries\Bind\include;$(ProjectDir)\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='testEvent|Win32'">
     <LinkIncremental>true</LinkIncremental>
@@ -83,11 +83,11 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='compileTests|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(ProjectDir)\include;$(IncludePath)</IncludePath>
+    <IncludePath>C:\Users\Kevin\Documents\GitHub\G-BALLS-Rtype\libraries\Bind\include;$(ProjectDir)\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(ProjectDir)\include;$(IncludePath)</IncludePath>
+    <IncludePath>C:\Users\Kevin\Documents\GitHub\G-BALLS-Rtype\libraries\Bind\include;$(ProjectDir)\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>

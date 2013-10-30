@@ -27,7 +27,7 @@ void		producer(int id)
 		cond_prod.wait(locker);
       ressources += 20;
       std::cout << "Producer{" << id << "}: send " << ressources << std::endl;
-      cond_cons.signal();
+      cond_cons.broadcast();
       locker.unlock();
     }
 }

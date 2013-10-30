@@ -39,12 +39,12 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(SolutionDir)\Threads\include;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)\Threads\include;$(SolutionDir)\..\Bind\include;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)\$(Configuration);$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(SolutionDir)\Threads\include;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)\Threads\include;$(SolutionDir)\..\Bind\include;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)\$(Configuration);$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
