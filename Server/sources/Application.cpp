@@ -36,11 +36,10 @@ Application::~Application()
 
 void	Application::run()
 {
-  while (true)
-    {
-      _menuManager.update();
-    }
-  std::cout << "Run succeed" << std::endl;
+  std::cout << "Start Application::Run" << std::endl;
+  _gameManager.run();
+  _botLoaderManager.run();
+  _menuManager.run();
 }
 
 

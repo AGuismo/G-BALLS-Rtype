@@ -11,7 +11,10 @@ namespace	menu
 
   public:
     void	initialize();
-    void	update();
+    void	run();
+
+  private:
+    static void	routine(Manager *);
 
   private:
     Manager(Manager const&);

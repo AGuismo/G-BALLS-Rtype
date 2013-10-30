@@ -5,3 +5,6 @@
 *.o
 *.d
 a.out
+testConsumer
+testEvent
+testThreadPool
