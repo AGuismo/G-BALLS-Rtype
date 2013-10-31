@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.20827.3
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MDynamic", "Projet2\Projet2.vcxproj", "{101D96AC-34AA-4787-995E-BE636A0AC62F}"
+	ProjectSection(ProjectDependencies) = postProject
+		{FF74758A-0418-40D9-9BE2-413C0E658A20} = {FF74758A-0418-40D9-9BE2-413C0E658A20}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BotDll", "..\TestDll2\TestDll\TestDll.vcxproj", "{FF74758A-0418-40D9-9BE2-413C0E658A20}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{101D96AC-34AA-4787-995E-BE636A0AC62F}.Debug|Win32.ActiveCfg = Debug|Win32
+		{101D96AC-34AA-4787-995E-BE636A0AC62F}.Debug|Win32.Build.0 = Debug|Win32
+		{101D96AC-34AA-4787-995E-BE636A0AC62F}.Release|Win32.ActiveCfg = Release|Win32
+		{101D96AC-34AA-4787-995E-BE636A0AC62F}.Release|Win32.Build.0 = Release|Win32
+		{FF74758A-0418-40D9-9BE2-413C0E658A20}.Debug|Win32.ActiveCfg = Debug|Win32
+		{FF74758A-0418-40D9-9BE2-413C0E658A20}.Debug|Win32.Build.0 = Debug|Win32
+		{FF74758A-0418-40D9-9BE2-413C0E658A20}.Release|Win32.ActiveCfg = Release|Win32
+		{FF74758A-0418-40D9-9BE2-413C0E658A20}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
