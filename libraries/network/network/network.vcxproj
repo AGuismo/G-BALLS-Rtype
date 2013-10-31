@@ -27,15 +27,15 @@
     <None Include="include\cBuffer.tcc" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="source\AMonitorable.cpp" />
-    <ClCompile Include="source\cBuffer.cpp" />
-    <ClCompile Include="source\ClientAccepted.cpp" />
-    <ClCompile Include="source\streamManager.cpp" />
-    <ClCompile Include="source\TcpClient.cpp" />
-    <ClCompile Include="source\TcpServer.cpp" />
-    <ClCompile Include="source\UdpClient.cpp" />
-    <ClCompile Include="source\UdpServer.cpp" />
-    <ClCompile Include="source\WinInit.cpp" />
+    <ClCompile Include="sources\AMonitorable.cpp" />
+    <ClCompile Include="sources\cBuffer.cpp" />
+    <ClCompile Include="sources\ClientAccepted.cpp" />
+    <ClCompile Include="sources\streamManager.cpp" />
+    <ClCompile Include="sources\TcpClient.cpp" />
+    <ClCompile Include="sources\TcpServer.cpp" />
+    <ClCompile Include="sources\UdpClient.cpp" />
+    <ClCompile Include="sources\UdpServer.cpp" />
+    <ClCompile Include="sources\WinInit.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{42C7E464-716A-4975-83CA-A8445B8ABF0E}</ProjectGuid>
