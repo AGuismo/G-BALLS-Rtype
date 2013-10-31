@@ -55,31 +55,31 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="source\AMonitorable.cpp">
+    <ClCompile Include="sources\AMonitorable.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="source\cBuffer.cpp">
+    <ClCompile Include="sources\cBuffer.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="source\ClientAccepted.cpp">
+    <ClCompile Include="sources\ClientAccepted.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="source\streamManager.cpp">
+    <ClCompile Include="sources\streamManager.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="source\TcpClient.cpp">
+    <ClCompile Include="sources\TcpClient.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="source\TcpServer.cpp">
+    <ClCompile Include="sources\TcpServer.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="source\UdpClient.cpp">
+    <ClCompile Include="sources\UdpClient.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="source\UdpServer.cpp">
+    <ClCompile Include="sources\UdpServer.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="source\WinInit.cpp">
+    <ClCompile Include="sources\WinInit.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
   </ItemGroup>
