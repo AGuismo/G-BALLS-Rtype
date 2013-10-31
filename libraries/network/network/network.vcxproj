@@ -10,6 +10,33 @@
       <Platform>Win32</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\abs_sockets.h" />
+    <ClInclude Include="include\AMonitorable.h" />
+    <ClInclude Include="include\cBuffer.h" />
+    <ClInclude Include="include\ClientAccepted.h" />
+    <ClInclude Include="include\state.h" />
+    <ClInclude Include="include\streamManager.h" />
+    <ClInclude Include="include\TcpClient.h" />
+    <ClInclude Include="include\TcpServer.h" />
+    <ClInclude Include="include\UdpClient.h" />
+    <ClInclude Include="include\UdpServer.h" />
+    <ClInclude Include="include\WinInit.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="include\cBuffer.tcc" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="source\AMonitorable.cpp" />
+    <ClCompile Include="source\cBuffer.cpp" />
+    <ClCompile Include="source\ClientAccepted.cpp" />
+    <ClCompile Include="source\streamManager.cpp" />
+    <ClCompile Include="source\TcpClient.cpp" />
+    <ClCompile Include="source\TcpServer.cpp" />
+    <ClCompile Include="source\UdpClient.cpp" />
+    <ClCompile Include="source\UdpServer.cpp" />
+    <ClCompile Include="source\WinInit.cpp" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{42C7E464-716A-4975-83CA-A8445B8ABF0E}</ProjectGuid>
     <RootNamespace>Projet2</RootNamespace>
@@ -40,6 +67,10 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <TargetExt>.dll</TargetExt>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(ProjectDir)\include</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(ProjectDir)\include</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -67,31 +98,6 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClInclude Include="AMonitorable.h" />
-    <ClInclude Include="abs_sockets.h" />
-    <ClInclude Include="cBuffer.h" />
-    <ClInclude Include="state.h" />
-    <ClInclude Include="streamManager.h" />
-    <ClInclude Include="TcpClient.h" />
-    <ClInclude Include="ClientAccepted.h" />
-    <ClInclude Include="TcpServer.h" />
-    <ClInclude Include="server.h" />
-    <ClInclude Include="UdpClient.h" />
-    <ClInclude Include="UdpServer.h" />
-    <ClInclude Include="WinInit.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="AMonitorable.cpp" />
-    <ClCompile Include="cBuffer.cpp" />
-    <ClCompile Include="streamManager.cpp" />
-    <ClCompile Include="TcpClient.cpp" />
-    <ClCompile Include="ClientAccepted.cpp" />
-    <ClCompile Include="TcpServer.cpp" />
-    <ClCompile Include="UdpClient.cpp" />
-    <ClCompile Include="UdpServer.cpp" />
-    <ClCompile Include="WinInit.cpp" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
