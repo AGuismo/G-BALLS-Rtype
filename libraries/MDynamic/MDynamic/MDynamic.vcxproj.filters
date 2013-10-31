@@ -15,18 +15,15 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="MDynamicAbstract.h">
+    <ClInclude Include="include\DynamicAbstract.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="DynamicAbstract.h">
+    <ClInclude Include="include\MDynamicAbstract.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="DynamicAbstract.cpp">
+    <ClCompile Include="sources\DynamicAbstract.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
   </ItemGroup>
