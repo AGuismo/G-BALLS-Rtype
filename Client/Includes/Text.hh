@@ -5,7 +5,7 @@
 // Login   <brigno@epitech.net>
 //
 // Started on  Thu Oct 24 10:55:11 2013 brigno
-// Last update Fri Oct 25 17:51:07 2013 brigno
+// Last update Tue Oct 29 15:23:33 2013 brigno
 //
 
 #ifndef		__TEXT_HH__
@@ -23,9 +23,24 @@ private:
   bool		_enable;
   sf::Font	_font;
   sf::String	_sentence;
+  sf::String	_sentencePwd;
   sf::Text	_text;
   std::string	_fontPath;
   std::size_t	_sizeLimit;
+
+
+  /*AHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH*/
+
+
+  /*A PUTAIN DE RETIRER !!!!!! */
+  std::string	_tmpLogin;
+  std::string	_tmpPwd;
+  /* FIN */
+
+
+  /*AHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH*/
+
+
 
 public:
   Text(const std::string &fontPath, const sf::Event &,
@@ -43,7 +58,8 @@ public:
   const sf::String	&getSentence(void) const;
   const sf::Text	&getText(void) const;
   const std::string	&getfontPath(void) const;
-  void			onFocus();
+  void			onFocus(void);
+  void			stopFocus(void);
   void			draw(sf::RenderWindow &);
 };
 

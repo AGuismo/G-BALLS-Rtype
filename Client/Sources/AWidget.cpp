@@ -5,7 +5,7 @@
 // Login   <brigno@epitech.net>
 //
 // Started on  Thu Oct 24 16:32:14 2013 brigno
-// Last update Thu Oct 24 17:46:06 2013 brigno
+// Last update Mon Oct 28 16:20:52 2013 brigno
 //
 
 #include	"AWidget.hh"
@@ -26,4 +26,3 @@ bool	AWidget::isFocus(const sf::Vector2i &pos)
   return ((pos.x >= this->_topLeft.x && pos.x <= this->_botRight.x) &&
 	  (pos.y >= this->_topLeft.y && pos.y <= this->_botRight.y));
 }
-

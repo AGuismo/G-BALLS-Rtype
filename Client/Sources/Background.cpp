@@ -5,7 +5,7 @@
 // Login   <brigno@epitech.net>
 //
 // Started on  Wed Oct 23 11:30:21 2013 brigno
-// Last update Thu Oct 24 17:49:28 2013 brigno
+// Last update Thu Oct 31 14:21:24 2013 brigno
 //
 
 #include	"Background.hh"
@@ -39,11 +39,11 @@ void		Background::scroll()
   _firstPos = _firstBackground.getPosition();
   _secondPos = _secondBackground.getPosition();
   if (_firstPos.x == 0)
-    _secondPos.x = 1700;
-  if (_firstPos.x == -1700)
-    _firstPos.x = 1700;
-  if (_secondPos.x == -1700)
-    _secondPos.x = 1700;
+    _secondPos.x = 1280;
+  if (_firstPos.x == -1280)
+    _firstPos.x = 1280;
+  if (_secondPos.x == -1280)
+    _secondPos.x = 1280;
   _firstPos.x -= 5;
   _secondPos.x -= 5;
   _secondBackground.setPosition(_secondPos.x, 0);
