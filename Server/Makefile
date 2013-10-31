@@ -10,9 +10,9 @@ DIR.MENU=	./menu/
 DIR.LOAD=	./loader/
 DIR.DEPS=	./deps/
 
-DEPS.INC=	-I$(DIR.DEPS)/Threads/include -I$(DIR.DEPS)/Bind/include
+DEPS.INC=	-I$(DIR.DEPS)/network/include -I$(DIR.DEPS)/Threads/include -I$(DIR.DEPS)/Bind/include
 
-DEPS.LNK=	-L$(DIR.DEPS)/Threads/ -lThread -lpthread
+DEPS.LNK=	-L$(DIR.DEPS)/network/ -lnetwork -L$(DIR.DEPS)/Threads/ -lThread -lpthread
 
 MOD.INC=	-I$(DIR.GAME)/include -I$(DIR.MENU)/include -I$(DIR.LOAD)/include
 
@@ -36,6 +36,7 @@ compile_mods:
 compile_deps:
 		@$(ECHO) $(ES) "Compile Dependancies" $(EE)
 		@make --no-print-directory -C ./deps/Threads/ all F.D=$(F.D)
+		@make --no-print-directory -C ./deps/network/ all F.D=$(F.D)
 
 clean_mods:
 		@$(ECHO) $(ES) "Clean Modules" $(EE)
@@ -46,6 +47,7 @@ clean_mods:
 clean_deps:
 		@$(ECHO) $(ES) "Clean Dependancies" $(EE)
 		@make --no-print-directory -C ./deps/Threads/ clean
+		@make --no-print-directory -C ./deps/network/ clean
 
 fclean_mods:
 		@$(ECHO) $(ES) "Full clean Modules" $(EE)
@@ -56,6 +58,7 @@ fclean_mods:
 fclean_deps:
 		@$(ECHO) $(ES) "Full clean Dependancies" $(EE)
 		@make --no-print-directory -C ./deps/Threads/ fclean
+		@make --no-print-directory -C ./deps/network/ fclean
 
 clean:		remove_objects clean_mods clean_deps
 

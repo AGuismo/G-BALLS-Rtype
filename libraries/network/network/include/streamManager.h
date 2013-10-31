@@ -16,7 +16,9 @@
 
 namespace net
 {
+#if defined(WIN32)
 	EXMP template class ABS_SOCKET_API std::vector<AMonitorable *>;
+#endif
 	class ABS_SOCKET_API streamManager
 	{
 	public:
@@ -25,32 +27,32 @@ namespace net
 			NONBLOCK,
 			TIMEOUT
 		};
-	
-	    public:		
+
+	    public:
 		streamManager();
 	    ~streamManager();
-	
+
 	public:
 	    void setOption(streamManager::Opt option, const struct timeval &timeout);
 	    void unsetOption(streamManager::Opt option);
 	    bool isOptionSet(streamManager::Opt option) const;
 	    void clear();
 		void run();
-/*    
+/*
 	void setMonitor(ANetwork &, AMonitorable &);
     void unsetMonitor(ANetwork &);
- */   
+ */
 		bool isTimeout() const;
 		const struct timeval &getTimeval() const;
 
-    private: 
+    private:
 		timeval _timeout;
 		bool _isTimeout;
 		bool _optTimeout;
 		bool _optNonBlocking;
 		fd_set _readMonitor;
 		fd_set _writeMonitor;
-		unsigned int _maxFd;
+		SOCKET _maxFd;
 		std::vector<AMonitorable *>	_monitors;
 	};
 }
