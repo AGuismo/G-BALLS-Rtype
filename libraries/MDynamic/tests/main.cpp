@@ -3,35 +3,39 @@
 
 int				main()
 {
-	Fptr			dll;
-	DynamicAbstract loader;
+  Fptr			dll;
+  DynamicAbstract loader;
 
-	if (loader.DynamicOpen("myLibrary.dll") == false)
-	{
-		std::cerr << "FUCK  open" << std::endl;
 #if defined(WIN32)
-		system("pause");
+  if (loader.DynamicOpen("myLibrary.dll") == false)
+#elif defined(linux)
+  if (loader.DynamicOpen("libmyLibrary.so") == false)
 #endif
-		return (-1);
-	}
-
-	if ((dll = (Fptr)loader.DynamicLoadSym("getInstance")) == NULL)
-	{
-		std::cerr << "FUCK  load" << std::endl;
+    {
+      std::cerr << "FUCK  open" << std::endl;
 #if defined(WIN32)
-		system("pause");
+      system("pause");
 #endif
-		return (-1);
-	}
+      return (-1);
+    }
 
-	CmyLibrary	*mlib;
-	mlib = static_cast<CmyLibrary *>(dll());
-
-	mlib->foo();
-	loader.DynamicClose();
-	
+  if ((dll = (Fptr)loader.DynamicLoadSym("getInstance")) == NULL)
+    {
+      std::cerr << "FUCK  load" << std::endl;
 #if defined(WIN32)
-	system("pause");
+      system("pause");
 #endif
-	return 0;
+      return (-1);
+    }
+
+  CmyLibrary	*mlib;
+  mlib = static_cast<CmyLibrary *>(dll());
+
+  mlib->foo();
+  loader.DynamicClose();
+
+#if defined(WIN32)
+  system("pause");
+#endif
+  return 0;
 }
