@@ -19,7 +19,7 @@ MOD.INC=	-I$(DIR.GAME)/include -I$(DIR.MENU)/include -I$(DIR.LOAD)/include
 MOD.LNK=	-L$(DIR.GAME) -lgame -L$(DIR.MENU) -lmenu -L$(DIR.LOAD) -lloader
 
 F.C	     +=	-W -Wall -Werror
-F.I	     +=	$(DEPS.INC) $(MOD.INC)
+F.I	     +=	$(DEPS.INC) $(MOD.INC) -I./include
 F.L	     += $(DEPS.LNK) $(MOD.LNK)
 F.D	     +=
 
