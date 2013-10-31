@@ -31,6 +31,6 @@ class	checkFileAbstract: public ACheckFileAbstract
 #elif	defined (linux)
 //nothing for now
 #else
-error "Unsupported operating system"
+# error "Unsupported operating system"
 #endif // WIN32
 #endif // !CHECK_FILE_ABSTRACT
