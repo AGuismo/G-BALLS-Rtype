@@ -13,7 +13,7 @@ SRCS =	      	MenuManager.cpp		\
 DIR.THREADS=	../deps/Threads
 
 F.C	     +=	-W -Wall -Werror
-F.I	     +=	-I $(DIR.H) -I$(DIR.THREADS)/include
+F.I	     +=	-I $(DIR.H) -I$(DIR.THREADS)/include -I../include
 F.D	     +=
 
 
