@@ -4,24 +4,24 @@
 #include	"ACheckFileAbstract.h"
 #include	<map>
 
-#ifdef WIN32
+#ifdef WIN32 
 
 #include	<Windows.h>
 
 
-class	checkFileAbstract: public ACheckFileAbstract
+class	checkFileAbstract : public ACheckFileAbstract
 {
  private:
-  std::string				_fileToCheck;
-  std::map<std::string, FILETIME>	_fileList;
-  std::map<std::string, UPDATE>		_update;
+  std::string							_fileToCheck;
+  std::map<std::string, FILETIME>		_fileList;
+  std::map<std::string, UPDATE>			_update;
 
  private:
   checkFileAbstract(const checkFileAbstract &);
   checkFileAbstract &operator=(const checkFileAbstract &);
 
  public:
-  virtual std::map<std::string, UPDATE>			*refreshFile(void);
+  virtual std::map<std::string, UPDATE>	*refreshFile(void);
 
  public:
   checkFileAbstract(std::string &fileToCheck);
@@ -29,6 +29,29 @@ class	checkFileAbstract: public ACheckFileAbstract
 };
 
 #elif	defined (linux)
+
+#include <sys/types.h>
+#include <dirent.h>
+
+class	checkFileAbstract : public ACheckFileAbstract
+{
+private:
+	std::string							_fileToCheck;
+	std::map<std::string, time_t>		_fileList;
+	std::map<std::string, UPDATE>		_update;
+
+private:
+	checkFileAbstract(const checkFileAbstract &);
+	checkFileAbstract &operator=(const checkFileAbstract &);
+
+public:
+	virtual std::map<std::string, UPDATE>	*refreshFile(void);
+
+public:
+	checkFileAbstract(std::string &fileToCheck);
+	~checkFileAbstract() {}
+};
+
 //nothing for now
 #else
 # error "Unsupported operating system"
