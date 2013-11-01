@@ -19,28 +19,33 @@
 
 namespace net
 {
-	class ABS_SOCKET_API ClientAccepted: public AMonitorable
-	{
-	public:
-		ClientAccepted();
-		ClientAccepted(SOCKET sock, struct sockaddr_in addr);
-		~ClientAccepted();
+  class ABS_SOCKET_API ClientAccepted: public AMonitorable
+  {
+  public:
+    ClientAccepted();
+    ClientAccepted(SOCKET sock, struct sockaddr_in addr);
+    ~ClientAccepted();
 
-		void recv();
-		void send();
-		void close();
-		void readFromBuffer(std::string &);
-		void writeIntoBuffer(const std::string &str);
-		cBuffer::size_type lookRead(std::vector<cBuffer::Byte> &buf, cBuffer::size_type count);
-		cBuffer::size_type lookWrite(std::vector<cBuffer::Byte> &buf, cBuffer::size_type count);
-		struct sockaddr_in _addr;
-		
-	protected:
-		SOCKET		getSocket()const;
-		SOCKET		_sock;
-		State		_state;
-		cBuffer		_read;
-		cBuffer		_write;
-		//struct sockaddr_in _addr;
-	};
+    void recv();
+    void send();
+    void close();
+    cBuffer::size_type readFromBuffer(std::vector<cBuffer::Byte> &, cBuffer::size_type count);
+    cBuffer::size_type writeIntoBuffer(const std::vector<cBuffer::Byte> &, cBuffer::size_type count);
+    cBuffer::size_type lookRead(std::vector<cBuffer::Byte> &buf, cBuffer::size_type count);
+    cBuffer::size_type lookWrite(std::vector<cBuffer::Byte> &buf, cBuffer::size_type count);
+    struct sockaddr_in _addr;
+
+  public:
+    bool		isOpen() const;
+    bool		isClosed() const;
+
+  protected:
+    SOCKET		getSocket()const;
+
+  protected:
+    SOCKET		_sock;
+    State		_state;
+    cBuffer		_read;
+    cBuffer		_write;
+  };
 }

@@ -1,8 +1,15 @@
 #include "streamManager.h"
+#include "NetException.h"
+#include <algorithm>
+#if defined(linux)
+# include	<errno.h>
+# include	<cstring>
+#endif
 
 using namespace net;
 
-streamManager::streamManager()
+streamManager::streamManager():
+  _optTimeout(false), _optNonBlocking(false)
 {
   _timeout.tv_sec = 0;
   _timeout.tv_usec = 0;
@@ -65,6 +72,31 @@ void streamManager::clear()
 
 }
 
+bool	streamManager::timeoutMode()
+{
+  struct timeval	tv = _timeout;
+  int		ret;
+
+  _isTimeout = false;
+  if (_optNonBlocking)
+    tv.tv_sec = tv.tv_usec = 0;
+  ret = select(_maxFd + 1, &_readMonitor, &_writeMonitor, 0, &tv);
+  if (ret == -1)
+    {
+#if defined(WIN32)
+      throw net::Exception("Select Failure: " + WSAGetLastError());
+#elif defined(linux)
+      throw net::Exception("Select Failure: " + std::string(strerror(errno)));
+#endif
+    }
+  if (ret == 0)
+    {
+      _isTimeout = true;
+      return (false);
+    }
+  return (true);
+}
+
 void streamManager::run()
 {
   std::vector<AMonitorable *>::iterator	it;
@@ -75,35 +107,25 @@ void streamManager::run()
     {
       if ((*it)->getSocket() > _maxFd)
 	_maxFd = (*it)->getSocket();
-      if ((*it)->isSet(AMonitorable::READ))
+      if ((*it)->monitorRead())
 	FD_SET((*it)->getSocket(), &_readMonitor);
-      if ((*it)->isSet(AMonitorable::WRITE))
+      if ((*it)->monitorWrite())
 	FD_SET((*it)->getSocket(), &_writeMonitor);
     }
-
   if (_optTimeout || _optNonBlocking)
     {
-      struct timeval	tv = _timeout;
-      int		ret;
-
-      _isTimeout = false;
-      if (_optNonBlocking)
-	tv.tv_sec = tv.tv_usec = 0;
-      ret = select(_maxFd + 1, &_readMonitor, &_writeMonitor, 0, &tv);
-      if (ret == -1)
-	throw std::exception(); //"Select Timeout"
-      if (ret == 0)
-	{
-	  _isTimeout = true;
-	  return ;
-	}
+      if (!timeoutMode())
+	return ;
     }
   else
     {
       if (select(_maxFd + 1, &_readMonitor, &_writeMonitor, 0, 0) == -1)
 	{
-	  //		strerror(errno);
-	  throw std::exception(); //"Select"
+#if defined(WIN32)
+	  throw net::Exception("Select Failure: " + WSAGetLastError());
+#elif defined(linux)
+	  throw net::Exception("Select Failure: " + std::string(strerror(errno)));
+#endif
 	}
     }
   for (it = _monitors.begin(); it != _monitors.end(); it++)
@@ -127,4 +149,23 @@ bool streamManager::isTimeout() const
 const struct timeval &streamManager::getTimeval() const
 {
   return (_timeout);
+}
+
+void	streamManager::setMonitor(AMonitorable &toMonitor)
+{
+  _monitors.push_back(&toMonitor);
+}
+
+void	streamManager::unsetMonitor(AMonitorable &toUnmonitor)
+{
+  std::vector<AMonitorable *>::iterator	pos = std::find(_monitors.begin(),
+							_monitors.end(),
+							&toUnmonitor);
+
+  if (pos != _monitors.end())
+    _monitors.erase(pos);
+#if defined(DEBUG)
+  else
+    throw net::Exception("The network don't exist in this streamMonitor");
+#endif
 }
