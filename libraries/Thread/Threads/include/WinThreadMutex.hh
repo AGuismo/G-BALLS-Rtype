@@ -5,7 +5,7 @@
 // Login   <lamber_k@epitech.net>
 //
 // Started on  Mon Apr 15 13:07:15 2013 lambert kevin
-// Last update Fri Nov  1 22:26:06 2013 lambert kevin
+// Last update Fri Nov  1 22:40:09 2013 lambert kevin
 //
 
 #ifndef		WINTHREADMUTEX_HH_
@@ -43,6 +43,7 @@ namespace 	Thread
 
   protected:
     CRITICAL_SECTION	&getMutex();
+    friend class	Cond;
   };
 
   class	DECLPORT 	MutexGuard
@@ -53,7 +54,6 @@ namespace 	Thread
     MutexGuard(Mutex &);
     virtual ~MutexGuard();
 
-    friend class	Cond;
     friend class	Mutex;
   };
 };
