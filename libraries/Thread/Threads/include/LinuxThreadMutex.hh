@@ -5,7 +5,7 @@
 // Login   <lamber_k@epitech.net>
 //
 // Started on  Mon Apr 15 13:07:15 2013 lambert kevin
-// Last update Fri Oct 25 04:19:59 2013 lambert kevin
+// Last update Wed Oct 30 12:54:38 2013 lambert kevin
 //
 
 #ifndef		THREADMUTEX_HH_
@@ -45,13 +45,15 @@ namespace	Thread
     pthread_mutex_t		&getMutex();
   };
 
-  class				MutexGuard : protected Mutex
+  class				MutexGuard
   {
     Mutex			&_locker;
 
   public:
     MutexGuard(Mutex &);
     virtual ~MutexGuard();
+
+    friend Mutex;
   };
 };
 #endif /* THREADMUTEX_HH_ */
