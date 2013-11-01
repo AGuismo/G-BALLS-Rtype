@@ -9,7 +9,7 @@
 #include	<Windows.h>
 
 
-class	checkFileAbstract : public ACheckFileAbstract
+class	checkFileAbstract : public ICheckFileAbstract
 {
  private:
   std::string							_fileToCheck;
@@ -21,7 +21,7 @@ class	checkFileAbstract : public ACheckFileAbstract
   checkFileAbstract &operator=(const checkFileAbstract &);
 
  public:
-  virtual std::map<std::string, UPDATE>	*refreshFile(void);
+  std::map<std::string, UPDATE>	*refreshFile(void);
 
  public:
   checkFileAbstract(std::string &fileToCheck);
@@ -36,7 +36,7 @@ class	checkFileAbstract : public ACheckFileAbstract
 #include <unistd.h>
 #include <time.h> 
 
-class	checkFileAbstract : public ACheckFileAbstract
+class	checkFileAbstract : public ICheckFileAbstract
 {
 private:
 	std::string							_fileToCheck;
@@ -48,7 +48,7 @@ private:
 	checkFileAbstract &operator=(const checkFileAbstract &);
 
 public:
-	virtual std::map<std::string, UPDATE>	*refreshFile(void);
+	std::map<std::string, UPDATE>	*refreshFile(void);
 
 public:
 	checkFileAbstract(std::string &fileToCheck);

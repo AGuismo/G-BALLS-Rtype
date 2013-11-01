@@ -3,15 +3,13 @@
 int						main(int ac, char *av[])
 {
   int					i = 0;
-  ACheckFileAbstract		*listing;
-  std::string			dName("../FileListing/AU BON C");
-  std::map<std::string, UPDATE>	*list;
+  ACheckFileAbstract			*listing;
+  std::string				dName("./TESTHERE");
+  std::map<std::string, UPDATE>		*list;
 
   listing = new checkFileAbstract(dName);
 
-  std::cout << av[1] << std::endl;
-
-  while (i < 10)
+  while (i < 20)
     {
       list = listing->refreshFile();
 	  if (list == NULL)
@@ -26,6 +24,8 @@ int						main(int ac, char *av[])
 	std::cout << "[" << it->first.c_str() << "] [" << it->second << "]" << std::endl;
 #if defined(WIN32)
       system("pause");
+#else
+sleep(3);
 #endif
       ++i;
     }

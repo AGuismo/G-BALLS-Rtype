@@ -13,11 +13,10 @@ enum UPDATE
 };
 
 
-class								ICheckFileAbstract
+class											ACheckFileAbstract
 {
 public:
 	virtual std::map<std::string, UPDATE>			*refreshFile(void) = 0;
-	virtual ~ICheckFileAbstract() {}
 };
 
 #endif // !ACHECK_FILE_ABSTRACT

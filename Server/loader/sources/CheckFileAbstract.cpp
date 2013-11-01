@@ -18,10 +18,7 @@ std::map<std::string, UPDATE>						*checkFileAbstract::refreshFile(void)
 	hFind = FindFirstFile(_fileToCheck.c_str(), &ffd);
 
 	if (INVALID_HANDLE_VALUE == hFind)
-	{
-		std::cerr << "caca là" << std::endl;
 		return NULL;
-	}
 
 	do 
 	{
@@ -79,10 +76,9 @@ std::map<std::string, UPDATE>						*checkFileAbstract::refreshFile(void)
 	std::string							nPath;
 	std::map<std::string, time_t>::iterator				it;
 	std::map<std::string, UPDATE>::iterator				ot;
-
+	bool								empty = true;
 	_update.clear();
 
-	std::cout << _fileToCheck.c_str() << std::endl;
 
 	if ((dp = opendir(_fileToCheck.c_str())) == NULL)
 		return NULL;
@@ -95,6 +91,7 @@ std::map<std::string, UPDATE>						*checkFileAbstract::refreshFile(void)
 		nPath.clear();
 		if (dirp->d_type == DT_REG)
 		{
+			empty = false;
 			nPath += _fileToCheck.c_str();
 			nPath += "/";
 			nPath += dirp->d_name;
@@ -118,6 +115,8 @@ std::map<std::string, UPDATE>						*checkFileAbstract::refreshFile(void)
 
 	} while ((dirp = readdir(dp)) != NULL);
 
+	if (empty == true)
+		return NULL;
 
 	for (it = _fileList.begin(); it != _fileList.end(); ++it)
 	{
