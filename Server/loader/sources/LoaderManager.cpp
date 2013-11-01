@@ -33,6 +33,7 @@ namespace	botLoader
     while (true)
       {
 	sys::sleep(1);
+	std::cout << "caca" << std::endl;
       }
   }
 }

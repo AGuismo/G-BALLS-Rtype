@@ -9,6 +9,8 @@ NAME	     ?=	libloader.a
 
 SRCS =	      	LoaderManager.cpp	\
 		LoaderException.cpp	\
+		CheckFileAbstract.cpp	\
+		DynamicAbstract.cpp	\
 
 DIR.THREADS=	../deps/Threads
 DIR.BIND=	../deps/Bind
