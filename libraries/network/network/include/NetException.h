@@ -3,11 +3,11 @@
 
 #include	<stdexcept>
 #include	<string>
+#include	"abs_sockets.h"
 
 namespace net
 {
-
-  class Exception : public std::exception
+	class ABS_SOCKET_API Exception : public std::exception
   {
   public:
     Exception(const std::string &) throw();
@@ -21,7 +21,7 @@ namespace net
     virtual const char	*what() const throw();
 
   protected:
-    std::string		_what;
+    const char		*_what;
   };
 
 }

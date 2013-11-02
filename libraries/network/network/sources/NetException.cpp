@@ -4,7 +4,7 @@ using namespace net;
 
 Exception::Exception(const std::string &error) throw()
 {
-  _what = "Network Exception, error detail: " + error;
+  _what = std::string("Network Exception, error detail: " + error).c_str();
 }
 
 Exception::Exception(const Exception &src) throw() :
@@ -29,5 +29,5 @@ Exception::~Exception() throw()
 
 const char	*Exception::what() const throw()
 {
-  return (_what.c_str());
+  return (_what);
 }
