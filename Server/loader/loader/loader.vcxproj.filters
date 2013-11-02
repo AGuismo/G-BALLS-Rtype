@@ -21,12 +21,30 @@
     <ClInclude Include="..\include\LoaderManager.hh">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\include\CheckFileAbstract.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\DynamicAbstract.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\ICheckFileAbstract.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\MDynamicAbstract.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\sources\LoaderException.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\sources\LoaderManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\sources\CheckFileAbstract.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\sources\DynamicAbstract.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
