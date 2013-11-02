@@ -1,4 +1,5 @@
 #include "UdpClient.h"
+#include "NetException.h"
 
 using namespace net;
 
@@ -24,7 +25,7 @@ void UdpClient::init(std::string adress, std::string port)
   if ( (_sock = WSASocket(AF_INET, SOCK_DGRAM, IPPROTO_UDP, NULL, NULL, NULL))
        == SOCKET_ERROR)
     {
-      throw std::exception("WSASocket failed with error : " + WSAGetLastError());
+      throw net::Exception("WSASocket failed with error : " + WSAGetLastError());
     }
   ZeroMemory(&addr, sizeof(addr));
   addr.sin_family = AF_INET;
@@ -32,6 +33,9 @@ void UdpClient::init(std::string adress, std::string port)
   addr.sin_addr.S_un.S_addr = inet_addr(adress.c_str());
 }
 #elif defined(linux)
+# include	<errno.h>
+# include	<cstring>
+
 UdpClient::UdpClient(void) : ClientAccepted()
 {
 }
@@ -50,7 +54,7 @@ void UdpClient::init(std::string adress, std::string port)
   ss >> num;
   if ((_sock = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP)) == -1)
     {
-      throw std::exception(); //"socket failed with error : " + WSAGetLastError()
+      throw net::Exception("socket failed with error : " + std::string(strerror(errno)));
     }
   bzero(&addr, sizeof(addr));
   addr.sin_family = AF_INET;

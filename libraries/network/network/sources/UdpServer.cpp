@@ -1,4 +1,5 @@
 #include "UdpServer.h"
+#include "NetException.h"
 
 using namespace net;
 
@@ -22,19 +23,19 @@ void UdpServer::initialize(int port, int nbClients)
 {
   if((_sock = WSASocket(AF_INET , SOCK_DGRAM , IPPROTO_UDP, NULL, 0, WSA_FLAG_OVERLAPPED)) == INVALID_SOCKET)
     {
-      throw std::exception("WSASocket failed with error : " + WSAGetLastError());
+      throw net::Exception("WSASocket failed: " + WSAGetLastError());
     }
 
   //Prepare the sockaddr_in structure
   _addr.sin_family = AF_INET;
   if (WSAHtonl(_sock, INADDR_ANY, &_addr.sin_addr.s_addr) != 0)
-    throw std::exception("WSAHtonll failed with error : " + WSAGetLastError());
+    throw net::Exception("WSAHtonll failed: " + WSAGetLastError());
   WSAHtons(_sock, port, &_addr.sin_port);
 
   //Bind
   if( bind(_sock ,(struct sockaddr *)&_addr , sizeof(_addr)) == SOCKET_ERROR)
     {
-      throw std::exception("Bind failed with error : " + WSAGetLastError());
+      throw net::Exception("Bind failed: " + WSAGetLastError());
     }
 }
 
@@ -75,7 +76,7 @@ void UdpServer::send()
   if (n == -1)
     {
       _state = STATEERROR;
-      throw std::exception("Recv Failure");
+      throw net::Exception("Recv Failure: " + WSAGetLastError());
     }
   if (size == 0)
     {
@@ -90,7 +91,7 @@ void UdpServer::close()
   if (closesocket(_sock) == -1)
     {
       _state = STATEERROR;
-      throw std::exception("Close Failure");
+      throw net::Exception("Close Failure: " + WSAGetLastError());
     }
   _state = DISCONNECTED;
   _sock = 0;
@@ -98,6 +99,8 @@ void UdpServer::close()
 
 #elif defined(linux)
 
+#include	<errno.h>
+#include	<cstring>
 #include	<unistd.h>
 
 UdpServer::UdpServer(void)
@@ -119,18 +122,17 @@ void UdpServer::initialize(int port, int nbClients)
   (void)nbClients;
   if((_sock = socket(AF_INET , SOCK_DGRAM , IPPROTO_UDP)) == -1)
     {
-      throw std::exception(); // "WSASocket failed with error : " + WSAGetLastError()
+      throw net::Exception("Socket failed: " + std::string(strerror(errno)));
     }
 
   //Prepare the sockaddr_in structure
   _addr.sin_family = AF_INET;
   _addr.sin_addr.s_addr = htonl(INADDR_ANY);
-  //		throw std::exception("WSAHtonll failed with error : " + WSAGetLastError());
   _addr.sin_port = htons(port);
   //Bind
   if(bind(_sock ,(struct sockaddr *)&_addr , sizeof(_addr)) == -1)
     {
-      throw std::exception(); //"Bind failed with error : " + WSAGetLastError()
+      throw net::Exception("Bind failed: " + std::string(strerror(errno)));
     }
 }
 
@@ -166,7 +168,7 @@ void UdpServer::send()
   if (n == -1)
     {
       _state = STATEERROR;
-      throw std::exception(); //"Recv Failure"
+      throw net::Exception("Recv Failure: " + std::string(strerror(errno)));
     }
   if (n == 0)
     {
@@ -181,40 +183,23 @@ void UdpServer::close()
   if (::close(_sock) == -1)
     {
       _state = STATEERROR;
-      throw std::exception(); //"Close Failure"
+      throw net::Exception("Close Failure: " + std::string(strerror(errno)));
     }
   _state = DISCONNECTED;
   _sock = 0;
 }
 #endif
 
-void UdpServer::readFromBuffer(std::string &str)
+cBuffer::size_type UdpServer::readFromBuffer(std::vector<cBuffer::Byte> &buf,
+					     cBuffer::size_type count)
 {
-  std::vector<cBuffer::Byte>		tmp;
-  char	buf[512];
-  int count;
-
-  count = _read.read(tmp, 512);
-  for (int i = 0; i < count ; i++)
-    buf[i] = tmp[i];
-  str = buf;
-  if (_type != WRITE && _type != BOTH)
-    _type = READ;
-  else
-    _type = BOTH;
+  return (_read.read(buf, count));
 }
 
-void UdpServer::writeIntoBuffer(const std::string &str)
+cBuffer::size_type UdpServer::writeIntoBuffer(const std::vector<cBuffer::Byte> &buf,
+					      cBuffer::size_type count)
 {
-  std::vector<cBuffer::Byte>		tmp;
-
-  for (unsigned int i = 0; i < str.length() ; i++)
-    tmp.insert(tmp.end(), str.c_str()[i]);
-  _read.write(tmp, str.length());
-  if (_type != READ && _type != BOTH)
-    _type = WRITE;
-  else
-    _type = BOTH;
+  return (_write.write(buf, count));
 }
 
 cBuffer::size_type UdpServer::lookRead(std::vector<cBuffer::Byte> &buf, cBuffer::size_type count)

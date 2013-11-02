@@ -2,7 +2,13 @@ NAME	     ?=	server_r-type
 
 SRCS =	      	main.cpp	\
 		Application.cpp	\
+		Client.cpp	\
 				\
+		ARequest.cpp	\
+		AuthRequest.cpp	\
+		Protocol.cpp	\
+				\
+		Env.cpp		\
 		sys.cpp		\
 
 DIR.GAME=	./game/
@@ -20,7 +26,7 @@ MOD.LNK=	-L$(DIR.GAME) -lgame -L$(DIR.MENU) -lmenu -L$(DIR.LOAD) -lloader
 
 F.C	     +=	-W -Wall -Werror
 F.I	     +=	$(DEPS.INC) $(MOD.INC) -I./include
-F.L	     += $(DEPS.LNK) $(MOD.LNK)
+F.L	     += $(DEPS.LNK) $(MOD.LNK) -Wl,-rpath=./deps
 F.D	     +=
 
 all:		start $(NAME)
@@ -35,8 +41,10 @@ compile_mods:
 
 compile_deps:
 		@$(ECHO) $(ES) "Compile Dependancies" $(EE)
-		@make --no-print-directory -C ./deps/Threads/ all F.D=$(F.D)
-		@make --no-print-directory -C ./deps/network/ all F.D=$(F.D)
+		@make --no-print-directory -C ./$(DIR.DEPS)/Threads/ all F.D=$(F.D)
+		@make --no-print-directory -C ./$(DIR.DEPS)/network/ all F.D=$(F.D)
+		@cp ./$(DIR.DEPS)/Threads/libThread.so ./$(DIR.DEPS)
+		@cp ./$(DIR.DEPS)/network/libnetwork.so ./$(DIR.DEPS)
 
 clean_mods:
 		@$(ECHO) $(ES) "Clean Modules" $(EE)
@@ -46,8 +54,8 @@ clean_mods:
 
 clean_deps:
 		@$(ECHO) $(ES) "Clean Dependancies" $(EE)
-		@make --no-print-directory -C ./deps/Threads/ clean
-		@make --no-print-directory -C ./deps/network/ clean
+		@make --no-print-directory -C ./$(DIR.DEPS)/Threads/ clean
+		@make --no-print-directory -C ./$(DIR.DEPS)/network/ clean
 
 fclean_mods:
 		@$(ECHO) $(ES) "Full clean Modules" $(EE)
@@ -57,8 +65,10 @@ fclean_mods:
 
 fclean_deps:
 		@$(ECHO) $(ES) "Full clean Dependancies" $(EE)
-		@make --no-print-directory -C ./deps/Threads/ fclean
-		@make --no-print-directory -C ./deps/network/ fclean
+		@make --no-print-directory -C ./$(DIR.DEPS)/Threads/ fclean
+		@make --no-print-directory -C ./$(DIR.DEPS)/network/ fclean
+		@rm -f ./$(DIR.DEPS)/libThread.so
+		@rm -f ./$(DIR.DEPS)/libnetwork.so
 
 clean:		remove_objects clean_mods clean_deps
 

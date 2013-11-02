@@ -17,37 +17,28 @@ namespace net
   class  ABS_SOCKET_API AMonitorable
   {
   public:
-    enum	Type
-      {
-		READ,
-		WRITE,
-		BOTH,
-		NONE
-      };
-
-
-  public:
-    AMonitorable();
-    AMonitorable(Type monitorType);
+    AMonitorable(bool read = true, bool write = true);
     virtual ~AMonitorable();
 
-  public:
-    // AMonitorable(AMonitorable const&);
-    // AMonitorable& operator=(AMonitorable const&);
+  private:
+    AMonitorable(AMonitorable const&);
+    AMonitorable& operator=(AMonitorable const&);
 
   public:
-    Type	getType() const;
-    bool	isSet(Type) const;
+    void	monitor(bool read = true, bool write = true);
+    bool	monitorRead() const;
+    bool	monitorWrite() const;
 
   public:
-    void	read(bool);
-    bool	read() const;
-    void	write(bool);
-    bool	write() const;
-	virtual	SOCKET getSocket()const = 0;
+    void		read(bool);
+    bool		read() const;
+    void		write(bool);
+    bool		write() const;
+    virtual SOCKET	getSocket() const = 0;
 
   protected:
-    Type	_type;
+    bool	_monitorRead;
+    bool	_monitorWrite;
     bool	_readSet;
     bool	_writeSet;
   };

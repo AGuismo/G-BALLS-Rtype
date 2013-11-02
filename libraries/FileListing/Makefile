@@ -18,7 +18,7 @@ debug:
 compileTests:	test1
 
 test1:		debug
-		g++ ./tests/test1.cpp -I./$(ProjectDir)/include -L./$(ProjectDir) -l$(ProjectName)
+		g++ ./tests/test1.cpp -I./$(ProjectDir)/include -L./$(ProjectDir) -l$(ProjectName) -Wl,-rpath=./$(ProjectDir)
 
 clean:
 		@make --no-print-directory -C ./$(ProjectDir) clean

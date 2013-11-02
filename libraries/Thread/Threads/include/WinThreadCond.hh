@@ -5,7 +5,7 @@
 // Login   <lamber_k@epitech.net>
 //
 // Started on  Mon Apr 15 13:13:42 2013 lambert kevin
-// Last update Fri Oct 25 03:50:39 2013 lambert kevin
+// Last update Fri Nov  1 22:25:32 2013 lambert kevin
 //
 
 #ifndef		WINTHREADCOND_HH_
@@ -32,7 +32,7 @@ namespace	Thread
     virtual bool	signal();
     virtual bool	wait(Mutex &_m, msTime = 0);
 
-    friend		Mutex;
+    friend class	Mutex;
   };
 };
 

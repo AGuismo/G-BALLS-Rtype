@@ -5,7 +5,7 @@
 // Login   <lamber_k@epitech.net>
 //
 // Started on  Mon Apr 15 13:13:42 2013 lambert kevin
-// Last update Fri Oct 25 04:16:16 2013 lambert kevin
+// Last update Fri Nov  1 22:25:15 2013 lambert kevin
 //
 
 #ifndef		THREADCOND_HH_
@@ -33,7 +33,7 @@ namespace	Thread
     virtual bool	wait(Mutex &, msTime = 0);
     static Cond		*createCond();
 
-    friend		Mutex;
+    friend class	Mutex;
   };
 };
 

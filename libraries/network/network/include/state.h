@@ -2,10 +2,10 @@
 
 namespace net
 {
-	enum	State
-    {
-      CONNECTED,
-      DISCONNECTED,
-      STATEERROR
-    };
+  enum	State
+  {
+    CONNECTED,
+    DISCONNECTED,
+    STATEERROR
+  };
 }

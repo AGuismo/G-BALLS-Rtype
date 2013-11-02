@@ -21,21 +21,26 @@ namespace net
     TcpServer();
     ~TcpServer();
 
+  public:
+    void		initialize(unsigned short int port, int maxPendingConnections = 10);
+    ClientAccepted	*accept();
+
+  public:
+    short int		getPort() const;
+    int			getMaxPendingConnections() const;
 
   private:
     TcpServer(const TcpServer &src);
     TcpServer	&operator=(TcpServer const &src);
 
-  public:
-    void initialize(int port, int nbClients = 10);
-    ClientAccepted *accept();
-
   private:
     SOCKET getSocket() const;
 
   private:
-    SOCKET _sock;
-    State  _state;
-    struct sockaddr_in _addr;
+    SOCKET		_sock;
+    State		_state;
+    struct sockaddr_in	_addr;
+    unsigned short int	_port;
+    int			_maxPendingConnections;
   };
 }

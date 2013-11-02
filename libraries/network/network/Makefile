@@ -14,6 +14,7 @@ SRCS =	      	AMonitorable.cpp	\
 		TcpServer.cpp		\
 		UdpClient.cpp		\
 		UdpServer.cpp		\
+		NetException.cpp	\
 
 F.C	     +=	-W -Wall -Werror -fPIC
 F.I	     +=	-I $(DIR.H)
