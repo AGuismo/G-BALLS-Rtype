@@ -3,6 +3,9 @@ NAME	     ?=	server_r-type
 SRCS =	      	main.cpp	\
 		Application.cpp	\
 		Client.cpp	\
+				\
+		ARequest.cpp	\
+		AuthRequest.cpp	\
 		Protocol.cpp	\
 				\
 		Env.cpp		\
