@@ -5,6 +5,7 @@
 
 # include			<windows.h>
 
+typedef __int8			Rbool;
 typedef __int8			Rint8;
 typedef __int16			Rint16;
 typedef __int32			Rint32;
@@ -20,6 +21,7 @@ typedef double			Rdouble;
 
 # include			<stdint.h>
 
+typedef int8_t			Rbool;
 typedef int8_t			Rint8;
 typedef int16_t			Rint16;
 typedef int32_t			Rint32;

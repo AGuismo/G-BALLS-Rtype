@@ -3,7 +3,9 @@ NAME	     ?=	server_r-type
 SRCS =	      	main.cpp	\
 		Application.cpp	\
 		Client.cpp	\
+		Protocol.cpp	\
 				\
+		Env.cpp		\
 		sys.cpp		\
 
 DIR.GAME=	./game/
