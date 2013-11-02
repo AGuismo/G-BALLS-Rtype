@@ -6,11 +6,12 @@
 
 Application::Application()
 {
+  std::string	file("botlibrary");
   try
     {
       _menuManager.initialize(); // Load the menu
       _gameManager.initialize(); // Load the game system
-      _botLoaderManager.initialize(); // Load the bot-Loader
+      _botLoaderManager.initialize(file); // Load the bot-Loader
     }
   catch (const menu::Exception &e) // Menu loader exception
     {
