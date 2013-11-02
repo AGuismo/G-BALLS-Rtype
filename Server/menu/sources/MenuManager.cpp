@@ -1,7 +1,7 @@
 #include	<iostream>
+#include	"MenuManager.hh"
 #include	"MenuException.hh"
 #include	"sys.hh"
-#include	"MenuManager.hh"
 #include	"Client.hh"
 #include	"NetException.h"
 

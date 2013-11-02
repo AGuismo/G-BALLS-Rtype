@@ -15,6 +15,7 @@
     <ClInclude Include="include\AMonitorable.h" />
     <ClInclude Include="include\cBuffer.h" />
     <ClInclude Include="include\ClientAccepted.h" />
+    <ClInclude Include="include\NetException.h" />
     <ClInclude Include="include\state.h" />
     <ClInclude Include="include\streamManager.h" />
     <ClInclude Include="include\TcpClient.h" />
@@ -30,6 +31,7 @@
     <ClCompile Include="sources\AMonitorable.cpp" />
     <ClCompile Include="sources\cBuffer.cpp" />
     <ClCompile Include="sources\ClientAccepted.cpp" />
+    <ClCompile Include="sources\NetException.cpp" />
     <ClCompile Include="sources\streamManager.cpp" />
     <ClCompile Include="sources\TcpClient.cpp" />
     <ClCompile Include="sources\TcpServer.cpp" />

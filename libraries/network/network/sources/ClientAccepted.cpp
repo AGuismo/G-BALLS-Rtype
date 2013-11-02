@@ -31,7 +31,7 @@ void ClientAccepted::recv()
   int				size = sizeof(_addr);
 
   WSARecvFrom(_sock, &wbuff, 1, &count, &flags, reinterpret_cast<sockaddr *>(&_addr), &size, NULL, NULL);
-  for (int i = 0; i < count ; i++)
+  for (DWORD i = 0; i < count ; i++)
     tmp.insert(tmp.end(), wbuff.buf[i]);
   _read.write(tmp, size);
 }
@@ -63,8 +63,6 @@ void ClientAccepted::send()
     }
   _write.read(tmp, size);
   count = _write.look(tmp, 512);
-  if (!count)
-    _type = READ;
 }
 
 void ClientAccepted::close()

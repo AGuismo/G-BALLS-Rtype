@@ -39,11 +39,11 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>$(SolutionDir)\..\libraries\Thread\Threads\include;$(SolutionDir)\..\libraries\Bind\include;$(ProjectDir)\..\..\include;$(IncludePath);$(ProjectDir)\..\include</IncludePath>
+    <IncludePath>$(SolutionDir)\..\libraries\Thread\Threads\include;$(ProjectDir)\..\..\include;$(IncludePath);$(ProjectDir)\..\include;$(SolutionDir)\..\libraries\network\network\include;$(SolutionDir)\..\libraries\Bind\include</IncludePath>
     <TargetExt>.lib</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IncludePath>$(SolutionDir)\..\libraries\Thread\Threads\include;$(SolutionDir)\..\libraries\Bind\include;$(ProjectDir)\..\..\include;$(IncludePath);$(ProjectDir)\..\include</IncludePath>
+    <IncludePath>$(SolutionDir)\..\libraries\Thread\Threads\include;$(ProjectDir)\..\..\include;$(IncludePath);$(ProjectDir)\..\include;$(SolutionDir)\..\libraries\network\network\include;$(SolutionDir)\..\libraries\Bind\include</IncludePath>
     <TargetExt>.lib</TargetExt>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -83,6 +83,9 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\libraries\Bind\Bind.vcxproj">
       <Project>{b0528781-5f02-4c9d-9ddc-c4deaebc7928}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\libraries\network\network\network.vcxproj">
+      <Project>{42c7e464-716a-4975-83ca-a8445b8abf0e}</Project>
     </ProjectReference>
     <ProjectReference Include="..\..\..\libraries\Thread\Threads\Threads.vcxproj">
       <Project>{58935438-3f38-49e8-ac0d-a66dc7e8ef08}</Project>
