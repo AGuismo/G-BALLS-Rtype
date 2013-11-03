@@ -38,9 +38,15 @@ void	Client::update()
   if (_TcpLayer == 0)
     throw std::Exception();
 #endif
-  _TcpLayer->recv();
-  std::cout << "The client have data to read" << std::endl;
-  std::cout << _TcpLayer->readFromBuffer(buf, 512) << std::endl;
+  std::cout << __PRETTY_FUNCTION__ << std::endl;
+  if (_TcpLayer->read())
+    {
+      std::cout << "The client have data to read" << std::endl;
+      std::cout << _TcpLayer->recv() << std::endl;
+      std::cout << _TcpLayer->readFromBuffer(buf, 512) << std::endl;
+    }
+  // _TcpLayer->recv();
+  // _TcpLayer->readFromBuffer(buf, 512);
 }
 
 bool		Client::isTCP() const
@@ -50,7 +56,7 @@ bool		Client::isTCP() const
 
 bool		Client::isTCPDisconnected() const
 {
-  return (_TcpLayer != 0 && _TcpLayer->isClosed() == net::DISCONNECTED);
+  return (_TcpLayer != 0 && _TcpLayer->isDisconnected());
 }
 
 void		Client::closeTCP()

@@ -23,26 +23,32 @@ ClientAccepted::~ClientAccepted()
   close();
 }
 
-void ClientAccepted::recv()
+int				ClientAccepted::recv()
 {
   DWORD				count, flags = MSG_OOB;
   WSABUF			wbuff;
   std::vector<cBuffer::Byte>	tmp;
   int				size = sizeof(_addr);
 
-  WSARecvFrom(_sock, &wbuff, 1, &count, &flags, reinterpret_cast<sockaddr *>(&_addr), &size, NULL, NULL);
+  if (WSARecvFrom(_sock, &wbuff, 1, &count, &flags,
+		  reinterpret_cast<sockaddr *>(&_addr),
+		  &size, NULL, NULL) == SOCKET_ERROR)
+    {
+      _state = STATEERROR;
+      throw net::Exception("Recv Failure");
+    }
   for (DWORD i = 0; i < count ; i++)
     tmp.insert(tmp.end(), wbuff.buf[i]);
-  _read.write(tmp, size);
+  _read.write(tmp, count);
+  return (count);
 }
 
-void ClientAccepted::send()
+int				ClientAccepted::send()
 {
-  SSIZE_T				count, n;
-  std::vector<cBuffer::Byte>		tmp;
-  char	buf[512];
-  WSABUF	wbuff;
-  DWORD		size;
+  SSIZE_T			count, n;
+  std::vector<cBuffer::Byte>	tmp;
+  char				buf[512];
+  WSABUF			wbuff;
   int i;
 
   count = _write.look(tmp, 512);
@@ -50,31 +56,33 @@ void ClientAccepted::send()
     buf[i] = tmp[i];
   wbuff.buf = buf;
   wbuff.len = i;
-  n = WSASendTo(_sock, &wbuff, 1, &size, MSG_OOB, reinterpret_cast<sockaddr *>(&_addr), sizeof(_addr), NULL, NULL);
-  if (n == -1)
+  n = WSASendTo(_sock, &wbuff, 1, &count, MSG_OOB,
+		reinterpret_cast<sockaddr *>(&_addr),
+		sizeof(_addr), NULL, NULL);
+  if (n == SOCKET_ERROR)
     {
       _state = STATEERROR;
-      throw net::Exception("Recv Failure");
+      throw net::Exception("Send Failure");
     }
-  if (size == 0)
+  if (count == 0)
     {
       _state = DISCONNECTED;
       return ;
     }
-  _write.read(tmp, size);
-  count = _write.look(tmp, 512);
+  _write.read(tmp, count);
+  return (count);
 }
 
 void ClientAccepted::close()
 {
-  if (_state == DISCONNECTED)
+  if (_state == CLOSED || _state = STATEERROR)
     return ;
   if (closesocket(_sock) == -1)
     {
       _state = STATEERROR;
       throw net::Exception("Close Failure");
     }
-  _state = DISCONNECTED;
+  _state = CLOSED;
   _sock = 0;
 }
 
@@ -106,7 +114,7 @@ ClientAccepted::~ClientAccepted()
   close();
 }
 
-void ClientAccepted::recv()
+int				ClientAccepted::recv()
 {
   int				count = 512;
   char				buf[512];
@@ -123,49 +131,48 @@ void ClientAccepted::recv()
   if (readSize == 0)
     {
       _state = DISCONNECTED;
-      return ;
+      return (readSize);
     }
   for (socklen_t i = 0; i < readSize ; i++)
     tmp.insert(tmp.end(), buf[i]);
   _read.write(tmp, size);
+  return (readSize);
 }
 
-void ClientAccepted::send()
+int					ClientAccepted::send()
 {
   ssize_t				count, n;
   std::vector<cBuffer::Byte>		tmp;
-  char	buf[512];
-  size_t		size;
-  int i;
+  char					buf[512];
 
   count = _write.look(tmp, 512);
-  for (i = 0; i < count ; i++)
+  for (ssize_t i = 0; i < count ; i++)
     buf[i] = tmp[i];
-  size = i;
-  n = sendto(_sock, buf, size, 0, reinterpret_cast<sockaddr *>(&_addr), sizeof(_addr));
+  n = sendto(_sock, buf, count, 0, reinterpret_cast<sockaddr *>(&_addr), sizeof(_addr));
   if (n == -1)
     {
       _state = STATEERROR;
       throw net::Exception("Sendto Failure" + std::string(strerror(errno)));
     }
-  if (size == 0)
+  else if (n == 0)
     {
       _state = DISCONNECTED;
-      return ;
+      return (n);
     }
-  _write.read(tmp, size);
+  _write.read(tmp, n);
+  return (n);
 }
 
-void ClientAccepted::close()
+void		ClientAccepted::close()
 {
-  if (_state == DISCONNECTED)
+  if (_state == CLOSED || _state == STATEERROR)
     return ;
   if (::close(_sock) == -1)
     {
       _state = STATEERROR;
       throw net::Exception("Close Failure" + std::string(strerror(errno)));
     }
-  _state = DISCONNECTED;
+  _state = CLOSED;
   _sock = 0;
 }
 
@@ -181,9 +188,14 @@ bool			ClientAccepted::isOpen() const
   return (_state == CONNECTED);
 }
 
-bool			ClientAccepted::isClosed() const
+bool			ClientAccepted::isDisconnected() const
 {
   return (_state == DISCONNECTED);
+}
+
+bool			ClientAccepted::isClosed() const
+{
+  return (_state == CLOSED);
 }
 
 cBuffer::size_type	ClientAccepted::readFromBuffer(std::vector<cBuffer::Byte> &buf,

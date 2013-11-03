@@ -2,10 +2,19 @@
 
 int		main(int argc, const char *argv[])
 {
-  Application	app;
+  Application	*app;
 
+  try
+    {
+      app = new Application;
+    }
+  catch (const Application::InitExcept &e)
+    {
+      std::cerr << e.what() << std::endl;
+      return (1);
+    }
+  app->run();
   (void)argc;
   (void)argv;
-  app.run();
   return (0);
 }

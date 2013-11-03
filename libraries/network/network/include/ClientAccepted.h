@@ -26,18 +26,19 @@ namespace net
     ClientAccepted(SOCKET sock, struct sockaddr_in addr);
     ~ClientAccepted();
 
-    void recv();
-    void send();
-    void close();
-    cBuffer::size_type readFromBuffer(std::vector<cBuffer::Byte> &, cBuffer::size_type count);
-    cBuffer::size_type writeIntoBuffer(const std::vector<cBuffer::Byte> &, cBuffer::size_type count);
-    cBuffer::size_type lookRead(std::vector<cBuffer::Byte> &buf, cBuffer::size_type count);
-    cBuffer::size_type lookWrite(std::vector<cBuffer::Byte> &buf, cBuffer::size_type count);
-    struct sockaddr_in _addr;
+    int			recv();
+    int			send();
+    void		close();
+    cBuffer::size_type	readFromBuffer(std::vector<cBuffer::Byte> &, cBuffer::size_type count);
+    cBuffer::size_type	writeIntoBuffer(const std::vector<cBuffer::Byte> &, cBuffer::size_type count);
+    cBuffer::size_type	lookRead(std::vector<cBuffer::Byte> &buf, cBuffer::size_type count);
+    cBuffer::size_type	lookWrite(std::vector<cBuffer::Byte> &buf, cBuffer::size_type count);
+    struct sockaddr_in	_addr;
 
   public:
     bool		isOpen() const;
     bool		isClosed() const;
+    bool		isDisconnected() const;
 
   protected:
     SOCKET		getSocket()const;

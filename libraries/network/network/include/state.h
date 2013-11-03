@@ -6,6 +6,7 @@ namespace net
   {
     CONNECTED,
     DISCONNECTED,
+    CLOSED,
     STATEERROR
   };
 }
