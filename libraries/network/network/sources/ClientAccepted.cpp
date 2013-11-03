@@ -98,7 +98,8 @@ SOCKET		ClientAccepted::getSocket()const
 #include	<cstring>
 #include	<string>
 
-ClientAccepted::ClientAccepted(SOCKET sock, struct sockaddr_in addr)
+ClientAccepted::ClientAccepted(SOCKET sock, struct sockaddr_in addr) :
+  AMonitorable(true, false)
 {
   _sock = sock;
   _addr = addr;
@@ -160,6 +161,8 @@ int					ClientAccepted::send()
       return (n);
     }
   _write.read(tmp, n);
+  if (_write.empty())
+    monitor(true, false);
   return (n);
 }
 
@@ -207,6 +210,7 @@ cBuffer::size_type	ClientAccepted::readFromBuffer(std::vector<cBuffer::Byte> &bu
 cBuffer::size_type	ClientAccepted::writeIntoBuffer(const std::vector<cBuffer::Byte> &buf,
 						   cBuffer::size_type count)
 {
+  monitor(true, true);
   return (_write.write(buf, count));
 }
 
