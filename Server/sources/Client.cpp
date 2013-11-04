@@ -32,18 +32,27 @@ net::ClientAccepted	*Client::TcpLayer() const
 
 void	Client::update()
 {
-  std::vector<net::cBuffer::Byte> buf;
-
 #if defined(DEBUG)
   if (_TcpLayer == 0)
     throw std::Exception();
-#endif
   std::cout << __PRETTY_FUNCTION__ << std::endl;
+#endif
   if (_TcpLayer->read())
     {
-      std::cout << "The client have data to read" << std::endl;
-      std::cout << _TcpLayer->recv() << std::endl;
-      std::cout << _TcpLayer->readFromBuffer(buf, 512) << std::endl;
+#if defined(DEBUG)
+      std::cerr << "The client have data to read" << std::endl;
+#endif
+      if (_TcpLayer->recv() <= 0)
+	return ;
+#if defined(DEBUG)
+      std::vector<net::cBuffer::Byte> buf;
+
+      std::cout << _TcpLayer->lookRead(buf, 512) << std::endl;
+      for (std::vector<net::cBuffer::Byte>::iterator it = buf.begin(); it != buf.end(); ++it)
+	std::cerr << *it;
+      std::cerr << std::endl;
+#endif
+      // std::cout << buf.size() << std::endl;
     }
   // _TcpLayer->recv();
   // _TcpLayer->readFromBuffer(buf, 512);

@@ -136,7 +136,7 @@ int				ClientAccepted::recv()
     }
   for (socklen_t i = 0; i < readSize ; i++)
     tmp.insert(tmp.end(), buf[i]);
-  _read.write(tmp, size);
+  _read.write(tmp, readSize);
   return (readSize);
 }
 

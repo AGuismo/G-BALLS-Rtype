@@ -1,7 +1,7 @@
 // -----------------------------------------------------------------------------
 // CBUFFER
 // -----------------------------------------------------------------------------
-// Last update Tue Jun 11 23:25:51 2013 lambert kevin
+// Last update Mon Nov  4 09:48:42 2013 lamber_k
 
 #include	"cBuffer.h"
 
@@ -31,8 +31,8 @@ cBuffer::size_type	cBuffer::read(std::vector<Byte> &buf,
 {
   if (count > _buf.size())
     count = _buf.size();
-  buf.insert(buf.begin(), _buf.end() - count, _buf.end());
-  _buf.erase(_buf.end() - count, _buf.end());
+  buf.insert(buf.begin(), _buf.begin(), _buf.begin() + count);
+  _buf.erase(_buf.begin(), _buf.begin() + count);
   return (count);
 }
 
