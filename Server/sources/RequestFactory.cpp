@@ -1,13 +1,15 @@
+#include	<typeinfo>
 #include	"RequestFactory.hh"
 #include	"Protocol.hpp"
 #include	"ARequest.hh"
+#include	"AuthRequest.hh"
 
 namespace	request
 {
 
   Factory::Factory()
   {
-
+    _lnk[requestCode::auth::CONNECT] = new Auth::Connect;
   }
 
   Factory::~Factory()
@@ -22,25 +24,24 @@ namespace	request
     return (f);
   }
 
-  const ARequest	Factory::factory(Protocol &p, const requestCode::CodeID code)
+  ARequest		*Factory::factory(Protocol &p, const requestCode::CodeID code)
   {
     Factory		&f = Factory::getInstance();
+    lnk_type::iterator	it;
 
-    (void)f;
-    (void)p;
-    (void)code;
-    // .Megan_serialize(*this);
-    return (ARequest(requestCode::auth::CONNECT));
+#if defined(DEBUG)
+    if ((it = f._lnk.find(code)) == f._lnk.end())
+      throw ARequest::Exception("Invalid Code");
+#endif
+
+    ARequest		*req = f._lnk.find(code)->second->clone();
+    req->Fox_unserialize(p);
+    return (req);
   }
 
   void			Factory::factory(Protocol &p, const ARequest &output)
   {
-    Factory		&f = Factory::getInstance();
-
-    (void)p;
-    (void)output;
-    (void)f;
-    // output.Fox_unserialize(p);
+    output.Megan_serialize(p);
   }
 
 }

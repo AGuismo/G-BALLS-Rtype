@@ -54,7 +54,7 @@ namespace Auth
     return (*this);
   }
 
-  Protocol			&Connect::Megan_serialize(Protocol &rhs)
+  Protocol			&Connect::Megan_serialize(Protocol &rhs) const
   {
     requestCode::UsernameLen	len = username.size();
 
@@ -66,7 +66,14 @@ namespace Auth
   {
     requestCode::UsernameLen	len;
 
-    rhs >> len >> username >> password;
+    rhs >> len;
+    rhs >> username;
+    rhs >> password;
     return (rhs);
+  }
+
+  ARequest	*Connect::clone()
+  {
+    return (new Connect());
   }
 }

@@ -1,3 +1,4 @@
+#include	<iostream>
 #include	"RequestFactory.hh"
 #include	"Protocol.hpp"
 
@@ -96,11 +97,12 @@ Protocol&	Protocol::operator>>(std::string & s)
   return (*this);
 }
 
-const ARequest			Protocol::consume(std::vector<net::cBuffer::Byte> &input)
+ARequest		*Protocol::consume(std::vector<net::cBuffer::Byte> &input)
 {
-  static Protocol		p;
-  requestCode::CodeID		code;
+  Protocol		p;
+  requestCode::CodeID	code;
 
+  std::cerr << input.size() << std::endl;
   p._container.clear();
   p._container.insert(p._container.begin(), input.begin(), input.end());
   p >> code;
@@ -116,7 +118,7 @@ const ARequest			Protocol::consume(std::vector<net::cBuffer::Byte> &input)
 
 std::vector<net::cBuffer::Byte>		Protocol::product(const ARequest &output)
 {
-  static Protocol			p;
+  Protocol				p;
   std::vector<net::cBuffer::Byte>	bytes;
 
   p._container.clear();
@@ -155,4 +157,3 @@ const char		*Protocol::ConstructRequest::what() const throw()
 {
   return (_what.c_str());
 }
-

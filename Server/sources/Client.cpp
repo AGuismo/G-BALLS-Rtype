@@ -50,17 +50,20 @@ void	Client::recvSock()
   // std::cout << buf.size() << std::endl;
 }
 
-bool		Client::request()
+bool					Client::request()
 {
-  std::vector<net::cBuffer::Byte> buf;
+  std::vector<net::cBuffer::Byte>	buf;
+  ARequest				*req;
 
   std::cout << _TcpLayer->lookRead(buf, 512) << std::endl;
   try
     {
-      ARequest	req = Protocol::consume(buf);
+      req = Protocol::consume(buf);
+      (void)req;
     }
   catch (Protocol::ConstructRequest &e)
     {
+      std::cerr << "Failed to create request: " << e.what() << std::endl;
       return (false);
     }
   return (true);
@@ -70,7 +73,7 @@ void	Client::update()
 {
 #if defined(DEBUG)
   if (_TcpLayer == 0)
-    throw std::Exception();
+    throw "No TCP socket";
   std::cout << __PRETTY_FUNCTION__ << std::endl;
 #endif
   if (_TcpLayer->read())

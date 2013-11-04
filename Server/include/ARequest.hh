@@ -38,8 +38,9 @@ public:
   ARequest& operator=(ARequest const&);
 
 public:
-  virtual Protocol	&Megan_serialize(Protocol &);
-  virtual Protocol	&Fox_unserialize(Protocol &);
+  virtual ARequest	*clone() = 0;
+  virtual Protocol	&Megan_serialize(Protocol &) const = 0;
+  virtual Protocol	&Fox_unserialize(Protocol &) = 0;
 
 protected:
   requestCode::CodeID	_code;

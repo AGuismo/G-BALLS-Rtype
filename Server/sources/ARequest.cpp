@@ -37,18 +37,6 @@ void			ARequest::code(const requestCode::CodeID code)
   _code = code;
 }
 
-Protocol	&ARequest::Megan_serialize(Protocol &transformer)
-{
-  transformer << _code;
-  return (transformer);
-}
-
-Protocol	&ARequest::Fox_unserialize(Protocol &transformer)
-{
-  transformer >> _code;
-  return (transformer);
-}
-
 ARequest::Exception::Exception(const std::string &what) throw():
   _what(what)
 {

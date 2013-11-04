@@ -28,6 +28,10 @@ struct Func
   template <typename Ret, typename C, typename P1>
   static Function<Ret (C::*)(P1)>		Bind(Ret (C::*f)(P1), P1);
   template <typename Ret, typename C, typename P1>
+  static Function<Ret (C::*)(P1)>		Bind(Ret (C::*f)(P1), C *inst);
+  template <typename Ret, typename C, typename P1>
+  static Function<Ret (C::*)(P1)>		Bind(Ret (C::*f)(P1));
+  template <typename Ret, typename C, typename P1>
   static Function<Ret (C::*)(P1)>		Bind(Ret (C::*f)(P1), C *inst, P1);
   template <typename Ret, typename C, typename P1, typename P2>
   static Function<Ret (C::*)(P1, P2)>		Bind(Ret (C::*f)(P1, P2), P1, P2);
@@ -103,6 +107,18 @@ template <typename Ret, class C, typename P1>
 Function<Ret (C::*)(P1)>		Func::Bind(Ret (C::*f)(P1), C *inst, P1 _1)
 {
   return (Function<Ret (C::*)(P1)>(f, inst, _1));
+}
+
+template <typename Ret, class C, typename P1>
+Function<Ret (C::*)(P1)>	Func::Bind(Ret (C::*f)(P1))
+{
+  return (Function<Ret (C::*)(P1)>(f));
+}
+
+template <typename Ret, class C, typename P1>
+Function<Ret (C::*)(P1)>		Func::Bind(Ret (C::*f)(P1), C *inst)
+{
+  return (Function<Ret (C::*)(P1)>(f, inst));
 }
 
 template <typename Ret, class C, typename P1, typename P2>

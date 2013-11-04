@@ -72,7 +72,7 @@ public:
   Byte		*data();
 
 public:
-  static const ARequest				consume(std::vector<net::cBuffer::Byte> &);
+  static ARequest				*consume(std::vector<net::cBuffer::Byte> &);
   static std::vector<net::cBuffer::Byte>	product(const ARequest &);
 
 private:
@@ -101,6 +101,8 @@ T		&Protocol::pop(T &val)
 {
   Byte*		buffer = reinterpret_cast<Byte*>(&val);
 
+  if (sizeof(T) > _container.size())
+    throw ConstructRequest("Not enough size");
   for (size_t size = 0; size < sizeof(val); size += sizeof(Byte))
     {
       buffer[size] = _container.front();

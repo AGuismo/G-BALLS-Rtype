@@ -73,7 +73,7 @@ class Function<Ret (C::*)()>
 {
   typedef	Ret (C::*Func)();
 public:
-  Function(Ret (C::*f)(void)) :
+  Function(Ret (C::*f)()) :
   _func(f), _inst(0)
   {
 

@@ -16,7 +16,7 @@ public:
   AuthRequest& operator=(AuthRequest const&);
 
 public:
-  virtual Protocol	&Megan_serialize(Protocol &) = 0;
+  virtual Protocol	&Megan_serialize(Protocol &) const = 0;
   virtual Protocol	&Fox_unserialize(Protocol &) = 0;
 };
 
@@ -31,8 +31,9 @@ namespace Auth
     Connect(Connect const&);
     Connect& operator=(Connect const&);
 
-    Protocol			&Megan_serialize(Protocol &);
+    Protocol			&Megan_serialize(Protocol &) const;
     Protocol			&Fox_unserialize(Protocol &);
+    ARequest			*clone();
 
     std::string			username;
     requestCode::PasswordType	password; // Work in progress

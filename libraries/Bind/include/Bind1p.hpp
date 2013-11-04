@@ -24,6 +24,10 @@ public:
   {
     return (_func(_1));
   }
+  Ret	        operator()(P1 p1)
+  {
+    return (_func(p1));
+  }
 
 public:
   Function(const Function &src) : _func(src._func), _1(src._1) {}
@@ -56,6 +60,10 @@ public:
   void		operator()()
   {
     _func(_1);
+  }
+  void	        operator()(P1 p1)
+  {
+    _func(p1);
   }
 
 public:
@@ -90,6 +98,11 @@ public:
   {
 
   }
+  Function(Ret (C::*f)(P1)) :
+    _func(f), _inst(0)
+  {
+
+  }
   Function(Ret (C::*f)(P1), C *inst, P1 _1) :
   _func(f), _inst(inst), _1(_1)
   {
@@ -101,9 +114,18 @@ public:
     if (_inst != 0)
       return ((_inst->*_func)(_1));
   }
+  Ret	operator()(P1 p1)
+  {
+    if (_inst != 0)
+      return ((_inst->*_func)(p1));
+  }
   Ret	operator()(C *inst)
   {
     return ((inst->*_func)(_1));
+  }
+  Ret	operator()(C *inst, P1 p1)
+  {
+    return ((inst->*_func)(p1));
   }
   Function(const Function &src) : _func(src._func), _inst(src._inst),
 				  _1(src._1) {}
@@ -129,6 +151,11 @@ class Function<void (C::*)(P1)>
 {
   typedef	void (C::*Func)(P1);
 public:
+  Function(void (C::*f)(P1)) :
+    _func(f), _inst(0)
+  {
+
+  }
   Function(void (C::*f)(P1), P1 _1) :
     _func(f), _inst(0), _1(_1)
   {
@@ -145,9 +172,18 @@ public:
     if (_inst != 0)
       (_inst->*_func)(_1);
   }
+  void	operator()(P1 p1)
+  {
+    if (_inst != 0)
+      (_inst->*_func)(p1);
+  }
   void	operator()(C *inst)
   {
     (inst->*_func)(_1);
+  }
+  void	operator()(C *inst, P1 p1)
+  {
+    (inst->*_func)(p1);
   }
   Function(const Function &src) : _func(src._func), _inst(src._inst),
 				  _1(src._1) {}
