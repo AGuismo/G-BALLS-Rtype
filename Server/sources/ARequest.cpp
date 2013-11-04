@@ -48,3 +48,34 @@ Protocol	&ARequest::Fox_unserialize(Protocol &transformer)
   transformer >> _code;
   return (transformer);
 }
+
+ARequest::Exception::Exception(const std::string &what) throw():
+  _what(what)
+{
+
+}
+
+ARequest::Exception::~Exception() throw()
+{
+
+}
+
+ARequest::Exception::Exception(Exception const &src) throw() :
+  _what(src._what)
+{
+
+}
+
+ARequest::Exception	&ARequest::Exception::operator=(Exception const & src) throw()
+{
+  if (this != &src)
+    {
+      _what = src._what;
+    }
+  return (*this);
+}
+
+const char		*ARequest::Exception::what() const throw()
+{
+  return (_what.c_str());
+}

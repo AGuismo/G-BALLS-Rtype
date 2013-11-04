@@ -1,15 +1,16 @@
 NAME	     ?=	server_r-type
 
-SRCS =	      	main.cpp	\
-		Application.cpp	\
-		Client.cpp	\
-				\
-		ARequest.cpp	\
-		AuthRequest.cpp	\
-		Protocol.cpp	\
-				\
-		Env.cpp		\
-		sys.cpp		\
+SRCS =	      	main.cpp		\
+		Application.cpp		\
+		Client.cpp		\
+					\
+		ARequest.cpp		\
+		AuthRequest.cpp		\
+		Protocol.cpp		\
+		RequestFactory.cpp	\
+					\
+		Env.cpp			\
+		sys.cpp			\
 
 DIR.GAME=	./game/
 DIR.MENU=	./menu/

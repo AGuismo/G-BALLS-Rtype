@@ -13,6 +13,10 @@ public:
   Client(net::ClientAccepted *);
   ~Client();
 
+private:
+  void			recvSock();
+  bool			request();
+
 public:
   void			TcpLayer(net::ClientAccepted *);
   net::ClientAccepted	*TcpLayer() const;

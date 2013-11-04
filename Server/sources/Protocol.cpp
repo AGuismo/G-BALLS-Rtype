@@ -1,3 +1,4 @@
+#include	"RequestFactory.hh"
 #include	"Protocol.hpp"
 
 Protocol::Protocol():
@@ -94,3 +95,64 @@ Protocol&	Protocol::operator>>(std::string & s)
     }
   return (*this);
 }
+
+const ARequest			Protocol::consume(std::vector<net::cBuffer::Byte> &input)
+{
+  static Protocol		p;
+  requestCode::CodeID		code;
+
+  p._container.clear();
+  p._container.insert(p._container.begin(), input.begin(), input.end());
+  p >> code;
+  try
+    {
+      return (request::Factory::factory(p, code));
+    }
+  catch (ARequest::Exception &e)
+    {
+      throw ConstructRequest(e.what());
+    }
+}
+
+std::vector<net::cBuffer::Byte>		Protocol::product(const ARequest &output)
+{
+  static Protocol			p;
+  std::vector<net::cBuffer::Byte>	bytes;
+
+  p._container.clear();
+  request::Factory::factory(p, output);
+  bytes.insert(bytes.begin(), p._container.begin(), p._container.end());
+  return (bytes);
+}
+
+Protocol::ConstructRequest::ConstructRequest(const std::string &what) throw() :
+  _what(what)
+{
+
+}
+
+Protocol::ConstructRequest::~ConstructRequest() throw()
+{
+
+}
+
+Protocol::ConstructRequest::ConstructRequest(ConstructRequest const &src) throw() :
+  _what(src._what)
+{
+
+}
+
+Protocol::ConstructRequest	&Protocol::ConstructRequest::operator=(ConstructRequest const & src) throw()
+{
+  if (this != &src)
+    {
+      _what = src._what;
+    }
+  return (*this);
+}
+
+const char		*Protocol::ConstructRequest::what() const throw()
+{
+  return (_what.c_str());
+}
+

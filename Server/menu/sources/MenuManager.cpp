@@ -61,9 +61,9 @@ namespace	menu
 	if ((*it)->isTCPDisconnected())
 	  {
 	    Client	*client = *it;
-	    // #if defined(DEBUG)
-	    // log::log << log::time() << "Client disconnected(" << *it << ")" << std::endl;
-	    // #endif
+#if defined(DEBUG)
+	    std::cerr << "Client disconnected(" << *it << ")" << std::endl;
+#endif
 	    _monitor.unsetMonitor(*client->TcpLayer());
 	    it = _clients.erase(it);
 	    delete client;

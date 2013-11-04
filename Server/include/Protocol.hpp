@@ -3,10 +3,30 @@
 
 # include	<string>
 # include	<deque>
+# include	<vector>
+# include	"ARequest.hh"
 # include	"types.hh"
+# include	"RequestCode.hh"
+# include	"cBuffer.h"
 
 class Protocol
 {
+public:
+  class ConstructRequest : public std::exception
+  {
+  public:
+    virtual const char	*what() const throw();
+    ConstructRequest(const std::string &) throw();
+    ConstructRequest(const ConstructRequest &) throw();
+    virtual ~ConstructRequest() throw();
+
+  public:
+    ConstructRequest& operator=(ConstructRequest const&) throw();
+
+  private:
+    std::string		_what;
+  };
+
 public:
   typedef Ruint8			Byte;
   typedef std::deque<Byte>		container_type;
@@ -50,6 +70,10 @@ public:
   Rbool		empty() const;
   Ruint32	size() const;
   Byte		*data();
+
+public:
+  static const ARequest				consume(std::vector<net::cBuffer::Byte> &);
+  static std::vector<net::cBuffer::Byte>	product(const ARequest &);
 
 private:
   Protocol(Protocol const&);
