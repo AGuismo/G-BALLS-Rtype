@@ -5,7 +5,7 @@
 // Login   <brigno@epitech.net>
 //
 // Started on  Wed Oct 23 11:31:48 2013 brigno
-// Last update Tue Oct 29 15:13:31 2013 brigno
+// Last update Thu Oct 31 18:05:16 2013 brigno
 //
 
 #ifndef		__WINDOW_HH__
@@ -20,7 +20,6 @@ class		Image;
 class		Window
 {
 private:
-  int			_idWidget;
   sf::RenderWindow	_window;
   sf::Event		_event;
   Background		*_backgroundPtr;
@@ -38,7 +37,6 @@ private:
 
 public:
   void				launchWindow(void);
-  const int			&getIdWidget(void) const;
   const std::vector<Image*>	&getListImage(void) const;
   const std::vector<AWidget*>	&getListWidget(void) const;
   Background			*getBackgroundPtr(void);

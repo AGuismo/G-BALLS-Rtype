@@ -5,7 +5,7 @@
 // Login   <brigno@epitech.net>
 //
 // Started on  Mon Oct 28 14:11:06 2013 brigno
-// Last update Tue Oct 29 15:14:24 2013 brigno
+// Last update Thu Oct 31 18:15:36 2013 brigno
 //
 
 #ifndef		__TEXTAREA_HH__
@@ -18,7 +18,6 @@ class Text;
 class		TextArea : public AWidget
 {
 private:
-  int		_id;
   sf::Texture	_texture;
   sf::Sprite	_image;
   sf::Vector2i	_pos;
@@ -40,6 +39,8 @@ public:
   Text			*getDepsText(void);
   void			onFocus(void);
   void			stopFocus(void);
+  void			onHover(void);
+  void			stopHover(void);
   void			draw(sf::RenderWindow &);
 };
 

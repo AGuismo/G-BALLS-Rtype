@@ -5,7 +5,7 @@
 // Login   <brigno@epitech.net>
 //
 // Started on  Mon Oct 28 14:40:49 2013 brigno
-// Last update Thu Oct 31 15:58:47 2013 brigno
+// Last update Thu Oct 31 18:59:12 2013 brigno
 //
 
 #include	"TextArea.hh"
@@ -13,7 +13,7 @@
 
 TextArea::TextArea(const sf::Event &ev, Text &depsText, const sf::Vector2i &topLeft,
 	   const sf::Vector2i &botRight) :
-  AWidget(ev, topLeft, botRight)
+  AWidget(ev, topLeft, botRight, AWidget::TEXTAREA)
 {
   sf::Vector2f	posZone;
 
@@ -28,11 +28,6 @@ TextArea::TextArea(const sf::Event &ev, Text &depsText, const sf::Vector2i &topL
 
 TextArea::~TextArea()
 {
-}
-
-const int		&TextArea::getId() const
-{
-  return (this->_id);
 }
 
 Text			*TextArea::getDepsText()
@@ -65,11 +60,23 @@ void			TextArea::onFocus()
 
 void			TextArea::stopFocus()
 {
-  this->_depsText->stopFocus();
-  if (!_texture.loadFromFile("Images/textArea.png"))
-    std::cout << "Error could not load background image" << std::endl;
-  this->_image.setTexture(_texture);
+  if (this->_event.type != sf::Event::MouseButtonReleased)
+    {
+      this->_depsText->stopFocus();
+      if (!_texture.loadFromFile("Images/textArea.png"))
+	std::cout << "Error could not load background image" << std::endl;
+      this->_image.setTexture(_texture);
+    }
 }
+
+void			TextArea::onHover()
+{
+}
+
+void			TextArea::stopHover()
+{
+}
+
 
 void			TextArea::draw(sf::RenderWindow &myWin)
 {

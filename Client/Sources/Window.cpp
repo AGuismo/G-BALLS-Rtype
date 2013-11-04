@@ -5,7 +5,7 @@
 // Login   <brigno@epitech.net>
 //
 // Started on  Wed Oct 23 11:37:38 2013 brigno
-// Last update Thu Oct 31 15:57:37 2013 brigno
+// Last update Mon Nov  4 13:35:23 2013 brigno
 //
 
 #include	"Window.hh"
@@ -14,13 +14,13 @@
 #include	"AWidget.hh"
 #include	"Text.hh"
 #include	"TextArea.hh"
+#include	"Button.hh"
 
 Window::Window(const std::string &name, int width, int height)
 {
-  Text *tmp = new Text("Font/NEUROPOL.ttf", this->_event, sf::Vector2i(470, 340), sf::Vector2i(983, 519), 12, true, 2);
-  Text *tmp2 = new Text("Font/NEUROPOL.ttf", this->_event, sf::Vector2i(470, 440), sf::Vector2i(983, 657), 12, false, 4);
+  Text *tmp = new Text("Font/NEUROPOL.ttf", this->_event, sf::Vector2i(470, 340), sf::Vector2i(983, 519), 12, true);
+  Text *tmp2 = new Text("Font/NEUROPOL.ttf", this->_event, sf::Vector2i(470, 440), sf::Vector2i(983, 657), 12, false);
 
-  this->_idWidget = 0;
   this->_window.create(sf::VideoMode(width, height), name, sf::Style::Titlebar | sf::Style::Close);
   this->_window.setVerticalSyncEnabled(true);
   this->_window.setFramerateLimit(25);
@@ -32,6 +32,8 @@ Window::Window(const std::string &name, int width, int height)
   this->_listWidget.push_back(new TextArea(this->_event, *tmp2, sf::Vector2i(470, 440), sf::Vector2i(750, 505)));
   this->_listWidget.push_back(tmp);
   this->_listWidget.push_back(tmp2);
+  this->_listWidget.push_back(new Button(this->_event, "Images/Enter.png", "Images/EnterHover.png", "Images/EnterFocus.png", sf::Vector2i(470, 600), sf::Vector2i(550, 600)));
+  this->_listWidget.push_back(new Button(this->_event, "Images/Exit.png", "Images/ExitHover.png", "Images/ExitFocus.png", sf::Vector2i(600, 600), sf::Vector2i(700, 750)));
   this->_objectFocus = 0;
 }
 
@@ -95,7 +97,25 @@ void	Window::catchEvent()
 	    this->_objectFocus->onFocus();
 	  break;
 	case sf::Event::MouseMoved:
+	  if (this->_objectFocus != 0)
+	    {
+	      this->_objectFocus->stopHover();
+	      this->_objectFocus = returnMouseFocus(this->_event.mouseMove.x, this->_event.mouseMove.y);
+	      if (this->_objectFocus != 0)
+		this->_objectFocus->onHover();
+	    }
 	  std::cout << "x : " << this->_event.mouseMove.x << " y : " << this->_event.mouseMove.y << std::endl;
+	  break;
+	case sf::Event::MouseButtonReleased:
+	  if (this->_objectFocus != 0)
+	    {
+	      this->_objectFocus->stopFocus();
+	      this->_objectFocus = returnMouseFocus(this->_event.mouseButton.x, this->_event.mouseButton.y);
+	      if (this->_objectFocus != 0)
+		this->_objectFocus->stopFocus();
+	    }
+	  break;
+	default:
 	  break;
 	}
     }
