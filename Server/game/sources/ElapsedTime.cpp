@@ -1,4 +1,4 @@
-#include "elapsedTime.h"
+#include "ElapsedTime.h"
 
 ElapsedTime::ElapsedTime(void)
 {

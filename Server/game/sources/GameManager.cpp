@@ -27,26 +27,30 @@ namespace	game
     std::cout << "Game manager started..." << std::endl;
   }
 
-  void	Manager::routine(Manager *thisPtr)
+  void		Manager::update()
   {
-	std::list<Partie *>::iterator it;
-	clock_time						time;
+    std::list<Game *>::iterator it;
+    // clock_time			time;
 
-	(void)thisPtr;
-	_clock.start();
-	while (true)
-	{
-		_clock.update();
-		/*SELECT*/
-		_clock.update();
-		time = _clock.getElapsedTime();
-		for (it = thisPtr->_games.begin();
-			 it != thisPtr->_games.end();
-			 it++)
-		{
-			
-		}
-	}
+    _clock.start();
+    while (true)
+      {
+	_clock.update();
+	/*SELECT*/
+	_clock.update();
+	// time = _clock.getElapsedTime();
+	for (it = _games.begin();
+	     it != _games.end();
+	     ++it)
+	  {
+
+	  }
+      }
+  }
+
+  void		Manager::routine(Manager *thisPtr)
+  {
+    thisPtr->update();
   }
 
 }

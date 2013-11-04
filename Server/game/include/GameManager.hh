@@ -2,17 +2,19 @@
 # define GAMEMANAGER_H_
 
 #if defined(WIN32)
-	#include <WinSock2.h>
-	#include <time.h>
+#include <WinSock2.h>
+#include <time.h>
 #elif defined(linux)
-	#include <sys/time.h>
+#include <sys/time.h>
 #else
-	# error "Unsupported operating system"
+# error "Unsupported operating system"
 #endif
 
+#include	<list>
 #include	"Threads.hpp"
-#include	"Partie.h"
-#include	"clock.h"
+#include	"Clock.h"
+
+class	Game;
 
 namespace	game
 {
@@ -29,15 +31,18 @@ namespace	game
   private:
     static void	routine(Manager *);
 
-	void		timerSub(struct timeval *a, long b);
+    // void		timerSub(struct timeval *a, long b);
+  private:
+    void		update();
+
   private:
     Manager(Manager const&);
     Manager& operator=(Manager const&);
 
   private:
     Threads<void (*)(Manager *)>	_th;
-	gameClock						_clock;
-	std::list<Partie *>				_games;
+    Clock				_clock;
+    std::list<Game *>			_games;
   };
 }
 

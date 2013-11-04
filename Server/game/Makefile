@@ -9,6 +9,15 @@ NAME	     ?=	libgame.a
 
 SRCS =	      	GameManager.cpp		\
 		GameException.cpp	\
+		Boss.cpp		\
+		ElapsedTime.cpp		\
+		Entity.cpp		\
+		Missile.cpp		\
+		Game.cpp		\
+		Clock.cpp		\
+		Player.cpp		\
+		Referee.cpp		\
+		Time.cpp		\
 
 DIR.THREADS=	../deps/Threads
 DIR.BIND=	../deps/Bind
