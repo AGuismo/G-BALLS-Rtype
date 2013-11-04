@@ -70,34 +70,40 @@ Protocol&	Protocol::operator RC(Rfloat, val);
 
 Protocol&	Protocol::operator<<(const Rint8* s)
 {
-  while (push(*s++, 1));
+  while (*s && push(*s++, 1));
   return (*this);
 }
 
 Protocol&	Protocol::operator>>(Rint8* s)
 {
-  while (pop(*s++));
+  while (*s && pop(*s++));
   return (*this);
 }
 
 Protocol&	Protocol::operator<<(const std::string & s)
 {
-  return (*this << s.c_str());
+  const char	*arr = s.c_str();
+
+  for (std::string::size_type it = 0; it < s.size(); ++it)
+    push(arr[it], 1);
+  return (*this);
 }
 
 Protocol&	Protocol::operator>>(std::string & s)
 {
-  Rint8		c;
-
-  s.clear();
-  while (pop(c))
-    {
-      s.push_back(c);
-    }
+  pop(s, s.size());
   return (*this);
 }
 
-ARequest		*Protocol::consume(std::vector<net::cBuffer::Byte> &input)
+std::string		&Protocol::pop(std::string &val, Protocol::size_type count)
+{
+  val.clear();
+  val.insert(val.begin(), _container.begin(), _container.begin() + count);
+  _container.erase(_container.begin(), _container.begin() + count);
+  return (val);
+}
+
+ARequest		*Protocol::consume(std::vector<Byte> &input)
 {
   Protocol		p;
   requestCode::CodeID	code;
@@ -116,10 +122,10 @@ ARequest		*Protocol::consume(std::vector<net::cBuffer::Byte> &input)
     }
 }
 
-std::vector<net::cBuffer::Byte>		Protocol::product(const ARequest &output)
+std::vector<Protocol::Byte>	Protocol::product(const ARequest &output)
 {
-  Protocol				p;
-  std::vector<net::cBuffer::Byte>	bytes;
+  Protocol		p;
+  std::vector<Byte>	bytes;
 
   p._container.clear();
   request::Factory::factory(p, output);

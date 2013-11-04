@@ -7,7 +7,6 @@
 # include	"ARequest.hh"
 # include	"types.hh"
 # include	"RequestCode.hh"
-# include	"cBuffer.h"
 
 class Protocol
 {
@@ -61,10 +60,11 @@ public:
 
 public:
   template <typename T>
-  T	push(const T, size_type count);
+  T		push(const T, size_type count);
 
   template <typename T>
-  T	&pop(T&);
+  T		&pop(T&);
+  std::string	&pop(std::string &, size_type count);
 
 public:
   Rbool		empty() const;
@@ -72,8 +72,8 @@ public:
   Byte		*data();
 
 public:
-  static ARequest				*consume(std::vector<net::cBuffer::Byte> &);
-  static std::vector<net::cBuffer::Byte>	product(const ARequest &);
+  static ARequest		*consume(std::vector<Byte> &);
+  static std::vector<Byte>	product(const ARequest &);
 
 private:
   Protocol(Protocol const&);

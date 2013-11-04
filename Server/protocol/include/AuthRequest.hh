@@ -26,17 +26,24 @@ namespace Auth
   {
   public:
     Connect();
+    Connect(const std::string &name, const requestCode::PasswordType);
     ~Connect();
 
     Connect(Connect const&);
     Connect& operator=(Connect const&);
 
+  public:
     Protocol			&Megan_serialize(Protocol &) const;
     Protocol			&Fox_unserialize(Protocol &);
     ARequest			*clone();
 
-    std::string			username;
-    requestCode::PasswordType	password; // Work in progress
+  public:
+    const std::string			&username() const;
+    const requestCode::PasswordType	&password() const;
+
+  private:
+    std::string			_username;
+    requestCode::PasswordType	_password; // Work in progress
   };
 }
 #endif /* AUTHREQUEST_H_ */
