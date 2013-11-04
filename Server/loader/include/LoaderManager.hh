@@ -2,6 +2,9 @@
 # define LOADER_MANAGER_H_
 
 #include	"Threads.hpp"
+#include	"CheckFileAbstract.h"
+#include	"DynamicAbstract.h"
+#include	"myLibrary.h"
 
 namespace	botLoader
 {
@@ -12,17 +15,20 @@ namespace	botLoader
     ~Manager();
 
   public:
-    void	initialize();
+    void	initialize(std::string &);
     void	run();
 
   private:
     static void	routine(Manager *);
-
+    /*ICI ROUTINE PAR LA SUITE MF*/
   private:
     Manager(Manager const&);
     Manager& operator=(Manager const&);
 
   private:
+    ICheckFileAbstract			*_checkFile;
+    DynamicAbstract			*_dynLoader;
+    std::map<std::string, UPDATE>	*_upList;
     Threads<void (*)(Manager *)>	_th;
   };
 

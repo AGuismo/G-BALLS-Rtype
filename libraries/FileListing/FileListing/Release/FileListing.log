@@ -1,0 +1,13 @@
+﻿La génération a démarré 01/11/2013 16:16:59.
+     1>Projet "C:\Users\Guismo\Documents\GitHub\G-BALLS-Rtype\libraries\FileListing\FileListing\FileListing.vcxproj" sur le nœud 2 (Build cible(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /Zi /nologo /W3 /WX- /sdl /O2 /Oi /Oy- /GL /D WIN32 /D _MBCS /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt sources\checkFileAbstract.cpp
+         checkFileAbstract.cpp
+       Lib:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\Lib.exe /OUT:"C:\Users\Guismo\Documents\GitHub\G-BALLS-Rtype\libraries\FileListing\Release\FileListing.lib" /NOLOGO /LTCG Release\checkFileAbstract.obj
+         FileListing.vcxproj -> C:\Users\Guismo\Documents\GitHub\G-BALLS-Rtype\libraries\FileListing\Release\FileListing.lib
+     1>Génération du projet "C:\Users\Guismo\Documents\GitHub\G-BALLS-Rtype\libraries\FileListing\FileListing\FileListing.vcxproj" terminée (Build cible(s)).
+
+La génération a réussi.
+
+Temps écoulé 00:00:02.00

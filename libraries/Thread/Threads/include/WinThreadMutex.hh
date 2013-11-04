@@ -5,7 +5,7 @@
 // Login   <lamber_k@epitech.net>
 //
 // Started on  Mon Apr 15 13:07:15 2013 lambert kevin
-// Last update Mon Oct  7 12:50:02 2013 lambert kevin
+// Last update Fri Nov  1 22:40:09 2013 lambert kevin
 //
 
 #ifndef		WINTHREADMUTEX_HH_
@@ -18,22 +18,21 @@ namespace 	Thread
   class DECLPORT MutexBase
   {
   protected:
-	CRITICAL_SECTION	_m;
+    CRITICAL_SECTION	_m;
 
   public:
     MutexBase()
-    {
-		InitializeCriticalSection(&_m);
-    }
+      {
+	InitializeCriticalSection(&_m);
+      }
     virtual ~MutexBase()
     {
-		DeleteCriticalSection(&_m);
+      DeleteCriticalSection(&_m);
     }
   };
 
   class	DECLPORT 		Mutex : protected MutexBase
   {
-    friend class Cond;
   public:
     Mutex();
     virtual ~Mutex();
@@ -44,16 +43,18 @@ namespace 	Thread
 
   protected:
     CRITICAL_SECTION	&getMutex();
+    friend class	Cond;
   };
 
   class	DECLPORT 	MutexGuard
   {
-	  friend		Mutex;
-	  Mutex			&_locker;
+    Mutex		&_locker;
 
   public:
     MutexGuard(Mutex &);
     virtual ~MutexGuard();
+
+    friend class	Mutex;
   };
 };
 #endif /* WINTHREADMUTEX_HH_ */

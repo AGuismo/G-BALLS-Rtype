@@ -99,7 +99,7 @@ int					main()
   fooClass3p();
   fooClass3p2(&inst2);
   fooClass4p();
-  s = "Fils de Pute";
+  s = "coucou";
   fooClass4p();
   fooClass4p2(&inst2);
   return (0);

@@ -11,9 +11,10 @@ SRCS =	      	MenuManager.cpp		\
 		MenuException.cpp	\
 
 DIR.THREADS=	../deps/Threads
+DIR.NETWORK=	../deps/network
 
 F.C	     +=	-W -Wall -Werror
-F.I	     +=	-I $(DIR.H) -I$(DIR.THREADS)/include -I../include
+F.I	     +=	-I $(DIR.H) -I$(DIR.THREADS)/include -I$(DIR.NETWORK)/include -I../include
 F.D	     +=
 
 

@@ -73,10 +73,16 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\include\CheckFileAbstract.h" />
+    <ClInclude Include="..\include\DynamicAbstract.h" />
+    <ClInclude Include="..\include\ICheckFileAbstract.h" />
     <ClInclude Include="..\include\LoaderException.hh" />
     <ClInclude Include="..\include\LoaderManager.hh" />
+    <ClInclude Include="..\include\MDynamicAbstract.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\sources\CheckFileAbstract.cpp" />
+    <ClCompile Include="..\sources\DynamicAbstract.cpp" />
     <ClCompile Include="..\sources\LoaderException.cpp" />
     <ClCompile Include="..\sources\LoaderManager.cpp" />
   </ItemGroup>
