@@ -29,11 +29,24 @@ namespace	game
 
   void	Manager::routine(Manager *thisPtr)
   {
-    (void)thisPtr;
-    while (true)
-      {
-	sys::sleep(1);
-      }
+	std::list<Partie *>::iterator it;
+	clock_time						time;
+
+	(void)thisPtr;
+	_clock.start();
+	while (true)
+	{
+		_clock.update();
+		/*SELECT*/
+		_clock.update();
+		time = _clock.getElapsedTime();
+		for (it = thisPtr->_games.begin();
+			 it != thisPtr->_games.end();
+			 it++)
+		{
+			
+		}
+	}
   }
 
 }

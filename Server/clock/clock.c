@@ -3,58 +3,49 @@
 #include	<unistd.h>
 #include	<stdio.h>
 #include	"clock.h"
-#include	"clock_mod.h"
 #include	"error.h"
 
-static void		_start(struct s_gameclock *clock);
-static void		_update(struct s_gameclock *clock);
-static clock_time	_elapsed_time(const struct s_gameclock *clock);
-static clock_time	_total_elapsed_time(const struct s_gameclock *clock);
-
-int			gameclock_ctor(gameclock *clock)
+gameClock::gameClock()
 {
-  ((clock->header = calloc(1, sizeof(*clock->header))) == NULL) ?
-    error("Unable to initialize gameclock");
-  gettimeofday(&clock->header->last, NULL);
-  clock->start = &_start;
-  clock->update = &_update;
-  clock->elapsed_time = &_elapsed_time;
-  clock->total_elapsed_time = &_total_elapsed_time;
-  return (0);
 }
 
-int			gameclock_dtor(gameclock *clock)
+gameClock::~gameClock()
 {
-  free(clock->header);
-  return (0);
 }
 
-static void		_start(struct s_gameclock *clock)
+void		gameClock::start()
 {
-  gettimeofday(&clock->header->last, NULL);
+# if defined(WIN32)
+    QueryPerformanceFrequency(&_procFreq);
+    QueryPerformanceCounter(&_last);
+#elif defined(linux)
+    gettimeofday(&_last, NULL);
+# endif 
 }
 
-static void		_update(struct s_gameclock *clock)
+void		gameClock::update()
 {
-  struct timeval	current;
-  struct timeval	*prev;
-  float			elapsed_time;
+	float			elapsed_time;
+# if defined(linux)
+	struct timeval	current;
+	struct timeval	*prev;
 
-  prev = &clock->header->last;
-  gettimeofday(&current, NULL);
-  elapsed_time = (current.tv_sec - prev->tv_sec) * CLOCK_PREC;
-  elapsed_time += (current.tv_usec - prev->tv_usec);
-  *prev = current;
-  clock->header->elapsed_time = elapsed_time;
-  clock->header->total_elapsed_time += elapsed_time;
-}
+	prev = &_last;
+	gettimeofday(&current, NULL);
+	elapsed_time = (current.tv_sec - prev->tv_sec) * CLOCK_PREC;
+	elapsed_time += (current.tv_usec - prev->tv_usec);
 
-static clock_time	_elapsed_time(const struct s_gameclock *clock)
-{
-  return (clock->header->elapsed_time);
-}
-
-static clock_time	_total_elapsed_time(const struct s_gameclock *clock)
-{
-  return (clock->header->total_elapsed_time);
+#elif defined(WIN32)
+	LARGE_INTEGER	current;
+	LARGE_INTEGER	*prev;
+	
+	prev = &_last;
+	QueryPerformanceCounter(&current);
+	elapsed_time = (current.QuadPart - prev.QuadPart) /
+					(_procFreq.QuadPart / CLOCK_PREC);
+	
+#endif
+	_last = current;
+	_elapsed_time = elapsed_time;
+	_total_elapsed_time += elapsed_time;
 }
