@@ -5,14 +5,14 @@
 // Login   <brigno@epitech.net>
 //
 // Started on  Thu Oct 24 11:44:54 2013 brigno
-// Last update Thu Oct 31 16:00:27 2013 brigno
+// Last update Thu Oct 31 18:55:37 2013 brigno
 //
 
 #include	"Text.hh"
 
 Text::Text(const std::string &fontPath, const sf::Event &ev, const sf::Vector2i &topLeft,
-	   const sf::Vector2i &botRight, const size_t &size, const bool &enable, const int &id) :
-  AWidget(ev, topLeft, botRight)
+	   const sf::Vector2i &botRight, const size_t &size, const bool &enable) :
+  AWidget(ev, topLeft, botRight, AWidget::TEXT)
 {
   sf::Vector2f	posText;
 
@@ -25,7 +25,6 @@ Text::Text(const std::string &fontPath, const sf::Event &ev, const sf::Vector2i 
   this->_text.move(posText);
   this->_sizeLimit = size;
   this->_enable = enable;
-  this->_id = id;
 }
 
 void	Text::onFocus()
@@ -56,7 +55,18 @@ void	Text::onFocus()
 
 void	Text::stopFocus()
 {
-  std::cout << "LOGIN : [" << this->_tmpLogin << "] | PWD : [" << this->_tmpPwd << "] " << std::endl;
+  if (this->_event.type != sf::Event::MouseButtonReleased)
+    {
+      std::cout << "LOGIN : [" << this->_tmpLogin << "] | PWD : [" << this->_tmpPwd << "] " << std::endl;
+    }
+}
+
+void	Text::onHover()
+{
+}
+
+void	Text::stopHover()
+{
 }
 
 void	Text::draw(sf::RenderWindow &win)

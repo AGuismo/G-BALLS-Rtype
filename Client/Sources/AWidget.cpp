@@ -5,14 +5,14 @@
 // Login   <brigno@epitech.net>
 //
 // Started on  Thu Oct 24 16:32:14 2013 brigno
-// Last update Mon Oct 28 16:20:52 2013 brigno
+// Last update Thu Oct 31 18:58:14 2013 brigno
 //
 
 #include	"AWidget.hh"
 
 AWidget::AWidget(const sf::Event &event, const sf::Vector2i &topLeft,
-		 const sf::Vector2i &botRight) :
-  _event(event), _topLeft(topLeft), _botRight(botRight)
+		 const sf::Vector2i &botRight, enum AWidget::Type type) :
+  _event(event), _topLeft(topLeft), _botRight(botRight), _type(type)
 {
 }
 

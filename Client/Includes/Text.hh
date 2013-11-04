@@ -5,7 +5,7 @@
 // Login   <brigno@epitech.net>
 //
 // Started on  Thu Oct 24 10:55:11 2013 brigno
-// Last update Tue Oct 29 15:23:33 2013 brigno
+// Last update Thu Oct 31 18:15:51 2013 brigno
 //
 
 #ifndef		__TEXT_HH__
@@ -19,7 +19,6 @@ public:
   static const sf::Uint32	BACKSPACE = 8;
 
 private:
-  int		_id;
   bool		_enable;
   sf::Font	_font;
   sf::String	_sentence;
@@ -28,23 +27,16 @@ private:
   std::string	_fontPath;
   std::size_t	_sizeLimit;
 
-
   /*AHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH*/
-
-
   /*A PUTAIN DE RETIRER !!!!!! */
   std::string	_tmpLogin;
   std::string	_tmpPwd;
   /* FIN */
-
-
   /*AHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH*/
-
-
 
 public:
   Text(const std::string &fontPath, const sf::Event &,
-       const sf::Vector2i &topLeft, const sf::Vector2i &botRight, const size_t &size, const bool &enable, const int &id);
+       const sf::Vector2i &topLeft, const sf::Vector2i &botRight, const size_t &size, const bool &enable);
 
 private:
   Text(const Text &other);
@@ -60,6 +52,8 @@ public:
   const std::string	&getfontPath(void) const;
   void			onFocus(void);
   void			stopFocus(void);
+  void			onHover(void);
+  void			stopHover(void);
   void			draw(sf::RenderWindow &);
 };
 

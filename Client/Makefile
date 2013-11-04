@@ -5,7 +5,7 @@
 ## Login   <brigno@epitech.net>
 ##
 ## Started on  Wed Oct 23 18:43:59 2013 brigno
-## Last update Mon Oct 28 14:58:14 2013 brigno
+## Last update Thu Oct 31 18:01:23 2013 brigno
 ##
 
 NAME	=	Client
@@ -19,6 +19,7 @@ SRC =		main.cpp			\
 		$(SOURCES)AWidget.cpp		\
 		$(SOURCES)Image.cpp		\
 		$(SOURCES)TextArea.cpp		\
+		$(SOURCES)Button.cpp		\
 
 OBJ =		$(SRC:.cpp=.o)
 CC =		g++
