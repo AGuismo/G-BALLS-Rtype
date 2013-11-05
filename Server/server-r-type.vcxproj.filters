@@ -30,6 +30,9 @@
     <ClInclude Include="include\types.hh">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\libraries\network\network\TimeConverter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sources\Application.cpp">
@@ -45,6 +48,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="sources\Env.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\libraries\network\network\TimeConverter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
