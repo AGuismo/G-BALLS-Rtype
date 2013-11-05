@@ -39,10 +39,10 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>$(SolutionDir)\..\libraries\Bind\include;$(SolutionDir)\..\libraries\network\network\include;$(SolutionDir)\..\libraries\Thread\Threads\include;$(IncludePath);$(ProjectDir)\include;$(ProjectDir)\menu\include;$(ProjectDir)\loader\include;$(ProjectDir)\game\include</IncludePath>
+    <IncludePath>$(SolutionDir)\..\libraries\Bind\include;$(SolutionDir)\..\libraries\network\network\include;$(SolutionDir)\..\libraries\Thread\Threads\include;$(IncludePath);$(ProjectDir)\include;$(ProjectDir)\menu\include;$(ProjectDir)\loader\include;$(ProjectDir)\game\include;$(ProjectDir)\protocol\include</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IncludePath>$(SolutionDir)\..\libraries\Bind\include;$(SolutionDir)\..\libraries\network\network\include;$(SolutionDir)\..\libraries\Thread\Threads\include;$(IncludePath);$(ProjectDir)\include;$(ProjectDir)\menu\include;$(ProjectDir)\loader\include;$(ProjectDir)\game\include</IncludePath>
+    <IncludePath>$(SolutionDir)\..\libraries\Bind\include;$(SolutionDir)\..\libraries\network\network\include;$(SolutionDir)\..\libraries\Thread\Threads\include;$(IncludePath);$(ProjectDir)\include;$(ProjectDir)\menu\include;$(ProjectDir)\loader\include;$(ProjectDir)\game\include;$(ProjectDir)\protocol\include</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -72,27 +72,22 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="include\Application.hh" />
-    <ClInclude Include="include\ARequest.hh" />
-    <ClInclude Include="include\AuthRequest.hh" />
     <ClInclude Include="include\Client.hh" />
     <ClInclude Include="include\Env.hh" />
-    <ClInclude Include="include\ITransformers.hh" />
-    <ClInclude Include="include\Protocol.hpp" />
-    <ClInclude Include="include\RequestCode.hh" />
     <ClInclude Include="include\sys.hh" />
     <ClInclude Include="include\types.hh" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sources\Application.cpp" />
-    <ClCompile Include="sources\ARequest.cpp" />
-    <ClCompile Include="sources\AuthRequest.cpp" />
     <ClCompile Include="sources\Client.cpp" />
     <ClCompile Include="sources\Env.cpp" />
     <ClCompile Include="sources\main.cpp" />
-    <ClCompile Include="sources\Protocol.cpp" />
     <ClCompile Include="sources\sys.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\libraries\network\network\network.vcxproj">
+      <Project>{42c7e464-716a-4975-83ca-a8445b8abf0e}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\libraries\Thread\Threads\Threads.vcxproj">
       <Project>{58935438-3f38-49e8-ac0d-a66dc7e8ef08}</Project>
     </ProjectReference>
@@ -104,6 +99,9 @@
     </ProjectReference>
     <ProjectReference Include="menu\menu\menu.vcxproj">
       <Project>{a01aecdf-4f45-413e-9b91-43f197ee9a4b}</Project>
+    </ProjectReference>
+    <ProjectReference Include="protocol\Protocol\Protocol.vcxproj">
+      <Project>{d69a5c00-cd7c-4ba7-a23e-4d2bb1d8b76c}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

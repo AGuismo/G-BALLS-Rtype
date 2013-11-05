@@ -45,13 +45,13 @@ int				ClientAccepted::recv()
 
 int				ClientAccepted::send()
 {
-  SSIZE_T			count, n;
+  SSIZE_T			n;
+  DWORD				count, i;
   std::vector<cBuffer::Byte>	tmp;
   char				buf[512];
   WSABUF			wbuff;
-  int i;
 
-  count = _write.look(tmp, 512);
+  count = (DWORD)_write.look(tmp, 512);
   for (i = 0; i < count ; i++)
     buf[i] = tmp[i];
   wbuff.buf = buf;
@@ -67,7 +67,7 @@ int				ClientAccepted::send()
   if (count == 0)
     {
       _state = DISCONNECTED;
-      return ;
+      return (0);
     }
   _write.read(tmp, count);
   return (count);
@@ -75,7 +75,7 @@ int				ClientAccepted::send()
 
 void ClientAccepted::close()
 {
-  if (_state == CLOSED || _state = STATEERROR)
+  if (_state == CLOSED || _state == STATEERROR)
     return ;
   if (closesocket(_sock) == -1)
     {

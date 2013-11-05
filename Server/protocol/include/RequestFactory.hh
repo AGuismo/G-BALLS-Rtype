@@ -4,7 +4,6 @@
 # include	<map>
 # include	"ARequest.hh"
 # include	"RequestCode.hh"
-# include	"Bind.hpp"
 
 class		Protocol;
 

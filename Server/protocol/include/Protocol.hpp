@@ -4,10 +4,12 @@
 # include	<string>
 # include	<deque>
 # include	<vector>
+# include	"abs_sockets.h"
 # include	"ARequest.hh"
 # include	"types.hh"
 # include	"RequestCode.hh"
 
+EXMP template class ABS_SOCKET_API std::vector<unsigned char>;
 class Protocol
 {
 public:

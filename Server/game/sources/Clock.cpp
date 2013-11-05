@@ -38,7 +38,7 @@ namespace	game
 
     prev = &_last;
     QueryPerformanceCounter(&current);
-    elapsed_time = ((current.QuadPart - prev.QuadPart) /
+    elapsed_time = ((current.QuadPart - prev->QuadPart) /
 		    (_procFreq.QuadPart / CLOCK_PREC));
 
 #endif

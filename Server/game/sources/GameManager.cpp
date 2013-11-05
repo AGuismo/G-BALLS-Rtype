@@ -1,7 +1,7 @@
 #include	<iostream>
+#include	"GameManager.hh"
 #include	"sys.hh"
 #include	"Bind.hpp"
-#include	"GameManager.hh"
 
 namespace	game
 {

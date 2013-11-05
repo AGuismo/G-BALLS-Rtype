@@ -11,8 +11,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{45F1B8D5-FFD2-46D2-B5DD-52A898AED023}</ProjectGuid>
-    <RootNamespace>game</RootNamespace>
+    <ProjectGuid>{D69A5C00-CD7C-4BA7-A23E-4D2BB1D8B76C}</ProjectGuid>
+    <RootNamespace>Protocol</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -38,19 +38,20 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <TargetExt>.lib</TargetExt>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(ProjectDir)\..\..\include;$(SolutionDir)\..\libraries\network\network\include;$(ProjectDir)\..\include</IncludePath>
+  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <TargetExt>.lib</TargetExt>
-    <IncludePath>$(SolutionDir)\..\libraries\Thread\Threads\include;$(SolutionDir)\..\libraries\Bind\include;$(ProjectDir)\..\..\include;$(IncludePath);$(ProjectDir)\..\include</IncludePath>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>$(SolutionDir)\..\libraries\Thread\Threads\include;$(SolutionDir)\..\libraries\Bind\include;$(ProjectDir)\..\..\include;$(IncludePath);$(ProjectDir)\..\include</IncludePath>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(ProjectDir)\..\..\include;$(SolutionDir)\..\libraries\network\network\include;$(ProjectDir)\..\include</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_MBCS;%(PreprocessorDefinitions);WIN32;DEBUG</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_MBCS;%(PreprocessorDefinitions);WIN32</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -63,7 +64,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_MBCS;%(PreprocessorDefinitions);NDEBUG;WIN32</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_MBCS;%(PreprocessorDefinitions);WIN32</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -72,41 +73,22 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\include\Boss.h" />
-    <ClInclude Include="..\include\Clock.h" />
-    <ClInclude Include="..\include\Entity.h" />
-    <ClInclude Include="..\include\Game.h" />
-    <ClInclude Include="..\include\GameException.hh" />
-    <ClInclude Include="..\include\GameManager.hh" />
-    <ClInclude Include="..\include\IA.h" />
-    <ClInclude Include="..\include\Missile.h" />
-    <ClInclude Include="..\include\Player.h" />
-    <ClInclude Include="..\include\Referee.h" />
-    <ClInclude Include="..\include\Time.h" />
+    <ClCompile Include="..\sources\ARequest.cpp" />
+    <ClCompile Include="..\sources\AuthRequest.cpp" />
+    <ClCompile Include="..\sources\Protocol.cpp" />
+    <ClCompile Include="..\sources\RequestFactory.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\sources\Boss.cpp" />
-    <ClCompile Include="..\sources\Clock.cpp" />
-    <ClCompile Include="..\sources\Entity.cpp" />
-    <ClCompile Include="..\sources\Game.cpp" />
-    <ClCompile Include="..\sources\GameException.cpp" />
-    <ClCompile Include="..\sources\GameManager.cpp" />
-    <ClCompile Include="..\sources\Missile.cpp" />
-    <ClCompile Include="..\sources\Player.cpp" />
-    <ClCompile Include="..\sources\Referee.cpp" />
-    <ClCompile Include="..\sources\Time.cpp" />
+    <ClInclude Include="..\include\ARequest.hh" />
+    <ClInclude Include="..\include\AuthRequest.hh" />
+    <ClInclude Include="..\include\ITransformers.hh" />
+    <ClInclude Include="..\include\Protocol.hpp" />
+    <ClInclude Include="..\include\RequestCode.hh" />
+    <ClInclude Include="..\include\RequestFactory.hh" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\libraries\Bind\Bind.vcxproj">
-      <Project>{b0528781-5f02-4c9d-9ddc-c4deaebc7928}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\libraries\Thread\Threads\Threads.vcxproj">
-      <Project>{58935438-3f38-49e8-ac0d-a66dc7e8ef08}</Project>
-      <Private>true</Private>
-      <ReferenceOutputAssembly>true</ReferenceOutputAssembly>
-      <CopyLocalSatelliteAssemblies>false</CopyLocalSatelliteAssemblies>
-      <LinkLibraryDependencies>true</LinkLibraryDependencies>
-      <UseLibraryDependencyInputs>false</UseLibraryDependencyInputs>
+    <ProjectReference Include="..\..\..\libraries\network\network\network.vcxproj">
+      <Project>{42c7e464-716a-4975-83ca-a8445b8abf0e}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
