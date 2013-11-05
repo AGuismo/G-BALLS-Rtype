@@ -53,18 +53,20 @@ bool					Client::request()
 {
   std::vector<net::cBuffer::Byte>	buf;
   ARequest				*req;
+  int					extracted;
 
   if (_TcpLayer->lookRead(buf, 512) == 0)
     return (false);
   try
     {
-      req = Protocol::consume(buf);
+      req = Protocol::consume(buf, extracted);
     }
   catch (Protocol::ConstructRequest &e)
     {
       std::cerr << "Failed to create request: " << e.what() << std::endl;
       return (false);
     }
+  _TcpLayer->readFromBuffer(buf, extracted);
   _queue.push(req);
   return (true);
 }
@@ -129,6 +131,9 @@ const requestCode::SessionID		&Client::sessionID(void) const
 
 ARequest				*Client::requestPop()
 {
+  if (_queue.size() == 0)
+    return (0);
+
   ARequest	*req = _queue.front();
   _queue.pop();
   return (req);

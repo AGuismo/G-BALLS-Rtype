@@ -49,7 +49,8 @@ namespace	game
     thisPtr->_clock.start();
     while (true)
       {
-	thisPtr->update();
+	// thisPtr->update();
+	sys::sleep(1);
       }
   }
 

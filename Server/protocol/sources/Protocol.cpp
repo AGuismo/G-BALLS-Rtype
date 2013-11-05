@@ -103,23 +103,32 @@ std::string		&Protocol::pop(std::string &val, Protocol::size_type count)
   return (val);
 }
 
-ARequest		*Protocol::consume(std::vector<Byte> &input)
+ARequest		*Protocol::consume(std::vector<Byte> &input, int &extracted)
 {
   Protocol		p;
   requestCode::CodeID	code;
+  ARequest		*req;
 
   std::cerr << input.size() << std::endl;
   p._container.clear();
   p._container.insert(p._container.begin(), input.begin(), input.end());
   p >> code;
+#if defined(DEBUG)
+  std::cout << "Request id -" << code << "- Contruction..." << std::endl;
+#endif
   try
     {
-      return (request::Factory::factory(p, code));
+      req = request::Factory::factory(p, code);
     }
   catch (ARequest::Exception &e)
     {
       throw ConstructRequest(e.what());
     }
+  extracted = input.size() - p._container.size();
+#if defined(DEBUG)
+  std::cout << "Request id -" << code << "- Complete" << std::endl;
+#endif
+  return (req);
 }
 
 std::vector<Protocol::Byte>	Protocol::product(const ARequest &output)

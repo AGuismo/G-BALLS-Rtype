@@ -76,7 +76,7 @@ public:
   Byte		*data();
 
 public:
-  static ARequest		*consume(std::vector<Byte> &);
+  static ARequest		*consume(std::vector<Byte> &, int &);
   static std::vector<Byte>	product(const ARequest &);
 
 private:
@@ -110,8 +110,8 @@ T		&Protocol::pop(T &val)
   for (size_t size = 0; size < sizeof(val); size += sizeof(Byte))
     {
       buffer[size] = _container.front();
-      _container.pop_front();
     }
+  _container.erase(_container.begin(), _container.begin() + sizeof(val));
   return (val);
 }
 

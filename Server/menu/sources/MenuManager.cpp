@@ -55,12 +55,16 @@ namespace	menu
 
   void	Manager::clientRequest(Client *client)
   {
-    for (ARequest *req = client->requestPop(); req != 0;)
+    ARequest *req = client->requestPop();
+
+    while (req != 0)
       {
 	request_callback_map::iterator	it = _requestCallback.find(req->code());
 
 	if (it != _requestCallback.end())
 	  it->second(req, client, this);
+	delete req;
+	req = client->requestPop();
       }
   }
 
