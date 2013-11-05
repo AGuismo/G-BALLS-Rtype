@@ -18,13 +18,13 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v110</PlatformToolset>
+    <PlatformToolset>v120</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v110</PlatformToolset>
+    <PlatformToolset>v120</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
@@ -39,11 +39,11 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>$(SolutionDir)\..\libraries\Thread\Threads\include;$(ProjectDir)\..\..\include;$(IncludePath);$(ProjectDir)\..\include;$(SolutionDir)\..\libraries\network\network\include;$(SolutionDir)\..\libraries\Bind\include</IncludePath>
+    <IncludePath>$(SolutionDir)\..\libraries\Thread\Threads\include;$(ProjectDir)\..\..\include;$(IncludePath);$(ProjectDir)\..\include;$(SolutionDir)\..\libraries\network\network\include;$(ProjectDir)\..\..\protocol\include;$(SolutionDir)\..\libraries\Bind\include</IncludePath>
     <TargetExt>.lib</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IncludePath>$(SolutionDir)\..\libraries\Thread\Threads\include;$(ProjectDir)\..\..\include;$(IncludePath);$(ProjectDir)\..\include;$(SolutionDir)\..\libraries\network\network\include;$(SolutionDir)\..\libraries\Bind\include</IncludePath>
+    <IncludePath>$(SolutionDir)\..\libraries\Thread\Threads\include;$(ProjectDir)\..\..\include;$(IncludePath);$(ProjectDir)\..\include;$(SolutionDir)\..\libraries\network\network\include;$(SolutionDir)\..\..\protocol\include;$(SolutionDir)\..\libraries\Bind\include</IncludePath>
     <TargetExt>.lib</TargetExt>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">

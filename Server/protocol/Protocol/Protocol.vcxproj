@@ -77,6 +77,7 @@
     <ClCompile Include="..\sources\AuthRequest.cpp" />
     <ClCompile Include="..\sources\Protocol.cpp" />
     <ClCompile Include="..\sources\RequestFactory.cpp" />
+    <ClCompile Include="..\sources\ServerRequest.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\ARequest.hh" />
@@ -85,6 +86,7 @@
     <ClInclude Include="..\include\Protocol.hpp" />
     <ClInclude Include="..\include\RequestCode.hh" />
     <ClInclude Include="..\include\RequestFactory.hh" />
+    <ClInclude Include="..\include\ServerRequest.hh" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\libraries\network\network\network.vcxproj">

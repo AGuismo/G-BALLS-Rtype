@@ -1,5 +1,6 @@
 #include	"ClientAccepted.h"
 #include	"NetException.h"
+#include	<iostream>
 #include	<exception>
 
 using namespace net;
@@ -25,11 +26,16 @@ ClientAccepted::~ClientAccepted()
 
 int				ClientAccepted::recv()
 {
-  DWORD				count, flags = MSG_OOB;
+  DWORD				count, flags = MSG_PARTIAL;
   WSABUF			wbuff;
+  char				c[512];
   std::vector<cBuffer::Byte>	tmp;
   int				size = sizeof(_addr);
 
+  std::cout << "In ClientAccepted::recv"  << std::endl;
+  wbuff.buf = c;
+  wbuff.len = 512;
+  std::cout << "receiving ..." << std::endl;
   if (WSARecvFrom(_sock, &wbuff, 1, &count, &flags,
 		  reinterpret_cast<sockaddr *>(&_addr),
 		  &size, NULL, NULL) == SOCKET_ERROR)
@@ -37,9 +43,19 @@ int				ClientAccepted::recv()
       _state = STATEERROR;
       throw net::Exception("Recv Failure");
     }
-  for (DWORD i = 0; i < count ; i++)
-    tmp.insert(tmp.end(), wbuff.buf[i]);
+  if (count == 0)
+  {
+	  _state = DISCONNECTED;
+	  return (0);
+  }
+  std::cout << "count : " << count << std::endl;
+  for (DWORD i = 0; i < count; i++)
+  {
+	  std::cout << "i : " << i << std::endl;
+	  tmp.insert(tmp.end(), wbuff.buf[i]);
+  }
   _read.write(tmp, count);
+  std::cout << "return" << std::endl;
   return (count);
 }
 
