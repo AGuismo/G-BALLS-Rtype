@@ -72,12 +72,29 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\include\Boss.h" />
+    <ClInclude Include="..\include\Clock.h" />
+    <ClInclude Include="..\include\Entity.h" />
+    <ClInclude Include="..\include\Game.h" />
     <ClInclude Include="..\include\GameException.hh" />
     <ClInclude Include="..\include\GameManager.hh" />
+    <ClInclude Include="..\include\IA.h" />
+    <ClInclude Include="..\include\Missile.h" />
+    <ClInclude Include="..\include\Player.h" />
+    <ClInclude Include="..\include\Referee.h" />
+    <ClInclude Include="..\include\Time.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\sources\Boss.cpp" />
+    <ClCompile Include="..\sources\Clock.cpp" />
+    <ClCompile Include="..\sources\Entity.cpp" />
+    <ClCompile Include="..\sources\Game.cpp" />
     <ClCompile Include="..\sources\GameException.cpp" />
     <ClCompile Include="..\sources\GameManager.cpp" />
+    <ClCompile Include="..\sources\Missile.cpp" />
+    <ClCompile Include="..\sources\Player.cpp" />
+    <ClCompile Include="..\sources\Referee.cpp" />
+    <ClCompile Include="..\sources\Time.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\libraries\Bind\Bind.vcxproj">

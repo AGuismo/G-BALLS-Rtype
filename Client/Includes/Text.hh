@@ -5,7 +5,7 @@
 // Login   <brigno@epitech.net>
 //
 // Started on  Thu Oct 24 10:55:11 2013 brigno
-// Last update Thu Oct 31 18:15:51 2013 brigno
+// Last update Tue Nov  5 02:17:40 2013 brigno
 //
 
 #ifndef		__TEXT_HH__
@@ -21,22 +21,16 @@ public:
 private:
   bool		_enable;
   sf::Font	_font;
+  sf::String	_sentenceTmp;
   sf::String	_sentence;
-  sf::String	_sentencePwd;
+  std::string	_tmp;
   sf::Text	_text;
   std::string	_fontPath;
   std::size_t	_sizeLimit;
 
-  /*AHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH*/
-  /*A PUTAIN DE RETIRER !!!!!! */
-  std::string	_tmpLogin;
-  std::string	_tmpPwd;
-  /* FIN */
-  /*AHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH*/
-
 public:
-  Text(const std::string &fontPath, const sf::Event &,
-       const sf::Vector2i &topLeft, const sf::Vector2i &botRight, const size_t &size, const bool &enable);
+  Text(const std::string &fontPath, const std::string &name, const sf::Event &, const sf::Vector2i &posTopLeft,
+       const sf::Vector2i &focusTopLeft, const sf::Vector2i &focusBotRight, const size_t &size, const bool &enable);
 
 private:
   Text(const Text &other);
@@ -44,13 +38,13 @@ private:
 
 public:
   const sf::Font	&getFont(void) const;
+  const std::string	&getText(void) const;
   const int		&getId(void) const;
   const bool		&getEnable(void) const;
   const std::size_t	&getSizeLimit(void) const;
   const sf::String	&getSentence(void) const;
-  const sf::Text	&getText(void) const;
   const std::string	&getfontPath(void) const;
-  void			onFocus(void);
+  MenuWindow::Status	onFocus(void);
   void			stopFocus(void);
   void			onHover(void);
   void			stopHover(void);

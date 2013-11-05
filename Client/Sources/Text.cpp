@@ -5,19 +5,19 @@
 // Login   <brigno@epitech.net>
 //
 // Started on  Thu Oct 24 11:44:54 2013 brigno
-// Last update Thu Oct 31 18:55:37 2013 brigno
+// Last update Tue Nov  5 02:19:04 2013 brigno
 //
 
 #include	"Text.hh"
 
-Text::Text(const std::string &fontPath, const sf::Event &ev, const sf::Vector2i &topLeft,
-	   const sf::Vector2i &botRight, const size_t &size, const bool &enable) :
-  AWidget(ev, topLeft, botRight, AWidget::TEXT)
+Text::Text(const std::string &fontPath, const std::string &name, const sf::Event &ev, const sf::Vector2i &posTopLeft, const sf::Vector2i &focusTopLeft,
+	   const sf::Vector2i &focusBotRight, const size_t &size, const bool &enable) :
+  AWidget(ev, name, posTopLeft, focusTopLeft, focusBotRight, AWidget::TEXT)
 {
   sf::Vector2f	posText;
 
-  posText.x = topLeft.x + 45;
-  posText.y = topLeft.y + 30;
+  posText.x = posTopLeft.x;
+  posText.y = posTopLeft.y;
   if (!this->_font.loadFromFile(fontPath))
     std::cerr << "Can't find path of Font file" << std::endl;
   this->_text = sf::Text(this->_sentence, this->_font, 30);
@@ -27,39 +27,38 @@ Text::Text(const std::string &fontPath, const sf::Event &ev, const sf::Vector2i 
   this->_enable = enable;
 }
 
-void	Text::onFocus()
+MenuWindow::Status	Text::onFocus()
 {
   if (this->_event.text.unicode >= 32 && this->_event.text.unicode <= 126)
     {
-      if (this->_sentence.getSize() < this->_sizeLimit)
+      if (this->_sentenceTmp.getSize() < this->_sizeLimit)
 	{
-	  this->_sentencePwd += (char)this->_event.text.unicode;
+	  this->_sentence += (char)this->_event.text.unicode;
 	  if (this->_enable == true)
-	    this->_sentence += (char)this->_event.text.unicode;
+	    this->_sentenceTmp += (char)this->_event.text.unicode;
 	  else if (this->_enable == false)
-	    this->_sentence += '*';
+	    this->_sentenceTmp += '*';
 	}
     }
-  else if (this->_event.text.unicode == BACKSPACE && this->_sentence.getSize())
+  else if (this->_event.text.unicode == BACKSPACE && this->_sentenceTmp.getSize())
     {
-      this->_sentencePwd.erase(this->_sentencePwd.getSize() - 1, this->_sentencePwd.getSize());
+      this->_sentenceTmp.erase(this->_sentenceTmp.getSize() - 1, this->_sentenceTmp.getSize());
       this->_sentence.erase(this->_sentence.getSize() - 1, this->_sentence.getSize());
     }
+  this->_tmp = this->_sentence;
+  this->_text.setString(this->_sentenceTmp);
+  return (MenuWindow::CONTINUE);
+}
 
-  if (this->_enable == true)
-    this->_tmpLogin = this->_sentence;
-  else
-    this->_tmpPwd = this->_sentencePwd;
-  this->_text.setString(this->_sentence);
+const std::string	&Text::getText() const
+{
+  return (this->_tmp);
 }
 
 void	Text::stopFocus()
 {
-  if (this->_event.type != sf::Event::MouseButtonReleased)
-    {
-      std::cout << "LOGIN : [" << this->_tmpLogin << "] | PWD : [" << this->_tmpPwd << "] " << std::endl;
-    }
 }
+
 
 void	Text::onHover()
 {

@@ -21,25 +21,10 @@
     <ClInclude Include="include\sys.hh">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\ARequest.hh">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\AuthRequest.hh">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="include\Client.hh">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\Env.hh">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\ITransformers.hh">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\Protocol.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\RequestCode.hh">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\types.hh">
@@ -56,19 +41,10 @@
     <ClCompile Include="sources\sys.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="sources\ARequest.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="sources\AuthRequest.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="sources\Client.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="sources\Env.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="sources\Protocol.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

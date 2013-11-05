@@ -3,6 +3,8 @@
 
 #if defined(linux)
 # include	<sys/time.h>
+#elif defined(WIN32)
+# include	<windows.h>
 #endif
 
 typedef long long	clock_time;

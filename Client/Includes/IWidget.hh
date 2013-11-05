@@ -5,21 +5,20 @@
 // Login   <brigno@epitech.net>
 //
 // Started on  Thu Oct 24 14:30:15 2013 brigno
-// Last update Thu Oct 31 17:56:05 2013 brigno
+// Last update Tue Nov  5 02:13:45 2013 brigno
 //
 
 #ifndef		__IWIDGET_HH__
 # define	__IWIDGET_HH__
 
-# include	<SFML/Graphics.hpp>
-# include	"Window.hh"
+# include	"MenuWindow.hh"
 
-class Window;
+class MenuWindow;
 
 class		IWidget
 {
 public:
-  virtual void	onFocus(void) = 0;
+  virtual MenuWindow::Status	onFocus(void) = 0;
   virtual void	onHover(void) = 0;
   virtual void	stopHover(void) = 0;
   virtual void	stopFocus(void) = 0;

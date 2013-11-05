@@ -1,10 +1,5 @@
 #pragma once
 
-#include <exception>
-#include "AMonitorable.h"
-#include "cBuffer.h"
-#include "abs_sockets.h"
-#include "state.h"
 #if defined(WIN32)
 # include <WinSock2.h>
 # include "WinInit.h"
@@ -16,6 +11,11 @@
 #else
 # error "Unsupported Operating System"
 #endif
+#include <exception>
+#include "AMonitorable.h"
+#include "cBuffer.h"
+#include "abs_sockets.h"
+#include "state.h"
 
 namespace net
 {

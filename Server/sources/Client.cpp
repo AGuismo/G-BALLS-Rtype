@@ -1,7 +1,7 @@
 #include	<iostream>
+#include	"ClientAccepted.h"
 #include	"ARequest.hh"
 #include	"Client.hh"
-#include	"ClientAccepted.h"
 #include	"cBuffer.h"
 #include	"Protocol.hpp"
 
@@ -74,7 +74,7 @@ void	Client::update()
 #if defined(DEBUG)
   if (_TcpLayer == 0)
     throw "No TCP socket";
-  std::cout << __PRETTY_FUNCTION__ << std::endl;
+//  std::cout << __PRETTY_FUNCTION__ << std::endl;
 #endif
   if (_TcpLayer->read())
     recvSock();
