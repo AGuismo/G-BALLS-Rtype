@@ -21,7 +21,12 @@ void	Game::update()
   for (itia = _IA.begin(); itia != _IA.end(); itia++)
     {
       (*itia)->update();
-      if (Referee::isCollision(*itia, *this) == true)
+	  if (!Referee::isOnScreen(*itia, *this))
+	  {
+	      delete *itia;
+	      _IA.erase(itia);
+	  }
+      else if (Referee::isCollision(*itia, *this) == true)
 	{
 	  (*ite)->_life--;
 	  if ((*ite)->_life <= 0)
@@ -34,7 +39,12 @@ void	Game::update()
   for (ite = _objs.begin(); ite != _objs.end(); ite++)
     {
       (*ite)->update();
-      if (Referee::isCollision(*ite, *this) == true)
+	  if (!Referee::isOnScreen(*ite, *this))
+	  {
+	      delete *ite;
+	      _objs.erase(ite);
+	  }
+      else if (Referee::isCollision(*ite, *this) == true)
 	{
 	  if ((*ite)->_type == DESTRUCTIBLEWALL)
 	    (*ite)->_life--;
@@ -50,7 +60,12 @@ void	Game::update()
       for (unsigned int i = 0;i < (*itm)->_speed; i++)
 	{
 	  (*itm)->update();
-	  if (Referee::isCollision(*itm, *this) == true)
+	  if (!Referee::isOnScreen(*itm, *this))
+	  {
+	      delete *itm;
+	      _objs.erase(itm);
+	  }
+	  else if (Referee::isCollision(*itm, *this) == true)
 	    {
 	      delete *itm;
 	      _missiles.erase(itm);
@@ -60,6 +75,10 @@ void	Game::update()
   if (_titan)
     {
       _titan->update();
+		if (!Referee::isOnScreen(_titan *this))
+		{
+			delete	_titan;
+		}
       if (Referee::isCollision(_titan, *this))
 	{
 

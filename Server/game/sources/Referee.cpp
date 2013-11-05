@@ -26,51 +26,45 @@ void	Referee::getBoss()
 
 }
 
+bool	Referee::isOnScreen(const Entity *a)
+{
+	if ((_pos < 0 || _pos > 255) ||
+		(a->posX() + 1 != a->prevX() ||
+		a->posX() - 1 != a->prevX()))
+		return false;
+	return true;
+}
+
 bool	Referee::sameCase(const Entity *a, const Entity *b)
 {
-  if (a->_posx <= b->_posx &&
-      a->_posx + a->_length >= b->_posx &&
+  if (a->posX() <= b->posX() &&
+      a->posX() + a->_length >= b->posX() &&
       a->_posy <= b->_posy &&
       a->_posy + a->_height >= b->_posy)
     return true;
-  if (a->_posx <= b->_posx + b->_length &&
-      a->_posx + a->_length >= b->_posx + b->_length &&
+  if (a->posX() <= b->posX() + b->_length &&
+      a->posX() + a->_length >= b->posX() + b->_length &&
       a->_posy <= b->_posy &&
       a->_posy + a->_height >= b->_posy)
     return true;
-  if (a->_posx <= b->_posx &&
-      a->_posx + a->_length >= b->_posx &&
+  if (a->posX() <= b->posX() &&
+      a->posX() + a->_length >= b->posX() &&
       a->_posy <= b->_posy + b->_height &&
       a->_posy + a->_height >= b->_posy + b->_height)
     return true;
-  if (a->_posx <= b->_posx + b->_length &&
-      a->_posx + a->_length >= b->_posx + b->_length &&
+  if (a->posX() <= b->posX() + b->_length &&
+      a->posX() + a->_length >= b->posX() + b->_length &&
       a->_posy <= b->_posy + b->_height &&
       a->_posy + a->_height >= b->_posy + b->_height)
     return true;
   return false;
 }
 
-bool	Referee::isOnScreen(const Entity *a)
-{
-  if (a->_type != PLAYER &&
-      (a->_posx + a->_length <= LEFTSIDE ||
-       a->_posx >= RIGHTSIDE ||
-       a->_posy + a->_height <= TOPSIDE ||
-       a->_posy >= BOTTOMSIDE))
-    return false;
-  return true;
-}
 
-bool	Referee::isCollision(Entity *a, Game &game)
+bool	Referee::playerCollision(Entity *a, Game &game)
 {
   std::list<Player *>::iterator itp = game._players.begin();
-  std::list<Ia *>::iterator itia = game._IA.begin();
-  std::list<Entity *>::iterator ite = game._objs.begin();
-  std::list<Missile *>::iterator itm = game._missiles.begin();
 
-  if (isOnScreen(a) == false)
-    return true;
   for (; itp != game._players.end(); itp++)
     {
       if (a->_type != PLAYER && a->_type != MISSILE &&
@@ -96,6 +90,13 @@ bool	Referee::isCollision(Entity *a, Game &game)
 	    }
 	}
     }
+  return false;
+}
+
+static bool	iaCollision(Entity *a, Game &game)
+{
+	std::list<Ia *>::iterator itia = game._IA.begin();
+
   for (; itia != game._IA.end(); itia++)
     {
       if (a->_type != IA && a->_type != MISSILE &&
@@ -124,6 +125,12 @@ bool	Referee::isCollision(Entity *a, Game &game)
 	    }
 	}
     }
+	return false;
+}
+static bool	wallCollision(Entity *a, Game &game)
+{
+  std::list<Entity *>::iterator ite = game._objs.begin();
+
   for (; ite != game._objs.end(); ite++)
     {
       if (a->_type != WALL && a->_type != DESTRUCTIBLEWALL &&
@@ -141,6 +148,13 @@ bool	Referee::isCollision(Entity *a, Game &game)
 	  return true;
 	}
     }
+	return false;
+}
+
+static bool	missileCollision(Entity *a, Game &game)
+{
+  std::list<Missile *>::iterator itm = game._missiles.begin();
+
   for (; itm != game._missiles.end(); itm++)
     {
       if (a->_type != MISSILE &&
@@ -151,5 +165,13 @@ bool	Referee::isCollision(Entity *a, Game &game)
 	  return true;
 	}
     }
+	return false;
+}
+
+bool	Referee::isCollision(Entity *a, Game &game)
+{
+  if (playerColision(a, game) || iaColision(a, game) ||
+	  wallColision(a, game) || missileColision(a, game))
+	  return true;
   return false;
 }
