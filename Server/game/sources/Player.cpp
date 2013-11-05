@@ -1,28 +1,27 @@
 #include "Player.h"
 
-Player::Player(int x, int y/*, udp*/) : Entity(PLAYER, x, y, 1, EAST, 1, 1)
+Player::Player(int pos) :
+  Entity(PLAYER, pos, 1, EAST, 1, 1), _pow(0), _extraLife(false)
 {
-	_pow = 0;
-	_extraLife = false;
-	//_udp = udp;
-	std::cout << "A new character is comming" << std::endl;
+#if defined(DEBUG)
+  std::cout << "A new character is comming" << std::endl;
+#endif
 }
 
 Player::~Player()
 {
-	std::cout << "A player is dead" << std::endl;
+#if defined(DEBUG)
+  std::cout << "A player is dead" << std::endl;
+#endif
 }
 
 void	Player::move(DIR dir, int speed)
 {
-	_dir = dir;
-	_speed = speed;
+  _dir = dir;
+  _speed = speed;
 }
 
 Missile *Player::fire()
 {
-	Missile *boom = new Missile(*this, EAST, _posx, _posy);
-
-	return boom;
+  return (new Missile(*this, EAST, _pos));
 }
-

@@ -11,6 +11,7 @@ class Referee
   ~Referee();
   void	update(Game &game);
   static bool	isCollision(Entity *a, Game &game);
+  static bool	isOnScreen(const Entity *a);
  private:
   void	getIA();
   void	getBoss();

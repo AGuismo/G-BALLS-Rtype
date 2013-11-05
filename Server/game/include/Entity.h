@@ -6,7 +6,6 @@ class Referee;
 class Game;
 class Missile;
 
-#define		SIZE			16
 #define		POS_X(pos)		pos % 16
 #define		POS_Y(pos)		pos / 16
 
@@ -35,7 +34,7 @@ enum TYPE
 class Entity
 {
 protected:
-	static const	int	SIZE = 16;
+  static const	int	SIZE = 16;
  public:
   Entity(TYPE type, int pos, int life, DIR dir, int length, int height);
   virtual ~Entity();
@@ -50,10 +49,10 @@ protected:
   TYPE				_type;
   int				_length;
   int				_height;
-  int			posX()const {return (_pos % SIZE)};
-  int			posY()const {return (_pos / SIZE)};
-  int			prevX()const {return (_prevPos % SIZE)};
-  int			prevY()const {return (_prevPos / SIZE)};
+  int			posX()const {return (_pos % SIZE);};
+  int			posY()const {return (_pos / SIZE);};
+  int			prevX()const {return (_prevPos % SIZE);};
+  int			prevY()const {return (_prevPos / SIZE);};
 
   friend Referee;
   friend Game;

@@ -8,12 +8,12 @@ class Partie;
 class Missile : public Entity
 {
 public:
-	Missile(Entity &launcher, DIR dir, int x, int y);
-	~Missile();
-	Entity *getLauncher() const { return &_launcher;};
+  Missile(Entity &launcher, DIR dir, int pos);
+  ~Missile();
+  Entity *getLauncher() const { return &_launcher;};
 private:
-	Entity		&_launcher;
-	int			_pow;
+  Entity		&_launcher;
+  int			_pow;
 
-	friend Partie;
+  friend Partie;
 };

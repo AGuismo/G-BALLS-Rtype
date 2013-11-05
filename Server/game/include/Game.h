@@ -30,11 +30,11 @@ public:
   struct timeval	*getTimer(void)const{ return _timer;};
 private:
   std::list<Player *>	_players;
-  std::list<Ia *>		_IA;
+  std::list<Ia *>	_IA;
   std::list<Entity *>	_objs;
   std::list<Missile *> _missiles;
   Boss				*_titan;
   struct timeval		*_timer;
 
-  friend Referee;
+  friend class Referee;
 };

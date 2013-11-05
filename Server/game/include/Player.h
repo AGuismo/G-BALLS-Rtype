@@ -10,15 +10,14 @@ class Referee;
 class Game;
 class Player : public Entity
 {
- public:
-  Player(int x, int y/*, udp*/);
+public:
+  Player(int pos);
   ~Player();
-  void	move(DIR dir, int speed);
+  void		move(DIR dir, int speed);
   Missile	*fire();
- private:
-  int			_pow;
-  bool			_extraLife;
-  //ClientAccepted *	_udp;
+private:
+  int		_pow;
+  bool		_extraLife;
 
   friend Referee;
   friend Game;
