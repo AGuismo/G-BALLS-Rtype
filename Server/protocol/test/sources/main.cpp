@@ -5,10 +5,12 @@
 #include	"AuthRequest.hh"
 #include	"ARequest.hh"
 #include	"Protocol.hpp"
+#include	"TcpClient.h"
 
 int	main()
 {
-  Auth::Connect			c("toto", 1644);
+  net::TcpClient		client;
+  Auth::Connect			c("Ruby", 1664);
   std::vector<Protocol::Byte>	bytes;
 
   bytes = Protocol::product(c);
@@ -19,6 +21,10 @@ int	main()
     }
   std::cout << std::endl;
 
+  client.init("127.0.0.1", "44201");
+  client.writeIntoBuffer(bytes, bytes.size());
+  client.send();
+  client.close();
   // Auth::Connect			*output = dynamic_cast<Auth::Connect *>(Protocol::consume(bytes));
   // std::cout << output << std::endl;
   // (void)output;

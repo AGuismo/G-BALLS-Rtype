@@ -4,7 +4,7 @@
 # include	<string>
 # include	<deque>
 # include	<vector>
-# include	"abs_sockets.h"
+// # include	"abs_sockets.h"
 # include	"ARequest.hh"
 # include	"types.hh"
 # include	"RequestCode.hh"
@@ -110,8 +110,8 @@ T		&Protocol::pop(T &val)
   for (size_t size = 0; size < sizeof(val); size += sizeof(Byte))
     {
       buffer[size] = _container.front();
+      _container.pop_front();
     }
-  _container.erase(_container.begin(), _container.begin() + sizeof(val));
   return (val);
 }
 

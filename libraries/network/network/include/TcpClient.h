@@ -13,12 +13,12 @@
 
 namespace net
 {
-	class ABS_SOCKET_API TcpClient : public ClientAccepted
-	{
-	public:
-		TcpClient();
-		~TcpClient(void);
-		void init(std::string adress, std::string port);
-	};
+  class ABS_SOCKET_API TcpClient : public ClientAccepted
+  {
+  public:
+    TcpClient();
+    ~TcpClient(void);
+    void init(std::string adress, std::string port);
+  };
 }
 
