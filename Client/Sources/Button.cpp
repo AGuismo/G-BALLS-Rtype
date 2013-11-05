@@ -5,43 +5,33 @@
 // Login   <brigno@epitech.net>
 //
 // Started on  Thu Oct 31 16:22:29 2013 brigno
-// Last update Thu Oct 31 19:06:31 2013 brigno
+// Last update Tue Nov  5 02:19:55 2013 brigno
 //
 
 #include	"Button.hh"
+#include	"Interface.hh"
 
-Button::Button(const sf::Event &ev, const std::string &path, const std::string &pathHover, const std::string &pathFocus, const sf::Vector2i &topLeft, const sf::Vector2i &botRight) :
-  AWidget(ev, topLeft, botRight, AWidget::BUTTON)
+Button::Button(const sf::Event &ev, const std::string &name, const std::string &path, const std::string &pathHover, const std::string &pathFocus,
+	       const sf::Vector2i &posTopLeft, const sf::Vector2i &focusTopLeft, const sf::Vector2i &focusBotRight, MenuWindow::Status actionLink) :
+  AWidget(ev, name, posTopLeft, focusTopLeft, focusBotRight, AWidget::BUTTON)
 {
   sf::Vector2f posZone;
 
-  posZone.x = topLeft.x;
-  posZone.y = topLeft.y;
+  posZone.x = posTopLeft.x;
+  posZone.y = posTopLeft.y;
   if (!_texture.loadFromFile(path))
+    std::cout << "Error could not load image" << std::endl;
+  if (!_textureHover.loadFromFile(pathHover))
+    std::cout << "Error could not load image" << std::endl;
+  if (!_textureFocus.loadFromFile(pathFocus))
     std::cout << "Error could not load image" << std::endl;
   this->_image.setTexture(_texture);
   this->_image.setPosition(posZone.x, posZone.y);
-  this->_pathHover= pathHover;
-  this->_pathFocus = pathFocus;
+  this->_actionLink = actionLink;
 }
 
 Button::~Button()
 {
-}
-
-const std::string		&Button::getPath() const
-{
-  return (this->_path);
-}
-
-const std::string		&Button::getPathHover() const
-{
-  return (this->_pathHover);
-}
-
-const std::string		&Button::getPathFocus() const
-{
-  return (this->_pathFocus);
 }
 
 const sf::Texture	&Button::getTexture() const
@@ -59,35 +49,24 @@ const sf::Vector2i	&Button::getPos() const
   return (this->_pos);
 }
 
-void			Button::onFocus()
+MenuWindow::Status		Button::onFocus()
 {
-  std::cout << "FOCUS" << this->_pathFocus << std::endl;
-  if (!_texture.loadFromFile(this->_pathFocus))
-    std::cout << "Error could not load background image" << std::endl;
-  this->_image.setTexture(_texture);
+  this->_image.setTexture(_textureFocus);
+  return (this->_actionLink);
 }
 
 void			Button::stopFocus()
 {
-  std::cout << "STOP FOCUS" << this->_path << std::endl;
-  if (!_texture.loadFromFile(this->_path))
-    std::cout << "Error could not load background image" << std::endl;
   this->_image.setTexture(_texture);
 }
 
 void			Button::onHover()
 {
-  std::cout << "HOVER" << this->_pathHover << std::endl;
-  if (!_texture.loadFromFile(this->_pathHover))
-    std::cout << "Error could not load background image" << std::endl;
-  this->_image.setTexture(_texture);
+  this->_image.setTexture(_textureHover);
 }
 
 void			Button::stopHover()
 {
-  std::cout << "STOP HOVER" << this->_path << std::endl;
-  if (!_texture.loadFromFile(this->_path))
-    std::cout << "Error could not load background image" << std::endl;
   this->_image.setTexture(_texture);
 }
 

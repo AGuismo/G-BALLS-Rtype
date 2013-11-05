@@ -5,7 +5,7 @@
 // Login   <brigno@epitech.net>
 //
 // Started on  Thu Oct 24 14:31:48 2013 brigno
-// Last update Thu Oct 31 18:58:47 2013 brigno
+// Last update Tue Nov  5 02:17:10 2013 brigno
 //
 
 #ifndef		__AWIDGET_HH__
@@ -25,14 +25,16 @@ protected:
     };
 protected:
   const sf::Event	&_event;
-  sf::Vector2i		_topLeft;
-  sf::Vector2i		_botRight;
+  std::string		_name;
+  sf::Vector2i		_posTopLeft;
+  sf::Vector2i		_focusTopLeft;
+  sf::Vector2i		_focusBotRight;
   Type			_type;
 
 public:
-  AWidget(const sf::Event &event, const sf::Vector2i &topLeft, const sf::Vector2i &botRight, enum AWidget::Type type);
+  AWidget(const sf::Event &event, const std::string &name, const sf::Vector2i &posTopLeft, const sf::Vector2i &focusTopLeft, const sf::Vector2i &focusBotRight, enum AWidget::Type type);
   virtual ~AWidget();
-  virtual void		onFocus(void) = 0;
+  virtual MenuWindow::Status	onFocus(void) = 0;
   virtual void		stopFocus(void) = 0;
   virtual void		onHover(void) = 0;
   virtual void		stopHover(void) = 0;

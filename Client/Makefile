@@ -5,7 +5,7 @@
 ## Login   <brigno@epitech.net>
 ##
 ## Started on  Wed Oct 23 18:43:59 2013 brigno
-## Last update Thu Oct 31 18:01:23 2013 brigno
+## Last update Tue Nov  5 03:41:17 2013 brigno
 ##
 
 NAME	=	Client
@@ -13,13 +13,16 @@ NAME	=	Client
 SOURCES =	Sources/
 
 SRC =		main.cpp			\
+		$(SOURCES)Application.cpp	\
 		$(SOURCES)Background.cpp	\
-		$(SOURCES)Window.cpp		\
+		$(SOURCES)MenuWindow.cpp	\
 		$(SOURCES)Text.cpp		\
 		$(SOURCES)AWidget.cpp		\
 		$(SOURCES)Image.cpp		\
 		$(SOURCES)TextArea.cpp		\
 		$(SOURCES)Button.cpp		\
+		$(SOURCES)Interface.cpp		\
+		$(SOURCES)Network.cpp		\
 
 OBJ =		$(SRC:.cpp=.o)
 CC =		g++
@@ -28,7 +31,7 @@ CXXFLAGS +=	$(INCLUDE)
 CXXFLAGS +=	-W -Wall -Wextra -ansi -pedantic
 CFLAGS +=	$(INCLUDE)
 CFLAGS +=	-W -Wall -Wextra -ansi -pedantic
-LFLAGS =	-lsfml-graphics -lsfml-window -lsfml-system
+LFLAGS =	-lsfml-graphics -lsfml-window -lsfml-system -lsfml-network
 RM =		rm -f
 ECHO =		echo -e
 
