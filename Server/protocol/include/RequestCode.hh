@@ -8,6 +8,7 @@ namespace requestCode
   typedef Ruint16	CodeID;
   typedef Ruint32	PasswordType;
   typedef Ruint16	UsernameLen;
+  typedef Ruint16	SessionID;
 
   namespace server
   {

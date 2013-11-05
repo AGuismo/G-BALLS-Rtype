@@ -10,11 +10,14 @@ NAME	     ?=	libmenu.a
 SRCS =	      	MenuManager.cpp		\
 		MenuException.cpp	\
 
-DIR.THREADS=	../deps/Threads
-DIR.NETWORK=	../deps/network
+DIR.THREADS=	../deps/Threads/
+DIR.NETWORK=	../deps/network/
+DIR.PROT=	../protocol/
+DIR.BIND=	../deps/Bind/
 
 F.C	     +=	-W -Wall -Werror
-F.I	     +=	-I $(DIR.H) -I$(DIR.THREADS)/include -I$(DIR.NETWORK)/include -I../include
+F.I	     +=	-I$(DIR.H) -I$(DIR.THREADS)/include -I$(DIR.NETWORK)/include -I../include
+F.I	     += -I$(DIR.PROT)/include -I$(DIR.BIND)/include
 F.D	     +=
 
 

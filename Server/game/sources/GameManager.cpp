@@ -32,25 +32,25 @@ namespace	game
     std::list<Game *>::iterator it;
     // clock_time			time;
 
-    _clock.start();
-    while (true)
+    _clock.update();
+    /*SELECT*/
+    _clock.update();
+    // time = _clock.getElapsedTime();
+    for (it = _games.begin();
+	 it != _games.end();
+	 ++it)
       {
-	_clock.update();
-	/*SELECT*/
-	_clock.update();
-	// time = _clock.getElapsedTime();
-	for (it = _games.begin();
-	     it != _games.end();
-	     ++it)
-	  {
 
-	  }
       }
   }
 
   void		Manager::routine(Manager *thisPtr)
   {
-    thisPtr->update();
+    thisPtr->_clock.start();
+    while (true)
+      {
+	thisPtr->update();
+      }
   }
 
 }

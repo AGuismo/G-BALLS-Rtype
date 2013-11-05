@@ -4,12 +4,14 @@
 #include	"sys.hh"
 #include	"Client.hh"
 #include	"NetException.h"
+#include	"AuthRequest.hh"
 
 namespace	menu
 {
   Manager::Manager()
   {
     _server.monitor(true, false);
+    _requestCallback[requestCode::auth::CONNECT] = &tryConnect;
   }
 
   Manager::~Manager()
@@ -51,6 +53,17 @@ namespace	menu
       }
   }
 
+  void	Manager::clientRequest(Client *client)
+  {
+    for (ARequest *req = client->requestPop(); req != 0;)
+      {
+	request_callback_map::iterator	it = _requestCallback.find(req->code());
+
+	if (it != _requestCallback.end())
+	  it->second(req, client, this);
+      }
+  }
+
   void	Manager::updateClients()
   {
     std::vector<Client *>::iterator it;
@@ -69,6 +82,7 @@ namespace	menu
 	    delete client;
 	    continue ;
 	  }
+	clientRequest(*it);
 	++it;
       }
   }
@@ -81,5 +95,18 @@ namespace	menu
 	thisPtr->checkNewClient();
 	thisPtr->updateClients();
       }
+  }
+
+  ///////////////////////
+  // Request Modifiers //
+  ///////////////////////
+
+  void	Manager::tryConnect(ARequest *req, Client *client, Manager *manager)
+  {
+    Auth::Connect	*request = dynamic_cast<Auth::Connect *>(req);
+
+    std::cout << request->username() << ":" << request->password() << std::endl;
+    (void)client;
+    (void)manager;
   }
 }

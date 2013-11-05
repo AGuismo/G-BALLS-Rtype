@@ -47,7 +47,6 @@ void	Client::recvSock()
     std::cerr << *it;
   std::cerr << std::endl;
 #endif
-  // std::cout << buf.size() << std::endl;
 }
 
 bool					Client::request()
@@ -55,17 +54,18 @@ bool					Client::request()
   std::vector<net::cBuffer::Byte>	buf;
   ARequest				*req;
 
-  std::cout << _TcpLayer->lookRead(buf, 512) << std::endl;
+  if (_TcpLayer->lookRead(buf, 512) == 0)
+    return (false);
   try
     {
       req = Protocol::consume(buf);
-      (void)req;
     }
   catch (Protocol::ConstructRequest &e)
     {
       std::cerr << "Failed to create request: " << e.what() << std::endl;
       return (false);
     }
+  _queue.push(req);
   return (true);
 }
 
@@ -79,8 +79,6 @@ void	Client::update()
   if (_TcpLayer->read())
     recvSock();
   while (request());
-  // _TcpLayer->recv();
-  // _TcpLayer->readFromBuffer(buf, 512);
 }
 
 bool		Client::isTCP() const
@@ -97,4 +95,41 @@ void		Client::closeTCP()
 {
   delete _TcpLayer;
   _TcpLayer = 0;
+}
+
+void					Client::username(const std::string &username)
+{
+  _username = username;
+}
+
+const std::string			&Client::username(void) const
+{
+  return (_username);
+}
+
+void					Client::password(const requestCode::PasswordType &password)
+{
+  _password = password;
+}
+
+const requestCode::PasswordType		&Client::password(void) const
+{
+  return (_password);
+}
+
+void					Client::sessionID(const requestCode::SessionID &sessionID)
+{
+  _sessionID = sessionID;
+}
+
+const requestCode::SessionID		&Client::sessionID(void) const
+{
+  return (_sessionID);
+}
+
+ARequest				*Client::requestPop()
+{
+  ARequest	*req = _queue.front();
+  _queue.pop();
+  return (req);
 }
