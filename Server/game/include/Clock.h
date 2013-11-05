@@ -7,6 +7,8 @@
 # include	<windows.h>
 #endif
 
+class TimeConverter;
+
 typedef long long	clock_time;
 
 namespace	game
@@ -35,6 +37,8 @@ namespace	game
     clock_time		_totalElapsedTime;
 
     static const long CLOCK_PREC = 1000000;
+
+	friend TimeConverter;
   };
 }
 #endif /* CLOCK_H_ */
