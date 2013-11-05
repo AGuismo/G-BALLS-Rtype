@@ -95,6 +95,7 @@
     <ClCompile Include="..\sources\Player.cpp" />
     <ClCompile Include="..\sources\Referee.cpp" />
     <ClCompile Include="..\sources\Time.cpp" />
+    <ClCompile Include="IA.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\libraries\Bind\Bind.vcxproj">
