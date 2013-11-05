@@ -9,7 +9,9 @@
 # include	"types.hh"
 # include	"RequestCode.hh"
 
+# if defined(WIN32)
 EXMP template class ABS_SOCKET_API std::vector<unsigned char>;
+# endif
 class Protocol
 {
 public:
