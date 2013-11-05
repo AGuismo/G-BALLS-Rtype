@@ -3,6 +3,7 @@
 #include	"Protocol.hpp"
 #include	"ARequest.hh"
 #include	"AuthRequest.hh"
+#include	"ServerRequest.hh"
 
 namespace	request
 {
@@ -10,6 +11,15 @@ namespace	request
   Factory::Factory()
   {
     _lnk[requestCode::auth::CONNECT] = new Auth::Connect;
+    _lnk[requestCode::auth::CHANGE_PASSWD] = new Auth::ChangePass;
+
+    _lnk[requestCode::server::OK] = new ServerRequest;
+    _lnk[requestCode::server::BAD_REQ] = new ServerRequest;
+    _lnk[requestCode::server::FORBIDDEN] = new ServerRequest;
+    _lnk[requestCode::server::NOT_IMPLEMENTED] = new ServerRequest;
+    _lnk[requestCode::server::NO_CONTENT] = new ServerRequest;
+    _lnk[requestCode::server::PARTIAL_CONTENT] = new ServerRequest;
+    _lnk[requestCode::server::NO_SLOTS] = new ServerRequest;
   }
 
   Factory::~Factory()

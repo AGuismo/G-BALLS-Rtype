@@ -9,6 +9,7 @@ NAME	     ?=	libprotocol.a
 
 SRCS =	      	ARequest.cpp		\
 		AuthRequest.cpp		\
+		ServerRequest.cpp	\
 		Protocol.cpp		\
 		RequestFactory.cpp	\
 

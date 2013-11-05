@@ -16,7 +16,7 @@ MOD.LNK=	-L$(DIR.PROT) -lprotocol
 
 F.C	     +=	-W -Wall -Werror
 F.I	     +=	-I./include $(MOD.INC) -I../../include $(DEPS.INC)
-F.L	     += $(MOD.LNK) $(DEPS.LNK)
+F.L	     += $(MOD.LNK) $(DEPS.LNK) -Wl,-rpath=$(DIR.NET)
 F.D	     +=
 
 all:		start $(NAME)

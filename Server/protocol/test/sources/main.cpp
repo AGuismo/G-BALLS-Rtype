@@ -1,32 +1,50 @@
 #include	<iostream>
 #include	<iomanip>
 #include	<vector>
+#include	<typeinfo>
 #include	"types.hh"
 #include	"AuthRequest.hh"
+#include	"ServerRequest.hh"
 #include	"ARequest.hh"
 #include	"Protocol.hpp"
 #include	"TcpClient.h"
 
-int	main()
+template <typename T>
+void	test(T &req)
 {
-  net::TcpClient		client;
-  Auth::Connect			c("Ruby", 1664);
   std::vector<Protocol::Byte>	bytes;
 
-  bytes = Protocol::product(c);
-  // std::cout << "Size: " << bytes.size() << std::endl;
+  std::cout << "Testing: " << typeid(req).name() << std::endl;
+  bytes = Protocol::product(req);
   for (std::vector<Protocol::Byte>::iterator it = bytes.begin(); it != bytes.end(); ++it)
     {
       std::cout << std::hex << (char)(*it);
     }
-  std::cout << std::endl;
+  std::cout << std::dec << std::endl;
 
-  client.init("127.0.0.1", "44201");
-  client.writeIntoBuffer(bytes, bytes.size());
-  client.send();
-  client.close();
-  // Auth::Connect			*output = dynamic_cast<Auth::Connect *>(Protocol::consume(bytes));
-  // std::cout << output << std::endl;
-  // (void)output;
+  int			count;
+  T			*output = dynamic_cast<T *>(Protocol::consume(bytes, count));
+  if (output != 0)
+    std::cout << typeid(req).name() << ": Correct formatting" << std::endl;
+  else
+    std::cout << typeid(req).name() << ": Incorrect formatting" << std::endl;
+}
+
+int	main()
+{
+  net::TcpClient		client;
+  Auth::Connect			authConnect("Ruby", 1664);
+  Auth::ChangePass		authPass("Ruby", 1664, 4661, 5348);
+  ServerRequest			servReq(requestCode::server::FORBIDDEN);
+
+  test(authConnect);
+  test(authPass);
+  test(servReq);
+  // std::cout << "Size: " << bytes.size() << std::endl;
+
+  // client.init("127.0.0.1", "44201");
+  // client.writeIntoBuffer(bytes, bytes.size());
+  // client.send();
+  // client.close();
   return (0);
 }

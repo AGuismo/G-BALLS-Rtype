@@ -45,5 +45,34 @@ namespace Auth
     std::string			_username;
     requestCode::PasswordType	_password; // Work in progress
   };
+
+  struct	ChangePass : public AuthRequest
+  {
+  public:
+    ChangePass(const std::string &name, const requestCode::PasswordType &curPass,
+	       const requestCode::PasswordType &newPass, const requestCode::SessionID id);
+    ChangePass();
+    ~ChangePass();
+
+    ChangePass(ChangePass const&);
+    ChangePass& operator=(ChangePass const&);
+
+  public:
+    Protocol			&Megan_serialize(Protocol &) const;
+    Protocol			&Fox_unserialize(Protocol &);
+    ARequest			*clone();
+
+  public:
+    const std::string			&username() const;
+    const requestCode::PasswordType	&curpassword() const;
+    const requestCode::PasswordType	&newpassword() const;
+    requestCode::SessionID		sessionID() const;
+
+  private:
+    std::string			_username;
+    requestCode::PasswordType	_curpassword; // Work in progress
+    requestCode::PasswordType	_newpassword; // Work in progress
+    requestCode::SessionID	_sessionID;
+  };
 }
 #endif /* AUTHREQUEST_H_ */

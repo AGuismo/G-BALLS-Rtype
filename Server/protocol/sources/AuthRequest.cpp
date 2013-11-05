@@ -30,6 +30,10 @@ AuthRequest	&AuthRequest::operator=(AuthRequest const &src)
 
 namespace Auth
 {
+  //////////////
+  // Connect  //
+  //////////////
+
   Connect::Connect():
     AuthRequest(requestCode::auth::CONNECT)
   {
@@ -96,4 +100,91 @@ namespace Auth
   {
     return (new Connect());
   }
+
+  /////////////////
+  // ChangePass  //
+  /////////////////
+
+  ChangePass::ChangePass():
+    AuthRequest(requestCode::auth::CHANGE_PASSWD)
+  {
+
+  }
+
+  ChangePass::ChangePass(const std::string &name, const requestCode::PasswordType &curPass,
+			 const requestCode::PasswordType &newPass, const requestCode::SessionID id):
+    AuthRequest(requestCode::auth::CHANGE_PASSWD), _username(name), _curpassword(curPass),
+    _newpassword(newPass), _sessionID(id)
+  {
+
+  }
+
+  ChangePass::~ChangePass()
+  {
+
+  }
+
+  ChangePass::ChangePass(ChangePass const &src) :
+    AuthRequest(src), _username(src._username), _curpassword(src._curpassword),
+    _newpassword(src._newpassword), _sessionID(src._sessionID)
+  {
+
+  }
+
+  ChangePass	&ChangePass::operator=(const ChangePass &src)
+  {
+    if (&src != this)
+      {
+	_code = src._code;
+	_username = src._username;
+	_curpassword = src._curpassword;
+	_newpassword = src._newpassword;
+	_sessionID = src._sessionID;
+      }
+    return (*this);
+  }
+
+  const std::string		&ChangePass::username() const
+  {
+    return (_username);
+  }
+
+  const requestCode::PasswordType	&ChangePass::curpassword() const
+  {
+    return (_curpassword);
+  }
+
+  const requestCode::PasswordType	&ChangePass::newpassword() const
+  {
+    return (_newpassword);
+  }
+
+  requestCode::SessionID		ChangePass::sessionID() const
+  {
+    return (_sessionID);
+  }
+
+  Protocol			&ChangePass::Megan_serialize(Protocol &rhs) const
+  {
+    requestCode::UsernameLen	len = _username.length();
+
+    rhs << _code << len << _username << _sessionID << _curpassword << _newpassword;
+    return (rhs);
+  }
+
+  Protocol	&ChangePass::Fox_unserialize(Protocol &rhs)
+  {
+    requestCode::UsernameLen	len;
+
+    rhs >> len;
+    rhs.pop(_username, len);
+    rhs >> _sessionID >> _curpassword >> _newpassword;
+    return (rhs);
+  }
+
+  ARequest	*ChangePass::clone()
+  {
+    return (new ChangePass());
+  }
+
 }
