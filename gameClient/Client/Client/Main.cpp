@@ -16,7 +16,7 @@ int main()
 
 	if (!gameW.load())
 	{
-		std::cerr << "AU BON C" << std::endl;
+		std::cerr << "Error loading game" << std::endl;
 		return EXIT_FAILURE;
 	}
 	gameW.run();

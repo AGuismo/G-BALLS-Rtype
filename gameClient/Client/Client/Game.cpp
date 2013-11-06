@@ -5,6 +5,7 @@
 
 bool							Game::load(void)
 {
+
 	if(!_spriteManager.addTexture(PLAYER1, std::string("./Images/r-typesheet42.png")))
 		return false;
 	if (!_spriteManager.addTexture(PLAYER2, std::string("./Images/r-typesheet42.png")))
@@ -15,14 +16,22 @@ bool							Game::load(void)
 		return false;
 	if (!_spriteManager.addTexture(SBYDOS1, std::string("./Images/r-typesheet5.png")))
 		return false;
-	_bgTexture.loadFromFile("./Images/r-typebackground1-2.png");
-	_bgImg.setTexture(_bgTexture);
+	if (!_bgTexture1.loadFromFile("./Images/r-typebackground1-2.png"))
+		return false;
+	_bgImg1.setTexture(_bgTexture1);
+	if (!_bgTexture2.loadFromFile("./Images/r-typebackground1-1.png"))
+		return false;
+	_bgImg2.setTexture(_bgTexture2);
+
 	return true;
 }
 
 
 void							Game::run(void)
 {
+	float						bg1 = 0;
+	float						bg2 = 1280;
+
 	_gameWindow->setFramerateLimit(25);
 
 	addObj(PLAYER1, 42, 100);
@@ -70,10 +79,21 @@ void							Game::run(void)
 		_gameWindow->clear();
 
 		update();
-		_gameWindow->draw(_bgImg);
+		if (bg1 == -1280)
+			bg1 = 1280;
+		if (bg2 == -1280)
+			bg2 = 1280;
+
+		_bgImg1.setPosition(bg1, 0);
+		_bgImg2.setPosition(bg2, 0);
+		_gameWindow->draw(_bgImg1);
+		_gameWindow->draw(_bgImg2);
 		draw();
 //		sf::sleep(sf::seconds(1));
+
 		_gameWindow->display();
+		bg1 -= 40;
+		bg2 -= 40;
 	}
 }
 
@@ -114,7 +134,6 @@ bool							Game::addObj(ObjType type, int id, int pos)
 Game::Game(sf::RenderWindow *gameWindow, sf::Event *event) : _factory(gameWindow, &_spriteManager)
 {
 	_gameWindow = gameWindow;
-	std::cout << _gameWindow << std::endl;
 	_event = event;
 	_idPlayer = 42;
 }

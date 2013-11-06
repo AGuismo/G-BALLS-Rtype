@@ -24,9 +24,11 @@ private:
 	Factory						_factory;
 	std::deque<AObject *>		_objects;
 	int							_idPlayer;
-
-	sf::Texture					_bgTexture;
-	sf::Sprite					_bgImg;
+private:
+	sf::Texture					_bgTexture1;
+	sf::Sprite					_bgImg1;
+	sf::Texture					_bgTexture2;
+	sf::Sprite					_bgImg2;
 
 public:
 	static const int			SIZE_GAME_BOARD = 16;
