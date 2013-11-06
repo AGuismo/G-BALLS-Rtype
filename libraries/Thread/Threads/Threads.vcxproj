@@ -171,6 +171,9 @@
     <ClCompile Include="sources\ThreadMutex.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\IThreadCond.hh" />
+    <ClInclude Include="include\IThreadMutex.hh" />
+    <ClInclude Include="include\IThreads.hh" />
     <ClInclude Include="include\LinuxThreadCond.hh" />
     <ClInclude Include="include\LinuxThreadMutex.hh" />
     <ClInclude Include="include\LinuxThreads.hpp" />

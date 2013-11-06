@@ -1,9 +1,11 @@
 #ifndef ITHREADMUTEX_H_
 # define ITHREADMUTEX_H_
 
+# include	"ThreadPlatform.hh"
+
 namespace	Thread
 {
-  class IMutex
+  class DECLPORT IMutex
   {
   public:
     virtual ~IMutex() {}

@@ -1,9 +1,11 @@
 #ifndef ITHREADCOND_H_
 # define ITHREADCOND_H_
 
+# include	"ThreadPlatform.hh"
+
 namespace	Thread
 {
-  class ICond
+  class DECLPORT ICond
   {
     typedef int	msTime;
   public:

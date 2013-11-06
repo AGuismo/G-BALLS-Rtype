@@ -58,12 +58,12 @@ void	network()
   Party::Start			startGame;
   net::streamManager		m;
 
-  client.monitor(true, false);
   m.setMonitor(client);
   bytes = Protocol::product(authConnect);
   client.init("127.0.0.1", "44201");
   client.writeIntoBuffer(bytes, bytes.size());
   client.send();
+  client.monitor(true, false);
   m.run();
   client.recv();
   req = getReq(client);
@@ -73,6 +73,7 @@ void	network()
   bytes = Protocol::product(startGame);
   client.writeIntoBuffer(bytes, bytes.size());
   client.send();
+  client.monitor(true, false);
   m.run();
   client.recv();
   req = getReq(client);

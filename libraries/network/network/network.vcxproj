@@ -15,6 +15,7 @@
     <ClInclude Include="include\AMonitorable.h" />
     <ClInclude Include="include\cBuffer.h" />
     <ClInclude Include="include\ClientAccepted.h" />
+    <ClInclude Include="include\IODevice.hh" />
     <ClInclude Include="include\NetException.h" />
     <ClInclude Include="include\state.h" />
     <ClInclude Include="include\streamManager.h" />

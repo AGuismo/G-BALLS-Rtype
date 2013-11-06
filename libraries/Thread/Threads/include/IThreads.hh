@@ -1,6 +1,8 @@
 #ifndef ITHREADS_H_
 # define ITHREADS_H_
 
+# include	"ThreadPlatform.hh"
+
 template <typename T>
 class IThreads
 {

@@ -21,7 +21,7 @@ void TcpClient::init(std::string adress, std::string port)
   int size;
 
   ZeroMemory(&hints, sizeof(hints));
-  hints.ai_family = AF_UNSPEC;
+  hints.ai_family = AF_INET;
   hints.ai_protocol = IPPROTO_TCP;
   hints.ai_socktype = SOCK_STREAM;
   hints.ai_flags = AI_PASSIVE;
@@ -30,7 +30,7 @@ void TcpClient::init(std::string adress, std::string port)
       throw net::Exception("getaddrinfo failed" + WSAGetLastError());
     }
   _sock = WSASocket(result->ai_family, result->ai_socktype,
-		    result->ai_protocol, NULL, 0, WSA_FLAG_OVERLAPPED);
+		    result->ai_protocol, NULL, 0, 0); // WSA_FLAG_OVERLAPPED
   size = result->ai_addrlen;
   if (WSAConnect(_sock, result->ai_addr, size, NULL, NULL, NULL, NULL) != 0)
     {

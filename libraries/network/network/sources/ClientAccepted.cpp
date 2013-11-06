@@ -24,7 +24,7 @@ ClientAccepted::~ClientAccepted()
   close();
 }
 
-int			UdpServer::readData(char *data, int maxSize)
+int			ClientAccepted::readData(char *data, int maxSize)
 {
   DWORD		readSize = 0, flags = 0;
   WSABUF	wbuff;
@@ -43,12 +43,12 @@ int			UdpServer::readData(char *data, int maxSize)
   return (readSize);
 }
 
-int			UdpServer::writeData(const char *data, int size)
+int			ClientAccepted::writeData(const char *data, int size)
 {
   WSABUF	wbuff;
   DWORD		writeSize;
 
-  wbuff.buf = data;
+  wbuff.buf = const_cast<char *>(data);
   wbuff.len = size;
   if (WSASendTo(_sock, &wbuff, 1, &writeSize, 0, reinterpret_cast<sockaddr *>(&_addr),
 		sizeof(_addr), 0, 0) == -1)
@@ -61,7 +61,6 @@ int			UdpServer::writeData(const char *data, int size)
       _state = DISCONNECTED;
       return (0);
     }
-  _write.read(tmp, writeSize);
   return (writeSize);
 }
 
