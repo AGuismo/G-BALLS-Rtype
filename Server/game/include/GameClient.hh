@@ -3,11 +3,16 @@
 
 # include	<queue>
 # include	"RequestQueue.hh"
+# include	"RequestCode.hh"
 
-class ARequest;
+class	ARequest;
+
+class	Game;
+class	Player;
 
 namespace	game
 {
+
   class Client
   {
   public:
@@ -23,17 +28,34 @@ namespace	game
     Client& operator=(Client const&);
 
   public:
-    bool	inUse(void) const {return (_used);};
-    void	inUse(bool used) {_used = used;};
+    bool			inUse(void) const {return (_used);};
+    void			inUse(bool used) {_used = used;};
 
   public:
-    ARequest		*requestPop();
-    void		requestPush(ARequest *req);
+    ARequest			*requestPop();
+    void			requestPush(ARequest *req);
+
+  public:
+    requestCode::SessionID	SessionID() const;
+    void			SessionID(const requestCode::SessionID);
+
+  public:
+    void			game(Game *game);
+    Game			*game(void) const;
+    void			player(Player *player);
+    Player			*player(void) const;
 
   private:
-    bool		_used;
-    RequestQueue	_input;
-    RequestQueue	_output;
+    Player			*_player;
+    Game			*_game;
+
+  private:
+    bool			_used;
+    RequestQueue		_input;
+    RequestQueue		_output;
+
+  private:
+    requestCode::SessionID	_id;
   };
 }
 

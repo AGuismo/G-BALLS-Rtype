@@ -21,11 +21,14 @@ SRCS =	      	GameManager.cpp		\
 		Time.cpp		\
 
 DIR.THREADS=	../deps/Threads
+DIR.NET=	../deps/network
 DIR.BIND=	../deps/Bind
 DIR.MENU=	../menu/
+DIR.PROT=	../protocol/
 
 F.C	     +=	-W -Wall -Werror
-F.I	     +=	-I $(DIR.H) -I$(DIR.THREADS)/include -I$(DIR.BIND)/include -I../include -I$(DIR.MENU)/include
+F.I	     +=	-I $(DIR.H) -I$(DIR.THREADS)/include -I$(DIR.BIND)/include -I../include
+F.I	     += -I$(DIR.NET)/include -I$(DIR.MENU)/include -I$(DIR.PROT)/include
 F.D	     +=
 
 all:		start $(NAME)

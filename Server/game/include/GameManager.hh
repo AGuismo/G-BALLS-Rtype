@@ -10,31 +10,37 @@
 # error "Unsupported operating system"
 #endif
 
-#include	<list>
-#include	<map>
-#include	"Threads.hpp"
-#include	"Clock.h"
-#include	"UdpServer.h"
-#include	"streamManager.h"
-#include	"Client.hh"
-#include	"ARequest.hh"
-#include	"Env.hh"
+# include	<list>
+# include	<map>
+# include	<vector>
+# include	"Threads.hpp"
+# include	"Clock.h"
+# include	"UdpServer.h"
+# include	"streamManager.h"
+# include	"Env.hh"
+# include	"RequestCode.hh"
+# include	"cBuffer.h"
+# include	"GameClient.hh"
 
 class	Game;
+class	Client;
+class	AGameRequest;
+using	net::cBuffer;
 
 namespace	game
 {
   class Manager
   {
-	  typedef void(*request_callback)(ARequest *, Client *, Manager *);
-	  typedef std::map<requestCode::CodeID, request_callback>	request_callback_map;
+    typedef void(*request_callback)(ARequest *, Client *, Manager *);
+    typedef std::map<requestCode::CodeID, request_callback>	request_callback_map;
+    typedef std::vector<game::Client *>				client_vect;
 
   public:
     Manager();
     ~Manager();
 
   public:
-	  void	initialize(unsigned short int port = rtype::Env::UDP_SERVER_PORT);
+    void	initialize(unsigned short int port = rtype::Env::UDP_SERVER_PORT);
     void	run();
 
   private:
@@ -42,7 +48,13 @@ namespace	game
 
   private:
     void		update();
-	Client		*readData();
+    void		readData();
+
+  private:
+    void		getGame();
+    client_vect::iterator	findSource(net::ClientAccepted *client,
+					   std::vector<cBuffer::Byte> &buf,
+					   AGameRequest *&request);
 
   private:
     Manager(Manager const&);
@@ -50,13 +62,27 @@ namespace	game
 
   private:
     Threads<void (*)(Manager *)>	_th;
-    Clock						_clock;
+    Clock				_clock;
     std::list<Game *>			_games;
-	
-	net::UdpServer				_server;
-	net::streamManager			_monitor;
-	std::vector<Client *>		_clients;
-	request_callback_map		_requestCallback;
+
+    net::UdpServer			_server;
+    net::streamManager			_monitor;
+    client_vect				_gameClients;
+    request_callback_map		_requestCallback;
+
+  private:
+    class predicate : public std::unary_function<game::Client *, bool>
+    {
+    public:
+      predicate(const requestCode::SessionID id): _id(id) {};
+      ~predicate() {};
+
+    public:
+      bool		operator()(const game::Client *rhs) {return (_id == rhs->SessionID());}
+
+    private:
+      const requestCode::SessionID	_id;
+    };
 
   };
 }

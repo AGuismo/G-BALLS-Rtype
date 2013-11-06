@@ -8,7 +8,9 @@ NAME	     ?=	libprotocol.a
 
 
 SRCS =	      	ARequest.cpp		\
+		AGameRequest.cpp	\
 		AuthRequest.cpp		\
+		SessionRequest.cpp	\
 		ServerRequest.cpp	\
 		PartyRequest.cpp	\
 		Protocol.cpp		\

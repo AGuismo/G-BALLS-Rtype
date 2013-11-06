@@ -5,6 +5,7 @@
 # include	<errno.h>
 # include	<cstring>
 #endif
+#include	<iostream>
 
 using namespace net;
 
@@ -28,10 +29,10 @@ void streamManager::setOption(Opt option, const struct timeval &timeout)
   switch (option)
     {
     case NONBLOCK:
-      _optNonBlocking = false;
+      _optNonBlocking = true;
       break;
     case TIMEOUT:
-      _optNonBlocking = true;
+      _optNonBlocking = false;
       _optTimeout = true;
       _timeout = timeout;
       break;
@@ -44,10 +45,9 @@ void streamManager::unsetOption(Opt option)
   switch (option)
     {
     case NONBLOCK:
-      _optNonBlocking = true;
+      _optNonBlocking = false;
       break;
     case TIMEOUT:
-      _optNonBlocking = false;
       _optTimeout = false;
       break;
     default: break;
@@ -103,7 +103,7 @@ void streamManager::run()
 
   FD_ZERO(&_readMonitor);
   FD_ZERO(&_writeMonitor);
-  for (it = _monitors.begin(); it != _monitors.end(); it++)
+  for (it = _monitors.begin(); it != _monitors.end(); ++it)
     {
       if ((*it)->getSocket() > _maxFd)
 	_maxFd = (*it)->getSocket();
@@ -128,7 +128,7 @@ void streamManager::run()
 #endif
 	}
     }
-  for (it = _monitors.begin(); it != _monitors.end(); it++)
+  for (it = _monitors.begin(); it != _monitors.end(); ++it)
     {
       if (FD_ISSET((*it)->getSocket(), &_readMonitor))
 	(*it)->read(true);

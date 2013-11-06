@@ -3,7 +3,9 @@
 #include	"Protocol.hpp"
 #include	"ARequest.hh"
 #include	"AuthRequest.hh"
+#include	"SessionRequest.hh"
 #include	"ServerRequest.hh"
+#include	"PartyRequest.hh"
 
 namespace	request
 {
@@ -12,6 +14,10 @@ namespace	request
   {
     _lnk[requestCode::auth::CONNECT] = new Auth::Connect;
     _lnk[requestCode::auth::CHANGE_PASSWD] = new Auth::ChangePass;
+    _lnk[requestCode::auth::SESSION] = new SessionRequest;
+
+    _lnk[requestCode::party::CLI_START] = new Party::Start;
+    _lnk[requestCode::party::SERV_START] = new Party::Launch;
 
     _lnk[requestCode::server::OK] = new ServerRequest;
     _lnk[requestCode::server::BAD_REQ] = new ServerRequest;

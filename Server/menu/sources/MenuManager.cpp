@@ -5,7 +5,11 @@
 #include	"Client.hh"
 #include	"NetException.h"
 #include	"AuthRequest.hh"
+#include	"SessionRequest.hh"
+#include	"PartyRequest.hh"
 #include	"ServerRequest.hh"
+#include	"Player.h"
+#include	"Game.h"
 
 namespace	menu
 {
@@ -73,22 +77,6 @@ namespace	menu
 
     for (it = _clients.begin(); it != _clients.end();)
       {
-<<<<<<< HEAD
-		(*it)->update();
-		if ((*it)->isTCPDisconnected())
-		  {
-			Client	*client = *it;
-	#if defined(DEBUG)
-			std::cerr << "Client disconnected(" << *it << ")" << std::endl;
-	#endif
-			_monitor.unsetMonitor(*client->TcpLayer());
-			it = _clients.erase(it);
-			delete client;
-			continue ;
-		  }
-		clientRequest(*it);
-		++it;
-=======
 	(*it)->update();
 	if ((*it)->menu().isTCPDisconnected())
 	  {
@@ -104,7 +92,6 @@ namespace	menu
 	clientRequest(*it);
 	(*it)->finalize();
 	++it;
->>>>>>> 3fd9e96e5ef348cc08a6779737bfcd768b5a9ca2
       }
   }
 
@@ -112,10 +99,15 @@ namespace	menu
   {
     while (true)
       {
-		thisPtr->_monitor.run();
-		thisPtr->checkNewClient();
-		thisPtr->updateClients();
+	thisPtr->_monitor.run();
+	thisPtr->checkNewClient();
+	thisPtr->updateClients();
       }
+  }
+
+  void		Manager::sendGame(Game *game)
+  {
+    (void)game;
   }
 
   ///////////////////////
@@ -139,7 +131,7 @@ namespace	menu
 	client->menu().password(request->password());
 	client->menu().authenticated(true);
 	client->requestPush(new ServerRequest(requestCode::server::OK));
-	// client->requestPush(new SessionRequest(Session::Unique()));
+	client->requestPush(new SessionRequest(SessionRequest::Unique()));
       }
     else
       {
@@ -155,7 +147,17 @@ namespace	menu
   {
     (void)client;
     (void)manager;
-    delete req;
+    game::Player		*player = new game::Player(42);
+    std::list<game::Player *>	players;
 
+    players.push_back(player);
+    // Game		*new_game = new Game(players);
+
+    // client->game().game(new_game);
+    // client->game().player(player);
+    // client->requestPush(new ServerRequest(requestCode::server::OK));
+    // client->requestPush(new Party::Launch(Party::Launch::Unique()));
+    // manager->sendGame(new_game);
+    delete req;
   }
 }

@@ -10,6 +10,7 @@ using namespace net;
 TcpServer::TcpServer()
 {
   WinInit::GetInstance();
+  monitor(true, false);
 }
 
 TcpServer::~TcpServer()
@@ -58,6 +59,7 @@ ClientAccepted	*TcpServer::accept()
 
 TcpServer::TcpServer()
 {
+  monitor(true, false);
 }
 
 TcpServer::~TcpServer()
@@ -69,7 +71,6 @@ SOCKET TcpServer::getSocket() const
 {
   return _sock;
 }
-
 
 void			TcpServer::initialize(unsigned short int port, int maxPendingConnections)
 {

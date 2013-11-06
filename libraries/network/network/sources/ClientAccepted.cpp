@@ -86,6 +86,8 @@ int				ClientAccepted::send()
       return (0);
     }
   _write.read(tmp, count);
+  if (_write.empty())
+    monitor(true, false);
   return (count);
 }
 

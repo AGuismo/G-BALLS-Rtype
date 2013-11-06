@@ -38,7 +38,7 @@ namespace	game
 
     static const long CLOCK_PREC = 1000000;
 
-	friend TimeConverter;
+    friend class TimeConverter;
   };
 }
 #endif /* CLOCK_H_ */

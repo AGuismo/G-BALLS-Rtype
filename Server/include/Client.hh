@@ -2,13 +2,6 @@
 # define CLIENT_H_
 
 # include	<queue>
-<<<<<<< HEAD
-<<<<<<< HEAD
-# include	"ARequest.hh"
-=======
->>>>>>> 3fd9e96e5ef348cc08a6779737bfcd768b5a9ca2
-=======
->>>>>>> 3fd9e96e5ef348cc08a6779737bfcd768b5a9ca2
 # include	"MenuClient.hh"
 # include	"GameClient.hh"
 # include	"RequestQueue.hh"

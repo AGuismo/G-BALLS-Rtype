@@ -16,6 +16,7 @@ namespace rtype
     network.TCPServerPort = TCP_SERVER_PORT;
     network.UDPServerPort = UDP_SERVER_PORT;
     network.maxPendingClients = MAX_PENDING_CLIENTS;
+    network.maxUDPpacketLength = MAX_UDP_PACKET_LENGTH;
   }
 
   void	Env::initGames()

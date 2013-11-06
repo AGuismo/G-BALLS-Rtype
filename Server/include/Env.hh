@@ -13,10 +13,12 @@ namespace rtype
       unsigned short int		TCPServerPort;
       unsigned short int		UDPServerPort;
       unsigned int			maxPendingClients;
+      unsigned int			maxUDPpacketLength;
     }					network;
     static const unsigned short int	TCP_SERVER_PORT     =	44201;
     static const unsigned short int	UDP_SERVER_PORT     =	44202;
     static const unsigned int		MAX_PENDING_CLIENTS =	10;
+    static const unsigned int		MAX_UDP_PACKET_LENGTH =	4096;
 
   public:
     struct
@@ -27,7 +29,7 @@ namespace rtype
     }					game;
     static const unsigned short int	MAX_SIMULTANEOUS_GAMES =	20;
     static const unsigned short int	BOSS_DELAY	       =	90;
-	static const unsigned long long	gameDelay = 500000;
+    static const unsigned long long	gameDelay	       =	500000;
   public:
     static Env	&getInstance();
 

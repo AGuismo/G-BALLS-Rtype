@@ -7,6 +7,7 @@ using namespace net;
 UdpServer::UdpServer(void)
 {
   WinInit::GetInstance();
+  monitor(true, false);
 }
 
 
@@ -104,6 +105,7 @@ void UdpServer::close()
 
 UdpServer::UdpServer(void)
 {
+  monitor(true, false);
 }
 
 
