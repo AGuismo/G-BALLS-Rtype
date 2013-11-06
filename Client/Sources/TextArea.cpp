@@ -5,11 +5,13 @@
 // Login   <brigno@epitech.net>
 //
 // Started on  Mon Oct 28 14:40:49 2013 brigno
-// Last update Tue Nov  5 02:19:25 2013 brigno
+// Last update Wed Nov  6 01:40:07 2013 brigno
 //
 
 #include	"TextArea.hh"
 #include	"Text.hh"
+#include	"TextureManager.hh"
+#include	"Texture.hh"
 
 TextArea::TextArea(const sf::Event &ev, const std::string &name, Text &depsText, const sf::Vector2i &posTopLeft, const sf::Vector2i &focusTopLeft,
 	   const sf::Vector2i &focusBotRight) :
@@ -19,12 +21,8 @@ TextArea::TextArea(const sf::Event &ev, const std::string &name, Text &depsText,
 
   posZone.x = posTopLeft.x;
   posZone.y = posTopLeft.y;
-  if (!_texture.loadFromFile("Images/textArea.png"))
-    std::cout << "Error could not load image" << std::endl;
-  if (!_textureFocus.loadFromFile("Images/textAreaFocus.png"))
-    std::cout << "Error could not load image" << std::endl;
   this->_name = name;
-  this->_image.setTexture(_texture);
+  this->_image.setTexture(TextureManager::getInstance().getTexture("TextArea")->getTexture());
   this->_depsText = &depsText;
   this->_image.setPosition(posZone.x, posZone.y);
 }
@@ -36,11 +34,6 @@ TextArea::~TextArea()
 Text			*TextArea::getDepsText()
 {
   return (this->_depsText);
-}
-
-const sf::Texture	&TextArea::getTexture() const
-{
-  return (this->_texture);
 }
 
 const sf::Sprite	&TextArea::getSprite() const
@@ -56,7 +49,8 @@ const sf::Vector2i	&TextArea::getPos() const
 MenuWindow::Status		TextArea::onFocus()
 {
   this->_depsText->onFocus();
-  this->_image.setTexture(_textureFocus);
+  this->_image.setTexture(TextureManager::getInstance().getTexture("TextAreaFocus")->getTexture());
+
   return (MenuWindow::CONTINUE);
 }
 
@@ -65,7 +59,7 @@ void			TextArea::stopFocus()
   if (this->_event.type != sf::Event::MouseButtonReleased)
     {
       this->_depsText->stopFocus();
-      this->_image.setTexture(_texture);
+      this->_image.setTexture(TextureManager::getInstance().getTexture("TextArea")->getTexture());
     }
 }
 

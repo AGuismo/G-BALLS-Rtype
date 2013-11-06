@@ -5,7 +5,7 @@
 // Login   <brigno@epitech.net>
 //
 // Started on  Wed Oct 23 19:56:30 2013 brigno
-// Last update Sat Oct 26 18:25:16 2013 brigno
+// Last update Wed Nov  6 00:54:05 2013 brigno
 //
 
 #ifndef		__IMAGE_HH__
@@ -17,17 +17,15 @@
 class	Image
 {
 private:
-  sf::Texture		_texture;
   sf::Sprite		_image;
   sf::Vector2i		_pos;
 
 public:
-  const sf::Texture		&getTexture(void) const;
   const sf::Sprite		&getImage(void) const;
   const sf::Vector2i		&getPos(void) const;
 
 public:
-  Image(const std::string &path, const sf::Vector2i &pos);
+  Image(const std::string &name, const sf::Vector2i &pos);
   ~Image();
 
 private:

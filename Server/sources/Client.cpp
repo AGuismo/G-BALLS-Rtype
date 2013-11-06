@@ -2,139 +2,42 @@
 #include	"ClientAccepted.h"
 #include	"ARequest.hh"
 #include	"Client.hh"
-#include	"cBuffer.h"
-#include	"Protocol.hpp"
-
-Client::Client():
-  _TcpLayer(0)
-{
-
-}
 
 Client::Client(net::ClientAccepted *clientTcp):
-  _TcpLayer(clientTcp)
+  _menu(_input, _output, clientTcp), _game(_input, _output)
 {
-
+  _menu.inUse(true);
+  _game.inUse(false);
 }
 
 Client::~Client()
 {
-  delete _TcpLayer;
 }
 
-void	Client::TcpLayer(net::ClientAccepted *link)
+void			Client::update()
 {
-  _TcpLayer = link;
+  if (_menu.inUse())
+    _menu.update();
+  else if (_game.inUse())
+    _game.update();
 }
 
-net::ClientAccepted	*Client::TcpLayer() const
+menu::Client		&Client::menu()
 {
-  return (_TcpLayer);
+  return (_menu);
 }
 
-void	Client::recvSock()
+game::Client		&Client::game()
 {
-#if defined(DEBUG)
-  std::cerr << "The client have data to read" << std::endl;
-#endif
-  if (_TcpLayer->recv() <= 0)
-    return ;
-#if defined(DEBUG)
-  std::vector<net::cBuffer::Byte> buf;
-
-  std::cout << _TcpLayer->lookRead(buf, 512) << std::endl;
-  for (std::vector<net::cBuffer::Byte>::iterator it = buf.begin(); it != buf.end(); ++it)
-    std::cerr << *it;
-  std::cerr << std::endl;
-#endif
+  return (_game);
 }
 
-bool					Client::request()
+ARequest		*Client::requestPop()
 {
-  std::vector<net::cBuffer::Byte>	buf;
-  ARequest				*req;
-  int					extracted;
-
-  if (_TcpLayer->lookRead(buf, 512) == 0)
-    return (false);
-  try
-    {
-      req = Protocol::consume(buf, extracted);
-    }
-  catch (Protocol::ConstructRequest &e)
-    {
-      std::cerr << "Failed to create request: " << e.what() << std::endl;
-      return (false);
-    }
-  _TcpLayer->readFromBuffer(buf, extracted);
-  _queue.push(req);
-  return (true);
+  return (_output.requestPop());
 }
 
-void	Client::update()
+void			Client::requestPush(ARequest *req)
 {
-#if defined(DEBUG)
-  if (_TcpLayer == 0)
-    throw "No TCP socket";
-//  std::cout << __PRETTY_FUNCTION__ << std::endl;
-#endif
-  if (_TcpLayer->read())
-    recvSock();
-  while (request());
-}
-
-bool		Client::isTCP() const
-{
-  return (_TcpLayer != 0);
-}
-
-bool		Client::isTCPDisconnected() const
-{
-  return (_TcpLayer != 0 && _TcpLayer->isDisconnected());
-}
-
-void		Client::closeTCP()
-{
-  delete _TcpLayer;
-  _TcpLayer = 0;
-}
-
-void					Client::username(const std::string &username)
-{
-  _username = username;
-}
-
-const std::string			&Client::username(void) const
-{
-  return (_username);
-}
-
-void					Client::password(const requestCode::PasswordType &password)
-{
-  _password = password;
-}
-
-const requestCode::PasswordType		&Client::password(void) const
-{
-  return (_password);
-}
-
-void					Client::sessionID(const requestCode::SessionID &sessionID)
-{
-  _sessionID = sessionID;
-}
-
-const requestCode::SessionID		&Client::sessionID(void) const
-{
-  return (_sessionID);
-}
-
-ARequest				*Client::requestPop()
-{
-  if (_queue.size() == 0)
-    return (0);
-
-  ARequest	*req = _queue.front();
-  _queue.pop();
-  return (req);
+  _input.requestPush(req);
 }

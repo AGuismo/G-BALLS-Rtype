@@ -3,6 +3,7 @@ NAME	     ?=	server_r-type
 SRCS =	      	main.cpp		\
 		Application.cpp		\
 		Client.cpp		\
+		RequestQueue.cpp	\
 					\
 		Env.cpp			\
 		sys.cpp			\

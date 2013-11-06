@@ -5,38 +5,29 @@
 // Login   <brigno@epitech.net>
 //
 // Started on  Thu Oct 31 16:22:29 2013 brigno
-// Last update Tue Nov  5 02:19:55 2013 brigno
+// Last update Wed Nov  6 01:41:00 2013 brigno
 //
 
 #include	"Button.hh"
 #include	"Interface.hh"
+#include	"TextureManager.hh"
+#include	"Texture.hh"
 
-Button::Button(const sf::Event &ev, const std::string &name, const std::string &path, const std::string &pathHover, const std::string &pathFocus,
-	       const sf::Vector2i &posTopLeft, const sf::Vector2i &focusTopLeft, const sf::Vector2i &focusBotRight, MenuWindow::Status actionLink) :
+Button::Button(const sf::Event &ev, const std::string &name, const sf::Vector2i &posTopLeft, const sf::Vector2i &focusTopLeft, const sf::Vector2i &focusBotRight, MenuWindow::Status actionLink) :
   AWidget(ev, name, posTopLeft, focusTopLeft, focusBotRight, AWidget::BUTTON)
 {
   sf::Vector2f posZone;
 
   posZone.x = posTopLeft.x;
   posZone.y = posTopLeft.y;
-  if (!_texture.loadFromFile(path))
-    std::cout << "Error could not load image" << std::endl;
-  if (!_textureHover.loadFromFile(pathHover))
-    std::cout << "Error could not load image" << std::endl;
-  if (!_textureFocus.loadFromFile(pathFocus))
-    std::cout << "Error could not load image" << std::endl;
-  this->_image.setTexture(_texture);
+  this->_name = name;
+  this->_image.setTexture(TextureManager::getInstance().getTexture(name)->getTexture());
   this->_image.setPosition(posZone.x, posZone.y);
   this->_actionLink = actionLink;
 }
 
 Button::~Button()
 {
-}
-
-const sf::Texture	&Button::getTexture() const
-{
-  return (this->_texture);
 }
 
 const sf::Sprite	&Button::getSprite() const
@@ -51,27 +42,26 @@ const sf::Vector2i	&Button::getPos() const
 
 MenuWindow::Status		Button::onFocus()
 {
-  this->_image.setTexture(_textureFocus);
+  this->_image.setTexture(TextureManager::getInstance().getTexture(this->_name + "Focus")->getTexture());
   return (this->_actionLink);
 }
 
 void			Button::stopFocus()
 {
-  this->_image.setTexture(_texture);
+  this->_image.setTexture(TextureManager::getInstance().getTexture(this->_name)->getTexture());
 }
 
 void			Button::onHover()
 {
-  this->_image.setTexture(_textureHover);
+  this->_image.setTexture(TextureManager::getInstance().getTexture(this->_name + "Hover")->getTexture());
 }
 
 void			Button::stopHover()
 {
-  this->_image.setTexture(_texture);
+  this->_image.setTexture(TextureManager::getInstance().getTexture(this->_name)->getTexture());
 }
 
 void			Button::draw(sf::RenderWindow &myWin)
 {
   myWin.draw(this->_image);
 }
-

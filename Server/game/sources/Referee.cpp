@@ -30,8 +30,8 @@ bool	Referee::isOnScreen(const Entity *a)
 {
   return (!((a->_pos < 0 || a->_pos > 255) ||
 	    (a->posX() + 1 != a->prevX() &&
-	     a->posX() - 1 != a->prevX()) &&
-		 a->posX() != a->prevX()));
+	     a->posX() - 1 != a->prevX() &&
+	     a->posX() != a->prevX())));
 }
 
 bool	Referee::sameCase(const Entity *a, const Entity *b)

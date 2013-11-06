@@ -5,7 +5,7 @@
 // Login   <brigno@epitech.net>
 //
 // Started on  Thu Oct 24 14:31:48 2013 brigno
-// Last update Tue Nov  5 02:17:10 2013 brigno
+// Last update Tue Nov  5 16:56:03 2013 brigno
 //
 
 #ifndef		__AWIDGET_HH__
