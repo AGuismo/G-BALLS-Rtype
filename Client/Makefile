@@ -5,7 +5,7 @@
 ## Login   <brigno@epitech.net>
 ##
 ## Started on  Wed Oct 23 18:43:59 2013 brigno
-## Last update Tue Nov  5 03:41:17 2013 brigno
+## Last update Wed Nov  6 01:43:52 2013 brigno
 ##
 
 NAME	=	Client
@@ -23,6 +23,9 @@ SRC =		main.cpp			\
 		$(SOURCES)Button.cpp		\
 		$(SOURCES)Interface.cpp		\
 		$(SOURCES)Network.cpp		\
+		$(SOURCES)AScreen.cpp		\
+		$(SOURCES)Texture.cpp		\
+		$(SOURCES)TextureManager.cpp	\
 
 OBJ =		$(SRC:.cpp=.o)
 CC =		g++
@@ -31,7 +34,7 @@ CXXFLAGS +=	$(INCLUDE)
 CXXFLAGS +=	-W -Wall -Wextra -ansi -pedantic
 CFLAGS +=	$(INCLUDE)
 CFLAGS +=	-W -Wall -Wextra -ansi -pedantic
-LFLAGS =	-lsfml-graphics -lsfml-window -lsfml-system -lsfml-network
+LFLAGS =	-L../Server/protocol/ -lprotocol -lsfml-graphics -lsfml-window -lsfml-system -lsfml-network
 RM =		rm -f
 ECHO =		echo -e
 

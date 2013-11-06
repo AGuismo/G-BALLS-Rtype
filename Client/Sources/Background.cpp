@@ -5,30 +5,19 @@
 // Login   <brigno@epitech.net>
 //
 // Started on  Wed Oct 23 11:30:21 2013 brigno
-// Last update Thu Oct 31 14:21:24 2013 brigno
+// Last update Wed Nov  6 02:14:39 2013 brigno
 //
 
 #include	"Background.hh"
-
-Background::Background(const std::string &path, const std::string &path2)
+#include	"TextureManager.hh"
+#include	"Texture.hh"
+#include	<iostream>
+Background::Background()
 {
-  if (!_firstTexture.loadFromFile(path))
-    std::cout << "Error could not load background image" << std::endl;
-  if (!_secondTexture.loadFromFile(path2))
-    std::cout << "Error could not load background image" << std::endl;
-  _firstBackground.setTexture(_firstTexture);
-  _secondBackground.setTexture(_secondTexture);
+  _firstBackground.setTexture(TextureManager::getInstance().getTexture("Background1")->getTexture());
+  _secondBackground.setTexture(TextureManager::getInstance().getTexture("Background2")->getTexture());
 }
 
-Background::Background(const Background &other)
-{
-  this->_firstTexture = other.getFirstTexture();
-  this->_secondTexture = other.getSecondTexture();
-  this->_firstBackground = other.getFirstBackground();
-  this->_secondBackground = other.getSecondBackground();
-  this->_firstPos = other.getFirstPos();
-  this->_secondPos = other.getSecondPos();
-}
 
 Background::~Background()
 {
@@ -50,14 +39,14 @@ void		Background::scroll()
   _firstBackground.setPosition(_firstPos.x, 0);
 }
 
-const sf::Texture	&Background::getFirstTexture() const
+const sf::Vector2f	&Background::getFirstPos() const
 {
-  return (this->_firstTexture);
+  return (this->_firstPos);
 }
 
-const sf::Texture	&Background::getSecondTexture() const
+const sf::Vector2f	&Background::getSecondPos() const
 {
-  return (this->_secondTexture);
+  return (this->_secondPos);
 }
 
 const sf::Sprite	&Background::getFirstBackground() const
@@ -68,16 +57,6 @@ const sf::Sprite	&Background::getFirstBackground() const
 const sf::Sprite	&Background::getSecondBackground() const
 {
   return (this->_secondBackground);
-}
-
-const sf::Vector2f	&Background::getFirstPos() const
-{
-  return (this->_firstPos);
-}
-
-const sf::Vector2f	&Background::getSecondPos() const
-{
-  return (this->_secondPos);
 }
 
 void		Background::setFirstPos(float x, float y)

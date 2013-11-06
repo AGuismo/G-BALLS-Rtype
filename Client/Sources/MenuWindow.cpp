@@ -5,7 +5,7 @@
 // Login   <brigno@epitech.net>
 //
 // Started on  Wed Oct 23 11:37:38 2013 brigno
-// Last update Tue Nov  5 03:21:38 2013 brigno
+// Last update Wed Nov  6 02:20:38 2013 brigno
 //
 
 #include	"MenuWindow.hh"
@@ -16,27 +16,47 @@
 #include	"TextArea.hh"
 #include	"Button.hh"
 #include	"Interface.hh"
+#include	"TextureManager.hh"
 #include	"Network.hh"
 
 MenuWindow::MenuWindow(const std::string &name, int width, int height, Network *network):
-  _status(CONTINUE), _objectFocus(0), _objectHover(0), _network(network)
+  AScreen(name, width, height, network), _status(CONTINUE), _objectFocus(0), _objectHover(0)
 {
+  try
+    {
+      TextureManager::getInstance().addTexture("Background1", "Images/background1.png");
+      TextureManager::getInstance().addTexture("Background2", "Images/background2.png");
+      TextureManager::getInstance().addTexture("Formu", "Images/form.png");
+      TextureManager::getInstance().addTexture("Title", "Images/title.png");
+      TextureManager::getInstance().addTexture("TextArea", "Images/textArea.png");
+      TextureManager::getInstance().addTexture("TextAreaFocus", "Images/textAreaFocus.png");
+      TextureManager::getInstance().addTexture("Exit", "Images/Exit.png");
+      TextureManager::getInstance().addTexture("Enter", "Images/Enter.png");
+      TextureManager::getInstance().addTexture("ExitHover", "Images/ExitHover.png");
+      TextureManager::getInstance().addTexture("EnterHover", "Images/EnterHover.png");
+      TextureManager::getInstance().addTexture("ExitFocus", "Images/ExitFocus.png");
+      TextureManager::getInstance().addTexture("EnterFocus", "Images/EnterFocus.png");
+    }
+  catch (TextureManager::Exception &e)
+    {
+      std::cerr << e.what() << std::endl;
+      throw AScreen::Exception("MenuWindow can't load all textures");
+    }
+
   Text *tmp = new Text("Font/NEUROPOL.ttf", "LoginText", this->_event, sf::Vector2i(518, 370), sf::Vector2i(510, 375), sf::Vector2i(750, 405), 12, true);
   Text *tmp2 = new Text("Font/NEUROPOL.ttf", "PasswordText", this->_event, sf::Vector2i(518, 470), sf::Vector2i(510, 475), sf::Vector2i(755, 505), 12, false);
-
-  this->_window.create(sf::VideoMode(width, height), name, sf::Style::Titlebar | sf::Style::Close);
   this->_window.setVerticalSyncEnabled(true);
   this->_window.setFramerateLimit(25);
   this->_window.setKeyRepeatEnabled(false);
-  this->_backgroundPtr = new Background("Images/background1.png", "Images/background2.png");
-  this->_listImage.push_back(new Image("Images/title.png", sf::Vector2i(380, 50)));
-  this->_listImage.push_back(new Image("Images/form.png", sf::Vector2i(390, 180)));
+  this->_backgroundPtr = new Background();
+  this->_listImage.push_back(new Image("Title", sf::Vector2i(380, 50)));
+  this->_listImage.push_back(new Image("Formu", sf::Vector2i(390, 180)));
   this->_listWidget.push_back(new TextArea(this->_event, "LoginArea", *tmp, sf::Vector2i(470, 340), sf::Vector2i(510, 375), sf::Vector2i(750, 405)));
   this->_listWidget.push_back(new TextArea(this->_event, "PasswordArea", *tmp2, sf::Vector2i(470, 440), sf::Vector2i(510, 475), sf::Vector2i(755, 505)));
   this->_listWidget.push_back(tmp);
   this->_listWidget.push_back(tmp2);
-  this->_listWidget.push_back(new Button(this->_event, "EnterButton", "Images/Enter.png", "Images/EnterHover.png", "Images/EnterFocus.png", sf::Vector2i(490, 550), sf::Vector2i(500, 560), sf::Vector2i(630, 595), CHANGE_SCR));
-  this->_listWidget.push_back(new Button(this->_event, "ExitButton", "Images/Exit.png", "Images/ExitHover.png", "Images/ExitFocus.png", sf::Vector2i(650, 550), sf::Vector2i(655, 560), sf::Vector2i(785, 595), EXIT));
+  this->_listWidget.push_back(new Button(this->_event, "Enter", sf::Vector2i(490, 550), sf::Vector2i(500, 560), sf::Vector2i(630, 595), CHANGE_SCR));
+  this->_listWidget.push_back(new Button(this->_event, "Exit", sf::Vector2i(650, 550), sf::Vector2i(655, 560), sf::Vector2i(785, 595), EXIT));
 }
 
 MenuWindow::~MenuWindow()
@@ -132,7 +152,7 @@ void	MenuWindow::catchEvent()
     }
 }
 
-void	MenuWindow::run()
+int	MenuWindow::run()
 {
   while (this->_window.isOpen())
     {
@@ -140,6 +160,7 @@ void	MenuWindow::run()
       this->setDraw();
       this->draw();
     }
+  return (-1);
 }
 
 Background		*MenuWindow::getBackgroundPtr()
