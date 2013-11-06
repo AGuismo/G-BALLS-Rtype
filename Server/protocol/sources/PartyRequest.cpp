@@ -29,13 +29,13 @@ namespace	Party
     return (*this);
   }
 
-  Protocol			&Start::Megan_serialize(Protocol &rhs) const
+  Protocol			&Start::serialize(Protocol &rhs) const
   {
     rhs << _code;
     return (rhs);
   }
 
-  Protocol			&Start::Fox_unserialize(Protocol &rhs)
+  Protocol			&Start::unserialize(Protocol &rhs)
   {
     return (rhs);
   }
@@ -90,13 +90,13 @@ namespace	Party
     _id = id;
   }
 
-  Protocol			&Launch::Megan_serialize(Protocol &rhs) const
+  Protocol			&Launch::serialize(Protocol &rhs) const
   {
     rhs << _code;
     return (rhs);
   }
 
-  Protocol			&Launch::Fox_unserialize(Protocol &rhs)
+  Protocol			&Launch::unserialize(Protocol &rhs)
   {
     return (rhs);
   }

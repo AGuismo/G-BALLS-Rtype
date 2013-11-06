@@ -64,13 +64,13 @@ const char	*ServerRequest::getMsg(const requestCode::CodeID id)
   return (messages[id]);
 }
 
-Protocol			&ServerRequest::Megan_serialize(Protocol &rhs) const
+Protocol	&ServerRequest::serialize(Protocol &rhs) const
 {
   rhs << _code;
   return (rhs);
 }
 
-Protocol	&ServerRequest::Fox_unserialize(Protocol &rhs)
+Protocol	&ServerRequest::unserialize(Protocol &rhs)
 {
   return (rhs);
 }

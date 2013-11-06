@@ -15,8 +15,8 @@ public:
   SessionRequest& operator=(SessionRequest const&);
 
 public:
-  virtual Protocol	&Megan_serialize(Protocol &) const;
-  virtual Protocol	&Fox_unserialize(Protocol &);
+  virtual Protocol	&serialize(Protocol &) const;
+  virtual Protocol	&unserialize(Protocol &);
   ARequest		*clone();
 
 public:

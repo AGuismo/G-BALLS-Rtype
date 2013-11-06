@@ -44,13 +44,13 @@ void			SessionRequest::SessionID(requestCode::SessionID id)
   _sessionID = id;
 }
 
-Protocol		&SessionRequest::Megan_serialize(Protocol &rhs) const
+Protocol		&SessionRequest::serialize(Protocol &rhs) const
 {
   rhs << _code << _sessionID;
   return (rhs);
 }
 
-Protocol		&SessionRequest::Fox_unserialize(Protocol &rhs)
+Protocol		&SessionRequest::unserialize(Protocol &rhs)
 {
   rhs >> _sessionID;
   return (rhs);

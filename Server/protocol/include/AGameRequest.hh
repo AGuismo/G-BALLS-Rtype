@@ -19,8 +19,8 @@ public:
 
 public:
   virtual ARequest	*clone() = 0;
-  virtual Protocol	&Megan_serialize(Protocol &) const = 0;
-  virtual Protocol	&Fox_unserialize(Protocol &) = 0;
+  virtual Protocol	&serialize(Protocol &) const = 0;
+  virtual Protocol	&unserialize(Protocol &) = 0;
 
 protected:
   requestCode::SessionID	_sessionID;

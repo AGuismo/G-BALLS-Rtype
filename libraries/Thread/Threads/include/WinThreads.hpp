@@ -5,7 +5,7 @@
 // Login   <lamber_k@epitech.net>
 //
 // Started on  Mon Apr 15 12:27:48 2013 lambert kevin
-// Last update Wed Oct 30 12:21:20 2013 lambert kevin
+// Last update Wed Nov  6 18:53:55 2013 lambert kevin
 //
 
 #ifndef		WINTHREAD_HPP_
@@ -15,9 +15,10 @@
 # include	<tchar.h>
 # include	<strsafe.h>
 # include	"Bind.hpp"
+# include	"IThreads.hh"
 
 template <typename T>
-class		Threads
+class		Threads : public IThreads<T>
 {
   Function<T>		_func;
   HANDLE		_th;

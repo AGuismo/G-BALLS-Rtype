@@ -5,7 +5,7 @@
 // Login   <lamber_k@epitech.net>
 //
 // Started on  Mon Apr 15 13:13:42 2013 lambert kevin
-// Last update Fri Nov  1 22:25:15 2013 lambert kevin
+// Last update Wed Nov  6 18:55:37 2013 lambert kevin
 //
 
 #ifndef		THREADCOND_HH_
@@ -14,13 +14,14 @@
 # include	<pthread.h>
 # include	<cstddef>
 # include	"ThreadMutex.hh"
+# include	"IThreadCond.hh"
 
 namespace	Thread
 {
-  class		Cond
+  class		Cond : public ICond
   {
   public:
-    typedef size_t	msTime;
+    typedef int	msTime;
 
   private:
     pthread_cond_t	_c;

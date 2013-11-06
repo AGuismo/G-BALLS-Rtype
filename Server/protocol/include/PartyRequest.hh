@@ -19,8 +19,8 @@ namespace	Party
     Start	&operator=(const Start &);
 
   public:
-    Protocol			&Megan_serialize(Protocol &) const;
-    Protocol			&Fox_unserialize(Protocol &);
+    Protocol			&serialize(Protocol &) const;
+    Protocol			&unserialize(Protocol &);
     ARequest			*clone();
   };
 
@@ -40,8 +40,8 @@ namespace	Party
     Launch	&operator=(const Launch &);
 
   public:
-    Protocol	&Megan_serialize(Protocol &) const;
-    Protocol	&Fox_unserialize(Protocol &);
+    Protocol	&serialize(Protocol &) const;
+    Protocol	&unserialize(Protocol &);
     ARequest	*clone();
 
   public:

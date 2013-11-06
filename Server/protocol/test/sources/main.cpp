@@ -13,7 +13,7 @@
 #include	"ARequest.hh"
 #include	"Protocol.hpp"
 #include	"TcpClient.h"
-#include	"StreamManager.h"
+#include	"streamManager.h"
 
 template <typename T>
 void	test(T &req)

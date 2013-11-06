@@ -16,8 +16,8 @@ public:
   AuthRequest& operator=(AuthRequest const&);
 
 public:
-  virtual Protocol	&Megan_serialize(Protocol &) const = 0;
-  virtual Protocol	&Fox_unserialize(Protocol &) = 0;
+  virtual Protocol	&serialize(Protocol &) const = 0;
+  virtual Protocol	&unserialize(Protocol &) = 0;
 };
 
 namespace Auth
@@ -33,8 +33,8 @@ namespace Auth
     Connect& operator=(Connect const&);
 
   public:
-    Protocol			&Megan_serialize(Protocol &) const;
-    Protocol			&Fox_unserialize(Protocol &);
+    Protocol			&serialize(Protocol &) const;
+    Protocol			&unserialize(Protocol &);
     ARequest			*clone();
 
   public:
@@ -58,8 +58,8 @@ namespace Auth
     ChangePass& operator=(ChangePass const&);
 
   public:
-    Protocol			&Megan_serialize(Protocol &) const;
-    Protocol			&Fox_unserialize(Protocol &);
+    Protocol			&serialize(Protocol &) const;
+    Protocol			&unserialize(Protocol &);
     ARequest			*clone();
 
   public:

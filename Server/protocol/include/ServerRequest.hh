@@ -28,8 +28,8 @@ public:
   ServerRequest& operator=(ServerRequest const&);
 
 public:
-  Protocol			&Megan_serialize(Protocol &) const;
-  Protocol			&Fox_unserialize(Protocol &);
+  Protocol			&serialize(Protocol &) const;
+  Protocol			&unserialize(Protocol &);
   ARequest			*clone();
 
 private:

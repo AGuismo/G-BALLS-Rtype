@@ -25,7 +25,7 @@ namespace rtype
     {
       unsigned short int		maxSimultaneousGames;
       unsigned short int		bossDelay;
-	  unsigned long long		gameDelay;
+      unsigned long long		gameDelay;
     }					game;
     static const unsigned short int	MAX_SIMULTANEOUS_GAMES =	20;
     static const unsigned short int	BOSS_DELAY	       =	90;
