@@ -157,12 +157,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Bydos1.cpp" />
+    <ClCompile Include="Factory.cpp" />
+    <ClCompile Include="Game.cpp" />
+    <ClCompile Include="GameWindow.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="SpriteManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AObject.h" />
+    <ClInclude Include="Bydos1.h" />
     <ClInclude Include="EnumObject.h" />
     <ClInclude Include="Factory.h" />
     <ClInclude Include="game.h" />

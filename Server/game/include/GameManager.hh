@@ -11,8 +11,14 @@
 #endif
 
 #include	<list>
+#include	<map>
 #include	"Threads.hpp"
 #include	"Clock.h"
+#include	"UdpServer.h"
+#include	"streamManager.h"
+#include	"Client.hh"
+#include	"ARequest.hh"
+#include	"Env.hh"
 
 class	Game;
 
@@ -20,12 +26,15 @@ namespace	game
 {
   class Manager
   {
+	  typedef void(*request_callback)(ARequest *, Client *, Manager *);
+	  typedef std::map<requestCode::CodeID, request_callback>	request_callback_map;
+
   public:
     Manager();
     ~Manager();
 
   public:
-    void	initialize();
+	  void	initialize(unsigned short int port = rtype::Env::UDP_SERVER_PORT);
     void	run();
 
   private:
@@ -33,6 +42,7 @@ namespace	game
 
   private:
     void		update();
+	Client		*readData();
 
   private:
     Manager(Manager const&);
@@ -40,8 +50,14 @@ namespace	game
 
   private:
     Threads<void (*)(Manager *)>	_th;
-    Clock				_clock;
+    Clock						_clock;
     std::list<Game *>			_games;
+	
+	net::UdpServer				_server;
+	net::streamManager			_monitor;
+	std::vector<Client *>		_clients;
+	request_callback_map		_requestCallback;
+
   };
 }
 

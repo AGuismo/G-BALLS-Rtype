@@ -43,7 +43,7 @@
     <IncludePath>$(SolutionDir)\..\libraries\Thread\Threads\include;$(SolutionDir)\..\libraries\Bind\include;$(ProjectDir)\..\..\include;$(IncludePath);$(ProjectDir)\..\include</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>$(SolutionDir)\..\libraries\Thread\Threads\include;$(SolutionDir)\..\libraries\Bind\include;$(ProjectDir)\..\..\include;$(IncludePath);$(ProjectDir)\..\include</IncludePath>
+    <IncludePath>$(SolutionDir)\..\libraries\network\network\include;$(SolutionDir)\server-r-type\include;$(SolutionDir)\protocol\include;$(SolutionDir)\menu\include;$(SolutionDir)\..\libraries\Thread\Threads\include;$(SolutionDir)\..\libraries\Bind\include;$(ProjectDir)\..\..\include;$(IncludePath);$(ProjectDir)\..\include</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>

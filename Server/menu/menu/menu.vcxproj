@@ -39,7 +39,7 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>$(SolutionDir)\..\libraries\Thread\Threads\include;$(ProjectDir)\..\..\include;$(IncludePath);$(ProjectDir)\..\include;$(SolutionDir)\..\libraries\network\network\include;$(ProjectDir)\..\..\protocol\include;$(SolutionDir)\..\libraries\Bind\include</IncludePath>
+    <IncludePath>$(SolutionDir)\..\libraries\Protocol\Protocol\include;$(SolutionDir)\..\libraries\Thread\Threads\include;$(ProjectDir)\..\..\include;$(IncludePath);$(ProjectDir)\..\include;$(SolutionDir)\..\libraries\network\network\include;$(ProjectDir)\..\..\protocol\include;$(SolutionDir)\..\libraries\Bind\include</IncludePath>
     <TargetExt>.lib</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">

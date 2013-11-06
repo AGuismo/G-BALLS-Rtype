@@ -73,6 +73,22 @@ namespace	menu
 
     for (it = _clients.begin(); it != _clients.end();)
       {
+<<<<<<< HEAD
+		(*it)->update();
+		if ((*it)->isTCPDisconnected())
+		  {
+			Client	*client = *it;
+	#if defined(DEBUG)
+			std::cerr << "Client disconnected(" << *it << ")" << std::endl;
+	#endif
+			_monitor.unsetMonitor(*client->TcpLayer());
+			it = _clients.erase(it);
+			delete client;
+			continue ;
+		  }
+		clientRequest(*it);
+		++it;
+=======
 	(*it)->update();
 	if ((*it)->menu().isTCPDisconnected())
 	  {
@@ -88,6 +104,7 @@ namespace	menu
 	clientRequest(*it);
 	(*it)->finalize();
 	++it;
+>>>>>>> 3fd9e96e5ef348cc08a6779737bfcd768b5a9ca2
       }
   }
 
@@ -95,9 +112,9 @@ namespace	menu
   {
     while (true)
       {
-	thisPtr->_monitor.run();
-	thisPtr->checkNewClient();
-	thisPtr->updateClients();
+		thisPtr->_monitor.run();
+		thisPtr->checkNewClient();
+		thisPtr->updateClients();
       }
   }
 
