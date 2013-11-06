@@ -10,7 +10,7 @@ class IObject
 {
 public:
 	virtual void		draw(void) = 0;
-	virtual void		update(int newPos, Action act) = 0;
+	virtual void		update(Action act) = 0;
 	virtual	~IObject() {}
 };
 

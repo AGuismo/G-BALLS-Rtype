@@ -10,12 +10,13 @@
 class				SpriteManager
 {
 public:
-	typedef std::map<ObjType, sf::Texture> map_type;
+	typedef std::map<ObjType, sf::Texture*> map_type;
+
 private:
-	std::map<ObjType, sf::Texture> _spriteMap;
+	map_type				 _spriteMap;
 
 public:
-	const sf::Texture		*getTexture(ObjType);
+	sf::Texture				*getTexture(ObjType);
 	bool					addTexture(ObjType, std::string &texturePath);
 	SpriteManager() {}
 	~SpriteManager() {}

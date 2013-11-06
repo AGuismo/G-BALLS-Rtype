@@ -4,24 +4,34 @@
 
 enum ObjType
 {
-	PLAYER1=0,
+	PLAYER1 = 0,
 	PLAYER2,
 	PLAYER3,
 	PLAYER4,
-	SBYDOS1,
-	SBYDOS2,
-	BBYDOS1,
-	BBYDOS2
+	SBYDOS1
 };
 
 enum Action
 {
-	Down=0,
-	Up,
+	Left = 0,
 	Right,
-	Left,
+	Up,
+	Down,
+	Nothing,
 	Fire,
-	Destroy,
+	Destroy
+};
+
+enum LookDirection
+{
+	North = 0,
+	NorthEast,
+	East,
+	SouthEast,
+	South,
+	SouthOuest,
+	Ouest,
+	NorthOuest
 };
 
 
