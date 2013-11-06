@@ -2,6 +2,9 @@
 #include	<iomanip>
 #include	<vector>
 #include	<typeinfo>
+#if defined(WIN32)
+# include	<winsock2.h>
+#endif
 #include	"types.hh"
 #include	"AuthRequest.hh"
 #include	"PartyRequest.hh"
@@ -10,6 +13,7 @@
 #include	"ARequest.hh"
 #include	"Protocol.hpp"
 #include	"TcpClient.h"
+#include	"StreamManager.h"
 
 template <typename T>
 void	test(T &req)
@@ -50,13 +54,17 @@ void	network()
   net::TcpClient		client;
   Auth::Connect			authConnect("Ruby", 1664);
   std::vector<Protocol::Byte>	bytes;
-  ARequest			*req;
+  ARequest				*req;
   Party::Start			startGame;
+  net::streamManager		m;
 
+  client.monitor(true, false);
+  m.setMonitor(client);
   bytes = Protocol::product(authConnect);
   client.init("127.0.0.1", "44201");
   client.writeIntoBuffer(bytes, bytes.size());
   client.send();
+  m.run();
   client.recv();
   req = getReq(client);
   std::cout << "Response: " << req->code() << std::endl;
@@ -65,6 +73,7 @@ void	network()
   bytes = Protocol::product(startGame);
   client.writeIntoBuffer(bytes, bytes.size());
   client.send();
+  m.run();
   client.recv();
   req = getReq(client);
   std::cout << "Response: " << req->code() << std::endl;

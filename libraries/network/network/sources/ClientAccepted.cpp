@@ -51,7 +51,7 @@ int				ClientAccepted::recv()
   std::cout << "count : " << count << std::endl;
   for (DWORD i = 0; i < count; i++)
   {
-	  std::cout << "i : " << i << std::endl;
+//	  std::cout << "i : " << i << std::endl;
 	  tmp.insert(tmp.end(), wbuff.buf[i]);
   }
   _read.write(tmp, count);
