@@ -71,6 +71,21 @@ void							Game::run(void)
 				default:
 					break;
 				}
+				break;
+			case sf::Event::KeyReleased:
+				switch (_event->key.code)
+				{
+				case sf::Keyboard::Up:
+					updateObj(42, Nothing);
+					std::cout << "UP RELEASED " << std::endl;
+					break;
+				case sf::Keyboard::Down:
+					updateObj(42, Nothing);
+					break;
+				default:
+					break;
+				}
+				break;
 			default:
 				break;
 			}
@@ -92,8 +107,8 @@ void							Game::run(void)
 //		sf::sleep(sf::seconds(1));
 
 		_gameWindow->display();
-		bg1 -= 40;
-		bg2 -= 40;
+		bg1 -= 1;
+		bg2 -= 1;
 	}
 }
 

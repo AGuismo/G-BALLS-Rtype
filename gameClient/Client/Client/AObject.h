@@ -15,6 +15,9 @@ protected:
 	sf::Texture			*_texture;
 	sf::Sprite			_image;
 	int					_pos;
+	bool				_act;
+	int					_goalPos;
+	sf::Vector2f		_gPos;
 	sf::RenderWindow	*_gameWindow;
 
 public:
