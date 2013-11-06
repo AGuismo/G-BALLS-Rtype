@@ -145,19 +145,17 @@ namespace	menu
 
   void	Manager::launchGame(ARequest *req, ::Client *client, Manager *manager)
   {
-    (void)client;
-    (void)manager;
     game::Player		*player = new game::Player(42);
     std::list<game::Player *>	players;
 
     players.push_back(player);
-    // Game		*new_game = new Game(players);
+    Game		*new_game = new Game(players);
 
-    // client->game().game(new_game);
-    // client->game().player(player);
-    // client->requestPush(new ServerRequest(requestCode::server::OK));
-    // client->requestPush(new Party::Launch(Party::Launch::Unique()));
-    // manager->sendGame(new_game);
+    client->game().game(new_game);
+    client->game().player(player);
+    client->requestPush(new ServerRequest(requestCode::server::OK));
+    client->requestPush(new Party::Launch(Party::Launch::Unique()));
+    manager->sendGame(new_game);
     delete req;
   }
 }

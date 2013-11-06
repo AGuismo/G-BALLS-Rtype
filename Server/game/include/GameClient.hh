@@ -7,9 +7,11 @@
 
 class	ARequest;
 
-class	Game;
-class	Player;
-
+class		Game;
+namespace	game
+{
+  class		Player;
+}
 namespace	game
 {
 
@@ -42,11 +44,11 @@ namespace	game
   public:
     void			game(Game *game);
     Game			*game(void) const;
-    void			player(Player *player);
-    Player			*player(void) const;
+    void			player(game::Player *player);
+    game::Player		*player(void) const;
 
   private:
-    Player			*_player;
+    game::Player		*_player;
     Game			*_game;
 
   private:

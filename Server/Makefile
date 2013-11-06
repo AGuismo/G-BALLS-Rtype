@@ -20,7 +20,7 @@ DEPS.LNK=	-L$(DIR.DEPS)/network/ -lnetwork -L$(DIR.DEPS)/Threads/ -lThread -lpth
 
 MOD.INC=	-I$(DIR.GAME)/include -I$(DIR.MENU)/include -I$(DIR.LOAD)/include -I$(DIR.PROT)/include
 
-MOD.LNK=	-L$(DIR.GAME) -lgame -L$(DIR.MENU) -lmenu -L$(DIR.LOAD) -lloader -L$(DIR.PROT) -lprotocol
+MOD.LNK=	-L$(DIR.MENU) -lmenu -L$(DIR.GAME) -lgame -L$(DIR.LOAD) -lloader -L$(DIR.PROT) -lprotocol
 
 F.C	     +=	-W -Wall -Werror
 F.I	     +=	$(DEPS.INC) $(MOD.INC) -I./include
