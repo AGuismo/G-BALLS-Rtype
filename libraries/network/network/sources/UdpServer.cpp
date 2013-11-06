@@ -1,5 +1,5 @@
-#include "UdpServer.h"
-#include "NetException.h"
+#include	"UdpServer.h"
+#include	"NetException.h"
 
 using namespace net;
 
@@ -40,53 +40,48 @@ void UdpServer::initialize(int port, int nbClients)
     }
 }
 
-ClientAccepted *UdpServer::recv()
+int			UdpServer::readData(char *data, int maxSize)
 {
-  DWORD						count = 0, flags = 0;
-  WSABUF						wbuff;
-  char						buff[512];
-  std::vector<cBuffer::Byte>	tmp;
-  int  size = sizeof(_addr);
-
-
-  wbuff.buf = buff;
-  wbuff.len = 512;
-  WSARecvFrom(_sock, &wbuff, 1, &count, &flags, reinterpret_cast<sockaddr *>(&_addr), &size, NULL, NULL);
-  for (unsigned int i = 0; i < wbuff.len ; i++)
-    tmp.insert(tmp.end(), wbuff.buf[i]);
-  _read.write(tmp, size);
-  return new ClientAccepted(_sock, _addr);
-}
-
-void UdpServer::send()
-{
-  SSIZE_T				count, n;
-  std::vector<cBuffer::Byte>		tmp;
-  char	buf[512];
+  DWORD		readSize = 0, flags = 0;
   WSABUF	wbuff;
-  DWORD		size;
-  int i;
+  int		size = sizeof(_addr);
 
-  count = _write.look(tmp, 512);
-  for (i = 0; i < count ; i++)
-    buf[i] = tmp[i];
-  wbuff.buf = buf;
-  wbuff.len = i;
-  n = WSASendTo(_sock, &wbuff, 1, &size, MSG_OOB, reinterpret_cast<sockaddr *>(&_addr), sizeof(_addr), NULL, NULL);
-  if (n == -1)
+  wbuff.buf = data;
+  wbuff.len = maxSize;
+  if (WSARecvFrom(_sock, &wbuff, 1, &readSize, &flags,
+		  reinterpret_cast<sockaddr *>(&_addr), &size, 0, 0) == -1)
     {
       _state = STATEERROR;
-      throw net::Exception("Recv Failure: " + WSAGetLastError());
+      throw net::Exception("RecvFrom Failure: " + WSAGetLastError());
     }
-  if (size == 0)
-    {
-      _state = DISCONNECTED;
-      return ;
-    }
-  _write.read(tmp, size);
+  if (readSize == 0)
+    _state = DISCONNECTED;
+  return (readSize);
 }
 
-void UdpServer::close()
+int			UdpServer::writeData(const char *data, int size)
+{
+  WSABUF	wbuff;
+  DWORD		writeSize;
+
+  wbuff.buf = data;
+  wbuff.len = size;
+  if (WSASendTo(_sock, &wbuff, 1, &writeSize, 0, reinterpret_cast<sockaddr *>(&_addr),
+		sizeof(_addr), 0, 0) == -1)
+    {
+      _state = STATEERROR;
+      throw net::Exception("SendTo Failure: " + WSAGetLastError());
+    }
+  if (writeSize == 0)
+    {
+      _state = DISCONNECTED;
+      return (0);
+    }
+  _write.read(tmp, writeSize);
+  return (writeSize);
+}
+
+void	UdpServer::close()
 {
   if (closesocket(_sock) == -1)
     {
@@ -137,46 +132,39 @@ void UdpServer::initialize(int port, int nbClients)
     }
 }
 
-ClientAccepted *UdpServer::recv()
+
+int			UdpServer::readData(char *data, int maxSize)
 {
-  int				count = 0, flags = 0;
-  char				buff[512];
-  std::vector<cBuffer::Byte>	tmp;
-  socklen_t			size = sizeof(_addr);
-  ssize_t			ret;
+  socklen_t		size = sizeof(_addr);
+  int			readSize;
 
-  ClientAccepted *client;
-
-  ret = recvfrom(_sock, buff, count, flags, reinterpret_cast<sockaddr *>(&_addr), &size);
-  for (ssize_t i = 0; i < ret ; i++)
-    tmp.insert(tmp.end(), buff[i]);
-  _read.write(tmp, size);
-  client = new ClientAccepted(_sock, _addr);
-  return client;
-}
-
-void UdpServer::send()
-{
-  ssize_t				count, n;
-  std::vector<cBuffer::Byte>		tmp;
-  char	buf[512];
-  int i;
-
-  count = _write.look(tmp, 512);
-  for (i = 0; i < count ; i++)
-    buf[i] = tmp[i];
-  n = sendto(_sock, buf, i, MSG_OOB, reinterpret_cast<sockaddr *>(&_addr), sizeof(_addr));
-  if (n == -1)
+  readSize = recvfrom(_sock, data, maxSize, 0, reinterpret_cast<sockaddr *>(&_addr), &size);
+  if (readSize == -1)
     {
       _state = STATEERROR;
-      throw net::Exception("Recv Failure: " + std::string(strerror(errno)));
+      throw net::Exception("RecvFrom Failure: " + std::string(strerror(errno)));
     }
-  if (n == 0)
+  if (readSize == 0)
+    _state = DISCONNECTED;
+  return (readSize);
+}
+
+int			UdpServer::writeData(const char *data, int size)
+{
+  int			writeSize;
+
+  writeSize = sendto(_sock, data, size, 0, reinterpret_cast<sockaddr *>(&_addr), sizeof(_addr));
+  if (writeSize == -1)
+    {
+      _state = STATEERROR;
+      throw net::Exception("SendTo Failure: " + std::string(strerror(errno)));
+    }
+  if (writeSize == 0)
     {
       _state = DISCONNECTED;
-      return ;
+      return (0);
     }
-  _write.read(tmp, n);
+  return (writeSize);
 }
 
 void UdpServer::close()
@@ -189,26 +177,79 @@ void UdpServer::close()
   _state = DISCONNECTED;
   _sock = 0;
 }
+
 #endif
 
-cBuffer::size_type UdpServer::readFromBuffer(std::vector<cBuffer::Byte> &buf,
+////////////////////////
+// Shared with all os //
+////////////////////////
+
+bool	UdpServer::isOpen() const
+{
+  return (_state == CONNECTED);
+}
+
+bool	UdpServer::isClosed() const
+{
+  return (_state == CLOSED);
+}
+
+bool	UdpServer::isDisconnected() const
+{
+  return (_state == DISCONNECTED);
+}
+
+ClientAccepted *UdpServer::recv()
+{
+  char			buff[512];
+  int			count;
+  ClientAccepted	*c;
+
+  count = readData(buff, 512);
+  if (count <= 0)
+    return (0);
+  c = new ClientAccepted(_sock, _addr);
+  for (int i = 0; i < count ; ++i)
+    {
+      _read.push(buff[i]);
+      c->_read.push(buff[i]);
+    }
+  return (c);
+}
+
+void			UdpServer::send()
+{
+  cBuffer::stor_type	tmp;
+  char			buf[512];
+  int			size;
+  cBuffer::size_type	count;
+
+  count = _write.look(tmp, 512);
+  for (cBuffer::size_type i = 0; i < count; ++i)
+    buf[i] = tmp[i];
+  if ((size = writeData(buf, count)) <= 0)
+    return ;
+  _write.read(tmp, size);
+}
+
+cBuffer::size_type UdpServer::readFromBuffer(cBuffer::stor_type &buf,
 					     cBuffer::size_type count)
 {
   return (_read.read(buf, count));
 }
 
-cBuffer::size_type UdpServer::writeIntoBuffer(const std::vector<cBuffer::Byte> &buf,
+cBuffer::size_type UdpServer::writeIntoBuffer(const cBuffer::stor_type &buf,
 					      cBuffer::size_type count)
 {
   return (_write.write(buf, count));
 }
 
-cBuffer::size_type UdpServer::lookRead(std::vector<cBuffer::Byte> &buf, cBuffer::size_type count)
+cBuffer::size_type UdpServer::lookRead(cBuffer::stor_type &buf, cBuffer::size_type count)
 {
   return _read.look(buf, count);
 }
 
-cBuffer::size_type UdpServer::lookWrite(std::vector<cBuffer::Byte> &buf, cBuffer::size_type count)
+cBuffer::size_type UdpServer::lookWrite(cBuffer::stor_type &buf, cBuffer::size_type count)
 {
   return _write.look(buf, count);
 }

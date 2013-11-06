@@ -24,72 +24,113 @@ ClientAccepted::~ClientAccepted()
   close();
 }
 
-int				ClientAccepted::recv()
+int			UdpServer::readData(char *data, int maxSize)
 {
-  DWORD				count, flags = MSG_PARTIAL;
-  WSABUF			wbuff;
-  char				c[512];
-  std::vector<cBuffer::Byte>	tmp;
-  int				size = sizeof(_addr);
+  DWORD		readSize = 0, flags = 0;
+  WSABUF	wbuff;
+  int		size = sizeof(_addr);
 
-  std::cout << "In ClientAccepted::recv"  << std::endl;
-  wbuff.buf = c;
-  wbuff.len = 512;
-  std::cout << "receiving ..." << std::endl;
-  if (WSARecvFrom(_sock, &wbuff, 1, &count, &flags,
-		  reinterpret_cast<sockaddr *>(&_addr),
-		  &size, NULL, NULL) == SOCKET_ERROR)
+  wbuff.buf = data;
+  wbuff.len = maxSize;
+  if (WSARecvFrom(_sock, &wbuff, 1, &readSize, &flags,
+		  reinterpret_cast<sockaddr *>(&_addr), &size, 0, 0) == -1)
     {
       _state = STATEERROR;
-      throw net::Exception("Recv Failure");
+      throw net::Exception("RecvFrom Failure: " + WSAGetLastError());
     }
-  if (count == 0)
-  {
-	  _state = DISCONNECTED;
-	  return (0);
-  }
-  std::cout << "count : " << count << std::endl;
-  for (DWORD i = 0; i < count; i++)
-  {
-//	  std::cout << "i : " << i << std::endl;
-	  tmp.insert(tmp.end(), wbuff.buf[i]);
-  }
-  _read.write(tmp, count);
-  std::cout << "return" << std::endl;
-  return (count);
+  if (readSize == 0)
+    _state = DISCONNECTED;
+  return (readSize);
 }
 
-int				ClientAccepted::send()
+int			UdpServer::writeData(const char *data, int size)
 {
-  SSIZE_T			n;
-  DWORD				count, i;
-  std::vector<cBuffer::Byte>	tmp;
-  char				buf[512];
-  WSABUF			wbuff;
+  WSABUF	wbuff;
+  DWORD		writeSize;
 
-  count = (DWORD)_write.look(tmp, 512);
-  for (i = 0; i < count ; i++)
-    buf[i] = tmp[i];
-  wbuff.buf = buf;
-  wbuff.len = i;
-  n = WSASendTo(_sock, &wbuff, 1, &count, MSG_OOB,
-		reinterpret_cast<sockaddr *>(&_addr),
-		sizeof(_addr), NULL, NULL);
-  if (n == SOCKET_ERROR)
+  wbuff.buf = data;
+  wbuff.len = size;
+  if (WSASendTo(_sock, &wbuff, 1, &writeSize, 0, reinterpret_cast<sockaddr *>(&_addr),
+		sizeof(_addr), 0, 0) == -1)
     {
       _state = STATEERROR;
-      throw net::Exception("Send Failure");
+      throw net::Exception("SendTo Failure: " + WSAGetLastError());
     }
-  if (count == 0)
+  if (writeSize == 0)
     {
       _state = DISCONNECTED;
       return (0);
     }
-  _write.read(tmp, count);
-  if (_write.empty())
-    monitor(true, false);
-  return (count);
+  _write.read(tmp, writeSize);
+  return (writeSize);
 }
+
+// int				ClientAccepted::recv()
+// {
+//   DWORD				count, flags = MSG_PARTIAL;
+//   WSABUF			wbuff;
+//   char				c[512];
+//   std::vector<cBuffer::Byte>	tmp;
+//   int				size = sizeof(_addr);
+
+//   std::cout << "In ClientAccepted::recv"  << std::endl;
+//   wbuff.buf = c;
+//   wbuff.len = 512;
+//   std::cout << "receiving ..." << std::endl;
+//   if (WSARecvFrom(_sock, &wbuff, 1, &count, &flags,
+// 		  reinterpret_cast<sockaddr *>(&_addr),
+// 		  &size, NULL, NULL) == SOCKET_ERROR)
+//     {
+//       _state = STATEERROR;
+//       throw net::Exception("Recv Failure");
+//     }
+//   if (count == 0)
+//   {
+// 	  _state = DISCONNECTED;
+// 	  return (0);
+//   }
+//   std::cout << "count : " << count << std::endl;
+//   for (DWORD i = 0; i < count; i++)
+//   {
+// //	  std::cout << "i : " << i << std::endl;
+// 	  tmp.insert(tmp.end(), wbuff.buf[i]);
+//   }
+//   _read.write(tmp, count);
+//   std::cout << "return" << std::endl;
+//   return (count);
+// }
+
+// int				ClientAccepted::send()
+// {
+//   SSIZE_T			n;
+//   DWORD				count, i;
+//   std::vector<cBuffer::Byte>	tmp;
+//   char				buf[512];
+//   WSABUF			wbuff;
+
+//   count = (DWORD)_write.look(tmp, 512);
+//   for (i = 0; i < count ; i++)
+//     buf[i] = tmp[i];
+//   wbuff.buf = buf;
+//   wbuff.len = i;
+//   n = WSASendTo(_sock, &wbuff, 1, &count, MSG_OOB,
+// 		reinterpret_cast<sockaddr *>(&_addr),
+// 		sizeof(_addr), NULL, NULL);
+//   if (n == SOCKET_ERROR)
+//     {
+//       _state = STATEERROR;
+//       throw net::Exception("Send Failure");
+//     }
+//   if (count == 0)
+//     {
+//       _state = DISCONNECTED;
+//       return (0);
+//     }
+//   _write.read(tmp, count);
+//   if (_write.empty())
+//     monitor(true, false);
+//   return (count);
+// }
 
 void ClientAccepted::close()
 {
@@ -133,69 +174,101 @@ ClientAccepted::~ClientAccepted()
   close();
 }
 
-int				ClientAccepted::recv()
+int		ClientAccepted::readData(char *data, int maxSize)
 {
-  int				count = 512;
-  char				buf[512];
-  std::vector<cBuffer::Byte>	tmp;
-  socklen_t			size = sizeof(_addr);
-  ssize_t			readSize;
+  socklen_t	size = sizeof(_addr);
+  int		readSize;
 
-  readSize = recvfrom(_sock, buf, count, 0, reinterpret_cast<sockaddr *>(&_addr), &size);
+  readSize = recvfrom(_sock, data, maxSize, 0, reinterpret_cast<sockaddr *>(&_addr), &size);
   if (readSize == -1)
     {
       _state = STATEERROR;
-      throw net::Exception("Recvfrom Failure" + std::string(strerror(errno)));
+      throw net::Exception("RecvFrom Failure: " + std::string(strerror(errno)));
     }
   if (readSize == 0)
-    {
-      _state = DISCONNECTED;
-      return (readSize);
-    }
-  for (socklen_t i = 0; i < readSize ; i++)
-    tmp.insert(tmp.end(), buf[i]);
-  _read.write(tmp, readSize);
+    _state = DISCONNECTED;
   return (readSize);
 }
 
-int					ClientAccepted::send()
+int		ClientAccepted::writeData(const char *data, int size)
 {
-  ssize_t				count, n;
-  std::vector<cBuffer::Byte>		tmp;
-  char					buf[512];
+  int		writeSize;
 
-  count = _write.look(tmp, 512);
-  for (ssize_t i = 0; i < count ; i++)
-    buf[i] = tmp[i];
-  n = sendto(_sock, buf, count, 0, reinterpret_cast<sockaddr *>(&_addr), sizeof(_addr));
-  if (n == -1)
+  writeSize = sendto(_sock, data, size, 0, reinterpret_cast<sockaddr *>(&_addr), sizeof(_addr));
+  if (writeSize == -1)
     {
       _state = STATEERROR;
-      throw net::Exception("Sendto Failure" + std::string(strerror(errno)));
+      throw net::Exception("SendTo Failure: " + std::string(strerror(errno)));
     }
-  else if (n == 0)
+  if (writeSize == 0)
     {
       _state = DISCONNECTED;
-      return (n);
+      return (0);
     }
-  _write.read(tmp, n);
-  if (_write.empty())
-    monitor(true, false);
-  return (n);
+  return (writeSize);
 }
 
 void		ClientAccepted::close()
 {
-  if (_state == CLOSED || _state == STATEERROR)
-    return ;
   if (::close(_sock) == -1)
     {
       _state = STATEERROR;
-      throw net::Exception("Close Failure" + std::string(strerror(errno)));
+      throw net::Exception("Close Failure: " + std::string(strerror(errno)));
     }
-  _state = CLOSED;
+  _state = DISCONNECTED;
   _sock = 0;
 }
+
+// int				ClientAccepted::recv()
+// {
+//   int				count = 512;
+//   char				buf[512];
+//   std::vector<cBuffer::Byte>	tmp;
+//   socklen_t			size = sizeof(_addr);
+//   ssize_t			readSize;
+
+//   readSize = recvfrom(_sock, buf, count, 0, reinterpret_cast<sockaddr *>(&_addr), &size);
+//   if (readSize == -1)
+//     {
+//       _state = STATEERROR;
+//       throw net::Exception("Recvfrom Failure" + std::string(strerror(errno)));
+//     }
+//   if (readSize == 0)
+//     {
+//       _state = DISCONNECTED;
+//       return (readSize);
+//     }
+//   for (socklen_t i = 0; i < readSize ; i++)
+//     tmp.insert(tmp.end(), buf[i]);
+//   _read.write(tmp, readSize);
+//   return (readSize);
+// }
+
+// int					ClientAccepted::send()
+// {
+//   ssize_t				count, n;
+//   std::vector<cBuffer::Byte>		tmp;
+//   char					buf[512];
+
+//   count = _write.look(tmp, 512);
+//   for (ssize_t i = 0; i < count ; i++)
+//     buf[i] = tmp[i];
+//   n = sendto(_sock, buf, count, 0, reinterpret_cast<sockaddr *>(&_addr), sizeof(_addr));
+//   if (n == -1)
+//     {
+//       _state = STATEERROR;
+//       throw net::Exception("Sendto Failure" + std::string(strerror(errno)));
+//     }
+//   else if (n == 0)
+//     {
+//       _state = DISCONNECTED;
+//       return (n);
+//     }
+//   _write.read(tmp, n);
+//   if (_write.empty())
+//     monitor(true, false);
+//   return (n);
+// }
 
 SOCKET		ClientAccepted::getSocket()const
 {
@@ -217,6 +290,37 @@ bool			ClientAccepted::isDisconnected() const
 bool			ClientAccepted::isClosed() const
 {
   return (_state == CLOSED);
+}
+
+int			ClientAccepted::recv()
+{
+  char			buf[512];
+  int			readSize;
+
+  readSize = readData(buf, 512);
+  if (readSize <= 0)
+    return (readSize);
+  for (int i = 0; i < readSize ; ++i)
+    _read.push(buf[i]);
+  return (readSize);
+}
+
+int			ClientAccepted::send()
+{
+  cBuffer::stor_type	tmp;
+  char			buf[512];
+  int			size;
+  cBuffer::size_type	count;
+
+  count = _write.look(tmp, 512);
+  for (cBuffer::size_type i = 0; i < count; ++i)
+    buf[i] = tmp[i];
+  if ((size = writeData(buf, count)) <= 0)
+    return (size);
+  _write.read(tmp, size);
+  if (_write.empty())
+    monitor(true, false);
+  return (size);
 }
 
 cBuffer::size_type	ClientAccepted::readFromBuffer(std::vector<cBuffer::Byte> &buf,
