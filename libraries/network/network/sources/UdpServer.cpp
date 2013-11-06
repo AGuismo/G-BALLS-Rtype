@@ -46,7 +46,7 @@ ClientAccepted *UdpServer::recv()
   char						buff[512];
   std::vector<cBuffer::Byte>	tmp;
   int  size = sizeof(_addr);
-  ClientAccepted *client;
+
 
   wbuff.buf = buff;
   wbuff.len = 512;
@@ -54,8 +54,7 @@ ClientAccepted *UdpServer::recv()
   for (unsigned int i = 0; i < wbuff.len ; i++)
     tmp.insert(tmp.end(), wbuff.buf[i]);
   _read.write(tmp, size);
-  client = new ClientAccepted(_sock, _addr);
-  return client;
+  return new ClientAccepted(_sock, _addr);
 }
 
 void UdpServer::send()

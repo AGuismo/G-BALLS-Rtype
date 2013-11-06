@@ -2,7 +2,7 @@
 # define CLIENT_H_
 
 # include	<queue>
-
+# include	"ARequest.hh"
 namespace net
 {
   class ClientAccepted;
