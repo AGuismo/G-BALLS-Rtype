@@ -6,12 +6,9 @@ class Referee;
 class Game;
 class Missile;
 
-#define		POS_X(pos)		pos % 16
-#define		POS_Y(pos)		pos / 16
-
 enum DIR
   {
-    NORTH,
+    NORTH = 0,
     NORTH_EAST,
     EAST,
     SOUTH_EAST,

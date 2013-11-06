@@ -28,6 +28,14 @@ public:
   ~Game();
   void	update();
   struct timeval	*getTimer(void)const{ return _timer;};
+
+private:
+	void iaUpdate();
+	void entityUpdate();
+	void missileUpdate();
+	void bossUpdate();
+	void wallUpdate();
+
 private:
   std::list<Player *>	_players;
   std::list<Ia *>	_IA;

@@ -5,7 +5,7 @@
 class Ia : public Entity
 {
  public:
-  Ia(int x, int y, int life, int length, int height);
+  Ia(int pos, int life, int length, int height);
   virtual ~Ia();
   void	update();
   void	move();

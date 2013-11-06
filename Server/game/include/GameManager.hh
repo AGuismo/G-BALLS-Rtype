@@ -31,7 +31,6 @@ namespace	game
   private:
     static void	routine(Manager *);
 
-    // void		timerSub(struct timeval *a, long b);
   private:
     void		update();
 

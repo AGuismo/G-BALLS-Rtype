@@ -20,9 +20,4 @@ class Referee
   static bool	iaCollision(Entity *a, Game &game);
   static bool	wallCollision(Entity *a, Game &game);
   static bool	missileCollision(Entity *a, Game &game);
-
-  static const int RIGHTSIDE = 42;
-  static const int LEFTSIDE = -42;
-  static const int TOPSIDE = -42;
-  static const int BOTTOMSIDE = 42;
 };

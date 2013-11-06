@@ -18,13 +18,13 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v110</PlatformToolset>
+    <PlatformToolset>v120</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v110</PlatformToolset>
+    <PlatformToolset>v120</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
@@ -71,6 +71,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\libraries\network\network\TimeConverter.h" />
     <ClInclude Include="include\Application.hh" />
     <ClInclude Include="include\Client.hh" />
     <ClInclude Include="include\Env.hh" />
@@ -78,6 +79,7 @@
     <ClInclude Include="include\types.hh" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\libraries\network\network\TimeConverter.cpp" />
     <ClCompile Include="sources\Application.cpp" />
     <ClCompile Include="sources\Client.cpp" />
     <ClCompile Include="sources\Env.cpp" />

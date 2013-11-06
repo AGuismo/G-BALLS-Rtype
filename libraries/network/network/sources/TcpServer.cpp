@@ -48,11 +48,9 @@ ClientAccepted	*TcpServer::accept()
   SOCKET				newSock;
   struct sockaddr_in	csin;
   int		len = sizeof(csin);
-  ClientAccepted		*dest;
 
   newSock = ::accept(_sock, reinterpret_cast<struct sockaddr *>(&csin), &len);
-  dest = new ClientAccepted(newSock, csin);
-  return dest;
+  return new ClientAccepted(newSock, csin);
 }
 #elif defined(linux)
 # include	<errno.h>
