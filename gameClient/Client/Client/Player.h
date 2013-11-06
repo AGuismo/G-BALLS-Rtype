@@ -8,6 +8,8 @@ class Player : public AObject
 {
 private:
 	int					_indexSprite;
+	float				_mvTime;
+	sf::Clock			_mvtClock;
 
 public:
 	void				draw(void);
