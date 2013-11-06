@@ -4,6 +4,7 @@
 # include	<queue>
 # include	<string>
 # include	"RequestCode.hh"
+# include	"RequestQueue.hh"
 
 class ARequest;
 class RequestQueue;
@@ -18,8 +19,7 @@ namespace	menu
   class Client
   {
   public:
-    Client(RequestQueue &input, RequestQueue &output,
-	   net::ClientAccepted *clientTcp = 0);
+    Client(net::ClientAccepted *clientTcp = 0);
     virtual ~Client();
 
   private:
@@ -39,6 +39,11 @@ namespace	menu
 
   public:
     void		update();
+    void		finalize();
+
+  public:
+    ARequest		*requestPop();
+    void		requestPush(ARequest *req);
 
   private:
     Client(Client const&);
@@ -60,8 +65,8 @@ namespace	menu
 
   private:
     bool		_used;
-    RequestQueue	&_input;
-    RequestQueue	&_output;
+    RequestQueue	_input;
+    RequestQueue	_output;
     net::ClientAccepted	*_TcpLayer;
 
   private:

@@ -1,15 +1,13 @@
 #include	<iostream>
 #include	"ClientAccepted.h"
 #include	"MenuClient.hh"
-#include	"RequestQueue.hh"
 #include	"cBuffer.h"
 #include	"Protocol.hpp"
 
 namespace	menu
 {
-  Client::Client(RequestQueue &input, RequestQueue &output,
-		 net::ClientAccepted *clientTcp):
-    _used(false), _input(input), _output(output), _TcpLayer(clientTcp)
+  Client::Client(net::ClientAccepted *clientTcp):
+    _used(false), _TcpLayer(clientTcp)
   {
     _auth._authenticated = false;
   }
@@ -21,7 +19,6 @@ namespace	menu
 
   void	Client::update()
   {
-  while (inputRequest());
 #if defined(DEBUG)
     if (_TcpLayer == 0)
       throw "No TCP socket";
@@ -29,9 +26,14 @@ namespace	menu
 #endif
     if (_TcpLayer->read())
       recvSock();
-    while (outputRequest());
     if (_TcpLayer->write())
       sendSock();
+    while (inputRequest());
+  }
+
+  void		Client::finalize()
+  {
+    while (outputRequest());
   }
 
   bool		Client::isTCP() const
@@ -138,7 +140,19 @@ namespace	menu
 #endif
 	return (false);
       }
-    return (_TcpLayer->writeIntoBuffer(buf, buf.size()) > 0);
+    _TcpLayer->writeIntoBuffer(buf, buf.size());
+    std::cout << "Request successfully serialized" << std::endl;
+    return (true);
+  }
+
+  ARequest	*Client::requestPop()
+  {
+    return (_input.requestPop());
+  }
+
+  void		Client::requestPush(ARequest *req)
+  {
+    _output.requestPush(req);
   }
 
   void					Client::username(const std::string &username)

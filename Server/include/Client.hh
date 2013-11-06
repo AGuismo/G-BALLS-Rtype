@@ -26,6 +26,7 @@ public:
 
 public:
   void			update();
+  void			finalize();
 
 public:
   menu::Client		&menu();

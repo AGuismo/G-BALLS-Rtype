@@ -2,20 +2,21 @@
 # define GAMECLIENT_H_
 
 # include	<queue>
+# include	"RequestQueue.hh"
 
 class ARequest;
-class RequestQueue;
 
 namespace	game
 {
   class Client
   {
   public:
-    Client(RequestQueue &input, RequestQueue &output);
+    Client();
     virtual ~Client();
 
   public:
     void	update();
+    void	finalize();
 
   private:
     Client(Client const&);
@@ -25,10 +26,14 @@ namespace	game
     bool	inUse(void) const {return (_used);};
     void	inUse(bool used) {_used = used;};
 
+  public:
+    ARequest		*requestPop();
+    void		requestPush(ARequest *req);
+
   private:
     bool		_used;
-    RequestQueue	&_input;
-    RequestQueue	&_output;
+    RequestQueue	_input;
+    RequestQueue	_output;
   };
 }
 

@@ -86,6 +86,7 @@ namespace	menu
 	    continue ;
 	  }
 	clientRequest(*it);
+	(*it)->finalize();
 	++it;
       }
   }

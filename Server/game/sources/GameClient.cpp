@@ -2,8 +2,8 @@
 
 namespace	game
 {
-  Client::Client(RequestQueue &input, RequestQueue &output):
-    _used(false), _input(input), _output(output)
+  Client::Client():
+    _used(false)
   {
 
   }
@@ -16,5 +16,20 @@ namespace	game
   void	Client::update()
   {
 
+  }
+
+  void	Client::finalize()
+  {
+
+  }
+
+  ARequest	*Client::requestPop()
+  {
+    return (_input.requestPop());
+  }
+
+  void		Client::requestPush(ARequest *req)
+  {
+    _output.requestPush(req);
   }
 }
