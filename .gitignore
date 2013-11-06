@@ -26,3 +26,5 @@ testConsumer
 testEvent
 testThreadPool
 TAGS
+requestSerializer
+server_r-type
