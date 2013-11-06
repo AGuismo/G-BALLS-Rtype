@@ -11,6 +11,7 @@
 #ifndef		WINTHREADMUTEX_HH_
 # define	WINTHREADMUTEX_HH_
 
+# include	"ThreadPlatform.hh"
 # include	<windows.h>
 
 namespace 	Thread

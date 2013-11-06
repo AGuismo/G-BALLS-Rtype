@@ -39,11 +39,11 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>$(SolutionDir)\..\libraries\Protocol\Protocol\include;$(SolutionDir)\..\libraries\Thread\Threads\include;$(ProjectDir)\..\..\include;$(IncludePath);$(ProjectDir)\..\include;$(SolutionDir)\..\libraries\network\network\include;$(ProjectDir)\..\..\protocol\include;$(SolutionDir)\..\libraries\Bind\include</IncludePath>
+    <IncludePath>$(SolutionDir)\game\include;$(SolutionDir)\..\libraries\Protocol\Protocol\include;$(SolutionDir)\..\libraries\Thread\Threads\include;$(ProjectDir)\..\..\include;$(IncludePath);$(ProjectDir)\..\include;$(SolutionDir)\..\libraries\network\network\include;$(ProjectDir)\..\..\protocol\include;$(SolutionDir)\..\libraries\Bind\include</IncludePath>
     <TargetExt>.lib</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IncludePath>$(SolutionDir)\..\libraries\Thread\Threads\include;$(ProjectDir)\..\..\include;$(IncludePath);$(ProjectDir)\..\include;$(SolutionDir)\..\libraries\network\network\include;$(SolutionDir)\..\..\protocol\include;$(SolutionDir)\..\libraries\Bind\include</IncludePath>
+    <IncludePath>$(SolutionDir)\game\include;$(SolutionDir)\..\libraries\Protocol\Protocol\include;$(SolutionDir)\..\libraries\Thread\Threads\include;$(ProjectDir)\..\..\include;$(IncludePath);$(ProjectDir)\..\include;$(SolutionDir)\..\libraries\network\network\include;$(ProjectDir)\..\..\protocol\include;$(SolutionDir)\..\libraries\Bind\include</IncludePath>
     <TargetExt>.lib</TargetExt>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -73,10 +73,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\include\MenuClient.hh" />
     <ClInclude Include="..\include\MenuException.hh" />
     <ClInclude Include="..\include\MenuManager.hh" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\sources\MenuClient.cpp" />
     <ClCompile Include="..\sources\MenuException.cpp" />
     <ClCompile Include="..\sources\MenuManager.cpp" />
   </ItemGroup>

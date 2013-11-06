@@ -164,24 +164,26 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="LinuxThreads.hpp" />
-    <ClInclude Include="ThreadPool.hpp" />
-    <ClInclude Include="Threads.hpp" />
-    <ClInclude Include="WinThreads.hpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="LinuxThreadCond.hh" />
-    <None Include="LinuxThreadMutex.hh" />
     <None Include="ReadMe.txt" />
-    <None Include="ThreadCond.hh" />
-    <None Include="ThreadMutex.hh" />
-    <None Include="ThreadPlatform.hh" />
-    <None Include="WinThreadCond.hh" />
-    <None Include="WinThreadMutex.hh" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sources\ThreadCond.cpp" />
     <ClCompile Include="sources\ThreadMutex.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\LinuxThreadCond.hh" />
+    <ClInclude Include="include\LinuxThreadMutex.hh" />
+    <ClInclude Include="include\LinuxThreads.hpp" />
+    <ClInclude Include="include\ThreadCond.hh" />
+    <ClInclude Include="include\ThreadEvent.hpp" />
+    <ClInclude Include="include\ThreadMutex.hh" />
+    <ClInclude Include="include\ThreadPlatform.hh" />
+    <ClInclude Include="include\ThreadPool.hpp" />
+    <ClInclude Include="include\Threads.hpp" />
+    <ClInclude Include="include\ThreadWork.hpp" />
+    <ClInclude Include="include\WinThreadCond.hh" />
+    <ClInclude Include="include\WinThreadMutex.hh" />
+    <ClInclude Include="include\WinThreads.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

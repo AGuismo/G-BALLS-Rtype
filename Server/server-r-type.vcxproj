@@ -75,6 +75,7 @@
     <ClInclude Include="include\Application.hh" />
     <ClInclude Include="include\Client.hh" />
     <ClInclude Include="include\Env.hh" />
+    <ClInclude Include="include\RequestQueue.hh" />
     <ClInclude Include="include\sys.hh" />
     <ClInclude Include="include\types.hh" />
   </ItemGroup>
@@ -84,6 +85,7 @@
     <ClCompile Include="sources\Client.cpp" />
     <ClCompile Include="sources\Env.cpp" />
     <ClCompile Include="sources\main.cpp" />
+    <ClCompile Include="sources\RequestQueue.cpp" />
     <ClCompile Include="sources\sys.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -92,6 +94,11 @@
     </ProjectReference>
     <ProjectReference Include="..\libraries\Thread\Threads\Threads.vcxproj">
       <Project>{58935438-3f38-49e8-ac0d-a66dc7e8ef08}</Project>
+      <Private>true</Private>
+      <ReferenceOutputAssembly>true</ReferenceOutputAssembly>
+      <CopyLocalSatelliteAssemblies>false</CopyLocalSatelliteAssemblies>
+      <LinkLibraryDependencies>true</LinkLibraryDependencies>
+      <UseLibraryDependencyInputs>false</UseLibraryDependencyInputs>
     </ProjectReference>
     <ProjectReference Include="game\game\game.vcxproj">
       <Project>{45f1b8d5-ffd2-46d2-b5dd-52a898aed023}</Project>

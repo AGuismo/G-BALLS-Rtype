@@ -24,7 +24,7 @@ private:
   RequestQueue& operator=(RequestQueue const&);
 
 private:
-  Thread::Mutex	_locker;
+  //Thread::Mutex	_locker;
   queue_type	_queue;
 };
 
