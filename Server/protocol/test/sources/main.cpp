@@ -30,9 +30,27 @@ void	test(T &req)
     std::cout << typeid(req).name() << ": Incorrect formatting" << std::endl;
 }
 
-int	main()
+void	network()
 {
   net::TcpClient		client;
+  Auth::Connect			authConnect("Ruby", 1664);
+  std::vector<Protocol::Byte>	bytes;
+  int				count;
+
+  bytes = Protocol::product(authConnect);
+  client.init("127.0.0.1", "44201");
+  client.writeIntoBuffer(bytes, bytes.size());
+  client.send();
+  client.recv();
+  std::cout << "Received data" << std::endl;
+  client.readFromBuffer(bytes, 512);
+  ARequest	*req = Protocol::consume(bytes, count);
+  std::cout << "Received data code: " << req->code() << std::endl;
+  client.close();
+}
+
+int	main()
+{
   Auth::Connect			authConnect("Ruby", 1664);
   Auth::ChangePass		authPass("Ruby", 1664, 4661, 5348);
   ServerRequest			servReq(requestCode::server::FORBIDDEN);
@@ -42,9 +60,6 @@ int	main()
   test(servReq);
   // std::cout << "Size: " << bytes.size() << std::endl;
 
-  // client.init("127.0.0.1", "44201");
-  // client.writeIntoBuffer(bytes, bytes.size());
-  // client.send();
-  // client.close();
+  network();
   return (0);
 }

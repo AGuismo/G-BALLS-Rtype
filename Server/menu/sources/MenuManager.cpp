@@ -5,6 +5,7 @@
 #include	"Client.hh"
 #include	"NetException.h"
 #include	"AuthRequest.hh"
+#include	"ServerRequest.hh"
 
 namespace	menu
 {
@@ -12,6 +13,8 @@ namespace	menu
   {
     _server.monitor(true, false);
     _requestCallback[requestCode::auth::CONNECT] = &tryConnect;
+
+    _requestCallback[requestCode::party::CLI_START] = &launchGame;
   }
 
   Manager::~Manager()
@@ -43,17 +46,14 @@ namespace	menu
   {
     if (_server.read())
       {
-	Client	*client = new Client(_server.accept());
+	::Client	*client = new ::Client(_server.accept());
 
-	// #if defined(DEBUG)
-	// log::log << log::time() << "Client connected(" << *it << ")" << std::endl;
-	// #endif
 	_clients.push_back(client);
-	_monitor.setMonitor(*(client->TcpLayer()));
+	_monitor.setMonitor(*(client->menu().TcpLayer()));
       }
   }
 
-  void	Manager::clientRequest(Client *client)
+  void	Manager::clientRequest(::Client *client)
   {
     ARequest *req = client->requestPop();
 
@@ -63,25 +63,24 @@ namespace	menu
 
 	if (it != _requestCallback.end())
 	  it->second(req, client, this);
-	delete req;
 	req = client->requestPop();
       }
   }
 
   void	Manager::updateClients()
   {
-    std::vector<Client *>::iterator it;
+    std::vector< ::Client *>::iterator it;
 
     for (it = _clients.begin(); it != _clients.end();)
       {
 	(*it)->update();
-	if ((*it)->isTCPDisconnected())
+	if ((*it)->menu().isTCPDisconnected())
 	  {
-	    Client	*client = *it;
+	    ::Client	*client = *it;
 #if defined(DEBUG)
 	    std::cerr << "Client disconnected(" << *it << ")" << std::endl;
 #endif
-	    _monitor.unsetMonitor(*client->TcpLayer());
+	    _monitor.unsetMonitor(*client->menu().TcpLayer());
 	    it = _clients.erase(it);
 	    delete client;
 	    continue ;
@@ -105,12 +104,40 @@ namespace	menu
   // Request Modifiers //
   ///////////////////////
 
-  void	Manager::tryConnect(ARequest *req, Client *client, Manager *manager)
+  void	Manager::tryConnect(ARequest *req, ::Client *client, Manager *manager)
   {
     Auth::Connect	*request = dynamic_cast<Auth::Connect *>(req);
 
+#if defined(DEBUG)
     std::cout << request->username() << ":" << request->password() << std::endl;
+#endif
+    (void)manager;
+    if (!client->menu().authenticated())
+      {
+#if defined(DEBUG)
+	std::cout << client << ": Authentication succeed" << std::endl;
+#endif
+	client->menu().username(request->username());
+	client->menu().password(request->password());
+	client->menu().authenticated(true);
+	client->requestPush(new ServerRequest(requestCode::server::OK));
+	// client->requestPush(new SessionRequest(Session::Unique()));
+      }
+    else
+      {
+#if defined(DEBUG)
+	std::cout << client << ": Authentication failed" << std::endl;
+#endif
+	client->requestPush(new ServerRequest(requestCode::server::FORBIDDEN));
+      }
+    delete req;
+  }
+
+  void	Manager::launchGame(ARequest *req, ::Client *client, Manager *manager)
+  {
     (void)client;
     (void)manager;
+    delete req;
+
   }
 }
