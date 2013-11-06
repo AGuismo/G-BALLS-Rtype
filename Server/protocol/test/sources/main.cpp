@@ -4,6 +4,7 @@
 #include	<typeinfo>
 #include	"types.hh"
 #include	"AuthRequest.hh"
+#include	"PartyRequest.hh"
 #include	"SessionRequest.hh"
 #include	"ServerRequest.hh"
 #include	"ARequest.hh"
@@ -64,6 +65,7 @@ void	network()
   bytes = Protocol::product(startGame);
   client.writeIntoBuffer(bytes, bytes.size());
   client.send();
+  client.recv();
   req = getReq(client);
   std::cout << "Response: " << req->code() << std::endl;
   req = getReq(client);
@@ -77,9 +79,9 @@ int	main()
   Auth::ChangePass		authPass("Ruby", 1664, 4661, 5348);
   ServerRequest			servReq(requestCode::server::FORBIDDEN);
 
-  test(authConnect);
-  test(authPass);
-  test(servReq);
+  // test(authConnect);
+  // test(authPass);
+  // test(servReq);
   // std::cout << "Size: " << bytes.size() << std::endl;
 
   network();

@@ -147,10 +147,10 @@ namespace	menu
   {
     game::Player		*player = new game::Player(42);
     std::list<game::Player *>	players;
+    Game			*new_game;
 
     players.push_back(player);
-    Game		*new_game = new Game(players);
-
+    new_game = new Game(players);
     client->game().game(new_game);
     client->game().player(player);
     client->requestPush(new ServerRequest(requestCode::server::OK));
