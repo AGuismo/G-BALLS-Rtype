@@ -1,14 +1,14 @@
-#include	"SpriteManager.h"
+#include	"TextureManager.h"
 
 
-sf::Texture				*SpriteManager::getTexture(ObjType obj)
+sf::Texture				*TextureManager::getTexture(ObjType obj)
 {
 	map_type::iterator	it = _spriteMap.find(obj);
 
 	return (it == _spriteMap.end() ? NULL : it->second);
 }
 
-bool					SpriteManager::addTexture(ObjType obj, std::string &texturePath)
+bool					TextureManager::addTexture(ObjType obj, std::string &texturePath)
 {
 	sf::Texture			*newTexture = new sf::Texture;
 

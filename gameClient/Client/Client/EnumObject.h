@@ -8,7 +8,13 @@ enum ObjType
 	PLAYER2,
 	PLAYER3,
 	PLAYER4,
-	SBYDOS1
+	SBYDOS1,
+	LAYER1,
+	LAYER2,
+	LAYER3,
+	LAYER4,
+	LAYER5,
+	LAYER6
 };
 
 enum Action

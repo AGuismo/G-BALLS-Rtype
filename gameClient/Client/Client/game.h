@@ -4,7 +4,7 @@
 #include	<deque>
 #include	<SFML/Graphics.hpp>
 
-#include	"SpriteManager.h"
+#include	"TextureManager.h"
 #include	"Factory.h"
 
 class gameWindow;
@@ -20,7 +20,7 @@ private:
 	typedef std::deque<AObject *> obj_type;
 
 private:
-	SpriteManager				_spriteManager;
+	TextureManager				_textureManager;
 	Factory						_factory;
 	std::deque<AObject *>		_objects;
 	int							_idPlayer;

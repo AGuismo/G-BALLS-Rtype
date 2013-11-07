@@ -168,13 +168,15 @@
   <ItemGroup>
     <ClInclude Include="AObject.h" />
     <ClInclude Include="Bydos1.h" />
+    <ClInclude Include="EnumLayer.h" />
     <ClInclude Include="EnumObject.h" />
     <ClInclude Include="Factory.h" />
     <ClInclude Include="game.h" />
     <ClInclude Include="gameWindow.h" />
     <ClInclude Include="IObject.h" />
+    <ClInclude Include="Layer.h" />
     <ClInclude Include="Player.h" />
-    <ClInclude Include="SpriteManager.h" />
+    <ClInclude Include="TextureManager.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

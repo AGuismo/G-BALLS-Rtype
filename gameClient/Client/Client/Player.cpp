@@ -13,9 +13,6 @@ void			Player::draw(void)
 
 void			Player::update(Action act)
 {
-/*	if ((_act = (act != Nothing) ? true : false) == true)
-		_image.setTextureRect(sf::IntRect(132, _indexSprite, 68, 38));*/
-
 	_act = (act != Nothing) ? true : false;
 
 	std::cout << "elapsed " <<_mvtClock.getElapsedTime().asSeconds() << " mvt " << _mvTime << std::endl;

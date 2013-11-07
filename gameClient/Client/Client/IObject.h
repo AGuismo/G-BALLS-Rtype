@@ -2,7 +2,6 @@
 # define IOBJECT
 
 # include	<iostream>
-# include	<SFML/Graphics.hpp>
 # include	"EnumObject.h"
 
 

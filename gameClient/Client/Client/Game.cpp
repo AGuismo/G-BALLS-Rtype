@@ -6,15 +6,15 @@
 bool							Game::load(void)
 {
 
-	if(!_spriteManager.addTexture(PLAYER1, std::string("./Images/r-typesheet42.png")))
+	if(!_textureManager.addTexture(PLAYER1, std::string("./Images/r-typesheet42.png")))
 		return false;
-	if (!_spriteManager.addTexture(PLAYER2, std::string("./Images/r-typesheet42.png")))
+	if (!_textureManager.addTexture(PLAYER2, std::string("./Images/r-typesheet42.png")))
 		return false;
-	if (!_spriteManager.addTexture(PLAYER3, std::string("./Images/r-typesheet42.png")))
+	if (!_textureManager.addTexture(PLAYER3, std::string("./Images/r-typesheet42.png")))
 		return false;
-	if (!_spriteManager.addTexture(PLAYER4, std::string("./Images/r-typesheet42.png")))
+	if (!_textureManager.addTexture(PLAYER4, std::string("./Images/r-typesheet42.png")))
 		return false;
-	if (!_spriteManager.addTexture(SBYDOS1, std::string("./Images/r-typesheet5.png")))
+	if (!_textureManager.addTexture(SBYDOS1, std::string("./Images/r-typesheet5.png")))
 		return false;
 	if (!_bgTexture1.loadFromFile("./Images/r-typebackground1-2.png"))
 		return false;
@@ -146,7 +146,7 @@ bool							Game::addObj(ObjType type, int id, int pos)
 	return false;
 }
 
-Game::Game(sf::RenderWindow *gameWindow, sf::Event *event) : _factory(gameWindow, &_spriteManager)
+Game::Game(sf::RenderWindow *gameWindow, sf::Event *event) : _factory(gameWindow, &_textureManager)
 {
 	_gameWindow = gameWindow;
 	_event = event;
