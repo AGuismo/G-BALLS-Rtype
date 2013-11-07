@@ -22,7 +22,7 @@ private:
 private:
 	TextureManager				_textureManager;
 	Factory						_factory;
-	std::deque<AObject *>		_objects;
+	obj_type					_objects;
 	int							_idPlayer;
 private:
 	sf::Texture					_bgTexture1;

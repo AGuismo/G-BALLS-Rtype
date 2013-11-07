@@ -83,5 +83,5 @@ Player::Player(ObjType type, int id, int pos, LookDirection ld, sf::Texture *tex
 	_image.setTextureRect(sf::IntRect(132, _indexSprite, 68, 38));
 	_image.setPosition((float)Game::POSX(_pos), (float)Game::POSY(_pos));
 	_act = false;
-	_mvTime = 0.04;
+	_mvTime = 0.04f;
 }
