@@ -2,7 +2,6 @@
 # define	GAME
 
 #include	<deque>
-#include	<SFML/Graphics.hpp>
 
 #include	"TextureManager.h"
 #include	"Factory.h"

@@ -4,6 +4,7 @@
 #include	<map>
 
 # include	"EnumObject.h"
+# include	"EnumLayer.h"
 # include	"Layer.h"
 
 class TextureManager;
@@ -12,7 +13,6 @@ namespace sf
 {
 	class RenderWindow;
 }
-
 class								LayerManager
 {
 private:
@@ -20,14 +20,14 @@ private:
 	TextureManager					*_textureManager;
 
 private:
-	typedef std::map<ObjType, Layer *> layer_type;
-	layer_type						_layers;
+	typedef std::map<LayerType, Layer *> layers_type;
+	layers_type						_layers;
 
 public:
-	bool							addLayer(ObjType layer, sf::Vector2f *lReset, sf::Vector2f *lLim, float lInc, bool lEn);
-	bool							enableLayer(ObjType layer);
-	bool							stopLayer(ObjType layer);
-	bool							resetLayer(ObjType layer);
+	bool							addLayer(ObjType objType, LayerType lType, sf::Vector2f *lReset, sf::Vector2f *lLim, sf::Vector2f *lInc, bool lEn);
+	bool							enableLayer(LayerType layer);
+	bool							stopLayer(LayerType layer);
+	bool							resetLayer(LayerType layer);
 
 public:
 	void							draw(void);

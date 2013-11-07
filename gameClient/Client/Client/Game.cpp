@@ -2,6 +2,7 @@
 #include		"game.h"
 #include		<algorithm>
 
+#include		"Timer.h" // A VIRER
 
 bool							Game::load(void)
 {
@@ -40,9 +41,16 @@ void							Game::run(void)
 	addObj(PLAYER4, 48, 200);
 	addObj(SBYDOS1, 455, 140);
 
+	Timer						test(new sf::Time(sf::seconds(15.25)));
 
 	while (_gameWindow->isOpen())
 	{
+		if (test.isEnded())
+		{
+			std::cout << "timer ended" << std::endl;
+			test.restart();
+		}
+
 		while (_gameWindow->pollEvent(*_event))
 		{
 			switch (_event->type)
