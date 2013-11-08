@@ -4,11 +4,15 @@
 # include	<SFML/Graphics.hpp>
 # include	"Timer.h"
 # include	"EnumObject.h"
+# include	<algorithm>
+# include	<functional>
+
+//# include	"EnumLayer.h"
 
 class Layer
 {
 private:
-	LayerType					_lType;
+	int							_id;
 	sf::Texture					*_lTexture;
 	sf::Sprite					_lSprite;
 
@@ -17,6 +21,7 @@ private:
 
 private:
 	sf::Vector2f				*_lCurPos;
+	sf::Vector2f				*_lInitPos;
 	sf::Vector2f				*_lResetPos;
 	sf::Vector2f				*_lLimPos;
 	sf::Vector2f				*_lIncrement;
@@ -32,8 +37,19 @@ public:
 	void						disable(void);
 
 public:
-	Layer(LayerType type, sf::Texture *lText, sf::Vector2f *lReset, sf::Vector2f *lLim, sf::Vector2f *lInc, sf::RenderWindow *gWindow, bool lEn);
+	Layer(int id, sf::Texture *lText, sf::Vector2f *lInit, sf::Vector2f *lReset, sf::Vector2f *lLim, sf::Vector2f *lInc, Timer *lT, sf::RenderWindow *gWindow, bool lEn);
 	~Layer() {}
+
+public:
+	struct predicate : std::unary_function<Layer *, bool>
+	{
+		predicate(const int id) : _id(id) {}
+		bool	operator()(const Layer *obj) const
+		{
+			return (obj->_id == _id);
+		};
+		const int	_id;
+	};
 
 private:
 	Layer(const Layer &);

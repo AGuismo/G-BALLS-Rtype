@@ -1,7 +1,7 @@
 #ifndef LAYERMANAGER_
 # define	LAYERMANAGER_
 
-#include	<map>
+#include	<deque>
 
 # include	"EnumObject.h"
 # include	"EnumLayer.h"
@@ -20,7 +20,7 @@ private:
 	TextureManager					*_textureManager;
 
 private:
-	typedef std::map<LayerType, Layer *> layers_type;
+	typedef std::deque<Layer *> layers_type;
 	layers_type						_layers;
 
 public:

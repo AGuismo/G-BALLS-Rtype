@@ -1,5 +1,6 @@
 #include		"AObject.h"
 #include		"game.h"
+#include		"Layer.h"
 #include		<algorithm>
 
 #include		"Timer.h" // A VIRER
@@ -17,7 +18,13 @@ bool							Game::load(void)
 		return false;
 	if (!_textureManager.addTexture(SBYDOS1, std::string("./Images/r-typesheet5.png")))
 		return false;
-	if (!_bgTexture1.loadFromFile("./Images/r-typebackground1-2.png"))
+	if (!_textureManager.addTexture(LAYER1, std::string("./Images/r-typebackground1-2.png")))
+		return false;
+	if (!_textureManager.addTexture(LAYER2, std::string("./Images/saturne.png")))
+		return false;
+	if (!_textureManager.addTexture(LAYER3, std::string("./Images/galaxy1.png")))
+		return false;
+	if (!_textureManager.addTexture(LAYER4, std::string("./Images/warning.png")))
 		return false;
 	_bgImg1.setTexture(_bgTexture1);
 	if (!_bgTexture2.loadFromFile("./Images/r-typebackground1-1.png"))
@@ -41,14 +48,20 @@ void							Game::run(void)
 	addObj(PLAYER4, 48, 200);
 	addObj(SBYDOS1, 455, 140);
 
-	Timer						test(new sf::Time(sf::seconds(15.25)));
+	Timer						test(new sf::Time(sf::seconds(5.25)));
+
+	Layer						*testl = new Layer(42, _textureManager.getTexture(LAYER1), new sf::Vector2f(1280.0f, 0.0f), new sf::Vector2f(0.0f, 0.0f), new sf::Vector2f(-1280.0f, 0.0f), new sf::Vector2f(5.0f, 0.0f), NULL, _gameWindow, true);
+	Layer						*test2 = new Layer(42, _textureManager.getTexture(LAYER1), new sf::Vector2f(1280.0f, 0.0f), new sf::Vector2f(1280.0f, 0.0f), new sf::Vector2f(-1280.0f, 0.0f), new sf::Vector2f(5.0f, 0.0f), NULL, _gameWindow, true);
+	Layer						*test3 = new Layer(42, _textureManager.getTexture(LAYER2), new sf::Vector2f(1280.0f, 0.0f), new sf::Vector2f(0.0f, 0.0f), new sf::Vector2f(-1280.0f, 0.0f), new sf::Vector2f(1.0f, 0.0f), NULL, _gameWindow, true);
+	Layer						*test4 = new Layer(42, _textureManager.getTexture(LAYER3), new sf::Vector2f(1280.0f, 0.0f), new sf::Vector2f(0.0f, 0.0f), new sf::Vector2f(-1280.0f, 0.0f), new sf::Vector2f(3.0f, 0.0f), NULL, _gameWindow, true);
+	Layer						*test5 = new Layer(42, _textureManager.getTexture(LAYER4), new sf::Vector2f(1280.0f, 0.0f), new sf::Vector2f(0.0f, 0.0f), new sf::Vector2f(-1280.0f, 0.0f), new sf::Vector2f(0.0f, 0.0f), &test, _gameWindow, false);
 
 	while (_gameWindow->isOpen())
 	{
 		if (test.isEnded())
 		{
 			std::cout << "timer ended" << std::endl;
-			test.restart();
+			// test.restart();
 		}
 
 		while (_gameWindow->pollEvent(*_event))
@@ -72,6 +85,7 @@ void							Game::run(void)
 					break;
 				case sf::Keyboard::Down:
 					updateObj(42, Down);
+					test5->enable();
 					break;
 				case sf::Keyboard::Escape:
 					return;
@@ -102,15 +116,25 @@ void							Game::run(void)
 		_gameWindow->clear();
 
 		update();
-		if (bg1 == -1280)
+		testl->update();
+		testl->draw();
+		test2->update();
+		test2->draw();
+		test3->update();
+		test3->draw();
+		test4->update();
+		test4->draw();
+		test5->update();
+		test5->draw();
+		/*		if (bg1 == -1280)
 			bg1 = 1280;
 		if (bg2 == -1280)
 			bg2 = 1280;
 
-		_bgImg1.setPosition(bg1, 0);
-		_bgImg2.setPosition(bg2, 0);
-		_gameWindow->draw(_bgImg1);
-		_gameWindow->draw(_bgImg2);
+		_bgImg1.setPosition(bg1, 0);*/
+		//_bgImg2.setPosition(0, 0);
+		//_gameWindow->draw(_bgImg2);
+		//_gameWindow->draw(_bgImg2);
 		draw();
 //		sf::sleep(sf::seconds(1));
 
