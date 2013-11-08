@@ -5,7 +5,7 @@ void						Layer::draw(void)
 {
 	if (_lEnabled)
 	{
-		std::cout << "plop" << std::endl;
+	//	std::cout << "plop" << std::endl;
 	//	_lSprite.setPosition(0, 0);
 		_gameWindow->draw(_lSprite);
 	}
@@ -17,14 +17,15 @@ void						Layer::update(void)
 	{
 		if (_lEnabled)
 		{
-			std::cout << "lposx " << _lCurPos->x << "lposy " << _lCurPos->y << std::endl;
+			if (_id == 43)
+				std::cout << "lposx " << _lCurPos->x << "lposy " << _lCurPos->y << " incy" << _lIncrement->y << std::endl;
 		//	system("pause");
 			_lCurPos->x -= _lIncrement->x;
 			_lCurPos->y -= _lIncrement->y;
+			_lCurPos->x = (_lCurPos->x == _lLimPos->x) ? _lInitPos->x : _lCurPos->x;
+			_lCurPos->y = (_lCurPos->y == _lLimPos->y) ? _lInitPos->y : _lCurPos->y;
+			_lSprite.setPosition(_lCurPos->x, _lCurPos->y);
 		}
-		_lCurPos->x = (_lCurPos->x <= _lLimPos->x) ? _lInitPos->x : _lCurPos->x;
-		_lCurPos->y = (_lCurPos->y <= _lLimPos->y) ? _lInitPos->y : _lCurPos->y;
-		_lSprite.setPosition(_lCurPos->x, _lCurPos->y);
 	}
 	_lEnabled = ((_lTime && _lTime->isEnded()) || !_lEnabled) ? false : true;
 }

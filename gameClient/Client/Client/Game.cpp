@@ -50,10 +50,10 @@ void							Game::run(void)
 
 	Timer						test(new sf::Time(sf::seconds(5.25)));
 
-	Layer						*testl = new Layer(42, _textureManager.getTexture(LAYER1), new sf::Vector2f(1280.0f, 0.0f), new sf::Vector2f(0.0f, 0.0f), new sf::Vector2f(-1280.0f, 0.0f), new sf::Vector2f(5.0f, 0.0f), NULL, _gameWindow, true);
-	Layer						*test2 = new Layer(42, _textureManager.getTexture(LAYER1), new sf::Vector2f(1280.0f, 0.0f), new sf::Vector2f(1280.0f, 0.0f), new sf::Vector2f(-1280.0f, 0.0f), new sf::Vector2f(5.0f, 0.0f), NULL, _gameWindow, true);
-	Layer						*test3 = new Layer(42, _textureManager.getTexture(LAYER2), new sf::Vector2f(1280.0f, 0.0f), new sf::Vector2f(0.0f, 0.0f), new sf::Vector2f(-1280.0f, 0.0f), new sf::Vector2f(1.0f, 0.0f), NULL, _gameWindow, true);
-	Layer						*test4 = new Layer(42, _textureManager.getTexture(LAYER3), new sf::Vector2f(1280.0f, 0.0f), new sf::Vector2f(0.0f, 0.0f), new sf::Vector2f(-1280.0f, 0.0f), new sf::Vector2f(3.0f, 0.0f), NULL, _gameWindow, true);
+	Layer						*testl = new Layer(42, _textureManager.getTexture(LAYER1), new sf::Vector2f(1280.0f, 0.0f), new sf::Vector2f(0.0f, 0.0f), new sf::Vector2f(-1280.0f, 0.0f), new sf::Vector2f(4.0f, 0.0f), NULL, _gameWindow, true);
+	Layer						*test2 = new Layer(42, _textureManager.getTexture(LAYER1), new sf::Vector2f(1280.0f, 0.0f), new sf::Vector2f(1280.0f, 0.0f), new sf::Vector2f(-1280.0f, 100.0f), new sf::Vector2f(4.0f, 0.0f), NULL, _gameWindow, true);
+	Layer						*test3 = new Layer(42, _textureManager.getTexture(LAYER2), new sf::Vector2f(1280.0f, 0.0f), new sf::Vector2f(0.0f, 0.0f), new sf::Vector2f(-1280.0f, 400.0f), new sf::Vector2f(0.0f, -1.0f), NULL, _gameWindow, true);
+	Layer						*test4 = new Layer(43, _textureManager.getTexture(LAYER3), new sf::Vector2f(1280.0f, 0.0f), new sf::Vector2f(0.0f, 0.0f), new sf::Vector2f(-1280.0f, 0.0f), new sf::Vector2f(2.0f, 0.0f), NULL, _gameWindow, true);
 	Layer						*test5 = new Layer(42, _textureManager.getTexture(LAYER4), new sf::Vector2f(1280.0f, 0.0f), new sf::Vector2f(0.0f, 0.0f), new sf::Vector2f(-1280.0f, 0.0f), new sf::Vector2f(0.0f, 0.0f), &test, _gameWindow, false);
 
 	while (_gameWindow->isOpen())
