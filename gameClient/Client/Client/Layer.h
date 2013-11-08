@@ -44,9 +44,9 @@ public:
 	struct predicate : std::unary_function<Layer *, bool>
 	{
 		predicate(const int id) : _id(id) {}
-		bool	operator()(const Layer *obj) const
+		bool	operator()(const Layer *layer) const
 		{
-			return (obj->_id == _id);
+			return (layer->_id == _id);
 		};
 		const int	_id;
 	};

@@ -3,12 +3,12 @@
 
 enum LayerType
 {
-	LAYER1 = 5, //be ultracarefull when updating this enum or ObjType enum they are linked
-	LAYER2,
-	LAYER3,
-	LAYER4,
-	LAYER5,
-	LAYER6
+	LAYER_1 = 0, 
+	LAYER_2,
+	LAYER_3,
+	LAYER_4,
+	LAYER_5,
+	LAYER_6
 };
 
 #endif // !ENUMLAYER_

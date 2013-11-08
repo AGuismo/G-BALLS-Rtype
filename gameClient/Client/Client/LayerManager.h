@@ -13,6 +13,7 @@ namespace sf
 {
 	class RenderWindow;
 }
+
 class								LayerManager
 {
 private:
@@ -23,15 +24,18 @@ private:
 	typedef std::deque<Layer *> layers_type;
 	layers_type						_layers;
 
+private:
+	Layer							*findLayer(int lId);
+
 public:
-	bool							addLayer(ObjType objType, LayerType lType, sf::Vector2f *lReset, sf::Vector2f *lLim, sf::Vector2f *lInc, bool lEn);
+	bool							addLayer(ObjType objType, LayerType lType, sf::Vector2f *lInit, sf::Vector2f *lReset, sf::Vector2f *lLim, sf::Vector2f *lInc, Timer *lTimer, bool lEn);
 	bool							enableLayer(LayerType layer);
 	bool							stopLayer(LayerType layer);
-	bool							resetLayer(LayerType layer);
 
 public:
 	void							draw(void);
 	void							update(void);
+	void							upDraw(void);
 
 public:
 	LayerManager(sf::RenderWindow *gameWindow, TextureManager *TextureManager);

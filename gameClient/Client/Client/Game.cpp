@@ -18,18 +18,17 @@ bool							Game::load(void)
 		return false;
 	if (!_textureManager.addTexture(SBYDOS1, std::string("./Images/r-typesheet5.png")))
 		return false;
-	if (!_textureManager.addTexture(LAYER1, std::string("./Images/r-typebackground1-2.png")))
+	if (!_textureManager.addTexture(LAYER1, std::string("./Images/r-typebackground1-1.png")))
 		return false;
-	if (!_textureManager.addTexture(LAYER2, std::string("./Images/saturne.png")))
+	if (!_textureManager.addTexture(LAYER2, std::string("./Images/r-typebackground1-2.png")))
 		return false;
-	if (!_textureManager.addTexture(LAYER3, std::string("./Images/galaxy1.png")))
+	if (!_textureManager.addTexture(LAYER3, std::string("./Images/saturne.png")))
 		return false;
-	if (!_textureManager.addTexture(LAYER4, std::string("./Images/warning.png")))
+	if (!_textureManager.addTexture(LAYER4, std::string("./Images/galaxy1.png")))
 		return false;
-	_bgImg1.setTexture(_bgTexture1);
-	if (!_bgTexture2.loadFromFile("./Images/r-typebackground1-1.png"))
+	if (!_textureManager.addTexture(LAYER5, std::string("./Images/warning.png")))
 		return false;
-	_bgImg2.setTexture(_bgTexture2);
+	
 
 	return true;
 }
@@ -55,6 +54,8 @@ void							Game::run(void)
 	Layer						*test3 = new Layer(42, _textureManager.getTexture(LAYER2), new sf::Vector2f(1280.0f, 0.0f), new sf::Vector2f(0.0f, 0.0f), new sf::Vector2f(-1280.0f, 400.0f), new sf::Vector2f(0.0f, -1.0f), NULL, _gameWindow, true);
 	Layer						*test4 = new Layer(43, _textureManager.getTexture(LAYER3), new sf::Vector2f(1280.0f, 0.0f), new sf::Vector2f(0.0f, 0.0f), new sf::Vector2f(-1280.0f, 0.0f), new sf::Vector2f(2.0f, 0.0f), NULL, _gameWindow, true);
 	Layer						*test5 = new Layer(42, _textureManager.getTexture(LAYER4), new sf::Vector2f(1280.0f, 0.0f), new sf::Vector2f(0.0f, 0.0f), new sf::Vector2f(-1280.0f, 0.0f), new sf::Vector2f(0.0f, 0.0f), &test, _gameWindow, false);
+
+
 
 	while (_gameWindow->isOpen())
 	{
@@ -85,7 +86,7 @@ void							Game::run(void)
 					break;
 				case sf::Keyboard::Down:
 					updateObj(42, Down);
-					test5->enable();
+					//test5->enable();
 					break;
 				case sf::Keyboard::Escape:
 					return;
@@ -178,7 +179,7 @@ bool							Game::addObj(ObjType type, int id, int pos)
 	return false;
 }
 
-Game::Game(sf::RenderWindow *gameWindow, sf::Event *event) : _factory(gameWindow, &_textureManager)
+Game::Game(sf::RenderWindow *gameWindow, sf::Event *event) : _factory(gameWindow, &_textureManager), _layerManager(gameWindow, &_textureManager)
 {
 	_gameWindow = gameWindow;
 	_event = event;

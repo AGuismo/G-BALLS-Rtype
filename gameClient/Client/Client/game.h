@@ -4,6 +4,7 @@
 #include	<deque>
 
 #include	"TextureManager.h"
+#include	"LayerManager.h"
 #include	"Factory.h"
 
 class gameWindow;
@@ -19,8 +20,9 @@ private:
 	typedef std::deque<AObject *> obj_type;
 
 private:
-	TextureManager				_textureManager;
 	Factory						_factory;
+	TextureManager				_textureManager;
+	LayerManager				_layerManager;
 	obj_type					_objects;
 	int							_idPlayer;
 private:
