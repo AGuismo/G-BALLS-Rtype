@@ -18,6 +18,4 @@ private:
 	Bydos1				operator=(const Bydos1 &);
 };
 
-
-
 #endif // !BYDOS1

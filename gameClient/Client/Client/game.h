@@ -2,9 +2,9 @@
 # define	GAME
 
 #include	<deque>
-#include	<SFML/Graphics.hpp>
 
-#include	"SpriteManager.h"
+#include	"TextureManager.h"
+#include	"LayerManager.h"
 #include	"Factory.h"
 
 class gameWindow;
@@ -20,9 +20,10 @@ private:
 	typedef std::deque<AObject *> obj_type;
 
 private:
-	SpriteManager				_spriteManager;
 	Factory						_factory;
-	std::deque<AObject *>		_objects;
+	TextureManager				_textureManager;
+	LayerManager				_layerManager;
+	obj_type					_objects;
 	int							_idPlayer;
 private:
 	sf::Texture					_bgTexture1;

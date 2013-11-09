@@ -1,5 +1,5 @@
-#ifndef SPRITEMANAGER
-# define SPRITEMANAGER
+#ifndef TEXTUREMANAGER_
+# define TEXTUREMANAGER_
 
 #include	<iostream>
 #include	<map>
@@ -7,7 +7,7 @@
 #include	"EnumObject.h"
 
 
-class				SpriteManager
+class				TextureManager
 {
 public:
 	typedef std::map<ObjType, sf::Texture*> map_type;
@@ -18,13 +18,13 @@ private:
 public:
 	sf::Texture				*getTexture(ObjType);
 	bool					addTexture(ObjType, std::string &texturePath);
-	SpriteManager() {}
-	~SpriteManager() {}
+	TextureManager() {}
+	~TextureManager() {}
 
 private:
-	SpriteManager(const SpriteManager &);
-	SpriteManager			operator=(const SpriteManager &);
+	TextureManager(const TextureManager &);
+	TextureManager			operator=(const TextureManager &);
 };
 
 
-#endif // !SPRITEMANAGER
+#endif // !TEXTUREMANAGER_

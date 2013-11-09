@@ -1,6 +1,6 @@
 #include			"Factory.h"
 #include			"AObject.h"
-#include			"SpriteManager.h"
+#include			"TextureManager.h"
 #include			"Player.h"
 #include			"Bydos1.h"
 
@@ -8,7 +8,7 @@ AObject				*Factory::createObject(ObjType type, int id, int pos, LookDirection l
 {
 	sf::Texture	*text;
 
-	if ((text = _spriteManager->getTexture(type)) != NULL)
+	if ((text = _textureManager->getTexture(type)) != NULL)
 	{
 		switch (type)
 		{
@@ -35,8 +35,8 @@ AObject				*Factory::createObject(ObjType type, int id, int pos, LookDirection l
 	return NULL;
 }
 
-Factory::Factory(sf::RenderWindow *gameWindow, SpriteManager *spriteManager)
+Factory::Factory(sf::RenderWindow *gameWindow, TextureManager *TextureManager)
 {
 	_gameWindow = gameWindow;
-	_spriteManager = spriteManager;
+	_textureManager = TextureManager;
 }

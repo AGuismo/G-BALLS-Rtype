@@ -3,7 +3,7 @@
 
 #include	"EnumObject.h"
 
-class SpriteManager;
+class TextureManager;
 class AObject;
 
 namespace sf
@@ -15,13 +15,13 @@ class					Factory
 {
 private:
 	sf::RenderWindow	*_gameWindow;
-	SpriteManager		*_spriteManager;
+	TextureManager		*_textureManager;
 
 public:
 	AObject				*createObject(ObjType type, int id, int pos, LookDirection ld);
 
 public:
-	Factory(sf::RenderWindow *gameWindow, SpriteManager *spriteManager);
+	Factory(sf::RenderWindow *gameWindow, TextureManager *TextureManager);
 	~Factory() {}
 
 private:

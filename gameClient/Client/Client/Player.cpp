@@ -13,9 +13,6 @@ void			Player::draw(void)
 
 void			Player::update(Action act)
 {
-/*	if ((_act = (act != Nothing) ? true : false) == true)
-		_image.setTextureRect(sf::IntRect(132, _indexSprite, 68, 38));*/
-
 	_act = (act != Nothing) ? true : false;
 
 	std::cout << "elapsed " <<_mvtClock.getElapsedTime().asSeconds() << " mvt " << _mvTime << std::endl;
@@ -86,5 +83,5 @@ Player::Player(ObjType type, int id, int pos, LookDirection ld, sf::Texture *tex
 	_image.setTextureRect(sf::IntRect(132, _indexSprite, 68, 38));
 	_image.setPosition((float)Game::POSX(_pos), (float)Game::POSY(_pos));
 	_act = false;
-	_mvTime = 0.04;
+	_mvTime = 0.04f;
 }
