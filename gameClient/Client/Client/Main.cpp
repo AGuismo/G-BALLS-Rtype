@@ -17,6 +17,7 @@ int main()
 	if (!gameW.load())
 	{
 		std::cerr << "Error loading game" << std::endl;
+//		system("pause");
 		return EXIT_FAILURE;
 	}
 	gameW.run();

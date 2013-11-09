@@ -25,6 +25,7 @@ private:
 	LayerManager				_layerManager;
 	obj_type					_objects;
 	int							_idPlayer;
+
 private:
 	sf::Texture					_bgTexture1;
 	sf::Sprite					_bgImg1;

@@ -22,8 +22,8 @@ void						Layer::update(void)
 		//	system("pause");
 			_lCurPos->x -= _lIncrement->x;
 			_lCurPos->y -= _lIncrement->y;
-			_lCurPos->x = (_lCurPos->x == _lLimPos->x) ? _lInitPos->x : _lCurPos->x;
-			_lCurPos->y = (_lCurPos->y == _lLimPos->y) ? _lInitPos->y : _lCurPos->y;
+			_lCurPos->x = (_lCurPos->x == _lLimPos->x) ? _lResetPos->x : _lCurPos->x;
+			_lCurPos->y = (_lCurPos->y == _lLimPos->y) ? _lResetPos->y : _lCurPos->y;
 			_lSprite.setPosition(_lCurPos->x, _lCurPos->y);
 		}
 	}
@@ -46,12 +46,11 @@ Layer::Layer(int id, sf::Texture *lText, sf::Vector2f *lInit, sf::Vector2f *lRes
 {
 	_id = id;
 	_lTexture = lText;
-	std::cout << _lTexture << std::endl;
 	_lResetPos = lReset;
 	_lIncrement = lInc;
 	_lLimPos = lLim;
-	_lCurPos = lReset;
-	_lInitPos = lInit;
+	_lCurPos = lInit;
+	_lInitPos = lReset;
 	_lTime = lT;
 	_gameWindow = gWindow;
 	_lEnabled = lEn;
