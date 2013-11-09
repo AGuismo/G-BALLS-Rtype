@@ -100,9 +100,9 @@ namespace	menu
     while (true)
       {
 	thisPtr->_monitor.run();
-	thisPtr->checkNewClient();
 	thisPtr->updateClients();
-      }
+	thisPtr->checkNewClient();
+	}
   }
 
   void		Manager::sendGame(Game *game)

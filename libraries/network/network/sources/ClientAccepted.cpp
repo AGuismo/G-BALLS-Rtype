@@ -6,7 +6,8 @@
 using namespace net;
 
 #if defined(WIN32)
-ClientAccepted::ClientAccepted(SOCKET sock, struct sockaddr_in addr)
+ClientAccepted::ClientAccepted(SOCKET sock, struct sockaddr_in addr) :
+AMonitorable(true, false)
 {
   WinInit::GetInstance();
   _sock = sock;
