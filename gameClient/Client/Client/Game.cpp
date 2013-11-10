@@ -24,12 +24,7 @@ bool							Game::load(void)
 		return false;
 	if (!_textureManager.addTexture(LAYER3, std::string("./Images/Comet1.png")))
 		return false;
-/*	if (!_textureManager.addTexture(LAYER3, std::string("./Images/saturne.png")))
-		return false;
-	if (!_textureManager.addTexture(LAYER4, std::string("./Images/galaxy1.png")))
-		return false;
-	if (!_textureManager.addTexture(LAYER5, std::string("./Images/warning.png")))
-		return false;*/
+
 
 	if (!_layerManager.addLayer(LAYER1, LAYER_1, new sf::Vector2f(0.0f, 0.0f), new sf::Vector2f(2560.0f, 0.0f), new sf::Vector2f(-2560.0f, 0.0f), new sf::Vector2f(1.0f, 0.0f), NULL, true))
 		return false;
@@ -79,11 +74,14 @@ void							Game::run(void)
 	Layer						*test5 = new Layer(42, _textureManager.getTexture(LAYER4), new sf::Vector2f(1280.0f, 0.0f), new sf::Vector2f(0.0f, 0.0f), new sf::Vector2f(-1280.0f, 0.0f), new sf::Vector2f(0.0f, 0.0f), &test, _gameWindow, false);
 	*/
 
-	sf::Music					music;
+	sf::Sound					sound;
+	sf::SoundBuffer				buffer; // ce buffer est local à la fonction, il sera détruit...
 
-	if (music.openFromFile("./Sounds/DeepSpace.ogg"))
+	if (buffer.loadFromFile("./Sounds/DeepSpace.ogg"))
 	{
-		music.play();
+		sound.setBuffer(buffer);
+		sound.play();
+		sound.setLoop(true);
 	}
 
 	while (_gameWindow->isOpen())
@@ -109,6 +107,12 @@ void							Game::run(void)
 					break;
 				case sf::Keyboard::Right:
 					updateObj(42, Right);
+					break;
+				case sf::Keyboard::Space:
+					if ((sound.getStatus() == sf::SoundSource::Paused) || (sound.getStatus() == sf::SoundSource::Stopped))
+						sound.play();
+					else if (sound.getStatus() == sf::SoundSource::Playing)
+						sound.pause();
 					break;
 				case sf::Keyboard::Up:
 					updateObj(42, Up);
