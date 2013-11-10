@@ -1,4 +1,4 @@
-#include		<SFML/Audio/Music.hpp>
+#include		<SFML/Audio.hpp>
 #include		"AObject.h"
 #include		"game.h"
 #include		"Layer.h"
@@ -31,9 +31,9 @@ bool							Game::load(void)
 	if (!_textureManager.addTexture(LAYER5, std::string("./Images/warning.png")))
 		return false;*/
 
-	if (!_layerManager.addLayer(LAYER1, LAYER_1, new sf::Vector2f(0.0f, 0.0f), new sf::Vector2f(2560.0f, 0.0f), new sf::Vector2f(-2560.0f, 0.0f), new sf::Vector2f(2.0f, 0.0f), NULL, true))
+	if (!_layerManager.addLayer(LAYER1, LAYER_1, new sf::Vector2f(0.0f, 0.0f), new sf::Vector2f(2560.0f, 0.0f), new sf::Vector2f(-2560.0f, 0.0f), new sf::Vector2f(1.0f, 0.0f), NULL, true))
 		return false;
-	if (!_layerManager.addLayer(LAYER2, LAYER_2, new sf::Vector2f(2560.0f, 0.0f), new sf::Vector2f(2560.0f, 0.0f), new sf::Vector2f(-2560.0f, 0.0f), new sf::Vector2f(2.0f, 0.0f), NULL, true))
+	if (!_layerManager.addLayer(LAYER2, LAYER_2, new sf::Vector2f(2560.0f, 0.0f), new sf::Vector2f(2560.0f, 0.0f), new sf::Vector2f(-2560.0f, 0.0f), new sf::Vector2f(1.0f, 0.0f), NULL, true))
 		return false;
 	if (!_layerManager.addLayer(LAYER3, LAYER_3, new sf::Vector2f(0.0f, 0.0f), new sf::Vector2f(0.0f, 0.0f), new sf::Vector2f(800.0f, 1000.0f), new sf::Vector2f(-4.0f, -5.0f), NULL, true))
 		return false;
@@ -81,7 +81,7 @@ void							Game::run(void)
 
 	sf::Music					music;
 
-	if (music.openFromFile("./DeepSpace.ogg"))
+	if (music.openFromFile("./Sounds/DeepSpace.ogg"))
 	{
 		music.play();
 	}

@@ -10,7 +10,6 @@ testConsumer
 *.lib
 *.exe
 *.obj
-*.dll
 *.opensdf
 *.sdf
 *.suo
