@@ -20,23 +20,33 @@ SOCKET UdpServer::getSocket() const
   return _sock;
 }
 
+void	UdpServer::setClientAddr(struct sockaddr_in s)
+{
+	_clientAddr = s;
+}
+
+struct sockaddr_in		UdpServer::getClientAddr() const
+{
+	return _clientAddr;
+}
+
 void UdpServer::initialize(int port, int nbClients)
 {
   if((_sock = WSASocket(AF_INET , SOCK_DGRAM , IPPROTO_UDP, NULL, 0, WSA_FLAG_OVERLAPPED)) == INVALID_SOCKET)
     {
-      throw net::Exception("WSASocket failed: " + WSAGetLastError());
+      throw net::Exception("WSASocket failed: ");
     }
 
   //Prepare the sockaddr_in structure
   _addr.sin_family = AF_INET;
   if (WSAHtonl(_sock, INADDR_ANY, &_addr.sin_addr.s_addr) != 0)
-    throw net::Exception("WSAHtonll failed: " + WSAGetLastError());
+    throw net::Exception("WSAHtonll failed: ");
   WSAHtons(_sock, port, &_addr.sin_port);
 
   //Bind
   if( bind(_sock ,(struct sockaddr *)&_addr , sizeof(_addr)) == SOCKET_ERROR)
     {
-      throw net::Exception("Bind failed: " + WSAGetLastError());
+      throw net::Exception("Bind failed: ");
     }
 }
 
@@ -44,15 +54,15 @@ int			UdpServer::readData(char *data, int maxSize)
 {
   DWORD		readSize = 0, flags = 0;
   WSABUF	wbuff;
-  int		size = sizeof(_addr);
+  int		size = sizeof(_clientAddr);
 
   wbuff.buf = data;
   wbuff.len = maxSize;
   if (WSARecvFrom(_sock, &wbuff, 1, &readSize, &flags,
-		  reinterpret_cast<sockaddr *>(&_addr), &size, 0, 0) == -1)
+		  reinterpret_cast<sockaddr *>(&_clientAddr), &size, 0, 0) == -1)
     {
       _state = STATEERROR;
-      throw net::Exception("RecvFrom Failure: " + WSAGetLastError());
+      throw net::Exception("RecvFrom Failure: ");
     }
   if (readSize == 0)
     _state = DISCONNECTED;
@@ -66,11 +76,11 @@ int			UdpServer::writeData(const char *data, int size)
 
   wbuff.buf = const_cast<char *>(data);
   wbuff.len = size;
-  if (WSASendTo(_sock, &wbuff, 1, &writeSize, 0, reinterpret_cast<sockaddr *>(&_addr),
-		sizeof(_addr), 0, 0) == -1)
+  if (WSASendTo(_sock, &wbuff, 1, &writeSize, 0, reinterpret_cast<sockaddr *>(&_clientAddr),
+		sizeof(_clientAddr), 0, 0) == -1)
     {
       _state = STATEERROR;
-      throw net::Exception("SendTo Failure: " + WSAGetLastError());
+      throw net::Exception("SendTo Failure: ");
     }
   if (writeSize == 0)
     {

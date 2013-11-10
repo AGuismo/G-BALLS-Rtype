@@ -7,6 +7,12 @@ namespace	game
   {
 
   }
+  
+  Client::Client(struct sockaddr_in addr) :
+	  _used(false), _addr(addr)
+  {
+
+  }
 
   Client::~Client()
   {

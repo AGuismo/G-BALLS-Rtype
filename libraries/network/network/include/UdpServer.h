@@ -48,6 +48,9 @@ namespace net
     cBuffer::size_type lookRead(std::vector<cBuffer::Byte> &buf, cBuffer::size_type count);
     cBuffer::size_type lookWrite(std::vector<cBuffer::Byte> &buf, cBuffer::size_type count);
 
+	void	setClientAddr(struct sockaddr_in s);
+	struct sockaddr_in		getClientAddr() const;
+
   private:
     SOCKET	getSocket() const;
 
@@ -57,5 +60,6 @@ namespace net
     cBuffer		_read;
     cBuffer		_write;
     struct sockaddr_in	_addr;
+	struct sockaddr_in	_clientAddr;
   };
 }

@@ -19,6 +19,7 @@ namespace	game
   {
   public:
     Client();
+	Client(struct sockaddr_in addr);
     virtual ~Client();
 
   public:
@@ -47,6 +48,9 @@ namespace	game
     void			player(game::Player *player);
     game::Player		*player(void) const;
 
+	struct sockaddr_in getAddr() const { return _addr; };
+	void			setAddr(struct sockaddr_in addr) { _addr = addr; };
+
   private:
     game::Player		*_player;
     Game			*_game;
@@ -58,6 +62,7 @@ namespace	game
 
   private:
     requestCode::SessionID	_id;
+	struct sockaddr_in		_addr;
   };
 }
 

@@ -59,56 +59,47 @@ namespace	game
       }
   }
 
-  std::vector<Client *>::iterator	Manager::findSource(net::ClientAccepted *client,
-							    std::vector<cBuffer::Byte> &buf,
-							    AGameRequest *&request)
+  bool	Manager::findANameAtThisFunction(net::ClientAccepted *client,
+	  std::vector<cBuffer::Byte> &buf,
+	  AGameRequest *&request)
   {
-    AGameRequest			*req;
-    int					extracted;
+	  AGameRequest			*req;
+	  int					extracted;
 
-    (void)client;
-    try
-      {
-	req = dynamic_cast<AGameRequest *>(Protocol::consume(buf, extracted));
-	if (req == 0)
-	  throw Protocol::ConstructRequest("Request is not a GameRequest");
-      }
-    catch (Protocol::ConstructRequest &e)
-      {
+	  (void)client;
+	  try
+	  {
+		  req = dynamic_cast<AGameRequest *>(Protocol::consume(buf, extracted));
+		  if (req == 0)
+			  throw Protocol::ConstructRequest("Request is not a GameRequest");
+	  }
+	  catch (Protocol::ConstructRequest &e)
+	  {
 #if defined(DEBUG)
-	std::cerr << "Failed to create request: " << e.what() << std::endl;
+		  std::cerr << "Failed to create request: " << e.what() << std::endl;
 #endif
-	return (_gameClients.end());
-      }
-    request = req;
-    return (std::find_if(_gameClients.begin(), _gameClients.end(), predicate(req->SessionID())));
+		  return (false);
+	  }
+	  request = req;
+	  return true;
   }
 
   void					Manager::readData()
   {
-    client_vect::iterator		it;
-    net::ClientAccepted			*client;
-    std::vector<cBuffer::Byte>		buf;
-    AGameRequest			*req;
+	  client_vect::iterator		it;
+	  std::vector<cBuffer::Byte>		buf;
+	  AGameRequest			*req;
 
-    client = _server.recv();
-    _server.readFromBuffer(buf, rtype::Env::getInstance().network.maxUDPpacketLength);
-    if ((it = findSource(client, buf, req)) == _gameClients.end())
-      return ;
-    (void)req;
-    // 	if (client->_addr.sin_addr.s_addr == (*it)->game()->TcpLayer()->_addr.sin_addr.s_addr)
-    // 	  {
-    // 	    /*Client already identified*/
-    // 	    delete (*it)->TcpLayer();
-    // 	    (*it)->TcpLayer(client);
-    // 	    return *it;
-    // 	  }
-    // 	++it;
-    //   }
-    // _clients.push_back(new Client(client));
-
-    // return *(_clients.end());
+	  _server.readFromBuffer(buf, rtype::Env::getInstance().network.maxUDPpacketLength);
+	  if ((findANameAtThisFunction(NULL, buf, req)) == false)
+		  return;
+	  it = std::find_if(_gameClients.begin(), _gameClients.end(), predicate(req->SessionID()));
+	  if (it == _gameClients.end())
+		  _gameClients.push_back(new Client(_server.getClientAddr()));
+	  else
+		  (*it)->setAddr(_server.getClientAddr());
   }
+
 
   void			Manager::routine(Manager *thisPtr)
   {
