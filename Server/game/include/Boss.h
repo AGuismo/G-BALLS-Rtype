@@ -12,7 +12,8 @@ public:
 
   void	update();
   void	move();
-  void	fire();
+  Missile	*fire();
+
 private:
 
 

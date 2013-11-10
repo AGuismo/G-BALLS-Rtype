@@ -74,7 +74,6 @@
   <ItemGroup>
     <ClInclude Include="..\include\Boss.h" />
     <ClInclude Include="..\include\Clock.h" />
-    <ClInclude Include="..\include\ElapsedTime.h" />
     <ClInclude Include="..\include\Entity.h" />
     <ClInclude Include="..\include\Game.h" />
     <ClInclude Include="..\include\GameClient.hh" />

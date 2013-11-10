@@ -48,9 +48,6 @@
     <ClInclude Include="..\include\Time.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\ElapsedTime.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\include\GameClient.hh">
       <Filter>Header Files</Filter>
     </ClInclude>

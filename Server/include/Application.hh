@@ -40,6 +40,7 @@ private:
   menu::Manager		_menuManager;
   game::Manager		_gameManager;
   botLoader::Manager	_botLoaderManager;
+  std::vector<Client *>	_clients;
 };
 
 #endif /* APPLICATION_H_ */
