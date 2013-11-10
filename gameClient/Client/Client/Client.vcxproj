@@ -131,7 +131,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalDependencies>sfml-graphics.lib;sfml-window.lib;sfml-system.lib;sfml-audio.lib</AdditionalDependencies>
-      <AdditionalLibraryDirectories>C:\SFML\SFML-2.1\extlibs\bin\x64;C:\SFML\SFML-2.1\Libs\Release;C:\SFML\SFML-2.1\extlibs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\Users\Guismo\Documents\GitHub\G-BALLS-Rtype\gameClient\Client\Client;C:\SFML\SFML-2.1\extlibs\bin\x64;C:\SFML\SFML-2.1\Libs\Release;C:\SFML\SFML-2.1\extlibs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release Static|Win32'">
