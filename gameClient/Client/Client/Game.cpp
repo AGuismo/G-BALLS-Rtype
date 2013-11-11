@@ -84,6 +84,16 @@ void							Game::run(void)
 		sound.setLoop(true);
 	}
 
+	sf::Sound					sound2;
+	sf::SoundBuffer				buffer2; // ce buffer est local à la fonction, il sera détruit...
+
+	if (buffer2.loadFromFile("./Sounds/Lepi.ogg"))
+	{
+		sound2.setBuffer(buffer2);
+		sound2.play();
+		sound2.setLoop(true);
+	}
+
 	while (_gameWindow->isOpen())
 	{
 		if (test.isEnded())
