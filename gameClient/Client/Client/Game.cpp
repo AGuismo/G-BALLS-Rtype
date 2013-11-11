@@ -47,7 +47,11 @@ bool							Game::load(void)
 	if (!_layerManager.addLayer(LAYER3, LAYER_3, new sf::Vector2f(200.0f, 0.0f), new sf::Vector2f(200.0f, 0.0f), new sf::Vector2f(800.0f, 1400.0f), new sf::Vector2f(-5.0f, -5.0f), NULL, true))
 		return false;
 
-	if (!_audioManager.add(GAME_MUSIC, ASOUND, true, std::string("./Sounds/Lepi.ogg")))
+	if (!_audioManager.add(GAME_MUSIC, AMUSIC, true, std::string("./Sounds/Lepi.ogg")))
+		return false;
+	if (!_audioManager.add(BYDOS_LASER, ASOUND, true, std::string("./Sounds/BydosLaser.wav")))
+		return false;
+	if (!_audioManager.add(BYDOS_DESTRUCTION, ASOUND, false, std::string("./Sounds/BydosExplosion.aiff")))
 		return false;
 	return true;
 }
@@ -66,50 +70,11 @@ void							Game::run(void)
 	Timer						test(new sf::Time(sf::seconds(5.25)));
 
 
-/*	sf::Sound					sound;
-	sf::SoundBuffer				buffer; // ce buffer est local à la fonction, il sera détruit...
-
-	if (buffer.loadFromFile("./Sounds/DeepSpace.ogg"))
-	{
-		sound.setBuffer(buffer);
-		sound.play();
-		sound.setLoop(true);
-	}*/
-
-/*	sf::Music					sound;
-	sf::SoundBuffer				buffer; // ce buffer est local à la fonction, il sera détruit...
-
-	if (sound.openFromFile("./Sounds/DeepSpace.ogg"))
-	{
-//		sound.setBuffer(buffer);
-		sound.play();
-		sound.setLoop(true);
-	}*/
-
-/*	sf::Sound					*sound2 = new sf::Sound;
-	sf::SoundBuffer				buffer2; // ce buffer est local à la fonction, il sera détruit...
-
-	sf::SoundBuffer				buffer3; // ce buffer est local à la fonction, il sera détruit...
-
-	if (buffer2.loadFromFile("./Sounds/Lepi.ogg"))
-	{
-		buffer3 = buffer2;
-		delete buffer2;
-		sound2.setBuffer(buffer3);
-		sound2.play();
-		sound2.setLoop(true);
-	}*/
-
-//	_soundManager.playSound(42);
 	_audioManager.play(GAME_MUSIC);
+	_audioManager.play(BYDOS_LASER);
+	_audioManager.play(BYDOS_DESTRUCTION);
 	while (_gameWindow->isOpen())
 	{
-		if (test.isEnded())
-		{
-			//std::cout << "timer ended" << std::endl;
-			// test.restart();
-		}
-
 		while (_gameWindow->pollEvent(*_event))
 		{
 			switch (_event->type)
