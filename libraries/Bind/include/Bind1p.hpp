@@ -18,6 +18,13 @@ public:
   {
 
   }
+
+  Function(Func f):
+    _func(f)
+  {
+
+  }
+
   virtual ~Function() {}
 
   Ret	        operator()()
@@ -56,6 +63,13 @@ public:
   {
 
   }
+
+  Function(Func f):
+    _func(f)
+  {
+
+  }
+
   virtual ~Function() {}
   void		operator()()
   {
@@ -166,25 +180,30 @@ public:
   {
 
   }
+
   virtual ~Function() {};
   void	operator()()
   {
     if (_inst != 0)
       (_inst->*_func)(_1);
   }
+
   void	operator()(P1 p1)
   {
     if (_inst != 0)
       (_inst->*_func)(p1);
   }
+
   void	operator()(C *inst)
   {
     (inst->*_func)(_1);
   }
+
   void	operator()(C *inst, P1 p1)
   {
     (inst->*_func)(p1);
   }
+
   Function(const Function &src) : _func(src._func), _inst(src._inst),
 				  _1(src._1) {}
   Function	&operator=(const Function &src)
