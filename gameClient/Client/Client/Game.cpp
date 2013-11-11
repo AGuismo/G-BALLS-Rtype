@@ -46,14 +46,36 @@ bool							Game::load(void)
 		return false;
 	if (!_layerManager.addLayer(LAYER3, LAYER_3, new sf::Vector2f(200.0f, 0.0f), new sf::Vector2f(200.0f, 0.0f), new sf::Vector2f(800.0f, 1400.0f), new sf::Vector2f(-5.0f, -5.0f), NULL, true))
 		return false;
-/*	if (!_layerManager.addLayer(LAYER2, LAYER_2, new sf::Vector2f(1280.0f, 0.0f), new sf::Vector2f(1280.0f, 0.0f), new sf::Vector2f(-1280.0f, 400.0f), new sf::Vector2f(3.0f, 2.0f), NULL, true))
-		return false;
-	if (!_layerManager.addLayer(LAYER1, LAYER_1, new sf::Vector2f(1280.0f, 0.0f), new sf::Vector2f(0.0f, 0.0f), new sf::Vector2f(-1280.0f, 1280.0f), new sf::Vector2f(0.0f, 1.0f), NULL, true))
-		return false;
-	return true;*/
+
+	if (!_soundManager.addSound(42, new std::string("./Sounds/BydosSimpleLaser.wav")))
+		std::cerr << "go die motherfucker" << std::endl;
+
 	return true;
 }
 // 	Layer(int id, sf::Texture *lText, sf::Vector2f *lInit, sf::Vector2f *lReset, sf::Vector2f *lLim, sf::Vector2f *lInc, Timer *lT, sf::RenderWindow *gWindow, bool lEn);
+
+static void playtest()
+{
+	sf::Sound					*sound = new sf::Sound;
+	sf::SoundBuffer				*buffer = new sf::SoundBuffer; // ce buffer est local à la fonction, il sera détruit...
+
+	if (buffer->loadFromFile("./Sounds/Lepi.ogg"))
+	{
+		std::cout << "playing" << std::endl;
+	sound->setBuffer(*buffer);
+	sound->play();
+	//sound.setLoop(true);
+	}
+	
+/*	sf::Music					*music = new sf::Music();
+
+	if (music->openFromFile("./Sounds/Lepi.ogg"))
+	{
+		std::cout << "playing2" << std::endl;
+		music->play();
+		music->setLoop(true);
+	}*/
+}
 
 void							Game::run(void)
 {
@@ -67,6 +89,7 @@ void							Game::run(void)
 
 	Timer						test(new sf::Time(sf::seconds(5.25)));
 
+
 /*	Layer						*testl = new Layer(42, _textureManager.getTexture(LAYER1), new sf::Vector2f(1280.0f, 0.0f), new sf::Vector2f(0.0f, 0.0f), new sf::Vector2f(-1280.0f, 0.0f), new sf::Vector2f(4.0f, 0.0f), NULL, _gameWindow, true);
 	Layer						*test2 = new Layer(42, _textureManager.getTexture(LAYER1), new sf::Vector2f(1280.0f, 0.0f), new sf::Vector2f(1280.0f, 0.0f), new sf::Vector2f(-1280.0f, 100.0f), new sf::Vector2f(4.0f, 0.0f), NULL, _gameWindow, true);
 	Layer						*test3 = new Layer(42, _textureManager.getTexture(LAYER2), new sf::Vector2f(1280.0f, 0.0f), new sf::Vector2f(0.0f, 0.0f), new sf::Vector2f(-1280.0f, 400.0f), new sf::Vector2f(0.0f, -1.0f), NULL, _gameWindow, true);
@@ -74,7 +97,7 @@ void							Game::run(void)
 	Layer						*test5 = new Layer(42, _textureManager.getTexture(LAYER4), new sf::Vector2f(1280.0f, 0.0f), new sf::Vector2f(0.0f, 0.0f), new sf::Vector2f(-1280.0f, 0.0f), new sf::Vector2f(0.0f, 0.0f), &test, _gameWindow, false);
 	*/
 
-	sf::Sound					sound;
+/*	sf::Sound					sound;
 	sf::SoundBuffer				buffer; // ce buffer est local à la fonction, il sera détruit...
 
 	if (buffer.loadFromFile("./Sounds/DeepSpace.ogg"))
@@ -82,18 +105,34 @@ void							Game::run(void)
 		sound.setBuffer(buffer);
 		sound.play();
 		sound.setLoop(true);
-	}
+	}*/
 
-	sf::Sound					sound2;
+/*	sf::Music					sound;
+	sf::SoundBuffer				buffer; // ce buffer est local à la fonction, il sera détruit...
+
+	if (sound.openFromFile("./Sounds/DeepSpace.ogg"))
+	{
+//		sound.setBuffer(buffer);
+		sound.play();
+		sound.setLoop(true);
+	}*/
+
+/*	sf::Sound					*sound2 = new sf::Sound;
 	sf::SoundBuffer				buffer2; // ce buffer est local à la fonction, il sera détruit...
+
+	sf::SoundBuffer				buffer3; // ce buffer est local à la fonction, il sera détruit...
 
 	if (buffer2.loadFromFile("./Sounds/Lepi.ogg"))
 	{
-		sound2.setBuffer(buffer2);
+		buffer3 = buffer2;
+		delete buffer2;
+		sound2.setBuffer(buffer3);
 		sound2.play();
 		sound2.setLoop(true);
-	}
+	}*/
 
+	_soundManager.playSound(42);
+	playtest();
 	while (_gameWindow->isOpen())
 	{
 		if (test.isEnded())
@@ -119,10 +158,10 @@ void							Game::run(void)
 					updateObj(42, Right);
 					break;
 				case sf::Keyboard::Space:
-					if ((sound.getStatus() == sf::SoundSource::Paused) || (sound.getStatus() == sf::SoundSource::Stopped))
+/*					if ((sound.getStatus() == sf::SoundSource::Paused) || (sound.getStatus() == sf::SoundSource::Stopped))
 						sound.play();
 					else if (sound.getStatus() == sf::SoundSource::Playing)
-						sound.pause();
+						sound.pause();*/
 					break;
 				case sf::Keyboard::Up:
 					updateObj(42, Up);
@@ -223,7 +262,7 @@ bool							Game::addObj(ObjType type, int id, int pos)
 	return false;
 }
 
-Game::Game(sf::RenderWindow *gameWindow, sf::Event *event) : _factory(gameWindow, &_textureManager), _layerManager(gameWindow, &_textureManager)
+Game::Game(sf::RenderWindow *gameWindow, sf::Event *event) : _factory(gameWindow, &_textureManager), _layerManager(gameWindow, &_textureManager), _soundManager()
 {
 	_gameWindow = gameWindow;
 	_event = event;

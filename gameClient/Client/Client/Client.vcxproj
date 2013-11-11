@@ -165,12 +165,16 @@
     <ClCompile Include="LayerManager.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="SoundManager.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="TextureManager.cpp" />
     <ClCompile Include="Timer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AObject.h" />
     <ClInclude Include="Bydos1.h" />
+    <ClInclude Include="EnumAudio.h" />
     <ClInclude Include="EnumLayer.h" />
     <ClInclude Include="EnumObject.h" />
     <ClInclude Include="Factory.h" />
@@ -180,6 +184,9 @@
     <ClInclude Include="Layer.h" />
     <ClInclude Include="LayerManager.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="AudioManager.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="TextureManager.h" />
     <ClInclude Include="Timer.h" />
   </ItemGroup>
