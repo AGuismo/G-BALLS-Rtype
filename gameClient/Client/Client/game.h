@@ -5,7 +5,7 @@
 
 #include	"TextureManager.h"
 #include	"LayerManager.h"
-#include	"SoundManager.h"
+#include	"AudioManager.h"
 #include	"Factory.h"
 
 class gameWindow;
@@ -24,7 +24,7 @@ private:
 	Factory						_factory;
 	TextureManager				_textureManager;
 	LayerManager				_layerManager;
-	SoundManager				_soundManager;
+	AudioManager				_audioManager;
 	obj_type					_objects;
 	int							_idPlayer;
 

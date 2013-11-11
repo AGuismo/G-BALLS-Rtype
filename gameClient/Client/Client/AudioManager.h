@@ -1,37 +1,39 @@
 #ifndef AUDIOMANAGER_
 # define	AUDIOMANAGER_
 
-#include	<cstring>
-#include	<map>
-#include	<SFML\Audio.hpp>
+# include	<SFML\Audio.hpp>
+# include	<cstring>
+# include	<map>
 
-
+# include	"EnumAudio.h"
 
 class										AudioManager
 {
 private:
-	struct sAudio
+	struct sSound
 	{
-		sf::Sound							*_Audio;
-		sf::SoundBuffer						*_AudioBuffer;
+		sf::Sound							*_sound;
+		sf::SoundBuffer						*_soundBuffer;
 	};
 
-private:
+public:
 	typedef int								ID;
+	typedef sf::Music						MUSIC;
+	typedef struct sSound					SOUND;
 
 private:
-	typedef std::map<ID, sAudio> Audios_type;
-	Audios_type								_Audios;
+	typedef std::map<ID, SOUND *>			sounds_type;
+	sounds_type								_sounds;
 
 private:
-	typedef std::map<ID, sf::Music *> musics_type;
+	typedef std::map<ID, MUSIC *>			musics_type;
 	musics_type								_musics;
 
 public:
-	bool									add(int id, std::string *Audiopath);
-	bool									play(int id);
-	bool									pause(int id);
-	bool									stop(int id);
+	bool									add(ID, AudioType, std::string *filePath);
+	bool									play(ID);
+	bool									pause(ID);
+	bool									stop(ID);
 
 public:
 	AudioManager() {}
