@@ -30,7 +30,7 @@ private:
 	musics_type								_musics;
 
 public:
-	bool									add(ID, AudioType, std::string *filePath);
+	bool									add(ID, AudioType, bool repeat, std::string &filePath);
 	bool									play(ID);
 	bool									pause(ID);
 	bool									stop(ID);

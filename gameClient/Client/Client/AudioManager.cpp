@@ -1,7 +1,7 @@
 #include			"AudioManager.h"
 #include			<iostream>
 
-bool								AudioManager::add(int id, AudioType type, std::string *filepath)
+bool								AudioManager::add(int id, AudioType type, bool repeat, std::string &filepath)
 {
 	if (type == ASOUND)
 	{
@@ -9,30 +9,29 @@ bool								AudioManager::add(int id, AudioType type, std::string *filepath)
 
 		nS->_soundBuffer = new sf::SoundBuffer;
 		nS->_sound = new sf::Sound;
-		if (nS->_soundBuffer->loadFromFile(filepath->c_str()))
+		if (nS->_soundBuffer->loadFromFile(filepath.c_str()))
 		{
 			nS->_sound->setBuffer(*(nS)->_soundBuffer);
+			if (repeat == true)
+				nS->_sound->setLoop(true);
 			_sounds[id] = nS;
 			return true;
 		}
-		delete nS; // à vérifier
+		delete nS;
 		return false;
 	}
 	else if (type == AMUSIC)
 	{
 		sf::Music					*nM = new sf::Music;
-		sf::Music				m;
-		if (m.openFromFile("./Sounds/Lepi.ogg")) // WTF MEME EN DURE CA ne passe pas alors que dans le game ça passe
-			std::cout << "double poop" << std::endl;
 
-		if (nM->openFromFile(filepath->c_str()))
+		if (nM->openFromFile(filepath.c_str()))
 		{
-			nM->setLoop(true);
+			if (repeat = true)
+				nM->setLoop(true);
 			_musics[id] = nM;
+			return true;
 		}
-
-		std::cout << "caca here" << filepath->c_str() << std::endl;
-		delete nM; // à vérifier
+		delete nM;
 		return false;
 	}
 	return false;

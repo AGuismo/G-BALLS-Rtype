@@ -47,17 +47,8 @@ bool							Game::load(void)
 	if (!_layerManager.addLayer(LAYER3, LAYER_3, new sf::Vector2f(200.0f, 0.0f), new sf::Vector2f(200.0f, 0.0f), new sf::Vector2f(800.0f, 1400.0f), new sf::Vector2f(-5.0f, -5.0f), NULL, true))
 		return false;
 
-	if (!_audioManager.add(42, AMUSIC, new std::string("./Sounds/Lepi.ogg"))) // ne passe pas en music mais passe en sound... VOIR audiomanager.cpp
+	if (!_audioManager.add(GAME_MUSIC, ASOUND, true, std::string("./Sounds/Lepi.ogg")))
 		return false;
-	/*
-		sf::Music				m; //
-
-	if (m.openFromFile("./Sounds/Lepi.ogg"))
-		std::cout << "triple poop" << std::endl;
-	*/
-	return false;
-
-
 	return true;
 }
 
@@ -110,8 +101,7 @@ void							Game::run(void)
 	}*/
 
 //	_soundManager.playSound(42);
-	_audioManager.play(42);
-	_audioManager.play(42);
+	_audioManager.play(GAME_MUSIC);
 	while (_gameWindow->isOpen())
 	{
 		if (test.isEnded())
