@@ -14,19 +14,24 @@ protected:
 	LookDirection		_ld;
 	sf::Texture			*_texture;
 	sf::Sprite			_image;
-	sf::Vector2f		*_curPos;
-	sf::Vector2f		*_goalPos;
+	sf::Vector2f		*_vCurPos;
+	sf::Vector2f		*_vNextPos;
 	Timer				*_timer;
 	Timer				*_timerMvt;
-	int					_pos;
-	int					_nextPos;
+	int					_cCurPos;
+	int					_cNextPos;
 	bool				_act;
+	float				_vLag;
 	sf::Vector2f		_gPos;
 	sf::RenderWindow	*_gameWindow;
 
 public:
-	virtual void		draw(void) = 0;
-	virtual void		update(Action act) = 0;
+	virtual void			draw(void) = 0;
+	virtual void			update(Action act, int updatedPos) = 0;
+	virtual sf::Vector2f	*getVectorNextPos(void) = 0;
+	virtual sf::Vector2f	*getVectorCurPos(void) = 0;
+	virtual int				getCaseNextPos(void) = 0;
+	virtual int				getCaseCurPos(void) = 0;
 
 public:
 	virtual	~AObject() {}

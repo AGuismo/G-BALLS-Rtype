@@ -3,7 +3,10 @@
 #include		"game.h"
 #include		"Layer.h"
 #include		<algorithm>
-#include		"Timer.h" // A VIRER
+#include		"Timer.h" // A VIRER (pas sur)
+
+const float Game::VLAG = 0.4f;
+
 
 bool							Game::load(void)
 {
@@ -71,18 +74,20 @@ bool							Game::load(void)
 
 void							Game::run(void)
 {
-	_gameWindow->setFramerateLimit(25);
+	Timer						_playerMvtLock(new sf::Time(sf::seconds(0.20f)));
+	Timer						_playerFireLock(new sf::Time(sf::seconds(0.42f)));
+//	Timer						test(new sf::Time(sf::seconds(5.0f)));
 
+	_gameWindow->setFramerateLimit(25);
 	addObj(PLAYER1, 42, 100);
 	addObj(PLAYER2, 20, 40);
 	addObj(PLAYER3, 77, 10);
 	addObj(PLAYER4, 48, 200);
-	addObj(SBYDOS1, 455, 140);
+//	addObj(SBYDOS1, 455, 140);
 
-	Timer						test(new sf::Time(sf::seconds(5.25)));
+	static int i = 0;
 
-
-	_audioManager.play(GAME_MUSIC);
+	//_audioManager.play(GAME_MUSIC);
 
 	while (_gameWindow->isOpen())
 	{
@@ -97,19 +102,39 @@ void							Game::run(void)
 				switch (_event->key.code)
 				{
 				case sf::Keyboard::Left:
-					updateObj(42, Left);
+					if (_playerMvtLock.isEnded())
+					{
+						updatePlayer(Left);
+						_playerMvtLock.restart();
+					}
 					break;
 				case sf::Keyboard::Right:
-					updateObj(42, Right);
+					if (_playerMvtLock.isEnded())
+					{
+						updatePlayer(Right);
+						_playerMvtLock.restart();
+					}
 					break;
-				case sf::Keyboard::Space:
-					// too soon
-					break;
-				case sf::Keyboard::Up: // mettre les timers là !
-					updateObj(42, Up);
+				case sf::Keyboard::Up:
+					if (_playerMvtLock.isEnded())
+					{
+						updatePlayer(Up);
+						_playerMvtLock.restart();
+					}
 					break;
 				case sf::Keyboard::Down:
-					updateObj(42, Down);
+					if (_playerMvtLock.isEnded())
+					{
+						updatePlayer(Down);
+						_playerMvtLock.restart();
+					}
+					break;
+				case sf::Keyboard::Space:
+					if (_playerFireLock.isEnded())
+					{
+						_audioManager.play(PLAYER_LASER);
+						_playerFireLock.restart();
+					}
 					break;
 				case sf::Keyboard::Escape:
 					return;
@@ -122,11 +147,11 @@ void							Game::run(void)
 				switch (_event->key.code)
 				{
 				case sf::Keyboard::Up:
-					updateObj(42, Nothing);
+					updatePlayer(Nothing);
 					std::cout << "UP RELEASED " << std::endl;
 					break;
 				case sf::Keyboard::Down:
-					updateObj(42, Nothing);
+					updatePlayer(Nothing);
 					break;
 				default:
 					break;
@@ -136,7 +161,11 @@ void							Game::run(void)
 				break;
 			}
 		}
-
+		/*if (test.isEnded())
+		{
+			updatePlayer(Fire);
+			test.restart();
+		}*/
 		_gameWindow->clear();
 
 		update();
@@ -157,12 +186,39 @@ void							Game::update(void)
 	// too soon
 }
 
-bool							Game::updateObj(int id, Action action)
+bool							Game::updatePlayer(Action action)
 {
-	obj_type::iterator it = std::find_if(_objects.begin(), _objects.end(), AObject::predicate(id));
+	int							updatedPos = UNCHANGED;
+
+	obj_type::iterator it = std::find_if(_objects.begin(), _objects.end(), AObject::predicate(_idPlayer));
 	if (it != _objects.end())
 	{
-		(*it)->update(action);
+		switch (action)
+		{
+		case Left:
+			updatedPos = ((*it)->getCaseCurPos() % Game::SIZE_GAME_BOARD == 0) ? (*it)->getCaseCurPos() : (*it)->getCaseCurPos() - 1;
+			(*it)->update(Left, updatedPos);
+			break;
+		case Right:
+			updatedPos = (((*it)->getCaseCurPos() + 1) % Game::SIZE_GAME_BOARD == 0) ? (*it)->getCaseCurPos() : (*it)->getCaseCurPos() + 1;
+			(*it)->update(Right, updatedPos);
+			break;
+		case Up:
+			updatedPos = ((*it)->getCaseCurPos() / Game::SIZE_GAME_BOARD == 0) ? (*it)->getCaseCurPos() : (*it)->getCaseCurPos() - Game::SIZE_GAME_BOARD;
+			(*it)->update(Up, updatedPos);
+			break;
+		case Down:
+			updatedPos = ((*it)->getCaseCurPos() + Game::SIZE_GAME_BOARD > Game::CASE_GAME_BOARD) ? (*it)->getCaseCurPos() : (*it)->getCaseCurPos() + Game::SIZE_GAME_BOARD;
+			(*it)->update(Down, updatedPos);
+			break;
+		case Fire:
+			updatedPos = (*it)->getCaseCurPos() + 4;
+			(*it)->update(Right, updatedPos);
+			break;
+		default:
+			(*it)->update(Nothing, updatedPos);
+			break;
+		}
 		return true;
 	}
 	return false;

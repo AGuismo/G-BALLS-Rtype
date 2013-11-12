@@ -1,6 +1,8 @@
 #ifndef GAME
 # define	GAME
 
+//# define	VLAG	0.4f
+
 #include	<deque>
 
 #include	"TextureManager.h"
@@ -39,6 +41,8 @@ public:
 	static const int			CASE_GAME_BOARD = 255;
 	static const int			PX_DEC_X = 81;
 	static const int			PX_DEC_Y = 46;
+	static const int			UNCHANGED = -42;
+	static const float			VLAG;
 
 public:
 	static int					POSX(int x) { return ((x % SIZE_GAME_BOARD) * PX_DEC_X); }
@@ -48,7 +52,7 @@ public:
 private:
 	void						draw(void);
 	void						update(void);
-	bool						updateObj(int id, Action action);
+	bool						updatePlayer(Action action);
 
 public:
 	bool						load(void);

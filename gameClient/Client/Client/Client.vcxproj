@@ -157,7 +157,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Bydos1.cpp" />
+    <ClCompile Include="Bydos1.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="Factory.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameWindow.cpp" />
@@ -173,7 +175,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AObject.h" />
-    <ClInclude Include="Bydos1.h" />
+    <ClInclude Include="Bydos1.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="EnumAudio.h" />
     <ClInclude Include="EnumLayer.h" />
     <ClInclude Include="EnumObject.h" />
