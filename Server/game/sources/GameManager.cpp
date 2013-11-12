@@ -47,10 +47,6 @@ namespace	game
     std::list<Game *>::iterator it;
     // clock_time			time;
 
-    _clock.update();
-    /*SELECT*/
-    _clock.update();
-    // time = _clock.getElapsedTime();
     for (it = _games.begin();
 	 it != _games.end();
 	 ++it)
@@ -59,14 +55,12 @@ namespace	game
       }
   }
 
-  bool	Manager::findANameAtThisFunction(net::ClientAccepted *client,
-	  std::vector<cBuffer::Byte> &buf,
+  bool	Manager::getRequest(std::vector<cBuffer::Byte> &buf,
 	  AGameRequest *&request)
   {
 	  AGameRequest			*req;
 	  int					extracted;
 
-	  (void)client;
 	  try
 	  {
 		  req = dynamic_cast<AGameRequest *>(Protocol::consume(buf, extracted));
@@ -91,13 +85,17 @@ namespace	game
 	  AGameRequest			*req;
 
 	  _server.readFromBuffer(buf, rtype::Env::getInstance().network.maxUDPpacketLength);
-	  if ((findANameAtThisFunction(NULL, buf, req)) == false)
+	  if ((getRequest(buf, req)) == false)
 		  return;
 	  it = std::find_if(_gameClients.begin(), _gameClients.end(), predicate(req->SessionID()));
 	  if (it == _gameClients.end())
+	  {
 		  _gameClients.push_back(new Client(_server.getClientAddr()));
+		  it = _gameClients.end();
+	  }
 	  else
 		  (*it)->setAddr(_server.getClientAddr());
+	  (*it)->requestPush(req);
   }
 
 
@@ -109,25 +107,21 @@ namespace	game
     thisPtr->_clock.start();
     while (true)
       {
-	thisPtr->_clock.update();
+		thisPtr->_clock.update();
 
-	t.tv_sec = 0;
-	t.tv_usec = 500000;
+		t.tv_sec = 0;
+		t.tv_usec = 500000;
 
-	thisPtr->_monitor.setOption(net::streamManager::TIMEOUT, t);
-	thisPtr->_monitor.run();
+		thisPtr->_monitor.setOption(net::streamManager::TIMEOUT, t);
 
-	thisPtr->_clock.update();
-	time = thisPtr->_clock.getElapsedTime();
-	t.tv_sec = time / 1000000;
-	t.tv_usec = time % 1000000;
+		thisPtr->_monitor.run(); /* Surcouche du select() */
 
-	if (thisPtr->_server.read())
-	  thisPtr->readData();
-	/*traitement de la requete*/
-	thisPtr->update();
-	// sys::sleep(1);
+		thisPtr->_clock.update();
+		time = thisPtr->_clock.getElapsedTime();
+		t.tv_sec = time / 1000000;
+		if (thisPtr->_server.read())
+			thisPtr->readData();
+		thisPtr->update();
       }
   }
-
 }

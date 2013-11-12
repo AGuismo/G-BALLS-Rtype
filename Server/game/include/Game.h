@@ -18,6 +18,7 @@ class Event;
 class TIMER;
 class Referee;
 class Missile;
+
 namespace	game
 {
   class		Player;

@@ -61,7 +61,7 @@ namespace	game
     RequestQueue		_output;
 
   private:
-    requestCode::SessionID	_id;
+	requestCode::SessionID	_id;
 	struct sockaddr_in		_addr;
   };
 }

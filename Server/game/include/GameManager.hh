@@ -45,8 +45,7 @@ namespace	game
 
   private:
     static void	routine(Manager *);
-	bool		findANameAtThisFunction(net::ClientAccepted *client,
-		std::vector<cBuffer::Byte> &buf,
+	bool		getRequest(std::vector<cBuffer::Byte> &buf,
 		AGameRequest *&request);
 
   private:
