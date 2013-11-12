@@ -4,7 +4,7 @@
 # include	<SFML/Graphics.hpp>
 # include	<algorithm>
 # include	"IObject.h"
-
+# include	"Timer.h"
 
 class AObject : public IObject
 {
@@ -14,9 +14,13 @@ protected:
 	LookDirection		_ld;
 	sf::Texture			*_texture;
 	sf::Sprite			_image;
+	sf::Vector2f		*_curPos;
+	sf::Vector2f		*_goalPos;
+	Timer				*_timer;
+	Timer				*_timerMvt;
 	int					_pos;
+	int					_nextPos;
 	bool				_act;
-	int					_goalPos;
 	sf::Vector2f		_gPos;
 	sf::RenderWindow	*_gameWindow;
 
