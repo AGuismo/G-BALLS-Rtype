@@ -24,12 +24,7 @@ bool							Game::load(void)
 		return false;
 	if (!_textureManager.addTexture(LAYER3, std::string("./Images/Comet1.png")))
 		return false;
-/*	if (!_textureManager.addTexture(LAYER3, std::string("./Images/saturne.png")))
-		return false;
-	if (!_textureManager.addTexture(LAYER4, std::string("./Images/galaxy1.png")))
-		return false;
-	if (!_textureManager.addTexture(LAYER5, std::string("./Images/warning.png")))
-		return false;*/
+
 
 	if (!_layerManager.addLayer(LAYER1, LAYER_1, new sf::Vector2f(0.0f, 0.0f), new sf::Vector2f(2560.0f, 0.0f), new sf::Vector2f(-2560.0f, 0.0f), new sf::Vector2f(1.0f, 0.0f), NULL, true))
 		return false;
@@ -51,14 +46,16 @@ bool							Game::load(void)
 		return false;
 	if (!_layerManager.addLayer(LAYER3, LAYER_3, new sf::Vector2f(200.0f, 0.0f), new sf::Vector2f(200.0f, 0.0f), new sf::Vector2f(800.0f, 1400.0f), new sf::Vector2f(-5.0f, -5.0f), NULL, true))
 		return false;
-/*	if (!_layerManager.addLayer(LAYER2, LAYER_2, new sf::Vector2f(1280.0f, 0.0f), new sf::Vector2f(1280.0f, 0.0f), new sf::Vector2f(-1280.0f, 400.0f), new sf::Vector2f(3.0f, 2.0f), NULL, true))
+
+	if (!_audioManager.add(GAME_MUSIC, AMUSIC, true, std::string("./Sounds/Lepi.ogg")))
 		return false;
-	if (!_layerManager.addLayer(LAYER1, LAYER_1, new sf::Vector2f(1280.0f, 0.0f), new sf::Vector2f(0.0f, 0.0f), new sf::Vector2f(-1280.0f, 1280.0f), new sf::Vector2f(0.0f, 1.0f), NULL, true))
+	if (!_audioManager.add(BYDOS_LASER, ASOUND, true, std::string("./Sounds/BydosLaser.wav")))
 		return false;
-	return true;*/
+	if (!_audioManager.add(BYDOS_DESTRUCTION, ASOUND, false, std::string("./Sounds/BydosExplosion.aiff")))
+		return false;
 	return true;
 }
-// 	Layer(int id, sf::Texture *lText, sf::Vector2f *lInit, sf::Vector2f *lReset, sf::Vector2f *lLim, sf::Vector2f *lInc, Timer *lT, sf::RenderWindow *gWindow, bool lEn);
+
 
 void							Game::run(void)
 {
@@ -72,28 +69,12 @@ void							Game::run(void)
 
 	Timer						test(new sf::Time(sf::seconds(5.25)));
 
-/*	Layer						*testl = new Layer(42, _textureManager.getTexture(LAYER1), new sf::Vector2f(1280.0f, 0.0f), new sf::Vector2f(0.0f, 0.0f), new sf::Vector2f(-1280.0f, 0.0f), new sf::Vector2f(4.0f, 0.0f), NULL, _gameWindow, true);
-	Layer						*test2 = new Layer(42, _textureManager.getTexture(LAYER1), new sf::Vector2f(1280.0f, 0.0f), new sf::Vector2f(1280.0f, 0.0f), new sf::Vector2f(-1280.0f, 100.0f), new sf::Vector2f(4.0f, 0.0f), NULL, _gameWindow, true);
-	Layer						*test3 = new Layer(42, _textureManager.getTexture(LAYER2), new sf::Vector2f(1280.0f, 0.0f), new sf::Vector2f(0.0f, 0.0f), new sf::Vector2f(-1280.0f, 400.0f), new sf::Vector2f(0.0f, -1.0f), NULL, _gameWindow, true);
-	Layer						*test4 = new Layer(43, _textureManager.getTexture(LAYER3), new sf::Vector2f(1280.0f, 0.0f), new sf::Vector2f(0.0f, 0.0f), new sf::Vector2f(-1280.0f, 0.0f), new sf::Vector2f(2.0f, 0.0f), NULL, _gameWindow, true);
-	Layer						*test5 = new Layer(42, _textureManager.getTexture(LAYER4), new sf::Vector2f(1280.0f, 0.0f), new sf::Vector2f(0.0f, 0.0f), new sf::Vector2f(-1280.0f, 0.0f), new sf::Vector2f(0.0f, 0.0f), &test, _gameWindow, false);
-	*/
 
-	sf::Music					music;
-
-	if (music.openFromFile("./Sounds/DeepSpace.ogg"))
-	{
-		music.play();
-	}
-
+	_audioManager.play(GAME_MUSIC);
+	_audioManager.play(BYDOS_LASER);
+	_audioManager.play(BYDOS_DESTRUCTION);
 	while (_gameWindow->isOpen())
 	{
-		if (test.isEnded())
-		{
-			//std::cout << "timer ended" << std::endl;
-			// test.restart();
-		}
-
 		while (_gameWindow->pollEvent(*_event))
 		{
 			switch (_event->type)
@@ -109,6 +90,9 @@ void							Game::run(void)
 					break;
 				case sf::Keyboard::Right:
 					updateObj(42, Right);
+					break;
+				case sf::Keyboard::Space:
+					// too soon
 					break;
 				case sf::Keyboard::Up:
 					updateObj(42, Up);
@@ -146,32 +130,9 @@ void							Game::run(void)
 		_gameWindow->clear();
 
 		update();
-/*		testl->update();
-		testl->draw();
-		test2->update();
-		test2->draw();
-		test3->update();
-		test3->draw();
-		test4->update();
-		test4->draw();
-		test5->update();
-		test5->draw();*/
-		/*		if (bg1 == -1280)
-			bg1 = 1280;
-		if (bg2 == -1280)
-			bg2 = 1280;
-
-		_bgImg1.setPosition(bg1, 0);*/
-		//_bgImg2.setPosition(0, 0);
-		//_gameWindow->draw(_bgImg2);
-		//_gameWindow->draw(_bgImg2);
 		_layerManager.upDraw();
 		draw();
-//		sf::sleep(sf::seconds(1));
-
 		_gameWindow->display();
-/*		bg1 -= 1;
-		bg2 -= 1;*/
 	}
 }
 
@@ -209,7 +170,7 @@ bool							Game::addObj(ObjType type, int id, int pos)
 	return false;
 }
 
-Game::Game(sf::RenderWindow *gameWindow, sf::Event *event) : _factory(gameWindow, &_textureManager), _layerManager(gameWindow, &_textureManager)
+Game::Game(sf::RenderWindow *gameWindow, sf::Event *event) : _factory(gameWindow, &_textureManager), _layerManager(gameWindow, &_textureManager), _audioManager()
 {
 	_gameWindow = gameWindow;
 	_event = event;
