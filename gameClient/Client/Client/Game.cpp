@@ -49,9 +49,21 @@ bool							Game::load(void)
 
 	if (!_audioManager.add(GAME_MUSIC, AMUSIC, true, std::string("./Sounds/Lepi.ogg")))
 		return false;
-	if (!_audioManager.add(BYDOS_LASER, ASOUND, true, std::string("./Sounds/BydosLaser.wav")))
+	if (!_audioManager.add(PLAYER_LASER, ASOUND, false, std::string("./Sounds/PlayerLaser.wav")))
 		return false;
-	if (!_audioManager.add(BYDOS_DESTRUCTION, ASOUND, false, std::string("./Sounds/BydosExplosion.aiff")))
+	if (!_audioManager.add(PLAYER_CHARGED, ASOUND, true, std::string("./Sounds/PlayerCharged.wav")))
+		return false;
+	if (!_audioManager.add(PLAYER_RELEASED, ASOUND, false, std::string("./Sounds/PlayerReleased.wav")))
+		return false;
+	if (!_audioManager.add(PLAYER_DESTRUCTION, ASOUND, false, std::string("./Sounds/PlayerDestruction.wav")))
+		return false;
+	if (!_audioManager.add(BYDOS_PLASMA, ASOUND, false, std::string("./Sounds/BydosPlasma.flac")))
+		return false;
+	if (!_audioManager.add(BYDOS_LASER, ASOUND, false, std::string("./Sounds/BydosLaser.wav")))
+		return false;
+	if (!_audioManager.add(BYDOS_DESTRUCTION, ASOUND, false, std::string("./Sounds/BydosDestruction.wav")))
+		return false;
+	if (!_audioManager.add(BYDOS_BOSS_DESTRUCTION, ASOUND, false, std::string("./Sounds/BydosBossDestruction.wav")))
 		return false;
 	return true;
 }
@@ -71,8 +83,7 @@ void							Game::run(void)
 
 
 	_audioManager.play(GAME_MUSIC);
-	_audioManager.play(BYDOS_LASER);
-	_audioManager.play(BYDOS_DESTRUCTION);
+
 	while (_gameWindow->isOpen())
 	{
 		while (_gameWindow->pollEvent(*_event))
@@ -94,12 +105,11 @@ void							Game::run(void)
 				case sf::Keyboard::Space:
 					// too soon
 					break;
-				case sf::Keyboard::Up:
+				case sf::Keyboard::Up: // mettre les timers là !
 					updateObj(42, Up);
 					break;
 				case sf::Keyboard::Down:
 					updateObj(42, Down);
-					//test5->enable();
 					break;
 				case sf::Keyboard::Escape:
 					return;
