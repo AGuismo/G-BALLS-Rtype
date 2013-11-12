@@ -80,22 +80,26 @@ namespace	game
 
   void					Manager::readData()
   {
-	  client_vect::iterator		it;
-	  std::vector<cBuffer::Byte>		buf;
-	  AGameRequest			*req;
+	client_vect::iterator		it;
+	std::vector<cBuffer::Byte>		buf;
+	AGameRequest			*req;
+	net::ClientAccepted	*c;
 
-	  _server.readFromBuffer(buf, rtype::Env::getInstance().network.maxUDPpacketLength);
-	  if ((getRequest(buf, req)) == false)
-		  return;
-	  it = std::find_if(_gameClients.begin(), _gameClients.end(), predicate(req->SessionID()));
-	  if (it == _gameClients.end())
-	  {
-		  _gameClients.push_back(new Client(_server.getClientAddr()));
-		  it = _gameClients.end();
-	  }
-	  else
-		  (*it)->setAddr(_server.getClientAddr());
-	  (*it)->requestPush(req);
+	_server.recv();
+	_server.readFromBuffer(buf, rtype::Env::getInstance().network.maxUDPpacketLength);
+	for (std::vector<cBuffer::Byte>::iterator it = buf.begin(); it != buf.end(); it++)
+		std::cout << *it;
+	if ((getRequest(buf, req)) == false)
+		return;
+	it = std::find_if(_gameClients.begin(), _gameClients.end(), predicate(req->SessionID()));
+	if (it == _gameClients.end())
+	{
+		_gameClients.push_back(new Client(_server.getClientAddr()));
+		it = _gameClients.end();
+	}
+	else
+		(*it)->setAddr(_server.getClientAddr());
+	(*it)->requestPush(req);
   }
 
 

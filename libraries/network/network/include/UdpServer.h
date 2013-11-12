@@ -27,7 +27,7 @@ namespace net
 
   public:
     void initialize(int port, int nbClients = NB_CLIENTS);
-    ClientAccepted	*recv();
+    void recv();
 
   private:
     int		readData(char *, int);

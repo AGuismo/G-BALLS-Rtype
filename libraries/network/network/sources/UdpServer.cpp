@@ -7,7 +7,7 @@ using namespace net;
 UdpServer::UdpServer(void)
 {
   WinInit::GetInstance();
-  monitor(true, false);
+  monitor(true, true);
 }
 
 
@@ -208,22 +208,22 @@ bool	UdpServer::isDisconnected() const
   return (_state == DISCONNECTED);
 }
 
-ClientAccepted *UdpServer::recv()
+void UdpServer::recv()
 {
   char			buff[512];
   int			count;
-  ClientAccepted	*c;
+  //ClientAccepted	*c;
 
   count = readData(buff, 512);
   if (count <= 0)
-    return (0);
-  c = new ClientAccepted(_sock, _addr);
+    return /*(0)*/;
+  //c = new ClientAccepted(_sock, _addr);
   for (int i = 0; i < count ; ++i)
     {
       _read.push(buff[i]);
-      c->_read.push(buff[i]);
+      //c->_read.push(buff[i]);
     }
-  return (c);
+  //return (c);
 }
 
 void			UdpServer::send()

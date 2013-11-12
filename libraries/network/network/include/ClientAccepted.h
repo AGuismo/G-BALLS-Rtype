@@ -47,7 +47,7 @@ namespace net
     bool		isDisconnected() const;
 
   protected:
-    SOCKET		getSocket()const;
+    SOCKET		getSocket() const;
 
   protected:
     SOCKET		_sock;
