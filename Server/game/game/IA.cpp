@@ -27,7 +27,7 @@ void	Ia::move()
 		_pos += 1;
 }
 
-void	Ia::fire()
+Missile	*Ia::fire()
 {
-
+	return NULL;
 }

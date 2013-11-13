@@ -2,12 +2,18 @@
 #include	<iomanip>
 #include	<vector>
 #include	<typeinfo>
+#if defined(WIN32)
+# include	<winsock2.h>
+#endif
 #include	"types.hh"
 #include	"AuthRequest.hh"
+#include	"PartyRequest.hh"
+#include	"SessionRequest.hh"
 #include	"ServerRequest.hh"
 #include	"ARequest.hh"
 #include	"Protocol.hpp"
 #include	"TcpClient.h"
+#include	"streamManager.h"
 
 template <typename T>
 void	test(T &req)
@@ -30,22 +36,50 @@ void	test(T &req)
     std::cout << typeid(req).name() << ": Incorrect formatting" << std::endl;
 }
 
+ARequest			*getReq(net::TcpClient &client)
+{
+  std::vector<Protocol::Byte>	bytes;
+  int				count;
+  ARequest			*req;
+
+  client.lookRead(bytes, 512);
+  req = Protocol::consume(bytes, count);
+  std::cout << "Received data code: " << req->code() << std::endl;
+  client.readFromBuffer(bytes, count);
+  return (req);
+}
+
 void	network()
 {
   net::TcpClient		client;
   Auth::Connect			authConnect("Ruby", 1664);
   std::vector<Protocol::Byte>	bytes;
-  int				count;
+  ARequest				*req;
+  Party::Start			startGame;
+  net::streamManager		m;
 
+  m.setMonitor(client);
   bytes = Protocol::product(authConnect);
   client.init("127.0.0.1", "44201");
   client.writeIntoBuffer(bytes, bytes.size());
   client.send();
+  client.monitor(true, false);
+  m.run();
   client.recv();
-  std::cout << "Received data" << std::endl;
-  client.readFromBuffer(bytes, 512);
-  ARequest	*req = Protocol::consume(bytes, count);
-  std::cout << "Received data code: " << req->code() << std::endl;
+  req = getReq(client);
+  std::cout << "Response: " << req->code() << std::endl;
+  req = getReq(client);
+  std::cout << "Session: " << (dynamic_cast<SessionRequest *>(req))->SessionID() << std::endl;
+  bytes = Protocol::product(startGame);
+  client.writeIntoBuffer(bytes, bytes.size());
+  client.send();
+  client.monitor(true, false);
+  m.run();
+  client.recv();
+  req = getReq(client);
+  std::cout << "Response: " << req->code() << std::endl;
+  req = getReq(client);
+  std::cout << "Launch Game: " << (dynamic_cast<Party::Launch *>(req))->code() << std::endl;
   client.close();
 }
 
@@ -55,9 +89,9 @@ int	main()
   Auth::ChangePass		authPass("Ruby", 1664, 4661, 5348);
   ServerRequest			servReq(requestCode::server::FORBIDDEN);
 
-  test(authConnect);
-  test(authPass);
-  test(servReq);
+  // test(authConnect);
+  // test(authPass);
+  // test(servReq);
   // std::cout << "Size: " << bytes.size() << std::endl;
 
   network();

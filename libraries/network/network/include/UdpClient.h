@@ -13,11 +13,11 @@
 
 namespace net
 {
-	class ABS_SOCKET_API UdpClient : public ClientAccepted
-	{
-	public:
-		UdpClient(void);
-		~UdpClient(void);
-		void init(std::string adress, std::string port);
-	};
+  class ABS_SOCKET_API UdpClient : public ClientAccepted
+  {
+  public:
+    UdpClient(void);
+    ~UdpClient(void);
+    void init(std::string adress, std::string port);
+  };
 }

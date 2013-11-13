@@ -18,11 +18,23 @@ public:
   {
 
   }
+
+  Function(Func f):
+    _func(f)
+  {
+
+  }
+
   virtual ~Function() {}
 
   Ret	        operator()()
   {
     return (_func(_1, _2));
+  }
+
+  Ret	        operator()(P1 p1, P2 p2)
+  {
+    return (_func(p1, p2));
   }
 
 public:
@@ -54,12 +66,23 @@ public:
   {
 
   }
+
+  Function(Func f):
+    _func(f)
+  {
+
+  }
+
   virtual ~Function() {}
   void		operator()()
   {
     _func(_1, _2);
   }
 
+  void	        operator()(P1 p1, P2 p2)
+  {
+    _func(p1, p2);
+  }
 public:
   Function(const Function &src) : _func(src._func), _1(src._1), _2(src._2) {}
   Function	&operator=(const Function &src)
@@ -93,21 +116,47 @@ public:
   {
 
   }
+
   Function(Ret (C::*f)(P1, P2), C *inst, P1 _1, P2 _2) :
     _func(f), _inst(inst), _1(_1), _2(_2)
   {
 
   }
+
+  Function(void (C::*f)(P1, P2)) :
+    _func(f), _inst(0)
+  {
+
+  }
+  Function(void (C::*f)(P1, P2), C *inst) :
+    _func(f), _inst(inst)
+  {
+
+  }
+
   virtual ~Function() {};
   Ret	operator()()
   {
     if (_inst != 0)
       return ((_inst->*_func)(_1, _2));
   }
+
   Ret	operator()(C *inst)
   {
     return ((inst->*_func)(_1, _2));
   }
+
+  Ret	operator()(P1 p1, P2 p2)
+  {
+    if (_inst != 0)
+      return ((_inst->*_func)(p1, p2));
+  }
+
+  Ret	operator()(C *inst, P1 p1, P2 p2)
+  {
+    return ((inst->*_func)(p1, p2));
+  }
+
   Function(const Function &src) : _func(src._func), _inst(src._inst),
 				  _1(src._1), _2(src._2) {}
   Function	&operator=(const Function &src)
@@ -144,16 +193,41 @@ public:
   {
 
   }
+
+  Function(void (C::*f)(P1, P2)) :
+    _func(f), _inst(0)
+  {
+
+  }
+  Function(void (C::*f)(P1, P2), C *inst) :
+    _func(f), _inst(inst)
+  {
+
+  }
+
   virtual ~Function() {};
   void	operator()()
   {
     if (_inst != 0)
       (_inst->*_func)(_1, _2);
   }
+
   void	operator()(C *inst)
   {
     (inst->*_func)(_1, _2);
   }
+
+  void	operator()(P1 p1, P2 p2)
+  {
+    if (_inst != 0)
+      (_inst->*_func)(p1, p2);
+  }
+
+  void	operator()(C *inst, P1 p1, P2 p2)
+  {
+    (inst->*_func)(p1, p2);
+  }
+
   Function(const Function &src) : _func(src._func), _inst(src._inst),
 				  _1(src._1), _2(src._2) {}
   Function	&operator=(const Function &src)

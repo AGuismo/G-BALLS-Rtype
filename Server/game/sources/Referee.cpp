@@ -1,5 +1,7 @@
-#include "Referee.h"
-#include "Game.h"
+#include	"Referee.h"
+#include	"Game.h"
+#include	"Player.h"
+#include	"Missile.h"
 
 Referee::Referee()
 {
@@ -30,8 +32,8 @@ bool	Referee::isOnScreen(const Entity *a)
 {
   return (!((a->_pos < 0 || a->_pos > 255) ||
 	    (a->posX() + 1 != a->prevX() &&
-	     a->posX() - 1 != a->prevX()) &&
-		 a->posX() != a->prevX()));
+	     a->posX() - 1 != a->prevX() &&
+	     a->posX() != a->prevX())));
 }
 
 bool	Referee::sameCase(const Entity *a, const Entity *b)
@@ -62,7 +64,7 @@ bool	Referee::sameCase(const Entity *a, const Entity *b)
 
 bool	Referee::playerCollision(Entity *a, Game &game)
 {
-  std::list<Player *>::iterator itp = game._players.begin();
+  std::list<game::Player *>::iterator itp = game._players.begin();
 
   for (; itp != game._players.end(); itp++)
     {
@@ -81,7 +83,7 @@ bool	Referee::playerCollision(Entity *a, Game &game)
       else if (a->_type == MISSILE &&
 	       sameCase(a, *itp) == true)
 	{
-	  if (dynamic_cast<Missile *>(a)->getLauncher()->_type != PLAYER)
+	  if ((dynamic_cast<Missile *>(a))->getLauncher()->_type != PLAYER)
 	    {
 	      delete *itp;
 	      game._players.erase(itp);

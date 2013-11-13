@@ -2,7 +2,7 @@
 
 #include "Entity.h"
 
-class Refere;
+class Referee;
 
 class Boss : public Entity
 {
@@ -12,9 +12,10 @@ public:
 
   void	update();
   void	move();
-  void	fire();
+  Missile	*fire();
+
 private:
 
 
-  friend Refere;
+  friend class Referee;
 };

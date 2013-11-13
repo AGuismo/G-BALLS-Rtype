@@ -12,37 +12,40 @@
 #include	<vector>
 #include	<list>
 #include	"IA.h"
-#include	"Player.h"
-#include	"Referee.h"
-#include	"Missile.h"
 #include	"Boss.h"
 
 class Event;
 class TIMER;
 class Referee;
+class Missile;
+
+namespace	game
+{
+  class		Player;
+}
 
 class Game
 {
 public:
-  Game(std::list<Player *> players);
+  Game(std::list<game::Player *> &players);
   ~Game();
   void	update();
   struct timeval	*getTimer(void)const{ return _timer;};
 
 private:
-	void iaUpdate();
-	void entityUpdate();
-	void missileUpdate();
-	void bossUpdate();
-	void wallUpdate();
+  void iaUpdate();
+  void entityUpdate();
+  void missileUpdate();
+  void bossUpdate();
+  void wallUpdate();
 
 private:
-  std::list<Player *>	_players;
-  std::list<Ia *>	_IA;
-  std::list<Entity *>	_objs;
-  std::list<Missile *> _missiles;
+  std::list<game::Player *>	_players;
+  std::list<Ia *>		_IA;
+  std::list<Entity *>		_objs;
+  std::list<Missile *>		_missiles;
   Boss				*_titan;
   struct timeval		*_timer;
 
-  friend class Referee;
+  friend class ::Referee;
 };

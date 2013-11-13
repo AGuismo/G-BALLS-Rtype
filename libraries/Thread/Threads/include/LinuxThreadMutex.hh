@@ -5,13 +5,14 @@
 // Login   <lamber_k@epitech.net>
 //
 // Started on  Mon Apr 15 13:07:15 2013 lambert kevin
-// Last update Fri Nov  1 22:39:57 2013 lambert kevin
+// Last update Wed Nov  6 18:54:28 2013 lambert kevin
 //
 
 #ifndef		THREADMUTEX_HH_
 # define	THREADMUTEX_HH_
 
 # include	<pthread.h>
+# include	"IThreadMutex.hh"
 
 namespace	Thread
 {
@@ -31,7 +32,7 @@ namespace	Thread
     }
   };
 
-  class				Mutex : protected MutexBase
+  class				Mutex : protected MutexBase, public IMutex
   {
   public:
     Mutex();

@@ -1,19 +1,27 @@
 #ifndef FACTORY
 # define	FACTORY
 
-#include	"AObject.h"
 #include	"EnumObject.h"
+
+class TextureManager;
+class AObject;
+
+namespace sf
+{
+	class RenderWindow;
+}
 
 class					Factory
 {
 private:
 	sf::RenderWindow	*_gameWindow;
+	TextureManager		*_textureManager;
 
 public:
-	AObject				createNewPoop(ObjType type, int id, int pos);
+	AObject				*createObject(ObjType type, int id, int pos, LookDirection ld);
 
 public:
-	Factory(sf::RenderWindow *gameWindow);
+	Factory(sf::RenderWindow *gameWindow, TextureManager *TextureManager);
 	~Factory() {}
 
 private:

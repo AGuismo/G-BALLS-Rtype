@@ -10,7 +10,6 @@ testConsumer
 *.lib
 *.exe
 *.obj
-*.dll
 *.opensdf
 *.sdf
 *.suo
@@ -26,3 +25,5 @@ testConsumer
 testEvent
 testThreadPool
 TAGS
+requestSerializer
+server_r-type

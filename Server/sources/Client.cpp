@@ -4,7 +4,7 @@
 #include	"Client.hh"
 
 Client::Client(net::ClientAccepted *clientTcp):
-  _menu(_input, _output, clientTcp), _game(_input, _output)
+  _menu(clientTcp)
 {
   _menu.inUse(true);
   _game.inUse(false);
@@ -22,6 +22,14 @@ void			Client::update()
     _game.update();
 }
 
+void			Client::finalize()
+{
+  if (_menu.inUse())
+    _menu.finalize();
+  else if (_game.inUse())
+    _game.finalize();
+}
+
 menu::Client		&Client::menu()
 {
   return (_menu);
@@ -34,10 +42,17 @@ game::Client		&Client::game()
 
 ARequest		*Client::requestPop()
 {
-  return (_output.requestPop());
+  if (_menu.inUse())
+    return (_menu.requestPop());
+  else if (_game.inUse())
+    return (_game.requestPop());
+  return (0); // it never happens...
 }
 
 void			Client::requestPush(ARequest *req)
 {
-  _input.requestPush(req);
+  if (_menu.inUse())
+    _menu.requestPush(req);
+  else if (_game.inUse())
+    _game.requestPush(req);
 }

@@ -21,12 +21,18 @@
     <ClInclude Include="..\include\MenuManager.hh">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\include\MenuClient.hh">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\sources\MenuException.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\sources\MenuManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\sources\MenuClient.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

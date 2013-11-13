@@ -40,10 +40,10 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <TargetExt>.lib</TargetExt>
-    <IncludePath>$(SolutionDir)\..\libraries\Thread\Threads\include;$(SolutionDir)\..\libraries\Bind\include;$(ProjectDir)\..\..\include;$(IncludePath);$(ProjectDir)\..\include</IncludePath>
+    <IncludePath>$(SolutionDir)\..\libraries\network\network\include;$(SolutionDir)\server-r-type\include;$(SolutionDir)\protocol\include;$(SolutionDir)\menu\include;$(SolutionDir)\..\libraries\Thread\Threads\include;$(SolutionDir)\..\libraries\Bind\include;$(ProjectDir)\..\..\include;$(IncludePath);$(ProjectDir)\..\include</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>$(SolutionDir)\..\libraries\Thread\Threads\include;$(SolutionDir)\..\libraries\Bind\include;$(ProjectDir)\..\..\include;$(IncludePath);$(ProjectDir)\..\include</IncludePath>
+    <IncludePath>$(SolutionDir)\..\libraries\network\network\include;$(SolutionDir)\server-r-type\include;$(SolutionDir)\protocol\include;$(SolutionDir)\menu\include;$(SolutionDir)\..\libraries\Thread\Threads\include;$(SolutionDir)\..\libraries\Bind\include;$(ProjectDir)\..\..\include;$(IncludePath);$(ProjectDir)\..\include</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -76,6 +76,7 @@
     <ClInclude Include="..\include\Clock.h" />
     <ClInclude Include="..\include\Entity.h" />
     <ClInclude Include="..\include\Game.h" />
+    <ClInclude Include="..\include\GameClient.hh" />
     <ClInclude Include="..\include\GameException.hh" />
     <ClInclude Include="..\include\GameManager.hh" />
     <ClInclude Include="..\include\IA.h" />
@@ -87,8 +88,10 @@
   <ItemGroup>
     <ClCompile Include="..\sources\Boss.cpp" />
     <ClCompile Include="..\sources\Clock.cpp" />
+    <ClCompile Include="..\sources\ElapsedTime.cpp" />
     <ClCompile Include="..\sources\Entity.cpp" />
     <ClCompile Include="..\sources\Game.cpp" />
+    <ClCompile Include="..\sources\GameClient.cpp" />
     <ClCompile Include="..\sources\GameException.cpp" />
     <ClCompile Include="..\sources\GameManager.cpp" />
     <ClCompile Include="..\sources\Missile.cpp" />

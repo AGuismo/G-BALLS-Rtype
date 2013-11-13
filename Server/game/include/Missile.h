@@ -3,7 +3,7 @@
 #include "Entity.h"
 
 class Player;
-class Partie;
+class Game;
 
 class Missile : public Entity
 {
@@ -15,5 +15,6 @@ private:
   Entity		&_launcher;
   int			_pow;
 
-  friend Partie;
+  friend class Game;
+  friend class Referee;
 };

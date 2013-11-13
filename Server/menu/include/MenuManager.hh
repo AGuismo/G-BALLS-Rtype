@@ -11,6 +11,7 @@
 class Client;
 class ARequest;
 class Manager;
+class Game;
 
 namespace	menu
 {
@@ -30,6 +31,7 @@ namespace	menu
     void	checkNewClient();
     void	updateClients();
     void	clientRequest(Client *client);
+    void	sendGame(Game *game);
 
   private:
     static void	routine(Manager *);

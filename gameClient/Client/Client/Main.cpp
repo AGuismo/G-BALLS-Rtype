@@ -8,36 +8,18 @@
 #endif // SFML_STATIC
 
 #include	<iostream>
-#include	<SFML/Graphics.hpp>
+#include	"gameWindow.h"
 
 int main()
 {
-/*	sf::RenderWindow window(sf::VideoMode(1280, 720), "SFML works!");
-	sf::CircleShape shape(100.f);
-	shape.setFillColor(sf::Color::Green);
+	gameWindow					gameW(std::string("I dont care"), 1280, 720);
 
-	sf::Texture		vTexture;
-	sf::Sprite		vImg;
-
-	if (!vTexture.loadFromFile("./Images/r-typesheet42.png", sf::IntRect(80,0,80,80)))
-		std::cerr << "Loading Error" << std::endl;
-
-	vImg.setTexture(vTexture);
-	vImg.setPosition(200, 200);
-
-	while (window.isOpen())
+	if (!gameW.load())
 	{
-		sf::Event event;
-		while (window.pollEvent(event))
-		{
-			if (event.type == sf::Event::Closed)
-				window.close();
-		}
-
-		window.clear();
-		window.draw(vImg);
-		window.display();
+		std::cerr << "Error loading game" << std::endl;
+		system("pause");
+		return EXIT_FAILURE;
 	}
-	*/
+	gameW.run();
 	return 0;
 }

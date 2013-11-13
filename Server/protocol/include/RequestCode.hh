@@ -9,6 +9,7 @@ namespace requestCode
   typedef Ruint32	PasswordType;
   typedef Ruint16	UsernameLen;
   typedef Ruint16	SessionID;
+  typedef Ruint16	PartyID;
 
   namespace server
   {
@@ -25,6 +26,8 @@ namespace requestCode
   {
     static const CodeID CONNECT =		100;
     static const CodeID CHANGE_PASSWD =		101;
+
+    static const CodeID SESSION =		1100;
   }
 
   namespace chat

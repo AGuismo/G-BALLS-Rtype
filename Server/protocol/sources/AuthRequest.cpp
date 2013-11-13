@@ -78,7 +78,7 @@ namespace Auth
     return (_password);
   }
 
-  Protocol			&Connect::Megan_serialize(Protocol &rhs) const
+  Protocol			&Connect::serialize(Protocol &rhs) const
   {
     requestCode::UsernameLen	len = _username.length();
 
@@ -86,7 +86,7 @@ namespace Auth
     return (rhs);
   }
 
-  Protocol	&Connect::Fox_unserialize(Protocol &rhs)
+  Protocol	&Connect::unserialize(Protocol &rhs)
   {
     requestCode::UsernameLen	len;
 
@@ -164,7 +164,7 @@ namespace Auth
     return (_sessionID);
   }
 
-  Protocol			&ChangePass::Megan_serialize(Protocol &rhs) const
+  Protocol			&ChangePass::serialize(Protocol &rhs) const
   {
     requestCode::UsernameLen	len = _username.length();
 
@@ -172,7 +172,7 @@ namespace Auth
     return (rhs);
   }
 
-  Protocol	&ChangePass::Fox_unserialize(Protocol &rhs)
+  Protocol	&ChangePass::unserialize(Protocol &rhs)
   {
     requestCode::UsernameLen	len;
 

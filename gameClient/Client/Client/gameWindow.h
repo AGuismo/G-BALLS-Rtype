@@ -3,18 +3,20 @@
 
 # include	<iostream>
 # include	<SFML/Graphics.hpp>
+# include	"game.h"
 
-
-class						gameWindow
+class						gameWindow //: public AScreen
 {
 private:
-	sf::RenderWindow		_gameWindow;
-	int						_width;
-	int						_height;
+	sf::RenderWindow		_gameWindow; // in AScreen
+	sf::Event				_event;
+	Game					_game;
+	int						_width; // osef
+	int						_height; //osef
 
 public:
-	bool					check(void); // check creation window + game
-	void					run(void); // appelle run game =>
+	bool					load(void); // check creation window + game
+	int						run(void); // appelle run game =>
 
 public:
 	gameWindow(const std::string &name, int width, int height);

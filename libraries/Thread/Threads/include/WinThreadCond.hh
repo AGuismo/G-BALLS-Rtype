@@ -5,7 +5,7 @@
 // Login   <lamber_k@epitech.net>
 //
 // Started on  Mon Apr 15 13:13:42 2013 lambert kevin
-// Last update Fri Nov  1 22:25:32 2013 lambert kevin
+// Last update Wed Nov  6 18:55:50 2013 lambert kevin
 //
 
 #ifndef		WINTHREADCOND_HH_
@@ -14,13 +14,14 @@
 # include	<windows.h>
 # include	<cstdint>
 # include	"WinThreadMutex.hh"
+# include	"IThreadCond.hh"
 
 namespace	Thread
 {
-  class	DECLPORT	Cond
+  class	DECLPORT	Cond : public ICond
   {
   public:
-	typedef uint32_t	msTime;
+    typedef int		msTime;
 
   private:
     CONDITION_VARIABLE	_c;

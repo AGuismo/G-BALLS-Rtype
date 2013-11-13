@@ -51,6 +51,9 @@
     <ClInclude Include="include\NetException.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
+    <ClInclude Include="include\IODevice.hh">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="include\cBuffer.tcc">

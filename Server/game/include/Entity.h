@@ -51,6 +51,6 @@ protected:
   int			prevX()const {return (_prevPos % SIZE);};
   int			prevY()const {return (_prevPos / SIZE);};
 
-  friend Referee;
-  friend Game;
+  friend class Referee;
+  friend class Game;
 };

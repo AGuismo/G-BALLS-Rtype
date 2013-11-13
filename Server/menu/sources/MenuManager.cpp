@@ -5,7 +5,11 @@
 #include	"Client.hh"
 #include	"NetException.h"
 #include	"AuthRequest.hh"
+#include	"SessionRequest.hh"
+#include	"PartyRequest.hh"
 #include	"ServerRequest.hh"
+#include	"Player.h"
+#include	"Game.h"
 
 namespace	menu
 {
@@ -86,6 +90,7 @@ namespace	menu
 	    continue ;
 	  }
 	clientRequest(*it);
+	(*it)->finalize();
 	++it;
       }
   }
@@ -95,9 +100,14 @@ namespace	menu
     while (true)
       {
 	thisPtr->_monitor.run();
-	thisPtr->checkNewClient();
 	thisPtr->updateClients();
-      }
+	thisPtr->checkNewClient();
+	}
+  }
+
+  void		Manager::sendGame(Game *game)
+  {
+    (void)game;
   }
 
   ///////////////////////
@@ -121,7 +131,7 @@ namespace	menu
 	client->menu().password(request->password());
 	client->menu().authenticated(true);
 	client->requestPush(new ServerRequest(requestCode::server::OK));
-	// client->requestPush(new SessionRequest(Session::Unique()));
+	client->requestPush(new SessionRequest(SessionRequest::Unique()));
       }
     else
       {
@@ -135,9 +145,17 @@ namespace	menu
 
   void	Manager::launchGame(ARequest *req, ::Client *client, Manager *manager)
   {
-    (void)client;
-    (void)manager;
-    delete req;
+    game::Player		*player = new game::Player(42);
+    std::list<game::Player *>	players;
+    Game			*new_game;
 
+    players.push_back(player);
+    new_game = new Game(players);
+    client->game().game(new_game);
+    client->game().player(player);
+    client->requestPush(new ServerRequest(requestCode::server::OK));
+    client->requestPush(new Party::Launch(Party::Launch::Unique()));
+    manager->sendGame(new_game);
+    delete req;
   }
 }

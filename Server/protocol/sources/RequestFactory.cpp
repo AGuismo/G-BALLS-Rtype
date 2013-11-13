@@ -3,7 +3,9 @@
 #include	"Protocol.hpp"
 #include	"ARequest.hh"
 #include	"AuthRequest.hh"
+#include	"SessionRequest.hh"
 #include	"ServerRequest.hh"
+#include	"PartyRequest.hh"
 
 namespace	request
 {
@@ -12,6 +14,10 @@ namespace	request
   {
     _lnk[requestCode::auth::CONNECT] = new Auth::Connect;
     _lnk[requestCode::auth::CHANGE_PASSWD] = new Auth::ChangePass;
+    _lnk[requestCode::auth::SESSION] = new SessionRequest;
+
+    _lnk[requestCode::party::CLI_START] = new Party::Start;
+    _lnk[requestCode::party::SERV_START] = new Party::Launch;
 
     _lnk[requestCode::server::OK] = new ServerRequest;
     _lnk[requestCode::server::BAD_REQ] = new ServerRequest;
@@ -38,20 +44,18 @@ namespace	request
   {
     Factory		&f = Factory::getInstance();
     lnk_type::iterator	it;
+    ARequest		*req;
 
-#if defined(DEBUG)
     if ((it = f._lnk.find(code)) == f._lnk.end())
       throw ARequest::Exception("Invalid Code");
-#endif
-
-    ARequest		*req = f._lnk.find(code)->second->clone();
-    req->Fox_unserialize(p);
+    req = it->second->clone();
+    req->unserialize(p);
     return (req);
   }
 
   void			Factory::factory(Protocol &p, const ARequest &output)
   {
-    output.Megan_serialize(p);
+    output.serialize(p);
   }
 
 }

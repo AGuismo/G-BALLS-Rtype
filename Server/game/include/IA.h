@@ -2,6 +2,8 @@
 
 #include	"Entity.h"
 
+class Missile;
+
 class Ia : public Entity
 {
  public:
@@ -9,6 +11,6 @@ class Ia : public Entity
   virtual ~Ia();
   void	update();
   void	move();
-  void	fire();
+  Missile	*fire();
  private:
 };

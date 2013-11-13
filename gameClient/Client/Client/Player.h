@@ -1,17 +1,24 @@
-#ifndef PLAYER
-# define	PLAYER
+#ifndef PLAYER_
+# define	PLAYER_
 
 # include	"AObject.h"
 
 
-class Player : protected AObject
+class Player : public AObject
 {
-public:
-	void				draw(void);
-	void				update(int newPos, Action act);
+private:
+	int					_indexSprite;
 
 public:
-	Player(ObjType obj, sf::Texture *text, int pos, sf::RenderWindow *gameWindow);
+	void					draw(void);
+	void					update(Action act, int updatedPos);
+	sf::Vector2f			*getVectorNextPos(void);
+	sf::Vector2f			*getVectorCurPos(void);
+	int						getCaseNextPos(void);
+	int						getCaseCurPos(void);
+
+public:
+	Player(ObjType obj, int id, int pos, LookDirection ld, sf::Texture *text, sf::RenderWindow *gameWindow);
 	~Player() {}
 
 private:
@@ -19,4 +26,4 @@ private:
 	Player				operator=(const Player &);
 };
 
-#endif // !Player
+#endif // !Player_

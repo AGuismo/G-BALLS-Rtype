@@ -1,5 +1,8 @@
 #include "TcpServer.h"
 #include "NetException.h"
+#if defined(DEBUG)
+# include	<iostream>
+#endif
 
 using namespace net;
 
@@ -10,6 +13,7 @@ using namespace net;
 TcpServer::TcpServer()
 {
   WinInit::GetInstance();
+  monitor(true, false);
 }
 
 TcpServer::~TcpServer()
@@ -50,6 +54,9 @@ ClientAccepted	*TcpServer::accept()
   int		len = sizeof(csin);
 
   newSock = ::accept(_sock, reinterpret_cast<struct sockaddr *>(&csin), &len);
+#if defined(DEBUG)
+  std::cout << "New client connected on socket " << newSock << std::endl;
+#endif
   return new ClientAccepted(newSock, csin);
 }
 #elif defined(linux)
@@ -58,6 +65,7 @@ ClientAccepted	*TcpServer::accept()
 
 TcpServer::TcpServer()
 {
+  monitor(true, false);
 }
 
 TcpServer::~TcpServer()
@@ -69,7 +77,6 @@ SOCKET TcpServer::getSocket() const
 {
   return _sock;
 }
-
 
 void			TcpServer::initialize(unsigned short int port, int maxPendingConnections)
 {
