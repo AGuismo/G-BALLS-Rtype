@@ -5,7 +5,7 @@
 // Login   <brigno@epitech.net>
 //
 // Started on  Thu Oct 31 16:22:29 2013 brigno
-// Last update Wed Nov  6 01:41:00 2013 brigno
+// Last update Wed Nov  6 03:09:14 2013 brigno
 //
 
 #include	"Button.hh"
@@ -13,7 +13,7 @@
 #include	"TextureManager.hh"
 #include	"Texture.hh"
 
-Button::Button(const sf::Event &ev, const std::string &name, const sf::Vector2i &posTopLeft, const sf::Vector2i &focusTopLeft, const sf::Vector2i &focusBotRight, MenuWindow::Status actionLink) :
+Button::Button(const sf::Event &ev, const std::string &name, const sf::Vector2i &posTopLeft, const sf::Vector2i &focusTopLeft, const sf::Vector2i &focusBotRight, AScreen::Status actionLink) :
   AWidget(ev, name, posTopLeft, focusTopLeft, focusBotRight, AWidget::BUTTON)
 {
   sf::Vector2f posZone;
@@ -40,7 +40,7 @@ const sf::Vector2i	&Button::getPos() const
   return (this->_pos);
 }
 
-MenuWindow::Status		Button::onFocus()
+AScreen::Status		Button::onFocus()
 {
   this->_image.setTexture(TextureManager::getInstance().getTexture(this->_name + "Focus")->getTexture());
   return (this->_actionLink);

@@ -5,7 +5,7 @@
 // Login   <brigno@epitech.net>
 //
 // Started on  Wed Oct 23 11:31:48 2013 brigno
-// Last update Wed Nov  6 01:26:31 2013 brigno
+// Last update Wed Nov  6 03:10:51 2013 brigno
 //
 
 #ifndef		__MENU_WINDOW_HH__
@@ -23,18 +23,10 @@ class		Network;
 class		MenuWindow : public AScreen
 {
 public:
-  enum Status
-    {
-      CONTINUE,
-      EXIT,
-      CHANGE_SCR
-    };
-public:
   typedef std::vector<Image*>	image_list;
   typedef std::vector<AWidget*>	widget_list;
 
 private:
-  Status		_status;
   Background		*_backgroundPtr;
   image_list		_listImage;
   widget_list		_listWidget;

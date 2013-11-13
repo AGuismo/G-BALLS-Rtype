@@ -5,7 +5,7 @@
 // Login   <brigno@epitech.net>
 //
 // Started on  Wed Oct 23 11:37:38 2013 brigno
-// Last update Wed Nov  6 02:20:38 2013 brigno
+// Last update Wed Nov  6 04:07:42 2013 brigno
 //
 
 #include	"MenuWindow.hh"
@@ -20,7 +20,7 @@
 #include	"Network.hh"
 
 MenuWindow::MenuWindow(const std::string &name, int width, int height, Network *network):
-  AScreen(name, width, height, network), _status(CONTINUE), _objectFocus(0), _objectHover(0)
+  AScreen(name, width, height, network, CONTINUE), _objectFocus(0), _objectHover(0)
 {
   try
     {
@@ -116,7 +116,10 @@ void	MenuWindow::catchEvent()
 	  break;
 	case sf::Event::KeyPressed:
 	  if (this->_event.key.code == sf::Keyboard::Escape)
-	    this->_window.close();
+	    {
+	      this->_status = EXIT;
+	      this->_window.close();
+	    }
 	  break;
 	case sf::Event::TextEntered:
 	  if (this->_objectFocus != 0)
@@ -160,7 +163,21 @@ int	MenuWindow::run()
       this->setDraw();
       this->draw();
     }
-  return (-1);
+  switch (this->_status)
+    {
+    case CHANGE_SCR:
+      return (1);
+      break;
+    case EXIT:
+      return (-1);
+      break;
+    case QUIT:
+      return (-1);
+      break;
+    default:
+      return (-1);
+      break;
+    }
 }
 
 Background		*MenuWindow::getBackgroundPtr()

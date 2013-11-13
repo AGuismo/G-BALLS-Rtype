@@ -5,15 +5,16 @@
 // Login   <brigno@epitech.net>
 //
 // Started on  Tue Nov  5 15:45:16 2013 brigno
-// Last update Wed Nov  6 02:04:08 2013 brigno
+// Last update Wed Nov  6 03:13:30 2013 brigno
 //
 
 #include	"AScreen.hh"
 
-AScreen::AScreen(const std::string &name, int width, int height, Network *network)
+AScreen::AScreen(const std::string &name, int width, int height, Network *network, AScreen::Status status)
 {
   this->_window.create(sf::VideoMode(width, height), name, sf::Style::Titlebar | sf::Style::Close);
   this->_network = network;
+  this->_status = status;
 }
 
 AScreen::~AScreen()

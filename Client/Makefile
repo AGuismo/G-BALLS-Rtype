@@ -5,7 +5,7 @@
 ## Login   <brigno@epitech.net>
 ##
 ## Started on  Wed Oct 23 18:43:59 2013 brigno
-## Last update Wed Nov  6 01:43:52 2013 brigno
+## Last update Wed Nov  6 03:05:03 2013 brigno
 ##
 
 NAME	=	Client
@@ -26,6 +26,7 @@ SRC =		main.cpp			\
 		$(SOURCES)AScreen.cpp		\
 		$(SOURCES)Texture.cpp		\
 		$(SOURCES)TextureManager.cpp	\
+		$(SOURCES)LobbyWindow.cpp	\
 
 OBJ =		$(SRC:.cpp=.o)
 CC =		g++

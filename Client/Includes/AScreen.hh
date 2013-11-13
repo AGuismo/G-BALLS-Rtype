@@ -5,7 +5,7 @@
 // Login   <brigno@epitech.net>
 //
 // Started on  Tue Nov  5 15:14:30 2013 brigno
-// Last update Wed Nov  6 01:54:19 2013 brigno
+// Last update Wed Nov  6 04:04:27 2013 brigno
 //
 
 #ifndef		__SCREEN_HH__
@@ -19,13 +19,22 @@ class		Network;
 
 class AScreen : public IScreen
 {
+public:
+  enum Status
+    {
+      CONTINUE,
+      EXIT,
+      QUIT,
+      CHANGE_SCR
+    };
 protected:
+  Status		_status;
   sf::Event		_event;
   sf::RenderWindow	_window;
   Network		*_network;
 
 public:
-  AScreen(const std::string &name, int width, int height, Network *network);
+  AScreen(const std::string &name, int width, int height, Network *network, AScreen::Status status);
   ~AScreen();
   virtual int	run(void) = 0;
 
