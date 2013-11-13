@@ -68,22 +68,22 @@ void			Player::update(Action act, int updtatedPos)
 	}
 }
 
-sf::Vector2f	*Player::getVectorNextPos(void)
+const sf::Vector2f		*Player::getVectorNextPos(void)
 {
 	return (_vNextPos);
 }
 
-sf::Vector2f	*Player::getVectorCurPos(void)
+const sf::Vector2f		*Player::getVectorCurPos(void)
 {
 	return (_vNextPos);
 }
 
-int				Player::getCaseNextPos(void)
+const int				Player::getCaseNextPos(void)
 {
 	return (_cNextPos);
 }
 
-int				Player::getCaseCurPos(void)
+const int				Player::getCaseCurPos(void)
 {
 	return (_cNextPos);
 }

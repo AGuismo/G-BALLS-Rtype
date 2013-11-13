@@ -5,7 +5,7 @@
 #include		<algorithm>
 #include		"Timer.h" // A VIRER (pas sur)
 
-const float Game::VLAG = 0.3f;
+const float Game::VLAG = 0.2f;
 const float Game::MAX_VLAG = 3.0f;
 
 bool							Game::load(void)

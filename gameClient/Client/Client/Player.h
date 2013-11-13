@@ -12,10 +12,10 @@ private:
 public:
 	void					draw(void);
 	void					update(Action act, int updatedPos);
-	sf::Vector2f			*getVectorNextPos(void);
-	sf::Vector2f			*getVectorCurPos(void);
-	int						getCaseNextPos(void);
-	int						getCaseCurPos(void);
+	const sf::Vector2f		*getVectorNextPos(void);
+	const sf::Vector2f		*getVectorCurPos(void);
+	const int				getCaseNextPos(void);
+	const int				getCaseCurPos(void);
 
 public:
 	Player(ObjType obj, int id, int pos, LookDirection ld, sf::Texture *text, sf::RenderWindow *gameWindow);
