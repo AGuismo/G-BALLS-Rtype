@@ -43,6 +43,7 @@ public:
 	static const int			PX_DEC_Y = 46;
 	static const int			UNCHANGED = -42;
 	static const float			VLAG;
+	static const float			MAX_VLAG;
 
 public:
 	static int					POSX(int x) { return ((x % SIZE_GAME_BOARD) * PX_DEC_X); }

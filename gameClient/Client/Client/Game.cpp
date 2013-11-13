@@ -5,8 +5,8 @@
 #include		<algorithm>
 #include		"Timer.h" // A VIRER (pas sur)
 
-const float Game::VLAG = 0.4f;
-
+const float Game::VLAG = 0.3f;
+const float Game::MAX_VLAG = 3.0f;
 
 bool							Game::load(void)
 {
@@ -76,7 +76,7 @@ void							Game::run(void)
 {
 	Timer						_playerMvtLock(new sf::Time(sf::seconds(0.20f)));
 	Timer						_playerFireLock(new sf::Time(sf::seconds(0.42f)));
-//	Timer						test(new sf::Time(sf::seconds(5.0f)));
+	Timer						test(new sf::Time(sf::seconds(5.0f)));
 
 	_gameWindow->setFramerateLimit(25);
 	addObj(PLAYER1, 42, 100);
@@ -160,8 +160,8 @@ void							Game::run(void)
 			default:
 				break;
 			}
-		}
-		/*if (test.isEnded())
+		}/*
+		if (test.isEnded())
 		{
 			updatePlayer(Fire);
 			test.restart();
@@ -212,7 +212,7 @@ bool							Game::updatePlayer(Action action)
 			(*it)->update(Down, updatedPos);
 			break;
 		case Fire:
-			updatedPos = (*it)->getCaseCurPos() + 4;
+			updatedPos = (*it)->getCaseCurPos() + 6;
 			(*it)->update(Right, updatedPos);
 			break;
 		default:

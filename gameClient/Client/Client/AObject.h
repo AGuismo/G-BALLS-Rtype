@@ -22,6 +22,7 @@ protected:
 	int					_cNextPos;
 	bool				_act;
 	float				_vLag;
+	float				_mvtTime;
 	sf::Vector2f		_gPos;
 	sf::RenderWindow	*_gameWindow;
 

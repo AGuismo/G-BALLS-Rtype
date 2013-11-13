@@ -57,9 +57,9 @@ void			Player::update(Action act, int updtatedPos)
 			_vNextPos->x = (float)Game::POSX(_cNextPos);
 			_vNextPos->y = (float)Game::POSY(_cNextPos);
 			_act = true;
-			_vLag += Game::VLAG;
+			if (_vLag < Game::MAX_VLAG)
+				_vLag += Game::VLAG;
 			_timerMvt->restart();
-		
 			std::cout << "Up: curpos[" << _cCurPos << "] " << "nextpos[" <<  _cNextPos << "] vlage:[" << _vLag << "]" << std::endl;
 			std::cout << "Up: curpos[" << _vCurPos->x << ":" << _vCurPos->y << "] " << "nextpos[" << _vNextPos->x << ":" << _vNextPos->y << "] " << std::endl;
 
@@ -119,8 +119,9 @@ Player::Player(ObjType type, int id, int pos, LookDirection ld, sf::Texture *tex
 	_image.setTextureRect(sf::IntRect(132, _indexSprite, 68, 38));
 	_image.setPosition((float)Game::POSX(_cCurPos), (float)Game::POSY(_cCurPos));
 	_act = false;
+	_mvtTime = 0.42f;
 	_timer = new Timer(new sf::Time(sf::seconds(0.45f)));
-	_timerMvt = new Timer(new sf::Time(sf::seconds(0.42f)));
+	_timerMvt = new Timer(new sf::Time(sf::seconds(_mvtTime)));
 	_vCurPos = new sf::Vector2f((float)Game::POSX(_cCurPos), (float)Game::POSY(_cCurPos));
 	_vNextPos = new sf::Vector2f((float)Game::POSX(_cCurPos), (float)Game::POSY(_cCurPos));
 }
