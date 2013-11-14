@@ -26,10 +26,13 @@ namespace rtype
       unsigned short int		maxSimultaneousGames;
       unsigned short int		bossDelay;
       unsigned long long		gameDelay;
-    }					game;
+	  int						updateToLive;
+	}					game;
     static const unsigned short int	MAX_SIMULTANEOUS_GAMES =	20;
     static const unsigned short int	BOSS_DELAY	       =	90;
-    static const unsigned long long	gameDelay	       =	500000;
+    static const unsigned long long	gameDelay	       =	250000;
+	static const int				updateToLive = 8;
+
   public:
     static Env	&getInstance();
 

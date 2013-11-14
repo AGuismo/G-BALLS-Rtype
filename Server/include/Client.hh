@@ -37,8 +37,8 @@ private:
   Client& operator=(Client const&);
 
 private:
-  RequestQueue		_input;
-  RequestQueue		_output;
+/*  RequestQueue		_input;
+  RequestQueue		_output; lemart pense que ca dois virer */
   menu::Client		_menu;
   game::Client		_game;
 };

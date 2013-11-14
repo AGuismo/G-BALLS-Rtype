@@ -1,9 +1,6 @@
 #pragma once
 
-#include <vector>
-#include <exception>
-#include "AMonitorable.h"
-#include "abs_sockets.h"
+
 #if defined(WIN32)
 #include <winsock2.h>
 #pragma comment (lib, "Ws2_32.lib")
@@ -13,6 +10,10 @@
 #include <sys/types.h>
 #include <unistd.h>
 #endif
+#include <vector>
+#include <exception>
+#include "AMonitorable.h"
+#include "abs_sockets.h"
 
 namespace net
 {

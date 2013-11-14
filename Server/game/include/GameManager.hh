@@ -21,8 +21,8 @@
 # include	"RequestCode.hh"
 # include	"cBuffer.h"
 # include	"GameClient.hh"
+# include	"Game.h"
 
-class	Game;
 class	Client;
 class	AGameRequest;
 using	net::cBuffer;

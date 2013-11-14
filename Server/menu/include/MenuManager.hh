@@ -38,7 +38,7 @@ namespace	menu
 
   private:
     static void	tryConnect(ARequest *, Client *, Manager *);
-    static void	launchGame(ARequest *, Client *, Manager *);
+    static void	launchGame(ARequest *, ::Client *, Manager *);
 
   private:
     Manager(Manager const&);

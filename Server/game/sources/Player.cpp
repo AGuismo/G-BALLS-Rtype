@@ -1,6 +1,6 @@
+#include	"Game.h" /*Must be included in first*/
 #include	"Player.h"
 #include	"Missile.h"
-#include	"Game.h"
 
 namespace	game
 {
@@ -19,10 +19,19 @@ namespace	game
 #endif
   }
 
-  void	Player::move(DIR dir, int speed)
+
+
+  void	Player::move(Ruint8 dir)
   {
-    _dir = dir;
-    _speed = speed;
+	  _prevPos = _pos;
+	  if (dir == 0 || dir == 7 || dir == 1)
+		  _pos -= SIZE;
+	  if (dir == 4 || dir == 5 || dir == 3)
+		  _pos += SIZE;
+	  if (dir == 6 || dir == 7 || dir == 5)
+		  _pos -= 1;
+	  if (dir == 2 || dir == 3 || dir == 1)
+		  _pos += 1;
   }
 
   Missile *Player::fire()

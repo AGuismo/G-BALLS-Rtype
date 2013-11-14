@@ -3,6 +3,7 @@
 #include	<string>
 #include	<iostream>
 #include	<list>
+#include	"types.hh"
 #include	"Entity.h"
 
 class Missile;
@@ -16,7 +17,7 @@ namespace	game
   public:
     Player(int pos);
     virtual	~Player();
-    void	move(DIR dir, int speed);
+    virtual void	move(Ruint8 dir);
     Missile	*fire();
 
   private:
@@ -25,5 +26,6 @@ namespace	game
 
     friend class ::Referee;
     friend class ::Game;
+	friend class Client;
   };
 }

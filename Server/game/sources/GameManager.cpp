@@ -45,13 +45,12 @@ namespace	game
   void		Manager::update()
   {
     std::list<Game *>::iterator it;
-    // clock_time			time;
 
     for (it = _games.begin();
-	 it != _games.end();
-	 ++it)
+		 it != _games.end();
+		 ++it)
       {
-
+		(*it)->update();
       }
   }
 

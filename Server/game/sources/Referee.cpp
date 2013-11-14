@@ -64,15 +64,15 @@ bool	Referee::sameCase(const Entity *a, const Entity *b)
 
 bool	Referee::playerCollision(Entity *a, Game &game)
 {
-  std::list<game::Player *>::iterator itp = game._players.begin();
+  std::list<game::Client *>::iterator itp = game._players.begin();
 
   for (; itp != game._players.end(); itp++)
     {
       if (a->_type != PLAYER && a->_type != MISSILE &&
-	  sameCase(a, *itp) == true)
+		  sameCase(a, (*itp)->_player) == true)
 	{
-	  if ((*itp)->_extraLife == true)
-	    (*itp)->_extraLife = false;
+	  if ((*itp)->_player->_extraLife == true)
+		  (*itp)->_player->_extraLife = false;
 	  else
 	    {
 	      delete *itp;
@@ -81,7 +81,7 @@ bool	Referee::playerCollision(Entity *a, Game &game)
 	  return true;
 	}
       else if (a->_type == MISSILE &&
-	       sameCase(a, *itp) == true)
+		  sameCase(a, (*itp)->_player) == true)
 	{
 	  if ((dynamic_cast<Missile *>(a))->getLauncher()->_type != PLAYER)
 	    {

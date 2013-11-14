@@ -5,7 +5,7 @@
 #include "Player.h"
 #include "Env.hh"
 
-Game::Game(std::list<game::Player *> &players)
+Game::Game(std::list<game::Client *> &players)
 {
   _players = players;
   _titan = NULL;
@@ -13,7 +13,6 @@ Game::Game(std::list<game::Player *> &players)
 
 Game::~Game()
 {
-
 }
 
 void	Game::iaUpdate()
@@ -105,12 +104,39 @@ void	Game::bossUpdate()
     }
 }
 
+void	Game::playerUpdate()
+{
+	std::list<game::Client *>::iterator itm = _players.begin();
+
+	for (itm = _players.begin(); itm != _players.end();)
+	{
+		(*itm)->update(_toSend, _missiles);
+		if (!Referee::isOnScreen((*itm)->_player) || Referee::isCollision((*itm)->_player, *this))
+		{
+			if ((*itm)->_player->_extraLife == true)
+			{
+				(*itm)->_player->_extraLife = false;
+				itm++;
+			}
+			else
+			{
+				delete *itm;
+				itm = _players.erase(itm);
+				break;
+			}
+		}
+		else
+			itm++;
+	}
+}
+
 void	Game::update()
 {
-  iaUpdate();
-  wallUpdate();
-  missileUpdate();
+	playerUpdate();
+	iaUpdate();
+	wallUpdate();
+	missileUpdate();
 
-  _timer->tv_usec = rtype::Env::gameDelay;
-  _timer->tv_sec = 0;
+	_timer->tv_usec = rtype::Env::gameDelay;
+	_timer->tv_sec = 0;
 }

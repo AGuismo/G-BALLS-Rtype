@@ -18,8 +18,8 @@ void			Client::update()
 {
   if (_menu.inUse())
     _menu.update();
-  else if (_game.inUse())
-    _game.update();
+  /*else if (_game.inUse())
+    _game.update();*/
 }
 
 void			Client::finalize()
@@ -28,7 +28,10 @@ void			Client::finalize()
     _menu.finalize();
   else if (_game.inUse())
     _game.finalize();
-}
+} 
+/*lemart et gherab aimerai comprendre l'utilité de ce machin
+juste au dessus,
+car il n'ont pas réussi a le comprendre par eux meme*/
 
 menu::Client		&Client::menu()
 {

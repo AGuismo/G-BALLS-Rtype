@@ -3,18 +3,6 @@
 #include "Protocol.hpp"
 #include "AGameRequest.hh"
 
-enum DIR
-{
-	NORTH = 0,
-	NORTH_EAST,
-	EAST,
-	SOUTH_EAST,
-	SOUTH,
-	SOUTH_WEST,
-	WEST,
-	NORTH_WEST
-};
-
 class ElemRequest : public AGameRequest
 {
 public:

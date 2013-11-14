@@ -1,4 +1,5 @@
 #include	<iostream>
+#include	"Game.h" /*Must be included in first*/
 #include	"MenuManager.hh"
 #include	"MenuException.hh"
 #include	"sys.hh"
@@ -8,8 +9,8 @@
 #include	"SessionRequest.hh"
 #include	"PartyRequest.hh"
 #include	"ServerRequest.hh"
+#include	"GameClient.hh"
 #include	"Player.h"
-#include	"Game.h"
 
 namespace	menu
 {
@@ -146,10 +147,12 @@ namespace	menu
   void	Manager::launchGame(ARequest *req, ::Client *client, Manager *manager)
   {
     game::Player		*player = new game::Player(42);
-    std::list<game::Player *>	players;
+    std::list<game::Client *>	players;
     Game			*new_game;
+	game::Client	*new_client = new game::Client();
 
-    players.push_back(player);
+	new_client->player(player);
+    players.push_back(new_client);
     new_game = new Game(players);
     client->game().game(new_game);
     client->game().player(player);

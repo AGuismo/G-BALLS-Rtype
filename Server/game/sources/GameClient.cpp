@@ -1,15 +1,20 @@
 #include	"GameClient.hh"
+#include	"EventRequest.hh"
+#include	"Player.h"
+#include	"AliveRequest.h"
+#include	"Env.hh"
+#include	"ElemRequest.hh"
+#include	"Missile.h"
 
 namespace	game
 {
   Client::Client():
-    _used(false)
+	  _used(false), _alive(true), _updateToLive(0)
   {
-
   }
   
   Client::Client(struct sockaddr_in addr) :
-	  _used(false), _addr(addr)
+	  _used(false), _addr(addr), _alive(true), _updateToLive(0)
   {
 
   }
@@ -19,9 +24,37 @@ namespace	game
 
   }
 
-  void	Client::update()
+  void	Client::update(RequestQueue &p, std::list<::Missile *> &missiles)
   {
+	  ARequest *req;
+	  bool		move = false;
+	  bool		fire = false;
 
+	  do {
+		  req = _input.requestPop();
+		  if (EventRequest * ev = dynamic_cast<EventRequest *>(req))
+		  {
+			  if (ev->event() == 0 && !move)
+			  {
+				  move = true;
+				  _player->move(ev->param());
+				  p.requestPush(new ElemRequest(requestCode::game::ELEM,
+												ev->param(), _player->_dir, _id));
+			  }
+			  else if (!fire)
+			  {
+				  missiles.push_back(_player->fire());
+				  fire = true;
+				  p.requestPush(new ElemRequest(requestCode::game::ELEM,
+					  _player->_pos, _player->_dir, -1/* ID du missile ??*/));
+			  }
+		  }
+		  else if (AliveRequest * al = dynamic_cast<AliveRequest *>(req))
+			  _updateToLive = -1;
+	  } while (req);
+	  _updateToLive++;
+	  if (_updateToLive == rtype::Env::updateToLive)
+		_alive = false;
   }
 
   void	Client::finalize()

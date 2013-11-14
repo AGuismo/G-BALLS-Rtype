@@ -13,6 +13,7 @@
 #include	<list>
 #include	"IA.h"
 #include	"Boss.h"
+#include	"GameClient.hh"
 
 class Event;
 class TIMER;
@@ -27,7 +28,7 @@ namespace	game
 class Game
 {
 public:
-  Game(std::list<game::Player *> &players);
+  Game(std::list<game::Client *> &players);
   ~Game();
   void	update();
   struct timeval	*getTimer(void)const{ return _timer;};
@@ -38,14 +39,16 @@ private:
   void missileUpdate();
   void bossUpdate();
   void wallUpdate();
+  void playerUpdate();
 
 private:
-  std::list<game::Player *>	_players;
+  std::list<game::Client *>	_players;
   std::list<Ia *>		_IA;
   std::list<Entity *>		_objs;
   std::list<Missile *>		_missiles;
   Boss				*_titan;
   struct timeval		*_timer;
+  RequestQueue		_toSend;
 
   friend class ::Referee;
 };

@@ -1,7 +1,7 @@
 #if defined(WIN32)
-#include	<exception>
-#include "WinInit.h"
 #include <Winsock2.h>
+#include <exception>
+#include "WinInit.h"
 
 #pragma comment(lib, "Ws2_32.lib")
 WinInit* WinInit::m_instance = 0;
