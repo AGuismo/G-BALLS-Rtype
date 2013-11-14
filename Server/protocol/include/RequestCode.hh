@@ -53,18 +53,19 @@ namespace requestCode
 
   namespace game
   {
-    static const CodeID MOVE_LEFT =		600;
-    static const CodeID MOVE_RIGHT =		601;
-    static const CodeID MOVE_UP =		602;
+	static const CodeID EVENT =			600;
+/*    static const CodeID MOVE_LEFT =		600;
+	static const CodeID MOVE_UP =		601;
+    static const CodeID MOVE_RIGHT =	602;
     static const CodeID MOVE_DOWN =		603;
     static const CodeID MOVE_LEFT_UP =		604;
     static const CodeID MOVE_LEFT_DOWN =	605;
     static const CodeID MOVE_RIGHT_UP =		606;
     static const CodeID MOVE_RIGHT_DOWN =	607;
-    static const CodeID ATTACK_FIRST =		608;
-    static const CodeID ATTACK_SECOND =		609;
-    static const CodeID LEAVE =			610;
-    static const CodeID ALIVE =			611;
+    static const CodeID ATTACK_FIRST =		604;
+    static const CodeID ATTACK_SECOND =		605;
+    static const CodeID LEAVE =			606;*/
+    static const CodeID ALIVE =			607;
 
     static const CodeID ELEM =			1600;
     static const CodeID DEATH =			1601;
