@@ -1,8 +1,6 @@
 #ifndef GAME
 # define	GAME
 
-//# define	VLAG	0.4f
-
 #include	<deque>
 
 #include	"TextureManager.h"
@@ -44,6 +42,7 @@ public:
 	static const int			UNCHANGED = -42;
 	static const float			VLAG;
 	static const float			MAX_VLAG;
+	static const float			FLUIDITY;
 
 public:
 	static int					POSX(int x) { return ((x % SIZE_GAME_BOARD) * PX_DEC_X); }

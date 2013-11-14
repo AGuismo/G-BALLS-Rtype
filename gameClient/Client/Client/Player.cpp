@@ -20,13 +20,13 @@ void			Player::draw(void)
 	else
 	{
 		if (_vCurPos->x < _vNextPos->x)
-			_vCurPos->x += (_vLag * Game::PX_DEC_X / 12.0f);
+			_vCurPos->x += (_vLag * Game::PX_DEC_X / Game::FLUIDITY);
 		if (_vCurPos->x > _vNextPos->x)
-			_vCurPos->x -= (_vLag * Game::PX_DEC_X / 12.0f);
+			_vCurPos->x -= (_vLag * Game::PX_DEC_X / Game::FLUIDITY);
 		if (_vCurPos->y < _vNextPos->y)
-			_vCurPos->y += (_vLag * Game::PX_DEC_Y / 12.0f);
+			_vCurPos->y += (_vLag * Game::PX_DEC_Y / Game::FLUIDITY);
 		if (_vCurPos->y > _vNextPos->y)
-			_vCurPos->y -= (_vLag * Game::PX_DEC_Y / 12.0f);
+			_vCurPos->y -= (_vLag * Game::PX_DEC_Y / Game::FLUIDITY);
 		_act = true;
 		_image.setPosition(_vCurPos->x, _vCurPos->y);
 	}
@@ -60,10 +60,8 @@ void			Player::update(Action act, int updtatedPos)
 			if (_vLag < Game::MAX_VLAG)
 				_vLag += Game::VLAG;
 			_timerMvt->restart();
-			std::cout << "Up: curpos[" << _cCurPos << "] " << "nextpos[" <<  _cNextPos << "] vlage:[" << _vLag << "]" << std::endl;
-			std::cout << "Up: curpos[" << _vCurPos->x << ":" << _vCurPos->y << "] " << "nextpos[" << _vNextPos->x << ":" << _vNextPos->y << "] " << std::endl;
-
-
+/*			std::cout << "Up: curpos[" << _cCurPos << "] " << "nextpos[" <<  _cNextPos << "] vlage:[" << _vLag << "]" << std::endl;
+			std::cout << "Up: curpos[" << _vCurPos->x << ":" << _vCurPos->y << "] " << "nextpos[" << _vNextPos->x << ":" << _vNextPos->y << "] " << std::endl;*/
 		}
 	}
 }
