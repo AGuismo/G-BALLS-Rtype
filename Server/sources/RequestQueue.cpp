@@ -12,8 +12,6 @@ RequestQueue::~RequestQueue()
 
 ARequest		*RequestQueue::requestPop(void)
 {
- // Thread::MutexGuard	g(_locker);
-
   if (_queue.size() == 0)
     return (0);
 
@@ -24,14 +22,10 @@ ARequest		*RequestQueue::requestPop(void)
 
 void			RequestQueue::requestPush(ARequest *req)
 {
-  //Thread::MutexGuard	g(_locker);
-
   _queue.push(req);
 }
 
 bool			RequestQueue::empty()
 {
-  //Thread::MutexGuard	g(_locker);
-
   return (_queue.empty());
 }

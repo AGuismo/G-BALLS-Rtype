@@ -81,9 +81,18 @@ namespace	Thread
       return (data);
     }
 
+	std::vector<T *>	flushData()
+	{
+		std::vector<T *>	output;
+
+		while (!empty())
+			output = getData();
+		return (output);
+	}
+
   private:
-    EventQueue(EventQueue const&);
-    EventQueue& operator=(EventQueue const&);
+    EventQueue<T>(EventQueue<T> const&);
+    EventQueue<T>& operator=(EventQueue<T> const&);
   };
 }
 

@@ -3,10 +3,12 @@
 #include		"game.h"
 #include		"Layer.h"
 #include		<algorithm>
-#include		"Timer.h" // A VIRER (pas sur)
+#include		"Network.h"
+#include		"Timer.h"
 
-const float Game::VLAG = 0.2f;
+const float Game::VLAG = 0.25f;
 const float Game::MAX_VLAG = 3.0f;
+const float Game::FLUIDITY = 8.0f;
 
 bool							Game::load(void)
 {
@@ -89,6 +91,12 @@ void							Game::run(void)
 
 	//_audioManager.play(GAME_MUSIC);
 
+
+	Network						clientNetwork;
+
+	sf::Thread					clientThread(&Network::Run, &clientNetwork);
+	clientThread.launch();
+
 	while (_gameWindow->isOpen())
 	{
 		while (_gameWindow->pollEvent(*_event))
@@ -133,10 +141,12 @@ void							Game::run(void)
 					if (_playerFireLock.isEnded())
 					{
 						_audioManager.play(PLAYER_LASER);
+						clientNetwork.pushOutRequest(std::string("AU BON C MON KEKE"));
 						_playerFireLock.restart();
 					}
 					break;
 				case sf::Keyboard::Escape:
+					clientThread.terminate();
 					return;
 					break;
 				default:

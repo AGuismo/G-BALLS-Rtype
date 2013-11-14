@@ -23,14 +23,8 @@ namespace 	Thread
     CRITICAL_SECTION	_m;
 
   public:
-    MutexBase()
-      {
-	InitializeCriticalSection(&_m);
-      }
-    virtual ~MutexBase()
-    {
-      DeleteCriticalSection(&_m);
-    }
+	MutexBase();
+	virtual ~MutexBase();
   };
 
   class	DECLPORT 		Mutex : protected MutexBase, public IMutex

@@ -94,11 +94,11 @@
     </ProjectReference>
     <ProjectReference Include="..\libraries\Thread\Threads\Threads.vcxproj">
       <Project>{58935438-3f38-49e8-ac0d-a66dc7e8ef08}</Project>
-      <Private>true</Private>
+      <Private>false</Private>
       <ReferenceOutputAssembly>true</ReferenceOutputAssembly>
       <CopyLocalSatelliteAssemblies>false</CopyLocalSatelliteAssemblies>
       <LinkLibraryDependencies>true</LinkLibraryDependencies>
-      <UseLibraryDependencyInputs>false</UseLibraryDependencyInputs>
+      <UseLibraryDependencyInputs>true</UseLibraryDependencyInputs>
     </ProjectReference>
     <ProjectReference Include="game\game\game.vcxproj">
       <Project>{45f1b8d5-ffd2-46d2-b5dd-52a898aed023}</Project>

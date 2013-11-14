@@ -13,7 +13,7 @@
 
 # include	<windows.h>
 # include	<cstdint>
-# include	"WinThreadMutex.hh"
+# include	"ThreadMutex.hh"
 # include	"IThreadCond.hh"
 
 namespace	Thread

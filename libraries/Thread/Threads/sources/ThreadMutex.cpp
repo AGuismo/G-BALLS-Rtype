@@ -12,6 +12,16 @@
 
 namespace Thread
 {
+	MutexBase::MutexBase()
+	{
+		InitializeCriticalSection(&_m);
+	}
+
+	MutexBase::~MutexBase()
+	{
+		DeleteCriticalSection(&_m);
+	}
+
   Mutex::Mutex() : MutexBase()
   {
   }

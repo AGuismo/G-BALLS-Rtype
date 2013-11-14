@@ -7,6 +7,7 @@
 # include	"Env.hh"
 # include	"RequestCode.hh"
 # include	"Bind.hpp"
+# include	"ThreadEvent.hpp"
 
 class Client;
 class ARequest;
@@ -20,7 +21,7 @@ namespace	menu
     typedef void (*request_callback)(ARequest *, Client *, Manager *);
     typedef std::map<requestCode::CodeID, request_callback>	request_callback_map;
   public:
-    Manager();
+	  Manager(Thread::EventQueue<ARequest *> &input, Thread::EventQueue<ARequest *> &output);
     virtual ~Manager();
 
   public:
@@ -48,6 +49,8 @@ namespace	menu
     net::TcpServer		_server;
     net::streamManager		_monitor;
     std::vector<Client *>	_clients;
+	Thread::EventQueue<ARequest *>		&_input;
+	Thread::EventQueue<ARequest *>		&_output;
     request_callback_map	_requestCallback;
   };
 

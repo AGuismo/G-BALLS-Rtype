@@ -11,10 +11,16 @@
 #include	"ServerRequest.hh"
 #include	"GameClient.hh"
 #include	"Player.h"
+<<<<<<< HEAD
+=======
+#include	"Game.h"
+#include	"ThreadEvent.hpp"
+>>>>>>> ebb87dd307d5afa0f2d10ce38d989943b06d498b
 
 namespace	menu
 {
-  Manager::Manager()
+	Manager::Manager(Thread::EventQueue<ARequest *> &input, Thread::EventQueue<ARequest *> &output) :
+		_input(input), _output(output)
   {
     _server.monitor(true, false);
     _requestCallback[requestCode::auth::CONNECT] = &tryConnect;

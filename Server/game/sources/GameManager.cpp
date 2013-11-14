@@ -11,8 +11,8 @@
 
 namespace	game
 {
-  Manager::Manager():
-    _th(Func::Bind(&Manager::routine, this))
+	Manager::Manager(Thread::EventQueue<ARequest *> &input, Thread::EventQueue<ARequest *> &output) :
+		_th(Func::Bind(&Manager::routine, this)), _input(input), _output(output)
   {
     _server.monitor(true, false);
   }
@@ -82,7 +82,6 @@ namespace	game
 	client_vect::iterator		it;
 	std::vector<cBuffer::Byte>		buf;
 	AGameRequest			*req;
-	net::ClientAccepted	*c;
 
 	_server.recv();
 	_server.readFromBuffer(buf, rtype::Env::getInstance().network.maxUDPpacketLength);
