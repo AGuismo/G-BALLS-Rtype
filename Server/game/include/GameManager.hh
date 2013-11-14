@@ -21,11 +21,8 @@
 # include	"RequestCode.hh"
 # include	"cBuffer.h"
 # include	"GameClient.hh"
-<<<<<<< HEAD
 # include	"Game.h"
-=======
 # include	"ThreadEvent.hpp"
->>>>>>> ebb87dd307d5afa0f2d10ce38d989943b06d498b
 
 class	Client;
 class	AGameRequest;

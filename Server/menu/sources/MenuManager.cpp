@@ -11,11 +11,8 @@
 #include	"ServerRequest.hh"
 #include	"GameClient.hh"
 #include	"Player.h"
-<<<<<<< HEAD
-=======
 #include	"Game.h"
 #include	"ThreadEvent.hpp"
->>>>>>> ebb87dd307d5afa0f2d10ce38d989943b06d498b
 
 namespace	menu
 {
