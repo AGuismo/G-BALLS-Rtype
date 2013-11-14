@@ -6,6 +6,7 @@
 # include	"MenuManager.hh"
 # include	"GameManager.hh"
 # include	"LoaderManager.hh"
+# include	"ThreadEvent.hpp"
 
 class Application
 {
@@ -37,10 +38,12 @@ private:
   Application& operator=(Application const&);
 
 private:
-  menu::Manager		_menuManager;
-  game::Manager		_gameManager;
-  botLoader::Manager	_botLoaderManager;
-  std::vector<Client *>	_clients;
+	Thread::EventQueue<ARequest *>	_input;
+	Thread::EventQueue<ARequest *>	_output;
+	menu::Manager		_menuManager;
+	game::Manager		_gameManager;
+	botLoader::Manager	_botLoaderManager;
+	std::vector<Client *>	_clients;
 };
 
 #endif /* APPLICATION_H_ */

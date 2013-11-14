@@ -4,7 +4,8 @@
 #include	"MenuException.hh"
 #include	"LoaderException.hh"
 
-Application::Application()
+Application::Application():
+	_menuManager(_input, _output), _gameManager(_output, _input)
 {
   std::string	file("botlibrary");
   try

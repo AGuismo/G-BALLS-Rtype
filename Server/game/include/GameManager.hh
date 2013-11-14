@@ -21,10 +21,12 @@
 # include	"RequestCode.hh"
 # include	"cBuffer.h"
 # include	"GameClient.hh"
+# include	"ThreadEvent.hpp"
 
 class	Game;
 class	Client;
 class	AGameRequest;
+
 using	net::cBuffer;
 
 namespace	game
@@ -36,7 +38,7 @@ namespace	game
     typedef std::vector<game::Client *>				client_vect;
 
   public:
-    Manager();
+	  Manager(Thread::EventQueue<ARequest *> &input, Thread::EventQueue<ARequest *> &output);
     ~Manager();
 
   public:
@@ -69,8 +71,9 @@ namespace	game
     Threads<void (*)(Manager *)>	_th;
     Clock				_clock;
     std::list<Game *>			_games;
-
-    net::UdpServer			_server;
+	Thread::EventQueue<ARequest *>		&_input;
+	Thread::EventQueue<ARequest *>		&_output;
+	net::UdpServer			_server;
     net::streamManager			_monitor;
     client_vect				_gameClients;
     request_callback_map		_requestCallback;
