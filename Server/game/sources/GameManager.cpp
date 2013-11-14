@@ -32,7 +32,7 @@ namespace	game
     catch (const net::Exception e)
       {
 	std::cout << e.what() << std::endl;
-	throw net::Exception("Unable to init Menu Manager");
+	throw net::Exception("Unable to init Game Manager");
       }
   }
 

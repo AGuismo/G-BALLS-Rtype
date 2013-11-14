@@ -39,6 +39,15 @@
     <ClCompile Include="..\sources\SessionRequest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\sources\ElemRequest.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\sources\DeathRequest.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\sources\BuffRequest.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\ARequest.hh">
@@ -69,6 +78,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\include\SessionRequest.hh">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\ElemRequest.hh">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\DeathRequest.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\BuffRequest.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

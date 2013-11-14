@@ -62,6 +62,9 @@ namespace	game
     Manager(Manager const&);
     Manager& operator=(Manager const&);
 
+  private :
+
+
   private:
     Threads<void (*)(Manager *)>	_th;
     Clock				_clock;
