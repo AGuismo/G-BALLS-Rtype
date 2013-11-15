@@ -1,6 +1,7 @@
 #ifndef GAMECLIENT_H_
 # define GAMECLIENT_H_
 
+# include	<WinSock2.h>
 # include	<queue>
 # include	<map>
 # include	<list>

@@ -23,8 +23,9 @@
 # include	"GameClient.hh"
 # include	"Game.h"
 # include	"ThreadEvent.hpp"
+# include	"Client.hh"
 
-class	Client;
+//class	Client;
 class	AGameRequest;
 
 using	net::cBuffer;
@@ -35,7 +36,7 @@ namespace	game
   {
     typedef void(*request_callback)(ARequest *, Client *, Manager *);
     typedef std::map<requestCode::CodeID, request_callback>	request_callback_map;
-    typedef std::vector<game::Client *>				client_vect;
+    typedef std::vector<::Client *>				client_vect;
 
   public:
 	  Manager(Thread::EventQueue<ARequest *> &input, Thread::EventQueue<ARequest *> &output);
@@ -79,14 +80,14 @@ namespace	game
     request_callback_map		_requestCallback;
 
   private:
-    class predicate : public std::unary_function<game::Client *, bool>
+    class predicate : public std::unary_function<::Client *, bool>
     {
     public:
       predicate(const requestCode::SessionID id): _id(id) {};
       ~predicate() {};
 
     public:
-      bool		operator()(const game::Client *rhs) {return (_id == rhs->SessionID());}
+      bool		operator()(::Client *rhs) {return (_id == rhs->id());}
 
     private:
       const requestCode::SessionID	_id;

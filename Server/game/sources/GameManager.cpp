@@ -90,14 +90,11 @@ namespace	game
 	if ((getRequest(buf, req)) == false)
 		return;
 	it = std::find_if(_gameClients.begin(), _gameClients.end(), predicate(req->SessionID()));
-	if (it == _gameClients.end())
+	if (it != _gameClients.end())
 	{
-		_gameClients.push_back(new Client(_server.getClientAddr()));
-		it = _gameClients.end();
+		(*it)->game().setAddr(_server.getClientAddr());
+		(*it)->game().requestPush(req);
 	}
-	else
-		(*it)->setAddr(_server.getClientAddr());
-	(*it)->requestPush(req);
   }
 
 

@@ -4,6 +4,8 @@
 #include "Game.h"
 #include "Player.h"
 #include "Env.hh"
+#include "Ia.h"
+#include "Boss.h"
 
 Game::Game(std::list<game::Client *> &players)
 {
@@ -39,9 +41,14 @@ void	Game::iaUpdate()
     }
 }
 
+ID   &Game::UniqueId()
+{
+	return ++incremental;
+}
+
 void	Game::wallUpdate()
 {
-  std::list<Entity *>::iterator ite = _objs.begin();
+	std::list<Entity *>::iterator ite = _objs.begin();
 
   for (ite = _objs.begin(); ite != _objs.end(); ite++)
     {

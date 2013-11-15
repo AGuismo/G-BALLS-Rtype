@@ -46,7 +46,7 @@ namespace	game
 				  missiles.push_back(_player->fire());
 				  fire = true;
 				  p.requestPush(new ElemRequest(requestCode::game::ELEM,
-					  _player->_pos, _player->_dir, -1/* ID du missile ??*/));
+					  _player->_pos, _player->_dir, 0/* ID du missile ??*/));
 			  }
 		  }
 		  else if (AliveRequest * al = dynamic_cast<AliveRequest *>(req))

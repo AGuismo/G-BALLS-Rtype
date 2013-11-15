@@ -63,7 +63,7 @@ namespace	menu
 
   void	Manager::clientRequest(::Client *client)
   {
-    ARequest *req = client->requestPop();
+    ARequest *req = client->menu().requestPop();
 
     while (req != 0)
       {
@@ -71,7 +71,7 @@ namespace	menu
 
 	if (it != _requestCallback.end())
 	  it->second(req, client, this);
-	req = client->requestPop();
+	req = client->menu().requestPop();
       }
   }
 
@@ -81,7 +81,7 @@ namespace	menu
 
     for (it = _clients.begin(); it != _clients.end();)
       {
-	(*it)->update();
+	(*it)->menu().update();
 	if ((*it)->menu().isTCPDisconnected())
 	  {
 	    ::Client	*client = *it;
@@ -134,33 +134,33 @@ namespace	menu
 	client->menu().username(request->username());
 	client->menu().password(request->password());
 	client->menu().authenticated(true);
-	client->requestPush(new ServerRequest(requestCode::server::OK));
-	client->requestPush(new SessionRequest(SessionRequest::Unique()));
+	client->menu().requestPush(new ServerRequest(requestCode::server::OK));
+	client->menu().requestPush(new SessionRequest(SessionRequest::Unique()));
+	client->id(client->menu().sessionID());
       }
     else
       {
 #if defined(DEBUG)
 	std::cout << client << ": Authentication failed" << std::endl;
 #endif
-	client->requestPush(new ServerRequest(requestCode::server::FORBIDDEN));
+	client->menu().requestPush(new ServerRequest(requestCode::server::FORBIDDEN));
       }
     delete req;
   }
 
   void	Manager::launchGame(ARequest *req, ::Client *client, Manager *manager)
   {
-    game::Player		*player = new game::Player(42);
     std::list<game::Client *>	players;
-    Game			*new_game;
+    Game			*new_game = new Game(players);
 	game::Client	*new_client = new game::Client();
+	game::Player	*player = new game::Player(42, new_game->UniqueId());
 
 	new_client->player(player);
     players.push_back(new_client);
-    new_game = new Game(players);
     client->game().game(new_game);
     client->game().player(player);
-    client->requestPush(new ServerRequest(requestCode::server::OK));
-    client->requestPush(new Party::Launch(Party::Launch::Unique()));
+	client->menu().requestPush(new ServerRequest(requestCode::server::OK));
+	client->menu().requestPush(new Party::Launch(Party::Launch::Unique()));
     manager->sendGame(new_game);
     delete req;
   }

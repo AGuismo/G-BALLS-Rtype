@@ -2,13 +2,15 @@
 
 DeathRequest::DeathRequest() : AGameRequest(requestCode::game::DEATH)
 {
-
 }
 
 DeathRequest::DeathRequest(Ruint16 id) :
 AGameRequest(requestCode::game::DEATH), _id(id)
 {
+}
 
+DeathRequest::~DeathRequest()
+{
 }
 
 Protocol			&DeathRequest::serialize(Protocol &rhs) const
