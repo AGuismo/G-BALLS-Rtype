@@ -1,15 +1,17 @@
 #ifndef GAMECLIENT_H_
 # define GAMECLIENT_H_
 
+# if defined(linux)
+#  include	<netinet/in.h>
+# elif defined(WIN32)
+#  include	<WinSock2.h>
+#endif
 # include	<queue>
 # include	<map>
 # include	<list>
 # include	"ARequest.hh"
 # include	"RequestQueue.hh"
 # include	"RequestCode.hh"
-# if defined(linux)
-# include	<netinet/in.h>
-#endif
 
 class		ARequest;
 
@@ -62,7 +64,7 @@ namespace	game
     void			setAddr(struct sockaddr_in addr) { _addr = addr; };
 
   private:
-    game::Player	*_player;
+    game::Player		*_player;
     Game			*_game;
     bool			_alive;
     int				_updateToLive;
@@ -77,7 +79,7 @@ namespace	game
     requestCode::SessionID	_id;
     struct sockaddr_in		_addr;
 
-    friend class Game;
+    friend class ::Game;
     friend class Referee;
   };
 }

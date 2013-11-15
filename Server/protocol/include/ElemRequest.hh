@@ -2,12 +2,13 @@
 
 #include "Protocol.hpp"
 #include "AGameRequest.hh"
+#include "types.hh"
 
 class ElemRequest : public AGameRequest
 {
 public:
   ElemRequest();
-  ElemRequest(Rint8 type, Rint32 pos, Rint8 dir, Ruint16 id);
+  ElemRequest(game::Type type, game::Pos pos, game::Dir dir, game::ID id);
   ~ElemRequest();
 
   ElemRequest(ElemRequest const&);
@@ -19,18 +20,18 @@ public:
   ARequest			*clone();
 
 public:
-  Rint8			type() const;
-  void			type(Rint8 t);
-  Rint32		pos() const;
-  void			pos(Rint32 p);
-  Rint8			dir() const;
-  void			dir(Rint8 d);
-  Ruint16		ID() const;
-  void			ID(Ruint16 id);
+  game::Type		type() const;
+  void			type(game::Type t);
+  game::Pos		pos() const;
+  void			pos(game::Pos p);
+  game::Dir		dir() const;
+  void			dir(game::Dir d);
+  game::ID		ID() const;
+  void			ID(game::ID id);
 
 private:
-  Rint8			_type;
-  Rint32		_pos;
-  Rint8			_dir;
-  Ruint16		_id;
+  game::Type		_type;
+  game::Pos		_pos;
+  game::Dir		_dir;
+  game::ID		_id;
 };

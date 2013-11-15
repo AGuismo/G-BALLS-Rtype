@@ -7,7 +7,7 @@ class Missile;
 class Ia : public Entity
 {
  public:
-  Ia(int pos, int life, int length, int height);
+  Ia(Ruint16 pos, int life, int length, int height, ID id);
   virtual ~Ia();
   void	update();
   void	move();

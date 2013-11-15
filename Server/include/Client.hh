@@ -21,24 +21,25 @@ public:
   ~Client();
 
 public:
-  ARequest		*requestPop();
-  void			requestPush(ARequest *);
+/*  ARequest		*requestPop();
+  void			requestPush(ARequest *);*/
 
 public:
   void			update();
   void			finalize();
 
 public:
-  menu::Client		&menu();
-  game::Client		&game();
+  menu::Client				&menu();
+  game::Client				&game();
+  requestCode::SessionID	&id();
+  void	id(requestCode::SessionID id);
 
 private:
   Client(Client const&);
   Client& operator=(Client const&);
 
 private:
-/*  RequestQueue		_input;
-  RequestQueue		_output; lemart pense que ca dois virer */
+  requestCode::SessionID	_id;
   menu::Client		_menu;
   game::Client		_game;
 };

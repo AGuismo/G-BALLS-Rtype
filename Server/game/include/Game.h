@@ -11,19 +11,23 @@
 
 #include	<vector>
 #include	<list>
-#include	"IA.h"
-#include	"Boss.h"
+#include	"types.hh"
 #include	"GameClient.hh"
 
 class Event;
 class TIMER;
 class Referee;
 class Missile;
+class Entity;
+class Ia;
+class Boss;
 
 namespace	game
 {
   class		Player;
 }
+
+typedef	Ruint16	ID;
 
 class Game
 {
@@ -32,6 +36,7 @@ public:
   ~Game();
   void	update();
   struct timeval	*getTimer(void)const{ return _timer;};
+  ID   &UniqueId();
 
 private:
   void iaUpdate();
@@ -49,6 +54,7 @@ private:
   Boss				*_titan;
   struct timeval		*_timer;
   RequestQueue		_toSend;
+  ID				incremental;
 
   friend class ::Referee;
 };

@@ -26,6 +26,7 @@ namespace	game
 
   void		Client::update(RequestQueue &p, std::list< ::Missile *> &missiles)
   {
+// <<<<<<< HEAD
     ARequest	*req;
     bool	move = false;
     bool	fire = false;
@@ -35,28 +36,59 @@ namespace	game
       EventRequest	*ev;
       AliveRequest	*al;
       if ((ev = dynamic_cast<EventRequest *>(req)))
-	{
-	  if (ev->event() == 0 && !move)
-	    {
-	      move = true;
-	      _player->move(ev->param());
-	      p.requestPush(new ElemRequest(requestCode::game::ELEM,
-					    _player->_pos, _player->_dir, _id));
-	    }
-	  else if (!fire)
-	    {
-	      missiles.push_back(_player->fire());
-	      fire = true;
-	      p.requestPush(new ElemRequest(requestCode::game::ELEM,
-					    _player->_pos, _player->_dir, 0/* ID du missile ??*/));
-	    }
-	}
+    	{
+    	  if (ev->event() == 0 && !move)
+    	    {
+    	      move = true;
+    	      _player->move(ev->param());
+    	      p.requestPush(new ElemRequest(PLAYER,
+    					    _player->_pos, _player->_dir, _player->_id));
+    	    }
+    	  else if (!fire)
+    	    {
+    	      missiles.push_back(_player->fire());
+    	      fire = true;
+    	      p.requestPush(new ElemRequest(MISSILE,
+    					    _player->_pos, _player->_dir, 0/* ID du missile ??*/));
+    	    }
+    	}
       else if ((al = dynamic_cast<AliveRequest *>(req)))
-	_updateToLive = -1;
+    	_updateToLive = -1;
     } while (req);
     _updateToLive++;
     if (_updateToLive == rtype::Env::updateToLive)
       _alive = false;
+// =======
+	  // ARequest *req;
+	  // bool		move = false;
+	  // bool		fire = false;
+
+	  // do {
+	  // 	  req = _input.requestPop();
+	  // 	  if (EventRequest * ev = dynamic_cast<EventRequest *>(req))
+	  // 	  {
+	  // 		  if (ev->event() == 0 && !move)
+	  // 		  {
+	  // 			  move = true;
+	  // 			  _player->move(ev->param());
+	  // 			  p.requestPush(new ElemRequest(requestCode::game::ELEM,
+	  // 											ev->param(), _player->_dir, _id));
+	  // 		  }
+	  // 		  else if (!fire)
+	  // 		  {
+	  // 			  missiles.push_back(_player->fire());
+	  // 			  fire = true;
+	  // 			  p.requestPush(new ElemRequest(requestCode::game::ELEM,
+	  // 				  _player->_pos, _player->_dir, 0/* ID du missile ??*/));
+	  // 		  }
+	  // 	  }
+	  // 	  else if (AliveRequest * al = dynamic_cast<AliveRequest *>(req))
+	  // 		  _updateToLive = -1;
+	  // } while (req);
+	  // _updateToLive++;
+	  // if (_updateToLive == rtype::Env::updateToLive)
+	  // 	_alive = false;
+// >>>>>>> 4d98840f25af5e9c6fb3fa37bab928c391c276a3
   }
 
   void	Client::finalize()

@@ -18,7 +18,7 @@ namespace	menu
 {
   class		Manager
   {
-    typedef void (*request_callback)(ARequest *, Client *, Manager *);
+    typedef void (*request_callback)(ARequest *, ::Client *, Manager *);
     typedef std::map<requestCode::CodeID, request_callback>	request_callback_map;
   public:
 	  Manager(Thread::EventQueue<ARequest *> &input, Thread::EventQueue<ARequest *> &output);
@@ -31,14 +31,14 @@ namespace	menu
   private:
     void	checkNewClient();
     void	updateClients();
-    void	clientRequest(Client *client);
+    void	clientRequest(::Client *client);
     void	sendGame(Game *game);
 
   private:
     static void	routine(Manager *);
 
   private:
-    static void	tryConnect(ARequest *, Client *, Manager *);
+    static void	tryConnect(ARequest *, ::Client *, Manager *);
     static void	launchGame(ARequest *, ::Client *, Manager *);
 
   private:
@@ -48,9 +48,9 @@ namespace	menu
   private:
     net::TcpServer		_server;
     net::streamManager		_monitor;
-    std::vector<Client *>	_clients;
-	Thread::EventQueue<ARequest *>		&_input;
-	Thread::EventQueue<ARequest *>		&_output;
+    std::vector< ::Client *>	_clients;
+    Thread::EventQueue<ARequest *>		&_input;
+    Thread::EventQueue<ARequest *>		&_output;
     request_callback_map	_requestCallback;
   };
 

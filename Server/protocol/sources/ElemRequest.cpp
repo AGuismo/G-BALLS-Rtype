@@ -5,7 +5,7 @@ ElemRequest::ElemRequest() : AGameRequest(requestCode::game::ELEM)
 {
 }
 
-ElemRequest::ElemRequest(Rint8 type, Rint32 pos, Rint8 dir, Ruint16 id) :
+ElemRequest::ElemRequest(game::Type type, game::Pos pos, game::Dir dir, game::ID id) :
   AGameRequest(requestCode::game::ELEM), _type(type), _pos(pos), _dir(dir), _id(id)
 {}
 
@@ -39,37 +39,41 @@ ARequest			*ElemRequest::clone()
   return (new ElemRequest(_type, _pos, _dir, _id));
 }
 
-Rint8			ElemRequest::type() const
+game::Type			ElemRequest::type() const
 {
   return _type;
 }
-void			ElemRequest::type(Rint8 t)
+void			ElemRequest::type(game::Type t)
 {
   _type = t;
 }
-Rint32			ElemRequest::pos() const
+
+game::Pos			ElemRequest::pos() const
 {
   return _pos;
 }
-void			ElemRequest::pos(Rint32 p)
+
+void			ElemRequest::pos(game::Pos p)
 {
   _pos = p;
 }
-Rint8			ElemRequest::dir() const
+
+game::Dir			ElemRequest::dir() const
 {
   return _dir;
 }
-void			ElemRequest::dir(Rint8 d)
+
+void			ElemRequest::dir(game::Dir d)
 {
   _dir = d;
 }
 
-Ruint16			ElemRequest::ID() const
+game::ID			ElemRequest::ID() const
 {
   return _id;
 }
 
-void			ElemRequest::ID(Ruint16 id)
+void			ElemRequest::ID(game::ID id)
 {
   _id = id;
 }

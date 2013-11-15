@@ -37,7 +37,8 @@ enum LookDirection
 	South,
 	SouthOuest,
 	Ouest,
-	NorthOuest
+	NorthOuest,
+	Unset
 };
 
 

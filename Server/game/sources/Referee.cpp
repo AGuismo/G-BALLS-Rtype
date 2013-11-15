@@ -2,6 +2,8 @@
 #include	"Game.h"
 #include	"Player.h"
 #include	"Missile.h"
+#include	"DeathRequest.h"
+#include	"IA.h"
 
 Referee::Referee()
 {
@@ -30,8 +32,7 @@ void	Referee::getBoss()
 
 bool	Referee::isOnScreen(const Entity *a)
 {
-  return (!((a->_pos < 0 || a->_pos > 255) ||
-	    (a->posX() + 1 != a->prevX() &&
+  return (!((a->posX() + 1 != a->prevX() &&
 	     a->posX() - 1 != a->prevX() &&
 	     a->posX() != a->prevX())));
 }
@@ -68,11 +69,11 @@ bool	Referee::playerCollision(Entity *a, Game &game)
 
   for (; itp != game._players.end(); itp++)
     {
-      if (a->_type != PLAYER && a->_type != MISSILE &&
-		  sameCase(a, (*itp)->_player) == true)
+      if (a->_type != game::PLAYER && a->_type != game::MISSILE &&
+		  sameCase(a, (*itp)->player()) == true)
 	{
-	  if ((*itp)->_player->_extraLife == true)
-		  (*itp)->_player->_extraLife = false;
+	  if ((*itp)->player()->_extraLife == true)
+		  (*itp)->player()->_extraLife = false;
 	  else
 	    {
 	      delete *itp;
@@ -80,10 +81,10 @@ bool	Referee::playerCollision(Entity *a, Game &game)
 	    }
 	  return true;
 	}
-      else if (a->_type == MISSILE &&
-		  sameCase(a, (*itp)->_player) == true)
+      else if (a->_type == game::MISSILE &&
+		  sameCase(a, (*itp)->player()) == true)
 	{
-	  if ((dynamic_cast<Missile *>(a))->getLauncher()->_type != PLAYER)
+	  if ((dynamic_cast<Missile *>(a))->getLauncher()->_type != game::PLAYER)
 	    {
 	      delete *itp;
 	      game._players.erase(itp);
@@ -100,7 +101,7 @@ bool		Referee::iaCollision(Entity *a, Game &game)
 
   for (; itia != game._IA.end(); itia++)
     {
-      if (a->_type != IA && a->_type != MISSILE &&
+      if (a->_type != game::IA && a->_type != game::MISSILE &&
 	  sameCase(a, *itia) == true)
 	{
 	  (*itia)->_life--;
@@ -111,10 +112,10 @@ bool		Referee::iaCollision(Entity *a, Game &game)
 	    }
 	  return true;
 	}
-      else if (a->_type == MISSILE &&
+      else if (a->_type == game::MISSILE &&
 	       sameCase(a, *itia) == true)
 	{
-	  if (dynamic_cast<Missile *>(a)->getLauncher()->_type != IA)
+	  if (dynamic_cast<Missile *>(a)->getLauncher()->_type != game::IA)
 	    {
 	      (*itia)->_life--;
 	      if ((*itia)->_life <= 0)
@@ -134,17 +135,17 @@ bool		Referee::wallCollision(Entity *a, Game &game)
 
   for (; ite != game._objs.end(); ite++)
     {
-      if (a->_type != WALL && a->_type != DESTRUCTIBLEWALL &&
+      if (a->_type != game::WALL && a->_type != game::DESTRUCTIBLEWALL &&
 	  sameCase(a, *ite) == true)
 	{
-	  if ((*ite)->_type != WALL)
+	  if ((*ite)->_type != game::WALL)
 	    {
 	      (*ite)->_life--;
-	      if ((*ite)->_life <= 0)
-		{
-		  delete *ite;
-		  game._objs.erase(ite);
-		}
+		if ((*ite)->_life <= 0)
+			{
+			  delete *ite;
+			  game._objs.erase(ite);
+			}
 	    }
 	  return true;
 	}
@@ -158,13 +159,14 @@ bool		Referee::missileCollision(Entity *a, Game &game)
 
   for (; itm != game._missiles.end(); itm++)
     {
-      if (a->_type != MISSILE &&
+      if (a->_type != game::MISSILE &&
 	  sameCase(a, *itm) == true)
-	{
-	  delete *itm;
-	  game._missiles.erase(itm);
-	  return true;
-	}
+		{
+			game._toSend.requestPush(new DeathRequest(/*id de *itm*/));
+			delete *itm;
+			game._missiles.erase(itm);
+			return true;
+		}
     }
   return false;
 }

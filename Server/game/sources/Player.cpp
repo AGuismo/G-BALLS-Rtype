@@ -4,8 +4,8 @@
 
 namespace	game
 {
-  Player::Player(Rint32 pos) :
-    Entity(PLAYER, pos, 1, EAST, 1, 1), _pow(0), _extraLife(false)
+  Player::Player(Pos pos, ID id) :
+    Entity(PLAYER, pos, 1, EAST, 1, 1, id), _pow(0), _extraLife(false)
   {
 #if defined(DEBUG)
     std::cout << "A new character is comming" << std::endl;
@@ -21,7 +21,7 @@ namespace	game
 
 
 
-  void	Player::move(Ruint8 dir)
+  void	Player::move(Dir dir)
   {
 	  _prevPos = _pos;
 	  if (dir == 0 || dir == 7 || dir == 1)
@@ -36,6 +36,6 @@ namespace	game
 
   Missile *Player::fire()
   {
-    return (new Missile(*this, EAST, _pos));
+    return (new Missile(*this, EAST, _pos, 0/*game::UniqueId()*/));
   }
 }

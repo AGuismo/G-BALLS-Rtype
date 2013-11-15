@@ -37,4 +37,12 @@ typedef double			Rdouble;
 # error "Unsupported Operating System"
 #endif
 
+namespace	game
+{
+  typedef Ruint16	ID;
+  typedef Ruint8	Dir;
+  typedef Ruint8	Type;
+  typedef Ruint8	Pos;
+}
+
 #endif /* TYPES_H_ */

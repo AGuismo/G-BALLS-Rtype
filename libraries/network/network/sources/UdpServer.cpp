@@ -122,6 +122,16 @@ SOCKET UdpServer::getSocket() const
   return _sock;
 }
 
+void	UdpServer::setClientAddr(struct sockaddr_in s)
+{
+	_clientAddr = s;
+}
+
+struct sockaddr_in		UdpServer::getClientAddr() const
+{
+	return _clientAddr;
+}
+
 void UdpServer::initialize(int port, int nbClients)
 {
   (void)nbClients;

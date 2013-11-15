@@ -18,7 +18,7 @@ private:
 
 public:
 	void								addFrame(sf::IntRect rect);
-	const sf::IntRect&					getFrame(void) const;
+	const sf::IntRect&					getFrame(void);
 
 public:
 	Animation(sf::Time *aTime) : _aTimer(new Timer(aTime)) {}

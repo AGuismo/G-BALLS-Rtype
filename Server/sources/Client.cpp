@@ -14,14 +14,6 @@ Client::~Client()
 {
 }
 
-void			Client::update()
-{
-  if (_menu.inUse())
-    _menu.update();
-  /*else if (_game.inUse())
-    _game.update();*/
-}
-
 void			Client::finalize()
 {
   if (_menu.inUse())
@@ -43,19 +35,31 @@ game::Client		&Client::game()
   return (_game);
 }
 
-ARequest		*Client::requestPop()
+requestCode::SessionID	&Client::id()
+{
+	return _id;
+}
+
+void	Client::id(requestCode::SessionID id)
+{
+	_id = id;
+}
+
+
+
+/*ARequest		*Client::requestPop()
 {
   if (_menu.inUse())
     return (_menu.requestPop());
   else if (_game.inUse())
     return (_game.requestPop());
   return (0); // it never happens...
-}
+}*/
 
-void			Client::requestPush(ARequest *req)
+/*void			Client::requestPush(ARequest *req)
 {
   if (_menu.inUse())
     _menu.requestPush(req);
   else if (_game.inUse())
     _game.requestPush(req);
-}
+}*/
