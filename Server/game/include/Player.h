@@ -15,7 +15,7 @@ namespace	game
   class Player : public Entity
   {
   public:
-    Player(int pos);
+    Player(Rint32 pos);
     virtual	~Player();
     virtual void	move(Ruint8 dir);
     Missile	*fire();
@@ -26,6 +26,6 @@ namespace	game
 
     friend class ::Referee;
     friend class ::Game;
-	friend class Client;
+    friend class Client;
   };
 }

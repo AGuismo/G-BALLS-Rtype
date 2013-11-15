@@ -4,7 +4,7 @@
 
 namespace	game
 {
-  Player::Player(int pos) :
+  Player::Player(Rint32 pos) :
     Entity(PLAYER, pos, 1, EAST, 1, 1), _pow(0), _extraLife(false)
   {
 #if defined(DEBUG)

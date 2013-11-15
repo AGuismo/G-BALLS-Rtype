@@ -7,6 +7,9 @@
 # include	"ARequest.hh"
 # include	"RequestQueue.hh"
 # include	"RequestCode.hh"
+# if defined(linux)
+# include	<netinet/in.h>
+#endif
 
 class		ARequest;
 
@@ -22,15 +25,15 @@ namespace	game
 {
   class Client
   {
-	  /*typedef void(*request_callback)(ARequest *, Client *);
-	  typedef std::map<requestCode::CodeID, request_callback> request_callback_map;*/
+    /*typedef void(*request_callback)(ARequest *, Client *);
+      typedef std::map<requestCode::CodeID, request_callback> request_callback_map;*/
   public:
     Client();
-	Client(struct sockaddr_in addr);
+    Client(struct sockaddr_in addr);
     virtual ~Client();
 
   public:
-	  void	update(RequestQueue &p, std::list<::Missile *> &missiles);
+    void	update(RequestQueue &p, std::list< ::Missile *> &missiles);
     void	finalize();
 
   private:
@@ -55,27 +58,27 @@ namespace	game
     void			player(game::Player *player);
     game::Player		*player(void) const;
 
-	struct sockaddr_in getAddr() const { return _addr; };
-	void			setAddr(struct sockaddr_in addr) { _addr = addr; };
+    struct sockaddr_in getAddr() const { return _addr; };
+    void			setAddr(struct sockaddr_in addr) { _addr = addr; };
 
   private:
     game::Player	*_player;
     Game			*_game;
-	bool			_alive;
-	int				_updateToLive;
+    bool			_alive;
+    int				_updateToLive;
 
   private:
     bool			_used;
     RequestQueue		_input;
     RequestQueue		_output;
-	/*request_callback_map _requestCallback;*/
+    /*request_callback_map _requestCallback;*/
 
   private:
-	requestCode::SessionID	_id;
-	struct sockaddr_in		_addr;
+    requestCode::SessionID	_id;
+    struct sockaddr_in		_addr;
 
-	friend class Game;
-	friend class Referee;
+    friend class Game;
+    friend class Referee;
   };
 }
 
