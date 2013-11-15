@@ -1,7 +1,7 @@
 #include "IA.h"
 #include "Game.h"
 
-Ia::Ia(Ruint16 pos, int life, int length, int height, ID id) : Entity(IA, pos, life, WEST, length, height, id)
+Ia::Ia(game::Pos pos, int life, int length, int height, game::ID id) : Entity(game::IA, pos, life, game::WEST, length, height, id)
 {
 }
 
@@ -16,15 +16,15 @@ void	Ia::update()
 
 void	Ia::move()
 {
-	_dir = (DIR)(rand() % 8);
+	_dir = (game::Dir)(rand() % 8);
 	_prevPos = _pos;
-	if (_dir == NORTH || _dir == NORTH_WEST || _dir == NORTH_EAST)
+	if (_dir == game::NORTH || _dir == game::NORTH_WEST || _dir == game::NORTH_EAST)
 		_pos -= SIZE;
-	if (_dir == SOUTH || _dir == SOUTH_WEST || _dir == SOUTH_EAST)
+	if (_dir == game::SOUTH || _dir == game::SOUTH_WEST || _dir == game::SOUTH_EAST)
 		_pos += SIZE;
-	if (_dir == WEST || _dir == NORTH_WEST || _dir == SOUTH_WEST)
+	if (_dir == game::WEST || _dir == game::NORTH_WEST || _dir == game::SOUTH_WEST)
 		_pos -= 1;
-	if (_dir == EAST || _dir == SOUTH_EAST || _dir == NORTH_EAST)
+	if (_dir == game::EAST || _dir == game::SOUTH_EAST || _dir == game::NORTH_EAST)
 		_pos += 1;
 }
 
