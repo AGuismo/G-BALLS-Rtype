@@ -3,36 +3,52 @@
 
 # include	<SFML/Graphics.hpp>
 # include	<algorithm>
+# include	"game.h"
 # include	"IObject.h"
-# include	"Timer.h"
+
 
 class AObject : public IObject
 {
 protected:
-	int					_id;
-	ObjType				_type;
-	LookDirection		_ld;
-	sf::Texture			*_texture;
-	sf::Sprite			_image;
-	sf::Vector2f		*_vCurPos;
-	sf::Vector2f		*_vNextPos;
-	Timer				*_timer;
-	Timer				*_timerMvt;
-	int					_cCurPos;
-	int					_cNextPos;
-	bool				_act;
-	float				_vLag;
-	float				_mvtTime;
-	sf::Vector2f		_gPos;
-	sf::RenderWindow	*_gameWindow;
+	int						_id;
+	ObjType					_type;
+	LookDirection			_ld;
+
+protected:
+	bool					_act;
+
+protected:
+	sf::Texture				*_texture;
+	sf::Sprite				_image;
+	sf::RenderWindow		*_gameWindow;
+
+protected:
+	int						_cCurPos;
+	int						_cNextPos;
+	sf::Vector2f			_vCurPos;
+	sf::Vector2f			_vNextPos;
+
+protected:
+	Timer					*_timerMvt;
+	float					_mvtTime;
+
+protected:
+	float					_vLag;
+	float					_decX;
+	float					_decY;
 
 public:
-	virtual void				draw(void) = 0;
-	virtual void				update(Action act, int updatedPos) = 0;
-	virtual const sf::Vector2f	*getVectorNextPos(void) = 0;
-	virtual const sf::Vector2f	*getVectorCurPos(void) = 0;
-	virtual const int			getCaseNextPos(void) = 0;
-	virtual const int			getCaseCurPos(void) = 0;
+	Action					findDirection(int newPos, int oldPos)
+
+public:
+	virtual void			draw(void) = 0;
+	virtual void			update(Action act, LookDirection lDir, int updatedPos) = 0;
+
+public:
+	const sf::Vector2f		&getVectorNextPos(void);
+	const sf::Vector2f		&getVectorCurPos(void);
+	int						getCaseNextPos(void);
+	int						getCaseCurPos(void);
 
 public:
 	virtual	~AObject() {}

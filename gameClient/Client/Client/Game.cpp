@@ -3,16 +3,17 @@
 #include		"game.h"
 #include		"Layer.h"
 #include		<algorithm>
-#include		"Network.h"
+//#include		"Network.h"
 #include		"Timer.h"
 
 const float Game::VLAG = 0.25f;
-const float Game::MAX_VLAG = 3.0f;
-const float Game::FLUIDITY = 8.0f;
+const float Game::MAX_VLAG = 4.0f;
+const float Game::OBJ_DEC_X_FRAME = Game::PX_DEC_X /  8.0f;
+const float Game::OBJ_DEC_Y_FRAME = Game::PX_DEC_Y / 8.0f;
+
 
 bool							Game::load(void)
 {
-
 	if(!_textureManager.addTexture(PLAYER1, std::string("./Images/r-typesheet42.png")))
 		return false;
 	if (!_textureManager.addTexture(PLAYER2, std::string("./Images/r-typesheet42.png")))
@@ -51,6 +52,7 @@ bool							Game::load(void)
 		return false;
 	if (!_layerManager.addLayer(LAYER3, LAYER_3, new sf::Vector2f(200.0f, 0.0f), new sf::Vector2f(200.0f, 0.0f), new sf::Vector2f(800.0f, 1400.0f), new sf::Vector2f(-5.0f, -5.0f), NULL, true))
 		return false;
+
 
 	if (!_audioManager.add(GAME_MUSIC, AMUSIC, true, std::string("./Sounds/Lepi.ogg")))
 		return false;
@@ -92,10 +94,10 @@ void							Game::run(void)
 	//_audioManager.play(GAME_MUSIC);
 
 
-	Network						clientNetwork;
+/*	Network						clientNetwork;
 
 	sf::Thread					clientThread(&Network::Run, &clientNetwork);
-	clientThread.launch();
+	clientThread.launch();*/
 
 	while (_gameWindow->isOpen())
 	{
@@ -141,12 +143,12 @@ void							Game::run(void)
 					if (_playerFireLock.isEnded())
 					{
 						_audioManager.play(PLAYER_LASER);
-						clientNetwork.pushOutRequest(std::string("AU BON C MON KEKE"));
+//						clientNetwork.pushOutRequest(std::string("fire in the hole"));
 						_playerFireLock.restart();
 					}
 					break;
 				case sf::Keyboard::Escape:
-					clientThread.terminate();
+//					clientThread.terminate();
 					return;
 					break;
 				default:
@@ -158,7 +160,6 @@ void							Game::run(void)
 				{
 				case sf::Keyboard::Up:
 					updatePlayer(Nothing);
-					std::cout << "UP RELEASED " << std::endl;
 					break;
 				case sf::Keyboard::Down:
 					updatePlayer(Nothing);
@@ -177,6 +178,7 @@ void							Game::run(void)
 			test.restart();
 		}*/
 		_gameWindow->clear();
+		updatePlayer(Nothing);
 
 		update();
 		_layerManager.upDraw();
@@ -196,6 +198,7 @@ void							Game::update(void)
 	// too soon
 }
 
+
 bool							Game::updatePlayer(Action action)
 {
 	int							updatedPos = UNCHANGED;
@@ -207,26 +210,26 @@ bool							Game::updatePlayer(Action action)
 		{
 		case Left:
 			updatedPos = ((*it)->getCaseCurPos() % Game::SIZE_GAME_BOARD == 0) ? (*it)->getCaseCurPos() : (*it)->getCaseCurPos() - 1;
-			(*it)->update(Left, updatedPos);
+			(*it)->update(Left, Unset, updatedPos);
 			break;
 		case Right:
 			updatedPos = (((*it)->getCaseCurPos() + 1) % Game::SIZE_GAME_BOARD == 0) ? (*it)->getCaseCurPos() : (*it)->getCaseCurPos() + 1;
-			(*it)->update(Right, updatedPos);
+			(*it)->update(Right, Unset, updatedPos);
 			break;
 		case Up:
 			updatedPos = ((*it)->getCaseCurPos() / Game::SIZE_GAME_BOARD == 0) ? (*it)->getCaseCurPos() : (*it)->getCaseCurPos() - Game::SIZE_GAME_BOARD;
-			(*it)->update(Up, updatedPos);
+			(*it)->update(Up, Unset, updatedPos);
 			break;
 		case Down:
 			updatedPos = ((*it)->getCaseCurPos() + Game::SIZE_GAME_BOARD > Game::CASE_GAME_BOARD) ? (*it)->getCaseCurPos() : (*it)->getCaseCurPos() + Game::SIZE_GAME_BOARD;
-			(*it)->update(Down, updatedPos);
+			(*it)->update(Down, Unset, updatedPos);
 			break;
 		case Fire:
 			updatedPos = (*it)->getCaseCurPos() + 6;
-			(*it)->update(Right, updatedPos);
+			(*it)->update(Right, Unset, updatedPos);
 			break;
 		default:
-			(*it)->update(Nothing, updatedPos);
+			(*it)->update(Nothing, Unset, updatedPos);
 			break;
 		}
 		return true;

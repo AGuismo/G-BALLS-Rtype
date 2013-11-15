@@ -10,20 +10,16 @@ private:
 	int					_indexSprite;
 
 public:
-	void					draw(void);
-	void					update(Action act, int updatedPos);
-	const sf::Vector2f		*getVectorNextPos(void);
-	const sf::Vector2f		*getVectorCurPos(void);
-	const int				getCaseNextPos(void);
-	const int				getCaseCurPos(void);
+	void				update(Action act, LookDirection lDir, int updatedPos);
+	virtual void		draw(void);
 
 public:
 	Player(ObjType obj, int id, int pos, LookDirection ld, sf::Texture *text, sf::RenderWindow *gameWindow);
-	~Player() {}
+	~Player() {} // delete here
 
 private:
 	Player(const Player &);
 	Player				operator=(const Player &);
 };
 
-#endif // !Player_
+#endif // !PLAYER_
