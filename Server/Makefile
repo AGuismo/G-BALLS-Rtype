@@ -13,14 +13,17 @@ DIR.MENU=	./menu/
 DIR.LOAD=	./loader/
 DIR.PROT=	./protocol/
 DIR.DEPS=	./deps/
+DIR.DAT=	./database/
 
 DEPS.INC=	-I$(DIR.DEPS)/network/include -I$(DIR.DEPS)/Threads/include -I$(DIR.DEPS)/Bind/include
 
 DEPS.LNK=	-L$(DIR.DEPS)/network/ -lnetwork -L$(DIR.DEPS)/Threads/ -lThread -lpthread
 
-MOD.INC=	-I$(DIR.GAME)/include -I$(DIR.MENU)/include -I$(DIR.LOAD)/include -I$(DIR.PROT)/include
+MOD.INC=	-I$(DIR.GAME)/include -I$(DIR.MENU)/include -I$(DIR.LOAD)/include
+MOD.INC+=	-I$(DIR.PROT)/include -I$(DIR.DAT)/include
 
-MOD.LNK=	-L$(DIR.MENU) -lmenu -L$(DIR.GAME) -lgame -L$(DIR.LOAD) -lloader -L$(DIR.PROT) -lprotocol
+MOD.LNK=	-L$(DIR.MENU) -lmenu -L$(DIR.GAME) -lgame -L$(DIR.LOAD) -lloader
+MOD.LNK+=	-L$(DIR.PROT) -lprotocol -L$(DIR.DAT)/ -ldb
 
 F.C	     +=	-W -Wall -Werror
 F.I	     +=	$(DEPS.INC) $(MOD.INC) -I./include
@@ -37,6 +40,7 @@ compile_mods:
 		@make --no-print-directory -C ./loader all F.D=$(F.D)
 		@make --no-print-directory -C ./game all F.D=$(F.D)
 		@make --no-print-directory -C ./protocol all F.D=$(F.D)
+		@make --no-print-directory -C ./$(DIR.DAT) all F.D=$(F.D)
 
 compile_deps:
 		@$(ECHO) $(ES) "Compile Dependancies" $(EE)
@@ -51,6 +55,7 @@ clean_mods:
 		@make --no-print-directory -C ./loader clean
 		@make --no-print-directory -C ./game clean
 		@make --no-print-directory -C ./protocol clean
+		@make --no-print-directory -C ./$(DIR.DAT) clean F.D=$(F.D)
 
 clean_deps:
 		@$(ECHO) $(ES) "Clean Dependancies" $(EE)
@@ -63,6 +68,7 @@ fclean_mods:
 		@make --no-print-directory -C ./loader fclean
 		@make --no-print-directory -C ./game fclean
 		@make --no-print-directory -C ./protocol fclean
+		@make --no-print-directory -C ./$(DIR.DAT) fclean F.D=$(F.D)
 
 fclean_deps:
 		@$(ECHO) $(ES) "Full clean Dependancies" $(EE)
