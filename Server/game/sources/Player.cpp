@@ -4,8 +4,8 @@
 
 namespace	game
 {
-  Player::Player(int pos) :
-    Entity(PLAYER, pos, 1, EAST, 1, 1), _pow(0), _extraLife(false)
+  Player::Player(Ruint16 pos, ID id) :
+    Entity(PLAYER, pos, 1, EAST, 1, 1, id), _pow(0), _extraLife(false)
   {
 #if defined(DEBUG)
     std::cout << "A new character is comming" << std::endl;

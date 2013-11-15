@@ -1,6 +1,7 @@
 #pragma once
 
 #include <map>
+#include "game.h"
 
 class Referee;
 class Game;
@@ -33,23 +34,23 @@ class Entity
 protected:
   static const	int	SIZE = 16;
  public:
-  Entity(TYPE type, int pos, int life, DIR dir, int length, int height);
+	 Entity(Ruint8 type, Ruint16 pos, int life, Ruint8 dir, int length, int height, ID id);
   virtual ~Entity();
   virtual void	update();
  protected:
-  int				_id;
+  ID				_id;
   int				_life;
-  DIR				_dir;
+  Ruint8				_dir;
   unsigned int		_speed;
-  int				_pos;
-  int				_prevPos;
-  TYPE				_type;
+  Ruint16				_pos;
+  Ruint16				_prevPos;
+  Ruint8				_type;
   int				_length;
   int				_height;
-  int			posX()const {return (_pos % SIZE);};
-  int			posY()const {return (_pos / SIZE);};
-  int			prevX()const {return (_prevPos % SIZE);};
-  int			prevY()const {return (_prevPos / SIZE);};
+  int				posX()const {return (_pos % SIZE);};
+  int				posY()const {return (_pos / SIZE);};
+  int				prevX()const {return (_prevPos % SIZE);};
+  int				prevY()const {return (_prevPos / SIZE);};
 
   friend class Referee;
   friend class Game;

@@ -1,14 +1,11 @@
 #include "Entity.h"
 
-Entity::Entity(TYPE type, int pos, int life, DIR dir, int length, int height) :
+Entity::Entity(Ruint8 type, Ruint16 pos, int life, Ruint8 dir, int length, int height, ID id) :
   _life(life), _dir(dir), _speed(1), _length(length), _height(height)
 {
-  static int id = 0;
-
   _type = type;
   _pos = pos;
   _id = id;
-  id++;
 }
 
 Entity::~Entity()
@@ -19,12 +16,12 @@ Entity::~Entity()
 void	Entity::update()
 {
 	_prevPos = _pos;
-  if (_dir == NORTH || _dir == NORTH_WEST || _dir == NORTH_EAST)
+  if (_dir == 0 || _dir == 1 || _dir == 7)
     _pos -=	SIZE;
-  if (_dir == SOUTH || _dir == SOUTH_WEST || _dir == SOUTH_EAST)
+  if (_dir == 4 || _dir == 5 || _dir == 3)
     _pos += SIZE;
-  if (_dir == WEST || _dir == NORTH_WEST || _dir == SOUTH_WEST)
+  if (_dir == 6 || _dir == 1 || _dir == 5)
     _pos -= 1;
-  if (_dir == EAST || _dir == SOUTH_EAST || _dir == NORTH_EAST)
+  if (_dir == 2 || _dir == 3 || _dir == 7)
     _pos += 1;
 }

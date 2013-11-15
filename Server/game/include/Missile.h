@@ -8,7 +8,7 @@ class Game;
 class Missile : public Entity
 {
 public:
-  Missile(Entity &launcher, DIR dir, int pos);
+  Missile(Entity &launcher, Ruint8 dir, Ruint16 pos, ID id);
   ~Missile();
   Entity *getLauncher() const { return &_launcher;};
 private:

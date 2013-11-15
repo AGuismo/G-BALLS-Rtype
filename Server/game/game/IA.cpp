@@ -1,6 +1,7 @@
 #include "IA.h"
+#include "Game.h"
 
-Ia::Ia(int pos, int life, int length, int height) : Entity(IA, pos, life, WEST, length, height)
+Ia::Ia(Ruint16 pos, int life, int length, int height, ID id) : Entity(IA, pos, life, WEST, length, height, id)
 {
 }
 

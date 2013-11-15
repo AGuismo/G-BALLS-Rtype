@@ -15,7 +15,7 @@ namespace	game
   class Player : public Entity
   {
   public:
-    Player(int pos);
+    Player(Ruint16 pos, ID id);
     virtual	~Player();
     virtual void	move(Ruint8 dir);
     Missile	*fire();
