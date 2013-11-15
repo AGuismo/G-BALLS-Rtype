@@ -3,6 +3,8 @@
 #include <map>
 #include "game.h"
 
+typedef	Ruint16	ID;
+
 class Referee;
 class Game;
 class Missile;

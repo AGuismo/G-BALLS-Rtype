@@ -7,12 +7,12 @@ class Referee;
 class Boss : public Entity
 {
 public:
-  Boss(int pos, int life, int length, int heigth);
+  Boss(int pos, int life, int length, int heigth, ID id);
   ~Boss(void);
 
-  void	update();
+/* void	update();
   void	move();
-  Missile	*fire();
+  Missile	*fire();*/
 
 private:
 

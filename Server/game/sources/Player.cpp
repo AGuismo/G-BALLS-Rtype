@@ -36,6 +36,6 @@ namespace	game
 
   Missile *Player::fire()
   {
-    return (new Missile(*this, EAST, _pos));
+    return (new Missile(*this, EAST, _pos, /*??*/));
   }
 }
