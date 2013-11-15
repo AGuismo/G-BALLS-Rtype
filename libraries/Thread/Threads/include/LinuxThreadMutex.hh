@@ -5,7 +5,7 @@
 // Login   <lamber_k@epitech.net>
 //
 // Started on  Mon Apr 15 13:07:15 2013 lambert kevin
-// Last update Wed Nov  6 18:54:28 2013 lambert kevin
+// Last update Fri Nov 15 16:55:29 2013 lambert kevin
 //
 
 #ifndef		THREADMUTEX_HH_
@@ -22,14 +22,8 @@ namespace	Thread
     pthread_mutex_t		_m;
 
   public:
-    MutexBase()
-    {
-      pthread_mutex_init(&_m, NULL);
-    }
-    virtual ~MutexBase()
-    {
-      pthread_mutex_destroy(&_m);
-    }
+    MutexBase();
+    virtual ~MutexBase();
   };
 
   class				Mutex : protected MutexBase, public IMutex

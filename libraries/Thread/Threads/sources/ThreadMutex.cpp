@@ -5,22 +5,30 @@
 // Login   <lamber_k@epitech.net>
 //
 // Started on  Mon Apr 15 15:19:07 2013 lambert kevin
-// Last update Fri Oct 25 04:19:50 2013 lambert kevin
+// Last update Fri Nov 15 16:55:21 2013 lambert kevin
 //
 
 #include	"ThreadMutex.hh"
 
 namespace Thread
 {
-	MutexBase::MutexBase()
-	{
-		InitializeCriticalSection(&_m);
-	}
+  MutexBase::MutexBase()
+  {
+#if defined(WIN32)
+    InitializeCriticalSection(&_m);
+#elif defined(linux)
+    pthread_mutex_init(&_m, NULL);
+#endif
+  }
 
-	MutexBase::~MutexBase()
-	{
-		DeleteCriticalSection(&_m);
-	}
+  MutexBase::~MutexBase()
+  {
+#if defined(WIN32)
+    DeleteCriticalSection(&_m);
+#elif defined(linux)
+    pthread_mutex_destroy(&_m);
+#endif
+  }
 
   Mutex::Mutex() : MutexBase()
   {
