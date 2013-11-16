@@ -45,4 +45,13 @@ namespace	game
   typedef Ruint8	Pos;
 }
 
+namespace requestCode
+{
+	typedef Ruint16	CodeID;
+	typedef Ruint32	PasswordType;
+	typedef Ruint16	UsernameLen;
+	typedef Ruint16	SessionID;
+	typedef Ruint16	PartyID;
+}
+
 #endif /* TYPES_H_ */
