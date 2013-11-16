@@ -4,10 +4,12 @@
 
 void						Player::draw(void)
 {
+
 	if ((_vCurPos.x == _vNextPos.x && _vCurPos.y == _vNextPos.y) ||
 		_timerMvt->isEnded() || _cCurPos == _cNextPos)
 	{
 		_act = false;
+		_action = Nothing;
 		_cCurPos = _cNextPos;
 		_vCurPos.x = (float)Game::POSX(_cCurPos);
 		_vCurPos.y = (float)Game::POSY(_cCurPos);
@@ -17,6 +19,7 @@ void						Player::draw(void)
 	}
 	else if (_act)
 	{
+		findAnimation();
 		if (_vCurPos.x < _vNextPos.x)
 			_vCurPos.x += (_vLag * Game::OBJ_DEC_X_FRAME);
 		if (_vCurPos.x > _vNextPos.x)
@@ -26,6 +29,18 @@ void						Player::draw(void)
 		if (_vCurPos.y > _vNextPos.y)
 			_vCurPos.y -= (_vLag * Game::OBJ_DEC_Y_FRAME);
 		_image.setPosition(_vCurPos.x, _vCurPos.y);
+		switch (_action)
+		{
+		case Up:
+			_image.setTextureRect(sf::IntRect(264, _indexSprite, 68, 38));
+			break;
+		case Down:
+			_image.setTextureRect(sf::IntRect(0, _indexSprite, 68, 38));
+			break;
+		default:
+			_image.setTextureRect(sf::IntRect(132, _indexSprite, 68, 38)); // nothing pos
+			break;
+		}
 	}
 	_gameWindow->draw(_image);
 }
@@ -102,6 +117,7 @@ Player::Player(ObjType type, int id, int pos, LookDirection ld, sf::Texture *tex
 	_timerMvt = new Timer(new sf::Time(sf::seconds(_mvtTime)));
 	_gameWindow = gameWindow;
 	_act = false;
+	_action = Nothing;
 }
 
 

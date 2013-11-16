@@ -1,8 +1,32 @@
 #include					"AObject.h"
 
-Action							AObject::findAnimation(int newPos, int oldPos) //faire l'invers batard
+void						AObject::findAnimation(void) //faire l'invers batard
 {
-	switch (action)
+	if (_cCurPos == _cNextPos)
+		return;
+
+	if (_vCurPos.x < _vNextPos.x) // déplacement droite
+	{
+		std::cout << "right" << std::endl;
+		_action = Right;
+	}
+	else if (_vCurPos.x > _vNextPos.x) // déplacement gauche
+	{
+		std::cout << "left" << std::endl;
+		_action = Left;
+	}
+	else if (_vCurPos.y < _vNextPos.y) // down
+	{
+		std::cout << "down" << std::endl;
+		_action = Down;
+	}
+	else if (_vCurPos.y > _vNextPos.y) // up
+	{
+		std::cout << "up" << std::endl;
+		_action = Up;
+	}
+
+/*	switch (action)
 	{
 	case Left:
 		updatedPos = ((*it)->getCaseCurPos() % Game::SIZE_GAME_BOARD == 0) ? (*it)->getCaseCurPos() : (*it)->getCaseCurPos() - 1;
@@ -27,7 +51,7 @@ Action							AObject::findAnimation(int newPos, int oldPos) //faire l'invers bat
 	default:
 		(*it)->update(Nothing, Unset, updatedPos);
 		break;
-	}
+	}*/
 }
 
 

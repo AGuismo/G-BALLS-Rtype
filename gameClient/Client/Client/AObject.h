@@ -13,6 +13,7 @@ protected:
 	int						_id;
 	ObjType					_type;
 	LookDirection			_ld;
+	Action					_action;
 
 protected:
 	bool					_act;
@@ -38,7 +39,7 @@ protected:
 	float					_decY;
 
 public:
-	Action					findDirection(int newPos, int oldPos)
+	void					findAnimation(void);
 
 public:
 	virtual void			draw(void) = 0;
