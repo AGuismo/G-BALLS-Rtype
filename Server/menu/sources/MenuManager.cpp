@@ -16,8 +16,8 @@
 
 namespace	menu
 {
-	Manager::Manager(Thread::EventQueue<ARequest *> &input, Thread::EventQueue<ARequest *> &output) :
-		_input(input), _output(output)
+  Manager::Manager(Thread::EventQueue<ARequest *> &input, Thread::EventQueue<ARequest *> &output) :
+    _input(input), _output(output)
   {
     _server.monitor(true, false);
     _requestCallback[requestCode::auth::CONNECT] = &tryConnect;
@@ -106,7 +106,7 @@ namespace	menu
 	thisPtr->_monitor.run();
 	thisPtr->updateClients();
 	thisPtr->checkNewClient();
-	}
+      }
   }
 
   void		Manager::sendGame(Game *game)
@@ -152,15 +152,15 @@ namespace	menu
   {
     std::list<game::Client *>	players;
     Game			*new_game = new Game(players);
-	game::Client	*new_client = new game::Client();
-	game::Player	*player = new game::Player(42, new_game->UniqueId());
+    game::Client	*new_client = new game::Client();
+    game::Player	*player = new game::Player(42, new_game->UniqueId());
 
-	new_client->player(player);
+    new_client->player(player);
     players.push_back(new_client);
     client->game().game(new_game);
     client->game().player(player);
-	client->menu().requestPush(new ServerRequest(requestCode::server::OK));
-	client->menu().requestPush(new Party::Launch(Party::Launch::Unique()));
+    client->menu().requestPush(new ServerRequest(requestCode::server::OK));
+    client->menu().requestPush(new Party::Launch(Party::Launch::Unique()));
     manager->sendGame(new_game);
     delete req;
   }

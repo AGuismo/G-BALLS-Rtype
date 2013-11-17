@@ -37,6 +37,11 @@ typedef double			Rdouble;
 # error "Unsupported Operating System"
 #endif
 
+namespace	database
+{
+  typedef Ruint8	Rights;
+};
+
 namespace	game
 {
   typedef Ruint16	ID;
@@ -45,13 +50,13 @@ namespace	game
   typedef Ruint8	Pos;
 }
 
-namespace requestCode
+namespace	requestCode
 {
-	typedef Ruint16	CodeID;
-	typedef Ruint32	PasswordType;
-	typedef Ruint16	UsernameLen;
-	typedef Ruint16	SessionID;
-	typedef Ruint16	PartyID;
+  typedef Ruint16	CodeID;
+  typedef Ruint32	PasswordType;
+  typedef Ruint16	UsernameLen;
+  typedef Ruint16	SessionID;
+  typedef Ruint16	PartyID;
 }
 
 #endif /* TYPES_H_ */

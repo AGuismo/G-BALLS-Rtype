@@ -3,11 +3,21 @@
 #include	"GameException.hh"
 #include	"MenuException.hh"
 #include	"LoaderException.hh"
+#include	"Database.hh"
+#include	"Salt.hpp"
+
+Salt::size_type	Salt::SALT = 42;
 
 Application::Application():
 	_menuManager(_input, _output), _gameManager(_output, _input)
 {
   std::string	file("botlibrary");
+
+  if (!Database::getInstance().loadFile(rtype::Env::getInstance().DatabasePath))
+    std::cout << "Warning: There is no Database or a corrupt Database in "
+	      << rtype::Env::getInstance().DatabasePath << std::endl
+	      << "Client Database will be created for further usage" << std::endl;
+  Database::getInstance().newClient("root", 4242, database::SUPER_USER, true);
   try
     {
       _menuManager.initialize(); // Load the menu
@@ -33,7 +43,7 @@ Application::Application():
 
 Application::~Application()
 {
-
+  Database::getInstance().saveFile(rtype::Env::getInstance().DatabasePath);
 }
 
 void	Application::run()
