@@ -37,6 +37,7 @@ namespace rtype
     const char				*DatabasePath;
 
     static const char			*DB_PATH;
+    static const unsigned int		PASS_SIZE = 32;
 
   public:
     static Env	&getInstance();

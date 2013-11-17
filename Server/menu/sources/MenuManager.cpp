@@ -1,5 +1,7 @@
+#include	<algorithm>
 #include	<iostream>
 #include	"Game.h" /*Must be included in first*/
+#include	"Database.hh"
 #include	"MenuManager.hh"
 #include	"MenuException.hh"
 #include	"sys.hh"
@@ -11,7 +13,6 @@
 #include	"ServerRequest.hh"
 #include	"GameClient.hh"
 #include	"Player.h"
-#include	"Game.h"
 #include	"ThreadEvent.hpp"
 
 namespace	menu
@@ -21,6 +22,7 @@ namespace	menu
   {
     _server.monitor(true, false);
     _requestCallback[requestCode::auth::CONNECT] = &tryConnect;
+    _requestCallback[requestCode::auth::NEW_USER] = &newUser;
 
     _requestCallback[requestCode::party::CLI_START] = &launchGame;
   }
@@ -114,10 +116,18 @@ namespace	menu
     (void)game;
   }
 
+  bool		Manager::isConnected(const std::string &clientName)
+  {
+    return (std::find_if(_clients.begin(), _clients.end(), Predicate(clientName)) != _clients.end());
+  }
+
   ///////////////////////
   // Request Modifiers //
   ///////////////////////
 
+  ////////////////////
+  // Try to connect //
+  ////////////////////
   void	Manager::tryConnect(ARequest *req, ::Client *client, Manager *manager)
   {
     Auth::Connect	*request = dynamic_cast<Auth::Connect *>(req);
@@ -125,29 +135,61 @@ namespace	menu
 #if defined(DEBUG)
     std::cout << request->username() << ":" << request->password() << std::endl;
 #endif
-    (void)manager;
-    if (!client->menu().authenticated())
+    if (!client->menu().authenticated() && !manager->isConnected(request->username()))
       {
+	if (!Database::getInstance().clientExist(request->username(), request->password()))
+	  {
 #if defined(DEBUG)
-	std::cout << client << ": Authentication succeed" << std::endl;
+	    std::cout << client << ": Authentication succeed" << std::endl;
 #endif
-	client->menu().username(request->username());
-	client->menu().password(request->password());
-	client->menu().authenticated(true);
-	client->menu().requestPush(new ServerRequest(requestCode::server::OK));
-	client->menu().requestPush(new SessionRequest(SessionRequest::Unique()));
-	client->id(client->menu().sessionID());
+	    client->menu().username(request->username());
+	    client->menu().password(request->password());
+	    client->menu().authenticated(true);
+
+	    requestCode::SessionID id = SessionRequest::Unique();
+	    client->menu().sessionID(id);
+	    client->id(id);
+
+	    client->menu().requestPush(new ServerRequest(requestCode::server::OK));
+	    client->menu().requestPush(new SessionRequest(client->id()));
+	    delete req;
+	    return ;
+	  }
       }
-    else
-      {
 #if defined(DEBUG)
-	std::cout << client << ": Authentication failed" << std::endl;
+    std::cout << client << ": Authentication failed" << std::endl;
 #endif
-	client->menu().requestPush(new ServerRequest(requestCode::server::FORBIDDEN));
-      }
+    client->menu().requestPush(new ServerRequest(requestCode::server::FORBIDDEN));
     delete req;
   }
 
+  ///////////////////////
+  // Create a new User //
+  ///////////////////////
+  void	Manager::newUser(ARequest *req, ::Client *client, Manager *manager)
+  {
+    Auth::NewUser	*request = dynamic_cast<Auth::NewUser *>(req);
+
+    (void)manager;
+    if (!client->menu().authenticated())
+      {
+	if (Database::getInstance().newClient(request->username(), request->password()))
+	  {
+	    client->menu().requestPush(new ServerRequest(requestCode::server::OK));
+	    delete req;
+	    return ;
+	  }
+      }
+#if defined(DEBUG)
+    std::cout << client << ": Can't create new user named" << request->username() << std::endl;
+#endif
+    client->menu().requestPush(new ServerRequest(requestCode::server::FORBIDDEN));
+    delete req;
+  }
+
+  ////////////////////
+  // Launch a party //
+  ////////////////////
   void	Manager::launchGame(ARequest *req, ::Client *client, Manager *manager)
   {
     std::list<game::Client *>	players;
@@ -163,5 +205,20 @@ namespace	menu
     client->menu().requestPush(new Party::Launch(Party::Launch::Unique()));
     manager->sendGame(new_game);
     delete req;
+  }
+
+  ///////////////
+  // Predicate //
+  ///////////////
+
+  Manager::Predicate::Predicate(const std::string &login) :
+    _login(login)
+  {
+
+  }
+
+  bool	Manager::Predicate::operator()(const ::Client *client)
+  {
+    return (client->menu().username() == _login);
   }
 }

@@ -20,7 +20,7 @@ namespace requestCode
   {
     static const CodeID CONNECT =		100;
     static const CodeID CHANGE_PASSWD =		101;
-
+    static const CodeID NEW_USER =		102;
     static const CodeID SESSION =		1100;
   }
 

@@ -103,6 +103,17 @@ std::string		&Protocol::pop(std::string &val, Protocol::size_type count)
   return (val);
 }
 
+std::string		Protocol::push(const std::string &val, Protocol::size_type count)
+{
+  const Byte*	buffer = reinterpret_cast<const Byte*>(val.c_str());
+
+  for (size_t size = 0; size < sizeof(*val.c_str()) * count; size += sizeof(Byte))
+    {
+      _container.push_back(buffer[size]);
+    }
+  return (val);
+}
+
 ARequest		*Protocol::consume(std::vector<Byte> &input, int &extracted)
 {
   Protocol		p;

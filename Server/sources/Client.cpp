@@ -20,10 +20,20 @@ void			Client::finalize()
     _menu.finalize();
   else if (_game.inUse())
     _game.finalize();
-} 
+}
 /*lemart et gherab aimerai comprendre l'utilité de ce machin
 juste au dessus,
 car il n'ont pas réussi a le comprendre par eux meme*/
+
+const menu::Client		&Client::menu() const
+{
+  return (_menu);
+}
+
+const game::Client		&Client::game() const
+{
+  return (_game);
+}
 
 menu::Client		&Client::menu()
 {

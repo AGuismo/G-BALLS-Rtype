@@ -2,6 +2,7 @@
 #include	<iostream>
 #include	"Protocol.hpp"
 #include	"AuthRequest.hh"
+#include	"Env.hh"
 
 AuthRequest::AuthRequest(const requestCode::CodeID code) :
   ARequest(code)
@@ -30,6 +31,78 @@ AuthRequest	&AuthRequest::operator=(AuthRequest const &src)
 
 namespace Auth
 {
+  //////////////
+  // NewUser  //
+  //////////////
+
+  NewUser::NewUser():
+    AuthRequest(requestCode::auth::NEW_USER)
+  {
+
+  }
+
+  NewUser::NewUser(const std::string &name, const requestCode::PasswordType pass):
+    AuthRequest(requestCode::auth::NEW_USER), _username(name), _password(pass)
+  {
+
+  }
+
+  NewUser::~NewUser()
+  {
+
+  }
+
+  NewUser::NewUser(NewUser const &src) :
+    AuthRequest(src), _username(src._username), _password(src._password)
+  {
+
+  }
+
+  NewUser	&NewUser::operator=(const NewUser &src)
+  {
+    if (&src != this)
+      {
+	_code = src._code;
+	_username = src._username;
+	_password = src._password;
+      }
+    return (*this);
+  }
+
+  const std::string		&NewUser::username() const
+  {
+    return (_username);
+  }
+
+  const requestCode::PasswordType	&NewUser::password() const
+  {
+    return (_password);
+  }
+
+  Protocol			&NewUser::serialize(Protocol &rhs) const
+  {
+    requestCode::UsernameLen	len = _username.length();
+
+    rhs << _code << len << _username;
+    rhs.push(_password, rtype::Env::PASS_SIZE);
+    return (rhs);
+  }
+
+  Protocol	&NewUser::unserialize(Protocol &rhs)
+  {
+    requestCode::UsernameLen	len;
+
+    rhs >> len;
+    rhs.pop(_username, len);
+    rhs.pop(_password, rtype::Env::PASS_SIZE);
+    return (rhs);
+  }
+
+  ARequest	*NewUser::clone()
+  {
+    return (new NewUser());
+  }
+
   //////////////
   // Connect  //
   //////////////
@@ -82,7 +155,8 @@ namespace Auth
   {
     requestCode::UsernameLen	len = _username.length();
 
-    rhs << _code << len << _username << _password;
+    rhs << _code << len << _username;
+    rhs.push(_password, rtype::Env::PASS_SIZE);
     return (rhs);
   }
 
@@ -92,7 +166,7 @@ namespace Auth
 
     rhs >> len;
     rhs.pop(_username, len);
-    rhs >> _password;
+    rhs.pop(_password, rtype::Env::PASS_SIZE);
     return (rhs);
   }
 

@@ -14,6 +14,7 @@
 #include	"Protocol.hpp"
 #include	"TcpClient.h"
 #include	"streamManager.h"
+#include	"MD5.hh"
 
 template <typename T>
 void	test(T &req)
@@ -44,6 +45,7 @@ ARequest			*getReq(net::TcpClient &client)
 
   client.lookRead(bytes, 512);
   req = Protocol::consume(bytes, count);
+  std::cout << "Extracted: " << count << std::endl;
   std::cout << "Received data code: " << req->code() << std::endl;
   client.readFromBuffer(bytes, count);
   return (req);
@@ -52,41 +54,53 @@ ARequest			*getReq(net::TcpClient &client)
 void	network()
 {
   net::TcpClient		client;
-  Auth::Connect			authConnect("Ruby", 1664);
+  Auth::NewUser			new_usr("Ruby", md5("1664"));
+  Auth::Connect			authConnect("Ruby", md5("1664"));
   std::vector<Protocol::Byte>	bytes;
   ARequest				*req;
   Party::Start			startGame;
   net::streamManager		m;
 
-  m.setMonitor(client);
-  bytes = Protocol::product(authConnect);
   client.init("127.0.0.1", "44201");
+  client.monitor(true, false);
+  m.setMonitor(client);
+
+  bytes = Protocol::product(new_usr);
   client.writeIntoBuffer(bytes, bytes.size());
   client.send();
-  client.monitor(true, false);
+  m.run();
+  client.recv();
+  req = getReq(client);
+  std::cout << "Response: " << req->code() << std::endl;
+
+  bytes.clear();
+  bytes = Protocol::product(authConnect);
+  client.writeIntoBuffer(bytes, bytes.size());
+  client.send();
   m.run();
   client.recv();
   req = getReq(client);
   std::cout << "Response: " << req->code() << std::endl;
   req = getReq(client);
   std::cout << "Session: " << (dynamic_cast<SessionRequest *>(req))->SessionID() << std::endl;
-  bytes = Protocol::product(startGame);
-  client.writeIntoBuffer(bytes, bytes.size());
-  client.send();
-  client.monitor(true, false);
-  m.run();
-  client.recv();
-  req = getReq(client);
-  std::cout << "Response: " << req->code() << std::endl;
-  req = getReq(client);
-  std::cout << "Launch Game: " << (dynamic_cast<Party::Launch *>(req))->code() << std::endl;
+
+  // bytes = Protocol::product(startGame);
+  // client.writeIntoBuffer(bytes, bytes.size());
+  // client.send();
+  // m.run();
+  // client.recv();
+  // req = getReq(client);
+  // std::cout << "Response: " << req->code() << std::endl;
+  // req = getReq(client);
+  // std::cout << "Launch Game: " << (dynamic_cast<Party::Launch *>(req))->code() << std::endl;
+
   client.close();
 }
 
 int	main()
 {
-  Auth::Connect			authConnect("Ruby", 1664);
-  Auth::ChangePass		authPass("Ruby", 1664, 4661, 5348);
+  Auth::Connect			authConnect("Ruby", md5("1664"));
+  Auth::ChangePass		authPass("Ruby", md5("1664"), md5("4661"), 5348);
   ServerRequest			servReq(requestCode::server::FORBIDDEN);
 
   // test(authConnect);

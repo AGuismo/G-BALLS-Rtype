@@ -23,18 +23,14 @@ Database::~Database()
 
 }
 
-bool		Database::loadFile(const std::string path)
+bool			Database::loadFile(const std::string path)
 {
-  Thread::MutexGuard	guard(_lock);
-  std::fstream	stream;
-  save::Backup	bak;
+  std::fstream		stream;
+  save::Backup		bak;
 
-  stream.open(path.c_str(), std::ios_base::out | std::ios_base::in);
+  stream.open(path.c_str(), std::ios_base::in);
   if (!stream.is_open())
     return (false);
-  stream.close();
-  stream.clear();
-  stream.open(path.c_str(), std::ios_base::in);
   try
     {
       stream >> bak;
@@ -51,7 +47,6 @@ bool		Database::loadFile(const std::string path)
 
 bool		Database::saveFile(const std::string path)
 {
-  Thread::MutexGuard	guard(_lock);
   std::ofstream	stream(path.c_str());
   save::Backup	bak;
 
@@ -65,6 +60,7 @@ bool		Database::saveFile(const std::string path)
 save::Backup &	Database::save(save::Backup &backup)
 {
   Thread::MutexGuard	guard(_lock);
+
   backup << _clients.size();
   for (client_list::iterator it = _clients.begin(); it != _clients.end(); ++it)
     backup << it->login << it->password << it->rights;
@@ -75,6 +71,7 @@ save::Backup &	Database::load(save::Backup &backup)
 {
   Thread::MutexGuard	guard(_lock);
   client_list::size_type	nbClients;
+
   backup >> nbClients;
   for (client_list::size_type it = 0; it < nbClients; ++it)
     {
@@ -102,7 +99,10 @@ bool		Database::newClient(const std::string &login,
   newC.session = 0;
   newC.rights = right_level;
   if (trunc && it != _clients.end())
-    *it = newC;
+    {
+      *it = newC;
+      return (true);
+    }
   _clients.push_back(newC);
   return (true);
 }

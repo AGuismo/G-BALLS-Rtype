@@ -115,6 +115,9 @@ namespace	menu
 #endif
 	return (false);
       }
+#if defined(DEBUG)
+	std::cerr << "Extracted " << extracted << std::endl;
+#endif
     _TcpLayer->readFromBuffer(buf, extracted);
     _input.requestPush(req);
     return (true);

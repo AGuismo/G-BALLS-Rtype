@@ -15,9 +15,9 @@ Application::Application():
 
   if (!Database::getInstance().loadFile(rtype::Env::getInstance().DatabasePath))
     std::cout << "Warning: There is no Database or a corrupt Database in "
-	      << rtype::Env::getInstance().DatabasePath << std::endl
-	      << "Client Database will be created for further usage" << std::endl;
-  Database::getInstance().newClient("root", 4242, database::SUPER_USER, true);
+  	      << rtype::Env::getInstance().DatabasePath << std::endl
+  	      << "Client Database will be created for further usage" << std::endl;
+  Database::getInstance().newClient("root", md5("4242"), database::SUPER_USER, true);
   try
     {
       _menuManager.initialize(); // Load the menu
@@ -39,6 +39,7 @@ Application::Application():
       std::cerr << "In Application::run(), catch: " << e.what() << std::endl;
       throw Application::InitExcept("Application Init fail");
     }
+  Database::getInstance().saveFile(rtype::Env::getInstance().DatabasePath);
 }
 
 Application::~Application()

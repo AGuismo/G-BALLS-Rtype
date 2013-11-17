@@ -14,6 +14,7 @@ namespace	request
   {
     _lnk[requestCode::auth::CONNECT] = new Auth::Connect;
     _lnk[requestCode::auth::CHANGE_PASSWD] = new Auth::ChangePass;
+    _lnk[requestCode::auth::NEW_USER] = new Auth::NewUser;
     _lnk[requestCode::auth::SESSION] = new SessionRequest;
 
     _lnk[requestCode::party::CLI_START] = new Party::Start;

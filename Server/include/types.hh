@@ -1,6 +1,8 @@
 #ifndef TYPES_H_
 # define TYPES_H_
 
+# include	<string>
+
 #if defined(WIN32)
 
 # include			<windows.h>
@@ -53,7 +55,7 @@ namespace	game
 namespace	requestCode
 {
   typedef Ruint16	CodeID;
-  typedef Ruint32	PasswordType;
+  typedef std::string	PasswordType;
   typedef Ruint16	UsernameLen;
   typedef Ruint16	SessionID;
   typedef Ruint16	PartyID;

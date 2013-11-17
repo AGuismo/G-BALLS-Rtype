@@ -35,11 +35,22 @@ namespace	menu
     void	sendGame(Game *game);
 
   private:
+    struct	Predicate : std::unary_function< ::Client *, bool>
+    {
+      Predicate(const std::string &login);
+      bool	operator()(const ::Client *client);
+
+      const std::string	_login;
+    };
+    bool	isConnected(const std::string &login);
+
+  private:
     static void	routine(Manager *);
 
   private:
     static void	tryConnect(ARequest *, ::Client *, Manager *);
     static void	launchGame(ARequest *, ::Client *, Manager *);
+    static void	newUser(ARequest *, ::Client *, Manager *);
 
   private:
     Manager(Manager const&);

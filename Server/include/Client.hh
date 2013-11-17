@@ -31,8 +31,10 @@ public:
 public:
   menu::Client				&menu();
   game::Client				&game();
-  requestCode::SessionID	&id();
-  void	id(requestCode::SessionID id);
+  const menu::Client			&menu() const;
+  const game::Client			&game() const;
+  requestCode::SessionID		&id();
+  void					id(requestCode::SessionID id);
 
 private:
   Client(Client const&);
