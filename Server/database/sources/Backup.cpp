@@ -12,7 +12,7 @@ Backup::Backup(const Backup::Byte* data, Backup::size_type size) : _data(new Byt
 {
   _ctainer.resize(size);
 
-  foreach (i, size)
+  for (unsigned int i = 0; i < size; ++i)
     {
       _ctainer[i] = data[i];
     }
@@ -98,7 +98,7 @@ Backup::Byte*		Backup::data(void)
 
   delete[] _data; _data = new Byte[size];
 
-  foreach (i, size)
+  for (unsigned int i = 0; i < size; ++i)
     {
       _data[i] = _ctainer[i];
     }

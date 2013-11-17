@@ -1,3 +1,4 @@
+#define _CRT_SECURE_NO_WARNINGS
 #include "MD5.hh"
 #include <cstdio>
 #include <cstring>
@@ -247,7 +248,7 @@ std::string		MD5::digest() const
 
     char buf[MD5::length + 1];
     for (int i = 0; i < 16; ++i)
-	sprintf(buf + i * 2, "%02x", _digest[i]);
+		sprintf(buf + i * 2, "%02x", _digest[i]);
     buf[MD5::length] = 0;
 
     return std::string(buf);

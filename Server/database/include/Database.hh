@@ -5,7 +5,7 @@
 # include	<vector>
 # include	"IDatabase.hh"
 # include	"ThreadMutex.hh"
-# include	"RequestCode.hh"
+# include	"types.hh"
 
 class Database : public IDatabase
 {
