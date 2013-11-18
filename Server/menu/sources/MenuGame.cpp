@@ -1,7 +1,7 @@
 #include	<algorithm>
+#include	"Game.h"
 #include	"MenuGame.hh"
 #include	"Client.hh"
-#include	"Game.h"
 
 namespace	menu
 {
