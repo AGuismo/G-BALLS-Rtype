@@ -24,9 +24,9 @@ AObject				*Factory::createObject(ObjType type, int id, int pos, LookDirection l
 		case PLAYER4:
 			return (new Player(type, id, pos, ldir, text, _gameWindow));
 			break;
-/*		case SBYDOS1:
+		case SBYDOS1:
 			return (new Bydos1(type, id, pos, ldir, text, _gameWindow));
-			break;*/
+			break;
 		default:
 			return NULL;
 			break;

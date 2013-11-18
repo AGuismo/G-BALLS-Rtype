@@ -10,11 +10,15 @@ const sf::IntRect&					Animation::getFrame(void)
 {
 	if (_aTimer->isEnded())
 	{
-		if (_curFrame + 1 > _frames.size())
+		if (_curFrame + 2 > _frames.size())
 			_curFrame = 0;
 		else
 			++_curFrame;
 		_aTimer->restart();
 	}
 	return _frames[_curFrame];
+}
+
+Animation::Animation(float aTime) : _aTimer(new Timer(new sf::Time(sf::seconds(aTime))))
+{
 }

@@ -21,7 +21,7 @@ public:
 	const sf::IntRect&					getFrame(void);
 
 public:
-	Animation(sf::Time *aTime) : _aTimer(new Timer(aTime)) {}
+	Animation(float tAnim);
 	~Animation() {}
 
 private:
