@@ -54,6 +54,7 @@ namespace	game
   private:
     void		update();
     void		readData();
+	void		writeData();
 
   private:
     void		getGame();

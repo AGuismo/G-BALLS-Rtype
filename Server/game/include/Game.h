@@ -45,6 +45,7 @@ private:
   void bossUpdate();
   void wallUpdate();
   void playerUpdate();
+  void DispatchRequest();
 
 private:
   std::list<game::Client *>	_players;
