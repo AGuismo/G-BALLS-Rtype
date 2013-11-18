@@ -85,6 +85,7 @@
     <ClCompile Include="..\sources\PartyRequest.cpp" />
     <ClCompile Include="..\sources\Protocol.cpp" />
     <ClCompile Include="..\sources\RequestFactory.cpp" />
+    <ClCompile Include="..\sources\RootRequest.cpp" />
     <ClCompile Include="..\sources\ScoreRequest.cpp" />
     <ClCompile Include="..\sources\ServerRequest.cpp" />
     <ClCompile Include="..\sources\SessionRequest.cpp" />
@@ -102,6 +103,7 @@
     <ClInclude Include="..\include\Protocol.hpp" />
     <ClInclude Include="..\include\RequestCode.hh" />
     <ClInclude Include="..\include\RequestFactory.hh" />
+    <ClInclude Include="..\include\RootRequest.hh" />
     <ClInclude Include="..\include\ScoreRequest.h" />
     <ClInclude Include="..\include\ServerRequest.hh" />
     <ClInclude Include="..\include\SessionRequest.hh" />
