@@ -85,7 +85,7 @@ save::Backup&		Backup::operator >>(std::string & str)
   char		c;
 
   str.clear();
-  while ( pop(c) )
+  while (pop(c))
     {
       str.push_back(c);
     }
@@ -113,6 +113,25 @@ bool			Backup::empty(void) const
 Backup::size_type	Backup::size(void) const
 {
   return _ctainer.size();
+}
+
+std::string		&Backup::pop(std::string &val, Backup::size_type count)
+{
+  val.clear();
+  val.insert(val.begin(), _ctainer.begin(), _ctainer.begin() + count);
+  _ctainer.erase(_ctainer.begin(), _ctainer.begin() + count);
+  return (val);
+}
+
+std::string		Backup::push(const std::string &val, Backup::size_type count)
+{
+  const Byte*	buffer = reinterpret_cast<const Byte*>(val.c_str());
+
+  for (size_t size = 0; size < sizeof(*val.c_str()) * count; size += sizeof(Byte))
+    {
+      _ctainer.push_back(buffer[size]);
+    }
+  return (val);
 }
 
 invalid_argument::invalid_argument(const std::string msg) throw() :

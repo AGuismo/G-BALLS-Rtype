@@ -18,7 +18,7 @@
 
 namespace	menu
 {
-  Manager::Manager(Thread::EventQueue<ARequest *> &input, Thread::EventQueue<ARequest *> &output) :
+  Manager::Manager(Thread::EventQueue<ARequest *> &input, Thread::EventQueue< ::Game *> &output) :
     _input(input), _output(output)
   {
     _server.monitor(true, false);
@@ -321,7 +321,7 @@ namespace	menu
 	  //::Game	*new_game = new ::Game();
 
 	  //(*it)->game(new_game);
-	  
+
 	  // std::list<game::Client *>	players;
     // Game			*new_game = new Game(players);
     // game::Client	*new_client = new game::Client();

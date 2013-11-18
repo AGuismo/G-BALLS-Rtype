@@ -39,7 +39,7 @@ namespace	game
     typedef std::vector< ::Client *>				client_vect;
 
   public:
-	  Manager(Thread::EventQueue<ARequest *> &input, Thread::EventQueue<ARequest *> &output);
+    Manager(Thread::EventQueue<Game *> &input, Thread::EventQueue<ARequest *> &output);
     ~Manager();
 
   public:
@@ -48,8 +48,8 @@ namespace	game
 
   private:
     static void	routine(Manager *);
-	bool		getRequest(std::vector<cBuffer::Byte> &buf,
-		AGameRequest *&request);
+    bool		getRequest(std::vector<cBuffer::Byte> &buf,
+				   AGameRequest *&request);
 
   private:
     void		update();
@@ -72,9 +72,9 @@ namespace	game
     Threads<void (*)(Manager *)>	_th;
     Clock				_clock;
     std::list<Game *>			_games;
-	Thread::EventQueue<ARequest *>		&_input;
-	Thread::EventQueue<ARequest *>		&_output;
-	net::UdpServer			_server;
+    Thread::EventQueue<Game *>		&_input;
+    Thread::EventQueue<ARequest *>	&_output;
+    net::UdpServer			_server;
     net::streamManager			_monitor;
     client_vect				_gameClients;
     request_callback_map		_requestCallback;

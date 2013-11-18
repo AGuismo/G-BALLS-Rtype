@@ -115,9 +115,11 @@ namespace save
 
     template <typename T>
     T&			pop(T&);
-    Byte*			data(void);
-    bool			empty(void) const;
+    Byte*		data(void);
+    bool		empty(void) const;
     size_type		size(void) const;
+    std::string		push(const std::string &, size_type count);
+    std::string		&pop(std::string &, size_type count);
   };
 
   template <typename T>
