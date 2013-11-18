@@ -137,12 +137,29 @@ void	Game::playerUpdate()
 	}
 }
 
+void	Game::DispatchRequest()
+{
+	while (!_toSend.empty())
+	{
+		ARequest *req = _toSend.requestPop();
+
+		for (std::list<game::Client *>::iterator it = _players.begin();
+			it != _players.end();
+			it++)
+		{
+			(*it)->requestPush(req);
+		}
+	}
+}
+
 void	Game::update()
 {
 	playerUpdate();
 	iaUpdate();
 	wallUpdate();
 	missileUpdate();
+
+	DispatchRequest();
 
 	_timer->tv_usec = rtype::Env::gameDelay;
 	_timer->tv_sec = 0;

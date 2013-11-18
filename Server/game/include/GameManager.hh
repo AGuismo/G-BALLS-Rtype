@@ -54,6 +54,7 @@ namespace	game
   private:
     void		update();
     void		readData();
+	void		writeData();
 
   private:
     void		getGame();
@@ -73,7 +74,7 @@ namespace	game
     Clock				_clock;
     std::list<Game *>			_games;
 	Thread::EventQueue<ARequest *>		&_input;
-	Thread::EventQueue<ARequest *>		&_output;
+	Thread::EventQueue<ARequest *>		&_output; /* what's this ??*/
 	net::UdpServer			_server;
     net::streamManager			_monitor;
     client_vect				_gameClients;

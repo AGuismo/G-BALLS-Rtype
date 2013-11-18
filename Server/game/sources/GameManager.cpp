@@ -44,12 +44,12 @@ namespace	game
 
   void		Manager::update()
   {
-    std::list<Game *>::iterator it;
+   std::list<Game *>::iterator it;
 
     for (it = _games.begin();
 		 it != _games.end();
 		 ++it)
-      {
+      { 
 		(*it)->update();
       }
   }
@@ -97,6 +97,25 @@ namespace	game
 	}
   }
 
+  void			Manager::writeData()
+  {
+	  client_vect::iterator	it;
+
+	  for (it = _gameClients.begin();
+		  it != _gameClients.end();
+		  it++)
+	  {
+		  _server.setClientAddr((*it)->game().getAddr());
+		  while (ARequest *req = (*it)->game().requestPop())
+		  {
+			  std::vector<cBuffer::Byte> buf;
+
+			  buf = Protocol::product(*req);
+			  _server.writeIntoBuffer(buf, buf.size());
+			  _server.send();
+		  }
+	  }
+  }
 
   void			Manager::routine(Manager *thisPtr)
   {
@@ -120,6 +139,8 @@ namespace	game
 		t.tv_sec = time / 1000000;
 		if (thisPtr->_server.read())
 			thisPtr->readData();
+		if (thisPtr->_server.write())
+			thisPtr->writeData();
 		thisPtr->update();
       }
   }
