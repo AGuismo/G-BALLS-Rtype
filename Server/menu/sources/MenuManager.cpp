@@ -308,9 +308,21 @@ namespace	menu
   ////////////////////
   void	Manager::launchGame(ARequest *req, ::Client *client, Manager *manager)
   {
-    (void)client;
-    (void)manager;
-    // std::list<game::Client *>	players;
+	  game_list::iterator	it = find_if(manager->_games.begin(), manager->_games.end(),
+		  PredicateOwner(client));
+
+	  if (!client->menu().authenticated() || it == manager->_games.end() ||
+		  (*it)->status() != Game::OUT_GAME)
+	  {
+		  client->menu().requestPush(new ServerRequest(requestCode::server::FORBIDDEN));
+		  delete req;
+		  return;
+	  }
+	  //::Game	*new_game = new ::Game();
+
+	  //(*it)->game(new_game);
+	  
+	  // std::list<game::Client *>	players;
     // Game			*new_game = new Game(players);
     // game::Client	*new_client = new game::Client();
     // game::Player	*player = new game::Player(42, new_game->UniqueId());
