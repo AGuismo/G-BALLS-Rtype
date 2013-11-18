@@ -11,8 +11,8 @@
 
 namespace	game
 {
-	Manager::Manager(Thread::EventQueue<ARequest *> &input, Thread::EventQueue<ARequest *> &output) :
-		_th(Func::Bind(&Manager::routine, this)), _input(input), _output(output)
+  Manager::Manager(Thread::EventQueue<Game *> &input, Thread::EventQueue<ARequest *> &output) :
+    _th(Func::Bind(&Manager::routine, this)), _input(input), _output(output)
   {
     _server.monitor(true, false);
   }
@@ -47,54 +47,54 @@ namespace	game
    std::list<Game *>::iterator it;
 
     for (it = _games.begin();
-		 it != _games.end();
-		 ++it)
-      { 
-		(*it)->update();
+	 it != _games.end();
+	 ++it)
+      {
+	(*it)->update();
       }
   }
 
   bool	Manager::getRequest(std::vector<cBuffer::Byte> &buf,
-	  AGameRequest *&request)
+			    AGameRequest *&request)
   {
-	  AGameRequest			*req;
-	  int					extracted;
+    AGameRequest			*req;
+    int					extracted;
 
-	  try
-	  {
-		  req = dynamic_cast<AGameRequest *>(Protocol::consume(buf, extracted));
-		  if (req == 0)
-			  throw Protocol::ConstructRequest("Request is not a GameRequest");
-	  }
-	  catch (Protocol::ConstructRequest &e)
-	  {
+    try
+      {
+	req = dynamic_cast<AGameRequest *>(Protocol::consume(buf, extracted));
+	if (req == 0)
+	  throw Protocol::ConstructRequest("Request is not a GameRequest");
+      }
+    catch (Protocol::ConstructRequest &e)
+      {
 #if defined(DEBUG)
-		  std::cerr << "Failed to create request: " << e.what() << std::endl;
+	std::cerr << "Failed to create request: " << e.what() << std::endl;
 #endif
-		  return (false);
-	  }
-	  request = req;
-	  return true;
+	return (false);
+      }
+    request = req;
+    return true;
   }
 
   void					Manager::readData()
   {
-	client_vect::iterator		it;
-	std::vector<cBuffer::Byte>		buf;
-	AGameRequest			*req;
+    client_vect::iterator		it;
+    std::vector<cBuffer::Byte>		buf;
+    AGameRequest			*req;
 
-	_server.recv();
-	_server.readFromBuffer(buf, rtype::Env::getInstance().network.maxUDPpacketLength);
-	for (std::vector<cBuffer::Byte>::iterator it = buf.begin(); it != buf.end(); it++)
-		std::cout << *it;
-	if ((getRequest(buf, req)) == false)
-		return;
-	it = std::find_if(_gameClients.begin(), _gameClients.end(), predicate(req->SessionID()));
-	if (it != _gameClients.end())
-	{
-		(*it)->game().setAddr(_server.getClientAddr());
-		(*it)->game().requestPush(req);
-	}
+    _server.recv();
+    _server.readFromBuffer(buf, rtype::Env::getInstance().network.maxUDPpacketLength);
+    for (std::vector<cBuffer::Byte>::iterator it = buf.begin(); it != buf.end(); it++)
+      std::cout << *it;
+    if ((getRequest(buf, req)) == false)
+      return;
+    it = std::find_if(_gameClients.begin(), _gameClients.end(), predicate(req->SessionID()));
+    if (it != _gameClients.end())
+      {
+	(*it)->game().setAddr(_server.getClientAddr());
+	(*it)->game().requestPush(req);
+      }
   }
 
   void			Manager::writeData()
@@ -125,14 +125,14 @@ namespace	game
     thisPtr->_clock.start();
     while (true)
       {
-		thisPtr->_clock.update();
+	thisPtr->_clock.update();
 
-		t.tv_sec = 0;
-		t.tv_usec = 500000;
+	t.tv_sec = 0;
+	t.tv_usec = 500000;
 
-		thisPtr->_monitor.setOption(net::streamManager::TIMEOUT, t);
+	thisPtr->_monitor.setOption(net::streamManager::TIMEOUT, t);
 
-		thisPtr->_monitor.run(); /* Surcouche du select() */
+	thisPtr->_monitor.run(); /* Surcouche du select() */
 
 		thisPtr->_clock.update();
 		time = thisPtr->_clock.getElapsedTime();

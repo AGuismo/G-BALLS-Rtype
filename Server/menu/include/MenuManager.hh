@@ -13,6 +13,8 @@
 class Client;
 class ARequest;
 class Manager;
+class Game;
+
 namespace	menu
 {
   class Game;
@@ -27,7 +29,7 @@ namespace	menu
     typedef void (*request_callback)(ARequest *, ::Client *, Manager *);
     typedef std::map<requestCode::CodeID, request_callback>	request_callback_map;
   public:
-    Manager(Thread::EventQueue<ARequest *> &input, Thread::EventQueue<ARequest *> &output);
+    Manager(Thread::EventQueue<ARequest *> &input, Thread::EventQueue< ::Game *> &output);
     virtual ~Manager();
 
   public:
@@ -92,7 +94,7 @@ namespace	menu
     net::streamManager			_monitor;
     client_list				_clients;
     Thread::EventQueue<ARequest *>	&_input;
-    Thread::EventQueue<ARequest *>	&_output;
+    Thread::EventQueue< ::Game *>	&_output;
     request_callback_map		_requestCallback;
     game_list				_games;
   };

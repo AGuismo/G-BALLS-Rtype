@@ -5,11 +5,12 @@
 #include	"LoaderException.hh"
 #include	"Database.hh"
 #include	"Salt.hpp"
+#include	"Game.h"
 
 Salt::size_type	Salt::SALT = 42;
 
 Application::Application():
-	_menuManager(_input, _output), _gameManager(_output, _input)
+  _menuManager(_output, _input), _gameManager(_input, _output)
 {
   std::string	file("botlibrary");
 

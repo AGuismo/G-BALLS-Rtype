@@ -1,6 +1,7 @@
 #include	<fstream>
 #include	"Database.hh"
 #include	"Backup.hpp"
+#include	"Env.hh"
 
 Database	&Database::getInstance()
 {
@@ -63,7 +64,13 @@ save::Backup &	Database::save(save::Backup &backup)
 
   backup << _clients.size();
   for (client_list::iterator it = _clients.begin(); it != _clients.end(); ++it)
-    backup << it->login << it->password << it->rights;
+    {
+      Ruint16	len = it->login.size();
+      backup << len;
+      backup.push(it->login, len);
+      backup.push(it->password, rtype::Env::PASS_SIZE);
+      backup << it->rights;
+    }
   return (backup);
 }
 
@@ -76,8 +83,12 @@ save::Backup &	Database::load(save::Backup &backup)
   for (client_list::size_type it = 0; it < nbClients; ++it)
     {
       Client	c;
+      Ruint16	len;
 
-      backup >> c.login >> c.password >> c.rights;
+      backup >> len;
+      backup.pop(c.login, len);
+      backup.pop(c.password, rtype::Env::PASS_SIZE);
+      backup >> c.rights;
       _clients.push_back(c);
     }
   return (backup);
