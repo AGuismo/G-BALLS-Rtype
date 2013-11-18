@@ -84,12 +84,14 @@ namespace	menu
     static void	createGame(ARequest *, ::Client *, Manager *);
     static void	joinGame(ARequest *, ::Client *, Manager *);
     static void	cancelGame(ARequest *, ::Client *, Manager *);
+    static void	shutdown(ARequest *, ::Client *, Manager *);
 
   private:
     Manager(Manager const&);
     Manager& operator=(Manager const&);
 
   private:
+    bool				_active;
     net::TcpServer			_server;
     net::streamManager			_monitor;
     client_list				_clients;

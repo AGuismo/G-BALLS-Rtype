@@ -19,7 +19,7 @@
 namespace	menu
 {
   Manager::Manager(Thread::EventQueue<ARequest *> &input, Thread::EventQueue< ::Game *> &output) :
-    _input(input), _output(output)
+    _active(true), _input(input), _output(output)
   {
     _server.monitor(true, false);
     _requestCallback[requestCode::auth::CONNECT] = &tryConnect;
@@ -30,6 +30,8 @@ namespace	menu
     _requestCallback[requestCode::party::JOIN] = &joinGame;
     _requestCallback[requestCode::party::CANCEL] = &cancelGame;
     _requestCallback[requestCode::party::CLI_START] = &launchGame;
+
+    _requestCallback[requestCode::root::SHUTDOWN] = &shutdown;
   }
 
   Manager::~Manager()
@@ -119,7 +121,7 @@ namespace	menu
 
   void	Manager::routine(Manager *thisPtr)
   {
-    while (true)
+    while (thisPtr->_active)
       {
 	thisPtr->_monitor.run();
 	thisPtr->updateClients();
@@ -308,21 +310,22 @@ namespace	menu
   ////////////////////
   void	Manager::launchGame(ARequest *req, ::Client *client, Manager *manager)
   {
-	  game_list::iterator	it = find_if(manager->_games.begin(), manager->_games.end(),
-		  PredicateOwner(client));
+    game_list::iterator	it = find_if(manager->_games.begin(), manager->_games.end(),
+				     PredicateOwner(client));
 
-	  if (!client->menu().authenticated() || it == manager->_games.end() ||
-		  (*it)->status() != Game::OUT_GAME)
-	  {
-		  client->menu().requestPush(new ServerRequest(requestCode::server::FORBIDDEN));
-		  delete req;
-		  return;
-	  }
-	  //::Game	*new_game = new ::Game();
+    if (!client->menu().authenticated() || it == manager->_games.end() ||
+	(*it)->status() != Game::OUT_GAME)
+      {
+	client->menu().requestPush(new ServerRequest(requestCode::server::FORBIDDEN));
+	delete req;
+	return;
+      }
+    manager->_output.push((*it)->initialize());
+    //::Game	*new_game = new ::Game();
 
-	  //(*it)->game(new_game);
+    //(*it)->game(new_game);
 
-	  // std::list<game::Client *>	players;
+    // std::list<game::Client *>	players;
     // Game			*new_game = new Game(players);
     // game::Client	*new_client = new game::Client();
     // game::Player	*player = new game::Player(42, new_game->UniqueId());
@@ -335,6 +338,20 @@ namespace	menu
     // client->menu().requestPush(new Party::Launch(Party::Launch::Unique()));
     // manager->sendGame(new_game);
     delete req;
+  }
+
+  //////////////
+  // Shutdown //
+  //////////////
+  void	Manager::shutdown(ARequest *req, ::Client *client, Manager *manager)
+  {
+    if (!client->menu().authenticated() || client->menu().permissions() != database::SUPER_USER)
+      {
+	client->menu().requestPush(new ServerRequest(requestCode::server::FORBIDDEN));
+	delete req;
+	return;
+      }
+    manager->_active = false;
   }
 
   ///////////////

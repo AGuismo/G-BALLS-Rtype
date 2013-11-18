@@ -6,6 +6,7 @@
 #include	"SessionRequest.hh"
 #include	"ServerRequest.hh"
 #include	"PartyRequest.hh"
+#include	"RootRequest.hh"
 
 namespace	request
 {
@@ -31,6 +32,8 @@ namespace	request
     _lnk[requestCode::server::NO_CONTENT] = new ServerRequest;
     _lnk[requestCode::server::PARTIAL_CONTENT] = new ServerRequest;
     _lnk[requestCode::server::NO_SLOTS] = new ServerRequest;
+
+    _lnk[requestCode::root::SHUTDOWN] = new root::Shutdown;
   }
 
   Factory::~Factory()

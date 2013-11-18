@@ -105,6 +105,16 @@ namespace	menu
     return (_owner);
   }
 
+  ::Game			*Game::initialize()
+  {
+    std::list<game::Client *>	clients;
+
+    for (client_list::iterator it = _clients.begin(); it != _clients.end(); ++it)
+      clients.push_back(&((*it)->game()));
+    _game = new ::Game(clients);
+    return (_game);
+  }
+
   Game::Predicate::Predicate(const std::string &name) :
     _name(name)
   {

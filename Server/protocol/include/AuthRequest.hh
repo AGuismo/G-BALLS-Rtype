@@ -43,7 +43,7 @@ namespace Auth
 
   private:
     std::string			_username;
-    requestCode::PasswordType	_password; // Work in progress
+    requestCode::PasswordType	_password;
   };
 
   struct	NewUser : public AuthRequest

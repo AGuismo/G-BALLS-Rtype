@@ -16,6 +16,7 @@ SRCS =	      	ARequest.cpp		\
 		Protocol.cpp		\
 		RequestFactory.cpp	\
 		AliveRequest.cpp	\
+		RootRequest.cpp		\
 		BuffRequest.cpp		\
 		DeathRequest.cpp	\
 		ElemRequest.cpp		\

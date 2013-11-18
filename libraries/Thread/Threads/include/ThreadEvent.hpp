@@ -12,16 +12,17 @@ namespace	Thread
   template <typename T>
   class EventQueue
   {
-    typedef typename std::deque<T *>::iterator EventIt;
+    typedef typename std::deque<T>		event_stack;
+    typedef typename std::deque<T>::iterator	EventIt;
 
   private:
   public:
-    std::deque<T *>	_stack;
+    event_stack		_stack;
     Thread::Mutex	_m;
     Thread::Cond	_condNotEmpty;
     Thread::Cond	_condNotFull;
-    // Thread::Cond	_condEmpty;
-    int			_maxPendingEvents;
+    Thread::Cond	_condEmpty;
+    typename event_stack::size_type	_maxPendingEvents;
     bool		_blocking;
 
   public:
@@ -38,7 +39,7 @@ namespace	Thread
     }
 
   public:
-    T		*pop()
+    T		pop()
     {
       Thread::MutexGuard	guard(_m);
 
@@ -49,12 +50,10 @@ namespace	Thread
       if (_maxPendingEvents != 0 &&
 	  _stack.size() == _maxPendingEvents)
       	_condNotFull.broadcast();
-      // if (_stack.size() == 0)
-      // 	_condEmpty.signal();
       return (getData());
     }
 
-    bool		push(T *data, Thread::Cond::msTime mstime = 0)
+    bool		push(T data)
     {
       Thread::MutexGuard	guard(_m);
 
@@ -73,22 +72,22 @@ namespace	Thread
     }
 
   private:
-    T		*getData()
+    T		getData()
     {
-      T	*data = _stack.front();
+      T		data = _stack.front();
 
       _stack.pop_front();
       return (data);
     }
 
-	std::vector<T *>	flushData()
-	{
-		std::vector<T *>	output;
+    std::vector<T>	flushData()
+    {
+      std::vector<T>	output;
 
-		while (!empty())
-			output = getData();
-		return (output);
-	}
+      while (!empty())
+	output = getData();
+      return (output);
+    }
 
   private:
     EventQueue<T>(EventQueue<T> const&);
