@@ -1,5 +1,6 @@
 #include	"PartyRequest.hh"
 #include	"Protocol.hpp"
+#include	"Env.hh"
 
 namespace	Party
 {
@@ -104,14 +105,15 @@ namespace	Party
   }
 
   Create::Create(const std::string &partyName, Ruint8 nbPlayers) :
-    ARequest(requestCode::party::CREAT), _partyName(partyName), _maxPlayers(nbPlayers)
+    ARequest(requestCode::party::CREAT), _partyName(partyName), _maxPlayers(nbPlayers),
+    _isPassword(NO_PASS)
   {
 
   }
 
   Create::Create(const std::string &partyName, Ruint8 nbPlayers, requestCode::PasswordType pass) :
     ARequest(requestCode::party::CREAT), _partyName(partyName), _maxPlayers(nbPlayers),
-    _isPassword(true), _partyPass(pass)
+    _isPassword(PASS), _partyPass(pass)
   {
 
   }
@@ -122,7 +124,8 @@ namespace	Party
   }
 
   Create::Create(const Create &src) :
-    ARequest(src)
+    ARequest(src), _partyName(src._partyName), _maxPlayers(src._maxPlayers),
+    _isPassword(src._isPassword), _partyPass(src._partyPass)
   {
 
   }
@@ -132,18 +135,33 @@ namespace	Party
     if (&src != this)
       {
 	_code = src._code;
+	_partyName = src._partyName;
+	_maxPlayers = src._maxPlayers;
+	_isPassword = src._isPassword;
+	_partyPass = src._partyPass;
       }
     return (*this);
   }
 
   Protocol			&Create::serialize(Protocol &rhs) const
   {
-    rhs << _code;
+    requestCode::PartynameLen	len = _partyName.length();
+
+    rhs << _code << len;
+    rhs.push(_partyName, len);
+    rhs << _maxPlayers << _isPassword;
+    rhs.push(_partyPass, rtype::Env::PASS_SIZE);
     return (rhs);
   }
 
   Protocol			&Create::unserialize(Protocol &rhs)
   {
+    requestCode::PartynameLen	len;
+
+    rhs >> len;
+    rhs.pop(_partyName, len);
+    rhs >> _maxPlayers >> _isPassword;
+    rhs.pop(_partyPass, rtype::Env::PASS_SIZE);
     return (rhs);
   }
 
@@ -206,15 +224,15 @@ namespace	Party
 
   }
 
-  Join::Join(const std::string &partyName, Ruint8 nbPlayers) :
-    ARequest(requestCode::party::JOIN), _partyName(partyName), _maxPlayers(nbPlayers)
+  Join::Join(const std::string &partyName) :
+    ARequest(requestCode::party::JOIN), _partyName(partyName), _isPassword(Create::NO_PASS)
   {
 
   }
 
-  Join::Join(const std::string &partyName, Ruint8 nbPlayers, requestCode::PasswordType pass) :
-    ARequest(requestCode::party::JOIN), _partyName(partyName), _maxPlayers(nbPlayers),
-    _isPassword(true), _partyPass(pass)
+  Join::Join(const std::string &partyName, requestCode::PasswordType pass) :
+    ARequest(requestCode::party::JOIN), _partyName(partyName),
+    _isPassword(Create::PASS), _partyPass(pass)
   {
 
   }
@@ -225,7 +243,8 @@ namespace	Party
   }
 
   Join::Join(const Join &src) :
-    ARequest(src)
+    ARequest(src), _partyName(src._partyName),
+    _isPassword(src._isPassword), _partyPass(src._partyPass)
   {
 
   }
@@ -235,18 +254,32 @@ namespace	Party
     if (&src != this)
       {
 	_code = src._code;
+	_isPassword = src._isPassword;
+	_partyPass = src._partyPass;
+	_partyName = src._partyName;
       }
     return (*this);
   }
 
   Protocol			&Join::serialize(Protocol &rhs) const
   {
-    rhs << _code;
+    requestCode::PartynameLen	len = _partyName.length();
+
+    rhs << _code << len;
+    rhs.push(_partyName, _partyName.length());
+    rhs << _isPassword;
+    rhs.push(_partyPass, rtype::Env::PASS_SIZE);
     return (rhs);
   }
 
   Protocol			&Join::unserialize(Protocol &rhs)
   {
+    requestCode::PartynameLen	len;
+
+    rhs >> len;
+    rhs.pop(_partyName, len);
+    rhs >> _isPassword;
+    rhs.pop(_partyPass, rtype::Env::PASS_SIZE);
     return (rhs);
   }
 

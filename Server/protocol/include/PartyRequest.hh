@@ -86,8 +86,8 @@ namespace	Party
   struct	Join : public ARequest
   {
   public:
-    Join(const std::string &partyName, Ruint8 nbPlayers);
-    Join(const std::string &partyName, Ruint8 nbPlayers, requestCode::PasswordType pass);
+    Join(const std::string &partyName);
+    Join(const std::string &partyName, requestCode::PasswordType pass);
     Join();
     ~Join();
 
