@@ -83,7 +83,8 @@ namespace Auth
   {
     requestCode::UsernameLen	len = _username.length();
 
-    rhs << _code << len << _username;
+    rhs << _code << len;
+    rhs.push(_username, len);
     rhs.push(_password, rtype::Env::PASS_SIZE);
     return (rhs);
   }

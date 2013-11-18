@@ -188,6 +188,16 @@ namespace	menu
     return (_auth._sessionID);
   }
 
+  void					Client::permissions(database::Rights perm)
+  {
+    _auth._permissions = perm;
+  }
+
+  database::Rights			Client::permissions(void) const
+  {
+    return (_auth._permissions);
+  }
+
   bool					Client::authenticated(void) const
   {
     return (_auth._authenticated);

@@ -44,7 +44,6 @@ public:
   bool		clientExist(const std::string &login,
 			    const requestCode::PasswordType &password,
 			    const database::Rights rights);
-
 private:
   Database(Database const&);
   Database& operator=(Database const&);
@@ -53,7 +52,7 @@ public:
   save::Backup &	save(save::Backup &);
   save::Backup &	load(save::Backup &);
 
-private:
+public:
   struct			Client
   {
     std::string			login;
@@ -62,6 +61,10 @@ private:
     database::Rights		rights;
   };
 
+public:
+  bool		getClient(const std::string &login, Client &);
+
+private:
   struct			PredicateLogin : public std::unary_function<Client, bool>
   {
     PredicateLogin(const std::string &login): _login(login) {}

@@ -57,6 +57,7 @@ namespace	requestCode
   typedef Ruint16	CodeID;
   typedef std::string	PasswordType;
   typedef Ruint16	UsernameLen;
+  typedef Ruint16	PartynameLen;
   typedef Ruint16	SessionID;
   typedef Ruint16	PartyID;
 }

@@ -10,6 +10,7 @@ NAME	     ?=	libmenu.a
 SRCS =	      	MenuManager.cpp		\
 		MenuException.cpp	\
 		MenuClient.cpp		\
+		MenuGame.cpp		\
 
 DIR.THREADS=	../deps/Threads/
 DIR.NETWORK=	../deps/network/

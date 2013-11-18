@@ -148,6 +148,18 @@ bool		Database::modClientSessionID(const std::string &login,
   return (true);
 }
 
+bool		Database::getClient(const std::string &login, Client &client)
+{
+  Thread::MutexGuard	guard(_lock);
+  client_list::iterator it = std::find_if(_clients.begin(), _clients.end(), PredicateLogin(login));
+
+  if (it == _clients.end())
+    return (false);
+  client = *it;
+  return (true);
+}
+
+
 bool		Database::clientExist(const std::string &login)
 {
   return (std::find_if(_clients.begin(), _clients.end(), PredicateLogin(login)) == _clients.end());

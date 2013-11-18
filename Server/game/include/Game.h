@@ -5,8 +5,8 @@
 #include <time.h>
 #elif defined(linux)
 #include <sys/time.h>
-/*#else
-  # error "Unsupported operating system"*/
+#else
+# error "Unsupported operating system"
 #endif
 
 #include	<vector>
