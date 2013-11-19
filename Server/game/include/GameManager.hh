@@ -34,6 +34,8 @@ namespace	game
 {
   class Manager
   {
+	typedef Thread::EventQueue< ::Game *>		input_event;
+	typedef Thread::EventQueue<ARequest *>	output_event;
     typedef void(*request_callback)(ARequest *, Client *, Manager *);
     typedef std::map<requestCode::CodeID, request_callback>	request_callback_map;
     typedef std::vector< ::Client *>				client_vect;
@@ -73,8 +75,8 @@ namespace	game
     Threads<void (*)(Manager *)>	_th;
     Clock				_clock;
     std::list<Game *>			_games;
-    Thread::EventQueue<Game *>		&_input;
-    Thread::EventQueue<ARequest *>	&_output;
+    input_event		&_input;
+    output_event	&_output;
     net::UdpServer			_server;
     net::streamManager			_monitor;
     client_vect				_gameClients;
