@@ -62,8 +62,8 @@ namespace requestCode
     static const CodeID MOVE_RIGHT_UP =		606;
     static const CodeID MOVE_RIGHT_DOWN =	607;
     static const CodeID ATTACK_FIRST =		604;
-    static const CodeID ATTACK_SECOND =		605;
-    static const CodeID LEAVE =			606;*/
+    static const CodeID ATTACK_SECOND =		605;*/
+    static const CodeID LEAVE =			606;
     static const CodeID ALIVE =			607;
 
     static const CodeID ELEM =			1600;

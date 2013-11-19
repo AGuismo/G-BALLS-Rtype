@@ -38,6 +38,11 @@ public:
   Entity(game::Type type, game::Pos pos, int life, game::Dir dir, int length, int height, game::ID id);
   virtual ~Entity();
   virtual void	update();
+
+public:
+  game::ID		&id();
+  game::Dir		&dir();
+  game::Pos		&pos();
 protected:
   game::ID		_id;
   int			_life;

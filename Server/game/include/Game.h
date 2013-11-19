@@ -37,6 +37,9 @@ public:
   void	update();
   struct timeval	*getTimer(void)const{ return _timer;};
   ID   &UniqueId();
+  void	pushMissile(Missile *missile);
+  void	pushRequest(ARequest *req);
+  typedef std::list<game::Client *>	client_list;
 
 private:
   void iaUpdate();
