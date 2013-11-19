@@ -240,6 +240,27 @@ void	Game::DispatchRequest()
 	}
 }
 
+void	Game::popIA()
+{
+	if (_IA.size() < rtype::Env::maxIA)
+	{
+		if (_IA.size() < rtype::Env::minIA || rand() % rtype::Env::popIAmax < rtype::Env::popIArange)
+		{
+			/*
+			Ia *new_ia;
+
+			new_ia = BotLoader::getIA();
+			with pos = rand() % 16 + 15;
+			id = UniqueId();
+
+			_IA.push_back(new_ia);
+			pushRequest(new ElemRequest(new_ia->_type,
+			new_ia->_pos, new_ia->_dir, new_ia->_id));
+			*/
+		}
+	}
+}
+
 void	Game::update()
 {
 	playerUpdate();
@@ -247,6 +268,8 @@ void	Game::update()
 	wallUpdate();
 	missileUpdate();
 	bonusUpdate();
+
+	popIA();
 
 	DispatchRequest();
 

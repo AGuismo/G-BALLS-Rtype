@@ -26,13 +26,20 @@ namespace rtype
       unsigned short int		maxSimultaneousGames;
       unsigned short int		bossDelay;
       unsigned long long		gameDelay;
-      int				updateToLive;
+      int						updateToLive;
+	  int						minIA;
+	  int						maxIA;
+	  int						popIArange;
+	  int						popIAmax;
 	}				game;
     static const unsigned short int	MAX_SIMULTANEOUS_GAMES =	20;
     static const unsigned short int	BOSS_DELAY	       =	90;
     static const unsigned long long	gameDelay	       =	250000;
-    static const int			updateToLive = 8;
-
+    static const int				updateToLive	   =	8;
+	static const int				minIA			   =	4;
+	static const int				maxIA			   =	20;
+	static const int				popIArange		   =	2;
+	static const int				popIAmax		   =	5;
   public:
     const char				*DatabasePath;
 
