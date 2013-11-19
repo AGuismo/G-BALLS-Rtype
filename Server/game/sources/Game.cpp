@@ -9,6 +9,7 @@
 #include "DeathRequest.h"
 #include "ElemRequest.hh"
 #include "Entity.h"
+#include "Bonus.h"
 
 Game::Game(std::list<game::Client *> &players)
 {
@@ -114,6 +115,24 @@ void	Game::missileUpdate()
     }
 }
 
+void	Game::bonusUpdate()
+{
+	std::list<game::ABonus *>::iterator itb = _bonus.begin();
+
+	for (itb = _bonus.begin(); itb != _bonus.end();)
+	{
+		(*itb)->update();
+		if (!Referee::isOnScreen(*itb) || Referee::isCollision(*itb, *this))
+		{
+			delete *itb;
+			itb = _bonus.erase(itb);
+			break;
+		}
+		pushRequest(new ElemRequest((*itb)->_type,
+			(*itb)->_pos, (*itb)->_dir, (*itb)->_id));
+	}
+}
+
 void	Game::bossUpdate()
 {
   if (_titan)
@@ -187,6 +206,7 @@ void	Game::update()
 	iaUpdate();
 	wallUpdate();
 	missileUpdate();
+	bonusUpdate();
 
 	DispatchRequest();
 

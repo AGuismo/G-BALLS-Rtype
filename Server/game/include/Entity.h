@@ -28,6 +28,7 @@ namespace	game
   static const Type IA = 4;
   static const Type BOSS = 5;
   static const Type PLAYER = 6;
+  static const Type BONUS = 7;
 }
 
 class Entity

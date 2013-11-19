@@ -21,6 +21,9 @@ namespace	game
     virtual void	move(Dir dir);
     Missile	*fire(Game &game);
 
+	void	extraLife(bool b) { _extraLife = b; };
+	void	pow(int p) { _pow = p; };
+	int		pow() const { return _pow; };
   private:
     int		_pow;
     bool	_extraLife;

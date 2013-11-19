@@ -4,6 +4,8 @@
 #include	"Missile.h"
 #include	"DeathRequest.h"
 #include	"IA.h"
+#include	"Bonus.h"
+#include	"BuffRequest.h"
 
 Referee::Referee()
 {
@@ -105,31 +107,31 @@ bool		Referee::iaCollision(Entity *a, Game &game)
     {
       if (a->_type != game::IA && a->_type != game::MISSILE &&
 	  sameCase(a, *itia) == true)
-	{
-	  (*itia)->_life--;
-	  if ((*itia)->_life <= 0)
-	    {
-		  game.pushRequest(new DeathRequest((*itia)->id()));
-	      delete *itia;
-	      game._IA.erase(itia);
-	    }
-	  return true;
-	}
-      else if (a->_type == game::MISSILE &&
-	       sameCase(a, *itia) == true)
-	{
-	  if (dynamic_cast<Missile *>(a)->getLauncher()->_type != game::IA)
-	    {
-	      (*itia)->_life--;
-	      if ((*itia)->_life <= 0)
 		{
+		  (*itia)->_life--;
+		  if ((*itia)->_life <= 0)
+			{
 			  game.pushRequest(new DeathRequest((*itia)->id()));
 			  delete *itia;
-		  game._IA.erase(itia);
+			  game._IA.erase(itia);
+			}
+		  return true;
 		}
-	      return true;
-	    }
-	}
+      else if (a->_type == game::MISSILE &&
+	       sameCase(a, *itia) == true)
+		{
+		  if (dynamic_cast<Missile *>(a)->getLauncher()->_type != game::IA)
+			{
+			  (*itia)->_life--;
+			  if ((*itia)->_life <= 0)
+				{
+					game.pushRequest(new DeathRequest((*itia)->id()));
+					delete *itia;
+					game._IA.erase(itia);
+				}
+				return true;
+			}
+		}
     }
   return false;
 }
@@ -141,19 +143,19 @@ bool		Referee::wallCollision(Entity *a, Game &game)
     {
       if (a->_type != game::WALL && a->_type != game::DESTRUCTIBLEWALL &&
 	  sameCase(a, *ite) == true)
-	{
-	  if ((*ite)->_type != game::WALL)
-	    {
-	      (*ite)->_life--;
-		if ((*ite)->_life <= 0)
+		{
+		  if ((*ite)->_type != game::WALL)
 			{
-			  game.pushRequest(new DeathRequest((*ite)->id()));
-			  delete *ite;
-			  game._objs.erase(ite);
+			  (*ite)->_life--;
+			if ((*ite)->_life <= 0)
+				{
+				  game.pushRequest(new DeathRequest((*ite)->id()));
+				  delete *ite;
+				  ite = game._objs.erase(ite);
+				}
 			}
-	    }
-	  return true;
-	}
+		  return true;
+		}
     }
   return false;
 }
@@ -162,24 +164,47 @@ bool		Referee::missileCollision(Entity *a, Game &game)
 {
   std::list<Missile *>::iterator itm = game._missiles.begin();
 
-  for (; itm != game._missiles.end(); itm++)
+  for (; itm != game._missiles.end(); )
     {
-      if (a->_type != game::MISSILE &&
-	  sameCase(a, *itm) == true)
-		{
-			game._toSend.requestPush(new DeathRequest((*itm)->id()));
-			delete *itm;
-			game._missiles.erase(itm);
-			return true;
-		}
+	  if (a->_type != game::MISSILE &&
+		  sameCase(a, *itm) == true)
+	  {
+		  game._toSend.requestPush(new DeathRequest((*itm)->id()));
+		  delete *itm;
+		  itm = game._missiles.erase(itm);
+		  return true;
+	  }
+	  else
+		  ++itm;
     }
   return false;
+}
+
+bool		Referee::bonusCollision(Entity *a, Game &game)
+{
+	std::list<game::ABonus *>::iterator itb = game._bonus.begin();
+
+	for (; itb != game._bonus.end(); )
+	{
+		if (a->_type == game::PLAYER &&
+			sameCase(a, *itb) == true)
+		{
+			game._toSend.requestPush(new BuffRequest((*itb)->id(), (*itb)->_type));
+			(*itb)->applyBuff(dynamic_cast<game::Player *>(a));
+			delete *itb;
+			itb = game._bonus.erase(itb);
+			return true;
+		}
+		else
+			++itb;
+	}
+	return false;
 }
 
 bool		Referee::isCollision(Entity *a, Game &game)
 {
   if (playerCollision(a, game) || iaCollision(a, game) ||
-      wallCollision(a, game) || missileCollision(a, game))
+      wallCollision(a, game) || missileCollision(a, game) || bonusCollision(a, game))
     return true;
   return false;
 }

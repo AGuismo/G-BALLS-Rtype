@@ -25,6 +25,7 @@ class Boss;
 namespace	game
 {
   class		Player;
+  class		ABonus;
 }
 
 typedef	Ruint16	ID;
@@ -48,6 +49,7 @@ private:
   void bossUpdate();
   void wallUpdate();
   void playerUpdate();
+  void bonusUpdate();
   void DispatchRequest();
 
 private:
@@ -55,6 +57,7 @@ private:
   std::list<Ia *>		_IA;
   std::list<Entity *>		_objs;
   std::list<Missile *>		_missiles;
+  std::list<game::ABonus *>		_bonus;
   Boss				*_titan;
   struct timeval		*_timer;
   RequestQueue		_toSend;

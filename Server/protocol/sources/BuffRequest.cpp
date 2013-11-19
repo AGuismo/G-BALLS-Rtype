@@ -11,6 +11,9 @@ AGameRequest(requestCode::game::BUFF), _id(id), _type(type)
 
 }
 
+BuffRequest::~BuffRequest()
+{}
+
 Protocol			&BuffRequest::serialize(Protocol &rhs) const
 {
 	rhs << _id;

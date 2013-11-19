@@ -51,6 +51,9 @@
     <ClInclude Include="..\include\GameClient.hh">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\include\Bonus.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\sources\GameException.cpp">
@@ -83,13 +86,16 @@
     <ClCompile Include="..\sources\Time.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="IA.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\sources\ElapsedTime.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\sources\GameClient.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\sources\Bonus.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\sources\IA.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

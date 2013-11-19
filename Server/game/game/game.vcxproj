@@ -72,6 +72,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\include\Bonus.h" />
     <ClInclude Include="..\include\Boss.h" />
     <ClInclude Include="..\include\Clock.h" />
     <ClInclude Include="..\include\Entity.h" />
@@ -86,6 +87,7 @@
     <ClInclude Include="..\include\Time.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\sources\Bonus.cpp" />
     <ClCompile Include="..\sources\Boss.cpp" />
     <ClCompile Include="..\sources\Clock.cpp" />
     <ClCompile Include="..\sources\ElapsedTime.cpp" />
@@ -94,11 +96,11 @@
     <ClCompile Include="..\sources\GameClient.cpp" />
     <ClCompile Include="..\sources\GameException.cpp" />
     <ClCompile Include="..\sources\GameManager.cpp" />
+    <ClCompile Include="..\sources\IA.cpp" />
     <ClCompile Include="..\sources\Missile.cpp" />
     <ClCompile Include="..\sources\Player.cpp" />
     <ClCompile Include="..\sources\Referee.cpp" />
     <ClCompile Include="..\sources\Time.cpp" />
-    <ClCompile Include="IA.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\libraries\Bind\Bind.vcxproj">
