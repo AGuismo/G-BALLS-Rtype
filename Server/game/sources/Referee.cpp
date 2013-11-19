@@ -76,6 +76,7 @@ bool	Referee::playerCollision(Entity *a, Game &game)
 		  (*itp)->player()->_extraLife = false;
 	  else
 	    {
+		  game.pushRequest(new DeathRequest((*itp)->player()->id()));
 	      delete *itp;
 	      game._players.erase(itp);
 	    }
@@ -86,7 +87,8 @@ bool	Referee::playerCollision(Entity *a, Game &game)
 	{
 	  if ((dynamic_cast<Missile *>(a))->getLauncher()->_type != game::PLAYER)
 	    {
-	      delete *itp;
+		  game.pushRequest(new DeathRequest((*itp)->player()->id()));
+		  delete *itp;
 	      game._players.erase(itp);
 	      return true;
 	    }
@@ -107,6 +109,7 @@ bool		Referee::iaCollision(Entity *a, Game &game)
 	  (*itia)->_life--;
 	  if ((*itia)->_life <= 0)
 	    {
+		  game.pushRequest(new DeathRequest((*itia)->id()));
 	      delete *itia;
 	      game._IA.erase(itia);
 	    }
@@ -120,7 +123,8 @@ bool		Referee::iaCollision(Entity *a, Game &game)
 	      (*itia)->_life--;
 	      if ((*itia)->_life <= 0)
 		{
-		  delete *itia;
+			  game.pushRequest(new DeathRequest((*itia)->id()));
+			  delete *itia;
 		  game._IA.erase(itia);
 		}
 	      return true;
@@ -143,6 +147,7 @@ bool		Referee::wallCollision(Entity *a, Game &game)
 	      (*ite)->_life--;
 		if ((*ite)->_life <= 0)
 			{
+			  game.pushRequest(new DeathRequest((*ite)->id()));
 			  delete *ite;
 			  game._objs.erase(ite);
 			}
@@ -162,7 +167,7 @@ bool		Referee::missileCollision(Entity *a, Game &game)
       if (a->_type != game::MISSILE &&
 	  sameCase(a, *itm) == true)
 		{
-			game._toSend.requestPush(new DeathRequest(/*id de *itm*/));
+			game._toSend.requestPush(new DeathRequest((*itm)->id()));
 			delete *itm;
 			game._missiles.erase(itm);
 			return true;

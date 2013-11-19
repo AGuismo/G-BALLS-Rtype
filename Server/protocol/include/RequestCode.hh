@@ -45,6 +45,11 @@ namespace requestCode
     static const CodeID SERV_START =		1303;
   }
 
+  namespace root
+  {
+    static const CodeID SHUTDOWN =		400;
+  };
+
   namespace game
   {
 	static const CodeID EVENT =			600;

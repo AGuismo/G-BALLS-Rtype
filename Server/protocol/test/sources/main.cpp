@@ -1,3 +1,4 @@
+#include	<map>
 #include	<iostream>
 #include	<iomanip>
 #include	<vector>
@@ -6,6 +7,7 @@
 # include	<winsock2.h>
 #endif
 #include	"types.hh"
+#include	"RequestCode.hh"
 #include	"AuthRequest.hh"
 #include	"PartyRequest.hh"
 #include	"SessionRequest.hh"
@@ -15,99 +17,135 @@
 #include	"TcpClient.h"
 #include	"streamManager.h"
 #include	"MD5.hh"
+#include	"AMonitorable.h"
 
-template <typename T>
-void	test(T &req)
+struct	stdin : public net::AMonitorable
 {
-  std::vector<Protocol::Byte>	bytes;
+  int	fd;
+  int	getSocket() const {return fd;};
+};
 
-  std::cout << "Testing: " << typeid(req).name() << std::endl;
-  bytes = Protocol::product(req);
-  for (std::vector<Protocol::Byte>::iterator it = bytes.begin(); it != bytes.end(); ++it)
-    {
-      std::cout << std::hex << (char)(*it);
-    }
-  std::cout << std::dec << std::endl;
+const char	*detail(const ARequest *req)
+{
+  std::map<requestCode::CodeID, const char *>	_map;
 
-  int			count;
-  T			*output = dynamic_cast<T *>(Protocol::consume(bytes, count));
-  if (output != 0)
-    std::cout << typeid(req).name() << ": Correct formatting" << std::endl;
-  else
-    std::cout << typeid(req).name() << ": Incorrect formatting" << std::endl;
+  _map[requestCode::server::OK] = "Server: OK";
+  _map[requestCode::server::BAD_REQ] = "Server: Bad Request";
+  _map[requestCode::server::FORBIDDEN] = "Server: Forbidden";
+
+  _map[requestCode::auth::CONNECT] = "Auth: connect";
+  _map[requestCode::auth::CHANGE_PASSWD] = "Auth: change Password";
+  _map[requestCode::auth::NEW_USER] = "Auth: new User";
+  _map[requestCode::auth::SESSION] = "Auth: Session";
+
+  return (_map[req->code()]);
 }
 
-ARequest			*getReq(net::TcpClient &client)
+ARequest			*get_req(net::TcpClient &client)
 {
   std::vector<Protocol::Byte>	bytes;
   int				count;
   ARequest			*req;
 
   client.lookRead(bytes, 512);
-  req = Protocol::consume(bytes, count);
+  try
+    {
+      req = Protocol::consume(bytes, count);
+    }
+  catch (...)
+    {
+      return (0);
+    }
   std::cout << "Extracted: " << count << std::endl;
-  std::cout << "Received data code: " << req->code() << std::endl;
+  std::cout << "Received request code: " << req->code()
+	    << ". Detail: " << detail(req) << std::endl;
   client.readFromBuffer(bytes, count);
   return (req);
 }
 
-void	network()
+void		send_req(net::TcpClient &client, ARequest *req)
 {
-  net::TcpClient		client;
-  Auth::NewUser			new_usr("Ruby", md5("1664"));
-  Auth::Connect			authConnect("Ruby", md5("1664"));
   std::vector<Protocol::Byte>	bytes;
-  ARequest				*req;
-  Party::Start			startGame;
-  net::streamManager		m;
 
-  client.init("127.0.0.1", "44201");
-  client.monitor(true, false);
-  m.setMonitor(client);
-
-  bytes = Protocol::product(new_usr);
+  std::cout << "Send request code: " << req->code()
+	    << ". Detail: " << detail(req) << std::endl;
+  bytes = Protocol::product(*req);
   client.writeIntoBuffer(bytes, bytes.size());
   client.send();
-  m.run();
-  client.recv();
-  req = getReq(client);
-  std::cout << "Response: " << req->code() << std::endl;
-
-  bytes.clear();
-  bytes = Protocol::product(authConnect);
-  client.writeIntoBuffer(bytes, bytes.size());
-  client.send();
-  m.run();
-  client.recv();
-  req = getReq(client);
-  std::cout << "Response: " << req->code() << std::endl;
-  req = getReq(client);
-  std::cout << "Session: " << (dynamic_cast<SessionRequest *>(req))->SessionID() << std::endl;
-
-  // bytes = Protocol::product(startGame);
-  // client.writeIntoBuffer(bytes, bytes.size());
-  // client.send();
-  // m.run();
-  // client.recv();
-  // req = getReq(client);
-  // std::cout << "Response: " << req->code() << std::endl;
-  // req = getReq(client);
-  // std::cout << "Launch Game: " << (dynamic_cast<Party::Launch *>(req))->code() << std::endl;
-
-  client.close();
 }
 
-int	main()
+int			main(int ac, char **av)
 {
-  Auth::Connect			authConnect("Ruby", md5("1664"));
-  Auth::ChangePass		authPass("Ruby", md5("1664"), md5("4661"), 5348);
-  ServerRequest			servReq(requestCode::server::FORBIDDEN);
+  bool			activated = true;
+  net::TcpClient	client;
+  net::streamManager	m;
+  stdin			input;
 
-  // test(authConnect);
-  // test(authPass);
-  // test(servReq);
-  // std::cout << "Size: " << bytes.size() << std::endl;
+  input.fd = 0;
+  if (ac == 3)
+    client.init(av[1], av[2]);
+  else
+    client.init("127.0.0.1", "44201");
+  client.monitor(true, false);
+  input.monitor(true, false);
+  m.setMonitor(client);
+  m.setMonitor(input);
+  while (activated)
+    {
+      m.run();
+      if (input.read())
+	{
+	  char	input;
 
-  network();
+	  std::cin >> input;
+	  if (std::cin.eof() == 1)
+	    break;
+	  switch (input)
+	    {
+	    case '\0':
+	      activated = false;
+	      break;
+	    case 'a':
+	      send_req(client, new Auth::Connect("Ruby", md5("1664")));
+	      break;
+	    case 'b':
+	      send_req(client, new Auth::NewUser("Ruby", md5("1664")));
+	      break;
+	    case 'c':
+	      send_req(client, new Party::List());
+	      break;
+	    case 'd':
+	      send_req(client, new Party::Create("Toto", 4));
+	      break;
+	    case 'e':
+	      send_req(client, new Party::Start());
+	      break;
+	    case 'f':
+	      send_req(client, new Party::Cancel());
+	      break;
+	    case 'g':
+	      send_req(client, new Party::Join("Toto"));
+	      break;
+	    case 'h':
+	      std::cout << "a: " << "Auth::Connect" << std::endl
+			<< "b: " << "Auth::NewUser" << std::endl
+			<< "c: " << "Party::List" << std::endl
+			<< "d: " << "Party::Create" << std::endl
+			<< "e: " << "Party::Start" << std::endl
+			<< "f: " << "Party::Cancel" << std::endl
+			<< "g: " << "Party::Join" << std::endl;
+	      break;
+	    }
+	}
+      if (client.read())
+	{
+	  std::cout << "sth to read" << std::endl;
+	  ARequest	*req;
+
+	  client.recv();
+	  while ((req = get_req(client)) != 0);
+	}
+    }
+  client.close();
   return (0);
 }

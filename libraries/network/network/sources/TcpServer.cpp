@@ -45,6 +45,7 @@ void			TcpServer::initialize(unsigned short int port, int maxPendingConnections)
   if (listen(_sock, maxPendingConnections) == -1)
     throw net::Exception("listen error: " + WSAGetLastError());
   _state = CONNECTED;
+  _addr = sin;
 }
 
 ClientAccepted	*TcpServer::accept()
@@ -95,6 +96,7 @@ void			TcpServer::initialize(unsigned short int port, int maxPendingConnections)
   if (listen(_sock, maxPendingConnections) == -1)
     throw net::Exception("listen error: " + std::string(strerror(errno)));
   _state = CONNECTED;
+  _addr = sin;
 }
 
 ClientAccepted		*TcpServer::accept()

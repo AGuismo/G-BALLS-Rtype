@@ -6,7 +6,7 @@
 //#include		"Network.h"
 #include		"Timer.h"
 
-const float Game::VLAG = 0.25f;
+const float Game::VLAG = 0.4f;
 const float Game::MAX_VLAG = 4.0f;
 const float Game::OBJ_DEC_X_FRAME = Game::PX_DEC_X /  8.0f;
 const float Game::OBJ_DEC_Y_FRAME = Game::PX_DEC_Y / 8.0f;
@@ -87,7 +87,7 @@ void							Game::run(void)
 	addObj(PLAYER2, 20, 40);
 	addObj(PLAYER3, 77, 10);
 	addObj(PLAYER4, 48, 200);
-//	addObj(SBYDOS1, 455, 140);
+	addObj(SBYDOS1, 455, 140);
 
 	static int i = 0;
 
@@ -171,12 +171,7 @@ void							Game::run(void)
 			default:
 				break;
 			}
-		}/*
-		if (test.isEnded())
-		{
-			updatePlayer(Fire);
-			test.restart();
-		}*/
+		}
 		_gameWindow->clear();
 		updatePlayer(Nothing);
 
@@ -225,15 +220,51 @@ bool							Game::updatePlayer(Action action)
 			(*it)->update(Down, Unset, updatedPos);
 			break;
 		case Fire:
-			updatedPos = (*it)->getCaseCurPos() + 6;
-			(*it)->update(Right, Unset, updatedPos);
+			/*updatedPos = (*it)->getCaseCurPos() + 6;
+			(*it)->update(Right, Unset, updatedPos);*/
 			break;
 		default:
 			(*it)->update(Nothing, Unset, updatedPos);
 			break;
 		}
+//		return true;
+	}
+
+
+	obj_type::iterator ot = std::find_if(_objects.begin(), _objects.end(), AObject::predicate(455));
+	if (ot != _objects.end())
+	{
+		switch (action)
+		{
+		case Left:
+			updatedPos = ((*ot)->getCaseCurPos() % Game::SIZE_GAME_BOARD == 0) ? (*ot)->getCaseCurPos() : (*ot)->getCaseCurPos() - 1;
+			(*ot)->update(Left, Unset, updatedPos);
+			break;
+		case Right:
+			updatedPos = (((*ot)->getCaseCurPos() + 1) % Game::SIZE_GAME_BOARD == 0) ? (*ot)->getCaseCurPos() : (*ot)->getCaseCurPos() + 1;
+			(*ot)->update(Right, Unset, updatedPos);
+			break;
+		case Up:
+			updatedPos = ((*ot)->getCaseCurPos() / Game::SIZE_GAME_BOARD == 0) ? (*ot)->getCaseCurPos() : (*ot)->getCaseCurPos() - Game::SIZE_GAME_BOARD;
+			(*ot)->update(Up, Unset, updatedPos);
+			break;
+		case Down:
+			updatedPos = ((*ot)->getCaseCurPos() + Game::SIZE_GAME_BOARD > Game::CASE_GAME_BOARD) ? (*ot)->getCaseCurPos() : (*ot)->getCaseCurPos() + Game::SIZE_GAME_BOARD;
+			(*ot)->update(Down, Unset, updatedPos);
+			break;
+		case Fire:
+			updatedPos = (*ot)->getCaseCurPos() + 6;
+			(*ot)->update(Right, Unset, updatedPos);
+			break;
+		default:
+			(*ot)->update(Nothing, Unset, updatedPos);
+			break;
+		}
 		return true;
 	}
+
+
+
 	return false;
 }
 

@@ -6,10 +6,16 @@
 #include "Env.hh"
 #include "IA.h"
 #include "Boss.h"
+#include "DeathRequest.h"
+#include "ElemRequest.hh"
+#include "Entity.h"
 
 Game::Game(std::list<game::Client *> &players)
 {
   _players = players;
+  incremental = 0;
+  for (client_list::iterator it = _players.begin(); it != _players.end(); ++it)
+	  (*it)->player(new game::Player(42, UniqueId()));
   _titan = NULL;
 }
 
@@ -26,6 +32,7 @@ void	Game::iaUpdate()
       (*itia)->update();
       if (!Referee::isOnScreen(*itia))
 	{
+	  pushRequest(new DeathRequest((*itia)->id()));
 	  delete *itia;
 	  _IA.erase(itia);
 	}
@@ -34,9 +41,13 @@ void	Game::iaUpdate()
 	  (*itia)->_life--;
 	  if ((*itia)->_life <= 0)
 	    {
+		  pushRequest(new DeathRequest((*itia)->id()));
 	      delete *itia;
 	      _IA.erase(itia);
 	    }
+	  else
+		  pushRequest(new ElemRequest((*itia)->_type,
+		  (*itia)->_pos, (*itia)->_dir, (*itia)->_id));
 	}
     }
 }
@@ -55,6 +66,7 @@ void	Game::wallUpdate()
       (*ite)->update();
       if (!Referee::isOnScreen(*ite))
 	{
+	  pushRequest(new DeathRequest((*ite)->id()));
 	  delete *ite;
 	  _objs.erase(ite);
 	}
@@ -64,11 +76,15 @@ void	Game::wallUpdate()
 	    (*ite)->_life--;
 	  if ((*ite)->_life <= 0)
 	    {
+		  pushRequest(new DeathRequest((*ite)->id()));
 	      delete *ite;
 	      _objs.erase(ite);
 	    }
 	}
-    }
+	  else
+		  pushRequest(new ElemRequest((*ite)->_type,
+		  (*ite)->_pos, (*ite)->_dir, (*ite)->_id));
+  }
 }
 
 void	Game::missileUpdate()
@@ -82,6 +98,7 @@ void	Game::missileUpdate()
 	  (*itm)->update();
 	  if (!Referee::isOnScreen(*itm) || Referee::isCollision(*itm, *this))
 	    {
+		  pushRequest(new DeathRequest((*itm)->id()));
 	      delete *itm;
 	      itm = _missiles.erase(itm);
 	      break;
@@ -111,13 +128,23 @@ void	Game::bossUpdate()
     }
 }
 
+void	Game::pushMissile(Missile *missile)
+{
+	_missiles.push_back(missile);
+}
+
+void	Game::pushRequest(ARequest *req)
+{
+	_toSend.requestPush(req);
+}
+
 void	Game::playerUpdate()
 {
 	std::list<game::Client *>::iterator itm = _players.begin();
 
 	for (itm = _players.begin(); itm != _players.end();)
 	{
-		(*itm)->update(_toSend, _missiles);
+		(*itm)->update(*this);
 		if (!Referee::isOnScreen((*itm)->_player) || Referee::isCollision((*itm)->_player, *this))
 		{
 			if ((*itm)->_player->_extraLife == true)

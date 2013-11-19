@@ -15,7 +15,7 @@ public:
 
 public:
 	Player(ObjType obj, int id, int pos, LookDirection ld, sf::Texture *text, sf::RenderWindow *gameWindow);
-	~Player() {} // delete here
+	~Player() {}
 
 private:
 	Player(const Player &);

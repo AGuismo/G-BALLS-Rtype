@@ -34,8 +34,8 @@ namespace	game
 		  _pos += 1;
   }
 
-  Missile *Player::fire()
+  Missile *Player::fire(Game &game)
   {
-    return (new Missile(*this, EAST, _pos, 0/*game::UniqueId()*/));
+    return (new Missile(*this, EAST, _pos, game.UniqueId()));
   }
 }

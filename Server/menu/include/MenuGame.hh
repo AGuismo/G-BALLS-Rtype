@@ -47,6 +47,8 @@ namespace	menu
     ::Game			*game();
     void			game(::Game *);
 
+    ::Game			*initialize(void);
+
     ::Client			*owner() const;
 
   private:
