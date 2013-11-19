@@ -2,7 +2,7 @@
 #include "Game.h"
 #include "Missile.h"
 
-Ia::Ia(game::Pos pos, int life, int length, int height, game::ID id) : Entity(game::IA, pos, life, game::WEST, length, height, id)
+Ia::Ia(game::Pos pos, int life, int length, int height, game::ID id, AIaAlgo *algo) : Entity(game::IA, pos, life, game::WEST, length, height, id), _algo(algo)
 {
 }
 
