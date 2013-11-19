@@ -51,6 +51,7 @@ private:
   void playerUpdate();
   void bonusUpdate();
   void DispatchRequest();
+  void popIA();
 
 private:
   std::list<game::Client *>	_players;

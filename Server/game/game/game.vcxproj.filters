@@ -54,6 +54,9 @@
     <ClInclude Include="..\include\Bonus.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\include\IaAlgo.hh">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\sources\GameException.cpp">
