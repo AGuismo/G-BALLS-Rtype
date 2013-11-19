@@ -11,6 +11,6 @@ class Ia : public Entity
   virtual ~Ia();
   void	update();
   void	move();
-  Missile	*fire();
+  Missile	*fire(Game &game);
  private:
 };

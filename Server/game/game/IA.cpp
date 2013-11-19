@@ -1,5 +1,6 @@
 #include "IA.h"
 #include "Game.h"
+#include "Missile.h"
 
 Ia::Ia(game::Pos pos, int life, int length, int height, game::ID id) : Entity(game::IA, pos, life, game::WEST, length, height, id)
 {
@@ -28,7 +29,7 @@ void	Ia::move()
 		_pos += 1;
 }
 
-Missile	*Ia::fire()
+Missile	*Ia::fire(Game &game)
 {
-	return NULL;
+	return (new Missile(*this, game::WEST, _pos, game.UniqueId()));
 }

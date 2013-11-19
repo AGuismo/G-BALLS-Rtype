@@ -109,6 +109,8 @@ void	Game::missileUpdate()
 	      break;
 	    }
 	}
+	  pushRequest(new ElemRequest((*itm)->_type,
+		  (*itm)->_pos, (*itm)->_dir, (*itm)->_id));
     }
 }
 
