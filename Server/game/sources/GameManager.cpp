@@ -11,7 +11,7 @@
 
 namespace	game
 {
-  Manager::Manager(Thread::EventQueue<Game *> &input, Thread::EventQueue<ARequest *> &output) :
+  Manager::Manager(Manager::input_event &input, Manager::output_event &output) :
     _th(Func::Bind(&Manager::routine, this)), _input(input), _output(output)
   {
     _server.monitor(true, false);

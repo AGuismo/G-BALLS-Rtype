@@ -24,7 +24,9 @@ namespace	menu
 {
   class		Manager
   {
-    typedef std::list<Game *>		game_list;
+	typedef Thread::EventQueue< ::Game *>		output_event;
+	typedef Thread::EventQueue<ARequest *>	input_event;
+	typedef std::list<Game *>		game_list;
     typedef std::list< ::Client *>	client_list;
     typedef void (*request_callback)(ARequest *, ::Client *, Manager *);
     typedef std::map<requestCode::CodeID, request_callback>	request_callback_map;
@@ -95,8 +97,8 @@ namespace	menu
     net::TcpServer			_server;
     net::streamManager			_monitor;
     client_list				_clients;
-    Thread::EventQueue<ARequest *>	&_input;
-    Thread::EventQueue< ::Game *>	&_output;
+    input_event			&_input;
+    output_event		&_output;
     request_callback_map		_requestCallback;
     game_list				_games;
   };

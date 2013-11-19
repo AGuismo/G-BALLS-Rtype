@@ -18,7 +18,7 @@
 
 namespace	menu
 {
-  Manager::Manager(Thread::EventQueue<ARequest *> &input, Thread::EventQueue< ::Game *> &output) :
+  Manager::Manager(Manager::input_event &input, Manager::output_event &output) :
     _active(true), _input(input), _output(output)
   {
     _server.monitor(true, false);
