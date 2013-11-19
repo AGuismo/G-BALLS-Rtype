@@ -10,7 +10,7 @@
 using namespace net;
 
 streamManager::streamManager():
-  _optTimeout(false), _optNonBlocking(false)
+  _isTimeout(false), _optTimeout(false), _optNonBlocking(false), _maxFd(0)
 {
   _timeout.tv_sec = 0;
   _timeout.tv_usec = 0;

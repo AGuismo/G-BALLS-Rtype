@@ -73,41 +73,8 @@ void		send_req(net::TcpClient &client, ARequest *req)
   client.writeIntoBuffer(bytes, bytes.size());
   client.send();
 }
-void	network()
-{
-  // Auth::NewUser			new_usr("Ruby", md5("1664"));
-  // Auth::Connect			authConnect("Ruby", md5("1664"));
-  // ARequest			*req;
-  // Party::Start			startGame;
 
-
-  // m.run();
-  // client.recv();
-  // req = getReq(client);
-  // std::cout << "Response: " << req->code() << std::endl;
-
-  // bytes.clear();
-  // bytes = Protocol::product(authConnect);
-  // client.writeIntoBuffer(bytes, bytes.size());
-  // client.send();
-  // req = getReq(client);
-  // std::cout << "Response: " << req->code() << std::endl;
-  // req = getReq(client);
-  // std::cout << "Session: " << (dynamic_cast<SessionRequest *>(req))->SessionID() << std::endl;
-
-  // bytes = Protocol::product(startGame);
-  // client.writeIntoBuffer(bytes, bytes.size());
-  // client.send();
-  // m.run();
-  // client.recv();
-  // req = getReq(client);
-  // std::cout << "Response: " << req->code() << std::endl;
-  // req = getReq(client);
-  // std::cout << "Launch Game: " << (dynamic_cast<Party::Launch *>(req))->code() << std::endl;
-
-}
-
-int			main()
+int			main(int ac, char **av)
 {
   bool			activated = true;
   net::TcpClient	client;
@@ -115,7 +82,10 @@ int			main()
   stdin			input;
 
   input.fd = 0;
-  client.init("127.0.0.1", "44201");
+  if (ac == 3)
+    client.init(av[1], av[2]);
+  else
+    client.init("127.0.0.1", "44201");
   client.monitor(true, false);
   input.monitor(true, false);
   m.setMonitor(client);
@@ -169,11 +139,11 @@ int			main()
 	}
       if (client.read())
 	{
+	  std::cout << "sth to read" << std::endl;
 	  ARequest	*req;
 
 	  client.recv();
-	  while ((req = get_req(client)) != 0)
-	    std::cout << "Request code: " << ServerRequest::getMsg(req->code()) << std::endl;
+	  while ((req = get_req(client)) != 0);
 	}
     }
   client.close();

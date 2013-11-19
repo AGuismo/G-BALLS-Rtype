@@ -191,6 +191,9 @@ namespace	menu
   ///////////////////////
   void	Manager::newUser(ARequest *req, ::Client *client, Manager *manager)
   {
+#if defined(DEBUG)
+    std::cout << "Manager::newUser" << std::endl;
+#endif
     Auth::NewUser	*request = dynamic_cast<Auth::NewUser *>(req);
 
     (void)manager;
@@ -215,6 +218,9 @@ namespace	menu
   ////////////////
   void	Manager::listGames(ARequest *req, ::Client *client, Manager *manager)
   {
+#if defined(DEBUG)
+    std::cout << "Manager::listGames" << std::endl;
+#endif
     if (!client->menu().authenticated())
       {
 	client->menu().requestPush(new ServerRequest(requestCode::server::FORBIDDEN));
@@ -236,6 +242,9 @@ namespace	menu
   /////////////////
   void	Manager::createGame(ARequest *req, ::Client *client, Manager *manager)
   {
+#if defined(DEBUG)
+    std::cout << "Manager::createGame" << std::endl;
+#endif
     Party::Create	*request = dynamic_cast<Party::Create *>(req);
 
     if (!client->menu().authenticated() || find_if(manager->_games.begin(), manager->_games.end(),
@@ -261,6 +270,9 @@ namespace	menu
   ///////////////
   void	Manager::joinGame(ARequest *req, ::Client *client, Manager *manager)
   {
+#if defined(DEBUG)
+    std::cout << "Manager::JoinGame" << std::endl;
+#endif
     Party::Join	*request = dynamic_cast<Party::Join *>(req);
     game_list::iterator	it = find_if(manager->_games.begin(), manager->_games.end(),
 				     PredicateParty(request->_partyName));
@@ -285,6 +297,9 @@ namespace	menu
   /////////////////
   void	Manager::cancelGame(ARequest *req, ::Client *client, Manager *manager)
   {
+#if defined(DEBUG)
+    std::cout << "Manager::cancelGame" << std::endl;
+#endif
     game_list::iterator	it = find_if(manager->_games.begin(), manager->_games.end(),
 				     PredicateOwner(client));
 
@@ -310,6 +325,9 @@ namespace	menu
   ////////////////////
   void	Manager::launchGame(ARequest *req, ::Client *client, Manager *manager)
   {
+#if defined(DEBUG)
+    std::cout << "Manager::launchGame" << std::endl;
+#endif
     game_list::iterator	it = find_if(manager->_games.begin(), manager->_games.end(),
 				     PredicateOwner(client));
 

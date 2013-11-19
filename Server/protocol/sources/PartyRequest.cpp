@@ -150,7 +150,8 @@ namespace	Party
     rhs << _code << len;
     rhs.push(_partyName, len);
     rhs << _maxPlayers << _isPassword;
-    rhs.push(_partyPass, rtype::Env::PASS_SIZE);
+    if (_isPassword == PASS)
+      rhs.push(_partyPass, rtype::Env::PASS_SIZE);
     return (rhs);
   }
 
@@ -161,7 +162,8 @@ namespace	Party
     rhs >> len;
     rhs.pop(_partyName, len);
     rhs >> _maxPlayers >> _isPassword;
-    rhs.pop(_partyPass, rtype::Env::PASS_SIZE);
+    if (_isPassword == PASS)
+      rhs.pop(_partyPass, rtype::Env::PASS_SIZE);
     return (rhs);
   }
 
@@ -268,7 +270,8 @@ namespace	Party
     rhs << _code << len;
     rhs.push(_partyName, _partyName.length());
     rhs << _isPassword;
-    rhs.push(_partyPass, rtype::Env::PASS_SIZE);
+    if (_isPassword == Create::PASS)
+      rhs.push(_partyPass, rtype::Env::PASS_SIZE);
     return (rhs);
   }
 
@@ -279,7 +282,8 @@ namespace	Party
     rhs >> len;
     rhs.pop(_partyName, len);
     rhs >> _isPassword;
-    rhs.pop(_partyPass, rtype::Env::PASS_SIZE);
+    if (_isPassword == Create::PASS)
+      rhs.pop(_partyPass, rtype::Env::PASS_SIZE);
     return (rhs);
   }
 
