@@ -137,10 +137,17 @@ namespace	game
 		thisPtr->_clock.update();
 		time = thisPtr->_clock.getElapsedTime();
 		t.tv_sec = time / 1000000;
-		if (thisPtr->_server.read())
-			thisPtr->readData();
-		if (thisPtr->_server.write())
-			thisPtr->writeData();
+		try
+		{
+			if (thisPtr->_server.read())
+				thisPtr->readData();
+			if (thisPtr->_server.write())
+				thisPtr->writeData();
+		}
+		catch (net::Exception &e)
+		{
+			std::cerr << "Error " << e.what() << "in Manager::routine." << std::endl;
+		}
 		thisPtr->update();
       }
   }

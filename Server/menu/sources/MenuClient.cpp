@@ -3,6 +3,7 @@
 #include	"MenuClient.hh"
 #include	"cBuffer.h"
 #include	"Protocol.hpp"
+#include	"NetException.h"
 
 namespace	menu
 {
@@ -24,10 +25,17 @@ namespace	menu
       throw "No TCP socket";
     //  std::cout << __PRETTY_FUNCTION__ << std::endl;
 #endif
-    if (_TcpLayer->read())
-      recvSock();
-    if (_TcpLayer->write())
-      sendSock();
+	try
+	{
+		if (_TcpLayer->read())
+			recvSock();
+		if (_TcpLayer->write())
+			sendSock();
+	}
+	catch (net::Exception &e)
+	{
+		std::cerr << "Error : " << e.what() << " in menu::client" << std::endl;
+	}
     while (inputRequest());
   }
 

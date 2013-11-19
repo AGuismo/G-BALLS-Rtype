@@ -84,7 +84,7 @@ bool	streamManager::timeoutMode()
   if (ret == -1)
     {
 #if defined(WIN32)
-      throw net::Exception("Select Failure: " + WSAGetLastError());
+      throw net::Exception("Select Failure: ");
 #elif defined(linux)
       throw net::Exception("Select Failure: " + std::string(strerror(errno)));
 #endif
@@ -122,7 +122,7 @@ void streamManager::run()
       if (select(_maxFd + 1, &_readMonitor, &_writeMonitor, 0, 0) == -1)
 	{
 #if defined(WIN32)
-	  throw net::Exception("Select Failure: " + WSAGetLastError());
+	  throw net::Exception("Select Failure: ");
 #elif defined(linux)
 	  throw net::Exception("Select Failure: " + std::string(strerror(errno)));
 #endif

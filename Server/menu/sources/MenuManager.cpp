@@ -123,9 +123,17 @@ namespace	menu
   {
     while (thisPtr->_active)
       {
-	thisPtr->_monitor.run();
-	thisPtr->updateClients();
-	thisPtr->checkNewClient();
+		try
+		{
+			thisPtr->_monitor.run();
+			thisPtr->updateClients();
+		}
+		catch (net::Exception &e)
+		{
+			thisPtr->_active = false;
+			std::cerr << "Fatal error : " << e.what() << " in menu::Manager::routine" << std::endl;
+		}
+		thisPtr->checkNewClient();
       }
   }
 
