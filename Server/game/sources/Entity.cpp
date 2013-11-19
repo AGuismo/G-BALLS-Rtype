@@ -19,6 +19,11 @@ game::ID		&Entity::id()
 	return _id;
 }
 
+game::Type		&Entity::type()
+{
+	return _type;
+}
+
 game::Dir		&Entity::dir()
 {
 	return _dir;

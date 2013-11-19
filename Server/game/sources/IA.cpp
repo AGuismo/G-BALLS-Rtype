@@ -17,16 +17,18 @@ void	Ia::update()
 
 void	Ia::move()
 {
-	_dir = (game::Dir)(rand() % 8);
-	_prevPos = _pos;
-	if (_dir == game::NORTH || _dir == game::NORTH_WEST || _dir == game::NORTH_EAST)
-		_pos -= SIZE;
-	if (_dir == game::SOUTH || _dir == game::SOUTH_WEST || _dir == game::SOUTH_EAST)
-		_pos += SIZE;
-	if (_dir == game::WEST || _dir == game::NORTH_WEST || _dir == game::SOUTH_WEST)
-		_pos -= 1;
-	if (_dir == game::EAST || _dir == game::SOUTH_EAST || _dir == game::NORTH_EAST)
-		_pos += 1;
+    std::default_random_engine generator;
+    std::uniform_int_distribution<int> distribution(1,8);
+    _dir = (game::Dir)(distribution(generator));
+    _prevPos = _pos;
+    if (_dir == game::NORTH || _dir == game::NORTH_WEST || _dir == game::NORTH_EAST)
+	_pos -= SIZE;
+    if (_dir == game::SOUTH || _dir == game::SOUTH_WEST || _dir == game::SOUTH_EAST)
+	_pos += SIZE;
+    if (_dir == game::WEST || _dir == game::NORTH_WEST || _dir == game::SOUTH_WEST)
+	_pos -= 1;
+    if (_dir == game::EAST || _dir == game::SOUTH_EAST || _dir == game::NORTH_EAST)
+	_pos += 1;
 }
 
 Missile	*Ia::fire(Game &game)

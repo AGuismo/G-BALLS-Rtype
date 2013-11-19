@@ -1,3 +1,5 @@
+#include <cstdlib>
+#include <ctime>
 #include "Referee.h"
 #include "Missile.h"
 #include "Entity.h"
@@ -41,14 +43,33 @@ void	Game::iaUpdate()
 	{
 	  (*itia)->_life--;
 	  if ((*itia)->_life <= 0)
-	    {
-		  pushRequest(new DeathRequest((*itia)->id()));
+	  {
+	      srand(time(NULL));
+	      int dice_roll = rand() % 6;
+	      if (dice_roll == 5)
+	      {
+		  if (!(dice_roll = rand() % 2))
+		  {
+		      _bonus.push_back(new game::ExtraLife(game::WEST, (*itia)->pos(), UniqueId()));
+		      pushRequest(new ElemRequest((*_bonus.end())->type(),
+						  (*_bonus.end())->pos(), (*_bonus.end())->dir(),
+						  (*_bonus.end())->id()));
+		  }
+		  else
+		  {
+		      _bonus.push_back(new game::Pow(game::WEST, (*itia)->pos(), UniqueId()));
+		      pushRequest(new ElemRequest((*_bonus.end())->type(),
+						  (*_bonus.end())->pos(), (*_bonus.end())->dir(),
+						  (*_bonus.end())->id()));
+		  }
+	      }
+	      pushRequest(new DeathRequest((*itia)->id()));
 	      delete *itia;
 	      _IA.erase(itia);
-	    }
+	  }
 	  else
-		  pushRequest(new ElemRequest((*itia)->_type,
-		  (*itia)->_pos, (*itia)->_dir, (*itia)->_id));
+	      pushRequest(new ElemRequest((*itia)->_type,
+					  (*itia)->_pos, (*itia)->_dir, (*itia)->_id));
 	}
     }
 }
@@ -73,13 +94,32 @@ void	Game::wallUpdate()
 	}
       else if (Referee::isCollision(*ite, *this) == true)
 	{
-	  if ((*ite)->_type == game::DESTRUCTIBLEWALL)
-	    (*ite)->_life--;
-	  if ((*ite)->_life <= 0)
+	    if ((*ite)->_type == game::DESTRUCTIBLEWALL)
+		(*ite)->_life--;
+	    if ((*ite)->_life <= 0)
 	    {
-		  pushRequest(new DeathRequest((*ite)->id()));
-	      delete *ite;
-	      _objs.erase(ite);
+		srand(time(NULL));
+		int dice_roll = rand() % 6;
+		if (dice_roll == 5)
+		{
+		    if (!(dice_roll = rand() % 2))
+		    {
+			_bonus.push_back(new game::ExtraLife(game::WEST, (*ite)->pos(), UniqueId()));
+			pushRequest(new ElemRequest((*_bonus.end())->type(),
+						    (*_bonus.end())->pos(), (*_bonus.end())->dir(),
+						    (*_bonus.end())->id()));
+		    }
+		    else
+		    {
+			_bonus.push_back(new game::Pow(game::WEST, (*ite)->pos(), UniqueId()));
+			pushRequest(new ElemRequest((*_bonus.end())->type(),
+						    (*_bonus.end())->pos(), (*_bonus.end())->dir(),
+						    (*_bonus.end())->id()));
+		    }
+		}
+		pushRequest(new DeathRequest((*ite)->id()));
+		delete *ite;
+		_objs.erase(ite);
 	    }
 	}
 	  else
