@@ -36,7 +36,7 @@ namespace	menu
 
   Manager::~Manager()
   {
-
+	  std::cerr << "menu::Manager::~Manager()" << std::endl;
   }
 
   void	Manager::initialize(unsigned short int port)
