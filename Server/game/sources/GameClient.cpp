@@ -4,7 +4,9 @@
 #include	"AliveRequest.h"
 #include	"Env.hh"
 #include	"ElemRequest.hh"
+#include	"DeathRequest.h"
 #include	"Missile.h"
+#include	"Referee.h"
 
 namespace	game
 {
@@ -24,7 +26,12 @@ namespace	game
 
   }
 
-  void		Client::update(RequestQueue &p, std::list< ::Missile *> &missiles)
+  void			Client::alive(const bool &state)
+  {
+	  _alive = state;
+  }
+
+  void		Client::update(Game &game)
   {
 // <<<<<<< HEAD
     ARequest	*req;
@@ -41,23 +48,33 @@ namespace	game
     	    {
     	      move = true;
     	      _player->move(ev->param());
-    	      p.requestPush(new ElemRequest(PLAYER,
+			  if (Referee::isCollision(_player, game) || !Referee::isOnScreen(_player))
+			  {
+				  _alive = false;
+				  game.pushRequest(new DeathRequest(_player->_id));
+			  }
+			  else
+    			  game.pushRequest(new ElemRequest(PLAYER,
     					    _player->_pos, _player->_dir, _player->_id));
     	    }
     	  else if (!fire)
     	    {
-    	      missiles.push_back(_player->fire());
+			  Missile *missile = _player->fire(game);
+			  game.pushMissile(missile);
     	      fire = true;
-    	      p.requestPush(new ElemRequest(MISSILE,
-    					    _player->_pos, _player->_dir, 0/* ID du missile ??*/));
+    	      game.pushRequest(new ElemRequest(MISSILE,
+    					    missile->pos(), missile->dir(), missile->id()));
     	    }
     	}
       else if ((al = dynamic_cast<AliveRequest *>(req)))
     	_updateToLive = -1;
     } while (req);
     _updateToLive++;
-    if (_updateToLive == rtype::Env::updateToLive)
-      _alive = false;
+	if (_updateToLive == rtype::Env::updateToLive)
+	{
+		_alive = false;
+		game.pushRequest(new DeathRequest(_player->_id));
+	}
 // =======
 	  // ARequest *req;
 	  // bool		move = false;

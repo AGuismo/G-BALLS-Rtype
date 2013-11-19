@@ -19,7 +19,7 @@ namespace	game
     virtual	~Player();
 
     virtual void	move(Dir dir);
-    Missile	*fire();
+    Missile	*fire(Game &game);
 
   private:
     int		_pow;

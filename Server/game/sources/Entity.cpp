@@ -14,6 +14,21 @@ Entity::~Entity()
 
 }
 
+game::ID		&Entity::id()
+{
+	return _id;
+}
+
+game::Dir		&Entity::dir()
+{
+	return _dir;
+}
+game::Pos		&Entity::pos()
+{
+	return _pos;
+}
+
+
 void	Entity::update()
 {
 	_prevPos = _pos;

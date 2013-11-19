@@ -17,6 +17,7 @@ class		ARequest;
 
 class		Game;
 class		Missile;
+class		Referee;
 
 namespace	game
 {
@@ -35,7 +36,7 @@ namespace	game
     virtual ~Client();
 
   public:
-    void	update(RequestQueue &p, std::list< ::Missile *> &missiles);
+    void	update(Game &game);
     void	finalize();
 
   private:
@@ -52,6 +53,7 @@ namespace	game
 
   public:
     requestCode::SessionID	SessionID() const;
+	void			alive(const bool &state);
     void			SessionID(const requestCode::SessionID);
 
   public:
@@ -80,7 +82,7 @@ namespace	game
     struct sockaddr_in		_addr;
 
     friend class ::Game;
-    friend class Referee;
+    friend class ::Referee;
   };
 }
 
