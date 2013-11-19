@@ -26,6 +26,29 @@ Game::~Game()
 {
 }
 
+void	Game::randBonnus(Entity &a)
+{
+    srand(time(NULL));
+    int dice_roll = rand() % 6;
+    if (dice_roll == 5)
+    {
+	if (!(dice_roll = rand() % 2))
+	{
+	    _bonus.push_back(new game::ExtraLife(game::WEST, a.pos(), UniqueId()));
+	    pushRequest(new ElemRequest((*_bonus.end())->type(),
+					(*_bonus.end())->pos(), (*_bonus.end())->dir(),
+					(*_bonus.end())->id()));
+	}
+	else
+	{
+	    _bonus.push_back(new game::Pow(game::WEST, a.pos(), UniqueId()));
+	    pushRequest(new ElemRequest((*_bonus.end())->type(),
+					(*_bonus.end())->pos(), (*_bonus.end())->dir(),
+					(*_bonus.end())->id()));
+	}
+    }
+}
+
 void	Game::iaUpdate()
 {
   std::list<Ia *>::iterator itia = _IA.begin();
@@ -44,25 +67,7 @@ void	Game::iaUpdate()
 	  (*itia)->_life--;
 	  if ((*itia)->_life <= 0)
 	  {
-	      srand(time(NULL));
-	      int dice_roll = rand() % 6;
-	      if (dice_roll == 5)
-	      {
-		  if (!(dice_roll = rand() % 2))
-		  {
-		      _bonus.push_back(new game::ExtraLife(game::WEST, (*itia)->pos(), UniqueId()));
-		      pushRequest(new ElemRequest((*_bonus.end())->type(),
-						  (*_bonus.end())->pos(), (*_bonus.end())->dir(),
-						  (*_bonus.end())->id()));
-		  }
-		  else
-		  {
-		      _bonus.push_back(new game::Pow(game::WEST, (*itia)->pos(), UniqueId()));
-		      pushRequest(new ElemRequest((*_bonus.end())->type(),
-						  (*_bonus.end())->pos(), (*_bonus.end())->dir(),
-						  (*_bonus.end())->id()));
-		  }
-	      }
+	      randBonnus(*(*itia));
 	      pushRequest(new DeathRequest((*itia)->id()));
 	      delete *itia;
 	      _IA.erase(itia);
@@ -98,25 +103,7 @@ void	Game::wallUpdate()
 		(*ite)->_life--;
 	    if ((*ite)->_life <= 0)
 	    {
-		srand(time(NULL));
-		int dice_roll = rand() % 6;
-		if (dice_roll == 5)
-		{
-		    if (!(dice_roll = rand() % 2))
-		    {
-			_bonus.push_back(new game::ExtraLife(game::WEST, (*ite)->pos(), UniqueId()));
-			pushRequest(new ElemRequest((*_bonus.end())->type(),
-						    (*_bonus.end())->pos(), (*_bonus.end())->dir(),
-						    (*_bonus.end())->id()));
-		    }
-		    else
-		    {
-			_bonus.push_back(new game::Pow(game::WEST, (*ite)->pos(), UniqueId()));
-			pushRequest(new ElemRequest((*_bonus.end())->type(),
-						    (*_bonus.end())->pos(), (*_bonus.end())->dir(),
-						    (*_bonus.end())->id()));
-		    }
-		}
+		randBonnus(*(*ite));
 		pushRequest(new DeathRequest((*ite)->id()));
 		delete *ite;
 		_objs.erase(ite);
@@ -164,6 +151,7 @@ void	Game::bonusUpdate()
 		(*itb)->update();
 		if (!Referee::isOnScreen(*itb) || Referee::isCollision(*itb, *this))
 		{
+		    pushRequest(new DeathRequest((*itb)->id()));
 			delete *itb;
 			itb = _bonus.erase(itb);
 			break;
