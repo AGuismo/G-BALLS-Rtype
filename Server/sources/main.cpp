@@ -14,5 +14,7 @@ int		main(int argc, const char *argv[])
       return (1);
     }
   app->run();
+  (void)argc;
+  (void)argv;
   return (0);
 }
