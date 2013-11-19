@@ -16,6 +16,7 @@ testConsumer
 *.ilk
 *.tlog
 *.idb
+*.dll
 *.pdb
 *.exp
 *.ipch
