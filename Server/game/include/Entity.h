@@ -44,6 +44,7 @@ public:
   game::ID		&id();
   game::Dir		&dir();
   game::Pos		&pos();
+  game::Type		&type();
 protected:
   game::ID		_id;
   int			_life;

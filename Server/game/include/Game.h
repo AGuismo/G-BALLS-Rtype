@@ -41,6 +41,7 @@ public:
   void	pushMissile(Missile *missile);
   void	pushRequest(ARequest *req);
   typedef std::list<game::Client *>	client_list;
+  void	randBonnus(Entity &a);
 
 private:
   void iaUpdate();
@@ -51,6 +52,7 @@ private:
   void playerUpdate();
   void bonusUpdate();
   void DispatchRequest();
+  void popIA();
 
 private:
   std::list<game::Client *>	_players;

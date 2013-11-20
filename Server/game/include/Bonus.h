@@ -15,9 +15,9 @@ namespace game
     ~ABonus();
 
     virtual void applyBuff(Player *p) = 0;
-
-  private:
-    game::TypeBuff _type;
+    virtual TypeBuff typeb() = 0;
+  protected:
+    game::TypeBuff _typeb;
 
     friend class ::Game;
     friend class ::Referee;
@@ -33,6 +33,7 @@ namespace game
     ~ExtraLife();
 
     void applyBuff(Player *p);
+    TypeBuff typeb() { return _typeb;};
   };
 
   class Pow : public ABonus
@@ -42,5 +43,6 @@ namespace game
     ~Pow();
 
     void applyBuff(Player *p);
+    TypeBuff typeb() { return _typeb;};
   };
 }

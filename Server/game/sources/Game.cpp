@@ -1,3 +1,5 @@
+#include <cstdlib>
+#include <ctime>
 #include "Referee.h"
 #include "Missile.h"
 #include "Entity.h"
@@ -24,6 +26,29 @@ Game::~Game()
 {
 }
 
+void	Game::randBonnus(Entity &a)
+{
+    srand(time(NULL));
+    int dice_roll = rand() % 6;
+    if (dice_roll == 5)
+    {
+	if (!(dice_roll = rand() % 2))
+	{
+	    _bonus.push_back(new game::ExtraLife(game::WEST, a.pos(), UniqueId()));
+	    pushRequest(new ElemRequest((*_bonus.end())->type(),
+					(*_bonus.end())->pos(), (*_bonus.end())->dir(),
+					(*_bonus.end())->id()));
+	}
+	else
+	{
+	    _bonus.push_back(new game::Pow(game::WEST, a.pos(), UniqueId()));
+	    pushRequest(new ElemRequest((*_bonus.end())->type(),
+					(*_bonus.end())->pos(), (*_bonus.end())->dir(),
+					(*_bonus.end())->id()));
+	}
+    }
+}
+
 void	Game::iaUpdate()
 {
   std::list<Ia *>::iterator itia = _IA.begin();
@@ -41,14 +66,15 @@ void	Game::iaUpdate()
 	{
 	  (*itia)->_life--;
 	  if ((*itia)->_life <= 0)
-	    {
-		  pushRequest(new DeathRequest((*itia)->id()));
+	  {
+	      randBonnus(*(*itia));
+	      pushRequest(new DeathRequest((*itia)->id()));
 	      delete *itia;
 	      _IA.erase(itia);
-	    }
+	  }
 	  else
-		  pushRequest(new ElemRequest((*itia)->_type,
-		  (*itia)->_pos, (*itia)->_dir, (*itia)->_id));
+	      pushRequest(new ElemRequest((*itia)->_type,
+					  (*itia)->_pos, (*itia)->_dir, (*itia)->_id));
 	}
     }
 }
@@ -73,13 +99,14 @@ void	Game::wallUpdate()
 	}
       else if (Referee::isCollision(*ite, *this) == true)
 	{
-	  if ((*ite)->_type == game::DESTRUCTIBLEWALL)
-	    (*ite)->_life--;
-	  if ((*ite)->_life <= 0)
+	    if ((*ite)->_type == game::DESTRUCTIBLEWALL)
+		(*ite)->_life--;
+	    if ((*ite)->_life <= 0)
 	    {
-		  pushRequest(new DeathRequest((*ite)->id()));
-	      delete *ite;
-	      _objs.erase(ite);
+		randBonnus(*(*ite));
+		pushRequest(new DeathRequest((*ite)->id()));
+		delete *ite;
+		_objs.erase(ite);
 	    }
 	}
 	  else
@@ -124,6 +151,7 @@ void	Game::bonusUpdate()
 		(*itb)->update();
 		if (!Referee::isOnScreen(*itb) || Referee::isCollision(*itb, *this))
 		{
+		    pushRequest(new DeathRequest((*itb)->id()));
 			delete *itb;
 			itb = _bonus.erase(itb);
 			break;
@@ -200,6 +228,27 @@ void	Game::DispatchRequest()
 	}
 }
 
+void	Game::popIA()
+{
+	if (_IA.size() < rtype::Env::maxIA)
+	{
+		if (_IA.size() < rtype::Env::minIA || rand() % rtype::Env::popIAmax < rtype::Env::popIArange)
+		{
+			/*
+			Ia *new_ia;
+
+			new_ia = BotLoader::getIA();
+			with pos = rand() % 16 + 15;
+			id = UniqueId();
+
+			_IA.push_back(new_ia);
+			pushRequest(new ElemRequest(new_ia->_type,
+			new_ia->_pos, new_ia->_dir, new_ia->_id));
+			*/
+		}
+	}
+}
+
 void	Game::update()
 {
 	playerUpdate();
@@ -207,6 +256,8 @@ void	Game::update()
 	wallUpdate();
 	missileUpdate();
 	bonusUpdate();
+
+	popIA();
 
 	DispatchRequest();
 

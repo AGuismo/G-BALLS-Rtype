@@ -18,6 +18,8 @@
 #include	"streamManager.h"
 #include	"MD5.hh"
 #include	"AMonitorable.h"
+#include	"AliveRequest.h"
+#include	"UdpClient.h"
 
 struct	stdin : public net::AMonitorable
 {
@@ -41,6 +43,39 @@ const char	*detail(const ARequest *req)
   if (_map.find(req->code()) == _map.end())
     return ("None");
   return (_map[req->code()]);
+}
+
+ARequest                        *uget_req(net::UdpClient &client)
+{
+    std::vector<Protocol::Byte>   bytes;
+    int                           count;
+    ARequest                      *req;
+
+    client.lookRead(bytes, 512);
+  try
+  {
+      req = Protocol::consume(bytes, count);
+  }
+  catch (...)
+  {
+      return (0);
+  }
+  std::cout << "Extracted: " << count << std::endl;
+  std::cout << "Received request code: " << req->code()
+            << ". Detail: " << detail(req) << std::endl;
+  client.readFromBuffer(bytes, count);
+  return (req);
+}
+
+void            usend_req(net::UdpClient &client, ARequest *req)
+{
+    std::vector<Protocol::Byte>   bytes;
+
+    std::cout << "Send request code: " << req->code()
+	      << ". Detail: " << detail(req) << std::endl;
+    bytes = Protocol::product(*req);
+    client.writeIntoBuffer(bytes, bytes.size());
+    client.send();
 }
 
 ARequest			*get_req(net::TcpClient &client)
@@ -81,17 +116,26 @@ int			main(int ac, char **av)
 {
   bool			activated = true;
   net::TcpClient	client;
+  net::UdpClient	uclient;
   net::streamManager	m;
   stdin			input;
 
   input.fd = 0;
-  if (ac == 3)
-    client.init(av[1], av[2]);
+  if (ac == 2)
+  {
+    client.init(av[1], "44201");
+    uclient.init(av[1], "44202");
+  }
   else
+  {
     client.init("127.0.0.1", "44201");
+    uclient.init("127.0.0.1", "44202");
+  }
   client.monitor(true, false);
+  uclient.monitor(true, false);
   input.monitor(true, false);
   m.setMonitor(client);
+  m.setMonitor(uclient);
   m.setMonitor(input);
   while (activated)
     {
@@ -136,7 +180,11 @@ int			main(int ac, char **av)
 			<< "d: " << "Party::Create" << std::endl
 			<< "e: " << "Party::Start" << std::endl
 			<< "f: " << "Party::Cancel" << std::endl
+			<< "i: " << "AliveRequest" << std::endl
 			<< "g: " << "Party::Join" << std::endl;
+	      break;
+	    case 'i':
+	      usend_req(uclient, new AliveRequest());
 	      break;
 	    default:
 	      break;
@@ -149,11 +197,17 @@ int			main(int ac, char **av)
 	}
       if (client.read())
 	{
-	  std::cout << "sth to read" << std::endl;
 	  ARequest	*req;
 
 	  client.recv();
 	  while ((req = get_req(client)) != 0);
+	}
+      if (uclient.read())
+	{
+	  ARequest	*req;
+
+	  uclient.recv();
+	  while ((req = uget_req(uclient)) != 0);
 	}
     }
   client.close();

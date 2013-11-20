@@ -71,8 +71,13 @@ bool	Referee::playerCollision(Entity *a, Game &game)
 
   for (; itp != game._players.end(); itp++)
     {
-      if (a->_type != game::PLAYER && a->_type != game::MISSILE &&
-		  sameCase(a, (*itp)->player()) == true)
+	if (a->_type == game::BONUS)
+	{
+	    game._toSend.requestPush(new BuffRequest((*itp)->player()->id(), dynamic_cast<game::ABonus *>(a)->typeb()));
+	    dynamic_cast<game::ABonus *>(a)->applyBuff((*itp)->player());
+	}
+	else if (a->_type != game::PLAYER && a->_type != game::MISSILE &&
+	  sameCase(a, (*itp)->player()) == true)
 	{
 	  if ((*itp)->player()->_extraLife == true)
 		  (*itp)->player()->_extraLife = false;
@@ -111,6 +116,7 @@ bool		Referee::iaCollision(Entity *a, Game &game)
 		  (*itia)->_life--;
 		  if ((*itia)->_life <= 0)
 			{
+			    game.randBonnus(*(*itia));
 			  game.pushRequest(new DeathRequest((*itia)->id()));
 			  delete *itia;
 			  game._IA.erase(itia);
@@ -125,6 +131,7 @@ bool		Referee::iaCollision(Entity *a, Game &game)
 			  (*itia)->_life--;
 			  if ((*itia)->_life <= 0)
 				{
+				    game.randBonnus(*(*itia));
 					game.pushRequest(new DeathRequest((*itia)->id()));
 					delete *itia;
 					game._IA.erase(itia);
@@ -149,6 +156,7 @@ bool		Referee::wallCollision(Entity *a, Game &game)
 			  (*ite)->_life--;
 			if ((*ite)->_life <= 0)
 				{
+				    game.randBonnus(*(*ite));
 				  game.pushRequest(new DeathRequest((*ite)->id()));
 				  delete *ite;
 				  ite = game._objs.erase(ite);
@@ -189,7 +197,7 @@ bool		Referee::bonusCollision(Entity *a, Game &game)
 		if (a->_type == game::PLAYER &&
 			sameCase(a, *itb) == true)
 		{
-			game._toSend.requestPush(new BuffRequest((*itb)->id(), (*itb)->_type));
+		    game._toSend.requestPush(new BuffRequest(a->id(), (*itb)->typeb()));
 			(*itb)->applyBuff(dynamic_cast<game::Player *>(a));
 			delete *itb;
 			itb = game._bonus.erase(itb);

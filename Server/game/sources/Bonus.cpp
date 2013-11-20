@@ -10,7 +10,7 @@ using namespace game;
 ////////////
 
 ABonus::ABonus(game::Dir dir, game::Pos pos, game::ID id, game::TypeBuff type) :
-Entity(game::BONUS, pos, 1, dir, 1, 1, id), _type(type)
+Entity(game::BONUS, pos, 1, dir, 1, 1, id), _typeb(type)
 {
 }
 
