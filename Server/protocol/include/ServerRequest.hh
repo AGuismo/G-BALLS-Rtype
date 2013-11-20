@@ -8,16 +8,6 @@ class	Protocol;
 
 class	ServerRequest : public ARequest
 {
-  struct	msg
-  {
-    static const char	*OK;
-    static const char	*BAD_REQ;
-    static const char	*FORBIDDEN;
-    static const char	*NOT_IMPLEMENTED;
-    static const char	*NO_CONTENT;
-    static const char	*PARTIAL_CONTENT;
-    static const char	*NO_SLOTS;
-  };
 
 public:
   ServerRequest();
@@ -31,9 +21,6 @@ public:
   Protocol			&serialize(Protocol &) const;
   Protocol			&unserialize(Protocol &);
   ARequest			*clone();
-
-public:
-  static const char	*getMsg(const requestCode::CodeID);
 };
 
 #endif /* SERVERREQUEST_H_ */

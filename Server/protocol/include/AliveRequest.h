@@ -6,12 +6,12 @@
 class AliveRequest : public AGameRequest
 {
 public:
-	AliveRequest();
-	~AliveRequest();
+  AliveRequest();
+  ~AliveRequest();
 
-  public:
-    Protocol			&serialize(Protocol &) const;
-    Protocol			&unserialize(Protocol &);
-    ARequest			*clone();
+public:
+  Protocol			&serialize(Protocol &) const;
+  Protocol			&unserialize(Protocol &);
+  ARequest			*clone();
 private:
 };

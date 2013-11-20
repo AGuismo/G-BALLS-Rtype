@@ -20,6 +20,7 @@
 #include	"AMonitorable.h"
 #include	"AliveRequest.h"
 #include	"UdpClient.h"
+#include	"RequestInfo.hpp"
 
 struct	stdin : public net::AMonitorable
 {
@@ -29,20 +30,7 @@ struct	stdin : public net::AMonitorable
 
 const char	*detail(const ARequest *req)
 {
-  std::map<requestCode::CodeID, const char *>	_map;
-
-  _map[requestCode::server::OK] = "Server: OK";
-  _map[requestCode::server::BAD_REQ] = "Server: Bad Request";
-  _map[requestCode::server::FORBIDDEN] = "Server: Forbidden";
-
-  _map[requestCode::auth::CONNECT] = "Auth: connect";
-  _map[requestCode::auth::CHANGE_PASSWD] = "Auth: change Password";
-  _map[requestCode::auth::NEW_USER] = "Auth: new User";
-  _map[requestCode::auth::SESSION] = "Auth: Session";
-
-  if (_map.find(req->code()) == _map.end())
-    return ("None");
-  return (_map[req->code()]);
+  return (Info<ServerRequest>::Detail(req->code()));
 }
 
 ARequest                        *uget_req(net::UdpClient &client)
