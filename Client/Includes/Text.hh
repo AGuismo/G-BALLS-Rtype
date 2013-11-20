@@ -5,7 +5,7 @@
 // Login   <brigno@epitech.net>
 //
 // Started on  Thu Oct 24 10:55:11 2013 brigno
-// Last update Tue Nov  5 02:17:40 2013 brigno
+// Last update Wed Nov 20 19:45:08 2013 brigno
 //
 
 #ifndef		__TEXT_HH__
@@ -20,6 +20,7 @@ public:
 
 private:
   bool		_enable;
+  int		_cursor;
   sf::Font	_font;
   sf::String	_sentenceTmp;
   sf::String	_sentence;
@@ -44,6 +45,7 @@ public:
   const std::size_t	&getSizeLimit(void) const;
   const sf::String	&getSentence(void) const;
   const std::string	&getfontPath(void) const;
+  void			clearText(void);
   MenuWindow::Status	onFocus(void);
   void			stopFocus(void);
   void			onHover(void);
