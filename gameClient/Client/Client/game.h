@@ -1,8 +1,6 @@
 #ifndef GAME
 # define	GAME
 
-//# define	VLAG	0.4f
-
 #include	<deque>
 
 #include	"TextureManager.h"
@@ -30,20 +28,22 @@ private:
 	obj_type					_objects;
 	int							_idPlayer;
 
-private:
-	sf::Texture					_bgTexture1;
-	sf::Sprite					_bgImg1;
-	sf::Texture					_bgTexture2;
-	sf::Sprite					_bgImg2;
-
 public:
 	static const int			SIZE_GAME_BOARD = 16;
 	static const int			CASE_GAME_BOARD = 255;
 	static const int			PX_DEC_X = 81;
 	static const int			PX_DEC_Y = 46;
-	static const int			UNCHANGED = -42;
+
+public:
+	static const float			OBJ_DEC_X_FRAME;
+	static const float			OBJ_DEC_Y_FRAME;
+
+public:
 	static const float			VLAG;
 	static const float			MAX_VLAG;
+
+public:
+	static const int			UNCHANGED = -42;
 
 public:
 	static int					POSX(int x) { return ((x % SIZE_GAME_BOARD) * PX_DEC_X); }

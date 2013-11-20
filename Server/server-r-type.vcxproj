@@ -39,10 +39,10 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>$(SolutionDir)\..\Server\protocol\include;$(SolutionDir)\..\libraries\Bind\include;$(SolutionDir)\..\libraries\network\network\include;$(SolutionDir)\..\libraries\Thread\Threads\include;$(IncludePath);$(ProjectDir)\include;$(ProjectDir)\menu\include;$(ProjectDir)\loader\include;$(ProjectDir)\game\include</IncludePath>
+    <IncludePath>$(SolutionDir)\..\Server\protocol\include;$(SolutionDir)\..\libraries\Bind\include;$(SolutionDir)\..\libraries\network\network\include;$(SolutionDir)\..\libraries\Thread\Threads\include;$(IncludePath);$(ProjectDir)\include;$(ProjectDir)\menu\include;$(ProjectDir)\loader\include;$(ProjectDir)\game\include;$(ProjectDir)\database\include</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IncludePath>$(SolutionDir)\..\libraries\Bind\include;$(SolutionDir)\..\libraries\network\network\include;$(SolutionDir)\..\libraries\Thread\Threads\include;$(IncludePath);$(ProjectDir)\include;$(ProjectDir)\menu\include;$(ProjectDir)\loader\include;$(ProjectDir)\game\include;$(ProjectDir)\protocol\include</IncludePath>
+    <IncludePath>$(SolutionDir)\..\Server\protocol\include;$(SolutionDir)\..\libraries\Bind\include;$(SolutionDir)\..\libraries\network\network\include;$(SolutionDir)\..\libraries\Thread\Threads\include;$(IncludePath);$(ProjectDir)\include;$(ProjectDir)\menu\include;$(ProjectDir)\loader\include;$(ProjectDir)\game\include;$(ProjectDir)\database\include</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -94,11 +94,14 @@
     </ProjectReference>
     <ProjectReference Include="..\libraries\Thread\Threads\Threads.vcxproj">
       <Project>{58935438-3f38-49e8-ac0d-a66dc7e8ef08}</Project>
-      <Private>true</Private>
+      <Private>false</Private>
       <ReferenceOutputAssembly>true</ReferenceOutputAssembly>
       <CopyLocalSatelliteAssemblies>false</CopyLocalSatelliteAssemblies>
       <LinkLibraryDependencies>true</LinkLibraryDependencies>
-      <UseLibraryDependencyInputs>false</UseLibraryDependencyInputs>
+      <UseLibraryDependencyInputs>true</UseLibraryDependencyInputs>
+    </ProjectReference>
+    <ProjectReference Include="database\Database\Database.vcxproj">
+      <Project>{d08b4714-51f4-457c-9e5d-36c528f9f78b}</Project>
     </ProjectReference>
     <ProjectReference Include="game\game\game.vcxproj">
       <Project>{45f1b8d5-ffd2-46d2-b5dd-52a898aed023}</Project>

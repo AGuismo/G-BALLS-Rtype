@@ -2,48 +2,36 @@
 
 #include "Protocol.hpp"
 #include "AGameRequest.hh"
-
-enum DIR
-{
-	NORTH = 0,
-	NORTH_EAST,
-	EAST,
-	SOUTH_EAST,
-	SOUTH,
-	SOUTH_WEST,
-	WEST,
-	NORTH_WEST
-};
+#include "types.hh"
 
 class ElemRequest : public AGameRequest
 {
 public:
-	ElemRequest();
-	ElemRequest(char type, int pos, char dir, unsigned short int id);
-	~ElemRequest();
+  ElemRequest();
+  ElemRequest(game::Type type, game::Pos pos, game::Dir dir, game::ID id);
+  ~ElemRequest();
 
-	ElemRequest(ElemRequest const&);
-	ElemRequest& operator=(ElemRequest const&);
-
-public:
-	Protocol			&serialize(Protocol &) const;
-	Protocol			&unserialize(Protocol &);
-	ARequest			*clone();
+  ElemRequest(ElemRequest const&);
+  ElemRequest& operator=(ElemRequest const&);
 
 public:
-	Rint8			type() const;
-	void			type(Rint8 t);
-	Rint32			pos() const;
-	void			pos(Rint32 p);
-	Rint8			dir() const;
-	void			dir(Rint8 d);
-	Ruint16			ID() const;
-	void			ID(Ruint16 id);
+  Protocol			&serialize(Protocol &) const;
+  Protocol			&unserialize(Protocol &);
+  ARequest			*clone();
+
+public:
+  game::Type		type() const;
+  void			type(game::Type t);
+  game::Pos		pos() const;
+  void			pos(game::Pos p);
+  game::Dir		dir() const;
+  void			dir(game::Dir d);
+  game::ID		ID() const;
+  void			ID(game::ID id);
 
 private:
-	Rint8				_type;
-	Rint32				_pos;
-	Rint8				_dir;
-	Ruint16				_id;
+  game::Type		_type;
+  game::Pos		_pos;
+  game::Dir		_dir;
+  game::ID		_id;
 };
-

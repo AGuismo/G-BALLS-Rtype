@@ -2,33 +2,26 @@
 # define	ANIMATION_
 
 # include	<SFML\Graphics.hpp>
-
 # include	"Timer.h"
-
-enum AnimationType
-{
-	Left = 0,
-	Right,
-	Up,
-	Down,
-	Fire,
-	Destroy,
-	Nothing,
-};
 
 class Animation
 {
 private:
-	std::vector<sf::IntRect>	m_frames;
-	sf::Texture*				m_texture;
+	typedef std::vector<sf::IntRect>	frames_type;
+
+private:
+	frames_type							_frames;
+	Timer								*_aTimer;
+
+private:
+	std::size_t							_curFrame;
 
 public:
-	void addFrame(sf::IntRect rect);
-	std::size_t getSize() const;
-	const sf::IntRect& getFrame(std::size_t n) const;
+	void								addFrame(sf::IntRect rect);
+	const sf::IntRect&					getFrame(void);
 
 public:
-	Animation(const sf::Texture& texture) {}
+	Animation(float tAnim);
 	~Animation() {}
 
 private:

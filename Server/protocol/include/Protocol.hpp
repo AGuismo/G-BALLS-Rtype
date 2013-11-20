@@ -65,6 +65,7 @@ public:
 public:
   template <typename T>
   T		push(const T, size_type count);
+  std::string	push(const std::string &, size_type count);
 
   template <typename T>
   T		&pop(T&);

@@ -19,7 +19,7 @@ namespace	menu
   class Client
   {
   public:
-    Client(net::ClientAccepted *clientTcp = 0);
+    Client(requestCode::SessionID &, net::ClientAccepted *clientTcp = 0);
     virtual ~Client();
 
   private:
@@ -56,6 +56,8 @@ namespace	menu
     const requestCode::PasswordType	&password(void) const;
     void				sessionID(const requestCode::SessionID &);
     const requestCode::SessionID	&sessionID(void) const;
+    void				permissions(database::Rights);
+    database::Rights			permissions(void) const;
     void				authenticated(bool);
     bool				authenticated(void) const;
 
@@ -64,10 +66,11 @@ namespace	menu
     void	inUse(bool used) {_used = used;};
 
   private:
-    bool		_used;
-    RequestQueue	_input;
-    RequestQueue	_output;
-    net::ClientAccepted	*_TcpLayer;
+    bool			_used;
+    RequestQueue		_input;
+    RequestQueue		_output;
+    net::ClientAccepted		*_TcpLayer;
+    requestCode::SessionID	&_id;
 
   private:
     struct
@@ -76,6 +79,7 @@ namespace	menu
       std::string			_username;
       requestCode::PasswordType		_password;
       requestCode::SessionID		_sessionID;
+      database::Rights			_permissions;
     }					_auth;
   };
 }

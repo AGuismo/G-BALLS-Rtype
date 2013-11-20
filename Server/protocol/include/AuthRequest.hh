@@ -43,6 +43,30 @@ namespace Auth
 
   private:
     std::string			_username;
+    requestCode::PasswordType	_password;
+  };
+
+  struct	NewUser : public AuthRequest
+  {
+  public:
+    NewUser();
+    NewUser(const std::string &name, const requestCode::PasswordType);
+    ~NewUser();
+
+    NewUser(NewUser const&);
+    NewUser& operator=(NewUser const&);
+
+  public:
+    Protocol			&serialize(Protocol &) const;
+    Protocol			&unserialize(Protocol &);
+    ARequest			*clone();
+
+  public:
+    const std::string			&username() const;
+    const requestCode::PasswordType	&password() const;
+
+  private:
+    std::string			_username;
     requestCode::PasswordType	_password; // Work in progress
   };
 

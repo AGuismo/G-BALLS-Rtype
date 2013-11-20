@@ -8,9 +8,11 @@ EventRequest::~EventRequest()
 {
 }
 
-EventRequest::EventRequest(EventRequest const&src): AGameRequest(requestCode::game::EVENT)
+EventRequest::EventRequest(EventRequest const&src): AGameRequest(src)
 {
+
 }
+
 Ruint8				EventRequest::event()const
 {
 	return _event;

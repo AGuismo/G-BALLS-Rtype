@@ -1,7 +1,7 @@
 #pragma once
 
 #include	"AGameRequest.hh"
-#include	"protocol.hpp"
+#include	"Protocol.hpp"
 
 class LooseRequest : public AGameRequest
 {

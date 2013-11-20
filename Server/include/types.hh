@@ -1,6 +1,8 @@
 #ifndef TYPES_H_
 # define TYPES_H_
 
+# include	<string>
+
 #if defined(WIN32)
 
 # include			<windows.h>
@@ -36,5 +38,29 @@ typedef double			Rdouble;
 #else
 # error "Unsupported Operating System"
 #endif
+
+namespace	database
+{
+  typedef Ruint8	Rights;
+};
+
+namespace	game
+{
+  typedef Ruint16	ID;
+  typedef Ruint8	Dir;
+  typedef Ruint8	Type;
+  typedef Ruint16	Pos;
+  typedef Rint8		TypeBuff;
+}
+
+namespace	requestCode
+{
+  typedef Ruint16	CodeID;
+  typedef std::string	PasswordType;
+  typedef Ruint16	UsernameLen;
+  typedef Ruint16	PartynameLen;
+  typedef Ruint16	SessionID;
+  typedef Ruint16	PartyID;
+}
 
 #endif /* TYPES_H_ */

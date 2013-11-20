@@ -6,6 +6,7 @@
 #include	"SessionRequest.hh"
 #include	"ServerRequest.hh"
 #include	"PartyRequest.hh"
+#include	"RootRequest.hh"
 
 namespace	request
 {
@@ -14,10 +15,16 @@ namespace	request
   {
     _lnk[requestCode::auth::CONNECT] = new Auth::Connect;
     _lnk[requestCode::auth::CHANGE_PASSWD] = new Auth::ChangePass;
+    _lnk[requestCode::auth::NEW_USER] = new Auth::NewUser;
     _lnk[requestCode::auth::SESSION] = new SessionRequest;
 
-    _lnk[requestCode::party::CLI_START] = new Party::Start;
+    _lnk[requestCode::party::LIST] = new Party::List;
+    _lnk[requestCode::party::CREAT] = new Party::Create;
+    _lnk[requestCode::party::JOIN] = new Party::Join;
+    _lnk[requestCode::party::CANCEL] = new Party::Cancel;
     _lnk[requestCode::party::SERV_START] = new Party::Launch;
+    _lnk[requestCode::party::UPDATE] = new Party::Update;
+    _lnk[requestCode::party::CLI_START] = new Party::Start;
 
     _lnk[requestCode::server::OK] = new ServerRequest;
     _lnk[requestCode::server::BAD_REQ] = new ServerRequest;
@@ -26,6 +33,8 @@ namespace	request
     _lnk[requestCode::server::NO_CONTENT] = new ServerRequest;
     _lnk[requestCode::server::PARTIAL_CONTENT] = new ServerRequest;
     _lnk[requestCode::server::NO_SLOTS] = new ServerRequest;
+
+    _lnk[requestCode::root::SHUTDOWN] = new root::Shutdown;
   }
 
   Factory::~Factory()

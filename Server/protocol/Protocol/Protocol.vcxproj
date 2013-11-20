@@ -74,16 +74,22 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\sources\AGameRequest.cpp" />
+    <ClCompile Include="..\sources\AliveRequest.cpp" />
     <ClCompile Include="..\sources\ARequest.cpp" />
     <ClCompile Include="..\sources\AuthRequest.cpp" />
     <ClCompile Include="..\sources\BuffRequest.cpp" />
     <ClCompile Include="..\sources\DeathRequest.cpp" />
     <ClCompile Include="..\sources\ElemRequest.cpp" />
+    <ClCompile Include="..\sources\EventRequest.cpp" />
+    <ClCompile Include="..\sources\LooseRequest.cpp" />
     <ClCompile Include="..\sources\PartyRequest.cpp" />
     <ClCompile Include="..\sources\Protocol.cpp" />
     <ClCompile Include="..\sources\RequestFactory.cpp" />
+    <ClCompile Include="..\sources\RootRequest.cpp" />
+    <ClCompile Include="..\sources\ScoreRequest.cpp" />
     <ClCompile Include="..\sources\ServerRequest.cpp" />
     <ClCompile Include="..\sources\SessionRequest.cpp" />
+    <ClCompile Include="..\sources\VictoryRequest.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\AGameRequest.hh" />
@@ -97,6 +103,8 @@
     <ClInclude Include="..\include\Protocol.hpp" />
     <ClInclude Include="..\include\RequestCode.hh" />
     <ClInclude Include="..\include\RequestFactory.hh" />
+    <ClInclude Include="..\include\RootRequest.hh" />
+    <ClInclude Include="..\include\ScoreRequest.h" />
     <ClInclude Include="..\include\ServerRequest.hh" />
     <ClInclude Include="..\include\SessionRequest.hh" />
   </ItemGroup>

@@ -1,16 +1,20 @@
 #pragma once
 
 #include	"Entity.h"
+#include	"IaAlgo.hh"
 
 class Missile;
 
 class Ia : public Entity
 {
  public:
-  Ia(int pos, int life, int length, int height);
+    Ia(game::ID id, AIaAlgo *algo);
   virtual ~Ia();
   void	update();
   void	move();
-  Missile	*fire();
+  Missile	*fire(Game &game, bool charged);
+  AIaAlgo	*algo() { return _algo; }
+
  private:
+  AIaAlgo	*_algo;
 };

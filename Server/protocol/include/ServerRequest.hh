@@ -32,7 +32,7 @@ public:
   Protocol			&unserialize(Protocol &);
   ARequest			*clone();
 
-private:
+public:
   static const char	*getMsg(const requestCode::CodeID);
 };
 

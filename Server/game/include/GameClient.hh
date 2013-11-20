@@ -1,29 +1,42 @@
 #ifndef GAMECLIENT_H_
 # define GAMECLIENT_H_
 
+# if defined(linux)
+#  include	<netinet/in.h>
+# elif defined(WIN32)
+#  include	<WinSock2.h>
+#endif
 # include	<queue>
+# include	<map>
+# include	<list>
+# include	"ARequest.hh"
 # include	"RequestQueue.hh"
 # include	"RequestCode.hh"
 
-class	ARequest;
+class		ARequest;
 
 class		Game;
+class		Missile;
+class		Referee;
+
 namespace	game
 {
   class		Player;
 }
+
 namespace	game
 {
-
   class Client
   {
+    /*typedef void(*request_callback)(ARequest *, Client *);
+      typedef std::map<requestCode::CodeID, request_callback> request_callback_map;*/
   public:
-    Client();
-	Client(struct sockaddr_in addr);
+    Client(requestCode::SessionID &);
+    Client(requestCode::SessionID &, struct sockaddr_in addr);
     virtual ~Client();
 
   public:
-    void	update();
+    void	update(Game &game);
     void	finalize();
 
   private:
@@ -40,6 +53,7 @@ namespace	game
 
   public:
     requestCode::SessionID	SessionID() const;
+    void			alive(const bool &state);
     void			SessionID(const requestCode::SessionID);
 
   public:
@@ -48,21 +62,27 @@ namespace	game
     void			player(game::Player *player);
     game::Player		*player(void) const;
 
-	struct sockaddr_in getAddr() const { return _addr; };
-	void			setAddr(struct sockaddr_in addr) { _addr = addr; };
+    struct sockaddr_in getAddr() const { return _addr; };
+    void			setAddr(struct sockaddr_in addr) { _addr = addr; };
 
   private:
     game::Player		*_player;
     Game			*_game;
+    bool			_alive;
+    int				_updateToLive;
 
   private:
     bool			_used;
     RequestQueue		_input;
     RequestQueue		_output;
+    /*request_callback_map _requestCallback;*/
 
   private:
-	requestCode::SessionID	_id;
-	struct sockaddr_in		_addr;
+    struct sockaddr_in		_addr;
+    requestCode::SessionID	&_id;
+
+    friend class ::Game;
+    friend class ::Referee;
   };
 }
 

@@ -5,12 +5,6 @@
 
 namespace requestCode
 {
-  typedef Ruint16	CodeID;
-  typedef Ruint32	PasswordType;
-  typedef Ruint16	UsernameLen;
-  typedef Ruint16	SessionID;
-  typedef Ruint16	PartyID;
-
   namespace server
   {
     static const CodeID OK =			1000;
@@ -26,7 +20,7 @@ namespace requestCode
   {
     static const CodeID CONNECT =		100;
     static const CodeID CHANGE_PASSWD =		101;
-
+    static const CodeID NEW_USER =		102;
     static const CodeID SESSION =		1100;
   }
 
@@ -51,6 +45,11 @@ namespace requestCode
     static const CodeID SERV_START =		1303;
   }
 
+  namespace root
+  {
+    static const CodeID SHUTDOWN =		400;
+  };
+
   namespace game
   {
 	static const CodeID EVENT =			600;
@@ -63,8 +62,8 @@ namespace requestCode
     static const CodeID MOVE_RIGHT_UP =		606;
     static const CodeID MOVE_RIGHT_DOWN =	607;
     static const CodeID ATTACK_FIRST =		604;
-    static const CodeID ATTACK_SECOND =		605;
-    static const CodeID LEAVE =			606;*/
+    static const CodeID ATTACK_SECOND =		605;*/
+    static const CodeID LEAVE =			606;
     static const CodeID ALIVE =			607;
 
     static const CodeID ELEM =			1600;

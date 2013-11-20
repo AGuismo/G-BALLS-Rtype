@@ -12,21 +12,21 @@ namespace	Thread
   template <typename T>
   class EventQueue
   {
-    typedef typename std::deque<T *>::iterator EventIt;
+    typedef typename std::deque<T>		event_stack;
+    typedef typename std::deque<T>::iterator	EventIt;
 
   private:
   public:
-    std::deque<T *>	_stack;
+    event_stack		_stack;
     Thread::Mutex	_m;
     Thread::Cond	_condNotEmpty;
     Thread::Cond	_condNotFull;
-    // Thread::Cond	_condEmpty;
-    int			_maxPendingEvents;
-    bool		_blocking;
+    Thread::Cond	_condEmpty;
+    typename event_stack::size_type	_maxPendingEvents;
 
   public:
-    EventQueue(int maxPendingEvents = 0, bool blocking = true) :
-      _maxPendingEvents(maxPendingEvents), _blocking(blocking)
+    EventQueue(int maxPendingEvents = 0) :
+      _maxPendingEvents(maxPendingEvents)
     {
 
     }
@@ -38,27 +38,25 @@ namespace	Thread
     }
 
   public:
-    T		*pop()
+    T		pop(bool blocking = true)
     {
       Thread::MutexGuard	guard(_m);
 
-      if (empty() && !_blocking)
+      if (empty() && !blocking)
 	return (NULL);
       while (empty())
 	_condNotEmpty.wait(_m);
       if (_maxPendingEvents != 0 &&
 	  _stack.size() == _maxPendingEvents)
       	_condNotFull.broadcast();
-      // if (_stack.size() == 0)
-      // 	_condEmpty.signal();
       return (getData());
     }
 
-    bool		push(T *data, Thread::Cond::msTime mstime = 0)
+    bool		push(T data, bool blocking = true)
     {
       Thread::MutexGuard	guard(_m);
 
-      if (!_blocking && _maxPendingEvents != 0 && _stack.size() == _maxPendingEvents)
+      if (!blocking && _maxPendingEvents != 0 && _stack.size() == _maxPendingEvents)
 	return (false);
       while (_maxPendingEvents != 0 && _stack.size() == _maxPendingEvents)
 	_condNotFull.wait(_m);
@@ -73,17 +71,26 @@ namespace	Thread
     }
 
   private:
-    T		*getData()
+    T		getData()
     {
-      T	*data = _stack.front();
+      T		data = _stack.front();
 
       _stack.pop_front();
       return (data);
     }
 
+    std::vector<T>	flushData()
+    {
+      std::vector<T>	output;
+
+      while (!empty())
+	output = getData();
+      return (output);
+    }
+
   private:
-    EventQueue(EventQueue const&);
-    EventQueue& operator=(EventQueue const&);
+    EventQueue<T>(EventQueue<T> const&);
+    EventQueue<T>& operator=(EventQueue<T> const&);
   };
 }
 

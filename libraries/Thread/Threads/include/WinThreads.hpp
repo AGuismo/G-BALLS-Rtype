@@ -20,7 +20,7 @@
 template <typename T>
 class		Threads : public IThreads<T>
 {
-  Function<T>		_func;
+  Function<T>	_func;
   HANDLE		_th;
   DWORD			_thid;
   bool			_detached;

@@ -21,24 +21,28 @@ public:
   ~Client();
 
 public:
-  ARequest		*requestPop();
-  void			requestPush(ARequest *);
+/*  ARequest		*requestPop();
+  void			requestPush(ARequest *);*/
 
 public:
   void			update();
-  void			finalize();
+  bool			isUse() const;
+
 
 public:
-  menu::Client		&menu();
-  game::Client		&game();
+  menu::Client				&menu();
+  game::Client				&game();
+  const menu::Client			&menu() const;
+  const game::Client			&game() const;
+  requestCode::SessionID		&id();
+  void					id(requestCode::SessionID id);
 
 private:
   Client(Client const&);
   Client& operator=(Client const&);
 
 private:
-  RequestQueue		_input;
-  RequestQueue		_output;
+  requestCode::SessionID	_id;
   menu::Client		_menu;
   game::Client		_game;
 };

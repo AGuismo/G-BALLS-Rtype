@@ -72,7 +72,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\include\Bonus.h" />
     <ClInclude Include="..\include\Boss.h" />
+    <ClInclude Include="..\include\BossAlgo.h" />
     <ClInclude Include="..\include\Clock.h" />
     <ClInclude Include="..\include\Entity.h" />
     <ClInclude Include="..\include\Game.h" />
@@ -80,12 +82,14 @@
     <ClInclude Include="..\include\GameException.hh" />
     <ClInclude Include="..\include\GameManager.hh" />
     <ClInclude Include="..\include\IA.h" />
+    <ClInclude Include="..\include\IaAlgo.hh" />
     <ClInclude Include="..\include\Missile.h" />
     <ClInclude Include="..\include\Player.h" />
     <ClInclude Include="..\include\Referee.h" />
     <ClInclude Include="..\include\Time.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\sources\Bonus.cpp" />
     <ClCompile Include="..\sources\Boss.cpp" />
     <ClCompile Include="..\sources\Clock.cpp" />
     <ClCompile Include="..\sources\ElapsedTime.cpp" />
@@ -94,11 +98,11 @@
     <ClCompile Include="..\sources\GameClient.cpp" />
     <ClCompile Include="..\sources\GameException.cpp" />
     <ClCompile Include="..\sources\GameManager.cpp" />
+    <ClCompile Include="..\sources\IA.cpp" />
     <ClCompile Include="..\sources\Missile.cpp" />
     <ClCompile Include="..\sources\Player.cpp" />
     <ClCompile Include="..\sources\Referee.cpp" />
     <ClCompile Include="..\sources\Time.cpp" />
-    <ClCompile Include="IA.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\libraries\Bind\Bind.vcxproj">

@@ -2,6 +2,8 @@
 
 namespace rtype
 {
+  const char	*Env::DB_PATH = "./misc/rtype.db";
+
   Env		&Env::getInstance()
   {
     static Env	*singleton = 0;
@@ -34,6 +36,7 @@ namespace rtype
 
   Env::Env()
   {
+    DatabasePath = DB_PATH;
     initNetwork();
     initGames();
   }

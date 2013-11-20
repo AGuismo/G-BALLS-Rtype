@@ -4,7 +4,7 @@
 #include	"Client.hh"
 
 Client::Client(net::ClientAccepted *clientTcp):
-  _menu(clientTcp)
+  _menu(_id, clientTcp), _game(_id)
 {
   _menu.inUse(true);
   _game.inUse(false);
@@ -14,20 +14,24 @@ Client::~Client()
 {
 }
 
-void			Client::update()
+void	Client::update()
 {
-  if (_menu.inUse())
-    _menu.update();
-  else if (_game.inUse())
-    _game.update();
+
 }
 
-void			Client::finalize()
+bool	Client::isUse() const
 {
-  if (_menu.inUse())
-    _menu.finalize();
-  else if (_game.inUse())
-    _game.finalize();
+  return (_menu.inUse() || _game.inUse());
+}
+
+const menu::Client		&Client::menu() const
+{
+  return (_menu);
+}
+
+const game::Client		&Client::game() const
+{
+  return (_game);
 }
 
 menu::Client		&Client::menu()
@@ -40,19 +44,12 @@ game::Client		&Client::game()
   return (_game);
 }
 
-ARequest		*Client::requestPop()
+requestCode::SessionID	&Client::id()
 {
-  if (_menu.inUse())
-    return (_menu.requestPop());
-  else if (_game.inUse())
-    return (_game.requestPop());
-  return (0); // it never happens...
+  return _id;
 }
 
-void			Client::requestPush(ARequest *req)
+void	Client::id(requestCode::SessionID id)
 {
-  if (_menu.inUse())
-    _menu.requestPush(req);
-  else if (_game.inUse())
-    _game.requestPush(req);
+  _id = id;
 }

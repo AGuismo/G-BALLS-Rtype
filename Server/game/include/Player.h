@@ -3,6 +3,7 @@
 #include	<string>
 #include	<iostream>
 #include	<list>
+#include	"types.hh"
 #include	"Entity.h"
 
 class Missile;
@@ -14,10 +15,15 @@ namespace	game
   class Player : public Entity
   {
   public:
-    Player(int pos);
+	  Player(const std::vector<game::Pos> &pos, ID id);
     virtual	~Player();
-    void	move(DIR dir, int speed);
-    Missile	*fire();
+
+    virtual void	move(Dir dir);
+	Missile	*fire(Game &game, bool charged);
+
+	void	extraLife(bool b) { _extraLife = b; };
+	void	pow(int p) { _pow = p; };
+	int		pow() const { return _pow; };
 
   private:
     int		_pow;
@@ -25,5 +31,6 @@ namespace	game
 
     friend class ::Referee;
     friend class ::Game;
+    friend class Client;
   };
 }

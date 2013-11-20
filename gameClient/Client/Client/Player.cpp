@@ -1,101 +1,85 @@
 #include	"Player.h"
 #include	"Game.h"
 
-// special event < < < < WARNING
 
-void			Player::draw(void)
+void						Player::draw(void)
 {
-	if ((_vCurPos->x == _vNextPos->x && _vCurPos->y == _vNextPos->y) ||
-		_timerMvt->isEnded() ||
-		_cCurPos == _cNextPos)
+
+	if ((_vCurPos.x == _vNextPos.x && _vCurPos.y == _vNextPos.y) ||
+		_timerMvt->isEnded() || _cCurPos == _cNextPos)
 	{
-		_cCurPos = _cNextPos;
 		_act = false;
-		_vCurPos->x = (float)Game::POSX(_cCurPos);
-		_vCurPos->y = (float)Game::POSY(_cCurPos);
-		_vNextPos->x = (float)Game::POSX(_cCurPos);
-		_vNextPos->y = (float)Game::POSY(_cCurPos);
+		_action = Nothing;
+		_cCurPos = _cNextPos;
+		_vCurPos.x = (float)Game::POSX(_cCurPos);
+		_vCurPos.y = (float)Game::POSY(_cCurPos);
+		_vNextPos = _vCurPos;
+		_image.setTextureRect(sf::IntRect(132, _indexSprite, 68, 38)); // nothing pos
 		_image.setPosition((float)Game::POSX(_cCurPos), (float)Game::POSY(_cCurPos));
 	}
-	else
+	else if (_act)
 	{
-		if (_vCurPos->x < _vNextPos->x)
-			_vCurPos->x += (_vLag * Game::PX_DEC_X / 12.0f);
-		if (_vCurPos->x > _vNextPos->x)
-			_vCurPos->x -= (_vLag * Game::PX_DEC_X / 12.0f);
-		if (_vCurPos->y < _vNextPos->y)
-			_vCurPos->y += (_vLag * Game::PX_DEC_Y / 12.0f);
-		if (_vCurPos->y > _vNextPos->y)
-			_vCurPos->y -= (_vLag * Game::PX_DEC_Y / 12.0f);
-		_act = true;
-		_image.setPosition(_vCurPos->x, _vCurPos->y);
+		findAnimation();
+		if (_vCurPos.x < _vNextPos.x)
+			_vCurPos.x += (_vLag * Game::OBJ_DEC_X_FRAME);
+		if (_vCurPos.x > _vNextPos.x)
+			_vCurPos.x -= (_vLag * Game::OBJ_DEC_X_FRAME);
+		if (_vCurPos.y < _vNextPos.y)
+			_vCurPos.y += (_vLag * Game::OBJ_DEC_Y_FRAME);
+		if (_vCurPos.y > _vNextPos.y)
+			_vCurPos.y -= (_vLag * Game::OBJ_DEC_Y_FRAME);
+		_image.setPosition(_vCurPos.x, _vCurPos.y);
+		switch (_action)
+		{
+		case Up:
+			_image.setTextureRect(sf::IntRect(264, _indexSprite, 68, 38));
+			break;
+		case Down:
+			_image.setTextureRect(sf::IntRect(0, _indexSprite, 68, 38));
+			break;
+		default:
+			_image.setTextureRect(sf::IntRect(132, _indexSprite, 68, 38));
+			break;
+		}
 	}
 	_gameWindow->draw(_image);
 }
 
-void			Player::update(Action act, int updtatedPos)
+void			Player::update(Action act, LookDirection lDir, int updtatedPos)
 {
-	if ((act == Nothing && !_act) || updtatedPos == Game::UNCHANGED)
-		_image.setTextureRect(sf::IntRect(132, _indexSprite, 68, 38));
-	else
+	if ((act != Nothing && _act) || (updtatedPos != Game::UNCHANGED))
 	{
+		_cNextPos = updtatedPos;
 		if (!_act)
 		{
 			_act = true;
 			_vLag = 1.0f;
-			_cNextPos = updtatedPos;
-			_vCurPos->x = (float)Game::POSX(_cCurPos);
-			_vCurPos->y = (float)Game::POSY(_cCurPos);
-			_vNextPos->x = (float)Game::POSX(_cNextPos);
-			_vNextPos->y = (float)Game::POSY(_cNextPos);
+			_vCurPos.x = (float)Game::POSX(_cCurPos);
+			_vCurPos.y = (float)Game::POSY(_cCurPos);
 			_timerMvt->restart();
 		}
 		else if (_act)
 		{
-			std::cout << "action en cours" << std::endl;
-			_cNextPos = updtatedPos;
-			_vNextPos->x = (float)Game::POSX(_cNextPos);
-			_vNextPos->y = (float)Game::POSY(_cNextPos);
-			_act = true;
 			if (_vLag < Game::MAX_VLAG)
 				_vLag += Game::VLAG;
 			_timerMvt->restart();
-			std::cout << "Up: curpos[" << _cCurPos << "] " << "nextpos[" <<  _cNextPos << "] vlage:[" << _vLag << "]" << std::endl;
-			std::cout << "Up: curpos[" << _vCurPos->x << ":" << _vCurPos->y << "] " << "nextpos[" << _vNextPos->x << ":" << _vNextPos->y << "] " << std::endl;
-
-
 		}
+		_vNextPos.x = (float)Game::POSX(_cNextPos);
+		_vNextPos.y = (float)Game::POSY(_cNextPos);
 	}
 }
 
-const sf::Vector2f		*Player::getVectorNextPos(void)
-{
-	return (_vNextPos);
-}
-
-const sf::Vector2f		*Player::getVectorCurPos(void)
-{
-	return (_vNextPos);
-}
-
-const int				Player::getCaseNextPos(void)
-{
-	return (_cNextPos);
-}
-
-const int				Player::getCaseCurPos(void)
-{
-	return (_cNextPos);
-}
 
 Player::Player(ObjType type, int id, int pos, LookDirection ld, sf::Texture *text, sf::RenderWindow *gameWindow)
 {
 	_type = type;
+	_id = id;
 	_texture = text;
 	_cCurPos = pos;
 	_cNextPos = pos;
-	_id = id;
 	_ld = ld;
+	_vCurPos = sf::Vector2f((float)Game::POSX(_cCurPos), (float)Game::POSY(_cCurPos));
+	_vNextPos = sf::Vector2f((float)Game::POSX(_cCurPos), (float)Game::POSY(_cCurPos));
 	_indexSprite = 0;
 	switch (type)
 	{
@@ -114,68 +98,12 @@ Player::Player(ObjType type, int id, int pos, LookDirection ld, sf::Texture *tex
 	default:
 		break;
 	}
-	_gameWindow = gameWindow;
 	_image.setTexture(*text);
 	_image.setTextureRect(sf::IntRect(132, _indexSprite, 68, 38));
 	_image.setPosition((float)Game::POSX(_cCurPos), (float)Game::POSY(_cCurPos));
-	_act = false;
 	_mvtTime = 0.42f;
-	_timer = new Timer(new sf::Time(sf::seconds(0.45f)));
 	_timerMvt = new Timer(new sf::Time(sf::seconds(_mvtTime)));
-	_vCurPos = new sf::Vector2f((float)Game::POSX(_cCurPos), (float)Game::POSY(_cCurPos));
-	_vNextPos = new sf::Vector2f((float)Game::POSX(_cCurPos), (float)Game::POSY(_cCurPos));
+	_gameWindow = gameWindow;
+	_act = false;
+	_action = Nothing;
 }
-
-
-
-
-/*		switch (act)
-{
-case Left:
-_cNextPos = (_cCurPos % Game::SIZE_GAME_BOARD == 0) ? _cCurPos : _cCurPos - 1;
-_vNextPos->x = (float)Game::POSX(_cNextPos);
-_vNextPos->y = (float)Game::POSY(_cNextPos);
-break;
-case Right:
-_cNextPos = ((_cCurPos + 1) % Game::SIZE_GAME_BOARD == 0) ? _cCurPos : _cCurPos + 1;
-_vNextPos->x = (float)Game::POSX(_cNextPos);
-_vNextPos->y = (float)Game::POSY(_cNextPos);
-std::cout << "Right: curpos[" << _vCurPos->x << ":" << _vCurPos->y << "] " << "nextpos[" << _vNextPos->x << ":" << _vNextPos->y << "] " << std::endl;
-break;
-case Up:
-_cNextPos = (_cCurPos / Game::SIZE_GAME_BOARD == 0) ? _cCurPos : _cCurPos - Game::SIZE_GAME_BOARD;
-_image.setTextureRect(sf::IntRect(264, _indexSprite, 68, 38));
-_vNextPos->x = (float)Game::POSX(_cNextPos);
-_vNextPos->y = (float)Game::POSY(_cNextPos);
-std::cout << "Up: curpos[" << _vCurPos->x << ":" << _vCurPos->y << "] " << "nextpos[" << _vNextPos->x << ":" << _vNextPos->y << "] " << std::endl;
-break;
-case Down:
-_cNextPos = (_cCurPos + Game::SIZE_GAME_BOARD > Game::CASE_GAME_BOARD) ? _cCurPos : _cCurPos + Game::SIZE_GAME_BOARD;
-_image.setTextureRect(sf::IntRect(0, _indexSprite, 68, 38));
-_vNextPos->x = (float)Game::POSX(_cNextPos);
-_vNextPos->y = (float)Game::POSY(_cNextPos);
-break;
-default:
-break;
-}*/
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

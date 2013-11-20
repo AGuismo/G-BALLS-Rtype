@@ -19,24 +19,31 @@
 # include	"streamManager.h"
 # include	"Env.hh"
 # include	"RequestCode.hh"
-# include	"cBuffer.h"
+// # include	"cBuffer.h"
 # include	"GameClient.hh"
+# include	"Game.h"
+# include	"ThreadEvent.hpp"
 
-class	Game;
-class	Client;
+//class	Client;
 class	AGameRequest;
+class	ICallbacks;
+
 using	net::cBuffer;
 
 namespace	game
 {
+  class	Client;
+
   class Manager
   {
+    typedef Thread::EventQueue<ICallbacks *>	input_event;
+    typedef Thread::EventQueue<ICallbacks *>	output_event;
     typedef void(*request_callback)(ARequest *, Client *, Manager *);
     typedef std::map<requestCode::CodeID, request_callback>	request_callback_map;
-    typedef std::vector<game::Client *>				client_vect;
+    typedef std::list<Client *>			client_vect;
 
   public:
-    Manager();
+    Manager(input_event &input, output_event &output);
     ~Manager();
 
   public:
@@ -44,19 +51,26 @@ namespace	game
     void	run();
 
   private:
-    static void	routine(Manager *);
-	bool		getRequest(std::vector<cBuffer::Byte> &buf,
-		AGameRequest *&request);
+    static void		routine(Manager *);
+    bool		getRequest(std::vector<cBuffer::Byte> &buf,
+				   AGameRequest *&request);
+
+  public:
+    void	newGame(Game *);
 
   private:
     void		update();
+    void		updateCallback();
     void		readData();
+    void		writeData();
 
   private:
-    void		getGame();
-    client_vect::iterator	findSource(net::ClientAccepted *client,
-					   std::vector<cBuffer::Byte> &buf,
-					   AGameRequest *&request);
+    void				getGame();
+    void				sessionID(const requestCode::SessionID &);
+    const requestCode::SessionID	&sessionID(void) const;
+    client_vect::iterator		findSource(net::ClientAccepted *client,
+						   std::vector<cBuffer::Byte> &buf,
+						   AGameRequest *&request);
 
   private:
     Manager(Manager const&);
@@ -69,21 +83,22 @@ namespace	game
     Threads<void (*)(Manager *)>	_th;
     Clock				_clock;
     std::list<Game *>			_games;
-
+    input_event				&_input;
+    output_event			&_output;
     net::UdpServer			_server;
     net::streamManager			_monitor;
     client_vect				_gameClients;
     request_callback_map		_requestCallback;
 
   private:
-    class predicate : public std::unary_function<game::Client *, bool>
+    class predicate : public std::unary_function< Client *, bool>
     {
     public:
-      predicate(const requestCode::SessionID id): _id(id) {};
-      ~predicate() {};
+      predicate(const requestCode::SessionID id);
+      ~predicate();
 
     public:
-      bool		operator()(const game::Client *rhs) {return (_id == rhs->SessionID());}
+      bool		operator()(const Client *rhs);
 
     private:
       const requestCode::SessionID	_id;

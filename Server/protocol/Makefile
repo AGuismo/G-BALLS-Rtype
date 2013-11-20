@@ -15,6 +15,15 @@ SRCS =	      	ARequest.cpp		\
 		PartyRequest.cpp	\
 		Protocol.cpp		\
 		RequestFactory.cpp	\
+		AliveRequest.cpp	\
+		RootRequest.cpp		\
+		BuffRequest.cpp		\
+		DeathRequest.cpp	\
+		ElemRequest.cpp		\
+		EventRequest.cpp	\
+		LooseRequest.cpp	\
+		ScoreRequest.cpp	\
+		VictoryRequest.cpp	\
 
 DIR.BIND=	../deps/Bind
 DIR.NET=	../deps/network

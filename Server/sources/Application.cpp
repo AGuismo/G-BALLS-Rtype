@@ -1,15 +1,31 @@
+#include	<algorithm>
 #include	<iostream>
 #include	"Application.hh"
 #include	"GameException.hh"
 #include	"MenuException.hh"
+#include	"MenuGame.hh"
 #include	"LoaderException.hh"
+#include	"Database.hh"
+#include	"Salt.hpp"
+#include	"Game.h"
+#include	"Callback.hh"
+#include	"Client.hh"
 
-Application::Application()
+Salt::size_type	Salt::SALT = 42;
+
+Application::Application():
+  _menuManager(this, _menuOutput, _input), _gameManager(_gameOutput, _input)
 {
   std::string	file("botlibrary");
+
+  if (!Database::getInstance().loadFile(rtype::Env::getInstance().DatabasePath))
+    std::cout << "Warning: There is no Database or a corrupt Database in "
+  	      << rtype::Env::getInstance().DatabasePath << std::endl
+  	      << "Client Database will be created for further usage" << std::endl;
+  Database::getInstance().newClient("root", md5("4242"), database::SUPER_USER, true);
   try
     {
-      _menuManager.initialize(); // Load the menu
+     _menuManager.initialize(); // Load the menu
       _gameManager.initialize(); // Load the game system
       _botLoaderManager.initialize(file); // Load the bot-Loader
     }
@@ -28,11 +44,12 @@ Application::Application()
       std::cerr << "In Application::run(), catch: " << e.what() << std::endl;
       throw Application::InitExcept("Application Init fail");
     }
+  Database::getInstance().saveFile(rtype::Env::getInstance().DatabasePath);
 }
 
 Application::~Application()
 {
-
+  Database::getInstance().saveFile(rtype::Env::getInstance().DatabasePath);
 }
 
 void	Application::run()
@@ -41,8 +58,65 @@ void	Application::run()
   _gameManager.run();
   _botLoaderManager.run();
   _menuManager.run();
+  routine();
 }
 
+void	Application::updateClients()
+{
+  client_list::iterator it;
+
+  for (it = _clients.begin(); it != _clients.end();)
+    {
+      (*it)->update();
+      if (!(*it)->isUse())
+	{
+	  std::cout << "Application::updateClients(): " << "Client deleted" << std::endl;
+	  delete *it;
+	  it = _clients.erase(it);
+	}
+      else
+	++it;
+    }
+}
+
+void	Application::routine()
+{
+  while (true)
+    {
+      ICallbacks	*callbacks = _input.pop();
+
+      (*callbacks)();
+      delete callbacks;
+      updateClients();
+    }
+}
+
+void	Application::newClient(Client *client)
+{
+#if defined(DEBUG)
+  std::cout << "Application::newClient(): " << "new Client" << std::endl;
+#endif
+  _clients.push_back(client);
+}
+
+void	Application::newGame(menu::Game *game)
+{
+  menu::Game::client_list::iterator	menuIt = game->getClients().begin();
+  Game::client_list			clients;
+
+#if defined(DEBUG)
+  std::cout << "Application::newGame(): " << "Start Game..." << std::endl;
+#endif
+  for (; menuIt != game->clients().end(); ++menuIt)
+    {
+      client_list::iterator	appIt;
+
+      appIt = std::find_if(_clients.begin(), _clients.end(), PredicateMenuClient(*menuIt));
+      clients.push_back(&(*appIt)->game());
+    }
+  _gameOutput.push(new Callback<game::Manager, Game>(&_gameManager, new Game(clients),
+						     &game::Manager::newGame));
+}
 
 ///////////////////////
 //  Exception Class  //
@@ -76,4 +150,30 @@ Application::InitExcept& Application::InitExcept::operator=(Application::InitExc
 const char	*Application::InitExcept::what() const throw()
 {
   return (_what.c_str());
+}
+
+/////////////////////////////
+//  Application Predicate  //
+/////////////////////////////
+
+Application::PredicateMenuClient::PredicateMenuClient(menu::Client *client):
+  _client(client)
+{
+
+}
+
+bool	Application::PredicateMenuClient::operator()(const Client *src)
+{
+  return (&src->menu() == _client);
+}
+
+Application::PredicateGameClient::PredicateGameClient(game::Client *client):
+  _client(client)
+{
+
+}
+
+bool	Application::PredicateGameClient::operator()(const Client *src)
+{
+  return (&src->game() == _client);
 }

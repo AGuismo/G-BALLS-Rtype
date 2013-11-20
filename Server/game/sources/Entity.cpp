@@ -1,14 +1,13 @@
 #include "Entity.h"
 
-Entity::Entity(TYPE type, int pos, int life, DIR dir, int length, int height) :
-  _life(life), _dir(dir), _speed(1), _length(length), _height(height)
+Entity::Entity(game::Type type, std::vector<game::Pos> pos, int life, game::Dir dir,
+	       game::ID id) :
+  _life(life), _dir(dir), _speed(1)
 {
-  static int id = 0;
-
   _type = type;
   _pos = pos;
+  _prevPos = pos;
   _id = id;
-  id++;
 }
 
 Entity::~Entity()
@@ -16,15 +15,41 @@ Entity::~Entity()
 
 }
 
+game::ID		&Entity::id()
+{
+  return _id;
+}
+
+game::Type		&Entity::type()
+{
+  return _type;
+}
+
+game::Dir		&Entity::dir()
+{
+  return _dir;
+}
+std::vector<game::Pos>		&Entity::pos()
+{
+  return _pos;
+}
+
+
 void	Entity::update()
 {
-	_prevPos = _pos;
-  if (_dir == NORTH || _dir == NORTH_WEST || _dir == NORTH_EAST)
-    _pos -=	SIZE;
-  if (_dir == SOUTH || _dir == SOUTH_WEST || _dir == SOUTH_EAST)
-    _pos += SIZE;
-  if (_dir == WEST || _dir == NORTH_WEST || _dir == SOUTH_WEST)
-    _pos -= 1;
-  if (_dir == EAST || _dir == SOUTH_EAST || _dir == NORTH_EAST)
-    _pos += 1;
+  std::vector<game::Pos>::iterator it = _pos.begin();
+
+  _prevPos = _pos;
+  if (_dir == game::NORTH || _dir == game::NORTH_WEST || _dir == game::NORTH_EAST)
+    for (; it != _pos.end(); it++)
+      (*it) -=	SIZE;
+  if (_dir == game::SOUTH || _dir == game::SOUTH_WEST || _dir == game::SOUTH_EAST)
+    for (; it != _pos.end(); it++)
+      (*it) += SIZE;
+  if (_dir == game::WEST || _dir == game::NORTH_WEST || _dir == game::SOUTH_WEST)
+    for (; it != _pos.end(); it++)
+      (*it) -= 1;
+  if (_dir == game::EAST || _dir == game::SOUTH_EAST || _dir == game::NORTH_EAST)
+    for (; it != _pos.end(); it++)
+      (*it) += 1;
 }
