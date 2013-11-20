@@ -239,6 +239,17 @@ void	Game::popIA()
 	    new_ia = BotLoader::getIA();
 	    with pos = rand() % 16 + 15;
 	    id = UniqueId();
+=======
+		if (_IA.size() < rtype::Env::minIA || rand() % rtype::Env::popIAmax < rtype::Env::popIArange)
+		{
+
+			/*
+			Ia *new_ia;
+
+			new_ia = BotLoader::getIA();
+			with pos = rand() % Entity::SIZE + Entity::SIZE - 1;
+			id = UniqueId();
+>>>>>>> eb4599ab39aee02a0fa1b498570ef6356f553eaf
 
 	    _IA.push_back(new_ia);
 	    pushRequest(new ElemRequest(new_ia->_type,

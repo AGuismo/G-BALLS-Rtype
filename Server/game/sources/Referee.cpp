@@ -34,34 +34,36 @@ void	Referee::getBoss()
 
 bool	Referee::isOnScreen(const Entity *a)
 {
-  return (!((a->posX() + 1 != a->prevX() &&
-	     a->posX() - 1 != a->prevX() &&
-	     a->posX() != a->prevX())));
+	std::vector<game::Pos>::const_iterator ita;
+	std::vector<game::Pos>::const_iterator itprev = a->_prevPos.begin();
+
+	for (ita = a->_pos.begin(); ita != a->_pos.end(); ita++)
+	{
+		if ((*ita) + 1 != (*itprev) ||
+			(*ita) - 1 != (*itprev) ||
+			(*ita) != (*itprev))
+			return false;
+		itprev++;
+	}
+	return true;
 }
 
 bool	Referee::sameCase(const Entity *a, const Entity *b)
 {
-  if (a->posX() <= b->posX() &&
-      a->posX() + a->_length >= b->posX() &&
-      a->posY() <= b->posY() &&
-      a->posY() + a->_height >= b->posY())
-    return true;
-  if (a->posX() <= b->posX() + b->_length &&
-      a->posX() + a->_length >= b->posX() + b->_length &&
-      a->posY() <= b->posY() &&
-      a->posY() + a->_height >= b->posY())
-    return true;
-  if (a->posX() <= b->posX() &&
-      a->posX() + a->_length >= b->posX() &&
-      a->posY() <= b->posY() + b->_height &&
-      a->posY() + a->_height >= b->posY() + b->_height)
-    return true;
-  if (a->posX() <= b->posX() + b->_length &&
-      a->posX() + a->_length >= b->posX() + b->_length &&
-      a->posY() <= b->posY() + b->_height &&
-      a->posY() + a->_height >= b->posY() + b->_height)
-    return true;
-  return false;
+	std::vector<game::Pos>::const_iterator ita;
+	std::vector<game::Pos>::const_iterator itb;
+
+	for (ita = a->_pos.begin(); ita != a->_pos.end(); ita++)
+	{
+		for (itb = b->_pos.begin(); itb != b->_pos.end(); itb++)
+		{
+			if ((*ita) == (*itb))
+			{
+				return true;
+			}
+		}
+	}
+	return false;
 }
 
 

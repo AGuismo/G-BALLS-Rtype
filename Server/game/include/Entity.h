@@ -36,29 +36,31 @@ class Entity
 protected:
   static const	int	SIZE = 16;
 public:
-  Entity(game::Type type, game::Pos pos, int life, game::Dir dir, int length, int height, game::ID id);
+	Entity(game::Type type, std::vector<game::Pos> pos, int life, game::Dir dir, int length, int height, game::ID id);
   virtual ~Entity();
   virtual void	update();
 
 public:
   game::ID		&id();
   game::Dir		&dir();
-  game::Pos		&pos();
+  std::vector<game::Pos>	&pos();
   game::Type		&type();
 protected:
   game::ID		_id;
   int			_life;
   game::Dir		_dir;
-  unsigned int		_speed;
-  game::Pos		_pos;
-  game::Pos		_prevPos;
-  game::Type		_type;
-  int			_length;
+  unsigned int	_speed;
+//  game::Pos		_pos;
+  std::vector<game::Pos>	_pos;
+  std::vector<game::Pos>	_prevPos;
+  game::Type	_type;
+/*
+int			_length;
   int			_height;
   int			posX()const {return (_pos % SIZE);};
   int			posY()const {return (_pos / SIZE);};
   int			prevX()const {return (_prevPos % SIZE);};
-  int			prevY()const {return (_prevPos / SIZE);};
+  int			prevY()const {return (_prevPos / SIZE);};*/
 
   friend class Referee;
   friend class Game;
