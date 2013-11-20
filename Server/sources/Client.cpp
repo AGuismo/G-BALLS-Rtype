@@ -4,7 +4,7 @@
 #include	"Client.hh"
 
 Client::Client(net::ClientAccepted *clientTcp):
-  _menu(_id, clientTcp)
+  _menu(_id, clientTcp), _game(_id)
 {
   _menu.inUse(true);
   _game.inUse(false);

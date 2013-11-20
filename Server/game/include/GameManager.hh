@@ -19,11 +19,10 @@
 # include	"streamManager.h"
 # include	"Env.hh"
 # include	"RequestCode.hh"
-# include	"cBuffer.h"
+// # include	"cBuffer.h"
 # include	"GameClient.hh"
 # include	"Game.h"
 # include	"ThreadEvent.hpp"
-# include	"Client.hh"
 
 //class	Client;
 class	AGameRequest;
@@ -33,13 +32,15 @@ using	net::cBuffer;
 
 namespace	game
 {
+  class	Client;
+
   class Manager
   {
     typedef Thread::EventQueue<ICallbacks *>	input_event;
     typedef Thread::EventQueue<ICallbacks *>	output_event;
     typedef void(*request_callback)(ARequest *, Client *, Manager *);
     typedef std::map<requestCode::CodeID, request_callback>	request_callback_map;
-    typedef std::vector< ::Client *>				client_vect;
+    typedef std::list<Client *>			client_vect;
 
   public:
     Manager(input_event &input, output_event &output);
@@ -50,7 +51,7 @@ namespace	game
     void	run();
 
   private:
-    static void	routine(Manager *);
+    void		routine(void);
     bool		getRequest(std::vector<cBuffer::Byte> &buf,
 				   AGameRequest *&request);
 
@@ -60,10 +61,12 @@ namespace	game
     void		writeData();
 
   private:
-    void		getGame();
-    client_vect::iterator	findSource(net::ClientAccepted *client,
-					   std::vector<cBuffer::Byte> &buf,
-					   AGameRequest *&request);
+    void				getGame();
+    void				sessionID(const requestCode::SessionID &);
+    const requestCode::SessionID	&sessionID(void) const;
+    client_vect::iterator		findSource(net::ClientAccepted *client,
+						   std::vector<cBuffer::Byte> &buf,
+						   AGameRequest *&request);
 
   private:
     Manager(Manager const&);
@@ -73,7 +76,7 @@ namespace	game
 
 
   private:
-    Threads<void (*)(Manager *)>	_th;
+    Threads<void (Manager::*)()>	_th;
     Clock				_clock;
     std::list<Game *>			_games;
     input_event				&_input;
@@ -84,14 +87,14 @@ namespace	game
     request_callback_map		_requestCallback;
 
   private:
-    class predicate : public std::unary_function< ::Client *, bool>
+    class predicate : public std::unary_function< Client *, bool>
     {
     public:
-      predicate(const requestCode::SessionID id): _id(id) {};
-      ~predicate() {};
+      predicate(const requestCode::SessionID id);
+      ~predicate();
 
     public:
-      bool		operator()(::Client *rhs) {return (_id == rhs->id());}
+      bool		operator()(const Client *rhs);
 
     private:
       const requestCode::SessionID	_id;

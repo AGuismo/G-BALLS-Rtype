@@ -44,12 +44,9 @@ namespace	menu
     Ruint8			status(void) const;
     void			status(Ruint8);
 
-    ::Game			*game();
-    void			game(::Game *);
-
-    ::Game			*initialize(void);
-
     Client			*owner() const;
+
+    client_list			&getClients(void);
 
   private:
     Game(Game const&);

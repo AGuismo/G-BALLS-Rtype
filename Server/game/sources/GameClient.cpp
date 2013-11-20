@@ -10,13 +10,13 @@
 
 namespace	game
 {
-  Client::Client():
-    _alive(true), _updateToLive(0), _used(false)
+  Client::Client(requestCode::SessionID &id):
+    _alive(true), _updateToLive(0), _used(false), _id(id)
   {
   }
 
-  Client::Client(struct sockaddr_in addr) :
-    _alive(true), _updateToLive(0), _used(false), _addr(addr)
+  Client::Client(requestCode::SessionID &id, struct sockaddr_in addr) :
+    _alive(true), _updateToLive(0), _used(false), _addr(addr), _id(id)
   {
 
   }
@@ -33,7 +33,6 @@ namespace	game
 
   void		Client::update(Game &game)
   {
-// <<<<<<< HEAD
     ARequest	*req;
     bool	move = false;
     bool	fire = false;

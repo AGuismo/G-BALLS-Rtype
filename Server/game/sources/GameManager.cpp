@@ -8,6 +8,7 @@
 #include	"NetException.h"
 #include	"ClientAccepted.h"
 #include	"Protocol.hpp"
+#include	"GameClient.hh"
 
 namespace	game
 {
@@ -44,7 +45,7 @@ namespace	game
 
   void		Manager::update()
   {
-   std::list<Game *>::iterator it;
+    std::list<Game *>::iterator it;
 
     for (it = _games.begin();
 	 it != _games.end();
@@ -92,63 +93,83 @@ namespace	game
     it = std::find_if(_gameClients.begin(), _gameClients.end(), predicate(req->SessionID()));
     if (it != _gameClients.end())
       {
-	(*it)->game().setAddr(_server.getClientAddr());
-	(*it)->game().requestPush(req);
+	(*it)->setAddr(_server.getClientAddr());
+	(*it)->requestPush(req);
       }
   }
 
   void			Manager::writeData()
   {
-	  client_vect::iterator	it;
+    client_vect::iterator	it;
 
-	  for (it = _gameClients.begin();
-		  it != _gameClients.end();
-		  it++)
+    for (it = _gameClients.begin();
+	 it != _gameClients.end();
+	 it++)
+      {
+	_server.setClientAddr((*it)->getAddr());
+	while (ARequest *req = (*it)->requestPop())
 	  {
-		  _server.setClientAddr((*it)->game().getAddr());
-		  while (ARequest *req = (*it)->game().requestPop())
-		  {
-			  std::vector<cBuffer::Byte> buf;
+	    std::vector<cBuffer::Byte> buf;
 
-			  buf = Protocol::product(*req);
-			  _server.writeIntoBuffer(buf, buf.size());
-			  _server.send();
-		  }
+	    buf = Protocol::product(*req);
+	    _server.writeIntoBuffer(buf, buf.size());
+	    _server.send();
 	  }
+      }
   }
 
-  void			Manager::routine(Manager *thisPtr)
+  void			Manager::routine()
   {
     clock_time		time;
     timeval		t;
 
-    thisPtr->_clock.start();
+    _clock.start();
     while (true)
       {
-	thisPtr->_clock.update();
+	_clock.update();
 
 	t.tv_sec = 0;
 	t.tv_usec = 500000;
 
-	thisPtr->_monitor.setOption(net::streamManager::TIMEOUT, t);
+	_monitor.setOption(net::streamManager::TIMEOUT, t);
 
-	thisPtr->_monitor.run(); /* Surcouche du select() */
+	_monitor.run(); /* Surcouche du select() */
 
-		thisPtr->_clock.update();
-		time = thisPtr->_clock.getElapsedTime();
-		t.tv_sec = time / 1000000;
-		try
-		{
-			if (thisPtr->_server.read())
-				thisPtr->readData();
-			if (thisPtr->_server.write())
-				thisPtr->writeData();
-		}
-		catch (net::Exception &e)
-		{
-			std::cerr << "Error " << e.what() << "in Manager::routine." << std::endl;
-		}
-		thisPtr->update();
+	_clock.update();
+	time = _clock.getElapsedTime();
+	t.tv_sec = time / 1000000;
+	try
+	  {
+	    if (_server.read())
+	      readData();
+	    if (_server.write())
+	      writeData();
+	  }
+	catch (net::Exception &e)
+	  {
+	    std::cerr << "Error " << e.what() << "in Manager::routine." << std::endl;
+	  }
+	update();
       }
+  }
+
+  ///////////////
+  // Predicate //
+  ///////////////
+
+  Manager::predicate::predicate(const requestCode::SessionID id):
+    _id(id)
+  {
+
+  }
+
+  Manager::predicate::~predicate()
+  {
+
+  }
+
+  bool		Manager::predicate::operator()(const Client *rhs)
+  {
+    return (_id == rhs->SessionID());
   }
 }

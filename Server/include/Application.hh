@@ -9,6 +9,7 @@
 # include	"ThreadEvent.hpp"
 
 class	Game;
+class	Client;
 
 class Application
 {
@@ -43,6 +44,8 @@ public:
 
 public:
   void	newClient(Client *);
+  void	newGame(menu::Game *game);
+  void	endGame(Game *game);
 
 private:
   Application(Application const&);
@@ -56,6 +59,23 @@ private:
   game::Manager		_gameManager;
   botLoader::Manager	_botLoaderManager;
   client_list		_clients;
+
+private:
+  struct	PredicateMenuClient : public std::unary_function<Client *, bool>
+  {
+    PredicateMenuClient(menu::Client *);
+    bool	operator()(const Client *);
+
+    menu::Client	*_client;
+  };
+
+  struct	PredicateGameClient : public std::unary_function<Client *, bool>
+  {
+    PredicateGameClient(game::Client *);
+    bool	operator()(const Client *);
+
+    game::Client	*_client;
+  };
 };
 
 #endif /* APPLICATION_H_ */

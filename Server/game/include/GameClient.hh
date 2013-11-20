@@ -31,8 +31,8 @@ namespace	game
     /*typedef void(*request_callback)(ARequest *, Client *);
       typedef std::map<requestCode::CodeID, request_callback> request_callback_map;*/
   public:
-    Client();
-    Client(struct sockaddr_in addr);
+    Client(requestCode::SessionID &);
+    Client(requestCode::SessionID &, struct sockaddr_in addr);
     virtual ~Client();
 
   public:
@@ -53,7 +53,7 @@ namespace	game
 
   public:
     requestCode::SessionID	SessionID() const;
-	void			alive(const bool &state);
+    void			alive(const bool &state);
     void			SessionID(const requestCode::SessionID);
 
   public:
@@ -78,8 +78,8 @@ namespace	game
     /*request_callback_map _requestCallback;*/
 
   private:
-    requestCode::SessionID	_id;
     struct sockaddr_in		_addr;
+    requestCode::SessionID	&_id;
 
     friend class ::Game;
     friend class ::Referee;

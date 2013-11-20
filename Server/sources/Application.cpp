@@ -1,12 +1,15 @@
+#include	<algorithm>
 #include	<iostream>
 #include	"Application.hh"
 #include	"GameException.hh"
 #include	"MenuException.hh"
+#include	"MenuGame.hh"
 #include	"LoaderException.hh"
 #include	"Database.hh"
 #include	"Salt.hpp"
 #include	"Game.h"
 #include	"ICallbacks.hh"
+#include	"Client.hh"
 
 Salt::size_type	Salt::SALT = 42;
 
@@ -94,6 +97,18 @@ void	Application::newClient(Client *client)
   _clients.push_back(client);
 }
 
+void	Application::newGame(menu::Game *game)
+{
+  menu::Game::client_list::iterator	menuIt = game->getClients().begin();
+
+  for (; menuIt != game->clients().end(); ++menuIt)
+    {
+      client_list::iterator	appIt;
+
+      appIt = std::find_if(_clients.begin(), _clients.end(), PredicateMenuClient(*menuIt));
+    }
+}
+
 ///////////////////////
 //  Exception Class  //
 ///////////////////////
@@ -126,4 +141,30 @@ Application::InitExcept& Application::InitExcept::operator=(Application::InitExc
 const char	*Application::InitExcept::what() const throw()
 {
   return (_what.c_str());
+}
+
+/////////////////////////////
+//  Application Predicate  //
+/////////////////////////////
+
+Application::PredicateMenuClient::PredicateMenuClient(menu::Client *client):
+  _client(client)
+{
+
+}
+
+bool	Application::PredicateMenuClient::operator()(const Client *src)
+{
+  return (&src->menu() == _client);
+}
+
+Application::PredicateGameClient::PredicateGameClient(game::Client *client):
+  _client(client)
+{
+
+}
+
+bool	Application::PredicateGameClient::operator()(const Client *src)
+{
+  return (&src->game() == _client);
 }

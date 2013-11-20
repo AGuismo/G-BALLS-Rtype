@@ -90,30 +90,15 @@ namespace	menu
     _status = status;
   }
 
-  ::Game			*Game::game()
-  {
-    return (_game);
-  }
-
-  void				Game::game(::Game *game)
-  {
-    _game = game;
-  }
-
   Client			*Game::owner() const
   {
     return (_owner);
   }
 
-  // ::Game			*Game::initialize()
-  // {
-  //   std::list<game::Client *>	clients;
-
-  //   for (client_list::iterator it = _clients.begin(); it != _clients.end(); ++it)
-  //     clients.push_back(&((*it)->game()));
-  //   _game = new ::Game(clients);
-  //   return (_game);
-  // }
+  Game::client_list		&Game::getClients(void)
+  {
+    return (_clients);
+  }
 
   Game::Predicate::Predicate(const std::string &name) :
     _name(name)
