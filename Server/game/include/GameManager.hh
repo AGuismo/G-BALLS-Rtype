@@ -59,6 +59,7 @@ namespace	game
     void		update();
     void		readData();
     void		writeData();
+	void		updateGameClocks(clock_time time);
 
   private:
     void				getGame();
@@ -78,7 +79,7 @@ namespace	game
   private:
     Threads<void (*)(Manager *)>	_th;
     Clock				_clock;
-    std::list<Game *>			_games;
+    std::deque<Game *>		_games;
     input_event				&_input;
     output_event			&_output;
     net::UdpServer			_server;

@@ -23,6 +23,8 @@ Game::Game(std::list<game::Client *> &players)
 									UniqueId()));
   _titan = NULL;
   _clock.start();
+  _timer.tv_sec = 0;
+  _timer.tv_usec = rtype::Env::gameDelay;
 }
 
 Game::~Game()
@@ -189,6 +191,17 @@ void	Game::bossUpdate()
     }
 }
 
+void	Game::timer(struct timeval t)
+{
+	_timer = t;
+}
+
+struct timeval &Game::timer()
+{
+	return _timer;
+}
+
+
 void	Game::pushMissile(Missile *missile)
 {
 	_missiles.push_back(missile);
@@ -282,6 +295,6 @@ void	Game::update()
 	if (rtype::Env::BOSS_DELAY <= _clock.getTotalElapsedTime())
 		pushBoss();
 	popIA();
-
 	DispatchRequest();
+	_timer.tv_usec = rtype::Env::gameDelay;
 }

@@ -42,6 +42,8 @@ public:
   void	pushRequest(ARequest *req);
   typedef std::list<game::Client *>	client_list;
   void	randBonnus(Entity &a);
+  void	timer(struct timeval t);
+  struct timeval &timer();
 
 private:
   void iaUpdate();
@@ -63,6 +65,7 @@ private:
   std::list<game::ABonus *>		_bonus;
   Boss				*_titan;
   game::Clock		_clock;
+  struct timeval	_timer;
   RequestQueue		_toSend;
   ID				incremental;
 

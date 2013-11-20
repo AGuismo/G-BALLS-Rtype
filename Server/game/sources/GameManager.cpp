@@ -45,14 +45,14 @@ namespace	game
 
   void		Manager::update()
   {
-    std::list<Game *>::iterator it;
-
-    for (it = _games.begin();
-	 it != _games.end();
-	 ++it)
-      {
-	(*it)->update();
-      }
+	if (!_games.empty())
+	  {
+		Game *game = _games.front();
+		
+		_games.pop_front();
+		game->update();
+		_games.push_back(game);
+	  }
   }
 
   bool	Manager::getRequest(std::vector<cBuffer::Byte> &buf,
@@ -118,39 +118,50 @@ namespace	game
       }
   }
 
+  void			Manager::updateGameClocks(clock_time time)
+  {
+	  std::deque<Game *>::iterator	it;
+
+	  for (it = _games.begin(); it != _games.end(); it++)
+	  {
+		  (*it)->timer().tv_usec -= time;
+	  }
+  }
+
   void			Manager::routine(Manager *self)
   {
     clock_time		time;
-    timeval		t;
 
 	self->_clock.start();
     while (true)
       {
 		self->_clock.update();
 
-	t.tv_sec = 0;
-	t.tv_usec = 500000;
+		if (!self->_games.empty())
+		{
+			self->_monitor.setOption(net::streamManager::TIMEOUT, self->_games.front()->timer());
+		}
+		self->_monitor.run(); /* Surcouche du select() */
+		self->_clock.update();
+		time = self->_clock.getElapsedTime();
 
-	self->_monitor.setOption(net::streamManager::TIMEOUT, t);
-
-	self->_monitor.run(); /* Surcouche du select() */
-
-	self->_clock.update();
-	time = self->_clock.getElapsedTime();
-	t.tv_sec = time / 1000000;
-	try
-	  {
-		if (self->_server.read())
-			self->readData();
-		if (self->_server.write())
-			self->writeData();
-	  }
-	catch (net::Exception &e)
-	  {
-	    std::cerr << "Error " << e.what() << "in Manager::routine." << std::endl;
-	  }
-	self->update();
-      }
+		if (self->_server.read() || self->_server.write())
+		{
+			try
+			{
+				if (self->_server.read())
+					self->readData();
+				if (self->_server.write())
+					self->writeData();
+			}
+			catch (net::Exception &e)
+			{
+				std::cerr << "Error " << e.what() << "in Manager::routine." << std::endl;
+			}
+		}
+		else
+			self->update();
+	}
   }
 
   ///////////////
