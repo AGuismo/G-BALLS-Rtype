@@ -5,7 +5,7 @@
 // Login   <brigno@epitech.net>
 //
 // Started on  Tue Nov  5 01:50:37 2013 brigno
-// Last update Wed Nov  6 03:51:05 2013 brigno
+// Last update Wed Nov 20 23:04:36 2013 brigno
 //
 
 #ifndef		__APPLICATION_HH__
@@ -34,7 +34,7 @@ public:
   Application operator=(const Application &other);
 
 public:
-  void	run(const std::string &ip, const std::string &port);
+  void	run();
   void	addScreen(AScreen *screen);
   bool	initApp(Network *network);
   bool	createWindows(Network *network, int screenIndex);
