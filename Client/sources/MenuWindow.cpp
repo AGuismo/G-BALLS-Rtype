@@ -5,7 +5,7 @@
 // Login   <brigno@epitech.net>
 //
 // Started on  Wed Oct 23 11:37:38 2013 brigno
-// Last update Wed Nov 20 21:02:30 2013 brigno
+// Last update Wed Nov 20 23:53:38 2013 brigno
 //
 
 #include	<sstream>
@@ -39,10 +39,16 @@ MenuWindow::MenuWindow(const std::string &name, int width, int height, Network *
       TextureManager::getInstance().addTexture("TextAreaFocus", "Images/Menu/textAreaFocus.png");
       TextureManager::getInstance().addTexture("Exit", "Images/Menu/Exit.png");
       TextureManager::getInstance().addTexture("Enter", "Images/Menu/Enter.png");
+      TextureManager::getInstance().addTexture("Settings", "Images/Menu/Settings.png");
+      TextureManager::getInstance().addTexture("SettingsHover", "Images/Menu/SettingsHover.png");
+      TextureManager::getInstance().addTexture("SettingsFocus", "Images/Menu/SettingsFocus.png");
       TextureManager::getInstance().addTexture("ExitHover", "Images/Menu/ExitHover.png");
       TextureManager::getInstance().addTexture("EnterHover", "Images/Menu/EnterHover.png");
       TextureManager::getInstance().addTexture("ExitFocus", "Images/Menu/ExitFocus.png");
       TextureManager::getInstance().addTexture("EnterFocus", "Images/Menu/EnterFocus.png");
+      TextureManager::getInstance().addTexture("Back", "Images/Lobby/Back.png");
+      TextureManager::getInstance().addTexture("BackHover", "Images/Lobby/BackHover.png");
+      TextureManager::getInstance().addTexture("BackFocus", "Images/Lobby/BackFocus.png");
       TextureManager::getInstance().addTexture("Create", "Images/Lobby/Create.png");
       TextureManager::getInstance().addTexture("CreateHover", "Images/Lobby/CreateHover.png");
       TextureManager::getInstance().addTexture("CreateFocus", "Images/Lobby/CreateFocus.png");
@@ -108,20 +114,21 @@ void	MenuWindow::drawMenu()
 {
   this->clearWindow();
   this->_status = CONTINUE;
-  Text *tmp = new Text("Font/NEUROPOL.ttf", "LoginText", this->_event, sf::Vector2i(518, 370), sf::Vector2i(510, 375), sf::Vector2i(750, 405), 12, true);
-  Text *tmp2 = new Text("Font/NEUROPOL.ttf", "PasswordText", this->_event, sf::Vector2i(518, 470), sf::Vector2i(510, 475), sf::Vector2i(755, 505), 12, false);
+  Text *tmp = new Text("Font/NEUROPOL.ttf", "LoginText", this->_event, sf::Vector2i(525, 410), sf::Vector2i(520, 415), sf::Vector2i(760, 445), 10, true);
+  Text *tmp2 = new Text("Font/NEUROPOL.ttf", "PasswordText", this->_event, sf::Vector2i(560, 515), sf::Vector2i(520, 515), sf::Vector2i(765, 545), 10, false);
   this->_window.setVerticalSyncEnabled(true);
   this->_window.setFramerateLimit(25);
   this->_window.setKeyRepeatEnabled(false);
   this->_backgroundPtr = new Background();
-  this->_listImage.push_back(new Image("Title", sf::Vector2i(380, 50)));
-  this->_listImage.push_back(new Image("Formu", sf::Vector2i(390, 180)));
-  this->_listWidget.push_back(new TextArea(this->_event, "LoginArea", *tmp, sf::Vector2i(470, 340), sf::Vector2i(510, 375), sf::Vector2i(750, 405)));
-  this->_listWidget.push_back(new TextArea(this->_event, "PasswordArea", *tmp2, sf::Vector2i(470, 440), sf::Vector2i(510, 475), sf::Vector2i(755, 505)));
+  this->_listImage.push_back(new Image("Title", sf::Vector2i(370, 60)));
+  this->_listImage.push_back(new Image("Formu", sf::Vector2i(370, 175)));
+  this->_listWidget.push_back(new TextArea(this->_event, "LoginArea", *tmp, sf::Vector2i(480, 380), sf::Vector2i(520, 415), sf::Vector2i(760, 445)));
+  this->_listWidget.push_back(new TextArea(this->_event, "PasswordArea", *tmp2, sf::Vector2i(480, 480), sf::Vector2i(520, 515), sf::Vector2i(765, 545)));
   this->_listWidget.push_back(tmp);
   this->_listWidget.push_back(tmp2);
-  this->_listWidget.push_back(new Button(this->_event, "Enter", sf::Vector2i(490, 550), sf::Vector2i(500, 560), sf::Vector2i(630, 595), LOGIN, true));
-  this->_listWidget.push_back(new Button(this->_event, "Exit", sf::Vector2i(650, 550), sf::Vector2i(655, 560), sf::Vector2i(785, 595), EXIT, true));
+  this->_listWidget.push_back(new Button(this->_event, "Settings", sf::Vector2i(570, 570), sf::Vector2i(576, 577), sf::Vector2i(706, 611), LOGIN, true));
+  this->_listWidget.push_back(new Button(this->_event, "Enter", sf::Vector2i(482, 620), sf::Vector2i(488, 630), sf::Vector2i(619, 663), LOGIN, true));
+  this->_listWidget.push_back(new Button(this->_event, "Exit", sf::Vector2i(658, 620), sf::Vector2i(663, 630), sf::Vector2i(795, 663), EXIT, true));
 }
 
 void	MenuWindow::drawLobby()
