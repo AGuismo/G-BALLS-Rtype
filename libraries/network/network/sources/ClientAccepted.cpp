@@ -38,6 +38,8 @@ int			ClientAccepted::readData(char *data, int maxSize)
   WSABUF	wbuff;
   int		size = sizeof(_addr);
 
+  if (_state != CONNECTED)
+    return (0);
   wbuff.buf = data;
   wbuff.len = maxSize;
   if (WSARecvFrom(_sock, &wbuff, 1, &readSize, &flags,
@@ -56,6 +58,8 @@ int			ClientAccepted::writeData(const char *data, int size)
   WSABUF	wbuff;
   DWORD		writeSize;
 
+  if (_state != CONNECTED)
+    return (0);
   wbuff.buf = const_cast<char *>(data);
   wbuff.len = size;
   if (WSASendTo(_sock, &wbuff, 1, &writeSize, 0, reinterpret_cast<sockaddr *>(&_addr),
@@ -126,6 +130,8 @@ int		ClientAccepted::readData(char *data, int maxSize)
   socklen_t	size = sizeof(_addr);
   int		readSize;
 
+  if (_state != CONNECTED)
+    return (0);
   readSize = recvfrom(_sock, data, maxSize, 0, reinterpret_cast<sockaddr *>(&_addr), &size);
   if (readSize == -1)
     {
@@ -141,6 +147,8 @@ int		ClientAccepted::writeData(const char *data, int size)
 {
   int		writeSize;
 
+  if (_state != CONNECTED)
+    return (0);
   writeSize = sendto(_sock, data, size, 0, reinterpret_cast<sockaddr *>(&_addr), sizeof(_addr));
   if (writeSize == -1)
     {
@@ -162,7 +170,7 @@ void		ClientAccepted::close()
       _state = STATEERROR;
       throw net::Exception("Close Failure: " + std::string(strerror(errno)));
     }
-  _state = DISCONNECTED;
+  _state = CLOSED;
   _sock = 0;
 }
 

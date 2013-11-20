@@ -30,26 +30,12 @@ namespace	menu
 #endif
     if (_TcpLayer->read())
       {
-	try
-	  {
-	    recvSock();
-	  }
-	catch (net::Exception &e)
-	  {
-	    std::cerr << "Error : " << e.what() << " in menu::client" << std::endl;
-	  }
+	recvSock();
 	while (inputRequest());
       }
     if (_TcpLayer->write())
       {
-	try
-	  {
-	    sendSock();
-	  }
-	catch (net::Exception &e)
-	  {
-	    std::cerr << "Error : " << e.what() << " in menu::client" << std::endl;
-	  }
+	sendSock();
       }
   }
 

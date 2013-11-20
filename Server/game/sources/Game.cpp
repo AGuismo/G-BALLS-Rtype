@@ -19,7 +19,7 @@ Game::Game(std::list<game::Client *> &players)
   _players = players;
   incremental = 0;
   for (client_list::iterator it = _players.begin(); it != _players.end(); ++it)
-    (*it)->player(new game::Player(std::vector<game::Pos> ((rand() % rtype::Env::mapSize) * rtype::Env::mapSize), UniqueId()));
+    (*it)->player(new game::Player(std::vector<game::Pos> (1, (rand() % rtype::Env::mapSize) * rtype::Env::mapSize), UniqueId()));
   _titan = NULL;
   _clock.start();
 }
