@@ -74,6 +74,7 @@
   <ItemGroup>
     <ClInclude Include="..\include\Bonus.h" />
     <ClInclude Include="..\include\Boss.h" />
+    <ClInclude Include="..\include\BossAlgo.h" />
     <ClInclude Include="..\include\Clock.h" />
     <ClInclude Include="..\include\Entity.h" />
     <ClInclude Include="..\include\Game.h" />

@@ -24,22 +24,24 @@ namespace rtype
     struct
     {
       unsigned short int		maxSimultaneousGames;
-      unsigned short int		bossDelay;
+      unsigned long long		bossDelay;
       unsigned long long		gameDelay;
       unsigned short int		updateToLive;
       unsigned short int		minIA;
       unsigned short int		maxIA;
       unsigned short int		popIArange;
       unsigned short int		popIAmax;
+	  unsigned short int		mapSize;
     }				game;
     static const unsigned short int	MAX_SIMULTANEOUS_GAMES =	20;
-    static const unsigned short int	BOSS_DELAY	       =	90;
+    static const unsigned long long	BOSS_DELAY	       =	90000000;
     static const unsigned long long	gameDelay	       =	250000;
     static const unsigned short int	updateToLive	       =	8;
     static const unsigned short int	minIA		       =	4;
     static const unsigned short int	maxIA		       =	20;
     static const unsigned short int	popIArange	       =	2;
     static const unsigned short int	popIAmax	       =	5;
+	static const unsigned short int	mapSize			   =	16;
   public:
     const char				*DatabasePath;
 

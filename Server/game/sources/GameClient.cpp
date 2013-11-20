@@ -54,15 +54,15 @@ namespace	game
 			  }
 			  else
     			  game.pushRequest(new ElemRequest(PLAYER,
-    					    _player->_pos, _player->_dir, _player->_id));
+    					    _player->_pos[0], _player->_dir, _player->_id));
     	    }
     	  else if (!fire)
     	    {
-			  Missile *missile = _player->fire(game);
+			  Missile *missile = _player->fire(game, false);
 			  game.pushMissile(missile);
     	      fire = true;
     	      game.pushRequest(new ElemRequest(MISSILE,
-    					    missile->pos(), missile->dir(), missile->id()));
+    					    missile->pos()[0], missile->dir(), missile->id()));
     	    }
     	}
       else if ((al = dynamic_cast<AliveRequest *>(req)))

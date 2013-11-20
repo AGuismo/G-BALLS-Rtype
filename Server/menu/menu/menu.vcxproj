@@ -39,11 +39,11 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>$(SolutionDir)\game\include;$(SolutionDir)\..\libraries\Protocol\Protocol\include;$(SolutionDir)\..\libraries\Thread\Threads\include;$(ProjectDir)\..\..\include;$(IncludePath);$(ProjectDir)\..\include;$(SolutionDir)\..\libraries\network\network\include;$(ProjectDir)\..\..\protocol\include;$(SolutionDir)\..\libraries\Bind\include;$(ProjectDir)\..\..\database\include</IncludePath>
+    <IncludePath>$(ProjectDir)\..\..\loader\include;$(SolutionDir)\game\include;$(SolutionDir)\..\libraries\Protocol\Protocol\include;$(SolutionDir)\..\libraries\Thread\Threads\include;$(ProjectDir)\..\..\include;$(IncludePath);$(ProjectDir)\..\include;$(SolutionDir)\..\libraries\network\network\include;$(ProjectDir)\..\..\protocol\include;$(SolutionDir)\..\libraries\Bind\include;$(ProjectDir)\..\..\database\include</IncludePath>
     <TargetExt>.lib</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IncludePath>$(SolutionDir)\game\include;$(SolutionDir)\..\libraries\Protocol\Protocol\include;$(SolutionDir)\..\libraries\Thread\Threads\include;$(ProjectDir)\..\..\include;$(IncludePath);$(ProjectDir)\..\include;$(SolutionDir)\..\libraries\network\network\include;$(ProjectDir)\..\..\protocol\include;$(SolutionDir)\..\libraries\Bind\include;$(ProjectDir)\..\..\database\include</IncludePath>
+    <IncludePath>$(ProjectDir)\..\..\loader\include;$(SolutionDir)\game\include;$(SolutionDir)\..\libraries\Protocol\Protocol\include;$(SolutionDir)\..\libraries\Thread\Threads\include;$(ProjectDir)\..\..\include;$(IncludePath);$(ProjectDir)\..\include;$(SolutionDir)\..\libraries\network\network\include;$(ProjectDir)\..\..\protocol\include;$(SolutionDir)\..\libraries\Bind\include;$(ProjectDir)\..\..\database\include</IncludePath>
     <TargetExt>.lib</TargetExt>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">

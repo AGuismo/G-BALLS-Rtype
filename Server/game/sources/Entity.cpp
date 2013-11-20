@@ -1,7 +1,7 @@
 #include "Entity.h"
 
 Entity::Entity(game::Type type, std::vector<game::Pos> pos, int life, game::Dir dir,
-	       int length, int height, game::ID id) :
+	       game::ID id) :
   _life(life), _dir(dir), _speed(1)
 {
   _type = type;
@@ -39,16 +39,16 @@ void	Entity::update()
 	std::vector<game::Pos>::iterator it = _pos.begin();
 	
 	_prevPos = _pos;
-	if (_dir == 0 || _dir == 1 || _dir == 7)
-		for (;it != _pos.end(); it++)
+	if (_dir == game::NORTH || _dir == game::NORTH_WEST || _dir == game::NORTH_EAST)
+		for (; it != _pos.end(); it++)
 			(*it) -=	SIZE;
-	if (_dir == 4 || _dir == 5 || _dir == 3)
+		if (_dir == game::SOUTH || _dir == game::SOUTH_WEST || _dir == game::SOUTH_EAST)
 		for (; it != _pos.end(); it++)
 			(*it) += SIZE;
-	if (_dir == 6 || _dir == 1 || _dir == 5)
+		if (_dir == game::WEST || _dir == game::NORTH_WEST || _dir == game::SOUTH_WEST)
 		for (; it != _pos.end(); it++)
 			(*it) -= 1;
-	if (_dir == 2 || _dir == 3 || _dir == 7)
+		if (_dir == game::EAST || _dir == game::SOUTH_EAST || _dir == game::NORTH_EAST)
 		for (; it != _pos.end(); it++)
 			(*it) += 1;
 }

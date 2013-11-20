@@ -11,6 +11,7 @@
 
 #include	<vector>
 #include	<list>
+#include	"Clock.h"
 #include	"types.hh"
 #include	"GameClient.hh"
 
@@ -38,7 +39,6 @@ public:
   Game(std::list<game::Client *> &players);
   ~Game();
   void	update();
-  struct timeval	*getTimer(void)const{ return _timer;};
   ID   &UniqueId();
   void	pushMissile(Missile *missile);
   void	pushRequest(ARequest *req);
@@ -55,6 +55,7 @@ private:
   void bonusUpdate();
   void DispatchRequest();
   void popIA();
+  void pushBoss();
 
 private:
   std::list<game::Client *>	_players;
@@ -63,7 +64,7 @@ private:
   std::list<Missile *>		_missiles;
   std::list<game::ABonus *>		_bonus;
   Boss				*_titan;
-  struct timeval		*_timer;
+  game::Clock		_clock;
   RequestQueue		_toSend;
   ID				incremental;
 

@@ -78,7 +78,7 @@ namespace	menu
     bool	isConnected(const std::string &login);
 
   private:
-    void	routine();
+    static void	routine(Manager *);
 
   private:
     static void	tryConnect(ARequest *, Client *, Manager *);
@@ -97,7 +97,7 @@ namespace	menu
 
   private:
     Application				*_parent;
-    Threads<void (menu::Manager::*)()>	_th;
+    Threads<void (*)(Manager *)>	_th;
     bool				_active;
     net::TcpServer			_server;
     net::streamManager			_monitor;

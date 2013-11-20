@@ -36,7 +36,7 @@ class Entity
 protected:
   static const	int	SIZE = 16;
 public:
-	Entity(game::Type type, std::vector<game::Pos> pos, int life, game::Dir dir, int length, int height, game::ID id);
+	Entity(game::Type type, std::vector<game::Pos> pos, int life, game::Dir dir, game::ID id);
   virtual ~Entity();
   virtual void	update();
 

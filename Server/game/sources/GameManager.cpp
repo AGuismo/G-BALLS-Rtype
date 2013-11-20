@@ -145,39 +145,39 @@ namespace	game
       }
   }
 
-  void			Manager::routine()
+  void			Manager::routine(Manager *self)
   {
-    clock_time		time;
+    Clock::clock_time	time;
     timeval		t;
 
-    _clock.start();
+	self->_clock.start();
     while (true)
       {
-	_clock.update();
+		self->_clock.update();
 
 	t.tv_sec = 0;
 	t.tv_usec = 500000;
 
-	_monitor.setOption(net::streamManager::TIMEOUT, t);
+	self->_monitor.setOption(net::streamManager::TIMEOUT, t);
 
-	_monitor.run(); /* Surcouche du select() */
+	self->_monitor.run(); /* Surcouche du select() */
 
-	_clock.update();
-	time = _clock.getElapsedTime();
+	self->_clock.update();
+	time = self->_clock.getElapsedTime();
 	t.tv_sec = time / 1000000;
-	updateCallback();
+	self->updateCallback();
 	try
 	  {
-	    if (_server.read())
-	      readData();
-	    if (_server.write())
-	      writeData();
+		if (self->_server.read())
+			self->readData();
+		if (self->_server.write())
+			self->writeData();
 	  }
 	catch (net::Exception &e)
 	  {
 	    std::cerr << "Error " << e.what() << "in Manager::routine." << std::endl;
 	  }
-	update();
+	self->update();
       }
   }
 

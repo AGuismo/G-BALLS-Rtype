@@ -15,15 +15,16 @@ namespace	game
   class Player : public Entity
   {
   public:
-    Player(Pos pos, ID id);
+	  Player(const std::vector<game::Pos> &pos, ID id);
     virtual	~Player();
 
     virtual void	move(Dir dir);
-    Missile	*fire(Game &game);
+	Missile	*fire(Game &game, bool charged);
 
 	void	extraLife(bool b) { _extraLife = b; };
 	void	pow(int p) { _pow = p; };
 	int		pow() const { return _pow; };
+
   private:
     int		_pow;
     bool	_extraLife;

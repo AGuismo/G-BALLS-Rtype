@@ -120,21 +120,21 @@ namespace	menu
       (*it)->requestPush(new Req(req));
   }
 
-  void	Manager::routine()
+  void	Manager::routine(Manager *self)
   {
-    while (_active)
+    while (self->_active)
       {
 	try
 	  {
-	    _monitor.run();
-	    updateClients();
+		self->_monitor.run();
+		self->updateClients();
 	  }
 	catch (net::Exception &e)
 	  {
-	    _active = false;
+		self->_active = false;
 	    std::cerr << "Fatal error : " << e.what() << " in menu::Manager::routine" << std::endl;
 	  }
-	checkNewClient();
+	self->checkNewClient();
       }
   }
 

@@ -49,7 +49,7 @@ namespace	game
   typedef Ruint16	ID;
   typedef Ruint8	Dir;
   typedef Ruint8	Type;
-  typedef Ruint8	Pos;
+  typedef Ruint16	Pos;
   typedef Rint8		TypeBuff;
 }
 

@@ -8,11 +8,13 @@ class Missile;
 class Ia : public Entity
 {
  public:
-    Ia(game::Pos pos, int life, int length, int height, game::ID id, AIaAlgo *algo);
+    Ia(game::ID id, AIaAlgo *algo);
   virtual ~Ia();
   void	update();
   void	move();
-  Missile	*fire(Game &game);
+  Missile	*fire(Game &game, bool charged);
+  AIaAlgo	*algo() { return _algo; }
+
  private:
   AIaAlgo	*_algo;
 };
