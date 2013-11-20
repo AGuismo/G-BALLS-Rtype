@@ -8,13 +8,13 @@
 #include	"Database.hh"
 #include	"Salt.hpp"
 #include	"Game.h"
-#include	"ICallbacks.hh"
+#include	"Callback.hh"
 #include	"Client.hh"
 
 Salt::size_type	Salt::SALT = 42;
 
 Application::Application():
-  _menuManager(_menuOutput, _input), _gameManager(_gameOutput, _input)
+  _menuManager(this, _menuOutput, _input), _gameManager(_gameOutput, _input)
 {
   std::string	file("botlibrary");
 
@@ -85,7 +85,7 @@ void	Application::routine()
     {
       ICallbacks	*callbacks = _input.pop();
 
-      (*callbacks)(this);
+      (*callbacks)();
       delete callbacks;
       updateClients();
     }
@@ -93,20 +93,29 @@ void	Application::routine()
 
 void	Application::newClient(Client *client)
 {
+#if defined(DEBUG)
   std::cout << "Application::newClient(): " << "new Client" << std::endl;
+#endif
   _clients.push_back(client);
 }
 
 void	Application::newGame(menu::Game *game)
 {
   menu::Game::client_list::iterator	menuIt = game->getClients().begin();
+  Game::client_list			clients;
 
+#if defined(DEBUG)
+  std::cout << "Application::newGame(): " << "Start Game..." << std::endl;
+#endif
   for (; menuIt != game->clients().end(); ++menuIt)
     {
       client_list::iterator	appIt;
 
       appIt = std::find_if(_clients.begin(), _clients.end(), PredicateMenuClient(*menuIt));
+      clients.push_back(&(*appIt)->game());
     }
+  _gameOutput.push(new Callback<game::Manager, Game>(&_gameManager, new Game(clients),
+						     &game::Manager::newGame));
 }
 
 ///////////////////////

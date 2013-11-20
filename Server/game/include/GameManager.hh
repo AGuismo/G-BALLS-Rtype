@@ -55,11 +55,15 @@ namespace	game
     bool		getRequest(std::vector<cBuffer::Byte> &buf,
 				   AGameRequest *&request);
 
+  public:
+    void	newGame(Game *);
+
   private:
     void		update();
+    void		updateCallback();
     void		readData();
     void		writeData();
-	void		updateGameClocks(clock_time time);
+	void		updateGameClocks(Clock::clock_time time);
 
   private:
     void				getGame();

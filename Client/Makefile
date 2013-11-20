@@ -5,7 +5,7 @@
 ## Login   <brigno@epitech.net>
 ##
 ## Started on  Wed Oct 23 18:43:59 2013 brigno
-## Last update Wed Nov  6 03:05:03 2013 brigno
+## Last update Wed Nov 20 16:06:15 2013 brigno
 ##
 
 NAME	=	Client
@@ -17,6 +17,7 @@ SRC =		main.cpp			\
 		$(SOURCES)Background.cpp	\
 		$(SOURCES)MenuWindow.cpp	\
 		$(SOURCES)Text.cpp		\
+		$(SOURCES)CheckBox.cpp		\
 		$(SOURCES)AWidget.cpp		\
 		$(SOURCES)Image.cpp		\
 		$(SOURCES)TextArea.cpp		\
@@ -26,13 +27,14 @@ SRC =		main.cpp			\
 		$(SOURCES)AScreen.cpp		\
 		$(SOURCES)Texture.cpp		\
 		$(SOURCES)TextureManager.cpp	\
-		$(SOURCES)LobbyWindow.cpp	\
+		$(SOURCES)TextBlock.cpp		\
+		$(SOURCES)LineServer.cpp	\
 
 OBJ =		$(SRC:.cpp=.o)
 CC =		g++
 INCLUDE =	-I./Includes
 CXXFLAGS +=	$(INCLUDE)
-CXXFLAGS +=	-W -Wall -Wextra -ansi -pedantic
+CXXFLAGS +=	-W -Wall -Wextra -ansi -pedantic -g3
 CFLAGS +=	$(INCLUDE)
 CFLAGS +=	-W -Wall -Wextra -ansi -pedantic
 LFLAGS =	-L../Server/protocol/ -lprotocol -lsfml-graphics -lsfml-window -lsfml-system -lsfml-network

@@ -11,6 +11,7 @@
 # include	"ThreadEvent.hpp"
 # include	"Threads.hpp"
 
+class	Application;
 class	ARequest;
 class	Manager;
 class	Game;
@@ -33,7 +34,7 @@ namespace	menu
     typedef void (*request_callback)(ARequest *, Client *, Manager *);
     typedef std::map<requestCode::CodeID, request_callback>	request_callback_map;
   public:
-    Manager(input_event &input, output_event &output);
+    Manager(Application *parent, input_event &input, output_event &output);
     virtual ~Manager();
 
   public:
@@ -95,6 +96,7 @@ namespace	menu
     Manager& operator=(Manager const&);
 
   private:
+    Application				*_parent;
     Threads<void (*)(Manager *)>	_th;
     bool				_active;
     net::TcpServer			_server;

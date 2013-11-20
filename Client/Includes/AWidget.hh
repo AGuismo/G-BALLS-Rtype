@@ -5,7 +5,7 @@
 // Login   <brigno@epitech.net>
 //
 // Started on  Thu Oct 24 14:31:48 2013 brigno
-// Last update Tue Nov  5 16:56:03 2013 brigno
+// Last update Wed Nov 20 17:33:10 2013 brigno
 //
 
 #ifndef		__AWIDGET_HH__
@@ -17,11 +17,14 @@
 
 class			AWidget : public IWidget
 {
-protected:
+public:
   enum Type
     { TEXTAREA,
       TEXT,
-      BUTTON
+      BUTTON,
+      CHECKBOX,
+      TEXTBLOCK,
+      LINESERVER
     };
 protected:
   const sf::Event	&_event;
@@ -40,6 +43,8 @@ public:
   virtual void		stopHover(void) = 0;
   virtual void		draw(sf::RenderWindow &) = 0;
   bool			isFocus(const sf::Vector2i &pos);
+  const std::string	&getName(void) const {return (_name);};
+  const Type		&getType(void) const {return (_type);};
 };
 
 #endif	/* !__AWIDGET_HH__ */

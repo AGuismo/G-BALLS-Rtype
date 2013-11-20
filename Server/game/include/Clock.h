@@ -9,12 +9,13 @@
 
 class TimeConverter;
 
-typedef long long	clock_time;
 
 namespace	game
 {
   class	Clock
   {
+  public:
+    typedef unsigned long long	clock_time;
   public:
     Clock();
     ~Clock();

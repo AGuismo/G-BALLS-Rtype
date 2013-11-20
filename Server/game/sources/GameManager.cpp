@@ -1,5 +1,6 @@
 #include	<iostream>
 #include	<algorithm>
+#include	"ICallbacks.hh"
 #include	"GameManager.hh"
 #include	"Client.hh"
 #include	"AGameRequest.hh"
@@ -118,7 +119,7 @@ namespace	game
       }
   }
 
-  void			Manager::updateGameClocks(clock_time time)
+  void			Manager::updateGameClocks(Clock::clock_time time)
   {
 	  std::deque<Game *>::iterator	it;
 
@@ -128,40 +129,66 @@ namespace	game
 	  }
   }
 
+  void			Manager::newGame(Game *game)
+  {
+    Game::client_list	clients = game->clients();
+
+#if defined(DEBUG)
+    std::cout << "Game::Manager::newGame()" << "New Game pushed" << std::endl;
+#endif
+    _games.push_back(game);
+    for (Game::client_list::iterator it = clients.begin(); it != clients.end(); ++it)
+      {
+		(*it)->inUse(true);
+		_gameClients.push_back(*it);
+      }
+  }
+
+  void			Manager::updateCallback()
+  {
+    ICallbacks		*cb;
+
+    while ((cb = _input.pop(false)) != 0)
+      {
+	(*cb)();
+	delete cb;
+      }
+  }
+
   void			Manager::routine(Manager *self)
   {
-    clock_time		time;
+	  Clock::clock_time		time;
 
-	self->_clock.start();
-    while (true)
-      {
-		self->_clock.update();
+	  self->_clock.start();
+	  while (true)
+	  {
+		  self->_clock.update();
 
-		if (!self->_games.empty())
-		{
-			self->_monitor.setOption(net::streamManager::TIMEOUT, self->_games.front()->timer());
-		}
-		self->_monitor.run(); /* Surcouche du select() */
-		self->_clock.update();
-		time = self->_clock.getElapsedTime();
-
-		if (self->_server.read() || self->_server.write())
-		{
-			try
-			{
-				if (self->_server.read())
-					self->readData();
-				if (self->_server.write())
-					self->writeData();
-			}
-			catch (net::Exception &e)
-			{
-				std::cerr << "Error " << e.what() << "in Manager::routine." << std::endl;
-			}
-		}
-		else
-			self->update();
-	}
+		  if (!self->_games.empty())
+		  {
+			  self->_monitor.setOption(net::streamManager::TIMEOUT, self->_games.front()->timer());
+		  }
+		  self->_monitor.run(); /* Surcouche du select() */
+		  self->_clock.update();
+		  time = self->_clock.getElapsedTime();
+		  self->updateCallback();
+		  if (self->_server.read() || self->_server.write())
+		  {
+			  try
+			  {
+				  if (self->_server.read())
+					  self->readData();
+				  if (self->_server.write())
+					  self->writeData();
+			  }
+			  catch (net::Exception &e)
+			  {
+				  std::cerr << "Error " << e.what() << "in Manager::routine." << std::endl;
+			  }
+		  }
+		  else
+			  self->update();
+	  }
   }
 
   ///////////////

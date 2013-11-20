@@ -5,7 +5,7 @@
 // Login   <brigno@epitech.net>
 //
 // Started on  Mon Oct 28 14:40:49 2013 brigno
-// Last update Wed Nov  6 01:40:07 2013 brigno
+// Last update Wed Nov 20 16:44:46 2013 brigno
 //
 
 #include	"TextArea.hh"

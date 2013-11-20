@@ -5,7 +5,7 @@
 // Login   <brigno@epitech.net>
 //
 // Started on  Mon Oct 28 14:11:06 2013 brigno
-// Last update Tue Nov  5 02:17:57 2013 brigno
+// Last update Tue Nov 19 22:29:53 2013 brigno
 //
 
 #ifndef		__TEXTAREA_HH__

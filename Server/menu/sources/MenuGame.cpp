@@ -90,12 +90,12 @@ namespace	menu
     _status = status;
   }
 
-  Client			*Game::owner() const
+  Client		*Game::owner() const
   {
     return (_owner);
   }
 
-  Game::client_list		&Game::getClients(void)
+  Game::client_list	&Game::getClients(void)
   {
     return (_clients);
   }

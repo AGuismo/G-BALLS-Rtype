@@ -15,7 +15,7 @@ namespace	game
   class Player : public Entity
   {
   public:
-	  Player(std::vector<game::Pos> &pos, ID id);
+	  Player(const std::vector<game::Pos> &pos, ID id);
     virtual	~Player();
 
     virtual void	move(Dir dir);

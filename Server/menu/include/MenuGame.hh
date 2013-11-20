@@ -4,12 +4,12 @@
 # include	<list>
 # include	<string>
 # include	"types.hh"
+# include	"MenuClient.hh"
 
 class Game;
 
 namespace	menu
 {
-  class Client;
   class Game
   {
   public:
@@ -48,6 +48,9 @@ namespace	menu
 
     client_list			&getClients(void);
 
+    template <typename Req>
+    void			broadcast(const Req &req);
+
   private:
     Game(Game const&);
     Game& operator=(Game const&);
@@ -72,6 +75,14 @@ namespace	menu
       const std::string	&_name;
     };
   };
+
+  template <typename Req>
+  void			Game::broadcast(const Req &req)
+  {
+    for (client_list::iterator it = _clients.begin(); it != _clients.end(); ++it)
+      (*it)->requestPush(new Req(req));
+  }
 }
+
 
 #endif /* MENUGAME_H_ */

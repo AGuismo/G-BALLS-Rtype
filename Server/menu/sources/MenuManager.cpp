@@ -15,14 +15,14 @@
 #include	"GameClient.hh"
 #include	"Player.h"
 #include	"MenuGame.hh"
-#include	"ClientCallback.hh"
-#include	"ICallbacks.hh"
+#include	"Callback.hh"
 #include	"Application.hh"
 
 namespace	menu
 {
-  Manager::Manager(Manager::input_event &input, Manager::output_event &output) :
-    _th(Func::Bind(&Manager::routine, this)), _active(true), _input(input), _output(output)
+  Manager::Manager(Application *parent, Manager::input_event &input, Manager::output_event &output) :
+    _parent(parent), _th(Func::Bind(&Manager::routine, this)), _active(true),
+    _input(input), _output(output)
   {
     _server.monitor(true, false);
     _requestCallback[requestCode::auth::CONNECT] = &tryConnect;
@@ -70,7 +70,7 @@ namespace	menu
 
 	_clients.push_back(&client->menu());
 	_monitor.setMonitor(*(client->menu().TcpLayer()));
-	//_output.push(new ClientCallback(client, &Application::newClient));
+	_output.push(new Callback<Application, ::Client>(_parent, client, &Application::newClient));
       }
   }
 
@@ -117,11 +117,7 @@ namespace	menu
   void	Manager::broadcast(const Req &req)
   {
     for (client_list::iterator it = _clients.begin(); it != _clients.end(); ++it)
-      {
-	Req	*broadcasted = new Req(req);
-
-	(*it)->requestPush(broadcasted);
-      }
+      (*it)->requestPush(new Req(req));
   }
 
   void	Manager::routine(Manager *self)
@@ -354,23 +350,11 @@ namespace	menu
 	delete req;
 	return;
       }
-    // manager->_output.push((*it)->initialize());
-    //::Game	*new_game = new ::Game();
-
-    //(*it)->game(new_game);
-
-    // std::list<game::Client *>	players;
-    // Game			*new_game = new Game(players);
-    // game::Client	*new_client = new game::Client();
-    // game::Player	*player = new game::Player(42, new_game->UniqueId());
-
-    // new_client->player(player);
-    // players.push_back(new_client);
-    // client->game().game(new_game);
-    // client->game().player(player);
-    // client->requestPush(new ServerRequest(requestCode::server::OK));
-    // client->requestPush(new Party::Launch(Party::Launch::Unique()));
-    // manager->sendGame(new_game);
+    client->requestPush(new ServerRequest(requestCode::server::OK));
+    (*it)->broadcast(Party::Launch(Party::Launch::Unique()));
+    (*it)->status(Game::IN_GAME);
+    manager->_output.push(new Callback<Application, menu::Game>(manager->_parent, *it,
+								&Application::newGame));
     delete req;
   }
 

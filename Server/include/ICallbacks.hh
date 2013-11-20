@@ -9,7 +9,7 @@ public:
   virtual ~ICallbacks() {};
 
 public:
-  virtual void	operator()(Application *) = 0;
+  virtual void	operator()() = 0;
 };
 
 #endif /* ICALLBACKS_H_ */

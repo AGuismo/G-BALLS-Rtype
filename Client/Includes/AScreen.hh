@@ -5,7 +5,7 @@
 // Login   <brigno@epitech.net>
 //
 // Started on  Tue Nov  5 15:14:30 2013 brigno
-// Last update Wed Nov  6 04:04:27 2013 brigno
+// Last update Wed Nov 20 19:12:22 2013 brigno
 //
 
 #ifndef		__SCREEN_HH__
@@ -25,7 +25,15 @@ public:
       CONTINUE,
       EXIT,
       QUIT,
-      CHANGE_SCR
+      LOGIN,
+      CREATE_GAME,
+      JOIN_GAME,
+      REFRESH_GAME,
+      BACK_MENU,
+      SUBMIT,
+      BACK_LOBY,
+      VALIDE,
+      SELECT_SERVER
     };
 protected:
   Status		_status;
@@ -36,7 +44,8 @@ protected:
 public:
   AScreen(const std::string &name, int width, int height, Network *network, AScreen::Status status);
   ~AScreen();
-  virtual int	run(void) = 0;
+  virtual void	run(void) = 0;
+  virtual void		clearWindow(void) = 0;
 
 public:
   class Exception
