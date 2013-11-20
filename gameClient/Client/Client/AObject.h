@@ -17,6 +17,7 @@ protected:
 
 protected:
 	bool					_act;
+	bool					_alive;
 
 protected:
 	sf::Texture				*_texture;
@@ -43,13 +44,20 @@ public:
 
 public:
 	virtual void			draw(void) = 0;
-	virtual void			update(Action act, LookDirection lDir, int updatedPos) = 0;
+	virtual void			update(LookDirection lDir, int updatedPos) = 0;
 
 public:
 	const sf::Vector2f		&getVectorNextPos(void);
 	const sf::Vector2f		&getVectorCurPos(void);
 	int						getCaseNextPos(void);
 	int						getCaseCurPos(void);
+
+public:
+	ObjType					getObjType(void);
+	int						getObjId(void);
+
+public:
+	bool					isAlive(void);
 
 public:
 	virtual	~AObject() {}

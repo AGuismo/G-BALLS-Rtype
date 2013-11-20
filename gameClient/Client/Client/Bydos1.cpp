@@ -49,9 +49,9 @@ void						Bydos1::draw(void)
 	_gameWindow->draw(_image);
 }
 
-void			Bydos1::update(Action act, LookDirection lDir, int updtatedPos)
+void			Bydos1::update(LookDirection lDir, int updtatedPos)
 {
-	if ((act != Nothing && _act) || (updtatedPos != Game::UNCHANGED))
+	if (updtatedPos != Game::UNCHANGED)
 	{
 		_cNextPos = updtatedPos;
 		if (!_act)
@@ -82,6 +82,7 @@ Bydos1::Bydos1(ObjType type, int id, int pos, LookDirection ld, sf::Texture *tex
 	_cCurPos = pos;
 	_cNextPos = pos;
 	_ld = ld;
+	_alive = true;
 	_vCurPos = sf::Vector2f((float)Game::POSX(_cCurPos), (float)Game::POSY(_cCurPos));
 	_vNextPos = sf::Vector2f((float)Game::POSX(_cCurPos), (float)Game::POSY(_cCurPos));
 	_image.setTexture(*text);

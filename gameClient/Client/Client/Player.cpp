@@ -45,9 +45,9 @@ void						Player::draw(void)
 	_gameWindow->draw(_image);
 }
 
-void			Player::update(Action act, LookDirection lDir, int updtatedPos)
+void			Player::update(LookDirection lDir, int updtatedPos)
 {
-	if ((act != Nothing && _act) || (updtatedPos != Game::UNCHANGED))
+	if (updtatedPos != Game::UNCHANGED)
 	{
 		_cNextPos = updtatedPos;
 		if (!_act)
@@ -78,6 +78,7 @@ Player::Player(ObjType type, int id, int pos, LookDirection ld, sf::Texture *tex
 	_cCurPos = pos;
 	_cNextPos = pos;
 	_ld = ld;
+	_alive = true;
 	_vCurPos = sf::Vector2f((float)Game::POSX(_cCurPos), (float)Game::POSY(_cCurPos));
 	_vNextPos = sf::Vector2f((float)Game::POSX(_cCurPos), (float)Game::POSY(_cCurPos));
 	_indexSprite = 0;
@@ -101,7 +102,7 @@ Player::Player(ObjType type, int id, int pos, LookDirection ld, sf::Texture *tex
 	_image.setTexture(*text);
 	_image.setTextureRect(sf::IntRect(132, _indexSprite, 68, 38));
 	_image.setPosition((float)Game::POSX(_cCurPos), (float)Game::POSY(_cCurPos));
-	_mvtTime = 0.42f;
+	_mvtTime = 0.22f;
 	_timerMvt = new Timer(new sf::Time(sf::seconds(_mvtTime)));
 	_gameWindow = gameWindow;
 	_act = false;

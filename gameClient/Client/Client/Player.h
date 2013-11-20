@@ -10,7 +10,7 @@ private:
 	int					_indexSprite;
 
 public:
-	void				update(Action act, LookDirection lDir, int updatedPos);
+	void				update(LookDirection lDir, int updatedPos);
 	virtual void		draw(void);
 
 public:

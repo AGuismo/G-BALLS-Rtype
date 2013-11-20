@@ -49,16 +49,22 @@ public:
 	static int					POSX(int x) { return ((x % SIZE_GAME_BOARD) * PX_DEC_X); }
 	static int					POSY(int y) { return ((y / SIZE_GAME_BOARD) * PX_DEC_Y); }
 
+private:
+	bool						updatePlayer(Action action);
 
 private:
-	void						draw(void);
-	void						update(void);
-	bool						updatePlayer(Action action);
+	void						drawObjects(void);
+	void						cleanObjects(void);
+
+public:
+	bool						updateObj(ObjType type, LookDirection lDir, int id, int pos);
+	bool						addObj(ObjType type, int id, int pos);
+	bool						delObj(int id);
 
 public:
 	bool						load(void);
 	void						run(void);
-	bool						addObj(ObjType type, int id, int pos);
+
 
 public:
 	Game(sf::RenderWindow *gameWindow, sf::Event *event);

@@ -5,19 +5,19 @@ void						AObject::findAnimation(void) //faire l'invers batard
 	if (_cCurPos == _cNextPos)
 		return;
 
-	if (_vCurPos.x < _vNextPos.x) // déplacement droite
+	if (_vCurPos.x < _vNextPos.x)
 	{
 		_action = Right;
 	}
-	else if (_vCurPos.x > _vNextPos.x) // déplacement gauche
+	else if (_vCurPos.x > _vNextPos.x)
 	{
 		_action = Left;
 	}
-	else if (_vCurPos.y < _vNextPos.y) // down
+	else if (_vCurPos.y < _vNextPos.y)
 	{
 		_action = Down;
 	}
-	else if (_vCurPos.y > _vNextPos.y) // up
+	else if (_vCurPos.y > _vNextPos.y)
 	{
 		_action = Up;
 	}
@@ -42,4 +42,19 @@ int							AObject::getCaseNextPos(void)
 int							AObject::getCaseCurPos(void)
 {
 	return (_cNextPos);
+}
+
+ObjType						AObject::getObjType(void)
+{
+	return (_type);
+}
+
+int						AObject::getObjId(void)
+{
+	return (_id);
+}
+
+bool						AObject::isAlive(void)
+{
+	return (_alive);
 }

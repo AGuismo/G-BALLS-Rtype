@@ -3,6 +3,7 @@
 #include			"TextureManager.h"
 #include			"Player.h"
 #include			"Bydos1.h"
+#include			"Bang.h"
 
 AObject				*Factory::createObject(ObjType type, int id, int pos, LookDirection ldir)
 {
@@ -26,6 +27,12 @@ AObject				*Factory::createObject(ObjType type, int id, int pos, LookDirection l
 			break;
 		case SBYDOS1:
 			return (new Bydos1(type, id, pos, ldir, text, _gameWindow));
+			break;
+		case NORMAL_BANG:
+			return (new Bang(type, id, pos, ldir, text, _gameWindow));
+			break;
+		case BIG_BANG:
+			return (new Bang(type, id, pos, ldir, text, _gameWindow));
 			break;
 		default:
 			return NULL;
