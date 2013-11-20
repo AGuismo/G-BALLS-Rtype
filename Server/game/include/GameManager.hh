@@ -27,6 +27,7 @@
 
 //class	Client;
 class	AGameRequest;
+class	ICallbacks;
 
 using	net::cBuffer;
 
@@ -34,14 +35,14 @@ namespace	game
 {
   class Manager
   {
-	typedef Thread::EventQueue< ::Game *>		input_event;
-	typedef Thread::EventQueue<ARequest *>	output_event;
+    typedef Thread::EventQueue<ICallbacks *>	input_event;
+    typedef Thread::EventQueue<ICallbacks *>	output_event;
     typedef void(*request_callback)(ARequest *, Client *, Manager *);
     typedef std::map<requestCode::CodeID, request_callback>	request_callback_map;
     typedef std::vector< ::Client *>				client_vect;
 
   public:
-    Manager(Thread::EventQueue<Game *> &input, Thread::EventQueue<ARequest *> &output);
+    Manager(input_event &input, output_event &output);
     ~Manager();
 
   public:
@@ -56,7 +57,7 @@ namespace	game
   private:
     void		update();
     void		readData();
-	void		writeData();
+    void		writeData();
 
   private:
     void		getGame();
@@ -75,8 +76,8 @@ namespace	game
     Threads<void (*)(Manager *)>	_th;
     Clock				_clock;
     std::list<Game *>			_games;
-    input_event		&_input;
-    output_event	&_output;
+    input_event				&_input;
+    output_event			&_output;
     net::UdpServer			_server;
     net::streamManager			_monitor;
     client_vect				_gameClients;

@@ -2,6 +2,7 @@
 #include	<iostream>
 #include	"Game.h" /*Must be included in first*/
 #include	"Database.hh"
+#include	"MenuClient.hh"
 #include	"MenuManager.hh"
 #include	"MenuException.hh"
 #include	"sys.hh"
@@ -13,13 +14,15 @@
 #include	"ServerRequest.hh"
 #include	"GameClient.hh"
 #include	"Player.h"
-#include	"ThreadEvent.hpp"
 #include	"MenuGame.hh"
+#include	"ClientCallback.hh"
+#include	"ICallbacks.hh"
+#include	"Application.hh"
 
 namespace	menu
 {
   Manager::Manager(Manager::input_event &input, Manager::output_event &output) :
-    _active(true), _input(input), _output(output)
+    _th(Func::Bind(&Manager::routine, this)), _active(true), _input(input), _output(output)
   {
     _server.monitor(true, false);
     _requestCallback[requestCode::auth::CONNECT] = &tryConnect;
@@ -36,7 +39,7 @@ namespace	menu
 
   Manager::~Manager()
   {
-	  std::cerr << "menu::Manager::~Manager()" << std::endl;
+    _th.cancel();
   }
 
   void	Manager::initialize(unsigned short int port)
@@ -55,8 +58,8 @@ namespace	menu
 
   void	Manager::run()
   {
+    _th.run();
     std::cout << "Menu manager started..." << std::endl;
-    routine(this);
   }
 
   void	Manager::checkNewClient()
@@ -65,14 +68,15 @@ namespace	menu
       {
 	::Client	*client = new ::Client(_server.accept());
 
-	_clients.push_back(client);
+	_clients.push_back(&client->menu());
 	_monitor.setMonitor(*(client->menu().TcpLayer()));
+	_output.push(new ClientCallback(client, &Application::newClient));
       }
   }
 
-  void	Manager::clientRequest(::Client *client)
+  void	Manager::clientRequest(Client *client)
   {
-    ARequest *req = client->menu().requestPop();
+    ARequest *req = client->requestPop();
 
     while (req != 0)
       {
@@ -80,7 +84,7 @@ namespace	menu
 
 	if (it != _requestCallback.end())
 	  it->second(req, client, this);
-	req = client->menu().requestPop();
+	req = client->requestPop();
       }
   }
 
@@ -90,16 +94,17 @@ namespace	menu
 
     for (it = _clients.begin(); it != _clients.end();)
       {
-	(*it)->menu().update();
-	if ((*it)->menu().isTCPDisconnected())
+	(*it)->update();
+	if ((*it)->isTCPDisconnected())
 	  {
-	    ::Client	*client = *it;
+	    Client	*client = *it;
 #if defined(DEBUG)
-	    std::cerr << "Client disconnected(" << *it << ")" << std::endl;
+	    std::cerr << "menu::Manager::updateClients() Client disconnected("
+		      << *it << ")" << std::endl;
 #endif
-	    _monitor.unsetMonitor(*client->menu().TcpLayer());
+	    _monitor.unsetMonitor(*client->TcpLayer());
+	    (*it)->inUse(false);
 	    it = _clients.erase(it);
-	    delete client;
 	    continue ;
 	  }
 	clientRequest(*it);
@@ -115,25 +120,25 @@ namespace	menu
       {
 	Req	*broadcasted = new Req(req);
 
-	(*it)->menu().requestPush(broadcasted);
+	(*it)->requestPush(broadcasted);
       }
   }
 
-  void	Manager::routine(Manager *thisPtr)
+  void	Manager::routine()
   {
-    while (thisPtr->_active)
+    while (_active)
       {
-		try
-		{
-			thisPtr->_monitor.run();
-			thisPtr->updateClients();
-		}
-		catch (net::Exception &e)
-		{
-			thisPtr->_active = false;
-			std::cerr << "Fatal error : " << e.what() << " in menu::Manager::routine" << std::endl;
-		}
-		thisPtr->checkNewClient();
+	try
+	  {
+	    _monitor.run();
+	    updateClients();
+	  }
+	catch (net::Exception &e)
+	  {
+	    _active = false;
+	    std::cerr << "Fatal error : " << e.what() << " in menu::Manager::routine" << std::endl;
+	  }
+	checkNewClient();
       }
   }
 
@@ -155,34 +160,37 @@ namespace	menu
   ////////////////////
   // Try to connect //
   ////////////////////
-  void	Manager::tryConnect(ARequest *req, ::Client *client, Manager *manager)
+  void	Manager::tryConnect(ARequest *req, Client *client, Manager *manager)
   {
     Auth::Connect	*request = dynamic_cast<Auth::Connect *>(req);
 
 #if defined(DEBUG)
-    std::cout << request->username() << ":" << request->password() << std::endl;
+    std::cout << client << ":" << request->username() << ":" << request->password() << std::endl;
+    std::cout << std::boolalpha << "already connected ? "
+	      << !manager->isConnected(request->username()) << std::endl;
+    std::cout << std::boolalpha << "already authenticated ? "
+	      << client->authenticated() << std::endl;
 #endif
-    if (!client->menu().authenticated() && !manager->isConnected(request->username()))
+    if (!client->authenticated() && !manager->isConnected(request->username()))
       {
 	Database::Client	c;
 
-	if (!Database::getInstance().clientExist(request->username(), request->password()) ||
-	    !Database::getInstance().getClient(request->username(), c))
+	if (Database::getInstance().clientExist(request->username(), request->password()) &&
+	    Database::getInstance().getClient(request->username(), c))
 	  {
 #if defined(DEBUG)
 	    std::cout << client << ": Authentication succeed" << std::endl;
 #endif
-	    client->menu().username(c.login);
-	    client->menu().password(c.password);
-	    client->menu().permissions(c.rights);
-	    client->menu().authenticated(true);
+	    client->username(c.login);
+	    client->password(c.password);
+	    client->permissions(c.rights);
+	    client->authenticated(true);
 
 	    requestCode::SessionID id = SessionRequest::Unique();
-	    client->menu().sessionID(id);
-	    client->id(id);
+	    client->sessionID(id);
 
-	    client->menu().requestPush(new ServerRequest(requestCode::server::OK));
-	    client->menu().requestPush(new SessionRequest(client->id()));
+	    client->requestPush(new ServerRequest(requestCode::server::OK));
+	    client->requestPush(new SessionRequest(client->sessionID()));
 	    delete req;
 	    return ;
 	  }
@@ -190,14 +198,14 @@ namespace	menu
 #if defined(DEBUG)
     std::cout << client << ": Authentication failed" << std::endl;
 #endif
-    client->menu().requestPush(new ServerRequest(requestCode::server::FORBIDDEN));
+    client->requestPush(new ServerRequest(requestCode::server::FORBIDDEN));
     delete req;
   }
 
   ///////////////////////
   // Create a new User //
   ///////////////////////
-  void	Manager::newUser(ARequest *req, ::Client *client, Manager *manager)
+  void	Manager::newUser(ARequest *req, Client *client, Manager *manager)
   {
 #if defined(DEBUG)
     std::cout << "Manager::newUser" << std::endl;
@@ -205,11 +213,11 @@ namespace	menu
     Auth::NewUser	*request = dynamic_cast<Auth::NewUser *>(req);
 
     (void)manager;
-    if (!client->menu().authenticated())
+    if (!client->authenticated())
       {
 	if (Database::getInstance().newClient(request->username(), request->password()))
 	  {
-	    client->menu().requestPush(new ServerRequest(requestCode::server::OK));
+	    client->requestPush(new ServerRequest(requestCode::server::OK));
 	    delete req;
 	    return ;
 	  }
@@ -217,27 +225,27 @@ namespace	menu
 #if defined(DEBUG)
     std::cout << client << ": Can't create new user named" << request->username() << std::endl;
 #endif
-    client->menu().requestPush(new ServerRequest(requestCode::server::FORBIDDEN));
+    client->requestPush(new ServerRequest(requestCode::server::FORBIDDEN));
     delete req;
   }
 
   ////////////////
   // List games //
   ////////////////
-  void	Manager::listGames(ARequest *req, ::Client *client, Manager *manager)
+  void	Manager::listGames(ARequest *req, Client *client, Manager *manager)
   {
 #if defined(DEBUG)
     std::cout << "Manager::listGames" << std::endl;
 #endif
-    if (!client->menu().authenticated())
+    if (!client->authenticated())
       {
-	client->menu().requestPush(new ServerRequest(requestCode::server::FORBIDDEN));
+	client->requestPush(new ServerRequest(requestCode::server::FORBIDDEN));
 	delete req;
 	return ;
       }
-    client->menu().requestPush(new ServerRequest(requestCode::server::OK));
+    client->requestPush(new ServerRequest(requestCode::server::OK));
     for (game_list::iterator it = manager->_games.begin(); it != manager->_games.end() ; ++it)
-      client->menu().requestPush(new Party::Update((*it)->partyName(),
+      client->requestPush(new Party::Update((*it)->partyName(),
 						   (*it)->availableSlots(),
 						   (*it)->maxPlayers(),
 						   (*it)->ispassword(),
@@ -248,17 +256,17 @@ namespace	menu
   /////////////////
   // create game //
   /////////////////
-  void	Manager::createGame(ARequest *req, ::Client *client, Manager *manager)
+  void	Manager::createGame(ARequest *req, Client *client, Manager *manager)
   {
 #if defined(DEBUG)
     std::cout << "Manager::createGame" << std::endl;
 #endif
     Party::Create	*request = dynamic_cast<Party::Create *>(req);
 
-    if (!client->menu().authenticated() || find_if(manager->_games.begin(), manager->_games.end(),
-						   PredicateParty(request->_partyName)) == manager->_games.end())
+    if (!client->authenticated() || find_if(manager->_games.begin(), manager->_games.end(),
+					    PredicateParty(request->_partyName)) != manager->_games.end())
       {
-	client->menu().requestPush(new ServerRequest(requestCode::server::FORBIDDEN));
+	client->requestPush(new ServerRequest(requestCode::server::FORBIDDEN));
 	delete req;
 	return ;
       }
@@ -270,13 +278,13 @@ namespace	menu
       game->password(request->_partyPass);
     manager->_games.push_back(game);
     delete req;
-    client->menu().requestPush(new ServerRequest(requestCode::server::OK));
+    client->requestPush(new ServerRequest(requestCode::server::OK));
   }
 
   ///////////////
   // join game //
   ///////////////
-  void	Manager::joinGame(ARequest *req, ::Client *client, Manager *manager)
+  void	Manager::joinGame(ARequest *req, Client *client, Manager *manager)
   {
 #if defined(DEBUG)
     std::cout << "Manager::JoinGame" << std::endl;
@@ -285,13 +293,13 @@ namespace	menu
     game_list::iterator	it = find_if(manager->_games.begin(), manager->_games.end(),
 				     PredicateParty(request->_partyName));
 
-    if (!client->menu().authenticated() || it == manager->_games.end() || !(*it)->newPlayer(client))
+    if (!client->authenticated() || it == manager->_games.end() || !(*it)->newPlayer(client))
       {
-	client->menu().requestPush(new ServerRequest(requestCode::server::FORBIDDEN));
+	client->requestPush(new ServerRequest(requestCode::server::FORBIDDEN));
 	delete req;
 	return ;
       }
-    client->menu().requestPush(new ServerRequest(requestCode::server::OK));
+    client->requestPush(new ServerRequest(requestCode::server::OK));
     manager->broadcast(Party::Update((*it)->partyName(),
 				     (*it)->availableSlots(),
 				     (*it)->maxPlayers(),
@@ -303,7 +311,7 @@ namespace	menu
   /////////////////
   // cancel game //
   /////////////////
-  void	Manager::cancelGame(ARequest *req, ::Client *client, Manager *manager)
+  void	Manager::cancelGame(ARequest *req, Client *client, Manager *manager)
   {
 #if defined(DEBUG)
     std::cout << "Manager::cancelGame" << std::endl;
@@ -311,14 +319,14 @@ namespace	menu
     game_list::iterator	it = find_if(manager->_games.begin(), manager->_games.end(),
 				     PredicateOwner(client));
 
-    if (!client->menu().authenticated() || it == manager->_games.end() ||
+    if (!client->authenticated() || it == manager->_games.end() ||
 	(*it)->status() != Game::OUT_GAME)
       {
-	client->menu().requestPush(new ServerRequest(requestCode::server::FORBIDDEN));
+	client->requestPush(new ServerRequest(requestCode::server::FORBIDDEN));
 	delete req;
 	return ;
       }
-    client->menu().requestPush(new ServerRequest(requestCode::server::OK));
+    client->requestPush(new ServerRequest(requestCode::server::OK));
     manager->broadcast(Party::Update((*it)->partyName(),
 				     (*it)->availableSlots(),
 				     (*it)->maxPlayers(),
@@ -331,7 +339,7 @@ namespace	menu
   ////////////////////
   // Launch a party //
   ////////////////////
-  void	Manager::launchGame(ARequest *req, ::Client *client, Manager *manager)
+  void	Manager::launchGame(ARequest *req, Client *client, Manager *manager)
   {
 #if defined(DEBUG)
     std::cout << "Manager::launchGame" << std::endl;
@@ -339,14 +347,14 @@ namespace	menu
     game_list::iterator	it = find_if(manager->_games.begin(), manager->_games.end(),
 				     PredicateOwner(client));
 
-    if (!client->menu().authenticated() || it == manager->_games.end() ||
+    if (!client->authenticated() || it == manager->_games.end() ||
 	(*it)->status() != Game::OUT_GAME)
       {
-	client->menu().requestPush(new ServerRequest(requestCode::server::FORBIDDEN));
+	client->requestPush(new ServerRequest(requestCode::server::FORBIDDEN));
 	delete req;
 	return;
       }
-    manager->_output.push((*it)->initialize());
+    // manager->_output.push((*it)->initialize());
     //::Game	*new_game = new ::Game();
 
     //(*it)->game(new_game);
@@ -360,8 +368,8 @@ namespace	menu
     // players.push_back(new_client);
     // client->game().game(new_game);
     // client->game().player(player);
-    // client->menu().requestPush(new ServerRequest(requestCode::server::OK));
-    // client->menu().requestPush(new Party::Launch(Party::Launch::Unique()));
+    // client->requestPush(new ServerRequest(requestCode::server::OK));
+    // client->requestPush(new Party::Launch(Party::Launch::Unique()));
     // manager->sendGame(new_game);
     delete req;
   }
@@ -369,11 +377,11 @@ namespace	menu
   //////////////
   // Shutdown //
   //////////////
-  void	Manager::shutdown(ARequest *req, ::Client *client, Manager *manager)
+  void	Manager::shutdown(ARequest *req, Client *client, Manager *manager)
   {
-    if (!client->menu().authenticated() || client->menu().permissions() != database::SUPER_USER)
+    if (!client->authenticated() || client->permissions() != database::SUPER_USER)
       {
-	client->menu().requestPush(new ServerRequest(requestCode::server::FORBIDDEN));
+	client->requestPush(new ServerRequest(requestCode::server::FORBIDDEN));
 	delete req;
 	return;
       }
@@ -390,9 +398,9 @@ namespace	menu
 
   }
 
-  bool	Manager::PredicateClient::operator()(const ::Client *client)
+  bool	Manager::PredicateClient::operator()(const Client *client)
   {
-    return (client->menu().username() == _login);
+    return (client->username() == _login);
   }
 
   Manager::PredicateParty::PredicateParty(const std::string &partyName) :
@@ -406,7 +414,7 @@ namespace	menu
     return (game->partyName() == _partyName);
   }
 
-  Manager::PredicateOwner::PredicateOwner(const ::Client *client) :
+  Manager::PredicateOwner::PredicateOwner(const Client *client) :
     _client(client)
   {
 

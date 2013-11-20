@@ -5,11 +5,11 @@
 # include	<string>
 # include	"types.hh"
 
-class Client;
 class Game;
 
 namespace	menu
 {
+  class Client;
   class Game
   {
   public:
@@ -18,14 +18,14 @@ namespace	menu
     static const Ruint8 CANCELED = 2;
     static const Ruint8 FINISHED = 3;
   public:
-    typedef std::list< ::Client *>	client_list;
+    typedef std::list<Client *>	client_list;
 
   public:
-    Game(::Client *);
+    Game(Client *);
     virtual ~Game();
 
   public:
-    bool			newPlayer(::Client *);
+    bool			newPlayer(Client *);
     bool			delPlayer(const std::string &name);
     const client_list		&clients() const;
 
@@ -49,14 +49,14 @@ namespace	menu
 
     ::Game			*initialize(void);
 
-    ::Client			*owner() const;
+    Client			*owner() const;
 
   private:
     Game(Game const&);
     Game& operator=(Game const&);
 
   private:
-    ::Client			*_owner;
+    Client			*_owner;
     client_list			_clients;
     std::string			_partyName;
     bool			_ispassword;
@@ -66,10 +66,10 @@ namespace	menu
     requestCode::PasswordType	_password;
 
   private:
-    struct	Predicate : public std::unary_function< ::Client *, bool>
+    struct	Predicate : public std::unary_function<Client *, bool>
     {
       Predicate(const std::string &name);
-      bool	operator()(const ::Client *);
+      bool	operator()(const Client *);
 
     private:
       const std::string	&_name;

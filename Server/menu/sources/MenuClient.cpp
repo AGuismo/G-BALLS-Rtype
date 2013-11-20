@@ -1,3 +1,6 @@
+#if defined(DEBUG)
+#include	<stdio.h>
+#endif
 #include	<iostream>
 #include	"ClientAccepted.h"
 #include	"MenuClient.hh"
@@ -7,8 +10,8 @@
 
 namespace	menu
 {
-  Client::Client(net::ClientAccepted *clientTcp):
-    _used(false), _TcpLayer(clientTcp)
+  Client::Client(requestCode::SessionID &id, net::ClientAccepted *clientTcp):
+    _used(false), _TcpLayer(clientTcp), _id(id)
   {
     _auth._authenticated = false;
   }
@@ -25,18 +28,29 @@ namespace	menu
       throw "No TCP socket";
     //  std::cout << __PRETTY_FUNCTION__ << std::endl;
 #endif
+    if (_TcpLayer->read())
+      {
 	try
-	{
-		if (_TcpLayer->read())
-			recvSock();
-		if (_TcpLayer->write())
-			sendSock();
-	}
+	  {
+	    recvSock();
+	  }
 	catch (net::Exception &e)
-	{
-		std::cerr << "Error : " << e.what() << " in menu::client" << std::endl;
-	}
-    while (inputRequest());
+	  {
+	    std::cerr << "Error : " << e.what() << " in menu::client" << std::endl;
+	  }
+	while (inputRequest());
+      }
+    if (_TcpLayer->write())
+      {
+	try
+	  {
+	    sendSock();
+	  }
+	catch (net::Exception &e)
+	  {
+	    std::cerr << "Error : " << e.what() << " in menu::client" << std::endl;
+	  }
+      }
   }
 
   void		Client::finalize()
@@ -73,35 +87,51 @@ namespace	menu
   void		Client::recvSock()
   {
 #if defined(DEBUG)
-    std::cerr << "The client have data to read" << std::endl;
+    std::cout << "menu::Client::recvSock(): " << "The client have data to read" << std::endl;
 #endif
-    if (_TcpLayer->recv() <= 0)
-      return ;
+    try
+      {
+	if (_TcpLayer->recv() <= 0)
+	  return ;
+      }
+    catch (const net::Exception &e)
+      {
+	std::cerr << "Error : " << e.what() << " in menu::client" << std::endl;
+	return ;
+      }
 #if defined(DEBUG)
     std::vector<net::cBuffer::Byte> buf;
 
-    std::cout << _TcpLayer->lookRead(buf, 512) << std::endl;
+    std::cout << "menu::Client::recvSock(): " << _TcpLayer->lookRead(buf, 512) << std::endl;
+    std::cout << "menu::Client::recvSock(): ";
     for (std::vector<net::cBuffer::Byte>::iterator it = buf.begin(); it != buf.end(); ++it)
-      std::cerr << *it;
-    std::cerr << std::endl;
+      printf("%.2X", *it);
+    printf("\n");
 #endif
   }
 
   void				Client::sendSock()
   {
 #if defined(DEBUG)
-    std::cerr << "The client have data to send" << std::endl;
-#endif
-#if defined(DEBUG)
+    std::cout << "menu::Client::sendSock(): " << "The client have data to send" << std::endl;
     std::vector<net::cBuffer::Byte> buf;
 
-    std::cout << _TcpLayer->lookWrite(buf, 512) << std::endl;
+    std::cout << "menu::Client::sendSock(): " << _TcpLayer->lookWrite(buf, 512) << std::endl;
+    std::cout << "menu::Client::sendSock(): ";
     for (std::vector<net::cBuffer::Byte>::iterator it = buf.begin(); it != buf.end(); ++it)
-      std::cerr << *it;
-    std::cerr << std::endl;
+      printf("%.2X", *it);
+    printf("\n");
 #endif
-    if (_TcpLayer->send() <= 0)
-      return ;
+    try
+      {
+	if (_TcpLayer->send() <= 0)
+	  return ;
+      }
+    catch (const net::Exception &e)
+      {
+	std::cerr << "Error : " << e.what() << " in menu::client" << std::endl;
+	return ;
+      }
   }
 
   bool					Client::inputRequest()
@@ -119,12 +149,13 @@ namespace	menu
     catch (Protocol::ConstructRequest &e)
       {
 #if defined(DEBUG)
-	std::cerr << "Failed to create request: " << e.what() << std::endl;
+	std::cerr << "Client::inputRequest()" << "Failed to create request: " << e.what() << std::endl;
 #endif
 	return (false);
       }
 #if defined(DEBUG)
-	std::cerr << "Extracted " << extracted << std::endl;
+    std::cerr << "Client::inputRequest(): Request successfully unserialized" << std::endl;
+    std::cerr << "Extracted " << extracted << std::endl;
 #endif
     _TcpLayer->readFromBuffer(buf, extracted);
     _input.requestPush(req);
@@ -147,12 +178,15 @@ namespace	menu
     catch (Protocol::ConstructRequest &e)
       {
 #if defined(DEBUG)
-	std::cerr << "Failed to serialize request: " << e.what() << std::endl;
+	std::cerr << "Client::outputRequest(): " << "Failed to serialize request: "
+		  << e.what() << std::endl;
 #endif
 	return (false);
       }
     _TcpLayer->writeIntoBuffer(buf, buf.size());
-    std::cout << "Request successfully serialized" << std::endl;
+#if defined(DEBUG)
+    std::cout << "Client::outputRequest(): Request successfully serialized" << std::endl;
+#endif
     return (true);
   }
 

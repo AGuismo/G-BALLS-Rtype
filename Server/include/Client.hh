@@ -26,7 +26,8 @@ public:
 
 public:
   void			update();
-  void			finalize();
+  bool			isUse() const;
+
 
 public:
   menu::Client				&menu();

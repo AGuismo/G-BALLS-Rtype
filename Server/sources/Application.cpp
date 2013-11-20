@@ -6,11 +6,12 @@
 #include	"Database.hh"
 #include	"Salt.hpp"
 #include	"Game.h"
+#include	"ICallbacks.hh"
 
 Salt::size_type	Salt::SALT = 42;
 
 Application::Application():
-  _menuManager(_output, _input), _gameManager(_input, _output)
+  _menuManager(_menuOutput, _input), _gameManager(_gameOutput, _input)
 {
   std::string	file("botlibrary");
 
@@ -46,7 +47,6 @@ Application::Application():
 Application::~Application()
 {
   Database::getInstance().saveFile(rtype::Env::getInstance().DatabasePath);
-  std::cerr << "Application::~Application()" << std::endl;
 }
 
 void	Application::run()
@@ -55,8 +55,44 @@ void	Application::run()
   _gameManager.run();
   _botLoaderManager.run();
   _menuManager.run();
+  routine();
 }
 
+void	Application::updateClients()
+{
+  client_list::iterator it;
+
+  for (it = _clients.begin(); it != _clients.end();)
+    {
+      (*it)->update();
+      if (!(*it)->isUse())
+	{
+	  std::cout << "Application::updateClients(): " << "Client deleted" << std::endl;
+	  delete *it;
+	  it = _clients.erase(it);
+	}
+      else
+	++it;
+    }
+}
+
+void	Application::routine()
+{
+  while (true)
+    {
+      ICallbacks	*callbacks = _input.pop();
+
+      (*callbacks)(this);
+      delete callbacks;
+      updateClients();
+    }
+}
+
+void	Application::newClient(Client *client)
+{
+  std::cout << "Application::newClient(): " << "new Client" << std::endl;
+  _clients.push_back(client);
+}
 
 ///////////////////////
 //  Exception Class  //

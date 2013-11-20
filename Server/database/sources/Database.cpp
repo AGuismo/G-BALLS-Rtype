@@ -173,14 +173,14 @@ bool		Database::getClient(const std::string &login, Client &client)
 
 bool		Database::clientExist(const std::string &login)
 {
-  return (std::find_if(_clients.begin(), _clients.end(), PredicateLogin(login)) == _clients.end());
+  return (std::find_if(_clients.begin(), _clients.end(), PredicateLogin(login)) != _clients.end());
 }
 
 bool		Database::clientExist(const std::string &login,
 				      const requestCode::PasswordType &password)
 {
   return (std::find_if(_clients.begin(), _clients.end(),
-		       PredicateLoginPass(login, password)) == _clients.end());
+		       PredicateLoginPass(login, password)) != _clients.end());
 }
 
 bool		Database::clientExist(const std::string &login,
@@ -188,5 +188,5 @@ bool		Database::clientExist(const std::string &login,
 				      const database::Rights rights)
 {
   return (std::find_if(_clients.begin(), _clients.end(),
-		       PredicateLoginPassRights(login, password, rights)) == _clients.end());
+		       PredicateLoginPassRights(login, password, rights)) != _clients.end());
 }

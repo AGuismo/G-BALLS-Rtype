@@ -22,14 +22,14 @@ ClientAccepted::ClientAccepted()
 
 ClientAccepted::~ClientAccepted()
 {
-	try
-	{
-		close();
-	}
-	catch (net::Exception &e)
-	{
-		std::cerr << "Failed to close ClientAccepted : " << e.what() << std::endl;
-	}
+  try
+    {
+      close();
+    }
+  catch (net::Exception &e)
+    {
+      std::cerr << "Failed to close ClientAccepted : " << e.what() << std::endl;
+    }
 }
 
 int			ClientAccepted::readData(char *data, int maxSize)
@@ -111,14 +111,14 @@ ClientAccepted::ClientAccepted()
 
 ClientAccepted::~ClientAccepted()
 {
-	try
-	{
-		close();
-	}
-	catch (net::Exception &e)
-	{
-		std::cerr << "Failed to close ClientAccepted : " << e.what() << std::endl;
-	}
+  try
+    {
+      close();
+    }
+  catch (net::Exception &e)
+    {
+      std::cerr << "Failed to close ClientAccepted : " << e.what() << std::endl;
+    }
 }
 
 int		ClientAccepted::readData(char *data, int maxSize)
@@ -226,7 +226,7 @@ cBuffer::size_type	ClientAccepted::readFromBuffer(std::vector<cBuffer::Byte> &bu
 }
 
 cBuffer::size_type	ClientAccepted::writeIntoBuffer(const std::vector<cBuffer::Byte> &buf,
-						   cBuffer::size_type count)
+							cBuffer::size_type count)
 {
   monitor(true, true);
   return (_write.write(buf, count));

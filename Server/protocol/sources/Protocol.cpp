@@ -120,12 +120,14 @@ ARequest		*Protocol::consume(std::vector<Byte> &input, int &extracted)
   requestCode::CodeID	code;
   ARequest		*req;
 
-  std::cerr << input.size() << std::endl;
+#if defined(DEBUG)
+  std::cerr << "Protocol::consume(): " << input.size() << std::endl;
+#endif
   p._container.clear();
   p._container.insert(p._container.begin(), input.begin(), input.end());
   p >> code;
 #if defined(DEBUG)
-  std::cout << "Request id -" << code << "- Contruction..." << std::endl;
+  std::cout << "Protocol::consume(): " << "Request id -" << code << "- Contruction..." << std::endl;
 #endif
   try
     {
@@ -136,8 +138,9 @@ ARequest		*Protocol::consume(std::vector<Byte> &input, int &extracted)
       throw ConstructRequest(e.what());
     }
   extracted = input.size() - p._container.size();
+  req->code(code);
 #if defined(DEBUG)
-  std::cout << "Request id -" << code << "- Complete" << std::endl;
+  std::cout << "Protocol::consume(): " << "Request id -" << code << "- Complete" << std::endl;
 #endif
   return (req);
 }

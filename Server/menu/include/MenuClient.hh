@@ -19,7 +19,7 @@ namespace	menu
   class Client
   {
   public:
-    Client(net::ClientAccepted *clientTcp = 0);
+    Client(requestCode::SessionID &, net::ClientAccepted *clientTcp = 0);
     virtual ~Client();
 
   private:
@@ -66,10 +66,11 @@ namespace	menu
     void	inUse(bool used) {_used = used;};
 
   private:
-    bool		_used;
-    RequestQueue	_input;
-    RequestQueue	_output;
-    net::ClientAccepted	*_TcpLayer;
+    bool			_used;
+    RequestQueue		_input;
+    RequestQueue		_output;
+    net::ClientAccepted		*_TcpLayer;
+    requestCode::SessionID	&_id;
 
   private:
     struct

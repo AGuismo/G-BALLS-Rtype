@@ -38,6 +38,8 @@ const char	*detail(const ARequest *req)
   _map[requestCode::auth::NEW_USER] = "Auth: new User";
   _map[requestCode::auth::SESSION] = "Auth: Session";
 
+  if (_map.find(req->code()) == _map.end())
+    return ("None");
   return (_map[req->code()]);
 }
 
@@ -54,6 +56,7 @@ ARequest			*get_req(net::TcpClient &client)
     }
   catch (...)
     {
+      std::cout << "Get Req fail" << std::endl;
       return (0);
     }
   std::cout << "Extracted: " << count << std::endl;
@@ -98,8 +101,8 @@ int			main(int ac, char **av)
 	  char	input;
 
 	  std::cin >> input;
-	  if (std::cin.eof() == 1)
-	    break;
+	  // if (std::cin.eof() == 1)
+	  //   break;
 	  switch (input)
 	    {
 	    case '\0':
@@ -135,7 +138,14 @@ int			main(int ac, char **av)
 			<< "f: " << "Party::Cancel" << std::endl
 			<< "g: " << "Party::Join" << std::endl;
 	      break;
+	    default:
+	      break;
 	    }
+	}
+      if (client.isDisconnected())
+	{
+	  std::cout << "Disconnected" << std::endl;
+	  break;
 	}
       if (client.read())
 	{

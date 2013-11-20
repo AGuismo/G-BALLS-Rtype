@@ -29,13 +29,14 @@ void TcpClient::init(std::string adress, std::string port)
       throw net::Exception("getaddrinfo failed" + WSAGetLastError());
     }
   _sock = WSASocket(result->ai_family, result->ai_socktype,
-			result->ai_protocol, NULL, 0, WSA_FLAG_OVERLAPPED);
+		    result->ai_protocol, NULL, 0, WSA_FLAG_OVERLAPPED);
   size = result->ai_addrlen;
   if (WSAConnect(_sock, result->ai_addr, size, NULL, NULL, NULL, NULL) != 0)
     {
       throw net::Exception("WSAConnect failed with error : " + WSAGetLastError());
     }
   _addr = *(reinterpret_cast<sockaddr_in *>(result->ai_addr));
+  _state = CONNECTED;
   freeaddrinfo(result);
 }
 #elif defined(linux)
@@ -60,10 +61,9 @@ void TcpClient::init(std::string adress, std::string port)
   struct addrinfo hints;
 
   bzero(&hints, sizeof(hints));
-  hints.ai_family = AF_UNSPEC;
+  hints.ai_family = AF_INET;
   hints.ai_protocol = IPPROTO_TCP;
   hints.ai_socktype = SOCK_STREAM;
-  hints.ai_flags = AI_PASSIVE;
   if (getaddrinfo(adress.c_str(), port.c_str(), &hints, &result) != 0)
     {
       throw net::Exception("getaddrinfo failed:" + std::string(strerror(errno)));
@@ -75,6 +75,7 @@ void TcpClient::init(std::string adress, std::string port)
       throw net::Exception("connect failed with error: " + std::string(strerror(errno)));
     }
   _addr = *(reinterpret_cast<sockaddr_in *>(result->ai_addr));
+  _state = CONNECTED;
   freeaddrinfo(result);
 }
 #endif

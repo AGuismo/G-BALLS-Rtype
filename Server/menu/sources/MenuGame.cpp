@@ -5,7 +5,7 @@
 
 namespace	menu
 {
-  Game::Game(::Client *client) :
+  Game::Game(Client *client) :
     _owner(client), _status(OUT_GAME)
   {
     _clients.push_back(client);
@@ -16,7 +16,7 @@ namespace	menu
 
   }
 
-  bool				Game::newPlayer(::Client *client)
+  bool				Game::newPlayer(Client *client)
   {
     if (availableSlots() == 0)
       return (false);
@@ -100,20 +100,20 @@ namespace	menu
     _game = game;
   }
 
-  ::Client			*Game::owner() const
+  Client			*Game::owner() const
   {
     return (_owner);
   }
 
-  ::Game			*Game::initialize()
-  {
-    std::list<game::Client *>	clients;
+  // ::Game			*Game::initialize()
+  // {
+  //   std::list<game::Client *>	clients;
 
-    for (client_list::iterator it = _clients.begin(); it != _clients.end(); ++it)
-      clients.push_back(&((*it)->game()));
-    _game = new ::Game(clients);
-    return (_game);
-  }
+  //   for (client_list::iterator it = _clients.begin(); it != _clients.end(); ++it)
+  //     clients.push_back(&((*it)->game()));
+  //   _game = new ::Game(clients);
+  //   return (_game);
+  // }
 
   Game::Predicate::Predicate(const std::string &name) :
     _name(name)
@@ -121,8 +121,8 @@ namespace	menu
 
   }
 
-  bool	Game::Predicate::operator()(const ::Client *c)
+  bool	Game::Predicate::operator()(const Client *c)
   {
-    return (c->menu().username() == _name);
+    return (c->username() == _name);
   }
 }
