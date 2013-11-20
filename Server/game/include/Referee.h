@@ -21,4 +21,5 @@ class Referee
   static bool	wallCollision(Entity *a, Game &game);
   static bool	missileCollision(Entity *a, Game &game);
   static bool	bonusCollision(Entity *a, Game &game);
+  static bool	bossCollision(Entity *a, Game &game);
 };

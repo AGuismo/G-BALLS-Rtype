@@ -51,7 +51,7 @@ namespace	game
     void	run();
 
   private:
-    void		routine(void);
+    static void		routine(Manager *);
     bool		getRequest(std::vector<cBuffer::Byte> &buf,
 				   AGameRequest *&request);
 
@@ -76,7 +76,7 @@ namespace	game
 
 
   private:
-    Threads<void (Manager::*)()>	_th;
+    Threads<void (*)(Manager *)>	_th;
     Clock				_clock;
     std::list<Game *>			_games;
     input_event				&_input;

@@ -8,7 +8,7 @@ class Game;
 class Missile : public Entity
 {
 public:
-  Missile(Entity &launcher, game::Dir dir, game::Pos pos, game::ID id);
+	Missile(Entity &launcher, game::Dir dir, std::vector<game::Pos> &pos, game::ID id);
   ~Missile();
   Entity *getLauncher() const { return &_launcher;};
 private:

@@ -12,14 +12,17 @@
 #include "ElemRequest.hh"
 #include "Entity.h"
 #include "Bonus.h"
+#include "VictoryRequest.h"
 
 Game::Game(std::list<game::Client *> &players)
 {
   _players = players;
   incremental = 0;
   for (client_list::iterator it = _players.begin(); it != _players.end(); ++it)
-	  (*it)->player(new game::Player(42, UniqueId()));
+	  (*it)->player(new game::Player(std::vector<game::Pos>((rand() % rtype::Env::mapSize) * rtype::Env::mapSize),
+									UniqueId()));
   _titan = NULL;
+  _clock.start();
 }
 
 Game::~Game()
@@ -28,22 +31,22 @@ Game::~Game()
 
 void	Game::randBonnus(Entity &a)
 {
-    srand(time(NULL));
+    srand((unsigned int)(time(NULL)));
     int dice_roll = rand() % 6;
     if (dice_roll == 5)
     {
 	if (!(dice_roll = rand() % 2))
 	{
-	    _bonus.push_back(new game::ExtraLife(game::WEST, a.pos(), UniqueId()));
+		_bonus.push_back(new game::ExtraLife(game::WEST, a.pos()[0], UniqueId()));
 	    pushRequest(new ElemRequest((*_bonus.end())->type(),
-					(*_bonus.end())->pos(), (*_bonus.end())->dir(),
+					(*_bonus.end())->pos()[0], (*_bonus.end())->dir(),
 					(*_bonus.end())->id()));
 	}
 	else
 	{
-	    _bonus.push_back(new game::Pow(game::WEST, a.pos(), UniqueId()));
+		_bonus.push_back(new game::Pow(game::WEST, a.pos()[0], UniqueId()));
 	    pushRequest(new ElemRequest((*_bonus.end())->type(),
-					(*_bonus.end())->pos(), (*_bonus.end())->dir(),
+					(*_bonus.end())->pos()[0], (*_bonus.end())->dir(),
 					(*_bonus.end())->id()));
 	}
     }
@@ -72,10 +75,9 @@ void	Game::iaUpdate()
 	      delete *itia;
 	      _IA.erase(itia);
 	  }
-	  else
-	      pushRequest(new ElemRequest((*itia)->_type,
-					  (*itia)->_pos, (*itia)->_dir, (*itia)->_id));
 	}
+	  pushRequest(new ElemRequest((*itia)->algo()->type(),
+		  (*itia)->_pos[0], (*itia)->_dir, (*itia)->_id));
     }
 }
 
@@ -111,7 +113,7 @@ void	Game::wallUpdate()
 	}
 	  else
 		  pushRequest(new ElemRequest((*ite)->_type,
-		  (*ite)->_pos, (*ite)->_dir, (*ite)->_id));
+		  (*ite)->_pos[0], (*ite)->_dir, (*ite)->_id));
   }
 }
 
@@ -138,7 +140,7 @@ void	Game::missileUpdate()
 	    }
 	}
 	  pushRequest(new ElemRequest((*itm)->_type,
-		  (*itm)->_pos, (*itm)->_dir, (*itm)->_id));
+		  (*itm)->_pos[0], (*itm)->_dir, (*itm)->_id));
     }
 }
 
@@ -157,7 +159,7 @@ void	Game::bonusUpdate()
 			break;
 		}
 		pushRequest(new ElemRequest((*itb)->_type,
-			(*itb)->_pos, (*itb)->_dir, (*itb)->_id));
+			(*itb)->_pos[0], (*itb)->_dir, (*itb)->_id));
 	}
 }
 
@@ -168,12 +170,22 @@ void	Game::bossUpdate()
       _titan->update();
       if (!Referee::isOnScreen(_titan))
 	{
-	  delete	_titan;
+		  pushRequest(new DeathRequest(_titan->id()));
+		  pushRequest(new VictoryRequest());
+		  delete _titan;
 	}
       if (Referee::isCollision(_titan, *this))
 	{
-
-	}
+		  _titan->_life--;
+		  if (_titan->_life <= 0)
+		  {
+			  pushRequest(new DeathRequest(_titan->id()));
+			  pushRequest(new VictoryRequest());
+			  delete _titan;
+		  }
+	  }
+	  pushRequest(new ElemRequest(_titan->algo()->type(),
+		  _titan->_pos[0], _titan->_dir, _titan->_id));
     }
 }
 
@@ -232,7 +244,7 @@ void	Game::popIA()
 {
 	if (_IA.size() < rtype::Env::maxIA)
 	{
-		if (_IA.size() < rtype::Env::minIA || rand() % rtype::Env::popIAmax < rtype::Env::popIArange)
+		while  (_IA.size() < rtype::Env::minIA || rand() % rtype::Env::popIAmax < rtype::Env::popIArange)
 		{
 			
 			/*
@@ -250,6 +262,15 @@ void	Game::popIA()
 	}
 }
 
+void	Game::pushBoss()
+{
+	/*
+	_titan = new Boss(UniqueId(), BotLoader::getBoss());
+	pushRequest(new ElemRequest(_titan->_algo->type(),
+	_titan->pos()[0], _titan->dir(), _titan->id()));
+	*/
+}
+
 void	Game::update()
 {
 	playerUpdate();
@@ -257,11 +278,10 @@ void	Game::update()
 	wallUpdate();
 	missileUpdate();
 	bonusUpdate();
-
+	_clock.update();
+	if (rtype::Env::BOSS_DELAY <= _clock.getTotalElapsedTime())
+		pushBoss();
 	popIA();
 
 	DispatchRequest();
-
-	_timer->tv_usec = rtype::Env::gameDelay;
-	_timer->tv_sec = 0;
 }

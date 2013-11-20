@@ -21,7 +21,7 @@ private:
   ClientCallback& operator=(ClientCallback const&);
 
 protected:
-  Function<void (Application::*)(Client *)>	_callback;
+  Function<void, Application, Client *>	_callback;
   Client					*_client;
 };
 
