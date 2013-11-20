@@ -24,6 +24,7 @@ namespace	request
     _lnk[requestCode::party::CANCEL] = new Party::Cancel;
     _lnk[requestCode::party::SERV_START] = new Party::Launch;
     _lnk[requestCode::party::UPDATE] = new Party::Update;
+    _lnk[requestCode::party::CLI_START] = new Party::Start;
 
     _lnk[requestCode::server::OK] = new ServerRequest;
     _lnk[requestCode::server::BAD_REQ] = new ServerRequest;

@@ -23,11 +23,10 @@ namespace	Thread
     Thread::Cond	_condNotFull;
     Thread::Cond	_condEmpty;
     typename event_stack::size_type	_maxPendingEvents;
-    bool		_blocking;
 
   public:
-    EventQueue(int maxPendingEvents = 0, bool blocking = true) :
-      _maxPendingEvents(maxPendingEvents), _blocking(blocking)
+    EventQueue(int maxPendingEvents = 0) :
+      _maxPendingEvents(maxPendingEvents)
     {
 
     }
@@ -39,11 +38,11 @@ namespace	Thread
     }
 
   public:
-    T		pop()
+    T		pop(bool blocking = true)
     {
       Thread::MutexGuard	guard(_m);
 
-      if (empty() && !_blocking)
+      if (empty() && !blocking)
 	return (NULL);
       while (empty())
 	_condNotEmpty.wait(_m);
@@ -53,11 +52,11 @@ namespace	Thread
       return (getData());
     }
 
-    bool		push(T data)
+    bool		push(T data, bool blocking = true)
     {
       Thread::MutexGuard	guard(_m);
 
-      if (!_blocking && _maxPendingEvents != 0 && _stack.size() == _maxPendingEvents)
+      if (!blocking && _maxPendingEvents != 0 && _stack.size() == _maxPendingEvents)
 	return (false);
       while (_maxPendingEvents != 0 && _stack.size() == _maxPendingEvents)
 	_condNotFull.wait(_m);

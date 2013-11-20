@@ -1,5 +1,6 @@
 #include	<iostream>
 #include	<algorithm>
+#include	"ICallbacks.hh"
 #include	"GameManager.hh"
 #include	"Client.hh"
 #include	"AGameRequest.hh"
@@ -118,6 +119,32 @@ namespace	game
       }
   }
 
+  void			Manager::newGame(Game *game)
+  {
+    Game::client_list	clients = game->clients();
+
+#if defined(DEBUG)
+    std::cout << "Game::Manager::newGame()" << "New Game pushed" << std::endl;
+#endif
+    _games.push_back(game);
+    for (Game::client_list::iterator it = clients.begin(); it != clients.end(); ++it)
+      {
+	(*it)->inUse(true);
+	_gameClients.push_back(*it);
+      }
+  }
+
+  void			Manager::updateCallback()
+  {
+    ICallbacks		*cb;
+
+    while ((cb = _input.pop(false)) != 0)
+      {
+	(*cb)();
+	delete cb;
+      }
+  }
+
   void			Manager::routine()
   {
     clock_time		time;
@@ -138,6 +165,7 @@ namespace	game
 	_clock.update();
 	time = _clock.getElapsedTime();
 	t.tv_sec = time / 1000000;
+	updateCallback();
 	try
 	  {
 	    if (_server.read())

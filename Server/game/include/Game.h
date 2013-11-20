@@ -33,6 +33,8 @@ typedef	Ruint16	ID;
 class Game
 {
 public:
+  typedef std::list<game::Client *>	client_list;
+public:
   Game(std::list<game::Client *> &players);
   ~Game();
   void	update();
@@ -40,8 +42,8 @@ public:
   ID   &UniqueId();
   void	pushMissile(Missile *missile);
   void	pushRequest(ARequest *req);
-  typedef std::list<game::Client *>	client_list;
   void	randBonnus(Entity &a);
+  client_list	&clients();
 
 private:
   void iaUpdate();

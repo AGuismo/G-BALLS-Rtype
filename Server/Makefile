@@ -7,9 +7,6 @@ SRCS =	      	main.cpp		\
 					\
 		Env.cpp			\
 		sys.cpp			\
-					\
-		ClientCallback.cpp	\
-		GameCallback.cpp	\
 
 DIR.GAME=	./game/
 DIR.MENU=	./menu/
