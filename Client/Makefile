@@ -1,62 +1,62 @@
-##
-## Makefile for rtype in /home/brigno/Projects/R-Type/r-type/Client
-##
-## Made by brigno
-## Login   <brigno@epitech.net>
-##
-## Started on  Wed Oct 23 18:43:59 2013 brigno
-## Last update Wed Nov 20 16:06:15 2013 brigno
-##
+NAME	     ?=	G-BALLS
 
-NAME	=	Client
+SRCS =	      	main.cpp		\
+		AScreen.cpp		\
+		Application.cpp		\
+		AWidget.cpp		\
+		Background.cpp		\
+		Button.cpp		\
+		CheckBox.cpp		\
+		Image.cpp		\
+		Interface.cpp		\
+		LineServer.cpp		\
+		MenuWindow.cpp		\
+		Network.cpp		\
+		TextArea.cpp		\
+		TextBlock.cpp		\
+		Text.cpp		\
+		Texture.cpp		\
+		TextureManager.cpp
 
-SOURCES =	Sources/
+DEPS.INC=	
 
-SRC =		main.cpp			\
-		$(SOURCES)Application.cpp	\
-		$(SOURCES)Background.cpp	\
-		$(SOURCES)MenuWindow.cpp	\
-		$(SOURCES)Text.cpp		\
-		$(SOURCES)CheckBox.cpp		\
-		$(SOURCES)AWidget.cpp		\
-		$(SOURCES)Image.cpp		\
-		$(SOURCES)TextArea.cpp		\
-		$(SOURCES)Button.cpp		\
-		$(SOURCES)Interface.cpp		\
-		$(SOURCES)Network.cpp		\
-		$(SOURCES)AScreen.cpp		\
-		$(SOURCES)Texture.cpp		\
-		$(SOURCES)TextureManager.cpp	\
-		$(SOURCES)TextBlock.cpp		\
-		$(SOURCES)LineServer.cpp	\
+DEPS.LNK=	
 
-OBJ =		$(SRC:.cpp=.o)
-CC =		g++
-INCLUDE =	-I./Includes
-CXXFLAGS +=	$(INCLUDE)
-CXXFLAGS +=	-W -Wall -Wextra -ansi -pedantic -g3
-CFLAGS +=	$(INCLUDE)
-CFLAGS +=	-W -Wall -Wextra -ansi -pedantic
-LFLAGS =	-L../Server/protocol/ -lprotocol -lsfml-graphics -lsfml-window -lsfml-system -lsfml-network
-RM =		rm -f
-ECHO =		echo -e
+MOD.INC=	
 
-$(NAME):	$(OBJ)
-		@$(CC) -o $(NAME) $(OBJ) $(LFLAGS)
-		@$(ECHO) '\033[0;32m> Compiled\033[0m'
+MOD.LNK=	-lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio -lsfml-network
 
-clean:
-		-@$(RM) $(OBJ)
-		-@$(RM) *~
-		-@$(RM) *#
-		@$(ECHO) '\033[0;35m> Directory cleaned\033[0m'
+F.C	     +=	-W -Wall -Werror
+F.I	     +=	$(DEPS.INC) $(MOD.INC) -I./include
+F.L	     += $(DEPS.LNK) $(MOD.LNK)
+F.D	     +=
 
-all:		$(NAME)
+all:		start $(NAME)
 
-fclean:		clean
-		-@$(RM) $(NAME)
-		@$(ECHO) '\033[0;35m> Remove executable\033[0m'
+$(NAME):	compile_mods compile_deps compile
+
+compile_mods:
+		@$(ECHO) $(ES) "Compile Modules" $(EE)
+
+compile_deps:
+		@$(ECHO) $(ES) "Compile Dependancies" $(EE)
+
+clean_mods:
+		@$(ECHO) $(ES) "Clean Modules" $(EE)
+
+clean_deps:
+		@$(ECHO) $(ES) "Clean Dependancies" $(EE)
+
+fclean_mods:
+		@$(ECHO) $(ES) "Full clean Modules" $(EE)
+
+fclean_deps:
+		@$(ECHO) $(ES) "Full clean Dependancies" $(EE)
+
+clean:		remove_objects clean_mods clean_deps
+
+fclean:		clean remove_name fclean_mods fclean_deps
 
 re:		fclean all
 
-.PHONY:		all fclean clean re
+include .libmake
