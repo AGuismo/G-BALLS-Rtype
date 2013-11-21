@@ -43,6 +43,8 @@ public:
   void	pushMissile(Missile *missile);
   void	pushRequest(ARequest *req);
   void	randBonnus(Entity &a);
+  void	timer(struct timeval t);
+  struct timeval &timer();
   client_list	&clients();
 
 private:
@@ -65,6 +67,7 @@ private:
   std::list<game::ABonus *>		_bonus;
   Boss				*_titan;
   game::Clock		_clock;
+  struct timeval	_timer;
   RequestQueue		_toSend;
   ID				incremental;
 

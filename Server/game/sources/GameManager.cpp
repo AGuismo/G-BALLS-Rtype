@@ -46,14 +46,14 @@ namespace	game
 
   void		Manager::update()
   {
-    std::list<Game *>::iterator it;
-
-    for (it = _games.begin();
-	 it != _games.end();
-	 ++it)
-      {
-	(*it)->update();
-      }
+	if (!_games.empty())
+	  {
+		Game *game = _games.front();
+		
+		_games.pop_front();
+		game->update();
+		_games.push_back(game);
+	  }
   }
 
   bool	Manager::getRequest(std::vector<cBuffer::Byte> &buf,
@@ -119,6 +119,16 @@ namespace	game
       }
   }
 
+  void			Manager::updateGameClocks(Clock::clock_time time)
+  {
+	  std::deque<Game *>::iterator	it;
+
+	  for (it = _games.begin(); it != _games.end(); it++)
+	  {
+		  (*it)->timer().tv_usec -= time;
+	  }
+  }
+
   void			Manager::newGame(Game *game)
   {
     Game::client_list	clients = game->clients();
@@ -129,8 +139,8 @@ namespace	game
     _games.push_back(game);
     for (Game::client_list::iterator it = clients.begin(); it != clients.end(); ++it)
       {
-	(*it)->inUse(true);
-	_gameClients.push_back(*it);
+		(*it)->inUse(true);
+		_gameClients.push_back(*it);
       }
   }
 
@@ -147,38 +157,38 @@ namespace	game
 
   void			Manager::routine(Manager *self)
   {
-    Clock::clock_time	time;
-    timeval		t;
+	  Clock::clock_time		time;
 
-	self->_clock.start();
-    while (true)
-      {
-		self->_clock.update();
-
-	t.tv_sec = 0;
-	t.tv_usec = 500000;
-
-	self->_monitor.setOption(net::streamManager::TIMEOUT, t);
-
-	self->_monitor.run(); /* Surcouche du select() */
-
-	self->_clock.update();
-	time = self->_clock.getElapsedTime();
-	t.tv_sec = time / 1000000;
-	self->updateCallback();
-	try
+	  self->_clock.start();
+	  while (true)
 	  {
-		if (self->_server.read())
-			self->readData();
-		if (self->_server.write())
-			self->writeData();
+		  self->_clock.update();
+
+		  if (!self->_games.empty())
+		  {
+			  self->_monitor.setOption(net::streamManager::TIMEOUT, self->_games.front()->timer());
+		  }
+		  self->_monitor.run(); /* Surcouche du select() */
+		  self->_clock.update();
+		  time = self->_clock.getElapsedTime();
+		  self->updateCallback();
+		  if (self->_server.read() || self->_server.write())
+		  {
+			  try
+			  {
+				  if (self->_server.read())
+					  self->readData();
+				  if (self->_server.write())
+					  self->writeData();
+			  }
+			  catch (net::Exception &e)
+			  {
+				  std::cerr << "Error " << e.what() << "in Manager::routine." << std::endl;
+			  }
+		  }
+		  else
+			  self->update();
 	  }
-	catch (net::Exception &e)
-	  {
-	    std::cerr << "Error " << e.what() << "in Manager::routine." << std::endl;
-	  }
-	self->update();
-      }
   }
 
   ///////////////
