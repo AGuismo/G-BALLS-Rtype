@@ -22,6 +22,7 @@
 #include	"UdpClient.h"
 #include	"RequestInfo.hpp"
 #include	"EventRequest.hh"
+#include	"LeaveRequest.h"
 
 struct	stdin : public net::AMonitorable
 {
@@ -58,13 +59,15 @@ ARequest                        *uget_req(net::UdpClient &client)
   return (req);
 }
 
-void            usend_req(net::UdpClient &client, ARequest *req)
+void            usend_req(net::UdpClient &client, AGameRequest *req, requestCode::SessionID id)
 {
     std::vector<Protocol::Byte>   bytes;
 
+    req->SessionID(id);
     std::cout << "Send request code: " << req->code()
 	      << ". Detail: " << detail(req) << std::endl;
     bytes = Protocol::product(*req);
+    std::cout << "nb bytes = " << bytes.size() << std::endl;
     client.writeIntoBuffer(bytes, bytes.size());
     client.send();
 }
@@ -110,6 +113,7 @@ int			main(int ac, char **av)
   net::UdpClient	uclient;
   net::streamManager	m;
   stdin			input;
+  requestCode::SessionID id = 0;
 
   input.fd = 0;
   if (ac == 2)
@@ -177,13 +181,16 @@ int			main(int ac, char **av)
 			<< "g: " << "Party::Join" << std::endl;
 	      break;
 	    case 'i':
-	      usend_req(uclient, new AliveRequest());
+		usend_req(uclient, new AliveRequest(), id);
 	      break;
 	    case 'j':
-		usend_req(uclient, new EventRequest(0, 2));
+		usend_req(uclient, new EventRequest(0, 2), id);
 	      break;
 	    case 'k':
-		usend_req(uclient, new EventRequest(1, 1));
+		usend_req(uclient, new EventRequest(1, 1), id);
+	      break;
+	    case 'l':
+		usend_req(uclient, new LeaveRequest(), id);
 	      break;
 	    default:
 	      break;
@@ -199,7 +206,14 @@ int			main(int ac, char **av)
 	  ARequest	*req;
 
 	  client.recv();
-	  while ((req = get_req(client)) != 0);
+	  while ((req = get_req(client)) != 0)
+	  {
+	      if (SessionRequest *session = dynamic_cast<SessionRequest *>(req))
+	      {
+		  id = session->SessionID();
+		  std::cout << "ID client is " << id;
+	      }
+	  }
 	}
       if (uclient.read())
 	{
