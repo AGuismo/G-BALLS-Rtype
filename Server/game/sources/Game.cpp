@@ -22,6 +22,8 @@ Game::Game(std::list<game::Client *> &players)
     (*it)->player(new game::Player(std::vector<game::Pos> (1, (rand() % rtype::Env::mapSize) * rtype::Env::mapSize), UniqueId()));
   _titan = NULL;
   _clock.start();
+  _timer.tv_sec = 0;
+  _timer.tv_usec = rtype::Env::gameDelay;
 }
 
 Game::~Game()
@@ -200,6 +202,17 @@ void	Game::bossUpdate()
     }
 }
 
+void	Game::timer(struct timeval t)
+{
+	_timer = t;
+}
+
+struct timeval &Game::timer()
+{
+	return _timer;
+}
+
+
 void	Game::pushMissile(Missile *missile)
 {
   _missiles.push_back(missile);
@@ -288,15 +301,15 @@ void	Game::pushBoss()
 
 void	Game::update()
 {
-  playerUpdate();
-  iaUpdate();
-  wallUpdate();
-  missileUpdate();
-  bonusUpdate();
-  _clock.update();
-  if (rtype::Env::BOSS_DELAY <= _clock.getTotalElapsedTime())
-    pushBoss();
-  popIA();
-
-  DispatchRequest();
+	playerUpdate();
+	iaUpdate();
+	wallUpdate();
+	missileUpdate();
+	bonusUpdate();
+	_clock.update();
+	if (rtype::Env::BOSS_DELAY <= _clock.getTotalElapsedTime())
+		pushBoss();
+	popIA();
+	DispatchRequest();
+	_timer.tv_usec = rtype::Env::gameDelay;
 }

@@ -31,7 +31,9 @@ struct	stdin : public net::AMonitorable
 
 const char	*detail(const ARequest *req)
 {
-  return (Info<ServerRequest>::Detail(req->code()));
+  if (typeid(*req) == typeid(ServerRequest))
+    return (Info<ServerRequest>::Detail(req->code()));
+  return ("None");
 }
 
 ARequest                        *uget_req(net::UdpClient &client)
