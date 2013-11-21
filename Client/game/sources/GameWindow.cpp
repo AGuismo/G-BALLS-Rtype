@@ -7,13 +7,18 @@
 #pragma comment(lib, "gdi32.lib")
 #endif // SFML_STATIC
 #include		"gameWindow.h"
-
+#include		"AScreen.hh"
 
 bool					GameWindow::load(void)
 {
-	if (!_game.load())
-		return false;
-	return true;
+  if (!_game.load())
+    throw AScreen::Exception("Game Window failed to init");
+  return true;
+}
+
+void					GameWindow::clearWindow(void)
+{
+
 }
 
 int						GameWindow::run(void)
@@ -24,6 +29,6 @@ int						GameWindow::run(void)
 
 
 GameWindow::GameWindow(sf::RenderWindow &window, network::Manager &network) :
-  AScreen(window, network, AScreen::INGAME), _game(&_window, &_event)
+  AScreen(window, network, AScreen::INGAME), _game(&window, &_event)
 {
 }

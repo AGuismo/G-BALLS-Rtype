@@ -22,6 +22,7 @@ private:
 public:
 	bool					load(void); // check creation window + game
 	int					run(void); // appelle run game =>
+	void					clearWindow(void);
 
 public:
 	GameWindow(sf::RenderWindow &window, network::Manager &network);

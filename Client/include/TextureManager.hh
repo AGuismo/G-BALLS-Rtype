@@ -5,7 +5,7 @@
 // Login   <brigno@epitech.net>
 //
 // Started on  Tue Nov  5 22:22:09 2013 brigno
-// Last update Wed Nov  6 02:00:47 2013 brigno
+// Last update Thu Nov 21 14:48:43 2013 lambert kevin
 //
 
 #ifndef TEXTURE_MANAGER_H_

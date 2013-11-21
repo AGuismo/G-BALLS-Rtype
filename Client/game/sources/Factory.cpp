@@ -42,7 +42,7 @@ AObject				*Factory::createObject(ObjType type, int id, int pos, LookDirection l
 	return NULL;
 }
 
-Factory::Factory(sf::RenderWindow *gameWindow, TextureManager *TextureManager)
+Factory::Factory(sf::RenderWindow *gameWindow, game::TextureManager *TextureManager)
 {
 	_gameWindow = gameWindow;
 	_textureManager = TextureManager;

@@ -16,8 +16,8 @@ SRCS =	      	Animation.cpp		\
 		GameWindow.cpp		\
 		Layer.cpp		\
 		LayerManager.cpp	\
-		Player.cpp		\
 		TextureManager.cpp	\
+		Player.cpp		\
 		Timer.cpp		\
 
 DIR.THREAD=	../../libraries/Thread/Threads

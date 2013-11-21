@@ -11,17 +11,22 @@ namespace sf
 	class RenderWindow;
 }
 
+namespace	game
+{
+  class	TextureManager;
+}
+
 class					Factory
 {
 private:
 	sf::RenderWindow	*_gameWindow;
-	TextureManager		*_textureManager;
+	game::TextureManager	*_textureManager;
 
 public:
 	AObject				*createObject(ObjType type, int id, int pos, LookDirection ld);
 
 public:
-	Factory(sf::RenderWindow *gameWindow, TextureManager *TextureManager);
+	Factory(sf::RenderWindow *gameWindow, game::TextureManager *TextureManager);
 	~Factory() {}
 
 private:

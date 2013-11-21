@@ -44,6 +44,7 @@ $(NAME):	compile_mods compile_deps compile
 compile_mods:
 		@$(ECHO) $(ES) "Compile Modules" $(EE)
 		@make --no-print-directory -C ./$(DIR.NETWORK) all F.D=$(F.D)
+		@make --no-print-directory -C ./$(DIR.GAME) all F.D=$(F.D)
 
 compile_deps:
 		@$(ECHO) $(ES) "Compile Dependancies" $(EE)
@@ -52,6 +53,7 @@ compile_deps:
 clean_mods:
 		@$(ECHO) $(ES) "Clean Modules" $(EE)
 		@make --no-print-directory -C ./$(DIR.NETWORK) clean
+		@make --no-print-directory -C ./$(DIR.GAME) clean
 
 clean_deps:
 		@$(ECHO) $(ES) "Clean Dependancies" $(EE)
@@ -60,6 +62,7 @@ clean_deps:
 fclean_mods:
 		@$(ECHO) $(ES) "Full clean Modules" $(EE)
 		@make --no-print-directory -C ./$(DIR.NETWORK) fclean
+		@make --no-print-directory -C ./$(DIR.GAME) fclean
 
 fclean_deps:
 		@$(ECHO) $(ES) "Full clean Dependancies" $(EE)

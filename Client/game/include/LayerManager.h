@@ -14,11 +14,16 @@ namespace sf
 	class RenderWindow;
 }
 
+namespace	game
+{
+  class		TextureManager;
+}
+
 class								LayerManager
 {
 private:
 	sf::RenderWindow				*_gameWindow;
-	TextureManager					*_textureManager;
+	game::TextureManager				*_textureManager;
 
 private:
 	typedef std::deque<Layer *> layers_type;
@@ -38,7 +43,7 @@ public:
 	void							upDraw(void);
 
 public:
-	LayerManager(sf::RenderWindow *gameWindow, TextureManager *TextureManager);
+	LayerManager(sf::RenderWindow *gameWindow, game::TextureManager *TextureManager);
 	~LayerManager() {}
 
 private:

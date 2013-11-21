@@ -482,7 +482,7 @@ void	MenuWindow::catchEvent()
     }
 }
 
-void	MenuWindow::run()
+int	MenuWindow::run()
 {
   while (this->_window.isOpen())
     {
@@ -490,6 +490,7 @@ void	MenuWindow::run()
       this->setDraw();
       this->draw();
     }
+  return (0); // ASCREEN::Status
 }
 
 Background		*MenuWindow::getBackgroundPtr()

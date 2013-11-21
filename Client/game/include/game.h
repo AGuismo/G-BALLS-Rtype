@@ -15,14 +15,14 @@ class Game
 {
 private:
 	sf::RenderWindow			*_gameWindow;
-	sf::Event					*_event;
+	sf::Event				*_event;
+	game::TextureManager			_textureManager;
 
 private:
 	typedef std::deque<AObject *> obj_type;
 
 private:
 	Factory						_factory;
-	TextureManager				_textureManager;
 	LayerManager				_layerManager;
 	AudioManager				_audioManager;
 	obj_type					_objects;

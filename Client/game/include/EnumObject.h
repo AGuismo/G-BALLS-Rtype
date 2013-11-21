@@ -1,6 +1,6 @@
 #ifndef ENUMOBJECT
 # define	ENUMOBJECT
-
+# include	<string>
 
 enum ObjType
 {

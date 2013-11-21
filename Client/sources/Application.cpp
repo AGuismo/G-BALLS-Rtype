@@ -5,7 +5,7 @@
 // Login   <brigno@epitech.net>
 //
 // Started on  Tue Nov  5 02:00:45 2013 brigno
-// Last update Thu Nov 21 13:47:15 2013 lambert kevin
+// Last update Thu Nov 21 14:15:19 2013 lambert kevin
 //
 
 #include	"Application.hh"
@@ -37,7 +37,9 @@ bool	Application::initialize()
     {
       // _network.initialize();
       for (screen_list::iterator it = _listScreen.begin(); it != _listScreen.end(); ++it)
-	(*it)->load();
+	{
+	  (*it)->load();
+	}
     }
   catch (const AScreen::Exception &e)
     {

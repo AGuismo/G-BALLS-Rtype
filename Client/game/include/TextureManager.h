@@ -7,24 +7,26 @@
 #include	"EnumObject.h"
 
 
-class				TextureManager
+namespace	game
 {
-public:
-	typedef std::map<ObjType, sf::Texture*> map_type;
+  class		TextureManager
+  {
+  public:
+    typedef std::map<ObjType, sf::Texture*> map_type;
 
-private:
-	map_type				 _spriteMap;
+  private:
+    map_type				 _spriteMap;
 
-public:
-	sf::Texture				*getTexture(ObjType);
-	bool					addTexture(ObjType, const std::string &texturePath);
-	TextureManager() {}
-	~TextureManager() {}
+  public:
+    sf::Texture				*getTexture(ObjType);
+    bool					addTexture(ObjType, const std::string &texturePath);
+    TextureManager() {}
+    ~TextureManager() {}
 
-private:
-	TextureManager(const TextureManager &);
-	TextureManager			operator=(const TextureManager &);
-};
-
+  private:
+    TextureManager(const TextureManager &);
+    TextureManager			operator=(const TextureManager &);
+  };
+}
 
 #endif // !TEXTUREMANAGER_

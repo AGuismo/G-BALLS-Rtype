@@ -75,7 +75,7 @@ void							LayerManager::upDraw(void)
 	}
 }
 
-LayerManager::LayerManager(sf::RenderWindow *gameWindow, TextureManager *TextureManager)
+LayerManager::LayerManager(sf::RenderWindow *gameWindow, game::TextureManager *TextureManager)
 {
 	_gameWindow = gameWindow;
 	_textureManager = TextureManager;
