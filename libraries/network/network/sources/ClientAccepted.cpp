@@ -219,6 +219,7 @@ int			ClientAccepted::send()
   count = _write.look(tmp, 512);
   for (cBuffer::size_type i = 0; i < count; ++i)
     buf[i] = tmp[i];
+  std::cout << buf << std::endl;
   if ((size = writeData(buf, count)) <= 0)
     return (size);
   _write.read(tmp, size);
