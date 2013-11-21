@@ -111,6 +111,7 @@ ClientAccepted::ClientAccepted(SOCKET sock, struct sockaddr_in addr) :
 
 ClientAccepted::ClientAccepted()
 {
+  _state = CONNECTED;
 }
 
 ClientAccepted::~ClientAccepted()

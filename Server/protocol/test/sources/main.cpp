@@ -21,6 +21,7 @@
 #include	"AliveRequest.h"
 #include	"UdpClient.h"
 #include	"RequestInfo.hpp"
+#include	"EventRequest.hh"
 
 struct	stdin : public net::AMonitorable
 {
@@ -171,10 +172,18 @@ int			main(int ac, char **av)
 			<< "e: " << "Party::Start" << std::endl
 			<< "f: " << "Party::Cancel" << std::endl
 			<< "i: " << "AliveRequest" << std::endl
+			<< "j: " << "moveRequest" << std::endl
+			<< "k: " << "fireRequest" << std::endl
 			<< "g: " << "Party::Join" << std::endl;
 	      break;
 	    case 'i':
 	      usend_req(uclient, new AliveRequest());
+	      break;
+	    case 'j':
+		usend_req(uclient, new EventRequest(0, 2));
+	      break;
+	    case 'k':
+		usend_req(uclient, new EventRequest(1, 1));
 	      break;
 	    default:
 	      break;
