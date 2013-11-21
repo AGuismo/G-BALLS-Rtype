@@ -13,6 +13,10 @@ namespace	network
 class AScreen : public IScreen
 {
 public:
+  static const int	SCR_MENU = 0;
+  static const int	SCR_GAME = 1;
+  static const int	SCR_EXIT = 2;
+public:
   enum Status
     {
       CONTINUE,

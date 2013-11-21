@@ -24,7 +24,7 @@ void					GameWindow::clearWindow(void)
 int						GameWindow::run(void)
 {
 	_game.run();
-	return 1;
+	return AScreen::SCR_MENU;
 }
 
 

@@ -23,7 +23,6 @@ MenuWindow::MenuWindow(sf::RenderWindow &window, network::Manager &network):
 
 bool	MenuWindow::load()
 {
-  std::cout << __PRETTY_FUNCTION__ << std::endl;
   try
     {
       TextureManager::getInstance().addTexture("Background1", "Images/Menu/background1.png");
@@ -438,7 +437,7 @@ void	MenuWindow::removeWidget(const std::string &widget)
     }
 }
 
-void	MenuWindow::catchEvent()
+int	MenuWindow::catchEvent()
 {
   while (this->_window.pollEvent(this->_event))
     {
@@ -453,6 +452,8 @@ void	MenuWindow::catchEvent()
 	case sf::Event::KeyPressed:
 	  if (this->_event.key.code == sf::Keyboard::Escape)
 	    this->_window.close();
+	  if (this->_event.key.code == sf::Keyboard::F1)
+	    return 2;
 	  break;
 	case sf::Event::TextEntered:
 	  if (this->_objectFocus != 0)
@@ -486,17 +487,19 @@ void	MenuWindow::catchEvent()
 	  break;
 	}
     }
+  return 0;
 }
 
 int	MenuWindow::run()
 {
   while (this->_window.isOpen())
     {
-      this->catchEvent();
+      if (this->catchEvent() == 2)
+	return (AScreen::SCR_GAME);
       this->setDraw();
       this->draw();
     }
-  return (0); // ASCREEN::Status
+  return (AScreen::SCR_EXIT); // ASCREEN::Status
 }
 
 Background		*MenuWindow::getBackgroundPtr()

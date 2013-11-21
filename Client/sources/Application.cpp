@@ -5,7 +5,7 @@
 // Login   <brigno@epitech.net>
 //
 // Started on  Tue Nov  5 02:00:45 2013 brigno
-// Last update Thu Nov 21 14:15:19 2013 lambert kevin
+// Last update Thu Nov 21 15:16:44 2013 lambert kevin
 //
 
 #include	"Application.hh"
@@ -56,9 +56,11 @@ bool	Application::initialize()
 
 void	Application::run()
 {
+  int	screenIdx = AScreen::SCR_MENU;
+
   // _network.run();
   while (this->_window.isOpen())
     {
-      _listScreen[0]->run();
+      screenIdx = _listScreen[screenIdx]->run();
     }
 }

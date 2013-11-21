@@ -57,7 +57,7 @@ public:
   void					drawLobbyWait(int owner);
   void					drawMenuWarning();
   void					draw(void);
-  void					catchEvent(void);
+  int					catchEvent(void);
   void					checkAction(void);
   void					checkServer(void);
   int					checkNbPlayer(void);

@@ -154,7 +154,8 @@ void							Game::run(void)
 					break;
 				case sf::Keyboard::Escape:
 //					clientThread.terminate();
-					return;
+				  cleanGame();
+				  return;
 					break;
 				default:
 					break;
