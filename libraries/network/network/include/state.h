@@ -4,7 +4,7 @@ namespace net
 {
   enum	State
   {
-    CONNECTED,
+    CONNECTED = 0,
     DISCONNECTED,
     CLOSED,
     STATEERROR
