@@ -5,7 +5,7 @@
 // Login   <brigno@epitech.net>
 //
 // Started on  Wed Oct 23 11:37:38 2013 brigno
-// Last update Wed Nov 20 23:53:38 2013 brigno
+// Last update Thu Nov 21 01:11:37 2013 brigno
 //
 
 #include	<sstream>
@@ -42,10 +42,14 @@ MenuWindow::MenuWindow(const std::string &name, int width, int height, Network *
       TextureManager::getInstance().addTexture("Settings", "Images/Menu/Settings.png");
       TextureManager::getInstance().addTexture("SettingsHover", "Images/Menu/SettingsHover.png");
       TextureManager::getInstance().addTexture("SettingsFocus", "Images/Menu/SettingsFocus.png");
+      TextureManager::getInstance().addTexture("FondSettings", "Images/Menu/FondSettings.png");
       TextureManager::getInstance().addTexture("ExitHover", "Images/Menu/ExitHover.png");
       TextureManager::getInstance().addTexture("EnterHover", "Images/Menu/EnterHover.png");
       TextureManager::getInstance().addTexture("ExitFocus", "Images/Menu/ExitFocus.png");
       TextureManager::getInstance().addTexture("EnterFocus", "Images/Menu/EnterFocus.png");
+      TextureManager::getInstance().addTexture("FondWarningMenu", "Images/Menu/fondWarningMenu.png");
+      TextureManager::getInstance().addTexture("TextAccessDenied", "Images/Lobby/TextAccessDenied.png");
+      TextureManager::getInstance().addTexture("Warning", "Images/Lobby/Warning.png");
       TextureManager::getInstance().addTexture("Back", "Images/Lobby/Back.png");
       TextureManager::getInstance().addTexture("BackHover", "Images/Lobby/BackHover.png");
       TextureManager::getInstance().addTexture("BackFocus", "Images/Lobby/BackFocus.png");
@@ -69,8 +73,8 @@ MenuWindow::MenuWindow(const std::string &name, int width, int height, Network *
       TextureManager::getInstance().addTexture("SubmitHover", "Images/Lobby/SubmitButtonHover.png");
       TextureManager::getInstance().addTexture("TitleLobby", "Images/Lobby/titleLobby.png");
       TextureManager::getInstance().addTexture("Cancel", "Images/Lobby/CancelButton.png");
-      TextureManager::getInstance().addTexture("CancelHover", "Images/Lobby/CancelButtonFocus.png");
-      TextureManager::getInstance().addTexture("CancelFocus", "Images/Lobby/CancelButtonHover.png");
+      TextureManager::getInstance().addTexture("CancelHover", "Images/Lobby/CancelButtonHover.png");
+      TextureManager::getInstance().addTexture("CancelFocus", "Images/Lobby/CancelButtonFocus.png");
       TextureManager::getInstance().addTexture("Valider", "Images/Lobby/ValiderButton.png");
       TextureManager::getInstance().addTexture("ValiderFocus", "Images/Lobby/ValiderButtonFocus.png");
       TextureManager::getInstance().addTexture("ValiderHover", "Images/Lobby/ValiderButtonHover.png");
@@ -119,16 +123,44 @@ void	MenuWindow::drawMenu()
   this->_window.setVerticalSyncEnabled(true);
   this->_window.setFramerateLimit(25);
   this->_window.setKeyRepeatEnabled(false);
-  this->_backgroundPtr = new Background();
+  if (this->_backgroundPtr == NULL)
+    this->_backgroundPtr = new Background();
   this->_listImage.push_back(new Image("Title", sf::Vector2i(370, 60)));
   this->_listImage.push_back(new Image("Formu", sf::Vector2i(370, 175)));
   this->_listWidget.push_back(new TextArea(this->_event, "LoginArea", *tmp, sf::Vector2i(480, 380), sf::Vector2i(520, 415), sf::Vector2i(760, 445)));
   this->_listWidget.push_back(new TextArea(this->_event, "PasswordArea", *tmp2, sf::Vector2i(480, 480), sf::Vector2i(520, 515), sf::Vector2i(765, 545)));
   this->_listWidget.push_back(tmp);
   this->_listWidget.push_back(tmp2);
-  this->_listWidget.push_back(new Button(this->_event, "Settings", sf::Vector2i(570, 570), sf::Vector2i(576, 577), sf::Vector2i(706, 611), LOGIN, true));
+  this->_listWidget.push_back(new Button(this->_event, "Settings", sf::Vector2i(570, 570), sf::Vector2i(576, 577), sf::Vector2i(706, 611), SETTINGS, true));
   this->_listWidget.push_back(new Button(this->_event, "Enter", sf::Vector2i(482, 620), sf::Vector2i(488, 630), sf::Vector2i(619, 663), LOGIN, true));
   this->_listWidget.push_back(new Button(this->_event, "Exit", sf::Vector2i(658, 620), sf::Vector2i(663, 630), sf::Vector2i(795, 663), EXIT, true));
+}
+
+void	MenuWindow::drawMenuWarning()
+{
+  this->clearWindow();
+  this->_status = CONTINUE;
+  this->_listImage.push_back(new Image("FondWarningMenu", sf::Vector2i(390, 160)));
+  this->_listImage.push_back(new Image("TextAccessDenied", sf::Vector2i(410, 320)));
+  this->_listImage.push_back(new Image("Warning", sf::Vector2i(570, 175)));
+  this->_listWidget.push_back(new Button(this->_event, "Back", sf::Vector2i(550, 400), sf::Vector2i(555, 405), sf::Vector2i(746, 455), BACK_MENU, true));
+}
+
+
+void	MenuWindow::drawSettings()
+{
+  this->clearWindow();
+  this->_status = CONTINUE;
+  Text *tmp = new Text("Font/verdana.ttf", "IPAddress", this->_event, sf::Vector2i(525, 410), sf::Vector2i(520, 415), sf::Vector2i(760, 445), 15, true);
+  Text *tmp2 = new Text("Font/verdana.ttf", "Port", this->_event, sf::Vector2i(560, 515), sf::Vector2i(520, 515), sf::Vector2i(765, 545), 5, true);
+  this->_listImage.push_back(new Image("Title", sf::Vector2i(370, 60)));
+  this->_listImage.push_back(new Image("FondSettings", sf::Vector2i(370, 175)));
+  this->_listWidget.push_back(new TextArea(this->_event, "IPArea", *tmp, sf::Vector2i(480, 380), sf::Vector2i(520, 415), sf::Vector2i(760, 445)));
+  this->_listWidget.push_back(new TextArea(this->_event, "PortArea", *tmp2, sf::Vector2i(480, 480), sf::Vector2i(520, 515), sf::Vector2i(765, 545)));
+  this->_listWidget.push_back(tmp);
+  this->_listWidget.push_back(tmp2);
+  this->_listWidget.push_back(new Button(this->_event, "Valider", sf::Vector2i(570, 570), sf::Vector2i(576, 577), sf::Vector2i(706, 611), SET_CHANGE, true));
+  this->_listWidget.push_back(new Button(this->_event, "Cancel", sf::Vector2i(482, 620), sf::Vector2i(488, 630), sf::Vector2i(619, 663), BACK_MENU, true));
 }
 
 void	MenuWindow::drawLobby()
@@ -311,8 +343,18 @@ void	MenuWindow::checkAction()
   switch (this->_status)
     {
     case LOGIN:
-      // std::cout << dynamic_cast<Text*>(Interface::getInstance().getWidget("LoginText"))->getText() << std::endl;
-      // std::cout << dynamic_cast<Text*>(Interface::getInstance().getWidget("PasswordText"))->getText() << std::endl;
+      if (dynamic_cast<Text*>(Interface::getInstance().getWidget("LoginText"))->getText() == "")
+	{
+	  this->drawMenuWarning();
+	  this->_status = CONTINUE;
+	  break;
+	}
+      if (dynamic_cast<Text*>(Interface::getInstance().getWidget("PasswordText"))->getText() == "")
+	{
+	  this->drawMenuWarning();
+	  this->_status = CONTINUE;
+	  break;
+	}
       // Demander au seveur si les identifiants sont bon !
       this->drawLobby();
       break;
@@ -354,6 +396,18 @@ void	MenuWindow::checkAction()
     case SELECT_SERVER:
       this->_status = CONTINUE;
       this->checkServer();
+      break;
+    case SETTINGS:
+      this->_status = CONTINUE;
+      this->drawSettings();
+      break;
+    case SET_CHANGE:
+      this->_status = CONTINUE;
+      // dynamic_cast<Text*>(Interface::getInstance().getWidget("IPAddress"))->getText();
+      // dynamic_cast<Text*>(Interface::getInstance().getWidget("Port"))->getText();
+      this->drawMenu();
+      break;
+      // keep settings
     default:
       break;
     }

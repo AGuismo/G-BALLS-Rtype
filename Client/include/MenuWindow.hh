@@ -5,7 +5,7 @@
 // Login   <brigno@epitech.net>
 //
 // Started on  Wed Oct 23 11:31:48 2013 brigno
-// Last update Wed Nov 20 20:45:48 2013 brigno
+// Last update Thu Nov 21 01:03:08 2013 brigno
 //
 
 #ifndef		__MENU_WINDOW_HH__
@@ -58,8 +58,10 @@ public:
   void					drawMenu(void);
   void					drawLobby(void);
   void					removeWidget(const std::string &other);
+  void					drawSettings(void);
   void					drawLobbyCreate(void);
   void					drawLobbyWait(int owner);
+  void					drawMenuWarning();
   void					draw(void);
   void					catchEvent(void);
   void					checkAction(void);

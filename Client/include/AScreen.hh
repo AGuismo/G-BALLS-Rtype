@@ -5,7 +5,7 @@
 // Login   <brigno@epitech.net>
 //
 // Started on  Tue Nov  5 15:14:30 2013 brigno
-// Last update Wed Nov 20 19:12:22 2013 brigno
+// Last update Thu Nov 21 00:10:37 2013 brigno
 //
 
 #ifndef		__SCREEN_HH__
@@ -33,7 +33,9 @@ public:
       SUBMIT,
       BACK_LOBY,
       VALIDE,
-      SELECT_SERVER
+      SELECT_SERVER,
+      SETTINGS,
+      SET_CHANGE
     };
 protected:
   Status		_status;
