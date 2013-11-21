@@ -28,7 +28,6 @@ private:
   AWidget			*_objectHover;
   std::list<std::string>	_bufferChat;
   int				_flag;
-  network::Manager		&_network;
 
 public:
   MenuWindow(sf::RenderWindow &window, network::Manager &network);
@@ -40,7 +39,7 @@ private:
 public:
   bool					&getExit(void) const;
   bool					load();
-  void					run(void);
+  int					run(void);
   void					setListSprite(sf::Sprite);
   const image_list			&getListImage(void) const;
   const widget_list			&getListWidget(void) const;
@@ -58,7 +57,7 @@ public:
   void					drawLobbyWait(int owner);
   void					drawMenuWarning();
   void					draw(void);
-  void					catchEvent(void);
+  int					catchEvent(void);
   void					checkAction(void);
   void					checkServer(void);
   int					checkNbPlayer(void);

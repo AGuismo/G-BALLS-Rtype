@@ -21,15 +21,16 @@ SRCS =	      	main.cpp		\
 DIR.THREAD=	../libraries/Thread/Threads
 DIR.BIND=	../libraries/Bind
 DIR.NETWORK=	./network/
+DIR.GAME=	./game/
 
-DEPS.INC=	-I$(DIR.BIND)/include -I$(DIR.THREAD)/include
+DEPS.INC=	-I$(DIR.BIND)/include -I$(DIR.THREAD)/include -I$(DIR.GAME)/include
 
 DEPS.LNK=	-lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio -lsfml-network
 DEPS.LNK+=	-L$(DIR.THREAD) -lThread -lpthread
 
 MOD.INC=	-I$(DIR.NETWORK)/include
 
-MOD.LNK=	-L$(DIR.NETWORK) -lnetwork
+MOD.LNK=	-L$(DIR.NETWORK) -lnetwork -L$(DIR.GAME) -lgame
 
 F.C	     +=	-W -Wall -Werror
 F.I	     +=	$(DEPS.INC) $(MOD.INC) -I./include
@@ -43,6 +44,7 @@ $(NAME):	compile_mods compile_deps compile
 compile_mods:
 		@$(ECHO) $(ES) "Compile Modules" $(EE)
 		@make --no-print-directory -C ./$(DIR.NETWORK) all F.D=$(F.D)
+		@make --no-print-directory -C ./$(DIR.GAME) all F.D=$(F.D)
 
 compile_deps:
 		@$(ECHO) $(ES) "Compile Dependancies" $(EE)
@@ -51,6 +53,7 @@ compile_deps:
 clean_mods:
 		@$(ECHO) $(ES) "Clean Modules" $(EE)
 		@make --no-print-directory -C ./$(DIR.NETWORK) clean
+		@make --no-print-directory -C ./$(DIR.GAME) clean
 
 clean_deps:
 		@$(ECHO) $(ES) "Clean Dependancies" $(EE)
@@ -59,6 +62,7 @@ clean_deps:
 fclean_mods:
 		@$(ECHO) $(ES) "Full clean Modules" $(EE)
 		@make --no-print-directory -C ./$(DIR.NETWORK) fclean
+		@make --no-print-directory -C ./$(DIR.GAME) fclean
 
 fclean_deps:
 		@$(ECHO) $(ES) "Full clean Dependancies" $(EE)

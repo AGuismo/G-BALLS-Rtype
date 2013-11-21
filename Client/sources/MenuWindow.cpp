@@ -16,14 +16,13 @@
 #include	"Network.hh"
 
 MenuWindow::MenuWindow(sf::RenderWindow &window, network::Manager &network):
-  AScreen(window, START), _backgroundPtr(0), _objectFocus(0), _objectHover(0), _network(network)
+  AScreen(window, network, START), _backgroundPtr(0), _objectFocus(0), _objectHover(0)
 {
   this->_flag = 0;
 }
 
 bool	MenuWindow::load()
 {
-  std::cout << __PRETTY_FUNCTION__ << std::endl;
   try
     {
       TextureManager::getInstance().addTexture("Background1", "Images/Menu/background1.png");
@@ -70,6 +69,12 @@ bool	MenuWindow::load()
       TextureManager::getInstance().addTexture("Cancel", "Images/Lobby/CancelButton.png");
       TextureManager::getInstance().addTexture("CancelHover", "Images/Lobby/CancelButtonHover.png");
       TextureManager::getInstance().addTexture("CancelFocus", "Images/Lobby/CancelButtonFocus.png");
+      TextureManager::getInstance().addTexture("CancelMenu", "Images/Menu/CancelMenu.png");
+      TextureManager::getInstance().addTexture("CancelMenuHover", "Images/Menu/CancelMenuHover.png");
+      TextureManager::getInstance().addTexture("CancelMenuFocus", "Images/Menu/CancelMenuFocus.png");
+      TextureManager::getInstance().addTexture("Save", "Images/Menu/Save.png");
+      TextureManager::getInstance().addTexture("SaveHover", "Images/Menu/SaveHover.png");
+      TextureManager::getInstance().addTexture("SaveFocus", "Images/Menu/SaveFocus.png");
       TextureManager::getInstance().addTexture("Valider", "Images/Lobby/ValiderButton.png");
       TextureManager::getInstance().addTexture("ValiderFocus", "Images/Lobby/ValiderButtonFocus.png");
       TextureManager::getInstance().addTexture("ValiderHover", "Images/Lobby/ValiderButtonHover.png");
@@ -115,7 +120,6 @@ void	MenuWindow::drawMenu()
   this->clearWindow();
   Text *tmp = new Text("Font/NEUROPOL.ttf", "LoginText", this->_event, sf::Vector2i(525, 410), sf::Vector2i(520, 415), sf::Vector2i(760, 445), 10, true);
   Text *tmp2 = new Text("Font/NEUROPOL.ttf", "PasswordText", this->_event, sf::Vector2i(560, 515), sf::Vector2i(520, 515), sf::Vector2i(765, 545), 10, false);
-  this->_window.setVerticalSyncEnabled(true);
   this->_window.setFramerateLimit(25);
   this->_window.setKeyRepeatEnabled(false);
   if (this->_backgroundPtr == NULL)
@@ -154,8 +158,8 @@ void	MenuWindow::drawSettings()
   this->_listWidget.push_back(new TextArea(this->_event, "PortArea", *tmp2, sf::Vector2i(480, 480), sf::Vector2i(520, 515), sf::Vector2i(765, 545)));
   this->_listWidget.push_back(tmp);
   this->_listWidget.push_back(tmp2);
-  this->_listWidget.push_back(new Button(this->_event, "Valider", sf::Vector2i(570, 570), sf::Vector2i(576, 577), sf::Vector2i(706, 611), SET_CHANGE, true));
-  this->_listWidget.push_back(new Button(this->_event, "Cancel", sf::Vector2i(482, 620), sf::Vector2i(488, 630), sf::Vector2i(619, 663), BACK_MENU, true));
+  this->_listWidget.push_back(new Button(this->_event, "Save", sf::Vector2i(500, 590), sf::Vector2i(506, 596), sf::Vector2i(616, 632), SET_CHANGE, true));
+  this->_listWidget.push_back(new Button(this->_event, "CancelMenu", sf::Vector2i(650, 590), sf::Vector2i(654, 596), sf::Vector2i(766, 632), BACK_MENU, true));
 }
 
 void	MenuWindow::drawLobby()
@@ -432,7 +436,7 @@ void	MenuWindow::removeWidget(const std::string &widget)
     }
 }
 
-void	MenuWindow::catchEvent()
+int	MenuWindow::catchEvent()
 {
   while (this->_window.pollEvent(this->_event))
     {
@@ -447,6 +451,8 @@ void	MenuWindow::catchEvent()
 	case sf::Event::KeyPressed:
 	  if (this->_event.key.code == sf::Keyboard::Escape)
 	    this->_window.close();
+	  if (this->_event.key.code == sf::Keyboard::F1)
+	    return 2;
 	  break;
 	case sf::Event::TextEntered:
 	  if (this->_objectFocus != 0)
@@ -480,16 +486,19 @@ void	MenuWindow::catchEvent()
 	  break;
 	}
     }
+  return 0;
 }
 
-void	MenuWindow::run()
+int	MenuWindow::run()
 {
   while (this->_window.isOpen())
     {
-      this->catchEvent();
+      if (this->catchEvent() == 2)
+	return (AScreen::SCR_GAME);
       this->setDraw();
       this->draw();
     }
+  return (AScreen::SCR_EXIT); // ASCREEN::Status
 }
 
 Background		*MenuWindow::getBackgroundPtr()

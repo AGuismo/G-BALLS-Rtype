@@ -5,13 +5,13 @@
 // Login   <brigno@epitech.net>
 //
 // Started on  Tue Nov  5 15:45:16 2013 brigno
-// Last update Thu Nov 21 01:58:52 2013 lambert kevin
+// Last update Thu Nov 21 13:49:20 2013 lambert kevin
 //
 
 #include	"AScreen.hh"
 
-AScreen::AScreen(sf::RenderWindow &window, AScreen::Status status) :
-  _status(status), _window(window)
+AScreen::AScreen(sf::RenderWindow &window, network::Manager &manager, AScreen::Status status) :
+  _status(status), _window(window), _network(manager)
 {
 }
 

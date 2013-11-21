@@ -5,20 +5,21 @@
 // Login   <brigno@epitech.net>
 //
 // Started on  Tue Nov  5 02:00:45 2013 brigno
-// Last update Thu Nov 21 02:07:02 2013 lambert kevin
+// Last update Thu Nov 21 15:16:44 2013 lambert kevin
 //
 
 #include	"Application.hh"
 #include	"AScreen.hh"
 #include	"Network.hh"
 #include	"MenuWindow.hh"
+#include	"gameWindow.h"
 
 const char	*Application::WINDOW_NAME = "R-Type";
 
 Application::Application()
 {
   _listScreen.push_back(new MenuWindow(_window, _network));
-  // _listScreen.push_back(new GameWindow(_window, _network));
+  _listScreen.push_back(new GameWindow(_window, _network));
 }
 
 Application::~Application()
@@ -36,7 +37,9 @@ bool	Application::initialize()
     {
       // _network.initialize();
       for (screen_list::iterator it = _listScreen.begin(); it != _listScreen.end(); ++it)
-	(*it)->load();
+	{
+	  (*it)->load();
+	}
     }
   catch (const AScreen::Exception &e)
     {
@@ -53,9 +56,11 @@ bool	Application::initialize()
 
 void	Application::run()
 {
+  int	screenIdx = AScreen::SCR_MENU;
+
   // _network.run();
   while (this->_window.isOpen())
     {
-      _listScreen[0]->run();
+      screenIdx = _listScreen[screenIdx]->run();
     }
 }

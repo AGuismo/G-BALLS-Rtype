@@ -5,10 +5,17 @@
 # include	<string>
 # include	"IScreen.hh"
 
-class		Network;
+namespace	network
+{
+  class		Manager;
+}
 
 class AScreen : public IScreen
 {
+public:
+  static const int	SCR_MENU = 0;
+  static const int	SCR_GAME = 1;
+  static const int	SCR_EXIT = 2;
 public:
   enum Status
     {
@@ -26,18 +33,19 @@ public:
       VALIDE,
       SELECT_SERVER,
       SETTINGS,
-      SET_CHANGE
+      SET_CHANGE,
+      INGAME
     };
 protected:
   Status		_status;
   sf::Event		_event;
   sf::RenderWindow	&_window;
-  Network		*_network;
+  network::Manager	&_network;
 
 public:
-  AScreen(sf::RenderWindow &window, AScreen::Status status);
+  AScreen(sf::RenderWindow &window, network::Manager &manager, AScreen::Status status);
   ~AScreen();
-  virtual void	run(void) = 0;
+  virtual int	run(void) = 0;
   virtual void		clearWindow(void) = 0;
   virtual bool	load() = 0;
 
