@@ -30,7 +30,7 @@ struct	stdin : public net::AMonitorable
 
 const char	*detail(const ARequest *req)
 {
-  if (typeid(req) == typeid(ServerRequest *))
+  if (typeid(*req) == typeid(ServerRequest))
     return (Info<ServerRequest>::Detail(req->code()));
   return ("None");
 }
