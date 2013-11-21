@@ -6,12 +6,12 @@
 class VictoryRequest : public AGameRequest
 {
 public:
-	VictoryRequest();
-	~VictoryRequest();
+  VictoryRequest();
+  ~VictoryRequest();
 
-  public:
-    Protocol			&serialize(Protocol &) const;
-    Protocol			&unserialize(Protocol &);
-    ARequest			*clone();
+public:
+  Protocol			&serialize(Protocol &) const;
+  Protocol			&unserialize(Protocol &);
+  ARequest			*clone();
 private:
 };

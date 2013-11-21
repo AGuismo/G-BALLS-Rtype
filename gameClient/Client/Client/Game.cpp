@@ -7,7 +7,7 @@
 #include		"Timer.h"
 
 const float Game::VLAG = 0.4f;
-const float Game::MAX_VLAG = 4.0f;
+const float Game::MAX_VLAG = 2.0f;
 const float Game::OBJ_DEC_X_FRAME = Game::PX_DEC_X /  8.0f;
 const float Game::OBJ_DEC_Y_FRAME = Game::PX_DEC_Y / 8.0f;
 
@@ -29,6 +29,10 @@ bool							Game::load(void)
 	if (!_textureManager.addTexture(LAYER2, std::string("./Images/Aurora2.png")))
 		return false;
 	if (!_textureManager.addTexture(LAYER3, std::string("./Images/Comet1.png")))
+		return false;
+	if (!_textureManager.addTexture(NORMAL_BANG, std::string("./Images/r-typesheet44.png")))
+		return false;
+	if (!_textureManager.addTexture(BIG_BANG, std::string("./Images/r-typesheet44.png")))
 		return false;
 
 
@@ -75,12 +79,13 @@ bool							Game::load(void)
 	return true;
 }
 
+//projectiles + singleton
 
 void							Game::run(void)
 {
 	Timer						_playerMvtLock(new sf::Time(sf::seconds(0.20f)));
 	Timer						_playerFireLock(new sf::Time(sf::seconds(0.42f)));
-	Timer						test(new sf::Time(sf::seconds(5.0f)));
+	Timer						test(new sf::Time(sf::seconds(50.0f)));
 
 	_gameWindow->setFramerateLimit(25);
 	addObj(PLAYER1, 42, 100);
@@ -88,10 +93,9 @@ void							Game::run(void)
 	addObj(PLAYER3, 77, 10);
 	addObj(PLAYER4, 48, 200);
 	addObj(SBYDOS1, 455, 140);
-
 	static int i = 0;
 
-	//_audioManager.play(GAME_MUSIC);
+	_audioManager.play(GAME_MUSIC);
 
 
 /*	Network						clientNetwork;
@@ -143,6 +147,7 @@ void							Game::run(void)
 					if (_playerFireLock.isEnded())
 					{
 						_audioManager.play(PLAYER_LASER);
+						delObj(455);
 //						clientNetwork.pushOutRequest(std::string("fire in the hole"));
 						_playerFireLock.restart();
 					}
@@ -155,76 +160,71 @@ void							Game::run(void)
 					break;
 				}
 				break;
-			case sf::Event::KeyReleased:
-				switch (_event->key.code)
-				{
-				case sf::Keyboard::Up:
-					updatePlayer(Nothing);
-					break;
-				case sf::Keyboard::Down:
-					updatePlayer(Nothing);
-					break;
-				default:
-					break;
-				}
-				break;
 			default:
 				break;
 			}
 		}
 		_gameWindow->clear();
-		updatePlayer(Nothing);
-
-		update();
+		cleanObjects();
 		_layerManager.upDraw();
-		draw();
+		drawObjects();
 		_gameWindow->display();
+	/*	if (test.isEnded())
+			break;*/
 	}
+	cleanGame();
 }
 
-void							Game::draw(void)
+
+void							Game::drawObjects(void)
 {
 	for (obj_type::iterator it = _objects.begin(); it != _objects.end(); ++it)
 		(*it)->draw();
 }
 
-void							Game::update(void)
+
+void							Game::cleanObjects(void)
 {
-	// too soon
+	for (obj_type::iterator it = _objects.begin(); it != _objects.end();)
+	{
+		if (!(*it)->isAlive())
+		{
+			std::cout << (*it)->getObjType() << std::endl;
+			it = _objects.erase(it);
+		}
+		else
+			++it;
+	}
 }
 
 
 bool							Game::updatePlayer(Action action)
 {
 	int							updatedPos = UNCHANGED;
-
-	obj_type::iterator it = std::find_if(_objects.begin(), _objects.end(), AObject::predicate(_idPlayer));
+	obj_type::iterator			it = std::find_if(_objects.begin(), _objects.end(), AObject::predicate(_idPlayer));
+	
 	if (it != _objects.end())
 	{
 		switch (action)
 		{
 		case Left:
 			updatedPos = ((*it)->getCaseCurPos() % Game::SIZE_GAME_BOARD == 0) ? (*it)->getCaseCurPos() : (*it)->getCaseCurPos() - 1;
-			(*it)->update(Left, Unset, updatedPos);
+			(*it)->update(Unset, updatedPos);
 			break;
 		case Right:
 			updatedPos = (((*it)->getCaseCurPos() + 1) % Game::SIZE_GAME_BOARD == 0) ? (*it)->getCaseCurPos() : (*it)->getCaseCurPos() + 1;
-			(*it)->update(Right, Unset, updatedPos);
+			(*it)->update(Unset, updatedPos);
 			break;
 		case Up:
 			updatedPos = ((*it)->getCaseCurPos() / Game::SIZE_GAME_BOARD == 0) ? (*it)->getCaseCurPos() : (*it)->getCaseCurPos() - Game::SIZE_GAME_BOARD;
-			(*it)->update(Up, Unset, updatedPos);
+			(*it)->update(Unset, updatedPos);
 			break;
 		case Down:
 			updatedPos = ((*it)->getCaseCurPos() + Game::SIZE_GAME_BOARD > Game::CASE_GAME_BOARD) ? (*it)->getCaseCurPos() : (*it)->getCaseCurPos() + Game::SIZE_GAME_BOARD;
-			(*it)->update(Down, Unset, updatedPos);
-			break;
-		case Fire:
-			/*updatedPos = (*it)->getCaseCurPos() + 6;
-			(*it)->update(Right, Unset, updatedPos);*/
+			(*it)->update(Unset, updatedPos);
 			break;
 		default:
-			(*it)->update(Nothing, Unset, updatedPos);
+			(*it)->update(Unset, updatedPos);
 			break;
 		}
 //		return true;
@@ -238,34 +238,83 @@ bool							Game::updatePlayer(Action action)
 		{
 		case Left:
 			updatedPos = ((*ot)->getCaseCurPos() % Game::SIZE_GAME_BOARD == 0) ? (*ot)->getCaseCurPos() : (*ot)->getCaseCurPos() - 1;
-			(*ot)->update(Left, Unset, updatedPos);
+			(*ot)->update(Unset, updatedPos);
 			break;
 		case Right:
 			updatedPos = (((*ot)->getCaseCurPos() + 1) % Game::SIZE_GAME_BOARD == 0) ? (*ot)->getCaseCurPos() : (*ot)->getCaseCurPos() + 1;
-			(*ot)->update(Right, Unset, updatedPos);
+			(*ot)->update(Unset, updatedPos);
 			break;
 		case Up:
 			updatedPos = ((*ot)->getCaseCurPos() / Game::SIZE_GAME_BOARD == 0) ? (*ot)->getCaseCurPos() : (*ot)->getCaseCurPos() - Game::SIZE_GAME_BOARD;
-			(*ot)->update(Up, Unset, updatedPos);
+			(*ot)->update(Unset, updatedPos);
 			break;
 		case Down:
 			updatedPos = ((*ot)->getCaseCurPos() + Game::SIZE_GAME_BOARD > Game::CASE_GAME_BOARD) ? (*ot)->getCaseCurPos() : (*ot)->getCaseCurPos() + Game::SIZE_GAME_BOARD;
-			(*ot)->update(Down, Unset, updatedPos);
+			(*ot)->update(Unset, updatedPos);
 			break;
 		case Fire:
 			updatedPos = (*ot)->getCaseCurPos() + 6;
-			(*ot)->update(Right, Unset, updatedPos);
+			(*ot)->update(Unset, updatedPos);
 			break;
 		default:
-			(*ot)->update(Nothing, Unset, updatedPos);
+			(*ot)->update(Unset, updatedPos);
 			break;
 		}
 		return true;
 	}
-
-
-
 	return false;
+}
+
+// del general to do (cleanGame)
+
+bool						Game::delObj(int id)
+{
+	static int				idBang = 66000;
+	obj_type::iterator		it = std::find_if(_objects.begin(), _objects.end(), AObject::predicate(id));
+
+	if (it != _objects.end())
+	{
+		switch ((*it)->getObjType())
+		{
+		case PLAYER1:
+			addObj(NORMAL_BANG, idBang, (*it)->getCaseCurPos());
+			_audioManager.play(PLAYER_DESTRUCTION);
+			break;
+		case SBYDOS1:
+			addObj(NORMAL_BANG, idBang, (*it)->getCaseCurPos());
+			_audioManager.play(BYDOS_DESTRUCTION);
+			break;
+		default:
+			break;
+		}
+		_objects.erase(it);
+		idBang = (idBang + 1) < 66000 ? 66000 : idBang + 1;
+		return true;
+	}
+	return false;
+}
+
+/*GAME_MUSIC = 0,
+PLAYER_LASER,
+PLAYER_CHARGED,
+PLAYER_RELEASED,
+PLAYER_DESTRUCTION,
+BYDOS_PLASMA,
+BYDOS_LASER,
+BYDOS_DESTRUCTION,
+BYDOS_BOSS_DESTRUCTION*/
+
+bool							Game::updateObj(ObjType type, LookDirection lDir, int id, int pos)
+{
+	obj_type::iterator it = std::find_if(_objects.begin(), _objects.end(), AObject::predicate(id));
+
+	if (it != _objects.end())
+	{
+		(*it)->update(lDir, pos);
+		return true;
+	}
+	else
+		return (addObj(type, id, pos));
 }
 
 bool							Game::addObj(ObjType type, int id, int pos)
@@ -278,6 +327,18 @@ bool							Game::addObj(ObjType type, int id, int pos)
 		return true;
 	}
 	return false;
+}
+
+void							Game::cleanGame()
+{
+	for (obj_type::iterator it = _objects.begin(); it != _objects.end();)
+	{
+			std::cout << (*it)->getObjType() << std::endl;
+			it = _objects.erase(it);
+	}
+	if (_gameWindow->isOpen())
+		_gameWindow->clear();
+	_audioManager.stop(GAME_MUSIC);
 }
 
 Game::Game(sf::RenderWindow *gameWindow, sf::Event *event) : _factory(gameWindow, &_textureManager), _layerManager(gameWindow, &_textureManager), _audioManager()

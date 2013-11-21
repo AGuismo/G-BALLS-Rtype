@@ -5,7 +5,7 @@
 # include	<SFML/Graphics.hpp>
 # include	"game.h"
 
-class						gameWindow //: public AScreen
+class						GameWindow //: public AScreen
 {
 private:
 	sf::RenderWindow		_gameWindow; // in AScreen
@@ -19,12 +19,12 @@ public:
 	int						run(void); // appelle run game =>
 
 public:
-	gameWindow(const std::string &name, int width, int height);
-	~gameWindow() {}
+	GameWindow(const std::string &name, int width, int height);
+	~GameWindow() {}
 
 private:
-	gameWindow(const gameWindow &);
-	gameWindow				operator=(const gameWindow &);
+	GameWindow(const GameWindow &);
+	GameWindow				operator=(const GameWindow &);
 };
 
 #endif	/* !__gameWindow_HH__ */

@@ -6,22 +6,22 @@
 class ScoreRequest : public AGameRequest
 {
 public:
-	ScoreRequest();
-	ScoreRequest(Ruint16 id, Ruint16 score);
-	~ScoreRequest();
+  ScoreRequest();
+  ScoreRequest(Ruint16 id, Ruint16 score);
+  ~ScoreRequest();
 
 public:
-	Protocol			&serialize(Protocol &) const;
-	Protocol			&unserialize(Protocol &);
-	ARequest			*clone();
+  Protocol			&serialize(Protocol &) const;
+  Protocol			&unserialize(Protocol &);
+  ARequest			*clone();
 
 public:
-	Ruint16				ID() const;
-	void				ID(Ruint16 id);
-	Ruint16				score() const;
-	void				score(Ruint16 score);
+  Ruint16				ID() const;
+  void				ID(Ruint16 id);
+  Ruint16				score() const;
+  void				score(Ruint16 score);
 
 private:
-	Ruint16				_id;
-	Ruint16				_score;
+  Ruint16				_id;
+  Ruint16				_score;
 };

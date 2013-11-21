@@ -159,6 +159,7 @@
   <ItemGroup>
     <ClCompile Include="Animation.cpp" />
     <ClCompile Include="AObject.cpp" />
+    <ClCompile Include="Bang.cpp" />
     <ClCompile Include="Bydos1.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</ExcludedFromBuild>
     </ClCompile>
@@ -178,6 +179,7 @@
   <ItemGroup>
     <ClInclude Include="Animation.h" />
     <ClInclude Include="AObject.h" />
+    <ClInclude Include="Bang.h" />
     <ClInclude Include="Bydos1.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</ExcludedFromBuild>
     </ClInclude>

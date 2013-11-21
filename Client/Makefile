@@ -18,13 +18,18 @@ SRCS =	      	main.cpp		\
 		Texture.cpp		\
 		TextureManager.cpp
 
-DEPS.INC=	
+DIR.THREAD=	../libraries/Thread/Threads
+DIR.BIND=	../libraries/Bind
+DIR.NETWORK=	./network/
 
-DEPS.LNK=	
+DEPS.INC=	-I$(DIR.BIND)/include -I$(DIR.THREAD)/include
 
-MOD.INC=	
+DEPS.LNK=	-lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio -lsfml-network
+DEPS.LNK+=	-L$(DIR.THREAD) -lThread -lpthread
 
-MOD.LNK=	-lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio -lsfml-network
+MOD.INC=	-I$(DIR.NETWORK)/include
+
+MOD.LNK=	-L$(DIR.NETWORK) -lnetwork
 
 F.C	     +=	-W -Wall -Werror
 F.I	     +=	$(DEPS.INC) $(MOD.INC) -I./include
@@ -37,21 +42,27 @@ $(NAME):	compile_mods compile_deps compile
 
 compile_mods:
 		@$(ECHO) $(ES) "Compile Modules" $(EE)
+		@make --no-print-directory -C ./$(DIR.NETWORK) all F.D=$(F.D)
 
 compile_deps:
 		@$(ECHO) $(ES) "Compile Dependancies" $(EE)
+		@make --no-print-directory -C ./$(DIR.THREAD) all F.D=$(F.D)
 
 clean_mods:
 		@$(ECHO) $(ES) "Clean Modules" $(EE)
+		@make --no-print-directory -C ./$(DIR.NETWORK) clean
 
 clean_deps:
 		@$(ECHO) $(ES) "Clean Dependancies" $(EE)
+		@make --no-print-directory -C ./$(DIR.THREAD) clean
 
 fclean_mods:
 		@$(ECHO) $(ES) "Full clean Modules" $(EE)
+		@make --no-print-directory -C ./$(DIR.NETWORK) fclean
 
 fclean_deps:
 		@$(ECHO) $(ES) "Full clean Dependancies" $(EE)
+		@make --no-print-directory -C ./$(DIR.THREAD) fclean
 
 clean:		remove_objects clean_mods clean_deps
 

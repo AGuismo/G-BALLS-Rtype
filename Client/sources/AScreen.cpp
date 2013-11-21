@@ -5,18 +5,14 @@
 // Login   <brigno@epitech.net>
 //
 // Started on  Tue Nov  5 15:45:16 2013 brigno
-// Last update Tue Nov 19 17:34:18 2013 brigno
+// Last update Thu Nov 21 01:58:52 2013 lambert kevin
 //
 
 #include	"AScreen.hh"
 
-AScreen::AScreen(const std::string &name, int width, int height, Network *network, AScreen::Status status)
+AScreen::AScreen(sf::RenderWindow &window, AScreen::Status status) :
+  _status(status), _window(window)
 {
-  this->_window.create(sf::VideoMode(width, height), name, sf::Style::Titlebar | sf::Style::Close);
-  this->_window.setVerticalSyncEnabled(true);
-  this->_window.setFramerateLimit(25);
-  this->_network = network;
-  this->_status = status;
 }
 
 AScreen::~AScreen()

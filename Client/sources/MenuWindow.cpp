@@ -1,13 +1,3 @@
-//
-// Window.cpp for Window in /home/brigno/Projects/R-Type/r-type/Client
-//
-// Made by brigno
-// Login   <brigno@epitech.net>
-//
-// Started on  Wed Oct 23 11:37:38 2013 brigno
-// Last update Wed Nov 20 21:02:30 2013 brigno
-//
-
 #include	<sstream>
 #include	<algorithm>
 #include	<typeinfo>
@@ -25,10 +15,15 @@
 #include	"TextureManager.hh"
 #include	"Network.hh"
 
-MenuWindow::MenuWindow(const std::string &name, int width, int height, Network *network):
-  AScreen(name, width, height, network, CONTINUE), _objectFocus(0), _objectHover(0)
+MenuWindow::MenuWindow(sf::RenderWindow &window, network::Manager &network):
+  AScreen(window, START), _backgroundPtr(0), _objectFocus(0), _objectHover(0), _network(network)
 {
   this->_flag = 0;
+}
+
+bool	MenuWindow::load()
+{
+  std::cout << __PRETTY_FUNCTION__ << std::endl;
   try
     {
       TextureManager::getInstance().addTexture("Background1", "Images/Menu/background1.png");
@@ -39,10 +34,20 @@ MenuWindow::MenuWindow(const std::string &name, int width, int height, Network *
       TextureManager::getInstance().addTexture("TextAreaFocus", "Images/Menu/textAreaFocus.png");
       TextureManager::getInstance().addTexture("Exit", "Images/Menu/Exit.png");
       TextureManager::getInstance().addTexture("Enter", "Images/Menu/Enter.png");
+      TextureManager::getInstance().addTexture("Settings", "Images/Menu/Settings.png");
+      TextureManager::getInstance().addTexture("SettingsHover", "Images/Menu/SettingsHover.png");
+      TextureManager::getInstance().addTexture("SettingsFocus", "Images/Menu/SettingsFocus.png");
+      TextureManager::getInstance().addTexture("FondSettings", "Images/Menu/FondSettings.png");
       TextureManager::getInstance().addTexture("ExitHover", "Images/Menu/ExitHover.png");
       TextureManager::getInstance().addTexture("EnterHover", "Images/Menu/EnterHover.png");
       TextureManager::getInstance().addTexture("ExitFocus", "Images/Menu/ExitFocus.png");
       TextureManager::getInstance().addTexture("EnterFocus", "Images/Menu/EnterFocus.png");
+      TextureManager::getInstance().addTexture("FondWarningMenu", "Images/Menu/fondWarningMenu.png");
+      TextureManager::getInstance().addTexture("TextAccessDenied", "Images/Lobby/TextAccessDenied.png");
+      TextureManager::getInstance().addTexture("Warning", "Images/Lobby/Warning.png");
+      TextureManager::getInstance().addTexture("Back", "Images/Lobby/Back.png");
+      TextureManager::getInstance().addTexture("BackHover", "Images/Lobby/BackHover.png");
+      TextureManager::getInstance().addTexture("BackFocus", "Images/Lobby/BackFocus.png");
       TextureManager::getInstance().addTexture("Create", "Images/Lobby/Create.png");
       TextureManager::getInstance().addTexture("CreateHover", "Images/Lobby/CreateHover.png");
       TextureManager::getInstance().addTexture("CreateFocus", "Images/Lobby/CreateFocus.png");
@@ -63,8 +68,8 @@ MenuWindow::MenuWindow(const std::string &name, int width, int height, Network *
       TextureManager::getInstance().addTexture("SubmitHover", "Images/Lobby/SubmitButtonHover.png");
       TextureManager::getInstance().addTexture("TitleLobby", "Images/Lobby/titleLobby.png");
       TextureManager::getInstance().addTexture("Cancel", "Images/Lobby/CancelButton.png");
-      TextureManager::getInstance().addTexture("CancelHover", "Images/Lobby/CancelButtonFocus.png");
-      TextureManager::getInstance().addTexture("CancelFocus", "Images/Lobby/CancelButtonHover.png");
+      TextureManager::getInstance().addTexture("CancelHover", "Images/Lobby/CancelButtonHover.png");
+      TextureManager::getInstance().addTexture("CancelFocus", "Images/Lobby/CancelButtonFocus.png");
       TextureManager::getInstance().addTexture("Valider", "Images/Lobby/ValiderButton.png");
       TextureManager::getInstance().addTexture("ValiderFocus", "Images/Lobby/ValiderButtonFocus.png");
       TextureManager::getInstance().addTexture("ValiderHover", "Images/Lobby/ValiderButtonHover.png");
@@ -98,6 +103,7 @@ MenuWindow::MenuWindow(const std::string &name, int width, int height, Network *
       throw AScreen::Exception("MenuWindow can't load all textures");
     }
   this->drawMenu();
+  return (true);
 }
 
 MenuWindow::~MenuWindow()
@@ -107,21 +113,49 @@ MenuWindow::~MenuWindow()
 void	MenuWindow::drawMenu()
 {
   this->clearWindow();
-  this->_status = CONTINUE;
-  Text *tmp = new Text("Font/NEUROPOL.ttf", "LoginText", this->_event, sf::Vector2i(518, 370), sf::Vector2i(510, 375), sf::Vector2i(750, 405), 12, true);
-  Text *tmp2 = new Text("Font/NEUROPOL.ttf", "PasswordText", this->_event, sf::Vector2i(518, 470), sf::Vector2i(510, 475), sf::Vector2i(755, 505), 12, false);
+  Text *tmp = new Text("Font/NEUROPOL.ttf", "LoginText", this->_event, sf::Vector2i(525, 410), sf::Vector2i(520, 415), sf::Vector2i(760, 445), 10, true);
+  Text *tmp2 = new Text("Font/NEUROPOL.ttf", "PasswordText", this->_event, sf::Vector2i(560, 515), sf::Vector2i(520, 515), sf::Vector2i(765, 545), 10, false);
   this->_window.setVerticalSyncEnabled(true);
   this->_window.setFramerateLimit(25);
   this->_window.setKeyRepeatEnabled(false);
-  this->_backgroundPtr = new Background();
-  this->_listImage.push_back(new Image("Title", sf::Vector2i(380, 50)));
-  this->_listImage.push_back(new Image("Formu", sf::Vector2i(390, 180)));
-  this->_listWidget.push_back(new TextArea(this->_event, "LoginArea", *tmp, sf::Vector2i(470, 340), sf::Vector2i(510, 375), sf::Vector2i(750, 405)));
-  this->_listWidget.push_back(new TextArea(this->_event, "PasswordArea", *tmp2, sf::Vector2i(470, 440), sf::Vector2i(510, 475), sf::Vector2i(755, 505)));
+  if (this->_backgroundPtr == NULL)
+    this->_backgroundPtr = new Background();
+  this->_listImage.push_back(new Image("Title", sf::Vector2i(370, 60)));
+  this->_listImage.push_back(new Image("Formu", sf::Vector2i(370, 175)));
+  this->_listWidget.push_back(new TextArea(this->_event, "LoginArea", *tmp, sf::Vector2i(480, 380), sf::Vector2i(520, 415), sf::Vector2i(760, 445)));
+  this->_listWidget.push_back(new TextArea(this->_event, "PasswordArea", *tmp2, sf::Vector2i(480, 480), sf::Vector2i(520, 515), sf::Vector2i(765, 545)));
   this->_listWidget.push_back(tmp);
   this->_listWidget.push_back(tmp2);
-  this->_listWidget.push_back(new Button(this->_event, "Enter", sf::Vector2i(490, 550), sf::Vector2i(500, 560), sf::Vector2i(630, 595), LOGIN, true));
-  this->_listWidget.push_back(new Button(this->_event, "Exit", sf::Vector2i(650, 550), sf::Vector2i(655, 560), sf::Vector2i(785, 595), EXIT, true));
+  this->_listWidget.push_back(new Button(this->_event, "Settings", sf::Vector2i(570, 570), sf::Vector2i(576, 577), sf::Vector2i(706, 611), SETTINGS, true));
+  this->_listWidget.push_back(new Button(this->_event, "Enter", sf::Vector2i(482, 620), sf::Vector2i(488, 630), sf::Vector2i(619, 663), LOGIN, true));
+  this->_listWidget.push_back(new Button(this->_event, "Exit", sf::Vector2i(658, 620), sf::Vector2i(663, 630), sf::Vector2i(795, 663), EXIT, true));
+}
+
+void	MenuWindow::drawMenuWarning()
+{
+  this->clearWindow();
+  this->_status = CONTINUE;
+  this->_listImage.push_back(new Image("FondWarningMenu", sf::Vector2i(390, 160)));
+  this->_listImage.push_back(new Image("TextAccessDenied", sf::Vector2i(410, 320)));
+  this->_listImage.push_back(new Image("Warning", sf::Vector2i(570, 175)));
+  this->_listWidget.push_back(new Button(this->_event, "Back", sf::Vector2i(550, 400), sf::Vector2i(555, 405), sf::Vector2i(746, 455), BACK_MENU, true));
+}
+
+
+void	MenuWindow::drawSettings()
+{
+  this->clearWindow();
+  this->_status = CONTINUE;
+  Text *tmp = new Text("Font/verdana.ttf", "IPAddress", this->_event, sf::Vector2i(525, 410), sf::Vector2i(520, 415), sf::Vector2i(760, 445), 15, true);
+  Text *tmp2 = new Text("Font/verdana.ttf", "Port", this->_event, sf::Vector2i(560, 515), sf::Vector2i(520, 515), sf::Vector2i(765, 545), 5, true);
+  this->_listImage.push_back(new Image("Title", sf::Vector2i(370, 60)));
+  this->_listImage.push_back(new Image("FondSettings", sf::Vector2i(370, 175)));
+  this->_listWidget.push_back(new TextArea(this->_event, "IPArea", *tmp, sf::Vector2i(480, 380), sf::Vector2i(520, 415), sf::Vector2i(760, 445)));
+  this->_listWidget.push_back(new TextArea(this->_event, "PortArea", *tmp2, sf::Vector2i(480, 480), sf::Vector2i(520, 515), sf::Vector2i(765, 545)));
+  this->_listWidget.push_back(tmp);
+  this->_listWidget.push_back(tmp2);
+  this->_listWidget.push_back(new Button(this->_event, "Valider", sf::Vector2i(570, 570), sf::Vector2i(576, 577), sf::Vector2i(706, 611), SET_CHANGE, true));
+  this->_listWidget.push_back(new Button(this->_event, "Cancel", sf::Vector2i(482, 620), sf::Vector2i(488, 630), sf::Vector2i(619, 663), BACK_MENU, true));
 }
 
 void	MenuWindow::drawLobby()
@@ -303,9 +337,23 @@ void	MenuWindow::checkAction()
 {
   switch (this->_status)
     {
+    case START:
+      this->drawMenu();
+      this->_status = CONTINUE;
+      break;
     case LOGIN:
-      // std::cout << dynamic_cast<Text*>(Interface::getInstance().getWidget("LoginText"))->getText() << std::endl;
-      // std::cout << dynamic_cast<Text*>(Interface::getInstance().getWidget("PasswordText"))->getText() << std::endl;
+      if (dynamic_cast<Text*>(Interface::getInstance().getWidget("LoginText"))->getText() == "")
+	{
+	  this->drawMenuWarning();
+	  this->_status = CONTINUE;
+	  break;
+	}
+      if (dynamic_cast<Text*>(Interface::getInstance().getWidget("PasswordText"))->getText() == "")
+	{
+	  this->drawMenuWarning();
+	  this->_status = CONTINUE;
+	  break;
+	}
       // Demander au seveur si les identifiants sont bon !
       this->drawLobby();
       break;
@@ -347,6 +395,18 @@ void	MenuWindow::checkAction()
     case SELECT_SERVER:
       this->_status = CONTINUE;
       this->checkServer();
+      break;
+    case SETTINGS:
+      this->_status = CONTINUE;
+      this->drawSettings();
+      break;
+    case SET_CHANGE:
+      this->_status = CONTINUE;
+      // dynamic_cast<Text*>(Interface::getInstance().getWidget("IPAddress"))->getText();
+      // dynamic_cast<Text*>(Interface::getInstance().getWidget("Port"))->getText();
+      this->drawMenu();
+      break;
+      // keep settings
     default:
       break;
     }

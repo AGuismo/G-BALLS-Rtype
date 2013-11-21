@@ -5,18 +5,16 @@
 // Login   <brigno@epitech.net>
 //
 // Started on  Wed Oct 23 12:59:21 2013 brigno
-// Last update Tue Nov  5 13:41:41 2013 brigno
+// Last update Thu Nov 21 02:07:47 2013 lambert kevin
 //
 
 #include	"Application.hh"
 
-int	main(int ac, char **av)
+int	main()
 {
   Application	application;
 
-  if (ac == 3)
-    application.run(std::string(av[1]), std::string(av[2]));
-  else
-    std::cout << "USAGE : ./Client AdresseIp Port" << std::endl;
+  application.initialize();
+  application.run();
   return 0;
 }

@@ -1,13 +1,3 @@
-//
-// Window.hh for Window in /home/brigno/Projects/R-Type/r-type/Client
-//
-// Made by brigno
-// Login   <brigno@epitech.net>
-//
-// Started on  Wed Oct 23 11:31:48 2013 brigno
-// Last update Wed Nov 20 20:45:48 2013 brigno
-//
-
 #ifndef		__MENU_WINDOW_HH__
 # define	__MENU_WINDOW_HH__
 
@@ -19,7 +9,10 @@
 class		Background;
 class		AWidget;
 class		Image;
-class		Network;
+namespace	network
+{
+  class		Manager;
+}
 
 class		MenuWindow : public AScreen
 {
@@ -35,9 +28,10 @@ private:
   AWidget			*_objectHover;
   std::list<std::string>	_bufferChat;
   int				_flag;
+  network::Manager		&_network;
 
 public:
-  MenuWindow(const std::string &name, int width, int height, Network *network);
+  MenuWindow(sf::RenderWindow &window, network::Manager &network);
   ~MenuWindow(void);
 
 private:
@@ -45,6 +39,7 @@ private:
 
 public:
   bool					&getExit(void) const;
+  bool					load();
   void					run(void);
   void					setListSprite(sf::Sprite);
   const image_list			&getListImage(void) const;
@@ -58,8 +53,10 @@ public:
   void					drawMenu(void);
   void					drawLobby(void);
   void					removeWidget(const std::string &other);
+  void					drawSettings(void);
   void					drawLobbyCreate(void);
   void					drawLobbyWait(int owner);
+  void					drawMenuWarning();
   void					draw(void);
   void					catchEvent(void);
   void					checkAction(void);

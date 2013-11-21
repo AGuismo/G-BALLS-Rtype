@@ -1,23 +1,13 @@
-//
-// Background.cpp for Background in /home/brigno/Projects/R-Type/r-type/Client
-//
-// Made by brigno
-// Login   <brigno@epitech.net>
-//
-// Started on  Wed Oct 23 11:30:21 2013 brigno
-// Last update Wed Nov  6 02:14:39 2013 brigno
-//
-
 #include	"Background.hh"
 #include	"TextureManager.hh"
 #include	"Texture.hh"
 #include	<iostream>
+
 Background::Background()
 {
   _firstBackground.setTexture(TextureManager::getInstance().getTexture("Background1")->getTexture());
   _secondBackground.setTexture(TextureManager::getInstance().getTexture("Background2")->getTexture());
 }
-
 
 Background::~Background()
 {
