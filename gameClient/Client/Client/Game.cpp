@@ -79,13 +79,13 @@ bool							Game::load(void)
 	return true;
 }
 
-//projectiles
+//projectiles + singleton
 
 void							Game::run(void)
 {
 	Timer						_playerMvtLock(new sf::Time(sf::seconds(0.20f)));
 	Timer						_playerFireLock(new sf::Time(sf::seconds(0.42f)));
-	Timer						test(new sf::Time(sf::seconds(5.0f)));
+	Timer						test(new sf::Time(sf::seconds(50.0f)));
 
 	_gameWindow->setFramerateLimit(25);
 	addObj(PLAYER1, 42, 100);
@@ -169,8 +169,8 @@ void							Game::run(void)
 		_layerManager.upDraw();
 		drawObjects();
 		_gameWindow->display();
-		if (test.isEnded())
-			break;
+	/*	if (test.isEnded())
+			break;*/
 	}
 	cleanGame();
 }

@@ -21,6 +21,6 @@ int main()
 		return EXIT_FAILURE;
 	}
 	gameW.run();
-	gameW.run(); 
+//	gameW.run(); 
 	return 0;
 }
