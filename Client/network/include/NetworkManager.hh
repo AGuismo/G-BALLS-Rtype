@@ -12,14 +12,14 @@ namespace	network
     virtual ~Manager();
 
   private:
-    void	routine();
+    int	routine();
 
   public:
     Manager(Manager const&);
     Manager& operator=(Manager const&);
 
   private:
-    Threads<void (Manager::*)()>	_th;
+    Threads<int (Manager::*)()>	_th;
   };
 }
 

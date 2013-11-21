@@ -87,7 +87,8 @@ namespace	game
 
     _server.recv();
     _server.readFromBuffer(buf, rtype::Env::getInstance().network.maxUDPpacketLength);
-    for (std::vector<cBuffer::Byte>::iterator it = buf.begin(); it != buf.end(); it++)
+	std::cout << "Manager::readData::buf = " << buf.size() << std::endl;
+	for (std::vector<cBuffer::Byte>::iterator it = buf.begin(); it != buf.end(); it++)
       std::cout << *it;
     if ((getRequest(buf, req)) == false)
       return;
@@ -97,6 +98,7 @@ namespace	game
 	(*it)->setAddr(_server.getClientAddr());
 	(*it)->requestPush(req);
       }
+	_server.read(false);
   }
 
   void			Manager::writeData()
@@ -117,6 +119,7 @@ namespace	game
 	    _server.send();
 	  }
       }
+	_server.write(false);
   }
 
   void			Manager::updateGameClocks(Clock::clock_time time)
@@ -166,9 +169,12 @@ namespace	game
 
 		  if (!self->_games.empty())
 		  {
+			  std::cout << "Selecting for " << self->_games.front()->timer().tv_sec << " sec and " << self->_games.front()->timer().tv_usec << std::endl;
 			  self->_monitor.setOption(net::streamManager::TIMEOUT, self->_games.front()->timer());
 		  }
+		  std::cout << "selecting ..." << std::endl;
 		  self->_monitor.run(); /* Surcouche du select() */
+		  std::cout << "Done ..." << std::endl;
 		  self->_clock.update();
 		  time = self->_clock.getElapsedTime();
 		  self->updateCallback();
@@ -188,7 +194,10 @@ namespace	game
 			  }
 		  }
 		  else
+		  {
+			  std::cout << "Auto Exit" << std::endl;
 			  self->update();
+		  }
 	  }
   }
 

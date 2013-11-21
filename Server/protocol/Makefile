@@ -22,6 +22,7 @@ SRCS =	      	ARequest.cpp		\
 		ElemRequest.cpp		\
 		EventRequest.cpp	\
 		LooseRequest.cpp	\
+		LeaveRequest.cpp	\
 		ScoreRequest.cpp	\
 		VictoryRequest.cpp	\
 

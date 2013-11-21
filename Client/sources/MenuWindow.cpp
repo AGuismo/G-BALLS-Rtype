@@ -255,9 +255,9 @@ void	MenuWindow::drawLobbyWait(int owner)
   this->_listWidget.push_back(new Button(this->_event, "Submit", sf::Vector2i(1100, 625), sf::Vector2i(1116, 633), sf::Vector2i(1224, 666), SUBMIT, true));
   this->_listWidget.push_back(new TextArea(this->_event, "TextChatArea", *tmp, sf::Vector2i(787, 600), sf::Vector2i(825, 633), sf::Vector2i(1073, 666)));
   if (owner == 1)
-    this->_listWidget.push_back(new Button(this->_event, "Start", sf::Vector2i(250, 585), sf::Vector2i(254, 592), sf::Vector2i(447, 639), VALIDE, true));
+    this->_listWidget.push_back(new Button(this->_event, "Start", sf::Vector2i(250, 585), sf::Vector2i(254, 592), sf::Vector2i(447, 639), GAME, true));
   else
-    this->_listWidget.push_back(new Button(this->_event, "Start", sf::Vector2i(250, 585), sf::Vector2i(254, 592), sf::Vector2i(447, 639), VALIDE, false));
+    this->_listWidget.push_back(new Button(this->_event, "Start", sf::Vector2i(250, 585), sf::Vector2i(254, 592), sf::Vector2i(447, 639), GAME, false));
   this->_listWidget.push_back(new Button(this->_event, "Cancel", sf::Vector2i(500, 585), sf::Vector2i(505, 590), sf::Vector2i(697, 641), BACK_LOBY, true));
   this->_listWidget.push_back(tmp);
   this->_listWidget.push_back(new TextBlock( "ChatBlock", this->_event, sf::Vector2i(830, 210), sf::Vector2i(820, 200), sf::Vector2i(820, 200), 20));
@@ -337,7 +337,7 @@ int	MenuWindow::checkNbPlayer()
 }
 
 
-void	MenuWindow::checkAction()
+int	MenuWindow::checkAction()
 {
   switch (this->_status)
     {
@@ -345,6 +345,10 @@ void	MenuWindow::checkAction()
       this->drawMenu();
       this->_status = CONTINUE;
       break;
+    case GAME:
+      // Lancer la partie
+      this->_status = BACK_LOBY;
+      return (2);
     case LOGIN:
       if (dynamic_cast<Text*>(Interface::getInstance().getWidget("LoginText"))->getText() == "")
 	{
@@ -414,6 +418,7 @@ void	MenuWindow::checkAction()
     default:
       break;
     }
+  return 0;
 }
 
 void	MenuWindow::clearWindow()
@@ -442,7 +447,8 @@ int	MenuWindow::catchEvent()
     {
       if (this->_flag == 1)
 	checkServer();
-      checkAction();
+      if (checkAction() == 2)
+	return 2;
       switch (this->_event.type)
 	{
 	case sf::Event::Closed:
