@@ -13,7 +13,7 @@ Protocol			&AliveRequest::serialize(Protocol &rhs) const
 
 Protocol			&AliveRequest::unserialize(Protocol &rhs)
 {
-	rhs >> _code >> _sessionID;
+	rhs >> _sessionID;
 	return rhs;
 }
 

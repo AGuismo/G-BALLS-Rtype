@@ -13,7 +13,7 @@ Protocol			&VictoryRequest::serialize(Protocol &rhs) const
 
 Protocol			&VictoryRequest::unserialize(Protocol &rhs)
 {
-	rhs >> _code >> _sessionID;
+	rhs >> _sessionID;
 	return rhs;
 }
 

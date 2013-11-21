@@ -13,7 +13,7 @@ Protocol			&LooseRequest::serialize(Protocol &rhs) const
 
 Protocol			&LooseRequest::unserialize(Protocol &rhs)
 {
-	rhs >> _code >> _sessionID;
+	rhs >> _sessionID;
 	return rhs;
 }
 

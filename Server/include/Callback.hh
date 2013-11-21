@@ -18,7 +18,7 @@ public:
 public:
   void	operator()()
   {
-    _callback(_self, _param);
+	(_self->*_callback)(_param);
   }
 
 private:
@@ -26,7 +26,7 @@ private:
   Callback& operator=(Callback const&);
 
 protected:
-  Function<void (C::*)(P0 *)>		_callback;
+  void				(C::*_callback)(P0 *);
   P0					*_param;
   C					*_self;
 };
