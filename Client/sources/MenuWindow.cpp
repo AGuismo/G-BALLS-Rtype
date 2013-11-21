@@ -120,7 +120,6 @@ void	MenuWindow::drawMenu()
   this->clearWindow();
   Text *tmp = new Text("Font/NEUROPOL.ttf", "LoginText", this->_event, sf::Vector2i(525, 410), sf::Vector2i(520, 415), sf::Vector2i(760, 445), 10, true);
   Text *tmp2 = new Text("Font/NEUROPOL.ttf", "PasswordText", this->_event, sf::Vector2i(560, 515), sf::Vector2i(520, 515), sf::Vector2i(765, 545), 10, false);
-  this->_window.setVerticalSyncEnabled(true);
   this->_window.setFramerateLimit(25);
   this->_window.setKeyRepeatEnabled(false);
   if (this->_backgroundPtr == NULL)

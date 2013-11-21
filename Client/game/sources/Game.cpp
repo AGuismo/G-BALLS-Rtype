@@ -88,6 +88,7 @@ void							Game::run(void)
 	Timer						test(new sf::Time(sf::seconds(50.0f)));
 
 	_gameWindow->setFramerateLimit(25);
+	_gameWindow->setKeyRepeatEnabled(true);
 	addObj(PLAYER1, 42, 100);
 	addObj(PLAYER2, 20, 40);
 	addObj(PLAYER3, 77, 10);
