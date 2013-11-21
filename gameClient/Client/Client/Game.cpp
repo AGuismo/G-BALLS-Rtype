@@ -34,9 +34,6 @@ bool							Game::load(void)
 		return false;
 	if (!_textureManager.addTexture(BIG_BANG, std::string("./Images/r-typesheet44.png")))
 		return false;
-	if (!_textureManager.addTexture(BIG_BANG, std::string("./Images/r-typesheet44.png")))
-		return false;
-
 
 
 	if (!_layerManager.addLayer(LAYER1, LAYER_1, new sf::Vector2f(0.0f, 0.0f), new sf::Vector2f(2560.0f, 0.0f), new sf::Vector2f(-2560.0f, 0.0f), new sf::Vector2f(1.0f, 0.0f), NULL, true))
@@ -82,7 +79,7 @@ bool							Game::load(void)
 	return true;
 }
 
-// need game unload + projectiles + test swap
+//projectiles
 
 void							Game::run(void)
 {
@@ -95,12 +92,7 @@ void							Game::run(void)
 	addObj(PLAYER2, 20, 40);
 	addObj(PLAYER3, 77, 10);
 	addObj(PLAYER4, 48, 200);
-	addObj(SBYDOS1, 455, 140);/*
-	addObj(NORMAL_BANG, 45, 84);
-	addObj(NORMAL_BANG, 5, 0);
-	addObj(BIG_BANG, 245, 15);
-	addObj(BIG_BANG, 895, 119);
-	addObj(BIG_BANG, 65, 242);*/
+	addObj(SBYDOS1, 455, 140);
 	static int i = 0;
 
 	_audioManager.play(GAME_MUSIC);
@@ -177,7 +169,10 @@ void							Game::run(void)
 		_layerManager.upDraw();
 		drawObjects();
 		_gameWindow->display();
+		if (test.isEnded())
+			break;
 	}
+	cleanGame();
 }
 
 
@@ -270,7 +265,7 @@ bool							Game::updatePlayer(Action action)
 	return false;
 }
 
-// del general to do
+// del general to do (cleanGame)
 
 bool						Game::delObj(int id)
 {
@@ -279,16 +274,35 @@ bool						Game::delObj(int id)
 
 	if (it != _objects.end())
 	{
-		if ((*it)->getObjType() != SBYDOS1) // METTRE BOSS OU PLAYER
-			addObj(BIG_BANG, idBang, (*it)->getCaseCurPos());
-		else
+		switch ((*it)->getObjType())
+		{
+		case PLAYER1:
 			addObj(NORMAL_BANG, idBang, (*it)->getCaseCurPos());
+			_audioManager.play(PLAYER_DESTRUCTION);
+			break;
+		case SBYDOS1:
+			addObj(NORMAL_BANG, idBang, (*it)->getCaseCurPos());
+			_audioManager.play(BYDOS_DESTRUCTION);
+			break;
+		default:
+			break;
+		}
 		_objects.erase(it);
 		idBang = (idBang + 1) < 66000 ? 66000 : idBang + 1;
 		return true;
 	}
 	return false;
 }
+
+/*GAME_MUSIC = 0,
+PLAYER_LASER,
+PLAYER_CHARGED,
+PLAYER_RELEASED,
+PLAYER_DESTRUCTION,
+BYDOS_PLASMA,
+BYDOS_LASER,
+BYDOS_DESTRUCTION,
+BYDOS_BOSS_DESTRUCTION*/
 
 bool							Game::updateObj(ObjType type, LookDirection lDir, int id, int pos)
 {
@@ -315,6 +329,17 @@ bool							Game::addObj(ObjType type, int id, int pos)
 	return false;
 }
 
+void							Game::cleanGame()
+{
+	for (obj_type::iterator it = _objects.begin(); it != _objects.end();)
+	{
+			std::cout << (*it)->getObjType() << std::endl;
+			it = _objects.erase(it);
+	}
+	if (_gameWindow->isOpen())
+		_gameWindow->clear();
+	_audioManager.stop(GAME_MUSIC);
+}
 
 Game::Game(sf::RenderWindow *gameWindow, sf::Event *event) : _factory(gameWindow, &_textureManager), _layerManager(gameWindow, &_textureManager), _audioManager()
 {

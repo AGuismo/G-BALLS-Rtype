@@ -56,6 +56,9 @@ private:
 	void						drawObjects(void);
 	void						cleanObjects(void);
 
+private:
+	void						cleanGame(void);
+
 public:
 	bool						updateObj(ObjType type, LookDirection lDir, int id, int pos);
 	bool						addObj(ObjType type, int id, int pos);

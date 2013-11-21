@@ -12,7 +12,7 @@
 
 int main()
 {
-	gameWindow					gameW(std::string("I dont care"), 1280, 720);
+	GameWindow					gameW(std::string("I dont care"), 1280, 720);
 
 	if (!gameW.load())
 	{
@@ -21,5 +21,6 @@ int main()
 		return EXIT_FAILURE;
 	}
 	gameW.run();
+	gameW.run(); 
 	return 0;
 }
