@@ -81,6 +81,7 @@
     <ClCompile Include="..\sources\DeathRequest.cpp" />
     <ClCompile Include="..\sources\ElemRequest.cpp" />
     <ClCompile Include="..\sources\EventRequest.cpp" />
+    <ClCompile Include="..\sources\LeaveRequest.cpp" />
     <ClCompile Include="..\sources\LooseRequest.cpp" />
     <ClCompile Include="..\sources\PartyRequest.cpp" />
     <ClCompile Include="..\sources\Protocol.cpp" />
@@ -93,20 +94,26 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\AGameRequest.hh" />
+    <ClInclude Include="..\include\AliveRequest.h" />
     <ClInclude Include="..\include\ARequest.hh" />
     <ClInclude Include="..\include\AuthRequest.hh" />
     <ClInclude Include="..\include\BuffRequest.h" />
     <ClInclude Include="..\include\DeathRequest.h" />
     <ClInclude Include="..\include\ElemRequest.hh" />
+    <ClInclude Include="..\include\EventRequest.hh" />
     <ClInclude Include="..\include\ITransformers.hh" />
+    <ClInclude Include="..\include\LeaveRequest.h" />
+    <ClInclude Include="..\include\LooseRequest.h" />
     <ClInclude Include="..\include\PartyRequest.hh" />
     <ClInclude Include="..\include\Protocol.hpp" />
     <ClInclude Include="..\include\RequestCode.hh" />
     <ClInclude Include="..\include\RequestFactory.hh" />
+    <ClInclude Include="..\include\RequestInfo.hpp" />
     <ClInclude Include="..\include\RootRequest.hh" />
     <ClInclude Include="..\include\ScoreRequest.h" />
     <ClInclude Include="..\include\ServerRequest.hh" />
     <ClInclude Include="..\include\SessionRequest.hh" />
+    <ClInclude Include="..\include\VictoryRequest.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\libraries\network\network\network.vcxproj">

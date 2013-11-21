@@ -11,6 +11,9 @@ AGameRequest(requestCode::game::SCORE), _id(id), _score(score)
 
 }
 
+ScoreRequest::~ScoreRequest()
+{}
+
 Protocol			&ScoreRequest::serialize(Protocol &rhs) const
 {
 	rhs << _id;

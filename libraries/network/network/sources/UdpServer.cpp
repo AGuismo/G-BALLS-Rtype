@@ -218,6 +218,8 @@ bool	UdpServer::isDisconnected() const
   return (_state == DISCONNECTED);
 }
 
+#include <iostream>
+
 void UdpServer::recv()
 {
   char			buff[512];
@@ -225,6 +227,7 @@ void UdpServer::recv()
   //ClientAccepted	*c;
 
   count = readData(buff, 512);
+  std::cout << "UdpServer::recv::count = " << count << std::endl;
   if (count <= 0)
     return /*(0)*/;
   //c = new ClientAccepted(_sock, _addr);
