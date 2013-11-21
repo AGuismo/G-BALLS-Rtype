@@ -289,7 +289,7 @@ bool						Game::delObj(int id)
 		default:
 			break;
 		}
-		_objects.erase(it);
+		it = _objects.erase(it);
 		idBang = (idBang + 1) < 66000 ? 66000 : idBang + 1;
 		return true;
 	}
