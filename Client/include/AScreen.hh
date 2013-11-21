@@ -5,7 +5,7 @@
 // Login   <brigno@epitech.net>
 //
 // Started on  Tue Nov  5 15:14:30 2013 brigno
-// Last update Wed Nov 20 19:12:22 2013 brigno
+// Last update Thu Nov 21 02:00:56 2013 lambert kevin
 //
 
 #ifndef		__SCREEN_HH__
@@ -23,6 +23,7 @@ public:
   enum Status
     {
       CONTINUE,
+      START,
       EXIT,
       QUIT,
       LOGIN,
@@ -38,14 +39,15 @@ public:
 protected:
   Status		_status;
   sf::Event		_event;
-  sf::RenderWindow	_window;
+  sf::RenderWindow	&_window;
   Network		*_network;
 
 public:
-  AScreen(const std::string &name, int width, int height, Network *network, AScreen::Status status);
+  AScreen(sf::RenderWindow &window, AScreen::Status status);
   ~AScreen();
   virtual void	run(void) = 0;
   virtual void		clearWindow(void) = 0;
+  virtual bool	load() = 0;
 
 public:
   class Exception

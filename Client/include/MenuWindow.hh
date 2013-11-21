@@ -5,7 +5,7 @@
 // Login   <brigno@epitech.net>
 //
 // Started on  Wed Oct 23 11:31:48 2013 brigno
-// Last update Wed Nov 20 20:45:48 2013 brigno
+// Last update Thu Nov 21 01:45:06 2013 lambert kevin
 //
 
 #ifndef		__MENU_WINDOW_HH__
@@ -19,7 +19,10 @@
 class		Background;
 class		AWidget;
 class		Image;
-class		Network;
+namespace	network
+{
+  class		Manager;
+}
 
 class		MenuWindow : public AScreen
 {
@@ -35,9 +38,10 @@ private:
   AWidget			*_objectHover;
   std::list<std::string>	_bufferChat;
   int				_flag;
+  network::Manager		&_network;
 
 public:
-  MenuWindow(const std::string &name, int width, int height, Network *network);
+  MenuWindow(sf::RenderWindow &window, network::Manager &network);
   ~MenuWindow(void);
 
 private:
@@ -45,6 +49,7 @@ private:
 
 public:
   bool					&getExit(void) const;
+  bool					load();
   void					run(void);
   void					setListSprite(sf::Sprite);
   const image_list			&getListImage(void) const;

@@ -5,7 +5,7 @@
 // Login   <brigno@epitech.net>
 //
 // Started on  Tue Nov  5 01:50:37 2013 brigno
-// Last update Wed Nov 20 23:04:36 2013 brigno
+// Last update Thu Nov 21 01:58:27 2013 lambert kevin
 //
 
 #ifndef		__APPLICATION_HH__
@@ -13,31 +13,37 @@
 
 # include	<iostream>
 # include	<vector>
-# include	"Network.hh"
+# include	<SFML/Graphics.hpp>
+# include	"NetworkManager.hh"
 
 class		AScreen;
 
 class		Application
 {
 public:
-  typedef std::vector<AScreen*> screen_list;
+  static const int	WIDTH = 1280;
+  static const int	HEIGHT = 720;
+  static const char	*WINDOW_NAME;
 
-private:
-  screen_list	_listScreen;
+public:
+  typedef std::vector<AScreen*> screen_list;
 
 public:
   Application();
   ~Application();
+  bool	initialize();
 
-public:
+private:
   Application(const Application &other);
   Application operator=(const Application &other);
 
 public:
   void	run();
-  void	addScreen(AScreen *screen);
-  bool	initApp(Network *network);
-  bool	createWindows(Network *network, int screenIndex);
+
+private:
+  network::Manager	_network;
+  screen_list		_listScreen;
+  sf::RenderWindow	_window;
 };
 
 #endif	/* !__APPLICATION_HH__ */

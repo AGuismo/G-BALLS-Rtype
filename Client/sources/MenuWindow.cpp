@@ -5,7 +5,7 @@
 // Login   <brigno@epitech.net>
 //
 // Started on  Wed Oct 23 11:37:38 2013 brigno
-// Last update Wed Nov 20 23:53:38 2013 brigno
+// Last update Thu Nov 21 01:55:21 2013 lambert kevin
 //
 
 #include	<sstream>
@@ -25,10 +25,14 @@
 #include	"TextureManager.hh"
 #include	"Network.hh"
 
-MenuWindow::MenuWindow(const std::string &name, int width, int height, Network *network):
-  AScreen(name, width, height, network, CONTINUE), _objectFocus(0), _objectHover(0)
+MenuWindow::MenuWindow(sf::RenderWindow &window, network::Manager &network):
+  AScreen(window, START), _objectFocus(0), _objectHover(0), _network(network)
 {
   this->_flag = 0;
+}
+
+bool	MenuWindow::load()
+{
   try
     {
       TextureManager::getInstance().addTexture("Background1", "Images/Menu/background1.png");
@@ -103,7 +107,7 @@ MenuWindow::MenuWindow(const std::string &name, int width, int height, Network *
       std::cerr << e.what() << std::endl;
       throw AScreen::Exception("MenuWindow can't load all textures");
     }
-  this->drawMenu();
+  return (true);
 }
 
 MenuWindow::~MenuWindow()
@@ -310,6 +314,10 @@ void	MenuWindow::checkAction()
 {
   switch (this->_status)
     {
+    case START:
+      this->drawMenu();
+      this->_status = CONTINUE;
+      break;
     case LOGIN:
       // std::cout << dynamic_cast<Text*>(Interface::getInstance().getWidget("LoginText"))->getText() << std::endl;
       // std::cout << dynamic_cast<Text*>(Interface::getInstance().getWidget("PasswordText"))->getText() << std::endl;
@@ -431,6 +439,7 @@ void	MenuWindow::catchEvent()
 
 void	MenuWindow::run()
 {
+  this->drawMenu();
   while (this->_window.isOpen())
     {
       this->catchEvent();
