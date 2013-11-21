@@ -2,14 +2,15 @@
 #include	"ServerRequest.hh"
 #include	"ARequest.hh"
 #include	"Protocol.hpp"
+#include	"RequestInfo.hpp"
 
-const char *ServerRequest::msg::OK = "OK";
-const char *ServerRequest::msg::BAD_REQ = "Bad request";
-const char *ServerRequest::msg::FORBIDDEN = "Forbidden request";
-const char *ServerRequest::msg::NOT_IMPLEMENTED = "Request not implemented";
-const char *ServerRequest::msg::NO_CONTENT = "No content found";
-const char *ServerRequest::msg::PARTIAL_CONTENT = "Partial content";
-const char *ServerRequest::msg::NO_SLOTS = "No slot available";
+const char *detail::OK = "OK";
+const char *detail::BAD_REQ = "Bad request";
+const char *detail::FORBIDDEN = "Forbidden request";
+const char *detail::NOT_IMPLEMENTED = "Request not implemented";
+const char *detail::NO_CONTENT = "No content found";
+const char *detail::PARTIAL_CONTENT = "Partial content";
+const char *detail::NO_SLOTS = "No slot available";
 
 ServerRequest::ServerRequest(const requestCode::CodeID id):
   ARequest(id)
@@ -45,23 +46,6 @@ ServerRequest&	ServerRequest::operator=(ServerRequest const&src)
       _code = src._code;
     }
   return (*this);
-}
-
-const char	*ServerRequest::getMsg(const requestCode::CodeID id)
-{
-  static std::map<requestCode::CodeID, const char *>	messages;
-
-  if (messages.size() == 0)
-    {
-      messages[requestCode::server::OK] = msg::OK;
-      messages[requestCode::server::BAD_REQ] = msg::BAD_REQ;
-      messages[requestCode::server::FORBIDDEN] = msg::FORBIDDEN;
-      messages[requestCode::server::NOT_IMPLEMENTED] = msg::NOT_IMPLEMENTED;
-      messages[requestCode::server::NO_CONTENT] = msg::NO_CONTENT;
-      messages[requestCode::server::PARTIAL_CONTENT] = msg::PARTIAL_CONTENT;
-      messages[requestCode::server::NO_SLOTS] = msg::NO_SLOTS;
-    }
-  return (messages[id]);
 }
 
 Protocol	&ServerRequest::serialize(Protocol &rhs) const
