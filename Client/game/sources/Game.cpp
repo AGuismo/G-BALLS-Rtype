@@ -94,15 +94,9 @@ void							Game::run(void)
 	addObj(PLAYER3, 77, 10);
 	addObj(PLAYER4, 48, 200);
 	addObj(SBYDOS1, 455, 140);
-	// static int i = 0;
 
 	_audioManager.play(GAME_MUSIC);
 
-
-/*	Network						clientNetwork;
-
-	sf::Thread					clientThread(&Network::Run, &clientNetwork);
-	clientThread.launch();*/
 
 	while (_gameWindow->isOpen())
 	{
@@ -149,12 +143,10 @@ void							Game::run(void)
 					{
 						_audioManager.play(PLAYER_LASER);
 						delObj(455);
-//						clientNetwork.pushOutRequest(std::string("fire in the hole"));
 						_playerFireLock.restart();
 					}
 					break;
 				case sf::Keyboard::Escape:
-//					clientThread.terminate();
 				  cleanGame();
 				  return;
 					break;
@@ -171,8 +163,6 @@ void							Game::run(void)
 		_layerManager.upDraw();
 		drawObjects();
 		_gameWindow->display();
-	/*	if (test.isEnded())
-			break;*/
 	}
 	cleanGame();
 }
@@ -191,8 +181,10 @@ void							Game::cleanObjects(void)
 	{
 		if (!(*it)->isAlive())
 		{
-			std::cout << (*it)->getObjType() << std::endl;
+			AObject	*entity = *it;
 			it = _objects.erase(it);
+			std::cout << entity->getObjType() << std::endl;
+			delete entity;
 		}
 		else
 			++it;
@@ -276,21 +268,24 @@ bool						Game::delObj(int id)
 
 	if (it != _objects.end())
 	{
-		switch ((*it)->getObjType())
+		AObject	*entity = *it;
+
+		_objects.erase(it);
+		switch (entity->getObjType())
 		{
 		case PLAYER1:
-			addObj(NORMAL_BANG, idBang, (*it)->getCaseCurPos());
+			addObj(NORMAL_BANG, idBang, entity->getCaseCurPos());
 			_audioManager.play(PLAYER_DESTRUCTION);
 			break;
 		case SBYDOS1:
-			addObj(NORMAL_BANG, idBang, (*it)->getCaseCurPos());
+			addObj(NORMAL_BANG, idBang, entity->getCaseCurPos());
 			_audioManager.play(BYDOS_DESTRUCTION);
 			break;
 		default:
 			break;
 		}
-		it = _objects.erase(it);
-		idBang = (idBang + 1) < 66000 ? 66000 : idBang + 1;
+		delete entity;
+		idBang = ((idBang + 1) < 66000) ? 66000 : idBang + 1;
 		return true;
 	}
 	return false;
