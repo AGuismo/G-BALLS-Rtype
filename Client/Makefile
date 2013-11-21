@@ -25,7 +25,7 @@ DIR.GAME=	./game/
 
 DEPS.INC=	-I$(DIR.BIND)/include -I$(DIR.THREAD)/include -I$(DIR.GAME)/include
 
-DEPS.LNK=	-lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio -lsfml-network
+DEPS.LNK=	-lsfml-graphics -lsfml-window -lsfml-system  -lsfml-network -lsfml-audio
 DEPS.LNK+=	-L$(DIR.THREAD) -lThread -lpthread
 
 MOD.INC=	-I$(DIR.NETWORK)/include
@@ -34,7 +34,7 @@ MOD.LNK=	-L$(DIR.NETWORK) -lnetwork -L$(DIR.GAME) -lgame
 
 F.C	     +=	-W -Wall -Werror
 F.I	     +=	$(DEPS.INC) $(MOD.INC) -I./include
-F.L	     += $(DEPS.LNK) $(MOD.LNK)
+F.L	     += $(MOD.LNK) $(DEPS.LNK)
 F.D	     +=
 
 all:		start $(NAME)

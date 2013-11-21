@@ -19,6 +19,7 @@ const sf::IntRect&					Animation::getFrame(void)
 	return _frames[_curFrame];
 }
 
-Animation::Animation(float aTime) : _aTimer(new Timer(new sf::Time(sf::seconds(aTime))))
+Animation::Animation(float aTime) :
+  _aTimer(new Timer(new sf::Time(sf::seconds(aTime)))), _curFrame(0)
 {
 }
