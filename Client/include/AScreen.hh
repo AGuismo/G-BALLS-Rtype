@@ -1,13 +1,3 @@
-//
-// Screen.hh for screen in /home/brigno/GIT/G-BALLS-Rtype/Client
-//
-// Made by brigno
-// Login   <brigno@epitech.net>
-//
-// Started on  Tue Nov  5 15:14:30 2013 brigno
-// Last update Thu Nov 21 02:00:56 2013 lambert kevin
-//
-
 #ifndef		__SCREEN_HH__
 # define	__SCREEN_HH__
 
@@ -34,7 +24,9 @@ public:
       SUBMIT,
       BACK_LOBY,
       VALIDE,
-      SELECT_SERVER
+      SELECT_SERVER,
+      SETTINGS,
+      SET_CHANGE
     };
 protected:
   Status		_status;
