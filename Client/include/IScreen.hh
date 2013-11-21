@@ -5,7 +5,7 @@
 // Login   <brigno@epitech.net>
 //
 // Started on  Tue Nov  5 15:00:31 2013 brigno
-// Last update Wed Nov 13 10:33:07 2013 brigno
+// Last update Thu Nov 21 13:51:43 2013 lambert kevin
 //
 
 #ifndef		__ISCREEN_HH__
@@ -16,7 +16,7 @@
 class		IScreen
 {
 public:
-  virtual void run(void) = 0;
+  virtual int run(void) = 0;
   virtual void clearWindow(void) = 0;
 };
 

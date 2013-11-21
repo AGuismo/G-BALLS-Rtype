@@ -21,15 +21,16 @@ SRCS =	      	main.cpp		\
 DIR.THREAD=	../libraries/Thread/Threads
 DIR.BIND=	../libraries/Bind
 DIR.NETWORK=	./network/
+DIR.GAME=	./game/
 
-DEPS.INC=	-I$(DIR.BIND)/include -I$(DIR.THREAD)/include
+DEPS.INC=	-I$(DIR.BIND)/include -I$(DIR.THREAD)/include -I$(DIR.GAME)/include
 
 DEPS.LNK=	-lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio -lsfml-network
 DEPS.LNK+=	-L$(DIR.THREAD) -lThread -lpthread
 
 MOD.INC=	-I$(DIR.NETWORK)/include
 
-MOD.LNK=	-L$(DIR.NETWORK) -lnetwork
+MOD.LNK=	-L$(DIR.NETWORK) -lnetwork -L$(DIR.GAME) -lgame
 
 F.C	     +=	-W -Wall -Werror
 F.I	     +=	$(DEPS.INC) $(MOD.INC) -I./include

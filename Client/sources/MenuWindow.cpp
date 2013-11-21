@@ -16,7 +16,7 @@
 #include	"Network.hh"
 
 MenuWindow::MenuWindow(sf::RenderWindow &window, network::Manager &network):
-  AScreen(window, START), _backgroundPtr(0), _objectFocus(0), _objectHover(0), _network(network)
+  AScreen(window, network, START), _backgroundPtr(0), _objectFocus(0), _objectHover(0)
 {
   this->_flag = 0;
 }

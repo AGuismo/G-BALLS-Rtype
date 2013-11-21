@@ -5,20 +5,21 @@
 // Login   <brigno@epitech.net>
 //
 // Started on  Tue Nov  5 02:00:45 2013 brigno
-// Last update Thu Nov 21 02:07:02 2013 lambert kevin
+// Last update Thu Nov 21 13:47:15 2013 lambert kevin
 //
 
 #include	"Application.hh"
 #include	"AScreen.hh"
 #include	"Network.hh"
 #include	"MenuWindow.hh"
+#include	"gameWindow.h"
 
 const char	*Application::WINDOW_NAME = "R-Type";
 
 Application::Application()
 {
   _listScreen.push_back(new MenuWindow(_window, _network));
-  // _listScreen.push_back(new GameWindow(_window, _network));
+  _listScreen.push_back(new GameWindow(_window, _network));
 }
 
 Application::~Application()
