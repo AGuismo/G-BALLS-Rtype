@@ -255,3 +255,16 @@ bool		Referee::isCollision(Entity *a, Game &game)
   bonusCollision(a, game);
   return false;
 }
+
+bool		Referee::asAlivePlayers(Game &game)
+{
+	std::list<game::Client *>::iterator it;
+
+	for (it = game.clients().begin(); it != game.clients().end(); it++)
+	{
+		if ((*it)->alive() == true)
+			return true;
+	}
+	return false;
+}
+

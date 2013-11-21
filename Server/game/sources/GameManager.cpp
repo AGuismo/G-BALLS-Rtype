@@ -44,18 +44,6 @@ namespace	game
     std::cout << "Game manager started..." << std::endl;
   }
 
-  void		Manager::update()
-  {
-	if (!_games.empty())
-	  {
-		Game *game = _games.front();
-		
-		_games.pop_front();
-		game->update();
-		_games.push_back(game);
-	  }
-  }
-
   bool	Manager::getRequest(std::vector<cBuffer::Byte> &buf,
 			    AGameRequest *&request)
   {
@@ -105,21 +93,21 @@ namespace	game
   {
     client_vect::iterator	it;
 
-    for (it = _gameClients.begin();
-	 it != _gameClients.end();
-	 it++)
-      {
-	_server.setClientAddr((*it)->getAddr());
-	while (ARequest *req = (*it)->requestPop())
-	  {
-	    std::vector<cBuffer::Byte> buf;
+	for (it = _gameClients.begin();
+		it != _gameClients.end();
+		it++)
+	{
+		_server.setClientAddr((*it)->getAddr());
+		while (ARequest *req = (*it)->requestPop())
+		{
+			std::vector<cBuffer::Byte> buf;
 
-	    buf = Protocol::product(*req);
-	    _server.writeIntoBuffer(buf, buf.size());
-	    _server.send();
-	  }
-      }
-	_server.write(false);
+			buf = Protocol::product(*req);
+			_server.writeIntoBuffer(buf, buf.size());
+			_server.send();
+		}
+	}
+	_server.monitor(true, false);
   }
 
   void			Manager::updateGameClocks(Clock::clock_time time)
@@ -158,6 +146,26 @@ namespace	game
       }
   }
 
+  void		Manager::update()
+  {
+	  std::cout << "Cheking" << std::endl;
+	  if (!_games.empty())
+	  {
+		  std::cout << "true" << std::endl;
+
+		  Game *game = _games.front();
+
+		  _games.pop_front();
+		  if (!game->clients().empty())
+		  {
+			  game->update();
+			  _games.push_back(game);
+		  }
+		  else
+			delete game;
+	  }
+  }
+
   void			Manager::routine(Manager *self)
   {
 	  Clock::clock_time		time;
@@ -172,6 +180,8 @@ namespace	game
 			  std::cout << "Selecting for " << self->_games.front()->timer().tv_sec << " sec and " << self->_games.front()->timer().tv_usec << std::endl;
 			  self->_monitor.setOption(net::streamManager::TIMEOUT, self->_games.front()->timer());
 		  }
+		  else
+			  self->_monitor.unsetOption(net::streamManager::TIMEOUT);
 		  std::cout << "selecting ..." << std::endl;
 		  self->_monitor.run(); /* Surcouche du select() */
 		  std::cout << "Done ..." << std::endl;
@@ -197,6 +207,7 @@ namespace	game
 		  {
 			  std::cout << "Auto Exit" << std::endl;
 			  self->update();
+			  self->_server.monitor(true, true);
 		  }
 	  }
   }

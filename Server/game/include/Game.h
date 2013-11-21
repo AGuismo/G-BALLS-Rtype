@@ -60,7 +60,7 @@ private:
   void pushBoss();
 
 private:
-  std::list<game::Client *>	_players;
+  client_list	_players;
   std::list<Ia *>		_IA;
   std::list<Entity *>		_objs;
   std::list<Missile *>		_missiles;
