@@ -58,7 +58,7 @@ public:
   void					drawMenuWarning();
   void					draw(void);
   int					catchEvent(void);
-  void					checkAction(void);
+  int					checkAction(void);
   void					checkServer(void);
   int					checkNbPlayer(void);
   void					update(void);

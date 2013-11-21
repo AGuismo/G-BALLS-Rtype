@@ -13,7 +13,8 @@ namespace	network
 
   }
 
-  void	Manager::routine()
+  int	Manager::routine()
   {
+	  return (0);
   }
 }

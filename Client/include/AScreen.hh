@@ -34,7 +34,8 @@ public:
       SELECT_SERVER,
       SETTINGS,
       SET_CHANGE,
-      INGAME
+      INGAME,
+      GAME
     };
 protected:
   Status		_status;
