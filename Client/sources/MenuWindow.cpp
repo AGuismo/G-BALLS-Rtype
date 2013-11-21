@@ -70,6 +70,12 @@ bool	MenuWindow::load()
       TextureManager::getInstance().addTexture("Cancel", "Images/Lobby/CancelButton.png");
       TextureManager::getInstance().addTexture("CancelHover", "Images/Lobby/CancelButtonHover.png");
       TextureManager::getInstance().addTexture("CancelFocus", "Images/Lobby/CancelButtonFocus.png");
+      TextureManager::getInstance().addTexture("CancelMenu", "Images/Menu/CancelMenu.png");
+      TextureManager::getInstance().addTexture("CancelMenuHover", "Images/Menu/CancelMenuHover.png");
+      TextureManager::getInstance().addTexture("CancelMenuFocus", "Images/Menu/CancelMenuFocus.png");
+      TextureManager::getInstance().addTexture("Save", "Images/Menu/Save.png");
+      TextureManager::getInstance().addTexture("SaveHover", "Images/Menu/SaveHover.png");
+      TextureManager::getInstance().addTexture("SaveFocus", "Images/Menu/SaveFocus.png");
       TextureManager::getInstance().addTexture("Valider", "Images/Lobby/ValiderButton.png");
       TextureManager::getInstance().addTexture("ValiderFocus", "Images/Lobby/ValiderButtonFocus.png");
       TextureManager::getInstance().addTexture("ValiderHover", "Images/Lobby/ValiderButtonHover.png");
@@ -154,8 +160,8 @@ void	MenuWindow::drawSettings()
   this->_listWidget.push_back(new TextArea(this->_event, "PortArea", *tmp2, sf::Vector2i(480, 480), sf::Vector2i(520, 515), sf::Vector2i(765, 545)));
   this->_listWidget.push_back(tmp);
   this->_listWidget.push_back(tmp2);
-  this->_listWidget.push_back(new Button(this->_event, "Valider", sf::Vector2i(570, 570), sf::Vector2i(576, 577), sf::Vector2i(706, 611), SET_CHANGE, true));
-  this->_listWidget.push_back(new Button(this->_event, "Cancel", sf::Vector2i(482, 620), sf::Vector2i(488, 630), sf::Vector2i(619, 663), BACK_MENU, true));
+  this->_listWidget.push_back(new Button(this->_event, "Save", sf::Vector2i(500, 590), sf::Vector2i(506, 596), sf::Vector2i(616, 632), SET_CHANGE, true));
+  this->_listWidget.push_back(new Button(this->_event, "CancelMenu", sf::Vector2i(650, 590), sf::Vector2i(654, 596), sf::Vector2i(766, 632), BACK_MENU, true));
 }
 
 void	MenuWindow::drawLobby()

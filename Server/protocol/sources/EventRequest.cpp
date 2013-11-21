@@ -38,7 +38,7 @@ Protocol			&EventRequest::serialize(Protocol &rhs) const
 
 Protocol			&EventRequest::unserialize(Protocol &rhs)
 {
-	rhs >> _code >> _sessionID >> _event >> _param;
+	rhs >> _sessionID >> _event >> _param;
 	return rhs;
 }
 

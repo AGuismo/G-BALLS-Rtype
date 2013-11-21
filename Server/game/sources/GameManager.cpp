@@ -174,6 +174,7 @@ namespace	game
 		  self->updateCallback();
 		  if (self->_server.read() || self->_server.write())
 		  {
+			  std::cout << "Action to do" << std::endl;
 			  try
 			  {
 				  if (self->_server.read())
