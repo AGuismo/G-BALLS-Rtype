@@ -84,7 +84,7 @@ namespace Auth
 
     rhs << _code << len;
     rhs.push(_username, len);
-    rhs.push(_password, rtype::PASS_SIZE);
+    rhs.push(_password, rtypeAuth::PASS_SIZE);
     return (rhs);
   }
 
@@ -94,7 +94,7 @@ namespace Auth
 
     rhs >> len;
     rhs.pop(_username, len);
-    rhs.pop(_password, rtype::PASS_SIZE);
+    rhs.pop(_password, rtypeAuth::PASS_SIZE);
     return (rhs);
   }
 
@@ -156,7 +156,7 @@ namespace Auth
     requestCode::UsernameLen	len = _username.length();
 
     rhs << _code << len << _username;
-    rhs.push(_password, rtype::PASS_SIZE);
+    rhs.push(_password, rtypeAuth::PASS_SIZE);
     return (rhs);
   }
 
@@ -166,7 +166,7 @@ namespace Auth
 
     rhs >> len;
     rhs.pop(_username, len);
-    rhs.pop(_password, rtype::PASS_SIZE);
+    rhs.pop(_password, rtypeAuth::PASS_SIZE);
     return (rhs);
   }
 

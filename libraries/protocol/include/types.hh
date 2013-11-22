@@ -63,7 +63,7 @@ namespace	requestCode
   typedef Ruint16	PartyID;
 }
 
-struct rtype
+struct rtypeAuth
 {
 	static const int	PASS_SIZE = 32;
 };

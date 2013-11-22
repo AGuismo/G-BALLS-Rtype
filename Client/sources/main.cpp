@@ -9,6 +9,9 @@
 //
 
 #include	"Application.hh"
+#include	"types.hh"
+
+template class __declspec(dllexport) std::vector<Ruint8>;
 
 int	main()
 {
