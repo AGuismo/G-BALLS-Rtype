@@ -11,6 +11,8 @@ SRCS =	      	Animation.cpp		\
 		AudioManager.cpp	\
 		Bang.cpp		\
 		Bydos1.cpp		\
+		BydosPlasma.cpp		\
+		BydosLaser.cpp		\
 		Factory.cpp		\
 		Game.cpp		\
 		GameWindow.cpp		\
@@ -18,6 +20,8 @@ SRCS =	      	Animation.cpp		\
 		LayerManager.cpp	\
 		TextureManager.cpp	\
 		Player.cpp		\
+		PlayerLaser.cpp		\
+		PlayerBlast.cpp		\
 		Timer.cpp		\
 
 DIR.THREAD=	../../libraries/Thread/Threads
