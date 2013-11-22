@@ -1,25 +1,77 @@
 #ifndef NETWORKMANAGER_H_
 # define NETWORKMANAGER_H_
 
+#include	<SFML/Network.hpp>
+#include	<deque>
 #include	"Threads.hpp"
+#include	"ThreadMutex.hh"
+#include	"ThreadCond.hh"
+
+class	ARequest;
 
 namespace	network
 {
   class Manager
   {
+    typedef Threads<int (Manager::*)()>		thread_type;
+    typedef std::deque<ARequest *>		request_list;
+  public:
+    enum	State
+      {
+	NONE,
+	TCP,
+	UDP,
+	SHUTDOWN
+      };
   public:
     Manager();
     virtual ~Manager();
 
-  private:
-    int	routine();
-
   public:
+    void	initialize(void);
+    void	run(void);
+    void	switchTo(State s);
+    ARequest	*recvRequest(void);
+    void	sendRequest(const ARequest *);
+
+  private:
+    int		routine(void);
+    void	tcpMode(void);
+    void	udpMode(void);
+
+  private:
     Manager(Manager const&);
     Manager& operator=(Manager const&);
 
   private:
-    Threads<int (Manager::*)()>	_th;
+    thread_type		_th;
+    request_list	_requests;
+    Thread::Mutex	_state;
+    Thread::Mutex	_reqlist;
+    Thread::Mutex	_sock;
+    Thread::Cond	_wake;
+    sf::TcpSocket	_mSock;
+    sf::UdpSocket	_gSock;
+    sf::IpAddress	_gIp;
+    unsigned short	_gPort;
+    State		_curState;
+  };
+
+  class Exception
+  {
+  public:
+    Exception(const std::string &msg) throw();
+    virtual ~Exception() throw();
+
+  public:
+    Exception(Exception const&) throw();
+    Exception& operator=(Exception const&) throw();
+
+  public:
+    virtual const char	*what() const throw();
+
+  private:
+    std::string		_what;
   };
 }
 

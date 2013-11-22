@@ -27,7 +27,7 @@ bool								AudioManager::add(int id, AudioType type, bool repeat, const std::st
 
 		if (nM->openFromFile(filepath.c_str()))
 		{
-		  if (repeat == true) // Simon: be careful : "=" is not "=="
+		  if (repeat == true)
 				nM->setLoop(true);
 			_musics[id] = nM;
 			return true;
