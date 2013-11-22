@@ -5,7 +5,7 @@
 // Login   <brigno@epitech.net>
 //
 // Started on  Thu Oct 31 16:22:29 2013 brigno
-// Last update Tue Nov 19 15:26:42 2013 brigno
+// Last update Fri Nov 22 04:50:01 2013 brigno
 //
 
 #include	"Button.hh"
@@ -16,16 +16,12 @@
 Button::Button(const sf::Event &ev, const std::string &name, const sf::Vector2i &posTopLeft, const sf::Vector2i &focusTopLeft, const sf::Vector2i &focusBotRight, AScreen::Status actionLink, bool enable) :
   AWidget(ev, name, posTopLeft, focusTopLeft, focusBotRight, AWidget::BUTTON), _enable(enable)
 {
-  sf::Vector2f posZone;
-
-  posZone.x = posTopLeft.x;
-  posZone.y = posTopLeft.y;
   this->_name = name;
   if (this->_enable == true)
     this->_image.setTexture(TextureManager::getInstance().getTexture(name)->getTexture());
   else
     this->_image.setTexture(TextureManager::getInstance().getTexture(name + "Off")->getTexture());
-  this->_image.setPosition(posZone.x, posZone.y);
+  this->_image.setPosition(posTopLeft.x, posTopLeft.y);
   this->_actionLink = actionLink;
 }
 

@@ -35,6 +35,8 @@ public:
       SETTINGS,
       SET_CHANGE,
       INGAME,
+      BACK_SET,
+      VERIF_PWD,
       GAME
     };
 protected:

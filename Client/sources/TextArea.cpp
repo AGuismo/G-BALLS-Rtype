@@ -5,7 +5,7 @@
 // Login   <brigno@epitech.net>
 //
 // Started on  Mon Oct 28 14:40:49 2013 brigno
-// Last update Wed Nov 20 16:44:46 2013 brigno
+// Last update Fri Nov 22 04:48:31 2013 brigno
 //
 
 #include	"TextArea.hh"
@@ -17,14 +17,10 @@ TextArea::TextArea(const sf::Event &ev, const std::string &name, Text &depsText,
 	   const sf::Vector2i &focusBotRight) :
   AWidget(ev, name, posTopLeft, focusTopLeft, focusBotRight, AWidget::TEXTAREA)
 {
-  sf::Vector2f	posZone;
-
-  posZone.x = posTopLeft.x;
-  posZone.y = posTopLeft.y;
   this->_name = name;
   this->_image.setTexture(TextureManager::getInstance().getTexture("TextArea")->getTexture());
   this->_depsText = &depsText;
-  this->_image.setPosition(posZone.x, posZone.y);
+  this->_image.setPosition(posTopLeft.x, posTopLeft.y);
 }
 
 TextArea::~TextArea()
