@@ -35,7 +35,7 @@ MOD.LNK=	-L$(DIR.NETWORK) -lnetwork -L$(DIR.GAME) -lgame -L$(DIR.PROTO) -lprotoc
 
 F.C	     +=	-W -Wall -Werror
 F.I	     += $(MOD.INC) $(DEPS.INC) -I./include
-F.L	     += $(MOD.LNK) $(DEPS.LNK)
+F.L	     += $(MOD.LNK) $(DEPS.LNK) -Wl,--rpath=$(DIR.THREAD)
 F.D	     +=
 
 all:		start $(NAME)
