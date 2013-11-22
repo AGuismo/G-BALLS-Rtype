@@ -230,24 +230,13 @@ void	Game::playerUpdate()
 {
   std::list<game::Client *>::iterator itm = _players.begin();
 
-  for (itm = _players.begin(); itm != _players.end();)
+  for (itm = _players.begin(); itm != _players.end(); )
     {
       (*itm)->update(*this);
-      if (!Referee::isOnScreen((*itm)->_player) || Referee::isCollision((*itm)->_player, *this))
-	{
-	  if ((*itm)->_player->_extraLife == true)
-	    {
-	      (*itm)->_player->_extraLife = false;
-	      itm++;
-	    }
+	  if ((*itm)->hasLeft())
+		  itm = _players.erase(itm);
 	  else
-	    {
-	      itm = _players.erase(itm);
-	      break;
-	    }
-	}
-      else
-	itm++;
+		  itm++;
     }
 }
 
