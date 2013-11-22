@@ -25,8 +25,8 @@ void						BydosPlasma::draw(void)
 		if (_vCurPos.y > _vNextPos.y)
 			_vCurPos.y -= (_vLag * Game::OBJ_DEC_Y_FRAME);
 		_image.setPosition(_vCurPos.x +20.0f, _vCurPos.y +5.0f);
-		_image.setTextureRect(_plasmaAnimation->getFrame());
 	}
+	_image.setTextureRect(_plasmaAnimation->getFrame());
 	_gameWindow->draw(_image);
 }
 
