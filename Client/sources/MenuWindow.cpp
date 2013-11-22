@@ -132,40 +132,40 @@ void	MenuWindow::drawMenu()
     {
       if (Stocktmp->getTmp() != "" && Stocktmp->getTmp() != "Login")
 	{
-	  tmp = new Text("Font/NEUROPOL.ttf", "LoginText", this->_event, sf::Vector2i(525, 410), sf::Vector2i(520, 415), sf::Vector2i(760, 445), 10, true, Stocktmp->getTmp());
+	  tmp = new Text("Font/NEUROPOL.ttf", "LoginText", this->_event, sf::Vector2f(525, 410), sf::Vector2f(520, 415), sf::Vector2f(760, 445), 10, true, Stocktmp->getTmp());
 	  flag = 1;
 	}
     }
   if (InfosUser::getInstance().authenticate.login == "Login" && flag == 0)
-    tmp = new Text("Font/NEUROPOL.ttf", "LoginText", this->_event, sf::Vector2i(525, 410), sf::Vector2i(520, 415), sf::Vector2i(760, 445), 10, true, "Login");
+    tmp = new Text("Font/NEUROPOL.ttf", "LoginText", this->_event, sf::Vector2f(525, 410), sf::Vector2f(520, 415), sf::Vector2f(760, 445), 10, true, "Login");
   else if (flag == 0)
-    tmp = new Text("Font/NEUROPOL.ttf", "LoginText", this->_event, sf::Vector2i(525, 410), sf::Vector2i(520, 415), sf::Vector2i(760, 445), 10, true, InfosUser::getInstance().authenticate.login);
+    tmp = new Text("Font/NEUROPOL.ttf", "LoginText", this->_event, sf::Vector2f(525, 410), sf::Vector2f(520, 415), sf::Vector2f(760, 445), 10, true, InfosUser::getInstance().authenticate.login);
 
-  tmp2 = new Text("Font/NEUROPOL.ttf", "PasswordText", this->_event, sf::Vector2i(525, 515), sf::Vector2i(520, 415), sf::Vector2i(760, 445), 10, false, "Password");
+  tmp2 = new Text("Font/NEUROPOL.ttf", "PasswordText", this->_event, sf::Vector2f(525, 515), sf::Vector2f(520, 415), sf::Vector2f(760, 445), 10, false, "Password");
   if (this->_backgroundPtr == 0)
     this->_backgroundPtr = new Background();
-  this->_listImage.push_back(new Image("Title", sf::Vector2i(370, 60)));
-  this->_listImage.push_back(new Image("Formu", sf::Vector2i(370, 175)));
-  this->_listWidget.push_back(new TextArea(this->_event, "LoginArea", *tmp, sf::Vector2i(480, 380), sf::Vector2i(520, 415), sf::Vector2i(760, 445)));
-  this->_listWidget.push_back(new TextArea(this->_event, "PasswordArea", *tmp2, sf::Vector2i(480, 480), sf::Vector2i(520, 515), sf::Vector2i(765, 545)));
+  this->_listImage.push_back(new Image("Title", sf::Vector2f(370, 60)));
+  this->_listImage.push_back(new Image("Formu", sf::Vector2f(370, 175)));
+  this->_listWidget.push_back(new TextArea(this->_event, "LoginArea", *tmp, sf::Vector2f(480, 380), sf::Vector2f(520, 415), sf::Vector2f(760, 445)));
+  this->_listWidget.push_back(new TextArea(this->_event, "PasswordArea", *tmp2, sf::Vector2f(480, 480), sf::Vector2f(520, 515), sf::Vector2f(765, 545)));
   this->_listWidget.push_back(tmp);
   this->_listWidget.push_back(tmp2);
-  this->_listWidget.push_back(new Button(this->_event, "Settings", sf::Vector2i(570, 570), sf::Vector2i(576, 577), sf::Vector2i(706, 611), SETTINGS, true));
-  this->_listWidget.push_back(new Button(this->_event, "Enter", sf::Vector2i(482, 620), sf::Vector2i(488, 630), sf::Vector2i(619, 663), LOGIN, true));
-  this->_listWidget.push_back(new Button(this->_event, "Exit", sf::Vector2i(658, 620), sf::Vector2i(663, 630), sf::Vector2i(795, 663), EXIT, true));
+  this->_listWidget.push_back(new Button(this->_event, "Settings", sf::Vector2f(570, 570), sf::Vector2f(576, 577), sf::Vector2f(706, 611), SETTINGS, true));
+  this->_listWidget.push_back(new Button(this->_event, "Enter", sf::Vector2f(482, 620), sf::Vector2f(488, 630), sf::Vector2f(619, 663), LOGIN, true));
+  this->_listWidget.push_back(new Button(this->_event, "Exit", sf::Vector2f(658, 620), sf::Vector2f(663, 630), sf::Vector2f(795, 663), EXIT, true));
 }
 
 void	MenuWindow::drawMenuWarning(const std::string &Msg)
 {
   this->clearWindow();
   this->_status = CONTINUE;
-  Text *tmp = new Text("Font/verdana.ttf", "WarningMessageMenu", this->_event, sf::Vector2i(500, 370), sf::Vector2i(499, 369), sf::Vector2i(678, 389), 10, true, Msg);
+  Text *tmp = new Text("Font/verdana.ttf", "WarningMessageMenu", this->_event, sf::Vector2f(500, 370), sf::Vector2f(499, 369), sf::Vector2f(678, 389), 10, true, Msg);
 
-  this->_listImage.push_back(new Image("FondWarningMenu", sf::Vector2i(390, 160)));
-  this->_listImage.push_back(new Image("TextAccessDenied", sf::Vector2i(410, 320)));
-  this->_listImage.push_back(new Image("Warning", sf::Vector2i(570, 175)));
+  this->_listImage.push_back(new Image("FondWarningMenu", sf::Vector2f(390, 160)));
+  this->_listImage.push_back(new Image("TextAccessDenied", sf::Vector2f(410, 320)));
+  this->_listImage.push_back(new Image("Warning", sf::Vector2f(570, 175)));
   this->_listWidget.push_back(tmp);
-  this->_listWidget.push_back(new Button(this->_event, "Back", sf::Vector2i(550, 410), sf::Vector2i(557, 416), sf::Vector2i(745, 464), BACK_MENU, true));
+  this->_listWidget.push_back(new Button(this->_event, "Back", sf::Vector2f(550, 410), sf::Vector2f(557, 416), sf::Vector2f(745, 464), BACK_MENU, true));
 }
 
 
@@ -179,79 +179,79 @@ void	MenuWindow::drawSettings()
 
   this->clearWindow();
   if (InfosUser::getInstance().authenticate.addressIp == "IPAddress")
-    tmp = new Text("Font/NEUROPOL.ttf", "IPAddress", this->_event, sf::Vector2i(525, 410), sf::Vector2i(520, 415), sf::Vector2i(760, 445), 15, true, "Address Ip");
+    tmp = new Text("Font/NEUROPOL.ttf", "IPAddress", this->_event, sf::Vector2f(525, 410), sf::Vector2f(520, 415), sf::Vector2f(760, 445), 15, true, "Address Ip");
   else
-    tmp = new Text("Font/NEUROPOL.ttf", "IPAddress", this->_event, sf::Vector2i(525, 410), sf::Vector2i(520, 415), sf::Vector2i(760, 445), 15, true, InfosUser::getInstance().authenticate.addressIp);
+    tmp = new Text("Font/NEUROPOL.ttf", "IPAddress", this->_event, sf::Vector2f(525, 410), sf::Vector2f(520, 415), sf::Vector2f(760, 445), 15, true, InfosUser::getInstance().authenticate.addressIp);
 
   if (InfosUser::getInstance().authenticate.port == "Port")
-    tmp2 = new Text("Font/NEUROPOL.ttf", "Port", this->_event, sf::Vector2i(525, 510), sf::Vector2i(520, 415), sf::Vector2i(760, 445), 5, true, "Port");
+    tmp2 = new Text("Font/NEUROPOL.ttf", "Port", this->_event, sf::Vector2f(525, 510), sf::Vector2f(520, 415), sf::Vector2f(760, 445), 5, true, "Port");
   else
-    tmp2 = new Text("Font/NEUROPOL.ttf", "Port", this->_event, sf::Vector2i(525, 510), sf::Vector2i(520, 415), sf::Vector2i(760, 445), 5, true, InfosUser::getInstance().authenticate.port);
+    tmp2 = new Text("Font/NEUROPOL.ttf", "Port", this->_event, sf::Vector2f(525, 510), sf::Vector2f(520, 415), sf::Vector2f(760, 445), 5, true, InfosUser::getInstance().authenticate.port);
 
-  this->_listImage.push_back(new Image("Title", sf::Vector2i(370, 60)));
-  this->_listImage.push_back(new Image("FondSettings", sf::Vector2i(370, 175)));
-  this->_listWidget.push_back(new TextArea(this->_event, "IPArea", *tmp, sf::Vector2i(480, 380), sf::Vector2i(520, 415), sf::Vector2i(760, 445)));
-  this->_listWidget.push_back(new TextArea(this->_event, "PortArea", *tmp2, sf::Vector2i(480, 480), sf::Vector2i(520, 515), sf::Vector2i(765, 545)));
+  this->_listImage.push_back(new Image("Title", sf::Vector2f(370, 60)));
+  this->_listImage.push_back(new Image("FondSettings", sf::Vector2f(370, 175)));
+  this->_listWidget.push_back(new TextArea(this->_event, "IPArea", *tmp, sf::Vector2f(480, 380), sf::Vector2f(520, 415), sf::Vector2f(760, 445)));
+  this->_listWidget.push_back(new TextArea(this->_event, "PortArea", *tmp2, sf::Vector2f(480, 480), sf::Vector2f(520, 515), sf::Vector2f(765, 545)));
   this->_listWidget.push_back(tmp);
   this->_listWidget.push_back(tmp2);
-  this->_listWidget.push_back(new Button(this->_event, "Save", sf::Vector2i(500, 590), sf::Vector2i(506, 596), sf::Vector2i(616, 632), SET_CHANGE, true));
-  this->_listWidget.push_back(new Button(this->_event, "CancelMenu", sf::Vector2i(650, 590), sf::Vector2i(654, 596), sf::Vector2i(766, 632), BACK_SET, true));
+  this->_listWidget.push_back(new Button(this->_event, "Save", sf::Vector2f(500, 590), sf::Vector2f(506, 596), sf::Vector2f(616, 632), SET_CHANGE, true));
+  this->_listWidget.push_back(new Button(this->_event, "CancelMenu", sf::Vector2f(650, 590), sf::Vector2f(654, 596), sf::Vector2f(766, 632), BACK_SET, true));
 }
 
 void	MenuWindow::drawLobbyWarning(const std::string &Msg)
 {
   this->clearWindow();
   this->_status = CONTINUE;
-  Text *tmp = new Text("Font/verdana.ttf", "MsgChat", this->_event, sf::Vector2i(830, 640), sf::Vector2i(825, 633), sf::Vector2i(1073, 666), 100, true);
-  Text *tmp2 = new Text("Font/verdana.ttf", "WarningMessageLobby", this->_event, sf::Vector2i(260, 464), sf::Vector2i(520, 415), sf::Vector2i(760, 445), 10, true, Msg);
+  Text *tmp = new Text("Font/verdana.ttf", "MsgChat", this->_event, sf::Vector2f(830, 640), sf::Vector2f(825, 633), sf::Vector2f(1073, 666), 100, true);
+  Text *tmp2 = new Text("Font/verdana.ttf", "WarningMessageLobby", this->_event, sf::Vector2f(260, 464), sf::Vector2f(520, 415), sf::Vector2f(760, 445), 10, true, Msg);
 
-  this->_listImage.push_back(new Image("TitleLobby", sf::Vector2i(2, 10)));
-  this->_listImage.push_back(new Image("FondLobby", sf::Vector2i(0, 55)));
-  this->_listImage.push_back(new Image("MsgChat", sf::Vector2i(820, 200)));
+  this->_listImage.push_back(new Image("TitleLobby", sf::Vector2f(2, 10)));
+  this->_listImage.push_back(new Image("FondLobby", sf::Vector2f(0, 55)));
+  this->_listImage.push_back(new Image("MsgChat", sf::Vector2f(820, 200)));
 
-  this->_listImage.push_back(new Image("FondWarningLobby", sf::Vector2i(165, 250)));
-  this->_listImage.push_back(new Image("TextCreationFailed", sf::Vector2i(190, 415)));
-  this->_listImage.push_back(new Image("Warning", sf::Vector2i(340, 280)));
-  this->_listWidget.push_back(new Button(this->_event, "Back", sf::Vector2i(320, 490), sf::Vector2i(326, 496), sf::Vector2i(516, 547), CREATE_GAME, true));
+  this->_listImage.push_back(new Image("FondWarningLobby", sf::Vector2f(165, 250)));
+  this->_listImage.push_back(new Image("TextCreationFailed", sf::Vector2f(190, 415)));
+  this->_listImage.push_back(new Image("Warning", sf::Vector2f(340, 280)));
+  this->_listWidget.push_back(new Button(this->_event, "Back", sf::Vector2f(320, 490), sf::Vector2f(326, 496), sf::Vector2f(516, 547), CREATE_GAME, true));
 
-  this->_listWidget.push_back(new Button(this->_event, "Create", sf::Vector2i(400, 110), sf::Vector2i(405, 112), sf::Vector2i(597, 166), CREATE_GAME, true));
-  this->_listWidget.push_back(new Button(this->_event, "Join", sf::Vector2i(600, 110), sf::Vector2i(605, 112), sf::Vector2i(797, 166), JOIN_GAME, false));
-  this->_listWidget.push_back(new Button(this->_event, "Refresh", sf::Vector2i(800, 110), sf::Vector2i(805, 112), sf::Vector2i(997, 166), REFRESH_GAME, true));
-  this->_listWidget.push_back(new Button(this->_event, "Disconnect", sf::Vector2i(1000, 110), sf::Vector2i(1005, 112), sf::Vector2i(1197, 166), BACK_MENU, true));
-  this->_listWidget.push_back(new Button(this->_event, "Submit", sf::Vector2i(1100, 625), sf::Vector2i(1116, 633), sf::Vector2i(1224, 666), SUBMIT, true));
-  this->_listWidget.push_back(new TextArea(this->_event, "TextChatArea", *tmp, sf::Vector2i(787, 600), sf::Vector2i(825, 633), sf::Vector2i(1073, 666)));
+  this->_listWidget.push_back(new Button(this->_event, "Create", sf::Vector2f(400, 110), sf::Vector2f(405, 112), sf::Vector2f(597, 166), CREATE_GAME, true));
+  this->_listWidget.push_back(new Button(this->_event, "Join", sf::Vector2f(600, 110), sf::Vector2f(605, 112), sf::Vector2f(797, 166), JOIN_GAME, false));
+  this->_listWidget.push_back(new Button(this->_event, "Refresh", sf::Vector2f(800, 110), sf::Vector2f(805, 112), sf::Vector2f(997, 166), REFRESH_GAME, true));
+  this->_listWidget.push_back(new Button(this->_event, "Disconnect", sf::Vector2f(1000, 110), sf::Vector2f(1005, 112), sf::Vector2f(1197, 166), BACK_MENU, true));
+  this->_listWidget.push_back(new Button(this->_event, "Submit", sf::Vector2f(1100, 625), sf::Vector2f(1116, 633), sf::Vector2f(1224, 666), SUBMIT, true));
+  this->_listWidget.push_back(new TextArea(this->_event, "TextChatArea", *tmp, sf::Vector2f(787, 600), sf::Vector2f(825, 633), sf::Vector2f(1073, 666)));
   this->_listWidget.push_back(tmp);
   this->_listWidget.push_back(tmp2);
-  this->_listWidget.push_back(new TextBlock("ChatBlock", this->_event, sf::Vector2i(830, 210), sf::Vector2i(820, 200), sf::Vector2i(820, 200), 20));
+  this->_listWidget.push_back(new TextBlock("ChatBlock", this->_event, sf::Vector2f(830, 210), sf::Vector2f(820, 200), sf::Vector2f(820, 200), 20));
 }
 
 void	MenuWindow::drawGetPWD()
 {
   this->clearWindow();
   this->_status = CONTINUE;
-  Text *tmp = new Text("Font/verdana.ttf", "MsgChat", this->_event, sf::Vector2i(830, 640), sf::Vector2i(825, 633), sf::Vector2i(1073, 666), 100, true);
-  Text *tmp2 = new Text("Font/verdana.ttf", "setPWD", this->_event, sf::Vector2i(440, 390), sf::Vector2i(393, 386), sf::Vector2i(641, 419), 10, false);
+  Text *tmp = new Text("Font/verdana.ttf", "MsgChat", this->_event, sf::Vector2f(830, 640), sf::Vector2f(825, 633), sf::Vector2f(1073, 666), 100, true);
+  Text *tmp2 = new Text("Font/verdana.ttf", "setPWD", this->_event, sf::Vector2f(440, 390), sf::Vector2f(393, 386), sf::Vector2f(641, 419), 10, false);
 
-  this->_listImage.push_back(new Image("TitleLobby", sf::Vector2i(2, 10)));
-  this->_listImage.push_back(new Image("FondLobby", sf::Vector2i(0, 55)));
-  this->_listImage.push_back(new Image("MsgChat", sf::Vector2i(820, 200)));
+  this->_listImage.push_back(new Image("TitleLobby", sf::Vector2f(2, 10)));
+  this->_listImage.push_back(new Image("FondLobby", sf::Vector2f(0, 55)));
+  this->_listImage.push_back(new Image("MsgChat", sf::Vector2f(820, 200)));
 
-  this->_listImage.push_back(new Image("FondWarningLobby", sf::Vector2i(165, 250)));
-  this->_listImage.push_back(new Image("TextGetPassword", sf::Vector2i(400, 285)));
-  this->_listImage.push_back(new Image("Stop", sf::Vector2i(200, 280)));
-  this->_listWidget.push_back(new Button(this->_event, "Valider", sf::Vector2i(200, 490), sf::Vector2i(207, 497), sf::Vector2i(395, 545), VERIF_PWD, true));
-  this->_listWidget.push_back(new Button(this->_event, "Cancel", sf::Vector2i(440, 490), sf::Vector2i(446, 495), sf::Vector2i(635, 546), BACK_LOBY, true));
+  this->_listImage.push_back(new Image("FondWarningLobby", sf::Vector2f(165, 250)));
+  this->_listImage.push_back(new Image("TextGetPassword", sf::Vector2f(400, 285)));
+  this->_listImage.push_back(new Image("Stop", sf::Vector2f(200, 280)));
+  this->_listWidget.push_back(new Button(this->_event, "Valider", sf::Vector2f(200, 490), sf::Vector2f(207, 497), sf::Vector2f(395, 545), VERIF_PWD, true));
+  this->_listWidget.push_back(new Button(this->_event, "Cancel", sf::Vector2f(440, 490), sf::Vector2f(446, 495), sf::Vector2f(635, 546), BACK_LOBY, true));
 
-  this->_listWidget.push_back(new Button(this->_event, "Create", sf::Vector2i(400, 110), sf::Vector2i(405, 112), sf::Vector2i(597, 166), CREATE_GAME, true));
-  this->_listWidget.push_back(new Button(this->_event, "Join", sf::Vector2i(600, 110), sf::Vector2i(605, 112), sf::Vector2i(797, 166), JOIN_GAME, false));
-  this->_listWidget.push_back(new Button(this->_event, "Refresh", sf::Vector2i(800, 110), sf::Vector2i(805, 112), sf::Vector2i(997, 166), REFRESH_GAME, true));
-  this->_listWidget.push_back(new Button(this->_event, "Disconnect", sf::Vector2i(1000, 110), sf::Vector2i(1005, 112), sf::Vector2i(1197, 166), BACK_MENU, true));
-  this->_listWidget.push_back(new Button(this->_event, "Submit", sf::Vector2i(1100, 625), sf::Vector2i(1116, 633), sf::Vector2i(1224, 666), SUBMIT, true));
-  this->_listWidget.push_back(new TextArea(this->_event, "TextChatArea", *tmp, sf::Vector2i(787, 600), sf::Vector2i(825, 633), sf::Vector2i(1073, 666)));
-  this->_listWidget.push_back(new TextArea(this->_event, "TextPWDArea", *tmp2, sf::Vector2i(355, 350), sf::Vector2i(393, 386), sf::Vector2i(641, 419)));
+  this->_listWidget.push_back(new Button(this->_event, "Create", sf::Vector2f(400, 110), sf::Vector2f(405, 112), sf::Vector2f(597, 166), CREATE_GAME, true));
+  this->_listWidget.push_back(new Button(this->_event, "Join", sf::Vector2f(600, 110), sf::Vector2f(605, 112), sf::Vector2f(797, 166), JOIN_GAME, false));
+  this->_listWidget.push_back(new Button(this->_event, "Refresh", sf::Vector2f(800, 110), sf::Vector2f(805, 112), sf::Vector2f(997, 166), REFRESH_GAME, true));
+  this->_listWidget.push_back(new Button(this->_event, "Disconnect", sf::Vector2f(1000, 110), sf::Vector2f(1005, 112), sf::Vector2f(1197, 166), BACK_MENU, true));
+  this->_listWidget.push_back(new Button(this->_event, "Submit", sf::Vector2f(1100, 625), sf::Vector2f(1116, 633), sf::Vector2f(1224, 666), SUBMIT, true));
+  this->_listWidget.push_back(new TextArea(this->_event, "TextChatArea", *tmp, sf::Vector2f(787, 600), sf::Vector2f(825, 633), sf::Vector2f(1073, 666)));
+  this->_listWidget.push_back(new TextArea(this->_event, "TextPWDArea", *tmp2, sf::Vector2f(355, 350), sf::Vector2f(393, 386), sf::Vector2f(641, 419)));
   this->_listWidget.push_back(tmp);
   this->_listWidget.push_back(tmp2);
-  this->_listWidget.push_back(new TextBlock("ChatBlock", this->_event, sf::Vector2i(830, 210), sf::Vector2i(820, 200), sf::Vector2i(820, 200), 20));
+  this->_listWidget.push_back(new TextBlock("ChatBlock", this->_event, sf::Vector2f(830, 210), sf::Vector2f(820, 200), sf::Vector2f(820, 200), 20));
 }
 
 
@@ -259,66 +259,66 @@ void	MenuWindow::drawLobby()
 {
   this->clearWindow();
   this->_status = CONTINUE;
-  Text *tmp = new Text("Font/verdana.ttf", "MsgChat", this->_event, sf::Vector2i(830, 640), sf::Vector2i(825, 633), sf::Vector2i(1073, 666), 100, true);
-  this->_listImage.push_back(new Image("TitleLobby", sf::Vector2i(2, 10)));
-  this->_listImage.push_back(new Image("FondLobby", sf::Vector2i(0, 55)));
-  this->_listImage.push_back(new Image("MsgChat", sf::Vector2i(820, 200)));
-  this->_listImage.push_back(new Image("ListServer", sf::Vector2i(50, 195)));
+  Text *tmp = new Text("Font/verdana.ttf", "MsgChat", this->_event, sf::Vector2f(830, 640), sf::Vector2f(825, 633), sf::Vector2f(1073, 666), 100, true);
+  this->_listImage.push_back(new Image("TitleLobby", sf::Vector2f(2, 10)));
+  this->_listImage.push_back(new Image("FondLobby", sf::Vector2f(0, 55)));
+  this->_listImage.push_back(new Image("MsgChat", sf::Vector2f(820, 200)));
+  this->_listImage.push_back(new Image("ListServer", sf::Vector2f(50, 195)));
   int x = 62;
   int y = 243;
 
-  this->_listWidget.push_back(new LineServer("Server:", this->_event, sf::Vector2i(x, y), sf::Vector2i(x + 7, y + 6), sf::Vector2i(x + 686, y + 26), "Poil", "2/4", true));
+  this->_listWidget.push_back(new LineServer("Server:", this->_event, sf::Vector2f(x, y), sf::Vector2f(x + 7, y + 6), sf::Vector2f(x + 686, y + 26), "Poil", "2/4", true));
   y += 20;
-  this->_listWidget.push_back(new LineServer("Server:", this->_event, sf::Vector2i(x, y), sf::Vector2i(x + 7, y + 6), sf::Vector2i(x + 686, y + 26), "Decul", "1/4", false));
+  this->_listWidget.push_back(new LineServer("Server:", this->_event, sf::Vector2f(x, y), sf::Vector2f(x + 7, y + 6), sf::Vector2f(x + 686, y + 26), "Decul", "1/4", false));
 
-  this->_listWidget.push_back(new Button(this->_event, "Create", sf::Vector2i(400, 110), sf::Vector2i(405, 112), sf::Vector2i(597, 166), CREATE_GAME, true));
-  this->_listWidget.push_back(new Button(this->_event, "Join", sf::Vector2i(600, 110), sf::Vector2i(605, 112), sf::Vector2i(797, 166), JOIN_GAME, false));
-  this->_listWidget.push_back(new Button(this->_event, "Refresh", sf::Vector2i(800, 110), sf::Vector2i(805, 112), sf::Vector2i(997, 166), REFRESH_GAME, true));
-  this->_listWidget.push_back(new Button(this->_event, "Disconnect", sf::Vector2i(1000, 110), sf::Vector2i(1005, 112), sf::Vector2i(1197, 166), BACK_MENU, true));
-  this->_listWidget.push_back(new Button(this->_event, "Submit", sf::Vector2i(1100, 625), sf::Vector2i(1116, 633), sf::Vector2i(1224, 666), SUBMIT, true));
-  this->_listWidget.push_back(new TextArea(this->_event, "TextChatArea", *tmp, sf::Vector2i(787, 600), sf::Vector2i(825, 633), sf::Vector2i(1073, 666)));
+  this->_listWidget.push_back(new Button(this->_event, "Create", sf::Vector2f(400, 110), sf::Vector2f(405, 112), sf::Vector2f(597, 166), CREATE_GAME, true));
+  this->_listWidget.push_back(new Button(this->_event, "Join", sf::Vector2f(600, 110), sf::Vector2f(605, 112), sf::Vector2f(797, 166), JOIN_GAME, false));
+  this->_listWidget.push_back(new Button(this->_event, "Refresh", sf::Vector2f(800, 110), sf::Vector2f(805, 112), sf::Vector2f(997, 166), REFRESH_GAME, true));
+  this->_listWidget.push_back(new Button(this->_event, "Disconnect", sf::Vector2f(1000, 110), sf::Vector2f(1005, 112), sf::Vector2f(1197, 166), BACK_MENU, true));
+  this->_listWidget.push_back(new Button(this->_event, "Submit", sf::Vector2f(1100, 625), sf::Vector2f(1116, 633), sf::Vector2f(1224, 666), SUBMIT, true));
+  this->_listWidget.push_back(new TextArea(this->_event, "TextChatArea", *tmp, sf::Vector2f(787, 600), sf::Vector2f(825, 633), sf::Vector2f(1073, 666)));
   this->_listWidget.push_back(tmp);
-  this->_listWidget.push_back(new TextBlock("ChatBlock", this->_event, sf::Vector2i(830, 210), sf::Vector2i(820, 200), sf::Vector2i(820, 200), 20));
+  this->_listWidget.push_back(new TextBlock("ChatBlock", this->_event, sf::Vector2f(830, 210), sf::Vector2f(820, 200), sf::Vector2f(820, 200), 20));
 }
 
 void	MenuWindow::drawLobbyCreate()
 {
   this->clearWindow();
   this->_status = CONTINUE;
-  Text *tmp = new Text("Font/verdana.ttf", "MsgChat", this->_event, sf::Vector2i(830, 640), sf::Vector2i(825, 633), sf::Vector2i(1073, 666), 100, true);
+  Text *tmp = new Text("Font/verdana.ttf", "MsgChat", this->_event, sf::Vector2f(830, 640), sf::Vector2f(825, 633), sf::Vector2f(1073, 666), 100, true);
   Text *tmp2;
   Text *tmp3;
 
   if (InfosUser::getInstance().create.partyName == "Party Name")
-    tmp2 = new Text("Font/verdana.ttf", "NameGame", this->_event, sf::Vector2i(200, 300), sf::Vector2i(520, 415), sf::Vector2i(760, 445), 15, true, "Party Name");
+    tmp2 = new Text("Font/verdana.ttf", "NameGame", this->_event, sf::Vector2f(200, 300), sf::Vector2f(520, 415), sf::Vector2f(760, 445), 15, true, "Party Name");
   else
-    tmp2 = new Text("Font/verdana.ttf", "NameGame", this->_event, sf::Vector2i(200, 300), sf::Vector2i(520, 415), sf::Vector2i(760, 445), 15, true, InfosUser::getInstance().create.partyName);
-  tmp3 = new Text("Font/verdana.ttf", "PWDGame", this->_event, sf::Vector2i(245, 475), sf::Vector2i(520, 415), sf::Vector2i(760, 445), 10, false, "Party Password");
+    tmp2 = new Text("Font/verdana.ttf", "NameGame", this->_event, sf::Vector2f(200, 300), sf::Vector2f(520, 415), sf::Vector2f(760, 445), 15, true, InfosUser::getInstance().create.partyName);
+  tmp3 = new Text("Font/verdana.ttf", "PWDGame", this->_event, sf::Vector2f(245, 475), sf::Vector2f(520, 415), sf::Vector2f(760, 445), 10, false, "Party Password");
 
-  this->_listImage.push_back(new Image("TitleLobby", sf::Vector2i(2, 10)));
-  this->_listImage.push_back(new Image("FondLobby", sf::Vector2i(0, 55)));
-  this->_listImage.push_back(new Image("MsgChat", sf::Vector2i(820, 200)));
-  this->_listImage.push_back(new Image("FondCreate", sf::Vector2i(50, 200)));
-  this->_listImage.push_back(new Image("TextCreate", sf::Vector2i(80, 220)));
+  this->_listImage.push_back(new Image("TitleLobby", sf::Vector2f(2, 10)));
+  this->_listImage.push_back(new Image("FondLobby", sf::Vector2f(0, 55)));
+  this->_listImage.push_back(new Image("MsgChat", sf::Vector2f(820, 200)));
+  this->_listImage.push_back(new Image("FondCreate", sf::Vector2f(50, 200)));
+  this->_listImage.push_back(new Image("TextCreate", sf::Vector2f(80, 220)));
 
-  this->_listWidget.push_back(new Button(this->_event, "Create", sf::Vector2i(400, 110), sf::Vector2i(405, 112), sf::Vector2i(597, 166), CREATE_GAME, true));
-  this->_listWidget.push_back(new Button(this->_event, "Join", sf::Vector2i(600, 110), sf::Vector2i(605, 112), sf::Vector2i(797, 166), JOIN_GAME, false));
-  this->_listWidget.push_back(new Button(this->_event, "Refresh", sf::Vector2i(800, 110), sf::Vector2i(805, 112), sf::Vector2i(997, 166), REFRESH_GAME, true));
-  this->_listWidget.push_back(new Button(this->_event, "Disconnect", sf::Vector2i(1000, 110), sf::Vector2i(1005, 112), sf::Vector2i(1197, 166), BACK_MENU, true));
-  this->_listWidget.push_back(new Button(this->_event, "Submit", sf::Vector2i(1100, 625), sf::Vector2i(1116, 633), sf::Vector2i(1224, 666), SUBMIT, true));
-  this->_listWidget.push_back(new TextArea(this->_event, "TextChatArea", *tmp, sf::Vector2i(787, 600), sf::Vector2i(825, 633), sf::Vector2i(1073, 666)));
-  this->_listWidget.push_back(new TextArea(this->_event, "TextPassword", *tmp3, sf::Vector2i(200, 435), sf::Vector2i(238, 469), sf::Vector2i(487, 502)));
-  this->_listWidget.push_back(new TextArea(this->_event, "TextName", *tmp2, sf::Vector2i(150, 265), sf::Vector2i(188, 301), sf::Vector2i(437, 332)));
-  this->_listWidget.push_back(new CheckBox(this->_event, "CheckOnePlayer", sf::Vector2i(110, 390), sf::Vector2i(116, 397), sf::Vector2i(134, 414), 1, true));
-  this->_listWidget.push_back(new CheckBox(this->_event, "CheckTwoPlayer", sf::Vector2i(250, 390), sf::Vector2i(256, 397), sf::Vector2i(275, 414), 2, false));
-  this->_listWidget.push_back(new CheckBox(this->_event, "CheckThreePlayer", sf::Vector2i(390, 390), sf::Vector2i(396, 397), sf::Vector2i(414, 414), 3, false));
-  this->_listWidget.push_back(new CheckBox(this->_event, "CheckFourPlayer", sf::Vector2i(530, 390), sf::Vector2i(536, 397), sf::Vector2i(555, 414), 4, false));
-  this->_listWidget.push_back(new Button(this->_event, "Valider", sf::Vector2i(250, 585), sf::Vector2i(254, 592), sf::Vector2i(447, 639), VALIDE, true));
-  this->_listWidget.push_back(new Button(this->_event, "Cancel", sf::Vector2i(500, 585), sf::Vector2i(505, 590), sf::Vector2i(697, 641), BACK_LOBY, true));
+  this->_listWidget.push_back(new Button(this->_event, "Create", sf::Vector2f(400, 110), sf::Vector2f(405, 112), sf::Vector2f(597, 166), CREATE_GAME, true));
+  this->_listWidget.push_back(new Button(this->_event, "Join", sf::Vector2f(600, 110), sf::Vector2f(605, 112), sf::Vector2f(797, 166), JOIN_GAME, false));
+  this->_listWidget.push_back(new Button(this->_event, "Refresh", sf::Vector2f(800, 110), sf::Vector2f(805, 112), sf::Vector2f(997, 166), REFRESH_GAME, true));
+  this->_listWidget.push_back(new Button(this->_event, "Disconnect", sf::Vector2f(1000, 110), sf::Vector2f(1005, 112), sf::Vector2f(1197, 166), BACK_MENU, true));
+  this->_listWidget.push_back(new Button(this->_event, "Submit", sf::Vector2f(1100, 625), sf::Vector2f(1116, 633), sf::Vector2f(1224, 666), SUBMIT, true));
+  this->_listWidget.push_back(new TextArea(this->_event, "TextChatArea", *tmp, sf::Vector2f(787, 600), sf::Vector2f(825, 633), sf::Vector2f(1073, 666)));
+  this->_listWidget.push_back(new TextArea(this->_event, "TextPassword", *tmp3, sf::Vector2f(200, 435), sf::Vector2f(238, 469), sf::Vector2f(487, 502)));
+  this->_listWidget.push_back(new TextArea(this->_event, "TextName", *tmp2, sf::Vector2f(150, 265), sf::Vector2f(188, 301), sf::Vector2f(437, 332)));
+  this->_listWidget.push_back(new CheckBox(this->_event, "CheckOnePlayer", sf::Vector2f(110, 390), sf::Vector2f(116, 397), sf::Vector2f(134, 414), 1, true));
+  this->_listWidget.push_back(new CheckBox(this->_event, "CheckTwoPlayer", sf::Vector2f(250, 390), sf::Vector2f(256, 397), sf::Vector2f(275, 414), 2, false));
+  this->_listWidget.push_back(new CheckBox(this->_event, "CheckThreePlayer", sf::Vector2f(390, 390), sf::Vector2f(396, 397), sf::Vector2f(414, 414), 3, false));
+  this->_listWidget.push_back(new CheckBox(this->_event, "CheckFourPlayer", sf::Vector2f(530, 390), sf::Vector2f(536, 397), sf::Vector2f(555, 414), 4, false));
+  this->_listWidget.push_back(new Button(this->_event, "Valider", sf::Vector2f(250, 585), sf::Vector2f(254, 592), sf::Vector2f(447, 639), VALIDE, true));
+  this->_listWidget.push_back(new Button(this->_event, "Cancel", sf::Vector2f(500, 585), sf::Vector2f(505, 590), sf::Vector2f(697, 641), BACK_LOBY, true));
   this->_listWidget.push_back(tmp);
   this->_listWidget.push_back(tmp2);
   this->_listWidget.push_back(tmp3);
-  this->_listWidget.push_back(new TextBlock("ChatBlock", this->_event, sf::Vector2i(830, 210), sf::Vector2i(820, 200), sf::Vector2i(820, 200), 20));
+  this->_listWidget.push_back(new TextBlock("ChatBlock", this->_event, sf::Vector2f(830, 210), sf::Vector2f(820, 200), sf::Vector2f(820, 200), 20));
 }
 
 void	MenuWindow::drawLobbyWait(int owner)
@@ -326,43 +326,43 @@ void	MenuWindow::drawLobbyWait(int owner)
   int nbPlayer = 3;
   this->clearWindow();
   this->_status = CONTINUE;
-  Text *tmp = new Text("Font/verdana.ttf", "MsgChat", this->_event, sf::Vector2i(830, 640), sf::Vector2i(825, 633), sf::Vector2i(1073, 666), 100, true);
-  Text *tmp2 = new Text("Font/verdana.ttf", "NameGameWait", this->_event, sf::Vector2i(170, 297), sf::Vector2i(825, 633), sf::Vector2i(1073, 666), 100, true, this->_serverSelected->getGame());
-  this->_listImage.push_back(new Image("TitleLobby", sf::Vector2i(2, 10)));
-  this->_listImage.push_back(new Image("FondLobby", sf::Vector2i(0, 55)));
-  this->_listImage.push_back(new Image("MsgChat", sf::Vector2i(820, 200)));
-  this->_listImage.push_back(new Image("FondCreate", sf::Vector2i(50, 200)));
-  this->_listImage.push_back(new Image("TextWait", sf::Vector2i(80, 220)));
+  Text *tmp = new Text("Font/verdana.ttf", "MsgChat", this->_event, sf::Vector2f(830, 640), sf::Vector2f(825, 633), sf::Vector2f(1073, 666), 100, true);
+  Text *tmp2 = new Text("Font/verdana.ttf", "NameGameWait", this->_event, sf::Vector2f(170, 297), sf::Vector2f(825, 633), sf::Vector2f(1073, 666), 100, true, this->_serverSelected->getGame());
+  this->_listImage.push_back(new Image("TitleLobby", sf::Vector2f(2, 10)));
+  this->_listImage.push_back(new Image("FondLobby", sf::Vector2f(0, 55)));
+  this->_listImage.push_back(new Image("MsgChat", sf::Vector2f(820, 200)));
+  this->_listImage.push_back(new Image("FondCreate", sf::Vector2f(50, 200)));
+  this->_listImage.push_back(new Image("TextWait", sf::Vector2f(80, 220)));
   //demander le nombre de joueur connecter
 
   int posX = 150;
   int i = 0;
   for (i = 0; i < nbPlayer; i++)
     {
-      this->_listImage.push_back(new Image("PlayerConnected", sf::Vector2i(posX, 450)));
+      this->_listImage.push_back(new Image("PlayerConnected", sf::Vector2f(posX, 450)));
       posX += 150;
     }
   while (i < 4)
     {
-      this->_listImage.push_back(new Image("PlayerNotConnected", sf::Vector2i(posX, 450)));
+      this->_listImage.push_back(new Image("PlayerNotConnected", sf::Vector2f(posX, 450)));
       ++i;
       posX += 150;
     }
 
-  this->_listWidget.push_back(new Button(this->_event, "Create", sf::Vector2i(400, 110), sf::Vector2i(405, 112), sf::Vector2i(597, 166), CREATE_GAME, true));
-  this->_listWidget.push_back(new Button(this->_event, "Join", sf::Vector2i(600, 110), sf::Vector2i(605, 112), sf::Vector2i(797, 166), JOIN_GAME, false));
-  this->_listWidget.push_back(new Button(this->_event, "Refresh", sf::Vector2i(800, 110), sf::Vector2i(805, 112), sf::Vector2i(997, 166), REFRESH_GAME, true));
-  this->_listWidget.push_back(new Button(this->_event, "Disconnect", sf::Vector2i(1000, 110), sf::Vector2i(1005, 112), sf::Vector2i(1197, 166), BACK_MENU, true));
-  this->_listWidget.push_back(new Button(this->_event, "Submit", sf::Vector2i(1100, 625), sf::Vector2i(1116, 633), sf::Vector2i(1224, 666), SUBMIT, true));
-  this->_listWidget.push_back(new TextArea(this->_event, "TextChatArea", *tmp, sf::Vector2i(787, 600), sf::Vector2i(825, 633), sf::Vector2i(1073, 666)));
+  this->_listWidget.push_back(new Button(this->_event, "Create", sf::Vector2f(400, 110), sf::Vector2f(405, 112), sf::Vector2f(597, 166), CREATE_GAME, true));
+  this->_listWidget.push_back(new Button(this->_event, "Join", sf::Vector2f(600, 110), sf::Vector2f(605, 112), sf::Vector2f(797, 166), JOIN_GAME, false));
+  this->_listWidget.push_back(new Button(this->_event, "Refresh", sf::Vector2f(800, 110), sf::Vector2f(805, 112), sf::Vector2f(997, 166), REFRESH_GAME, true));
+  this->_listWidget.push_back(new Button(this->_event, "Disconnect", sf::Vector2f(1000, 110), sf::Vector2f(1005, 112), sf::Vector2f(1197, 166), BACK_MENU, true));
+  this->_listWidget.push_back(new Button(this->_event, "Submit", sf::Vector2f(1100, 625), sf::Vector2f(1116, 633), sf::Vector2f(1224, 666), SUBMIT, true));
+  this->_listWidget.push_back(new TextArea(this->_event, "TextChatArea", *tmp, sf::Vector2f(787, 600), sf::Vector2f(825, 633), sf::Vector2f(1073, 666)));
   if (owner == 1)
-    this->_listWidget.push_back(new Button(this->_event, "Start", sf::Vector2i(250, 585), sf::Vector2i(254, 592), sf::Vector2i(447, 639), GAME, true));
+    this->_listWidget.push_back(new Button(this->_event, "Start", sf::Vector2f(250, 585), sf::Vector2f(254, 592), sf::Vector2f(447, 639), GAME, true));
   else
-    this->_listWidget.push_back(new Button(this->_event, "Start", sf::Vector2i(250, 585), sf::Vector2i(254, 592), sf::Vector2i(447, 639), GAME, false));
-  this->_listWidget.push_back(new Button(this->_event, "Cancel", sf::Vector2i(500, 585), sf::Vector2i(505, 590), sf::Vector2i(697, 641), BACK_LOBY, true));
+    this->_listWidget.push_back(new Button(this->_event, "Start", sf::Vector2f(250, 585), sf::Vector2f(254, 592), sf::Vector2f(447, 639), GAME, false));
+  this->_listWidget.push_back(new Button(this->_event, "Cancel", sf::Vector2f(500, 585), sf::Vector2f(505, 590), sf::Vector2f(697, 641), BACK_LOBY, true));
   this->_listWidget.push_back(tmp);
   this->_listWidget.push_back(tmp2);
-  this->_listWidget.push_back(new TextBlock( "ChatBlock", this->_event, sf::Vector2i(830, 210), sf::Vector2i(820, 200), sf::Vector2i(820, 200), 20));
+  this->_listWidget.push_back(new TextBlock( "ChatBlock", this->_event, sf::Vector2f(830, 210), sf::Vector2f(820, 200), sf::Vector2f(820, 200), 20));
 }
 
 
@@ -392,7 +392,7 @@ AWidget	*MenuWindow::returnMouseFocus(float x, float y)
 
   for (it = this->_listWidget.begin(); it != this->_listWidget.end(); it++)
     {
-      if ((*it)->isFocus(sf::Vector2i(x, y)) == true)
+      if ((*it)->isFocus(sf::Vector2f(x, y)) == true)
 	return *it;
     }
   return (0);
@@ -413,7 +413,7 @@ void	MenuWindow::checkServer()
 	      this->_flag = 1;
 	      tmp = 1;
 	      this->removeWidget("Join");
-	      this->_listWidget.push_back(new Button(this->_event, "Join", sf::Vector2i(600, 110), sf::Vector2i(605, 112), sf::Vector2i(797, 166), JOIN_GAME, true));
+	      this->_listWidget.push_back(new Button(this->_event, "Join", sf::Vector2f(600, 110), sf::Vector2f(605, 112), sf::Vector2f(797, 166), JOIN_GAME, true));
 	      return ;
 	    }
 	}
@@ -422,7 +422,7 @@ void	MenuWindow::checkServer()
     {
       this->_flag = 0;
       this->removeWidget("Join");
-      this->_listWidget.push_back(new Button(this->_event, "Join", sf::Vector2i(600, 110), sf::Vector2i(605, 112), sf::Vector2i(797, 166), JOIN_GAME, false));
+      this->_listWidget.push_back(new Button(this->_event, "Join", sf::Vector2f(600, 110), sf::Vector2f(605, 112), sf::Vector2f(797, 166), JOIN_GAME, false));
     }
 }
 

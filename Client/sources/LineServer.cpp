@@ -5,15 +5,15 @@
 // Login   <brigno@epitech.net>
 //
 // Started on  Tue Nov 19 21:25:49 2013 brigno
-// Last update Fri Nov 22 04:52:06 2013 brigno
+// Last update Fri Nov 22 05:05:34 2013 brigno
 //
 
 #include	"LineServer.hh"
 #include	"TextureManager.hh"
 #include	"Texture.hh"
 
-LineServer::LineServer(const std::string &name, const sf::Event &ev, const sf::Vector2i &posTopLeft,
-		       const sf::Vector2i &focusTopLeft, const sf::Vector2i &focusBotRight, const std::string &gameName, const std::string &slotName, bool lock) :
+LineServer::LineServer(const std::string &name, const sf::Event &ev, const sf::Vector2f &posTopLeft,
+		       const sf::Vector2f &focusTopLeft, const sf::Vector2f &focusBotRight, const std::string &gameName, const std::string &slotName, bool lock) :
   AWidget(ev, name + gameName, posTopLeft, focusTopLeft, focusBotRight, LINESERVER)
 {
   this->_game = gameName;

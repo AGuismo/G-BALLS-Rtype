@@ -5,7 +5,7 @@
 // Login   <brigno@epitech.net>
 //
 // Started on  Thu Oct 31 16:22:29 2013 brigno
-// Last update Fri Nov 22 04:50:01 2013 brigno
+// Last update Fri Nov 22 05:05:33 2013 brigno
 //
 
 #include	"Button.hh"
@@ -13,7 +13,7 @@
 #include	"TextureManager.hh"
 #include	"Texture.hh"
 
-Button::Button(const sf::Event &ev, const std::string &name, const sf::Vector2i &posTopLeft, const sf::Vector2i &focusTopLeft, const sf::Vector2i &focusBotRight, AScreen::Status actionLink, bool enable) :
+Button::Button(const sf::Event &ev, const std::string &name, const sf::Vector2f &posTopLeft, const sf::Vector2f &focusTopLeft, const sf::Vector2f &focusBotRight, AScreen::Status actionLink, bool enable) :
   AWidget(ev, name, posTopLeft, focusTopLeft, focusBotRight, AWidget::BUTTON), _enable(enable)
 {
   this->_name = name;
@@ -34,7 +34,7 @@ const sf::Sprite	&Button::getSprite() const
   return (this->_image);
 }
 
-const sf::Vector2i	&Button::getPos() const
+const sf::Vector2f	&Button::getPos() const
 {
   return (this->_pos);
 }

@@ -5,13 +5,13 @@
 // Login   <brigno@epitech.net>
 //
 // Started on  Thu Oct 24 11:44:54 2013 brigno
-// Last update Fri Nov 22 04:50:43 2013 brigno
+// Last update Fri Nov 22 05:05:35 2013 brigno
 //
 
 #include	"Text.hh"
 
-Text::Text(const std::string &fontPath, const std::string &name, const sf::Event &ev, const sf::Vector2i &posTopLeft, const sf::Vector2i &focusTopLeft,
-	   const sf::Vector2i &focusBotRight, const size_t &size, const bool &enable) :
+Text::Text(const std::string &fontPath, const std::string &name, const sf::Event &ev, const sf::Vector2f &posTopLeft, const sf::Vector2f &focusTopLeft,
+	   const sf::Vector2f &focusBotRight, const size_t &size, const bool &enable) :
   AWidget(ev, name, posTopLeft, focusTopLeft, focusBotRight, AWidget::TEXT)
 {
   this->_cursor = 0;
@@ -53,8 +53,8 @@ Text::Text(const std::string &fontPath, const std::string &name, const sf::Event
   this->_enable = enable;
 }
 
-Text::Text(const std::string &fontPath, const std::string &name, const sf::Event &ev, const sf::Vector2i &posTopLeft, const sf::Vector2i &focusTopLeft,
-	   const sf::Vector2i &focusBotRight, const size_t &size, const bool &enable, const std::string &Txt) :
+Text::Text(const std::string &fontPath, const std::string &name, const sf::Event &ev, const sf::Vector2f &posTopLeft, const sf::Vector2f &focusTopLeft,
+	   const sf::Vector2f &focusBotRight, const size_t &size, const bool &enable, const std::string &Txt) :
   AWidget(ev, name, posTopLeft, focusTopLeft, focusBotRight, AWidget::TEXT)
 {
   sf::Vector2f	posText;

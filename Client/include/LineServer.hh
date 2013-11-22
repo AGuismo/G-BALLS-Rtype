@@ -5,7 +5,7 @@
 // Login   <brigno@epitech.net>
 //
 // Started on  Tue Nov 19 21:10:46 2013 brigno
-// Last update Fri Nov 22 03:44:18 2013 brigno
+// Last update Fri Nov 22 05:05:31 2013 brigno
 //
 
 #ifndef		__LINESERVER_HH__
@@ -16,8 +16,8 @@
 class		LineServer : public AWidget
 {
 public:
-  LineServer(const std::string &name, const sf::Event &, const sf::Vector2i &posTopLeft,
-	     const sf::Vector2i &focusTopLeft, const sf::Vector2i &focusBotRight, const std::string &gameName, const std::string &slotName, bool lock);
+  LineServer(const std::string &name, const sf::Event &, const sf::Vector2f &posTopLeft,
+	     const sf::Vector2f &focusTopLeft, const sf::Vector2f &focusBotRight, const std::string &gameName, const std::string &slotName, bool lock);
   ~LineServer(){};
 
 private:
