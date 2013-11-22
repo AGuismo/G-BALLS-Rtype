@@ -76,6 +76,9 @@
       <AdditionalLibraryDirectories>$(SolutionDir)\..\libraries\SFML\bin</AdditionalLibraryDirectories>
       <AdditionalDependencies>sfml-system.lib;sfml-audio.lib;sfml-network.lib;sfml-graphics.lib;sfml-window.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>copy "$(SolutionDir)\..\libraries\SFML\bin\*.dll" "$(TargetDir)" &amp; copy "$(SolutionDir)\..\libraries\SFML\extDll\*.dll" "$(TargetDir)"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\sources\Application.cpp" />
@@ -85,6 +88,7 @@
     <ClCompile Include="..\sources\Button.cpp" />
     <ClCompile Include="..\sources\CheckBox.cpp" />
     <ClCompile Include="..\sources\Image.cpp" />
+    <ClCompile Include="..\sources\InfosUser.cpp" />
     <ClCompile Include="..\sources\Interface.cpp" />
     <ClCompile Include="..\sources\LineServer.cpp" />
     <ClCompile Include="..\sources\main.cpp" />
@@ -103,6 +107,7 @@
     <ClInclude Include="..\include\Button.hh" />
     <ClInclude Include="..\include\CheckBox.hh" />
     <ClInclude Include="..\include\Image.hh" />
+    <ClInclude Include="..\include\InfosUser.hh" />
     <ClInclude Include="..\include\Interface.hh" />
     <ClInclude Include="..\include\IScreen.hh" />
     <ClInclude Include="..\include\IWidget.hh" />
