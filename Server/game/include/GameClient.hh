@@ -48,12 +48,15 @@ namespace	game
     void			inUse(bool used) {_used = used;};
 
   public:
-    ARequest			*requestPop();
+    ARequest		*requestPop();
+	ARequest		*requestPopOutput();
+	void			requestPushInput(ARequest *req);
     void			requestPush(ARequest *req);
 
   public:
     requestCode::SessionID	SessionID() const;
     void			alive(const bool &state);
+	bool			alive() const ;
     void			SessionID(const requestCode::SessionID);
 
   public:
@@ -64,6 +67,7 @@ namespace	game
 
     struct sockaddr_in getAddr() const { return _addr; };
     void			setAddr(struct sockaddr_in addr) { _addr = addr; };
+	bool			hasLeft() const { return _hasLeft; };
 
   private:
     game::Player		*_player;
@@ -72,6 +76,7 @@ namespace	game
     int				_updateToLive;
 
   private:
+	  bool				_hasLeft;
     bool			_used;
     RequestQueue		_input;
     RequestQueue		_output;

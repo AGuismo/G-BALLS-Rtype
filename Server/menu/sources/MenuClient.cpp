@@ -208,12 +208,12 @@ namespace	menu
 
   void					Client::sessionID(const requestCode::SessionID &sessionID)
   {
-    _auth._sessionID = sessionID;
+    _id = sessionID;
   }
 
   const requestCode::SessionID		&Client::sessionID(void) const
   {
-    return (_auth._sessionID);
+    return (_id);
   }
 
   void					Client::permissions(database::Rights perm)

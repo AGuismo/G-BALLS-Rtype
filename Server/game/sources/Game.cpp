@@ -13,6 +13,7 @@
 #include "Entity.h"
 #include "Bonus.h"
 #include "VictoryRequest.h"
+#include "LooseRequest.h"
 
 Game::Game(std::list<game::Client *> &players)
 {
@@ -24,10 +25,12 @@ Game::Game(std::list<game::Client *> &players)
   _clock.start();
   _timer.tv_sec = 0;
   _timer.tv_usec = rtype::Env::gameDelay;
+  std::cout << "Bienvenue dans la faille de l'invocateur" << std::endl;
 }
 
 Game::~Game()
 {
+	std::cout << "A Game has just finished" << std::endl;
 }
 
 void	Game::randBonnus(Entity &a)
@@ -227,24 +230,13 @@ void	Game::playerUpdate()
 {
   std::list<game::Client *>::iterator itm = _players.begin();
 
-  for (itm = _players.begin(); itm != _players.end();)
+  for (itm = _players.begin(); itm != _players.end(); )
     {
       (*itm)->update(*this);
-      if (!Referee::isOnScreen((*itm)->_player) || Referee::isCollision((*itm)->_player, *this))
-	{
-	  if ((*itm)->_player->_extraLife == true)
-	    {
-	      (*itm)->_player->_extraLife = false;
-	      itm++;
-	    }
+	  if ((*itm)->hasLeft())
+		  itm = _players.erase(itm);
 	  else
-	    {
-	      itm = _players.erase(itm);
-	      break;
-	    }
-	}
-      else
-	itm++;
+		  itm++;
     }
 }
 
@@ -301,6 +293,7 @@ void	Game::pushBoss()
 
 void	Game::update()
 {
+	std::cout << "GAME UPDATE" << std::endl;
 	playerUpdate();
 	iaUpdate();
 	wallUpdate();
@@ -310,6 +303,8 @@ void	Game::update()
 	if (rtype::Env::BOSS_DELAY <= _clock.getTotalElapsedTime())
 		pushBoss();
 	popIA();
+	if (Referee::asAlivePlayers(*this) == false)
+		pushRequest(new LooseRequest());
 	DispatchRequest();
 	_timer.tv_usec = rtype::Env::gameDelay;
 }

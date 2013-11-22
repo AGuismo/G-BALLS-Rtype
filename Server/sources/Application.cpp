@@ -113,7 +113,7 @@ void	Application::newGame(menu::Game *game)
 
       appIt = std::find_if(_clients.begin(), _clients.end(), PredicateMenuClient(*menuIt));
       clients.push_back(&(*appIt)->game());
-    }
+  }
   _gameOutput.push(new Callback<game::Manager, Game>(&_gameManager, new Game(clients),
 						     &game::Manager::newGame));
 }

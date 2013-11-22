@@ -26,7 +26,7 @@ bool	MenuWindow::load()
 {
   try
     {
-      TextureManager::getInstance().addTexture("Background1", "Images/Menu/background1.png");
+      TextureManager::getInstance().addTexture("Background1", "./Images/Menu/background1.png");
       TextureManager::getInstance().addTexture("Background2", "Images/Menu/background2.png");
       TextureManager::getInstance().addTexture("Formu", "Images/Menu/form.png");
       TextureManager::getInstance().addTexture("Title", "Images/Menu/title.png");
@@ -142,7 +142,7 @@ void	MenuWindow::drawMenu()
     tmp = new Text("Font/NEUROPOL.ttf", "LoginText", this->_event, sf::Vector2i(525, 410), sf::Vector2i(520, 415), sf::Vector2i(760, 445), 10, true, InfosUser::getInstance().authenticate.login);
 
   tmp2 = new Text("Font/NEUROPOL.ttf", "PasswordText", this->_event, sf::Vector2i(525, 515), sf::Vector2i(520, 415), sf::Vector2i(760, 445), 10, false, "Password");
-  if (this->_backgroundPtr == NULL)
+  if (this->_backgroundPtr == 0)
     this->_backgroundPtr = new Background();
   this->_listImage.push_back(new Image("Title", sf::Vector2i(370, 60)));
   this->_listImage.push_back(new Image("Formu", sf::Vector2i(370, 175)));

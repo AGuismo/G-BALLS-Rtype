@@ -41,8 +41,8 @@ bool	Referee::isOnScreen(const Entity *a)
 
 	for (ita = a->_pos.begin(); ita != a->_pos.end(); ita++)
 	{
-		if ((*ita) + 1 != (*itprev) ||
-			(*ita) - 1 != (*itprev) ||
+		if ((*ita) + 1 != (*itprev) &&
+			(*ita) - 1 != (*itprev) &&
 			(*ita) != (*itprev))
 			return false;
 		itprev++;
@@ -216,6 +216,8 @@ bool		Referee::bonusCollision(Entity *a, Game &game)
 
 bool		Referee::bossCollision(Entity *a, Game &game)
 {
+	if (!game._titan)
+		return false;
 	if (a->_type != game::IA && a->_type != game::MISSILE &&
 		sameCase(a, game._titan) == true)
 	{
@@ -255,3 +257,16 @@ bool		Referee::isCollision(Entity *a, Game &game)
   bonusCollision(a, game);
   return false;
 }
+
+bool		Referee::asAlivePlayers(Game &game)
+{
+	std::list<game::Client *>::iterator it;
+
+	for (it = game.clients().begin(); it != game.clients().end(); it++)
+	{
+		if ((*it)->alive() == true)
+			return true;
+	}
+	return false;
+}
+

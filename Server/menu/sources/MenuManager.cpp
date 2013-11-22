@@ -183,7 +183,7 @@ namespace	menu
 	    client->authenticated(true);
 
 	    requestCode::SessionID id = SessionRequest::Unique();
-	    client->sessionID(id);
+		client->sessionID(id);
 
 	    client->requestPush(new ServerRequest(requestCode::server::OK));
 	    client->requestPush(new SessionRequest(client->sessionID()));

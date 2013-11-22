@@ -103,7 +103,7 @@ Player::Player(ObjType type, int id, int pos, LookDirection ld, sf::Texture *tex
 	_image.setTexture(*text);
 	_image.setTextureRect(sf::IntRect(132, _indexSprite, 68, 38));
 	_image.setPosition((float)Game::POSX(_cCurPos), (float)Game::POSY(_cCurPos));
-	_mvtTime = 0.22f;
+	_mvtTime = 0.25f;
 	_timerMvt = new Timer(new sf::Time(sf::seconds(_mvtTime)));
 	_gameWindow = gameWindow;
 	_act = false;

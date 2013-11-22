@@ -78,7 +78,6 @@ namespace	menu
       bool				_authenticated;
       std::string			_username;
       requestCode::PasswordType		_password;
-      requestCode::SessionID		_sessionID;
       database::Rights			_permissions;
     }					_auth;
   };
