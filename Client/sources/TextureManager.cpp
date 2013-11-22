@@ -5,10 +5,10 @@
 // Login   <brigno@epitech.net>
 //
 // Started on  Tue Nov  5 22:24:09 2013 brigno
-// Last update Wed Nov  6 02:04:07 2013 brigno
+// Last update Thu Nov 21 22:02:56 2013 lambert kevin
 //
 
-#include	<windows.h>
+// #include	<windows.h>
 #include	"TextureManager.hh"
 #include	"Texture.hh"
 
