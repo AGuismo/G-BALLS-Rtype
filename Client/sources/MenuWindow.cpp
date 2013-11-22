@@ -122,7 +122,7 @@ MenuWindow::~MenuWindow()
 
 void	MenuWindow::drawMenu()
 {
-  Text *tmp;
+  Text *tmp = 0;
   Text *tmp2;
   int flag = 0;
 
