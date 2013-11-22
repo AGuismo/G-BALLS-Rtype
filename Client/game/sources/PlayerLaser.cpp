@@ -1,8 +1,7 @@
-#include	"Player.h"
-#include	"game.h"
+#include		"PlayerLaser.h"
+#include		"game.h"
 
-
-void						Player::draw(void)
+void						PlayerLaser::draw(void)
 {
 
 	if ((_vCurPos.x == _vNextPos.x && _vCurPos.y == _vNextPos.y) ||
@@ -14,12 +13,10 @@ void						Player::draw(void)
 		_vCurPos.x = (float)Game::POSX(_cCurPos);
 		_vCurPos.y = (float)Game::POSY(_cCurPos);
 		_vNextPos = _vCurPos;
-		_image.setTextureRect(sf::IntRect(132, _indexSprite, 68, 38)); // nothing pos
-		_image.setPosition((float)Game::POSX(_cCurPos), (float)Game::POSY(_cCurPos));
+		_image.setPosition((float)Game::POSX(_cCurPos) + 15.0f, (float)Game::POSY(_cCurPos) + 8.0f);
 	}
 	else if (_act)
 	{
-		findAnimation();
 		if (_vCurPos.x < _vNextPos.x)
 			_vCurPos.x += (_vLag * Game::OBJ_DEC_X_FRAME);
 		if (_vCurPos.x > _vNextPos.x)
@@ -28,26 +25,39 @@ void						Player::draw(void)
 			_vCurPos.y += (_vLag * Game::OBJ_DEC_Y_FRAME);
 		if (_vCurPos.y > _vNextPos.y)
 			_vCurPos.y -= (_vLag * Game::OBJ_DEC_Y_FRAME);
-		_image.setPosition(_vCurPos.x, _vCurPos.y);
-		switch (_action)
+		_image.setPosition(_vCurPos.x +15.0f, _vCurPos.y +8.0f);
+		switch (_ld)
 		{
-		case Up:
-			_image.setTextureRect(sf::IntRect(264, _indexSprite, 68, 38));
+		case East:
+			_image.setTextureRect(sf::IntRect(565, 115, 35, 24));
 			break;
-		case Down:
-			_image.setTextureRect(sf::IntRect(0, _indexSprite, 68, 38));
+		case West:
+			_image.setTextureRect(sf::IntRect(600, 115, 35, 24));
+			break;
+		case NorthEast:
+			_image.setTextureRect(sf::IntRect(530, 186, 35, 24));
+			break;
+		case SouthEast:
+			_image.setTextureRect(sf::IntRect(565, 186, 35, 24));
+			break;
+		case SouthWest:
+			_image.setTextureRect(sf::IntRect(600, 186, 35, 24));
+			break;
+		case NorthWest:
+			_image.setTextureRect(sf::IntRect(635, 186, 35, 24));
 			break;
 		default:
-			_image.setTextureRect(sf::IntRect(132, _indexSprite, 68, 38));
+			_image.setTextureRect(sf::IntRect(565, 115, 35, 24));
 			break;
 		}
 	}
 	_gameWindow->draw(_image);
 }
 
-void			Player::update(LookDirection lDir, int updtatedPos)
+
+void			PlayerLaser::update(LookDirection lDir, int updtatedPos)
 {
-  (void)lDir;
+	_ld = lDir;
 	if (updtatedPos != Game::UNCHANGED)
 	{
 		_cNextPos = updtatedPos;
@@ -71,7 +81,7 @@ void			Player::update(LookDirection lDir, int updtatedPos)
 }
 
 
-Player::Player(ObjType type, int id, int pos, LookDirection ld, sf::Texture *text, sf::RenderWindow *gameWindow)
+PlayerLaser::PlayerLaser(ObjType type, int id, int pos, LookDirection ld, sf::Texture *text, sf::RenderWindow *gameWindow)
 {
 	_type = type;
 	_id = id;
@@ -82,27 +92,8 @@ Player::Player(ObjType type, int id, int pos, LookDirection ld, sf::Texture *tex
 	_alive = true;
 	_vCurPos = sf::Vector2f((float)Game::POSX(_cCurPos), (float)Game::POSY(_cCurPos));
 	_vNextPos = sf::Vector2f((float)Game::POSX(_cCurPos), (float)Game::POSY(_cCurPos));
-	_indexSprite = 0;
-	switch (type)
-	{
-	case PLAYER1:
-		_indexSprite = 0;
-		break;
-	case PLAYER2:
-		_indexSprite = 34;
-		break;
-	case PLAYER3:
-		_indexSprite = 68;
-		break;
-	case PLAYER4:
-		_indexSprite = 102;
-		break;
-	default:
-		break;
-	}
 	_image.setTexture(*text);
-	_image.setTextureRect(sf::IntRect(132, _indexSprite, 68, 38));
-	_image.setPosition((float)Game::POSX(_cCurPos), (float)Game::POSY(_cCurPos));
+	_image.setTextureRect(sf::IntRect(565, 115, 35, 24));
 	_mvtTime = 0.25f;
 	_timerMvt = new Timer(new sf::Time(sf::seconds(_mvtTime)));
 	_gameWindow = gameWindow;
