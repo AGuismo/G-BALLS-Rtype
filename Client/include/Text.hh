@@ -5,7 +5,7 @@
 // Login   <brigno@epitech.net>
 //
 // Started on  Thu Oct 24 10:55:11 2013 brigno
-// Last update Wed Nov 20 19:45:08 2013 brigno
+// Last update Thu Nov 21 20:45:58 2013 brigno
 //
 
 #ifndef		__TEXT_HH__
@@ -28,23 +28,29 @@ private:
   sf::Text	_text;
   std::string	_fontPath;
   std::size_t	_sizeLimit;
+  int		_flag;
 
 public:
   Text(const std::string &fontPath, const std::string &name, const sf::Event &, const sf::Vector2i &posTopLeft,
        const sf::Vector2i &focusTopLeft, const sf::Vector2i &focusBotRight, const size_t &size, const bool &enable);
+  Text(const std::string &fontPath, const std::string &name, const sf::Event &, const sf::Vector2i &posTopLeft,
+       const sf::Vector2i &focusTopLeft, const sf::Vector2i &focusBotRight, const size_t &size, const bool &enable, const std::string &);
+  Text	&operator=(const Text &other);
 
 private:
   Text(const Text &other);
-  Text	operator=(const Text &other);
 
 public:
   const sf::Font	&getFont(void) const;
-  const std::string	&getText(void) const;
-  const int		&getId(void) const;
+  const std::string	&getTmp(void) const;
+  const sf::Text	&getText(void) const;
   const bool		&getEnable(void) const;
+  const int		&getCursor(void) const;
   const std::size_t	&getSizeLimit(void) const;
   const sf::String	&getSentence(void) const;
-  const std::string	&getfontPath(void) const;
+  const sf::String	&getSentenceTmp(void) const;
+  const std::string	&getFontPath(void) const;
+  const int		&getFlag(void) const;
   void			clearText(void);
   MenuWindow::Status	onFocus(void);
   void			stopFocus(void);

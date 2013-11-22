@@ -5,7 +5,7 @@
 // Login   <brigno@epitech.net>
 //
 // Started on  Tue Nov 19 13:02:42 2013 brigno
-// Last update Wed Nov 20 20:49:02 2013 brigno
+// Last update Fri Nov 22 00:09:44 2013 brigno
 //
 
 #ifndef		__CHECKBOX_HH__
@@ -22,7 +22,7 @@ class		CheckBox : public AWidget
   int		_nb;
 
 public:
-  CheckBox(const sf::Event &, const std::string &name, const sf::Vector2i &posTopLeft, const sf::Vector2i &focusTopLeft, const sf::Vector2i &focusBotRight, int nb);
+  CheckBox(const sf::Event &, const std::string &name, const sf::Vector2i &posTopLeft, const sf::Vector2i &focusTopLeft, const sf::Vector2i &focusBotRight, int nb, bool defaut);
   ~CheckBox();
 
 private:

@@ -16,7 +16,8 @@ SRCS =	      	main.cpp		\
 		TextBlock.cpp		\
 		Text.cpp		\
 		Texture.cpp		\
-		TextureManager.cpp
+		TextureManager.cpp	\
+		InfosUser.cpp		\
 
 DIR.THREAD=	../libraries/Thread/Threads
 DIR.BIND=	../libraries/Bind

@@ -5,7 +5,7 @@
 // Login   <brigno@epitech.net>
 //
 // Started on  Tue Nov 19 21:10:46 2013 brigno
-// Last update Wed Nov 20 19:59:39 2013 brigno
+// Last update Fri Nov 22 03:44:18 2013 brigno
 //
 
 #ifndef		__LINESERVER_HH__
@@ -46,6 +46,7 @@ public:
   const sf::Sprite				&getImage(void) const;
   const	bool					&getLock(void) const;
   const int					&getFocus(void) const;
+  const std::string				&getGame(void) const;
   MenuWindow::Status				onFocus(void);
   void						stopFocus(void);
   void						onHover(void);

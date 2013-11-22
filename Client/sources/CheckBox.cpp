@@ -5,7 +5,7 @@
 // Login   <brigno@epitech.net>
 //
 // Started on  Thu Oct 31 16:22:29 2013 brigno
-// Last update Wed Nov 20 21:04:14 2013 brigno
+// Last update Fri Nov 22 00:18:53 2013 brigno
 //
 
 #include	"CheckBox.hh"
@@ -13,10 +13,11 @@
 #include	"TextureManager.hh"
 #include	"Texture.hh"
 
-CheckBox::CheckBox(const sf::Event &ev, const std::string &name, const sf::Vector2i &posTopLeft, const sf::Vector2i &focusTopLeft, const sf::Vector2i &focusBotRight, int nb) :
+CheckBox::CheckBox(const sf::Event &ev, const std::string &name, const sf::Vector2i &posTopLeft, const sf::Vector2i &focusTopLeft, const sf::Vector2i &focusBotRight, int nb, bool defaut) :
   AWidget(ev, name, posTopLeft, focusTopLeft, focusBotRight, AWidget::CHECKBOX)
 {
   sf::Vector2f posZone;
+
 
   posZone.x = posTopLeft.x;
   posZone.y = posTopLeft.y;
@@ -25,6 +26,8 @@ CheckBox::CheckBox(const sf::Event &ev, const std::string &name, const sf::Vecto
   this->_nb = nb;
   this->_image.setTexture(TextureManager::getInstance().getTexture("CheckBox")->getTexture());
   this->_image.setPosition(posZone.x, posZone.y);
+  if (defaut == true)
+    this->onFocus();
 }
 
 CheckBox::~CheckBox()
@@ -63,15 +66,38 @@ void			CheckBox::setStates(int state)
 
 void			CheckBox::clearCheck()
 {
-  dynamic_cast<CheckBox*>(Interface::getInstance().getWidget("CheckOnePlayer"))->setStates(0);
-  dynamic_cast<CheckBox*>(Interface::getInstance().getWidget("CheckTwoPlayer"))->setStates(0);
-  dynamic_cast<CheckBox*>(Interface::getInstance().getWidget("CheckThreePlayer"))->setStates(0);
-  dynamic_cast<CheckBox*>(Interface::getInstance().getWidget("CheckFourPlayer"))->setStates(0);
-  dynamic_cast<CheckBox*>(Interface::getInstance().getWidget("CheckOnePlayer"))->_image.setTexture(TextureManager::getInstance().getTexture("CheckBox")->getTexture());
-  dynamic_cast<CheckBox*>(Interface::getInstance().getWidget("CheckTwoPlayer"))->_image.setTexture(TextureManager::getInstance().getTexture("CheckBox")->getTexture());
-  dynamic_cast<CheckBox*>(Interface::getInstance().getWidget("CheckThreePlayer"))->_image.setTexture(TextureManager::getInstance().getTexture("CheckBox")->getTexture());
-  dynamic_cast<CheckBox*>(Interface::getInstance().getWidget("CheckFourPlayer"))->_image.setTexture(TextureManager::getInstance().getTexture("CheckBox")->getTexture());
+  CheckBox *CheckBox1;
+  CheckBox *CheckBox2;
+  CheckBox *CheckBox3;
+  CheckBox *CheckBox4;
 
+
+
+  CheckBox1 = dynamic_cast<CheckBox*>(Interface::getInstance().getWidget("CheckOnePlayer"));
+  CheckBox2 = dynamic_cast<CheckBox*>(Interface::getInstance().getWidget("CheckTwoPlayer"));
+  CheckBox3 = dynamic_cast<CheckBox*>(Interface::getInstance().getWidget("CheckThreePlayer"));
+  CheckBox4 = dynamic_cast<CheckBox*>(Interface::getInstance().getWidget("CheckFourPlayer"));
+
+  if (CheckBox1 != NULL)
+    {
+      CheckBox1->setStates(0);
+      CheckBox1->_image.setTexture(TextureManager::getInstance().getTexture("CheckBox")->getTexture());
+    }
+  if (CheckBox2 != NULL)
+    {
+      CheckBox2->setStates(0);
+      CheckBox2->_image.setTexture(TextureManager::getInstance().getTexture("CheckBox")->getTexture());
+    }
+  if (CheckBox3 != NULL)
+    {
+      CheckBox3->setStates(0);
+      CheckBox3->_image.setTexture(TextureManager::getInstance().getTexture("CheckBox")->getTexture());
+    }
+  if (CheckBox4 != NULL)
+    {
+      CheckBox4->setStates(0);
+      CheckBox4->_image.setTexture(TextureManager::getInstance().getTexture("CheckBox")->getTexture());
+    }
 }
 
 AScreen::Status		CheckBox::onFocus()
