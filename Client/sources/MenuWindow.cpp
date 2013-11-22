@@ -264,8 +264,8 @@ void	MenuWindow::drawLobby()
   this->_listImage.push_back(new Image("FondLobby", sf::Vector2f(0, 55)));
   this->_listImage.push_back(new Image("MsgChat", sf::Vector2f(820, 200)));
   this->_listImage.push_back(new Image("ListServer", sf::Vector2f(50, 195)));
-  int x = 62;
-  int y = 243;
+  float x = 62.;
+  float y = 243.;
 
   this->_listWidget.push_back(new LineServer("Server:", this->_event, sf::Vector2f(x, y), sf::Vector2f(x + 7, y + 6), sf::Vector2f(x + 686, y + 26), "Poil", "2/4", true));
   y += 20;
@@ -335,7 +335,7 @@ void	MenuWindow::drawLobbyWait(int owner)
   this->_listImage.push_back(new Image("TextWait", sf::Vector2f(80, 220)));
   //demander le nombre de joueur connecter
 
-  int posX = 150;
+  float posX = 150;
   int i = 0;
   for (i = 0; i < nbPlayer; i++)
     {
@@ -615,14 +615,14 @@ int	MenuWindow::catchEvent()
 	case sf::Event::MouseButtonPressed:
 	  if (this->_objectFocus != 0)
 	    this->_objectFocus->stopFocus();
-	  this->_objectFocus = returnMouseFocus(this->_event.mouseButton.x, this->_event.mouseButton.y);
+	  this->_objectFocus = returnMouseFocus((float)this->_event.mouseButton.x, (float)this->_event.mouseButton.y);
 	  if (this->_objectFocus != 0)
 	    this->_status = this->_objectFocus->onFocus();
 	  break;
 	case sf::Event::MouseMoved:
 	  if (this->_objectHover != 0)
 	    this->_objectHover->stopHover();
-	  this->_objectHover = returnMouseFocus(this->_event.mouseMove.x, this->_event.mouseMove.y);
+	  this->_objectHover = returnMouseFocus((float)this->_event.mouseMove.x, (float)this->_event.mouseMove.y);
 	  if (this->_objectHover != 0)
 	    this->_objectHover->onHover();
 	  break;
@@ -630,7 +630,7 @@ int	MenuWindow::catchEvent()
 	  if (this->_objectFocus != 0)
 	    {
 	      this->_objectFocus->stopFocus();
-	      this->_objectFocus = returnMouseFocus(this->_event.mouseButton.x, this->_event.mouseButton.y);
+		  this->_objectFocus = returnMouseFocus((float)this->_event.mouseButton.x, (float)this->_event.mouseButton.y);
 	      if (this->_objectFocus != 0)
 		this->_objectFocus->stopFocus();
 	    }
