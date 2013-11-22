@@ -11,21 +11,20 @@
 
 namespace	game
 {
-  Client::Client(requestCode::SessionID &id):
-    _alive(true), _updateToLive(0), _used(false), _id(id)
+	Client::Client(requestCode::SessionID &id) :
+		_alive(true), _updateToLive(0), _used(false), _id(id), _hasLeft(false)
   {
 	  std::cout << "game::client created" << std::endl;
   }
 
   Client::Client(requestCode::SessionID &id, struct sockaddr_in addr) :
-    _alive(true), _updateToLive(0), _used(false), _addr(addr), _id(id)
+	  _alive(true), _updateToLive(0), _used(false), _addr(addr), _id(id), _hasLeft(false)
   {
 	  std::cout << "game::client created" << std::endl;
   }
 
   Client::~Client()
   {
-
   }
 
   void			Client::alive(const bool &state)
@@ -44,9 +43,8 @@ namespace	game
     bool	move = false;
     bool	fire = false;
 
-	std::cout << "UPDATING" << std::endl;
-    do {
-      req = _input.requestPop();
+	while ((req = _input.requestPop()) != 0)
+	{
       EventRequest	*ev;
       AliveRequest	*al;
 	  LeaveRequest	*lv;
@@ -75,19 +73,21 @@ namespace	game
     	    }
     	}
 	  else if ((al = dynamic_cast<AliveRequest *>(req)))
+	  {
 		  _updateToLive = -1;
+	  }
 	  else if ((lv = dynamic_cast<LeaveRequest *>(req)))
 	  {
-		  for (int i = 0; i != 50; i++)
-			  std::cout << "LEAVING" << std::endl;
 		  _alive = false;
+		  _hasLeft = true;
 		  game.pushRequest(new DeathRequest(_player->_id));
 	  }
-    } while (req);
+    }
     _updateToLive++;
 	if (_updateToLive == rtype::Env::updateToLive)
 	{
 		_alive = false;
+		_hasLeft = true;
 		game.pushRequest(new DeathRequest(_player->_id));
 	}
   }
@@ -100,6 +100,16 @@ namespace	game
   ARequest	*Client::requestPop()
   {
     return (_input.requestPop());
+  }
+
+  ARequest	*Client::requestPopOutput()
+  {
+	  return (_output.requestPop());
+  }
+
+  void		Client::requestPushInput(ARequest *req)
+  {
+	  _input.requestPush(req);
   }
 
   void		Client::requestPush(ARequest *req)

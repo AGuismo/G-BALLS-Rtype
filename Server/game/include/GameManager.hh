@@ -56,7 +56,7 @@ namespace	game
 				   AGameRequest *&request);
 
   public:
-    void	newGame(Game *);
+    void		newGame(Game *);
 
   private:
     void		update();

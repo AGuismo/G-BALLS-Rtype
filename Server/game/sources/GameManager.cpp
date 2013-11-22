@@ -82,10 +82,10 @@ namespace	game
       return;
     it = std::find_if(_gameClients.begin(), _gameClients.end(), predicate(req->SessionID()));
     if (it != _gameClients.end())
-      {
-	(*it)->setAddr(_server.getClientAddr());
-	(*it)->requestPush(req);
-      }
+	{
+		(*it)->setAddr(_server.getClientAddr());
+		(*it)->requestPushInput(req);
+	}
 	_server.read(false);
   }
 
@@ -98,16 +98,18 @@ namespace	game
 		it++)
 	{
 		_server.setClientAddr((*it)->getAddr());
-		while (ARequest *req = (*it)->requestPop())
+		while (ARequest *req = (*it)->requestPopOutput())
 		{
 			std::vector<cBuffer::Byte> buf;
 
 			buf = Protocol::product(*req);
 			_server.writeIntoBuffer(buf, buf.size());
 			_server.send();
+			std::cout << "A Request is just sent" << std::endl;
 		}
 	}
 	_server.monitor(true, false);
+	_server.write(false);
   }
 
   void			Manager::updateGameClocks(Clock::clock_time time)
@@ -117,6 +119,8 @@ namespace	game
 	  for (it = _games.begin(); it != _games.end(); it++)
 	  {
 		  (*it)->timer().tv_usec -= time;
+		  if ((*it)->timer().tv_usec < 0)
+			  (*it)->timer().tv_usec = 0;
 	  }
   }
 
@@ -148,11 +152,9 @@ namespace	game
 
   void		Manager::update()
   {
-	  std::cout << "Cheking" << std::endl;
+	  std::cout << "Manager::Update" << std::endl;
 	  if (!_games.empty())
 	  {
-		  std::cout << "true" << std::endl;
-
 		  Game *game = _games.front();
 
 		  _games.pop_front();
@@ -160,6 +162,7 @@ namespace	game
 		  {
 			  game->update();
 			  _games.push_back(game);
+			  std::cout << "Client::size = " << game->clients().size() << std::endl;
 		  }
 		  else
 			delete game;
@@ -174,23 +177,24 @@ namespace	game
 	  while (true)
 	  {
 		  self->_clock.update();
-
+		  self->updateGameClocks(self->_clock.getElapsedTime());
 		  if (!self->_games.empty())
 		  {
-			  std::cout << "Selecting for " << self->_games.front()->timer().tv_sec << " sec and " << self->_games.front()->timer().tv_usec << std::endl;
+			  //std::cout << "Selecting for " << self->_games.front()->timer().tv_sec << " sec and " << self->_games.front()->timer().tv_usec << std::endl;
 			  self->_monitor.setOption(net::streamManager::TIMEOUT, self->_games.front()->timer());
 		  }
 		  else
 			  self->_monitor.unsetOption(net::streamManager::TIMEOUT);
-		  std::cout << "selecting ..." << std::endl;
+		  //std::cout << "selecting ..." << std::endl;
 		  self->_monitor.run(); /* Surcouche du select() */
-		  std::cout << "Done ..." << std::endl;
+		  //std::cout << "Done ..." << std::endl;
 		  self->_clock.update();
+		  self->updateGameClocks(self->_clock.getElapsedTime());
 		  time = self->_clock.getElapsedTime();
 		  self->updateCallback();
 		  if (self->_server.read() || self->_server.write())
 		  {
-			  std::cout << "Action to do" << std::endl;
+			  //std::cout << "Action to do" << std::endl;
 			  try
 			  {
 				  if (self->_server.read())
@@ -205,7 +209,7 @@ namespace	game
 		  }
 		  else
 		  {
-			  std::cout << "Auto Exit" << std::endl;
+			  //std::cout << "Auto Exit" << std::endl;
 			  self->update();
 			  self->_server.monitor(true, true);
 		  }
