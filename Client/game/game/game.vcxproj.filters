@@ -81,6 +81,15 @@
     <ClInclude Include="..\include\BydosLaser.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
+    <ClInclude Include="..\include\ZogZog.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\ShrimpBoss.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\GarbageBoss.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\sources\Animation.cpp">
@@ -132,6 +141,15 @@
       <Filter>Fichiers sources</Filter>
     </ClCompile>
     <ClCompile Include="..\sources\BydosLaser.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\include\ZogZog.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\sources\ShrimpBoss.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\sources\GarbageBoss.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
   </ItemGroup>

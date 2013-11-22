@@ -74,7 +74,7 @@ BydosPlasma::BydosPlasma(ObjType type, int id, int pos, LookDirection ld, sf::Te
 	_gameWindow = gameWindow;
 	_act = false;
 	_action = Nothing;
-	_plasmaAnimation = new Animation(0.05f);
+	_plasmaAnimation = new Animation(0.1f);
 	_image.setTextureRect(sf::IntRect(267, 6, 25, 20));
 	_plasmaAnimation->addFrame(sf::IntRect(267, 6, 25, 20));
 	_plasmaAnimation->addFrame(sf::IntRect(299, 6, 25, 20));

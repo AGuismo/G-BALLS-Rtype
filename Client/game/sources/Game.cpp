@@ -41,6 +41,13 @@ bool							Game::load(void)
 		return false;
 	if (!_textureManager.addTexture(BYDOS_LASER, std::string("./Images/r-typesheet43.png")))
 		return false;
+	if (!_textureManager.addTexture(ZOGZOG, std::string("./Images/r-typesheet24.png")))
+		return false;
+	if (!_textureManager.addTexture(SHRIMP_BOSS, std::string("./Images/r-typesheet30.png")))
+		return false;
+	if (!_textureManager.addTexture(GARBAGE_BOSS, std::string("./Images/r-typesheet38.png")))
+		return false;
+
 
 	if (!_layerManager.addLayer(LAYER1, LAYER_1, new sf::Vector2f(0.0f, 0.0f), new sf::Vector2f(2560.0f, 0.0f), new sf::Vector2f(-2560.0f, 0.0f), new sf::Vector2f(1.0f, 0.0f), NULL, true))
 		return false;
@@ -99,10 +106,10 @@ void							Game::run(void)
 	addObj(PLAYER2, 20, 40);
 	addObj(PLAYER3, 77, 10);
 	addObj(PLAYER4, 48, 200);
-	addObj(BYDOS_LASER, 4877, 0);
-	addObj(BYDOS_LASER, 4877, 100);
-	addObj(BYDOS_LASER, 44, 15);
-	addObj(BYDOS_LASER, 4877, 255);
+//	addObj(GARBAGE_BOSS, 4877, 0);
+	addObj(ZOGZOG, 4877, 100);
+	addObj(GARBAGE_BOSS, 44, 15);
+	addObj(ZOGZOG, 4877, 255);
 	addObj(SBYDOS1, 455, 140);
 
 	_audioManager.play(AGAME_MUSIC);
@@ -152,7 +159,7 @@ void							Game::run(void)
 					if (_playerFireLock.isEnded())
 					{
 						_audioManager.play(APLAYER_LASER);
-						delObj(455);
+						delObj(44);
 						_playerFireLock.restart();
 					}
 					break;
@@ -290,6 +297,12 @@ bool						Game::delObj(int id)
 			break;
 		case SBYDOS1:
 			addObj(NORMAL_BANG, idBang, entity->getCaseCurPos());
+			_audioManager.play(ABYDOS_DESTRUCTION);
+		case GARBAGE_BOSS:
+			addObj(BIG_BANG, idBang, entity->getCaseCurPos() + 3);
+			addObj(BIG_BANG, ++idBang, entity->getCaseCurPos() + 18);
+			addObj(BIG_BANG, ++idBang, entity->getCaseCurPos() + 33);
+			addObj(BIG_BANG, ++idBang, entity->getCaseCurPos() + 48);
 			_audioManager.play(ABYDOS_DESTRUCTION);
 			break;
 		default:

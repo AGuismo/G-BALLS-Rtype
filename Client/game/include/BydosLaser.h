@@ -1,5 +1,6 @@
 #ifndef BYDOSLASER_
 # define	BYDOSLASER_
+
 # include	"AObject.h"
 # include	"Animation.h"
 

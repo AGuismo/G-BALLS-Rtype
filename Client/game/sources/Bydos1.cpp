@@ -28,23 +28,24 @@ void						Bydos1::draw(void)
 		if (_vCurPos.y > _vNextPos.y)
 			_vCurPos.y -= (_vLag * Game::OBJ_DEC_Y_FRAME);
 		_image.setPosition(_vCurPos.x, _vCurPos.y);
-		switch (_action)
-		{
-		case Up:
-			_image.setTextureRect(_leftAnimation->getFrame());
-			break;
-		case Down:
-			_image.setTextureRect(_leftAnimation->getFrame());
-			break;
-		case Left:
-			_image.setTextureRect(_leftAnimation->getFrame());
-			break;
-		case Right:
-			_image.setTextureRect(_rightAnimation->getFrame());
-			break;
-		default:
-			break;
-		}
+	}
+	switch (_action)
+	{
+	case Up:
+		_image.setTextureRect(_leftAnimation->getFrame());
+		break;
+	case Down:
+		_image.setTextureRect(_leftAnimation->getFrame());
+		break;
+	case Left:
+		_image.setTextureRect(_leftAnimation->getFrame());
+		break;
+	case Right:
+		_image.setTextureRect(_rightAnimation->getFrame());
+		break;
+	default:
+		_image.setTextureRect(_leftAnimation->getFrame());
+		break;
 	}
 	_gameWindow->draw(_image);
 }
@@ -94,8 +95,8 @@ Bydos1::Bydos1(ObjType type, int id, int pos, LookDirection ld, sf::Texture *tex
 	_gameWindow = gameWindow;
 	_act = false;
 	_action = Nothing;
-	_leftAnimation = new Animation(0.05f);
-	_rightAnimation = new Animation(0.05f);
+	_leftAnimation = new Animation(0.14f);
+	_rightAnimation = new Animation(0.14f);
 	_leftAnimation->addFrame(sf::IntRect(0, 15, 66, 72));
 	_leftAnimation->addFrame(sf::IntRect(66, 15, 66, 72));
 	_leftAnimation->addFrame(sf::IntRect(132, 15, 66, 72));
