@@ -5,7 +5,7 @@
 // Login   <brigno@epitech.net>
 //
 // Started on  Thu Oct 24 11:44:54 2013 brigno
-// Last update Fri Nov 22 03:56:00 2013 brigno
+// Last update Fri Nov 22 04:50:43 2013 brigno
 //
 
 #include	"Text.hh"
@@ -14,11 +14,6 @@ Text::Text(const std::string &fontPath, const std::string &name, const sf::Event
 	   const sf::Vector2i &focusBotRight, const size_t &size, const bool &enable) :
   AWidget(ev, name, posTopLeft, focusTopLeft, focusBotRight, AWidget::TEXT)
 {
-  sf::Vector2f	posText;
-
-
-  posText.x = posTopLeft.x;
-  posText.y = posTopLeft.y;
   this->_cursor = 0;
   this->_flag = 0;
   if (!this->_font.loadFromFile(fontPath))
@@ -53,7 +48,7 @@ Text::Text(const std::string &fontPath, const std::string &name, const sf::Event
       this->_text = sf::Text(this->_sentence, this->_font, 24);
       this->_text.setColor(sf::Color(44, 127, 255));
     }
-  this->_text.move(posText);
+  this->_text.setPosition(posTopLeft.x, posTopLeft.y);
   this->_sizeLimit = size;
   this->_enable = enable;
 }

@@ -513,7 +513,7 @@ int	MenuWindow::checkAction()
       std::cout << "NB_PLAYER : [" << this->checkNbPlayer() << "]" << std::endl;
       // Envoyer une création de partie au serveur
       this->_status = CONTINUE;
-      this->drawLobbyWait(1);
+      // this->drawLobbyWait(1);
       break;
     case BACK_LOBY:
       this->drawLobby();

@@ -5,7 +5,7 @@
 // Login   <brigno@epitech.net>
 //
 // Started on  Thu Oct 31 16:22:29 2013 brigno
-// Last update Fri Nov 22 00:18:53 2013 brigno
+// Last update Fri Nov 22 04:51:57 2013 brigno
 //
 
 #include	"CheckBox.hh"
@@ -16,16 +16,11 @@
 CheckBox::CheckBox(const sf::Event &ev, const std::string &name, const sf::Vector2i &posTopLeft, const sf::Vector2i &focusTopLeft, const sf::Vector2i &focusBotRight, int nb, bool defaut) :
   AWidget(ev, name, posTopLeft, focusTopLeft, focusBotRight, AWidget::CHECKBOX)
 {
-  sf::Vector2f posZone;
-
-
-  posZone.x = posTopLeft.x;
-  posZone.y = posTopLeft.y;
   this->_name = name;
   this->_states = 0;
   this->_nb = nb;
   this->_image.setTexture(TextureManager::getInstance().getTexture("CheckBox")->getTexture());
-  this->_image.setPosition(posZone.x, posZone.y);
+  this->_image.setPosition(posTopLeft.x, posTopLeft.y);
   if (defaut == true)
     this->onFocus();
 }
