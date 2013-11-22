@@ -5,7 +5,7 @@
 // Login   <brigno@epitech.net>
 //
 // Started on  Wed Oct 23 19:56:30 2013 brigno
-// Last update Wed Nov  6 00:54:05 2013 brigno
+// Last update Fri Nov 22 05:05:33 2013 brigno
 //
 
 #ifndef		__IMAGE_HH__
@@ -18,14 +18,14 @@ class	Image
 {
 private:
   sf::Sprite		_image;
-  sf::Vector2i		_pos;
+  sf::Vector2f		_pos;
 
 public:
   const sf::Sprite		&getImage(void) const;
-  const sf::Vector2i		&getPos(void) const;
+  const sf::Vector2f		&getPos(void) const;
 
 public:
-  Image(const std::string &name, const sf::Vector2i &pos);
+  Image(const std::string &name, const sf::Vector2f &pos);
   ~Image();
 
 private:

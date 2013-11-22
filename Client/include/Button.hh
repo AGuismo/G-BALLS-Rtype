@@ -5,7 +5,7 @@
 // Login   <brigno@epitech.net>
 //
 // Started on  Thu Oct 31 16:23:44 2013 brigno
-// Last update Tue Nov 19 15:16:21 2013 brigno
+// Last update Fri Nov 22 05:05:33 2013 brigno
 //
 
 #ifndef		__BUTTON_HH__
@@ -18,12 +18,12 @@ class		Button : public AWidget
 private:
   MenuWindow::Status	_actionLink;
   sf::Sprite	_image;
-  sf::Vector2i	_pos;
+  sf::Vector2f	_pos;
   std::string	_name;
   bool		_enable;
 
 public:
-  Button(const sf::Event &, const std::string &name, const sf::Vector2i &posTopLeft, const sf::Vector2i &focusTopLeft, const sf::Vector2i &focusBotRight, MenuWindow::Status actionLink, bool enable);
+  Button(const sf::Event &, const std::string &name, const sf::Vector2f &posTopLeft, const sf::Vector2f &focusTopLeft, const sf::Vector2f &focusBotRight, MenuWindow::Status actionLink, bool enable);
   ~Button();
 
 private:
@@ -33,7 +33,7 @@ private:
 public:
   const MenuWindow::Status		&getActionLink(void) const;
   const sf::Sprite			&getSprite(void) const;
-  const sf::Vector2i			&getPos(void) const;
+  const sf::Vector2f			&getPos(void) const;
   const bool				&getEnable(void) const;
   MenuWindow::Status			onFocus(void);
   void					stopFocus(void);

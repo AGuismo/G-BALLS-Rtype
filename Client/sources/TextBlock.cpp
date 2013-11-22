@@ -5,13 +5,13 @@
 // Login   <brigno@epitech.net>
 //
 // Started on  Tue Nov 19 21:25:49 2013 brigno
-// Last update Tue Nov 19 23:56:19 2013 brigno
+// Last update Fri Nov 22 05:05:36 2013 brigno
 //
 
 #include	"TextBlock.hh"
 
-TextBlock::TextBlock(const std::string &name, const sf::Event &ev, const sf::Vector2i &posTopLeft,
-		     const sf::Vector2i &focusTopLeft, const sf::Vector2i &focusBotRight, const size_t &size) :
+TextBlock::TextBlock(const std::string &name, const sf::Event &ev, const sf::Vector2f &posTopLeft,
+		     const sf::Vector2f &focusTopLeft, const sf::Vector2f &focusBotRight, const size_t &size) :
   AWidget(ev, name, posTopLeft, focusTopLeft, focusBotRight, TEXTBLOCK), _size(size)
 {
   this->_pos.x = posTopLeft.x;

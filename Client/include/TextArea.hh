@@ -5,7 +5,7 @@
 // Login   <brigno@epitech.net>
 //
 // Started on  Mon Oct 28 14:11:06 2013 brigno
-// Last update Tue Nov 19 22:29:53 2013 brigno
+// Last update Fri Nov 22 05:05:32 2013 brigno
 //
 
 #ifndef		__TEXTAREA_HH__
@@ -22,12 +22,12 @@ private:
   sf::Texture	_texture;
   sf::Texture	_textureFocus;
   sf::Sprite	_image;
-  sf::Vector2i	_pos;
+  sf::Vector2f	_pos;
   Text		*_depsText;
 
 public:
-  TextArea(const sf::Event &, const std::string &name, Text &depsText, const sf::Vector2i &posTopLeft,
-	   const sf::Vector2i &focusTopLeft, const sf::Vector2i &focusBotRight);
+  TextArea(const sf::Event &, const std::string &name, Text &depsText, const sf::Vector2f &posTopLeft,
+	   const sf::Vector2f &focusTopLeft, const sf::Vector2f &focusBotRight);
   ~TextArea();
 
 private:
@@ -39,7 +39,7 @@ public:
   const int		&getId(void) const;
   const sf::Texture	&getTexture(void) const;
   const sf::Sprite	&getSprite(void) const;
-  const sf::Vector2i	&getPos(void) const;
+  const sf::Vector2f	&getPos(void) const;
   Text			*getDepsText(void);
   MenuWindow::Status	onFocus(void);
   void			stopFocus(void);
