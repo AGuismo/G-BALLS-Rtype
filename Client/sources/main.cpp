@@ -5,13 +5,15 @@
 // Login   <brigno@epitech.net>
 //
 // Started on  Wed Oct 23 12:59:21 2013 brigno
-// Last update Thu Nov 21 19:33:25 2013 lambert kevin
+// Last update Fri Nov 22 14:00:22 2013 lambert kevin
 //
 
 #include	"Application.hh"
 #include	"types.hh"
 
+#if defined(WIN32)
 template class __declspec(dllexport) std::vector<Ruint8>;
+#endif
 
 int	main()
 {
