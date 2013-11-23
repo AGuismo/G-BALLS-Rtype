@@ -5,12 +5,13 @@
 // Login   <brigno@epitech.net>
 //
 // Started on  Tue Nov 19 21:10:46 2013 brigno
-// Last update Fri Nov 22 05:05:32 2013 brigno
+// Last update Sat Nov 23 18:31:08 2013 brigno
 //
 
 #ifndef		__TEXTBLOCK_HH__
 # define	__TEXTBLOCK_HH__
 
+# include	<list>
 # include	"AWidget.hh"
 
 class		TextBlock : public AWidget
@@ -35,7 +36,7 @@ public:
   const size_t				&getSize(void) const;
   void					addText(const std::string &Msg);
   void					clearTextBlock(void);
-  MenuWindow::Status			onFocus(void);
+  AScreen::Status			onFocus(void);
   void					stopFocus(void);
   void					onHover(void);
   void					stopHover(void);

@@ -5,7 +5,7 @@
 // Login   <brigno@epitech.net>
 //
 // Started on  Thu Oct 31 16:22:29 2013 brigno
-// Last update Sat Nov 23 15:45:36 2013 brigno
+// Last update Sat Nov 23 18:21:50 2013 brigno
 //
 
 #include	"Button.hh"
@@ -49,7 +49,7 @@ AScreen::Status		Button::onFocus()
   else
     {
       this->_image.setTexture(TextureManager::getInstance().getTexture(this->_name + "Off" + "Focus")->getTexture());
-      return (MenuWindow::CONTINUE);
+      return (AScreen::CONTINUE);
     }
 }
 
