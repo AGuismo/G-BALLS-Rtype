@@ -12,7 +12,8 @@ private:
 
 public:
 	void				update(LookDirection lDir, int updatedPos);
-	virtual void		draw(void);
+	void				draw(void);
+	void				onDestruction(Game &game);
 
 public:
 	ShrimpBoss(ObjType obj, int id, int pos, LookDirection ld, sf::Texture *text, sf::RenderWindow *gameWindow);

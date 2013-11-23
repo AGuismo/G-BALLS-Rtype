@@ -81,3 +81,9 @@ GarbageBoss::GarbageBoss(ObjType type, int id, int pos, LookDirection ld, sf::Te
 	_GarbageBossAnimation.addFrame(sf::IntRect(0, 0, 364, 290));
 	_GarbageBossAnimation.addFrame(sf::IntRect(378, 0, 364, 290));
 }
+
+void				GarbageBoss::onDestruction(Game &game)
+{
+	game.addObj(BIG_BANG, Game::generateId(), _cCurPos);
+	AudioManager::getInstance().play(ABYDOS_BOSS_DESTRUCTION);
+}

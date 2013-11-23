@@ -109,3 +109,9 @@ Player::Player(ObjType type, int id, int pos, LookDirection ld, sf::Texture *tex
 	_act = false;
 	_action = Nothing;
 }
+
+void				Player::onDestruction(Game &game)
+{
+	game.addObj(BIG_BANG, Game::generateId(), _cCurPos);
+	AudioManager::getInstance().play(APLAYER_DESTRUCTION);
+}

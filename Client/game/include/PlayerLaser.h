@@ -8,7 +8,8 @@ class PlayerLaser : public AObject
 {
 public:
 	void				update(LookDirection lDir, int updatedPos);
-	virtual void		draw(void);
+	void				draw(void);
+	void				onDestruction(Game &game);
 
 public:
 	PlayerLaser(ObjType obj, int id, int pos, LookDirection ld, sf::Texture *text, sf::RenderWindow *gameWindow);

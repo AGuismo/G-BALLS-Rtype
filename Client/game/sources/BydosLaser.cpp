@@ -78,7 +78,8 @@ BydosLaser::BydosLaser(ObjType type, int id, int pos, LookDirection ld, sf::Text
 	_laserAnimation.addFrame(sf::IntRect(0, 80, 101, 14));
 	_laserAnimation.addFrame(sf::IntRect(100, 80, 100, 14));
 	_laserAnimation.addFrame(sf::IntRect(200, 80, 100, 14));
-/*	_laserAnimation.addFrame(sf::IntRect(299, 6, 25, 20));
-	_laserAnimation.addFrame(sf::IntRect(331, 6, 25, 20));
-	_laserAnimation.addFrame(sf::IntRect(364, 6, 26, 20));*/
+}
+
+void				BydosLaser::onDestruction(Game &game)
+{
 }

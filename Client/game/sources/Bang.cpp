@@ -63,3 +63,8 @@ Bang::Bang(ObjType type, int id, int pos, LookDirection ld, sf::Texture *text, s
 		break;
 	}
 }
+
+void				Bang::onDestruction(Game &game)
+{
+	(void)game;
+}

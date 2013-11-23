@@ -24,10 +24,14 @@ private:
 
 public:
 	AObject				*createObject(ObjType type, int id, int pos, LookDirection ld);
+	void				init(sf::RenderWindow *, game::TextureManager *);
 
 public:
-	Factory(sf::RenderWindow *gameWindow, game::TextureManager *TextureManager);
-	~Factory() {}
+	static Factory		&getInstance(void);
+
+private:
+	Factory();
+	~Factory();
 
 private:
 	Factory(const Factory &);

@@ -85,3 +85,9 @@ ZogZog::ZogZog(ObjType type, int id, int pos, LookDirection ld, sf::Texture *tex
 	_zogZogAnimation.addFrame(sf::IntRect(390, 0, 130, 132));
 	_zogZogAnimation.addFrame(sf::IntRect(520, 0, 130, 132));
 }
+
+void				ZogZog::onDestruction(Game &game)
+{
+	game.addObj(NORMAL_BANG, Game::generateId(), _cCurPos);
+	AudioManager::getInstance().play(ABYDOS_DESTRUCTION);
+}

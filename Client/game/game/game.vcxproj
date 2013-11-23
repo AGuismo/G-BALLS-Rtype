@@ -108,6 +108,7 @@
     <ClInclude Include="..\include\PlayerBlast.h" />
     <ClInclude Include="..\include\PlayerLaser.h" />
     <ClInclude Include="..\include\ShrimpBoss.h" />
+    <ClInclude Include="..\include\Slider.h" />
     <ClInclude Include="..\include\TextureManager.h" />
     <ClInclude Include="..\include\Timer.h" />
     <ClInclude Include="..\include\ZogZog.h" />
@@ -130,6 +131,7 @@
     <ClCompile Include="..\sources\PlayerLaser.cpp" />
     <ClCompile Include="..\sources\PlayerBlast.cpp" />
     <ClCompile Include="..\sources\ShrimpBoss.cpp" />
+    <ClCompile Include="..\sources\Slider.cpp" />
     <ClCompile Include="..\sources\TextureManager.cpp" />
     <ClCompile Include="..\sources\Timer.cpp" />
     <ClCompile Include="..\sources\ZogZog.cpp" />
