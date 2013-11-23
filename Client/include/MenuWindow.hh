@@ -24,7 +24,6 @@ public:
   typedef std::vector<AWidget*>	widget_list;
 
 private:
-  Background			*_backgroundPtr;
   image_list			_listImage;
   widget_list			_listWidget;
   AWidget			*_objectFocus;
@@ -32,7 +31,13 @@ private:
   LineServer			*_serverSelected;
   std::list<std::string>	_bufferChat;
   int				_flag;
-  sf::Music				_music;
+  sf::Music			_music;
+  int				_drawBackground;
+  sf::Sprite			_firstBackground;
+  sf::Sprite			_secondBackground;
+  sf::Vector2f			_firstPos;
+  sf::Vector2f			_secondPos;
+
 
 public:
   MenuWindow(sf::RenderWindow &window, network::Manager &network);
@@ -48,7 +53,6 @@ public:
   void					setListSprite(sf::Sprite);
   const image_list			&getListImage(void) const;
   const widget_list			&getListWidget(void) const;
-  Background				*getBackgroundPtr(void);
   const int				&getFocus(void) const;
   const std::vector<std::string>	&getBufferChat(void) const;
   void					tmp(const std::string &Msg);
@@ -71,6 +75,15 @@ public:
   void					update(void);
   AWidget				*returnMouseFocus(float x, float y);
   static bool				removeMsgChat(const AWidget *widget);
+  const sf::Vector2f			&getFirstPos(void) const;
+  const sf::Vector2f			&getSecondPos(void) const;
+  const sf::Sprite			&getFirstBackground(void) const;
+  const sf::Sprite			&getSecondBackground(void) const;
+  void					setFirstPos(float x, float y);
+  void					setFirstPos(sf::Vector2f);
+  void					setSecondPos(sf::Vector2f);
+  void					setSecondPos(float x, float y);
+  void					scroll();
 };
 
 #endif	/* !__MENU_WINDOW_HH__ */

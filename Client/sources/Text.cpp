@@ -5,7 +5,7 @@
 // Login   <brigno@epitech.net>
 //
 // Started on  Thu Oct 24 11:44:54 2013 brigno
-// Last update Fri Nov 22 20:42:18 2013 brigno
+// Last update Sat Nov 23 15:04:51 2013 brigno
 //
 
 #include	"Text.hh"
@@ -29,7 +29,7 @@ Text::Text(const std::string &fontName, const std::string &name, const sf::Event
       this->_text = sf::Text(this->_sentence, FontManager::getInstance().getFont(fontName)->getFont(), 24);
       this->_text.setColor(sf::Color(0, 0, 0));
     }
-  else if (name == "IPAddress" || name == "Port")
+  else if (name == "IPAddress" || name == "PortTCP" || name == "PortUDP")
     {
       this->_text = sf::Text(this->_sentence, FontManager::getInstance().getFont(fontName)->getFont(), 24);
       this->_text.setColor(sf::Color(0, 0, 0));
@@ -75,7 +75,7 @@ Text::Text(const std::string &fontName, const std::string &name, const sf::Event
       this->_text = sf::Text(this->_sentence, FontManager::getInstance().getFont(fontName)->getFont(), 24);
       this->_text.setColor(sf::Color(0, 0, 0));
     }
-  else if (name == "IPAddress" || name == "Port")
+  else if (name == "IPAddress" || name == "PortTCP" || name == "PortUDP")
     {
       this->_text = sf::Text(this->_sentence, FontManager::getInstance().getFont(fontName)->getFont(), 24);
       this->_text.setColor(sf::Color(0, 0, 0));

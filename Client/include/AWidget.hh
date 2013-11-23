@@ -5,7 +5,7 @@
 // Login   <brigno@epitech.net>
 //
 // Started on  Thu Oct 24 14:31:48 2013 brigno
-// Last update Fri Nov 22 05:05:32 2013 brigno
+// Last update Sat Nov 23 15:48:06 2013 brigno
 //
 
 #ifndef		__AWIDGET_HH__
@@ -24,7 +24,8 @@ public:
       BUTTON,
       CHECKBOX,
       TEXTBLOCK,
-      LINESERVER
+      LINESERVER,
+      BACKGROUND
     };
 protected:
   const sf::Event	&_event;

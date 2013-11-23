@@ -1,13 +1,3 @@
-//
-// Button.hh for Button in /home/brigno/GIT/G-BALLS-Rtype/Client
-//
-// Made by brigno
-// Login   <brigno@epitech.net>
-//
-// Started on  Thu Oct 31 16:23:44 2013 brigno
-// Last update Fri Nov 22 05:05:33 2013 brigno
-//
-
 #ifndef		__BUTTON_HH__
 # define	__BUTTON_HH__
 
