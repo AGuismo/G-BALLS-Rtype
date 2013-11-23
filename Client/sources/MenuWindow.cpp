@@ -11,8 +11,12 @@
 #include	"Text.hh"
 #include	"TextArea.hh"
 #include	"Button.hh"
+#include	"Sound.hh"
+#include	"Font.hh"
 #include	"Interface.hh"
 #include	"TextureManager.hh"
+#include	"FontManager.hh"
+#include	"MediaAudioManager.hh"
 #include	"Network.hh"
 #include	"InfosUser.hh"
 
@@ -26,6 +30,10 @@ bool	MenuWindow::load()
 {
   try
     {
+      FontManager::getInstance().addFont("FontMenu", "./Font/NEUROPOL.ttf");
+      FontManager::getInstance().addFont("FontLobby", "./Font/verdana.ttf");
+     if (!this->_music.openFromFile("./Sounds/Menu/DeepSpace.ogg"))
+	throw Exception("Failed to load sprite location: ./Sounds/Menu/DeepSpace.ogg");
       TextureManager::getInstance().addTexture("Background1", "./Images/Menu/background1.png");
       TextureManager::getInstance().addTexture("Background2", "Images/Menu/background2.png");
       TextureManager::getInstance().addTexture("Formu", "Images/Menu/form.png");
@@ -134,16 +142,16 @@ void	MenuWindow::drawMenu()
     {
       if (Stocktmp->getTmp() != "" && Stocktmp->getTmp() != "Login")
 	{
-	  tmp = new Text("Font/NEUROPOL.ttf", "LoginText", this->_event, sf::Vector2f(525, 410), sf::Vector2f(520, 415), sf::Vector2f(760, 445), 10, true, Stocktmp->getTmp());
+	  tmp = new Text("FontMenu", "LoginText", this->_event, sf::Vector2f(525, 410), sf::Vector2f(520, 415), sf::Vector2f(760, 445), 10, true, Stocktmp->getTmp());
 	  flag = 1;
 	}
     }
   if (InfosUser::getInstance().authenticate.login == "Login" && flag == 0)
-    tmp = new Text("Font/NEUROPOL.ttf", "LoginText", this->_event, sf::Vector2f(525, 410), sf::Vector2f(520, 415), sf::Vector2f(760, 445), 10, true, "Login");
+    tmp = new Text("FontMenu", "LoginText", this->_event, sf::Vector2f(525, 410), sf::Vector2f(520, 415), sf::Vector2f(760, 445), 10, true, "Login");
   else if (flag == 0)
-    tmp = new Text("Font/NEUROPOL.ttf", "LoginText", this->_event, sf::Vector2f(525, 410), sf::Vector2f(520, 415), sf::Vector2f(760, 445), 10, true, InfosUser::getInstance().authenticate.login);
+    tmp = new Text("FontMenu", "LoginText", this->_event, sf::Vector2f(525, 410), sf::Vector2f(520, 415), sf::Vector2f(760, 445), 10, true, InfosUser::getInstance().authenticate.login);
 
-  tmp2 = new Text("Font/NEUROPOL.ttf", "PasswordText", this->_event, sf::Vector2f(525, 515), sf::Vector2f(520, 415), sf::Vector2f(760, 445), 10, false, "Password");
+  tmp2 = new Text("FontMenu", "PasswordText", this->_event, sf::Vector2f(525, 515), sf::Vector2f(520, 415), sf::Vector2f(760, 445), 10, false, "Password");
   if (this->_backgroundPtr == 0)
     this->_backgroundPtr = new Background();
   this->_listImage.push_back(new Image("Title", sf::Vector2f(370, 60)));
@@ -161,7 +169,7 @@ void	MenuWindow::drawMenuWarning(const std::string &Msg)
 {
   this->clearWindow();
   this->_status = CONTINUE;
-  Text *tmp = new Text("Font/verdana.ttf", "WarningMessageMenu", this->_event, sf::Vector2f(500, 370), sf::Vector2f(499, 369), sf::Vector2f(678, 389), 10, true, Msg);
+  Text *tmp = new Text("FontLobby", "WarningMessageMenu", this->_event, sf::Vector2f(500, 370), sf::Vector2f(499, 369), sf::Vector2f(678, 389), 10, true, Msg);
 
   this->_listImage.push_back(new Image("FondWarningMenu", sf::Vector2f(390, 160)));
   this->_listImage.push_back(new Image("TextAccessDenied", sf::Vector2f(410, 320)));
@@ -181,14 +189,14 @@ void	MenuWindow::drawSettings()
 
   this->clearWindow();
   if (InfosUser::getInstance().authenticate.addressIp == "IPAddress")
-    tmp = new Text("Font/NEUROPOL.ttf", "IPAddress", this->_event, sf::Vector2f(525, 410), sf::Vector2f(520, 415), sf::Vector2f(760, 445), 15, true, "Address Ip");
+    tmp = new Text("FontLobby", "IPAddress", this->_event, sf::Vector2f(525, 410), sf::Vector2f(520, 415), sf::Vector2f(760, 445), 15, true, "Address Ip");
   else
-    tmp = new Text("Font/NEUROPOL.ttf", "IPAddress", this->_event, sf::Vector2f(525, 410), sf::Vector2f(520, 415), sf::Vector2f(760, 445), 15, true, InfosUser::getInstance().authenticate.addressIp);
+    tmp = new Text("FontLobby", "IPAddress", this->_event, sf::Vector2f(525, 410), sf::Vector2f(520, 415), sf::Vector2f(760, 445), 15, true, InfosUser::getInstance().authenticate.addressIp);
 
   if (InfosUser::getInstance().authenticate.port == "Port")
-    tmp2 = new Text("Font/NEUROPOL.ttf", "Port", this->_event, sf::Vector2f(525, 510), sf::Vector2f(520, 415), sf::Vector2f(760, 445), 5, true, "Port");
+    tmp2 = new Text("FontLobby", "Port", this->_event, sf::Vector2f(525, 510), sf::Vector2f(520, 415), sf::Vector2f(760, 445), 5, true, "Port");
   else
-    tmp2 = new Text("Font/NEUROPOL.ttf", "Port", this->_event, sf::Vector2f(525, 510), sf::Vector2f(520, 415), sf::Vector2f(760, 445), 5, true, InfosUser::getInstance().authenticate.port);
+    tmp2 = new Text("FontLobby", "Port", this->_event, sf::Vector2f(525, 510), sf::Vector2f(520, 415), sf::Vector2f(760, 445), 5, true, InfosUser::getInstance().authenticate.port);
 
   this->_listImage.push_back(new Image("Title", sf::Vector2f(370, 60)));
   this->_listImage.push_back(new Image("FondSettings", sf::Vector2f(370, 175)));
@@ -204,8 +212,8 @@ void	MenuWindow::drawLobbyWarning(const std::string &Msg)
 {
   this->clearWindow();
   this->_status = CONTINUE;
-  Text *tmp = new Text("Font/verdana.ttf", "MsgChat", this->_event, sf::Vector2f(830, 640), sf::Vector2f(825, 633), sf::Vector2f(1073, 666), 100, true);
-  Text *tmp2 = new Text("Font/verdana.ttf", "WarningMessageLobby", this->_event, sf::Vector2f(260, 464), sf::Vector2f(520, 415), sf::Vector2f(760, 445), 10, true, Msg);
+  Text *tmp = new Text("FontLobby", "MsgChat", this->_event, sf::Vector2f(830, 640), sf::Vector2f(825, 633), sf::Vector2f(1073, 666), 100, true);
+  Text *tmp2 = new Text("FontLobby", "WarningMessageLobby", this->_event, sf::Vector2f(260, 464), sf::Vector2f(520, 415), sf::Vector2f(760, 445), 10, true, Msg);
 
   this->_listImage.push_back(new Image("TitleLobby", sf::Vector2f(2, 10)));
   this->_listImage.push_back(new Image("FondLobby", sf::Vector2f(0, 55)));
@@ -231,8 +239,8 @@ void	MenuWindow::drawGetPWD()
 {
   this->clearWindow();
   this->_status = CONTINUE;
-  Text *tmp = new Text("Font/verdana.ttf", "MsgChat", this->_event, sf::Vector2f(830, 640), sf::Vector2f(825, 633), sf::Vector2f(1073, 666), 100, true);
-  Text *tmp2 = new Text("Font/verdana.ttf", "setPWD", this->_event, sf::Vector2f(440, 390), sf::Vector2f(393, 386), sf::Vector2f(641, 419), 10, false);
+  Text *tmp = new Text("FontLobby", "MsgChat", this->_event, sf::Vector2f(830, 640), sf::Vector2f(825, 633), sf::Vector2f(1073, 666), 100, true);
+  Text *tmp2 = new Text("FontLobby", "setPWD", this->_event, sf::Vector2f(440, 390), sf::Vector2f(393, 386), sf::Vector2f(641, 419), 10, false);
 
   this->_listImage.push_back(new Image("TitleLobby", sf::Vector2f(2, 10)));
   this->_listImage.push_back(new Image("FondLobby", sf::Vector2f(0, 55)));
@@ -261,7 +269,7 @@ void	MenuWindow::drawLobby()
 {
   this->clearWindow();
   this->_status = CONTINUE;
-  Text *tmp = new Text("Font/verdana.ttf", "MsgChat", this->_event, sf::Vector2f(830, 640), sf::Vector2f(825, 633), sf::Vector2f(1073, 666), 100, true);
+  Text *tmp = new Text("FontLobby", "MsgChat", this->_event, sf::Vector2f(830, 640), sf::Vector2f(825, 633), sf::Vector2f(1073, 666), 100, true);
   this->_listImage.push_back(new Image("TitleLobby", sf::Vector2f(2, 10)));
   this->_listImage.push_back(new Image("FondLobby", sf::Vector2f(0, 55)));
   this->_listImage.push_back(new Image("MsgChat", sf::Vector2f(820, 200)));
@@ -287,15 +295,15 @@ void	MenuWindow::drawLobbyCreate()
 {
   this->clearWindow();
   this->_status = CONTINUE;
-  Text *tmp = new Text("Font/verdana.ttf", "MsgChat", this->_event, sf::Vector2f(830, 640), sf::Vector2f(825, 633), sf::Vector2f(1073, 666), 100, true);
+  Text *tmp = new Text("FontLobby", "MsgChat", this->_event, sf::Vector2f(830, 640), sf::Vector2f(825, 633), sf::Vector2f(1073, 666), 100, true);
   Text *tmp2;
   Text *tmp3;
 
   if (InfosUser::getInstance().create.partyName == "Party Name")
-    tmp2 = new Text("Font/verdana.ttf", "NameGame", this->_event, sf::Vector2f(200, 300), sf::Vector2f(520, 415), sf::Vector2f(760, 445), 15, true, "Party Name");
+    tmp2 = new Text("FontLobby", "NameGame", this->_event, sf::Vector2f(200, 300), sf::Vector2f(520, 415), sf::Vector2f(760, 445), 15, true, "Party Name");
   else
-    tmp2 = new Text("Font/verdana.ttf", "NameGame", this->_event, sf::Vector2f(200, 300), sf::Vector2f(520, 415), sf::Vector2f(760, 445), 15, true, InfosUser::getInstance().create.partyName);
-  tmp3 = new Text("Font/verdana.ttf", "PWDGame", this->_event, sf::Vector2f(245, 475), sf::Vector2f(520, 415), sf::Vector2f(760, 445), 10, false, "Party Password");
+    tmp2 = new Text("FontLobby", "NameGame", this->_event, sf::Vector2f(200, 300), sf::Vector2f(520, 415), sf::Vector2f(760, 445), 15, true, InfosUser::getInstance().create.partyName);
+  tmp3 = new Text("FontLobby", "PWDGame", this->_event, sf::Vector2f(245, 475), sf::Vector2f(520, 415), sf::Vector2f(760, 445), 10, false, "Party Password");
 
   this->_listImage.push_back(new Image("TitleLobby", sf::Vector2f(2, 10)));
   this->_listImage.push_back(new Image("FondLobby", sf::Vector2f(0, 55)));
@@ -328,8 +336,8 @@ void	MenuWindow::drawLobbyWait(int owner)
   int nbPlayer = 3;
   this->clearWindow();
   this->_status = CONTINUE;
-  Text *tmp = new Text("Font/verdana.ttf", "MsgChat", this->_event, sf::Vector2f(830, 640), sf::Vector2f(825, 633), sf::Vector2f(1073, 666), 100, true);
-  Text *tmp2 = new Text("Font/verdana.ttf", "NameGameWait", this->_event, sf::Vector2f(170, 297), sf::Vector2f(825, 633), sf::Vector2f(1073, 666), 100, true, this->_serverSelected->getGame());
+  Text *tmp = new Text("FontLobby", "MsgChat", this->_event, sf::Vector2f(830, 640), sf::Vector2f(825, 633), sf::Vector2f(1073, 666), 100, true);
+  Text *tmp2 = new Text("FontLobby", "NameGameWait", this->_event, sf::Vector2f(170, 297), sf::Vector2f(825, 633), sf::Vector2f(1073, 666), 100, true, this->_serverSelected->getGame());
   this->_listImage.push_back(new Image("TitleLobby", sf::Vector2f(2, 10)));
   this->_listImage.push_back(new Image("FondLobby", sf::Vector2f(0, 55)));
   this->_listImage.push_back(new Image("MsgChat", sf::Vector2f(820, 200)));
@@ -466,7 +474,7 @@ int	MenuWindow::checkAction()
 	  break;
 	}
       else if (dynamic_cast<Text*>(Interface::getInstance().getWidget("PasswordText"))->getTmp() == "" ||
-	  dynamic_cast<Text*>(Interface::getInstance().getWidget("PasswordText"))->getTmp() == "Password")
+	       dynamic_cast<Text*>(Interface::getInstance().getWidget("PasswordText"))->getTmp() == "Password")
 	{
 	  this->_status = CONTINUE;
 	  this->drawMenuWarning(" Password area is empty !");
@@ -545,7 +553,7 @@ int	MenuWindow::checkAction()
 	  break;
 	}
       else if (dynamic_cast<Text*>(Interface::getInstance().getWidget("Port"))->getTmp() == "" ||
-	  dynamic_cast<Text*>(Interface::getInstance().getWidget("Port"))->getTmp() == "Port")
+	       dynamic_cast<Text*>(Interface::getInstance().getWidget("Port"))->getTmp() == "Port")
 	{
 	  this->_status = CONTINUE;
 	  this->drawMenu();
@@ -667,6 +675,7 @@ int	MenuWindow::catchEvent()
 
 int	MenuWindow::run()
 {
+  this->_music.play();
   while (this->_window.isOpen())
     {
       if (this->catchEvent() == 2)
@@ -674,6 +683,7 @@ int	MenuWindow::run()
       this->setDraw();
       this->draw();
     }
+  this->_music.stop();
   return (AScreen::SCR_EXIT); // ASCREEN::Status
 }
 

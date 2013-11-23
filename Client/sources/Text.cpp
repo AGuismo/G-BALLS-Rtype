@@ -5,47 +5,48 @@
 // Login   <brigno@epitech.net>
 //
 // Started on  Thu Oct 24 11:44:54 2013 brigno
-// Last update Fri Nov 22 05:05:35 2013 brigno
+// Last update Fri Nov 22 20:42:18 2013 brigno
 //
 
 #include	"Text.hh"
+#include	"FontManager.hh"
+#include	"Font.hh"
 
-Text::Text(const std::string &fontPath, const std::string &name, const sf::Event &ev, const sf::Vector2f &posTopLeft, const sf::Vector2f &focusTopLeft,
+Text::Text(const std::string &fontName, const std::string &name, const sf::Event &ev, const sf::Vector2f &posTopLeft, const sf::Vector2f &focusTopLeft,
 	   const sf::Vector2f &focusBotRight, const size_t &size, const bool &enable) :
   AWidget(ev, name, posTopLeft, focusTopLeft, focusBotRight, AWidget::TEXT)
 {
   this->_cursor = 0;
   this->_flag = 0;
-  if (!this->_font.loadFromFile(fontPath))
-    std::cerr << "Can't find path of Font file" << std::endl;
+
   if (name == "MsgChat")
     {
-      this->_text = sf::Text(this->_sentence, this->_font, 16);
+      this->_text = sf::Text(this->_sentence, FontManager::getInstance().getFont(fontName)->getFont(), 16);
       this->_text.setColor(sf::Color(0, 0, 0));
     }
   else if (name == "NameGame" || name == "PWDGame" || name == "setPWD")
     {
-      this->_text = sf::Text(this->_sentence, this->_font, 24);
+      this->_text = sf::Text(this->_sentence, FontManager::getInstance().getFont(fontName)->getFont(), 24);
       this->_text.setColor(sf::Color(0, 0, 0));
     }
   else if (name == "IPAddress" || name == "Port")
     {
-      this->_text = sf::Text(this->_sentence, this->_font, 24);
+      this->_text = sf::Text(this->_sentence, FontManager::getInstance().getFont(fontName)->getFont(), 24);
       this->_text.setColor(sf::Color(0, 0, 0));
     }
   else if (name == "WarningMessageMenu" || name == "WarningMessageLobby")
     {
-      this->_text = sf::Text(this->_sentence, this->_font, 16);
+      this->_text = sf::Text(this->_sentence, FontManager::getInstance().getFont(fontName)->getFont(), 16);
       this->_text.setColor(sf::Color(255, 0, 0));
     }
   else if (name == "NameGameWait")
     {
-      this->_text = sf::Text(this->_sentence, this->_font, 24);
+      this->_text = sf::Text(this->_sentence, FontManager::getInstance().getFont(fontName)->getFont(), 24);
       this->_text.setColor(sf::Color(255, 0, 0));
     }
   else
     {
-      this->_text = sf::Text(this->_sentence, this->_font, 24);
+      this->_text = sf::Text(this->_sentence, FontManager::getInstance().getFont(fontName)->getFont(), 24);
       this->_text.setColor(sf::Color(44, 127, 255));
     }
   this->_text.setPosition(posTopLeft.x, posTopLeft.y);
@@ -53,7 +54,7 @@ Text::Text(const std::string &fontPath, const std::string &name, const sf::Event
   this->_enable = enable;
 }
 
-Text::Text(const std::string &fontPath, const std::string &name, const sf::Event &ev, const sf::Vector2f &posTopLeft, const sf::Vector2f &focusTopLeft,
+Text::Text(const std::string &fontName, const std::string &name, const sf::Event &ev, const sf::Vector2f &posTopLeft, const sf::Vector2f &focusTopLeft,
 	   const sf::Vector2f &focusBotRight, const size_t &size, const bool &enable, const std::string &Txt) :
   AWidget(ev, name, posTopLeft, focusTopLeft, focusBotRight, AWidget::TEXT)
 {
@@ -64,36 +65,34 @@ Text::Text(const std::string &fontPath, const std::string &name, const sf::Event
   posText.x = posTopLeft.x;
   posText.y = posTopLeft.y;
   this->_cursor = 0;
-  if (!this->_font.loadFromFile(fontPath))
-    std::cerr << "Can't find path of Font file" << std::endl;
   if (name == "MsgChat")
     {
-      this->_text = sf::Text(this->_sentence, this->_font, 16);
+      this->_text = sf::Text(this->_sentence, FontManager::getInstance().getFont(fontName)->getFont(), 16);
       this->_text.setColor(sf::Color(0, 0, 0));
     }
-  else if (name == "NameGame" || name == "PWDGame")
+  else if (name == "NameGame" || name == "PWDGame" || name == "setPWD")
     {
-      this->_text = sf::Text(this->_sentence, this->_font, 24);
+      this->_text = sf::Text(this->_sentence, FontManager::getInstance().getFont(fontName)->getFont(), 24);
       this->_text.setColor(sf::Color(0, 0, 0));
     }
   else if (name == "IPAddress" || name == "Port")
     {
-      this->_text = sf::Text(this->_sentence, this->_font, 24);
+      this->_text = sf::Text(this->_sentence, FontManager::getInstance().getFont(fontName)->getFont(), 24);
       this->_text.setColor(sf::Color(0, 0, 0));
     }
   else if (name == "WarningMessageMenu" || name == "WarningMessageLobby")
     {
-      this->_text = sf::Text(this->_sentence, this->_font, 16);
+      this->_text = sf::Text(this->_sentence, FontManager::getInstance().getFont(fontName)->getFont(), 16);
       this->_text.setColor(sf::Color(255, 0, 0));
     }
   else if (name == "NameGameWait")
     {
-      this->_text = sf::Text(this->_sentence, this->_font, 24);
+      this->_text = sf::Text(this->_sentence, FontManager::getInstance().getFont(fontName)->getFont(), 24);
       this->_text.setColor(sf::Color(255, 0, 0));
     }
   else
     {
-      this->_text = sf::Text(this->_sentence, this->_font, 24);
+      this->_text = sf::Text(this->_sentence, FontManager::getInstance().getFont(fontName)->getFont(), 24);
       this->_text.setColor(sf::Color(44, 127, 255));
     }
   this->_sentence = Txt;
@@ -128,8 +127,6 @@ Text			&Text::operator=(const Text &other)
   this->_flag = other.getFlag();
   return (*this);
 }
-
-
 
 MenuWindow::Status	Text::onFocus()
 {

@@ -23,6 +23,7 @@
 #include	"RequestInfo.hpp"
 #include	"EventRequest.hh"
 #include	"LeaveRequest.h"
+#include	"ElemRequest.hh"
 
 struct	stdin : public net::AMonitorable
 {
@@ -178,6 +179,7 @@ int			main(int ac, char **av)
 			<< "i: " << "AliveRequest" << std::endl
 			<< "j: " << "moveRequest" << std::endl
 			<< "k: " << "fireRequest" << std::endl
+			<< "l: " << "LeaveRequest" << std::endl
 			<< "g: " << "Party::Join" << std::endl;
 	      break;
 	    case 'i':
@@ -220,7 +222,26 @@ int			main(int ac, char **av)
 	  ARequest	*req;
 
 	  uclient.recv();
-	  while ((req = uget_req(uclient)) != 0);
+	  while ((req = uget_req(uclient)) != 0)
+	  {
+	      if (ElemRequest *elem = dynamic_cast<ElemRequest *>(req))
+	      {
+		  (void)elem;
+		  //id = elem->SessionID();
+		  //std::cout << "ELEM REQUEST :: ID client is " << id;
+		  //std::cout << " : " << elem->pos() << std::endl;
+	      }
+	      else if (DeathRequest *elem = dynamic_cast<DeathRequest *>(req))
+	      {
+		  (void)elem;
+		  std::cout << "YOU ARE DEAD" << std::endl;
+	      }
+	      else if (LooseRequest *elem = dynamic_cast<LooseRequest *>(req))
+	      {
+		  (void)elem;
+		  std::cout << "YOU LOOSE" << std::endl;
+	      }
+	  }
 	}
     }
   client.close();

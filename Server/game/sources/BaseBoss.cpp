@@ -15,5 +15,6 @@ BaseBoss::~BaseBoss()
 
 int BaseBoss::algo(Game &game)
 {
+    (void)game;
 	return -1;
 }

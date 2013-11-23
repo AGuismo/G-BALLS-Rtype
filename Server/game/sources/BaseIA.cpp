@@ -1,4 +1,4 @@
-#include "BaseIa.h"
+#include "BaseIA.h"
 
 BaseIA::BaseIA(game::Pos pos)
 {
@@ -15,5 +15,6 @@ BaseIA::~BaseIA()
 
 int	BaseIA::algo(Game &game)
 {
-	return 6;
+    (void)game;
+    return 6;
 }

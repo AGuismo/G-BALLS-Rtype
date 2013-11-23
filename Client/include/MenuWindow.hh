@@ -2,6 +2,7 @@
 # define	__MENU_WINDOW_HH__
 
 # include	<SFML/Graphics.hpp>
+# include       <SFML/Audio.hpp>
 # include	<iostream>
 # include	<list>
 # include	"AScreen.hh"
@@ -31,6 +32,7 @@ private:
   LineServer			*_serverSelected;
   std::list<std::string>	_bufferChat;
   int				_flag;
+  sf::Music				_music;
 
 public:
   MenuWindow(sf::RenderWindow &window, network::Manager &network);

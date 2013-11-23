@@ -1,14 +1,3 @@
-//
-// TextureManager.cpp for texturemanager in /home/brigno/GIT/G-BALLS-Rtype/Client
-//
-// Made by brigno
-// Login   <brigno@epitech.net>
-//
-// Started on  Tue Nov  5 22:24:09 2013 brigno
-// Last update Sat Nov 23 10:20:05 2013 lambert kevin
-//
-
-// #include	<windows.h>
 #include	"TextureManager.hh"
 #include	"Texture.hh"
 

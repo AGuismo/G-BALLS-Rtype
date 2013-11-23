@@ -3,9 +3,9 @@ NAME	     ?=	requestSerializer
 SRCS =	      	main.cpp		\
 
 DIR.PROT=	../
-DIR.DB=		../../database
-DIR.NET=	$(DIR.DEPS)/network/
-DIR.DEPS=	../../deps/
+DIR.DB=		../../../Server/database
+DIR.NET=	$(DIR.DEPS)/network/network
+DIR.DEPS=	../../
 
 DEPS.INC=	-I$(DIR.NET)/include
 
@@ -16,7 +16,7 @@ DEPS.LNK=	-L$(DIR.NET) -lnetwork
 MOD.LNK=	-L$(DIR.PROT) -lprotocol -L$(DIR.DB) -ldb
 
 F.C	     +=	-W -Wall -Werror
-F.I	     +=	-I./include $(MOD.INC) -I../../include $(DEPS.INC)
+F.I	     +=	-I./include $(MOD.INC) -I../include $(DEPS.INC)
 F.L	     += $(MOD.LNK) $(DEPS.LNK) -Wl,-rpath=$(DIR.NET)
 F.D	     +=
 
