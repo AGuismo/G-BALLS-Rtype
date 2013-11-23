@@ -17,8 +17,8 @@
 #include	"TextureManager.hh"
 #include	"FontManager.hh"
 #include	"MediaAudioManager.hh"
-#include	"Network.hh"
 #include	"InfosUser.hh"
+#include	"NetworkManager.hh"
 
 MenuWindow::MenuWindow(sf::RenderWindow &window, network::Manager &network):
   AScreen(window, network, START), _objectFocus(0), _objectHover(0)
@@ -191,16 +191,22 @@ void	MenuWindow::drawSettings()
   else
     textIP = new Text("FontLobby", "IPAddress", this->_event, sf::Vector2f(525, 410), sf::Vector2f(519, 410), sf::Vector2f(766, 446), 15, true, InfosUser::getInstance().authenticate.addressIp);
 
-  if (InfosUser::getInstance().authenticate.portTCP == "Port TCP")
+  if (InfosUser::getInstance().authenticate.portTCP == 0)
     textTCP = new Text("FontLobby", "PortTCP", this->_event, sf::Vector2f(525, 500), sf::Vector2f(518, 503), sf::Vector2f(764, 532), 5, true, "Port TCP");
   else
-    textTCP = new Text("FontLobby", "PortTCP", this->_event, sf::Vector2f(525, 500), sf::Vector2f(518, 503), sf::Vector2f(764, 532), 5, true, InfosUser::getInstance().authenticate.portTCP);
-
-  if (InfosUser::getInstance().authenticate.portUDP == "Port UDP")
+    {
+      std::stringstream ss;
+      ss << InfosUser::getInstance().authenticate.portTCP;
+      textTCP = new Text("FontLobby", "PortTCP", this->_event, sf::Vector2f(525, 500), sf::Vector2f(518, 503), sf::Vector2f(764, 532), 5, true, ss.str());
+    }
+  if (InfosUser::getInstance().authenticate.portUDP == 0)
     textUDP = new Text("FontLobby", "PortUDP", this->_event, sf::Vector2f(525, 580), sf::Vector2f(517, 580), sf::Vector2f(766, 614), 5, true, "Port UDP");
   else
-    textUDP = new Text("FontLobby", "PortUDP", this->_event, sf::Vector2f(525, 580), sf::Vector2f(517, 580), sf::Vector2f(766, 614), 5, true, InfosUser::getInstance().authenticate.portUDP);
-
+    {
+      std::stringstream ss;
+      ss << InfosUser::getInstance().authenticate.portUDP;
+      textUDP = new Text("FontLobby", "PortUDP", this->_event, sf::Vector2f(525, 580), sf::Vector2f(517, 580), sf::Vector2f(766, 614), 5, true, ss.str());
+    }
   this->_listImage.push_back(new Image("Title", sf::Vector2f(370, 60)));
   this->_listImage.push_back(new Image("FondSettings", sf::Vector2f(370, 175)));
   this->_listWidget.push_back(new TextArea(this->_event, "IPArea", *textIP, sf::Vector2f(480, 375), sf::Vector2f(519, 410), sf::Vector2f(766, 446)));
@@ -547,6 +553,9 @@ int	MenuWindow::checkAction()
       InfosUser::getInstance().authenticate.password = dynamic_cast<Text*>(Interface::getInstance().getWidget("PasswordText"))->getTmp();
       std::cout << "LOGIN : [" << InfosUser::getInstance().authenticate.login << "]" << std::endl;
       std::cout << "PASSWORD : [" << InfosUser::getInstance().authenticate.password << "]" << std::endl;
+      this->_network.setTcp(sf::IpAddress(InfosUser::getInstance().authenticate.addressIp), InfosUser::getInstance().authenticate.portTCP);
+      this->_network.switchTo(network::Manager::TCP);
+
       // Demander au seveur si les identifiants sont bon !
       this->_status = CONTINUE;
       this->drawLobby();
@@ -633,8 +642,21 @@ int	MenuWindow::checkAction()
       else
 	{
 	  InfosUser::getInstance().authenticate.addressIp = dynamic_cast<Text*>(Interface::getInstance().getWidget("IPAddress"))->getTmp();
-	  InfosUser::getInstance().authenticate.portTCP = dynamic_cast<Text*>(Interface::getInstance().getWidget("PortTCP"))->getTmp();
-	  InfosUser::getInstance().authenticate.portUDP = dynamic_cast<Text*>(Interface::getInstance().getWidget("PortUDP"))->getTmp();
+
+	  std::stringstream ss;
+	  unsigned short int		    portTCP;
+	  unsigned short int		    portUDP;
+
+	  ss << dynamic_cast<Text*>(Interface::getInstance().getWidget("PortTCP"))->getTmp();
+	  ss >> portTCP;
+
+	  ss.clear();
+	  ss << dynamic_cast<Text*>(Interface::getInstance().getWidget("PortUDP"))->getTmp();
+	  ss >> portUDP;
+
+
+	  InfosUser::getInstance().authenticate.portTCP = portTCP;
+	  InfosUser::getInstance().authenticate.portUDP = portUDP;
 	  std::cout << "IP : [" << InfosUser::getInstance().authenticate.addressIp << "]" << std::endl;
 	  std::cout << "Port TCP : [" << InfosUser::getInstance().authenticate.portTCP << "]" << std::endl;
 	  std::cout << "Port UDP : [" << InfosUser::getInstance().authenticate.portUDP << "]" << std::endl;
