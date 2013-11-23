@@ -81,8 +81,10 @@ namespace	game
     if ((getRequest(buf, req)) == false)
       return;
     it = std::find_if(_gameClients.begin(), _gameClients.end(), predicate(req->SessionID()));
-    if (it != _gameClients.end())
+	std::cout << "Client " << (*it)->SessionID() << std::endl;
+	if (it != _gameClients.end())
 	{
+		std::cout << "Client " << (*it)->SessionID() << "send a request of type " << req->code() << std::endl << std::endl;
 		(*it)->setAddr(_server.getClientAddr());
 		(*it)->requestPushInput(req);
 	}
@@ -162,11 +164,11 @@ namespace	game
 		  {
 			  game->update();
 			  _games.push_back(game);
-			  std::cout << "Client::size = " << game->clients().size() << std::endl;
 		  }
 		  else
 			delete game;
 	  }
+	  _server.monitor(true, true);
   }
 
   void			Manager::routine(Manager *self)
@@ -192,7 +194,7 @@ namespace	game
 		  self->updateCallback();
 		  if (self->_server.read() || self->_server.write())
 		  {
-			  //std::cout << "Action to do" << std::endl;
+			  //std::cout << "Action to do" << std::endl << std::endl;
 			  try
 			  {
 				  if (self->_server.read())
@@ -231,6 +233,7 @@ namespace	game
 
   bool		Manager::predicate::operator()(const Client *rhs)
   {
+	  std::cout << _id << " || " << rhs->SessionID() << std::endl;
     return (_id == rhs->SessionID());
   }
 }

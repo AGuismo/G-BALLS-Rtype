@@ -50,6 +50,7 @@ namespace	game
 	LeaveRequest	*lv;
 	if ((ev = dynamic_cast<EventRequest *>(req)))
 	  {
+		_updateToLive = -1;
 	    if (ev->event() == 0 && !move)
 	      {
 		move = true;

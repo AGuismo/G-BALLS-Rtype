@@ -16,6 +16,7 @@ ScoreRequest::~ScoreRequest()
 
 Protocol			&ScoreRequest::serialize(Protocol &rhs) const
 {
+	rhs << _code;
 	rhs << _id;
 	rhs << _score;
 	return rhs;

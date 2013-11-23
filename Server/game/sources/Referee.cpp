@@ -161,7 +161,7 @@ bool		Referee::wallCollision(Entity *a, Game &game)
 			  (*ite)->_life--;
 			if ((*ite)->_life <= 0)
 				{
-				    game.randBonnus(*(*ite));
+				  game.randBonnus(*(*ite));
 				  game.pushRequest(new DeathRequest((*ite)->id()));
 				  delete *ite;
 				  ite = game._objs.erase(ite);
