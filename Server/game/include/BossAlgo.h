@@ -14,7 +14,7 @@ public:
 	game::Pos			&firePos() { return _firePos; }
 	int					&life() { return _life; }
 
-private:
+protected:
 	std::vector<game::Pos>	_pos;
 	game::Pos			_firePos;
 	game::Type			_type;

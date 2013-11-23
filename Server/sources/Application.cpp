@@ -102,7 +102,7 @@ void	Application::newClient(Client *client)
 void	Application::newGame(menu::Game *game)
 {
   menu::Game::client_list::iterator	menuIt = game->getClients().begin();
-  Game::client_list			clients = { 0 };
+  Game::client_list			clients;
 
 #if defined(DEBUG)
   std::cout << "Application::newGame(): " << "Start Game..." << std::endl;
