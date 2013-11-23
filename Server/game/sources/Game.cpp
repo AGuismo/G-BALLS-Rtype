@@ -21,13 +21,14 @@ Game::Game(std::list<game::Client *> &players)
   _players = players;
   incremental = 0;
   for (client_list::iterator it = _players.begin(); it != _players.end(); ++it)
-    (*it)->player(new game::Player(std::vector<game::Pos> (1, (rand() % rtype::Env::mapSize) * rtype::Env::mapSize), UniqueId()));
+	  (*it)->player(new game::Player(std::vector<game::Pos>(1, (rand() % rtype::Env::getInstance().game.mapSize) *
+																rtype::Env::getInstance().game.mapSize), UniqueId()));
   _titan = NULL;
   for (int i = 0; i < rtype::Env::game::MAXBOSS; ++i);
 //    _titans.push_back(new Boss(UniqueId(), BotLoader::getBoss()));
   _clock.start();
   _timer.tv_sec = 0;
-  _timer.tv_usec = rtype::Env::gameDelay;
+  _timer.tv_usec = rtype::Env::getInstance().game.gameDelay;
   std::cout << "Bienvenue dans la faille de l'invocateur" << std::endl;
 }
 
@@ -301,12 +302,10 @@ void	Game::DispatchRequest()
 
 void	Game::popIA()
 {
-  if (_IA.size() < rtype::Env::maxIA)
+	if (_IA.size() < rtype::Env::getInstance().game.maxIA)
     {
-      if (_IA.size() < rtype::Env::minIA || rand() % rtype::Env::popIAmax < rtype::Env::popIArange)
+		if (_IA.size() < rtype::Env::getInstance().game.minIA || rand() % rtype::Env::getInstance().game.popIAmax < rtype::Env::getInstance().game.popIArange)
 	{
-
-
 	    Ia *new_ia;
 
 	    //new_ia = BotLoader::getIA();
@@ -352,5 +351,5 @@ void	Game::update()
 	if (Referee::asAlivePlayers(*this) == false)
 		pushRequest(new LooseRequest());
 	DispatchRequest();
-	_timer.tv_usec = rtype::Env::gameDelay;
+	_timer.tv_usec = rtype::Env::getInstance().game.gameDelay;
 }

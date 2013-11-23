@@ -85,7 +85,7 @@ namespace	game
 	  }
       }
     _updateToLive++;
-    if (_updateToLive == rtype::Env::updateToLive)
+	if (_updateToLive == rtype::Env::getInstance().game.updateToLive)
       {
 	_alive = false;
 	_hasLeft = true;

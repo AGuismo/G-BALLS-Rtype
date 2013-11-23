@@ -62,7 +62,28 @@ namespace requestCode
     static const CodeID SCORE =			1603;
     static const CodeID VICTORY =		1604;
     static const CodeID LOOSE =			1605;
-    static const CodeID NEXTSTAGE =			1606;
+    static const CodeID NEXTSTAGE =		1606;
+      namespace client
+      {
+	  using ::game::Event;
+	  using ::game::Dir;
+	  using ::game::Shoot;
+
+	  static const Event	MOVE = 0;
+	  static const Event	SHOOT = 1;
+
+	  static const Dir	NORTH = 0;
+	  static const Dir	NORTH_EAST = 1;
+	  static const Dir	EAST = 2;
+	  static const Dir	SOUTH_EAST = 3;
+	  static const Dir	SOUTH = 0;
+	  static const Dir	SOUTH_WEST = 1;
+	  static const Dir	WEST = 2;
+	  static const Dir	NORTH_WEST = 3;
+
+	  static const Shoot	SIMPLE;
+	  static const Shoot	BLAST;
+      }
   }
 }
 

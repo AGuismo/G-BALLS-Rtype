@@ -32,16 +32,18 @@ namespace rtype
       unsigned short int		popIArange;
       unsigned short int		popIAmax;
 	  unsigned short int		mapSize;
+	  unsigned short int		maxBoss;
     }				game;
-    static const unsigned short int	MAX_SIMULTANEOUS_GAMES =	20;
-    static const unsigned long long	BOSS_DELAY	       =	90000000;
-    static const unsigned long long	gameDelay	       =	250000;
-    static const unsigned short int	updateToLive	       =	8;
-    static const unsigned short int	minIA		       =	4;
-    static const unsigned short int	maxIA		       =	20;
-    static const unsigned short int	popIArange	       =	2;
-    static const unsigned short int	popIAmax	       =	5;
-    static const unsigned short int	mapSize			   =	16;
+    static const unsigned short int	MAX_SIMULTANEOUS_GAMES	=	20;
+    static const unsigned long long	BOSS_DELAY				=	90000000;
+    static const unsigned long long	GAME_DELAY				=	250000;
+    static const unsigned short int	UPDATE_TO_LIVE			=	8;
+    static const unsigned short int	MIN_IA					=	4;
+    static const unsigned short int	MAX_IA					=	20;
+    static const unsigned short int	POP_IA_RANGE			=	2;
+    static const unsigned short int	POP_IA_MAX				=	5;
+    static const unsigned short int	MAPSIZE					=	16;
+	static const unsigned short int MAXBOSS					=	2;
   public:
     const char				*DatabasePath;
 
