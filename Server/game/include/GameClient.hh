@@ -9,7 +9,7 @@
 # include	<queue>
 # include	<map>
 # include	<list>
-# include	"ARequest.hh"
+//# include	"ARequest.hh"
 # include	"RequestQueue.hh"
 # include	"RequestCode.hh"
 

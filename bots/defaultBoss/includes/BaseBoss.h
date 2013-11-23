@@ -3,11 +3,11 @@
 #include <vector>
 #include "IaAlgo.hh"
 
-class BaseBoss : public AIaAlgo
+class DefaultBoss : public AIaAlgo
 {
 public:
-	BaseBoss(std::vector<game::Pos> &pos);
-	~BaseBoss();
+	DefaultBoss(std::vector<game::Pos> &pos);
+	~DefaultBoss();
 
 	int algo(IAPlayer &players);
 

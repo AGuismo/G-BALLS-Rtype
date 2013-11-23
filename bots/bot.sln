@@ -5,6 +5,8 @@ VisualStudioVersion = 12.0.21005.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "defaultIA", "defaultIA\defaultIA\defaultIA.vcxproj", "{74D10D70-8FC2-4A1D-A621-470F58D1D6D6}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "defaultBoss", "defaultBoss\defaultBoss.vcxproj", "{4CE14A19-CC3E-43C0-BD60-27727D95CC8E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -15,6 +17,10 @@ Global
 		{74D10D70-8FC2-4A1D-A621-470F58D1D6D6}.Debug|Win32.Build.0 = Debug|Win32
 		{74D10D70-8FC2-4A1D-A621-470F58D1D6D6}.Release|Win32.ActiveCfg = Release|Win32
 		{74D10D70-8FC2-4A1D-A621-470F58D1D6D6}.Release|Win32.Build.0 = Release|Win32
+		{4CE14A19-CC3E-43C0-BD60-27727D95CC8E}.Debug|Win32.ActiveCfg = Debug|Win32
+		{4CE14A19-CC3E-43C0-BD60-27727D95CC8E}.Debug|Win32.Build.0 = Debug|Win32
+		{4CE14A19-CC3E-43C0-BD60-27727D95CC8E}.Release|Win32.ActiveCfg = Release|Win32
+		{4CE14A19-CC3E-43C0-BD60-27727D95CC8E}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
