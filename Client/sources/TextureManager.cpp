@@ -15,7 +15,6 @@ TextureManager::~TextureManager()
 TextureManager	&TextureManager::getInstance()
 {
   static TextureManager	singleton;
-
   return (singleton);
 }
 
@@ -30,7 +29,7 @@ void			TextureManager::addTexture(const std::string &key, const std::string &pat
   Texture	*tmp;
 
   if (!texture.loadFromFile(path))
-	  throw Exception("Failed to load sprite location: " + path);
+    throw Exception("Failed to load sprite location: " + path);
   tmp = new Texture(texture);
   addTexture(key, tmp);
 }

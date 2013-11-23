@@ -30,10 +30,9 @@ bool	MenuWindow::load()
 {
   try
     {
-      FontManager::getInstance().addFont("FontMenu", "./Font/NEUROPOL.ttf");
-      FontManager::getInstance().addFont("FontLobby", "./Font/verdana.ttf");
-     if (!this->_music.openFromFile("./Sounds/Menu/DeepSpace.ogg"))
+      if (!this->_music.openFromFile("./Sounds/Menu/DeepSpace.ogg"))
 	throw Exception("Failed to load sprite location: ./Sounds/Menu/DeepSpace.ogg");
+      this->_music.setLoop(true);
       TextureManager::getInstance().addTexture("Background1", "./Images/Menu/background1.png");
       TextureManager::getInstance().addTexture("Background2", "Images/Menu/background2.png");
       TextureManager::getInstance().addTexture("Formu", "Images/Menu/form.png");
@@ -120,6 +119,29 @@ bool	MenuWindow::load()
       std::cerr << e.what() << std::endl;
       throw AScreen::Exception("MenuWindow can't load all textures");
     }
+
+  try
+    {
+      MediaAudioManager::getInstance().addSound("SwitchScreen", "Sounds/Menu/SwitchScreen.wav");
+    }
+  catch (MediaAudioManager::Exception &e)
+    {
+      std::cerr << e.what() << std::endl;
+      throw AScreen::Exception("MenuWindow can't load all textures");
+    }
+
+  try
+    {
+      FontManager::getInstance().addFont("FontMenu", "./Font/NEUROPOL.ttf");
+      FontManager::getInstance().addFont("FontLobby", "./Font/verdana.ttf");
+    }
+  catch (FontManager::Exception &e)
+    {
+      std::cerr << e.what() << std::endl;
+      throw AScreen::Exception("MenuWindow can't load all textures");
+    }
+
+
   this->_status = START;
   this->_firstBackground.setTexture(TextureManager::getInstance().getTexture("Background1")->getTexture());
   this->_secondBackground.setTexture(TextureManager::getInstance().getTexture("Background2")->getTexture());
@@ -134,7 +156,7 @@ MenuWindow::~MenuWindow()
 void	MenuWindow::drawMenu()
 {
   Text *tmp = 0;
-  Text *tmp2;
+  Text *tmp2 = 0;
   int flag = 0;
 
   Text *Stocktmp = dynamic_cast<Text*>(Interface::getInstance().getWidget("LoginText"));
@@ -549,14 +571,18 @@ int	MenuWindow::checkAction()
 	  this->drawMenuWarning(" Password area is empty !");
 	  break;
 	}
-      InfosUser::getInstance().authenticate.login = dynamic_cast<Text*>(Interface::getInstance().getWidget("LoginText"))->getTmp();
-      InfosUser::getInstance().authenticate.password = dynamic_cast<Text*>(Interface::getInstance().getWidget("PasswordText"))->getTmp();
-      std::cout << "LOGIN : [" << InfosUser::getInstance().authenticate.login << "]" << std::endl;
-      std::cout << "PASSWORD : [" << InfosUser::getInstance().authenticate.password << "]" << std::endl;
-      this->_network.setTcp(sf::IpAddress(InfosUser::getInstance().authenticate.addressIp), InfosUser::getInstance().authenticate.portTCP);
-      this->_network.switchTo(network::Manager::TCP);
-
+      // InfosUser::getInstance().authenticate.login = dynamic_cast<Text*>(Interface::getInstance().getWidget("LoginText"))->getTmp();
+      // InfosUser::getInstance().authenticate.password = dynamic_cast<Text*>(Interface::getInstance().getWidget("PasswordText"))->getTmp();
+      // std::cout << "LOGIN : [" << InfosUser::getInstance().authenticate.login << "]" << std::endl;
+      // std::cout << "PASSWORD : [" << InfosUser::getInstance().authenticate.password << "]" << std::endl;
+      // this->_network.setTcp(sf::IpAddress(InfosUser::getInstance().authenticate.addressIp), InfosUser::getInstance().authenticate.portTCP);
+      // this->_network.switchTo(network::Manager::TCP);
+      // if (this->_network.isConnected())
+      // 	std::cout << "cool" << std::endl;
+      // else
+      // 	std::cout << "pas cool" << std::endl;
       // Demander au seveur si les identifiants sont bon !
+      MediaAudioManager::getInstance().getSound("SwitchScreen")->getSound().play();
       this->_status = CONTINUE;
       this->drawLobby();
       break;
@@ -755,7 +781,6 @@ int	MenuWindow::catchEvent()
 	  this->_objectHover = returnMouseFocus((float)this->_event.mouseMove.x, (float)this->_event.mouseMove.y);
 	  if (this->_objectHover != 0)
 	    this->_objectHover->onHover();
-	  std::cout << this->_event.mouseMove.x << " " << this->_event.mouseMove.y << std::endl;
 	  break;
 	case sf::Event::MouseButtonReleased:
 	  if (this->_objectFocus != 0)
@@ -779,11 +804,13 @@ int	MenuWindow::run()
   while (this->_window.isOpen())
     {
       if (this->catchEvent() == 2)
-	return (AScreen::SCR_GAME);
+	{
+	  this->_music.stop();
+	  return (AScreen::SCR_GAME);
+	}
       this->draw();
     }
-  this->_music.stop();
-  return (AScreen::SCR_EXIT); // ASCREEN::Status
+  return (AScreen::SCR_EXIT);
 }
 
 const MenuWindow::image_list	&MenuWindow::getListImage() const

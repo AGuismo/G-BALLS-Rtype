@@ -7,7 +7,9 @@ MediaAudioManager::MediaAudioManager()
 
 MediaAudioManager::~MediaAudioManager()
 {
-
+  for (Sound_type::iterator it = _lnkSound.begin(); it != _lnkSound.end(); ++it)
+    delete it->second;
+  _lnkSound.clear();
 }
 
 MediaAudioManager	&MediaAudioManager::getInstance()
@@ -28,13 +30,13 @@ void			MediaAudioManager::addSound(const std::string &key, const std::string &pa
 {
   Sound	*tmp;
   sf::Sound sound;
-  sf::SoundBuffer soundBuffer;
+  sf::SoundBuffer *soundBuffer = new sf::SoundBuffer;
 
-  if (soundBuffer.loadFromFile(path))
+  if (!soundBuffer->loadFromFile(path))
     throw Exception("Failed to load sound location: " + path);
-  sound.setBuffer(soundBuffer);
+  sound.setBuffer(*soundBuffer);
   sound.setLoop(false);
-  tmp = new Sound(sound, soundBuffer);
+  tmp = new Sound(sound);
   addSound(key, tmp);
 }
 

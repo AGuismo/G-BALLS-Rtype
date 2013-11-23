@@ -7,7 +7,9 @@ FontManager::FontManager()
 
 FontManager::~FontManager()
 {
-
+  for (Font_type::iterator it = _lnk.begin(); it != _lnk.end(); ++it)
+    delete it->second;
+  _lnk.clear();
 }
 
 FontManager	&FontManager::getInstance()
