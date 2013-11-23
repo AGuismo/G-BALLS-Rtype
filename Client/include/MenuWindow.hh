@@ -6,11 +6,11 @@
 # include	<iostream>
 # include	<list>
 # include	"AScreen.hh"
+# include	"GameInfo.hh"
 
 class		Background;
 class		AWidget;
 class		Image;
-class		LineServer;
 
 namespace	network
 {
@@ -28,7 +28,7 @@ private:
   widget_list			_listWidget;
   AWidget			*_objectFocus;
   AWidget			*_objectHover;
-  LineServer			*_serverSelected;
+  GameInfo			_serverSelected;
   std::list<std::string>	_bufferChat;
   int				_flag;
   sf::Music			_music;
@@ -37,7 +37,6 @@ private:
   sf::Sprite			_secondBackground;
   sf::Vector2f			_firstPos;
   sf::Vector2f			_secondPos;
-
 
 public:
   MenuWindow(sf::RenderWindow &window, network::Manager &network);

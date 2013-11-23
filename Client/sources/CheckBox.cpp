@@ -5,7 +5,7 @@
 // Login   <brigno@epitech.net>
 //
 // Started on  Thu Oct 31 16:22:29 2013 brigno
-// Last update Fri Nov 22 05:05:35 2013 brigno
+// Last update Sat Nov 23 18:22:08 2013 brigno
 //
 
 #include	"CheckBox.hh"
@@ -100,7 +100,7 @@ AScreen::Status		CheckBox::onFocus()
   this->clearCheck();
   this->_states = 1;
   this->_image.setTexture(TextureManager::getInstance().getTexture("CheckBoxFocus")->getTexture());
-  return (MenuWindow::CONTINUE);
+  return (AScreen::CONTINUE);
 }
 
 void			CheckBox::stopFocus()

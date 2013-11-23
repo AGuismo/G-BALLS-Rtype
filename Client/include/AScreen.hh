@@ -37,6 +37,7 @@ public:
       INGAME,
       BACK_SET,
       VERIF_PWD,
+      WAIT,
       GAME
     };
 protected:

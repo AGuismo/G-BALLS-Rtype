@@ -5,7 +5,7 @@
 // Login   <brigno@epitech.net>
 //
 // Started on  Tue Nov 19 13:02:42 2013 brigno
-// Last update Fri Nov 22 05:05:33 2013 brigno
+// Last update Sat Nov 23 18:21:58 2013 brigno
 //
 
 #ifndef		__CHECKBOX_HH__
@@ -36,7 +36,7 @@ public:
   const sf::Vector2f	&getPos(void) const;
   const std::string	&getName(void) const;
   const int		&getNb(void) const;
-  MenuWindow::Status	onFocus(void);
+  AScreen::Status	onFocus(void);
   void			clearCheck();
   void			setStates(int state);
   void			stopFocus(void);
