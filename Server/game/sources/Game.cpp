@@ -57,7 +57,7 @@ Game::~Game()
     }
     while (!_players.empty())
     {
-	delete _players.front();
+	delete _players.front().player();
 	_players.pop_front();
     }
     while (!_titans.empty())
@@ -285,10 +285,10 @@ void	Game::playerUpdate()
   for (itm = _players.begin(); itm != _players.end(); )
     {
       (*itm)->update(*this);
-	  if ((*itm)->hasLeft())
-		  itm = _players.erase(itm);
-	  else
-		  itm++;
+      if ((*itm)->hasLeft())
+	  itm = _players.erase(itm);
+      else
+	  itm++;
     }
 }
 

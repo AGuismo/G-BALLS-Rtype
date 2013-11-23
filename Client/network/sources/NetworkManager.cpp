@@ -41,7 +41,10 @@ namespace	network
   {
     Thread::MutexGuard	guard(_sock);
 
-    _tcp.mSock.connect(ip, port);
+    if (!_tcp.mSock.connect(ip, port))
+      _connected = false;
+    else
+      _connected = true;
   }
 
   void	Manager::setUdp(const sf::IpAddress &ip, unsigned short port)
@@ -50,6 +53,14 @@ namespace	network
 
     _udp.gIp = ip;
     _udp.gPort = port;
+    _connected = true;
+  }
+
+  bool	Manager::isConnected()
+  {
+    Thread::MutexGuard	guard(_sock);
+
+    return (_connected);
   }
 
   void	Manager::closeTcp(void)
@@ -68,7 +79,7 @@ namespace	network
 
   void		Manager::sendRequest(const ARequest *req)
   {
-    Thread::MutexGuard	guard(_sock);
+    // Thread::MutexGuard	guard(_sock);
     sf::Packet		packet;
 
     packet << req;
@@ -158,6 +169,7 @@ namespace	network
 	    break;
 	  case NONE:
 	    _wake.wait(_state);
+	    _state.unlock();
 	    break;
 	  }
       }
