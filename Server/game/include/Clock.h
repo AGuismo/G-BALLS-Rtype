@@ -20,8 +20,9 @@ namespace	game
     Clock();
     ~Clock();
 
-    void		start();
-    void		update();
+    void			start();
+    void			update();
+	void			restart();
     clock_time		getElapsedTime() const {return _elapsedTime;};
     clock_time		getTotalElapsedTime() const { return _totalElapsedTime;};
 

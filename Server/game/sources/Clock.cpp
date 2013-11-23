@@ -4,6 +4,8 @@ namespace	game
 {
   Clock::Clock()
   {
+	  _elapsedTime = 0;
+	  _totalElapsedTime = 0;
   }
 
   Clock::~Clock()
@@ -18,6 +20,11 @@ namespace	game
 #elif defined(linux)
     gettimeofday(&_last, 0);
 # endif
+  }
+
+  void		Clock::restart()
+  {
+	  _totalElapsedTime = 0;
   }
 
   void		Clock::update()
