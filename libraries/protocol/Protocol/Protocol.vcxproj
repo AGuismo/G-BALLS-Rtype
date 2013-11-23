@@ -83,6 +83,7 @@
     <ClCompile Include="..\sources\EventRequest.cpp" />
     <ClCompile Include="..\sources\LeaveRequest.cpp" />
     <ClCompile Include="..\sources\LooseRequest.cpp" />
+    <ClCompile Include="..\sources\NextStage.cpp" />
     <ClCompile Include="..\sources\PartyRequest.cpp" />
     <ClCompile Include="..\sources\Protocol.cpp" />
     <ClCompile Include="..\sources\RequestFactory.cpp" />
@@ -104,6 +105,7 @@
     <ClInclude Include="..\include\ITransformers.hh" />
     <ClInclude Include="..\include\LeaveRequest.h" />
     <ClInclude Include="..\include\LooseRequest.h" />
+    <ClInclude Include="..\include\NextStage.hh" />
     <ClInclude Include="..\include\PartyRequest.hh" />
     <ClInclude Include="..\include\Protocol.hpp" />
     <ClInclude Include="..\include\RequestCode.hh" />

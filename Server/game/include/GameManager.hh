@@ -27,7 +27,7 @@
 //class	Client;
 class	AGameRequest;
 class	ICallbacks;
-
+class	Application;
 using	net::cBuffer;
 
 namespace	game
@@ -43,7 +43,7 @@ namespace	game
     typedef std::list<Client *>			client_vect;
 
   public:
-    Manager(input_event &input, output_event &output);
+    Manager(Application *parent, input_event &input, output_event &output);
     ~Manager();
 
   public:
@@ -90,6 +90,7 @@ namespace	game
     net::streamManager			_monitor;
     client_vect				_gameClients;
     request_callback_map		_requestCallback;
+	Application				*_parent;
 
   private:
     class predicate : public std::unary_function< Client *, bool>

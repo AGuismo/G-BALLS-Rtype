@@ -5,7 +5,7 @@
 // Login   <brigno@epitech.net>
 //
 // Started on  Thu Oct 24 10:55:11 2013 brigno
-// Last update Fri Nov 22 05:05:32 2013 brigno
+// Last update Sat Nov 23 18:29:45 2013 brigno
 //
 
 #ifndef		__TEXT_HH__
@@ -52,7 +52,7 @@ public:
   const std::string	&getFontPath(void) const;
   const int		&getFlag(void) const;
   void			clearText(void);
-  MenuWindow::Status	onFocus(void);
+  AScreen::Status	onFocus(void);
   void			stopFocus(void);
   void			onHover(void);
   void			stopHover(void);

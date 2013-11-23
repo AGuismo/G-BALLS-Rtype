@@ -5,7 +5,7 @@
 // Login   <brigno@epitech.net>
 //
 // Started on  Thu Oct 24 14:31:48 2013 brigno
-// Last update Sat Nov 23 15:48:06 2013 brigno
+// Last update Sat Nov 23 18:21:00 2013 brigno
 //
 
 #ifndef		__AWIDGET_HH__
@@ -38,7 +38,7 @@ protected:
 public:
   AWidget(const sf::Event &event, const std::string &name, const sf::Vector2f &posTopLeft, const sf::Vector2f &focusTopLeft, const sf::Vector2f &focusBotRight, enum AWidget::Type type);
   virtual ~AWidget();
-  virtual MenuWindow::Status	onFocus(void) = 0;
+  virtual AScreen::Status	onFocus(void) = 0;
   virtual void		stopFocus(void) = 0;
   virtual void		onHover(void) = 0;
   virtual void		stopHover(void) = 0;

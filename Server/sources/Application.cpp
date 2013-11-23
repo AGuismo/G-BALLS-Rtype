@@ -14,7 +14,7 @@
 Salt::size_type	Salt::SALT = 42;
 
 Application::Application():
-  _menuManager(this, _menuOutput, _input), _gameManager(_gameOutput, _input)
+  _menuManager(this, _menuOutput, _input), _gameManager(this, _gameOutput, _input)
 {
   std::string	file("botlibrary");
 
@@ -91,6 +91,18 @@ void	Application::routine()
     }
 }
 
+void	Application::ClientLeaveGame(game::Client *client)
+{
+	client_list::iterator	appIt;
+
+#if defined(DEBUG)
+	std::cout << "Application::ClientLeaveGame(): " << "Player Leave Game..." << std::endl;
+#endif
+	appIt = std::find_if(_clients.begin(), _clients.end(), PredicateGameClient(client));
+	(*appIt)->menu().inUse(true);
+	(*appIt)->game().inUse(false);
+}
+
 void	Application::newClient(Client *client)
 {
 #if defined(DEBUG)
@@ -102,7 +114,7 @@ void	Application::newClient(Client *client)
 void	Application::newGame(menu::Game *game)
 {
   menu::Game::client_list::iterator	menuIt = game->getClients().begin();
-  Game::client_list			clients = { 0 };
+  Game::client_list			clients;
 
 #if defined(DEBUG)
   std::cout << "Application::newGame(): " << "Start Game..." << std::endl;
@@ -111,11 +123,38 @@ void	Application::newGame(menu::Game *game)
     {
       client_list::iterator	appIt;
 
-      appIt = std::find_if(_clients.begin(), _clients.end(), PredicateMenuClient(*menuIt));
-      clients.push_back(&(*appIt)->game());
+	  appIt = std::find_if(_clients.begin(), _clients.end(), PredicateMenuClient(*menuIt));
+	  (*appIt)->game().inUse(true);
+	  (*appIt)->menu().inUse(false);
+	  clients.push_back(&(*appIt)->game());
 	}
-  _gameOutput.push(new Callback<game::Manager, Game>(&_gameManager, new Game(clients),
+  _games.push_back(game);
+  game->game(new Game(clients));
+  _gameOutput.push(new Callback<game::Manager, Game>(&_gameManager, game->game(),
 						     &game::Manager::newGame));
+}
+
+void	Application::endGame(Game *game)
+{
+	Game::client_list::iterator	gameIt = game->clients().begin();
+	game_list::iterator		thatGame;
+#if defined(DEBUG)
+	std::cout << "Application::endGame(): " << "End of Game..." << std::endl;
+#endif
+	for (; gameIt != game->clients().end(); ++gameIt)
+	{
+		client_list::iterator	appIt;
+
+		appIt = std::find_if(_clients.begin(), _clients.end(), PredicateGameClient(*gameIt));
+		(*appIt)->game().inUse(true);
+		(*appIt)->menu().inUse(false);
+	}
+	thatGame = std::find_if(_games.begin(), _games.end(), PredicateGame(game));
+	if (thatGame == _games.end())
+		return;
+	_gameOutput.push(new Callback<menu::Manager, menu::Game>(&_menuManager, *thatGame,
+		&menu::Manager::endGame));
+	_games.erase(thatGame);
 }
 
 ///////////////////////
@@ -176,4 +215,15 @@ Application::PredicateGameClient::PredicateGameClient(game::Client *client):
 bool	Application::PredicateGameClient::operator()(const Client *src)
 {
   return (&src->game() == _client);
+}
+
+Application::PredicateGame::PredicateGame(Game *game) :
+_game(game)
+{
+
+}
+
+bool	Application::PredicateGame::operator()(const menu::Game *src)
+{
+	return (src->game() == _game);
 }

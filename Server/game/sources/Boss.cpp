@@ -1,7 +1,7 @@
 #include "Boss.h"
 #include "Missile.h"
 
-Boss::Boss(ID id, ABossAlgo *algo) :
+Boss::Boss(ID id, AIaAlgo *algo) :
 Entity(game::BOSS, algo->pos(), algo->life(), game::WEST, id), _algo(algo)
 {
 }

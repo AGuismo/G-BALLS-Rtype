@@ -1,4 +1,5 @@
 #include		<SFML/Audio.hpp>
+#include		<SFML/Network.hpp>
 #include		"EventRequest.hh"
 #include		"LeaveRequest.h"
 #include		"AObject.h"
@@ -83,23 +84,23 @@ bool							Game::load(void)
 		return false;
 
 
-	if (!_audioManager.add(AGAME_MUSIC, AMUSIC, true, std::string("./Sounds/Lepi.ogg")))
+	if (!AudioManager::getInstance().add(AGAME_MUSIC, AMUSIC, true, std::string("./Sounds/Lepi.ogg")))
 		return false;
-	if (!_audioManager.add(APLAYER_LASER, ASOUND, false, std::string("./Sounds/PlayerLaser.wav")))
+	if (!AudioManager::getInstance().add(APLAYER_LASER, ASOUND, false, std::string("./Sounds/PlayerLaser.wav")))
 		return false;
-	if (!_audioManager.add(APLAYER_CHARGED, ASOUND, true, std::string("./Sounds/PlayerCharged.wav")))
+	if (!AudioManager::getInstance().add(APLAYER_CHARGED, ASOUND, true, std::string("./Sounds/PlayerCharged.wav")))
 		return false;
-	if (!_audioManager.add(APLAYER_RELEASED, ASOUND, false, std::string("./Sounds/PlayerReleased.wav")))
+	if (!AudioManager::getInstance().add(APLAYER_RELEASED, ASOUND, false, std::string("./Sounds/PlayerReleased.wav")))
 		return false;
-	if (!_audioManager.add(APLAYER_DESTRUCTION, ASOUND, false, std::string("./Sounds/PlayerDestruction.wav")))
+	if (!AudioManager::getInstance().add(APLAYER_DESTRUCTION, ASOUND, false, std::string("./Sounds/PlayerDestruction.wav")))
 		return false;
-	if (!_audioManager.add(ABYDOS_PLASMA, ASOUND, false, std::string("./Sounds/BydosPlasma.flac")))
+	if (!AudioManager::getInstance().add(ABYDOS_PLASMA, ASOUND, false, std::string("./Sounds/BydosPlasma.flac")))
 		return false;
-	if (!_audioManager.add(BYDOS_LASER, ASOUND, false, std::string("./Sounds/BydosLaser.wav")))
+	if (!AudioManager::getInstance().add(BYDOS_LASER, ASOUND, false, std::string("./Sounds/BydosLaser.wav")))
 		return false;
-	if (!_audioManager.add(ABYDOS_DESTRUCTION, ASOUND, false, std::string("./Sounds/BydosDestruction.wav")))
+	if (!AudioManager::getInstance().add(ABYDOS_DESTRUCTION, ASOUND, false, std::string("./Sounds/BydosDestruction.wav")))
 		return false;
-	if (!_audioManager.add(ABYDOS_BOSS_DESTRUCTION, ASOUND, false, std::string("./Sounds/BydosBossDestruction.wav")))
+	if (!AudioManager::getInstance().add(ABYDOS_BOSS_DESTRUCTION, ASOUND, false, std::string("./Sounds/BydosBossDestruction.wav")))
 		return false;
 	return true;
 }
@@ -126,9 +127,12 @@ void							Game::run(void)
 	addObj(ZOGZOG, 4877, 255);
 	addObj(SBYDOS1, 455, 140);
 
-	_audioManager.play(AGAME_MUSIC);
-	
+	AudioManager::getInstance().play(AGAME_MUSIC);
+
+
+//	_network.setUdp(sf::IpAddress("127.0.0.5"), 44202);
 //	_network.switchTo(network::Manager::UDP);
+
 
 	while (_gameWindow->isOpen())
 	{
@@ -203,7 +207,7 @@ void							Game::run(void)
 				case sf::Keyboard::Space:
 					if (_playerFireLock.isEnded())
 					{
-						_audioManager.play(APLAYER_LASER);
+						AudioManager::getInstance().play(APLAYER_LASER);
 						//_network.sendRequest(new EventRequest(SHOOT, SIMPLE));
 						delObj(44);
 						_playerFireLock.restart();
@@ -390,7 +394,7 @@ void							Game::cleanGame()
 	}
 	if (_gameWindow->isOpen())
 		_gameWindow->clear();
-	_audioManager.stop(AGAME_MUSIC);
+	AudioManager::getInstance().stop(AGAME_MUSIC);
 }
 
 int							Game::generateId(void)
@@ -400,7 +404,7 @@ int							Game::generateId(void)
 	return ((id + 1) < 66000) ? 66000 : id + 1;
 }
 
-Game::Game(sf::RenderWindow *gameWindow, sf::Event *event, network::Manager &net) : _layerManager(gameWindow, &_textureManager), _audioManager(), _network(net)
+Game::Game(sf::RenderWindow *gameWindow, sf::Event *event, network::Manager &net) : _layerManager(gameWindow, &_textureManager), _network(net)
 {
 	Factory::getInstance().init(gameWindow, &_textureManager);
 	_gameWindow = gameWindow;

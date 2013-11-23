@@ -35,6 +35,7 @@ namespace	network
     void	initialize(void);
     void	setTcp(const sf::IpAddress &ip, unsigned short port);
     void	setUdp(const sf::IpAddress &ip, unsigned short port);
+    bool	isConnected();
     void	closeTcp();
     void	run(void);
     void	switchTo(State s);
@@ -70,6 +71,7 @@ namespace	network
       unsigned short	gPort;
     }			_udp;
     State		_curState;
+    bool		_connected;
   };
 
   class Exception

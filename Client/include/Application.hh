@@ -5,7 +5,7 @@
 // Login   <brigno@epitech.net>
 //
 // Started on  Tue Nov  5 01:50:37 2013 brigno
-// Last update Thu Nov 21 01:58:27 2013 lambert kevin
+// Last update Sat Nov 23 18:00:08 2013 brigno
 //
 
 #ifndef		__APPLICATION_HH__

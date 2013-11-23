@@ -1,4 +1,4 @@
-#include "NextStageRequest.h"
+#include "NextStage.hh"
 
 NextStageRequest::NextStageRequest(): AGameRequest(requestCode::game::VICTORY)
 {}

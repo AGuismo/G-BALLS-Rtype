@@ -41,7 +41,7 @@ public:
 public:
 	static AudioManager					&getInstance(void);
 
-public:
+private:
   AudioManager() {}
   ~AudioManager();
 

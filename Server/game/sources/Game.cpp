@@ -14,6 +14,7 @@
 #include "Bonus.h"
 #include "VictoryRequest.h"
 #include "LooseRequest.h"
+#include "NextStage.hh"
 #include "BaseIA.h"
 
 Game::Game(std::list<game::Client *> &players)
@@ -24,7 +25,7 @@ Game::Game(std::list<game::Client *> &players)
 	  (*it)->player(new game::Player(std::vector<game::Pos>(1, (rand() % rtype::Env::getInstance().game.mapSize) *
 																rtype::Env::getInstance().game.mapSize), UniqueId()));
   _titan = NULL;
-  for (int i = 0; i < rtype::Env::game::MAXBOSS; ++i);
+  for (int i = 0; i < rtype::Env::getInstance().game.maxBoss; ++i);
 //    _titans.push_back(new Boss(UniqueId(), BotLoader::getBoss()));
   _clock.start();
   _timer.tv_sec = 0;
@@ -56,7 +57,7 @@ Game::~Game()
     }
     while (!_players.empty())
     {
-	delete _players.front();
+	delete _players.front()->player();
 	_players.pop_front();
     }
     while (!_titans.empty())
@@ -229,7 +230,10 @@ void	Game::bossUpdate()
 	  if (_titans.empty())
 	      pushRequest(new VictoryRequest());
 	  else
+	  {
+	      pushRequest(new NextStageRequest());
 	      _clock.restart();
+	  }
 	  delete _titan;
 	}
       if (Referee::isCollision(_titan, *this))
@@ -241,7 +245,10 @@ void	Game::bossUpdate()
 	      if (_titans.empty())
 		  pushRequest(new VictoryRequest());
 	      else
+	      {
+		  pushRequest(new NextStageRequest());
 		  _clock.restart();
+	      }
 	      delete _titan;
 	    }
 	}
@@ -271,7 +278,7 @@ void	Game::pushRequest(ARequest *req)
   _toSend.requestPush(req);
 }
 
-void	Game::playerUpdate()
+bool	Game::playerUpdate()
 {
   std::list<game::Client *>::iterator itm = _players.begin();
 
@@ -279,10 +286,15 @@ void	Game::playerUpdate()
     {
       (*itm)->update(*this);
 	  if ((*itm)->hasLeft())
-		  itm = _players.erase(itm);
+	  {
+		delete (*itm)->player();
+		itm = _players.erase(itm);
+		return true;
+	  }
 	  else
 		  itm++;
     }
+  return false;
 }
 
 void	Game::DispatchRequest()
@@ -297,6 +309,7 @@ void	Game::DispatchRequest()
 	{
 	  (*it)->requestPush(req);
 	}
+
     }
 }
 
@@ -326,10 +339,10 @@ Game::client_list	&Game::clients()
   return (_players);
 }
 
-void	Game::update()
+bool	Game::update()
 {
 	std::cout << "GAME UPDATE" << std::endl;
-	playerUpdate();
+	bool asleftplayer = playerUpdate();
 	iaUpdate();
 	wallUpdate();
 	missileUpdate();
@@ -340,7 +353,7 @@ void	Game::update()
 	    if (!_titans.empty())
 	    {
 		_titan = _titans.front();
-		pushRequest(new ElemRequest(_titan->_algo->type(),
+		pushRequest(new ElemRequest(_titan->algo()->type(),
 			    _titan->pos()[0], _titan->dir(), _titan->id()));
 		_titans.pop_front();
 	    }
@@ -352,4 +365,5 @@ void	Game::update()
 		pushRequest(new LooseRequest());
 	DispatchRequest();
 	_timer.tv_usec = rtype::Env::getInstance().game.gameDelay;
+	return asleftplayer;
 }

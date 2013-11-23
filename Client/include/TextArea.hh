@@ -5,7 +5,7 @@
 // Login   <brigno@epitech.net>
 //
 // Started on  Mon Oct 28 14:11:06 2013 brigno
-// Last update Fri Nov 22 05:05:32 2013 brigno
+// Last update Sat Nov 23 18:29:35 2013 brigno
 //
 
 #ifndef		__TEXTAREA_HH__
@@ -41,7 +41,7 @@ public:
   const sf::Sprite	&getSprite(void) const;
   const sf::Vector2f	&getPos(void) const;
   Text			*getDepsText(void);
-  MenuWindow::Status	onFocus(void);
+  AScreen::Status	onFocus(void);
   void			stopFocus(void);
   void			onHover(void);
   void			stopHover(void);

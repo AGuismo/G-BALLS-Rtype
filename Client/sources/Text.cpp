@@ -5,7 +5,7 @@
 // Login   <brigno@epitech.net>
 //
 // Started on  Thu Oct 24 11:44:54 2013 brigno
-// Last update Sat Nov 23 15:04:51 2013 brigno
+// Last update Sat Nov 23 18:31:32 2013 brigno
 //
 
 #include	"Text.hh"
@@ -128,7 +128,7 @@ Text			&Text::operator=(const Text &other)
   return (*this);
 }
 
-MenuWindow::Status	Text::onFocus()
+AScreen::Status	Text::onFocus()
 {
   if (this->_flag == 0)
     {
@@ -161,7 +161,7 @@ MenuWindow::Status	Text::onFocus()
   if (this->_name == "MsgChat")
     this->_sentenceTmp = view;
   this->_text.setString(this->_sentenceTmp);
-  return (MenuWindow::CONTINUE);
+  return (AScreen::CONTINUE);
 }
 
 const std::string	&Text::getTmp() const

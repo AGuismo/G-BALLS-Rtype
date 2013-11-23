@@ -5,7 +5,7 @@
 // Login   <brigno@epitech.net>
 //
 // Started on  Mon Oct 28 14:40:49 2013 brigno
-// Last update Fri Nov 22 05:05:34 2013 brigno
+// Last update Sat Nov 23 18:31:00 2013 brigno
 //
 
 #include	"TextArea.hh"
@@ -42,12 +42,12 @@ const sf::Vector2f	&TextArea::getPos() const
   return (this->_pos);
 }
 
-MenuWindow::Status		TextArea::onFocus()
+AScreen::Status		TextArea::onFocus()
 {
   this->_depsText->onFocus();
   this->_image.setTexture(TextureManager::getInstance().getTexture("TextAreaFocus")->getTexture());
 
-  return (MenuWindow::CONTINUE);
+  return (AScreen::CONTINUE);
 }
 
 void			TextArea::stopFocus()

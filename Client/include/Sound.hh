@@ -5,7 +5,7 @@
 // Login   <brigno@epitech.net>
 //
 // Started on  Tue Nov  5 22:27:10 2013 brigno
-// Last update Fri Nov 22 20:53:02 2013 brigno
+// Last update Sat Nov 23 21:14:02 2013 brigno
 //
 
 #ifndef		__SOUND_HH__
@@ -17,10 +17,9 @@ class Sound
 {
 private:
   sf::Sound		_sound;
-  sf::SoundBuffer	_soundBuffer;
 
 public:
-  Sound(sf::Sound sound, sf::SoundBuffer soundBuffer);
+  Sound(sf::Sound sound);
   ~Sound();
 
 private:
@@ -28,8 +27,7 @@ private:
   Sound(Sound const &other);
 
 public:
-  const sf::Sound	&getSound(void) const;
-  const sf::SoundBuffer	&getSoundBuffer(void) const;
+  sf::Sound	&getSound(void);
 };
 
 #endif	/* !__SOUND_HH__ */
