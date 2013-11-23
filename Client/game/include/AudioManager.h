@@ -7,41 +7,44 @@
 
 # include	"EnumAudio.h"
 
-class										AudioManager
+class				AudioManager
 {
 private:
-	struct sSound
-	{
-		sf::Sound							*_sound;
-		sf::SoundBuffer						*_soundBuffer;
-	};
+  struct sSound
+  {
+    sf::Sound			*_sound;
+    sf::SoundBuffer		*_soundBuffer;
+
+    sSound() : _sound(0), _soundBuffer(0) {};
+    ~sSound() {delete _sound; delete _soundBuffer;};
+  };
 
 public:
-	typedef int								ID;
-	typedef sf::Music						MUSIC;
-	typedef struct sSound					SOUND;
+  typedef int								ID;
+  typedef sf::Music						MUSIC;
+  typedef struct sSound					SOUND;
 
 private:
-	typedef std::map<ID, SOUND *>			sounds_type;
-	sounds_type								_sounds;
+  typedef std::map<ID, SOUND *>			sounds_type;
+  sounds_type								_sounds;
 
 private:
-	typedef std::map<ID, MUSIC *>			musics_type;
-	musics_type								_musics;
+  typedef std::map<ID, MUSIC *>			musics_type;
+  musics_type								_musics;
 
 public:
-	bool									add(ID, AudioType, bool repeat, const std::string &filePath);
-	bool									play(ID);
-	bool									pause(ID);
-	bool									stop(ID);
+  bool									add(ID, AudioType, bool repeat, const std::string &filePath);
+  bool									play(ID);
+  bool									pause(ID);
+  bool									stop(ID);
 
 public:
-	AudioManager() {}
-	~AudioManager() {}
+  AudioManager() {}
+  ~AudioManager();
 
 private:
-	AudioManager(const AudioManager &);
-	AudioManager					operator=(const AudioManager &);
+  AudioManager(const AudioManager &);
+  AudioManager					operator=(const AudioManager &);
 };
 
 #endif // !AUDIOMANAGER_

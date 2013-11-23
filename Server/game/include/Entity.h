@@ -50,17 +50,9 @@ protected:
   int			_life;
   game::Dir		_dir;
   unsigned int	_speed;
-//  game::Pos		_pos;
   std::vector<game::Pos>	_pos;
   std::vector<game::Pos>	_prevPos;
   game::Type	_type;
-/*
-int			_length;
-  int			_height;
-  int			posX()const {return (_pos % SIZE);};
-  int			posY()const {return (_pos / SIZE);};
-  int			prevX()const {return (_prevPos % SIZE);};
-  int			prevY()const {return (_prevPos / SIZE);};*/
 
   friend class Referee;
   friend class Game;

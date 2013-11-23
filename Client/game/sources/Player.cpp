@@ -6,7 +6,7 @@ void						Player::draw(void)
 {
 
 	if ((_vCurPos.x == _vNextPos.x && _vCurPos.y == _vNextPos.y) ||
-		_timerMvt->isEnded() || _cCurPos == _cNextPos)
+		_timerMvt.isEnded() || _cCurPos == _cNextPos)
 	{
 		_act = false;
 		_action = Nothing;
@@ -57,13 +57,13 @@ void			Player::update(LookDirection lDir, int updtatedPos)
 			_vLag = 1.0f;
 			_vCurPos.x = (float)Game::POSX(_cCurPos);
 			_vCurPos.y = (float)Game::POSY(_cCurPos);
-			_timerMvt->restart();
+			_timerMvt.restart();
 		}
 		else if (_act)
 		{
 			if (_vLag < Game::MAX_VLAG)
 				_vLag += Game::VLAG;
-			_timerMvt->restart();
+			_timerMvt.restart();
 		}
 		_vNextPos.x = (float)Game::POSX(_cNextPos);
 		_vNextPos.y = (float)Game::POSY(_cNextPos);
@@ -103,8 +103,8 @@ Player::Player(ObjType type, int id, int pos, LookDirection ld, sf::Texture *tex
 	_image.setTexture(*text);
 	_image.setTextureRect(sf::IntRect(132, _indexSprite, 68, 38));
 	_image.setPosition((float)Game::POSX(_cCurPos), (float)Game::POSY(_cCurPos));
-	_mvtTime = 0.22f;
-	_timerMvt = new Timer(new sf::Time(sf::seconds(_mvtTime)));
+	_mvtTime = 0.25f;
+	_timerMvt = Timer(sf::seconds(_mvtTime));
 	_gameWindow = gameWindow;
 	_act = false;
 	_action = Nothing;

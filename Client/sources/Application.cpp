@@ -5,7 +5,7 @@
 // Login   <brigno@epitech.net>
 //
 // Started on  Tue Nov  5 02:00:45 2013 brigno
-// Last update Thu Nov 21 15:16:44 2013 lambert kevin
+// Last update Sat Nov 23 10:28:20 2013 lambert kevin
 //
 
 #include	"Application.hh"
@@ -24,7 +24,10 @@ Application::Application()
 
 Application::~Application()
 {
-
+  _network.stop();
+  _network.join();
+  for (screen_list::iterator it = _listScreen.begin(); it != _listScreen.end(); ++it)
+    delete *it;
 }
 
 bool	Application::initialize()
@@ -35,7 +38,7 @@ bool	Application::initialize()
   this->_window.setFramerateLimit(25);
   try
     {
-      // _network.initialize();
+      _network.initialize();
       for (screen_list::iterator it = _listScreen.begin(); it != _listScreen.end(); ++it)
 	{
 	  (*it)->load();
@@ -46,11 +49,11 @@ bool	Application::initialize()
       std::cerr <<  e.what() << std::endl;
       return (false);
     }
-  // catch (const Network::Exception &e)
-  //   {
-  //     std::cerr <<  e.what() << std::endl;
-  //     return (false);
-  //   }
+  catch (const network::Exception &e)
+    {
+      std::cerr <<  e.what() << std::endl;
+      return (false);
+    }
   return (true);
 }
 
@@ -58,7 +61,7 @@ void	Application::run()
 {
   int	screenIdx = AScreen::SCR_MENU;
 
-  // _network.run();
+  _network.run();
   while (this->_window.isOpen())
     {
       screenIdx = _listScreen[screenIdx]->run();

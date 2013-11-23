@@ -9,6 +9,13 @@ enum ObjType
 	PLAYER3,
 	PLAYER4,
 	SBYDOS1,
+	ZOGZOG,
+	SHRIMP_BOSS,
+	GARBAGE_BOSS,
+	PLAYER_LASER,
+	PLAYER_BLAST,
+	BYDOS_PLASMA,
+	BYDOS_LASER,
 	LAYER1,
 	LAYER2,
 	LAYER3,
@@ -37,9 +44,9 @@ enum LookDirection
 	East,
 	SouthEast,
 	South,
-	SouthOuest,
-	Ouest,
-	NorthOuest,
+	SouthWest,
+	West,
+	NorthWest,
 	Unset
 };
 

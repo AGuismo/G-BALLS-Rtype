@@ -5,10 +5,10 @@
 // Login   <brigno@epitech.net>
 //
 // Started on  Tue Nov  5 22:24:09 2013 brigno
-// Last update Wed Nov  6 02:04:07 2013 brigno
+// Last update Sat Nov 23 10:20:05 2013 lambert kevin
 //
 
-#include	<windows.h>
+// #include	<windows.h>
 #include	"TextureManager.hh"
 #include	"Texture.hh"
 
@@ -18,16 +18,16 @@ TextureManager::TextureManager()
 
 TextureManager::~TextureManager()
 {
-
+  for (Texture_type::iterator it = _lnk.begin(); it != _lnk.end(); ++it)
+    delete it->second;
+  _lnk.clear();
 }
 
 TextureManager	&TextureManager::getInstance()
 {
-  static TextureManager	*singleton = 0;
+  static TextureManager	singleton;
 
-  if (singleton == 0)
-    singleton = new TextureManager;
-  return (*singleton);
+  return (singleton);
 }
 
 void			TextureManager::addTexture(const std::string &key, Texture *value)

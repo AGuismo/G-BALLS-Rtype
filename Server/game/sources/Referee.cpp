@@ -41,8 +41,8 @@ bool	Referee::isOnScreen(const Entity *a)
 
 	for (ita = a->_pos.begin(); ita != a->_pos.end(); ita++)
 	{
-		if ((*ita) + 1 != (*itprev) ||
-			(*ita) - 1 != (*itprev) ||
+		if ((*ita) + 1 != (*itprev) &&
+			(*ita) - 1 != (*itprev) &&
 			(*ita) != (*itprev))
 			return false;
 		itprev++;
@@ -161,7 +161,7 @@ bool		Referee::wallCollision(Entity *a, Game &game)
 			  (*ite)->_life--;
 			if ((*ite)->_life <= 0)
 				{
-				    game.randBonnus(*(*ite));
+				  game.randBonnus(*(*ite));
 				  game.pushRequest(new DeathRequest((*ite)->id()));
 				  delete *ite;
 				  ite = game._objs.erase(ite);
@@ -216,6 +216,8 @@ bool		Referee::bonusCollision(Entity *a, Game &game)
 
 bool		Referee::bossCollision(Entity *a, Game &game)
 {
+	if (!game._titan)
+		return false;
 	if (a->_type != game::IA && a->_type != game::MISSILE &&
 		sameCase(a, game._titan) == true)
 	{

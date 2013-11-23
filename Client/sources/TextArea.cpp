@@ -5,7 +5,7 @@
 // Login   <brigno@epitech.net>
 //
 // Started on  Mon Oct 28 14:40:49 2013 brigno
-// Last update Wed Nov 20 16:44:46 2013 brigno
+// Last update Fri Nov 22 05:05:34 2013 brigno
 //
 
 #include	"TextArea.hh"
@@ -13,18 +13,14 @@
 #include	"TextureManager.hh"
 #include	"Texture.hh"
 
-TextArea::TextArea(const sf::Event &ev, const std::string &name, Text &depsText, const sf::Vector2i &posTopLeft, const sf::Vector2i &focusTopLeft,
-	   const sf::Vector2i &focusBotRight) :
+TextArea::TextArea(const sf::Event &ev, const std::string &name, Text &depsText, const sf::Vector2f &posTopLeft, const sf::Vector2f &focusTopLeft,
+	   const sf::Vector2f &focusBotRight) :
   AWidget(ev, name, posTopLeft, focusTopLeft, focusBotRight, AWidget::TEXTAREA)
 {
-  sf::Vector2f	posZone;
-
-  posZone.x = posTopLeft.x;
-  posZone.y = posTopLeft.y;
   this->_name = name;
   this->_image.setTexture(TextureManager::getInstance().getTexture("TextArea")->getTexture());
   this->_depsText = &depsText;
-  this->_image.setPosition(posZone.x, posZone.y);
+  this->_image.setPosition(posTopLeft.x, posTopLeft.y);
 }
 
 TextArea::~TextArea()
@@ -41,7 +37,7 @@ const sf::Sprite	&TextArea::getSprite() const
   return (this->_image);
 }
 
-const sf::Vector2i	&TextArea::getPos() const
+const sf::Vector2f	&TextArea::getPos() const
 {
   return (this->_pos);
 }

@@ -3,6 +3,13 @@
 
 namespace	game
 {
+  TextureManager::~TextureManager()
+  {
+    for (map_type::iterator it = _spriteMap.begin(); it != _spriteMap.end(); ++it)
+      delete it->second;
+    _spriteMap.clear();
+  }
+
   sf::Texture				*TextureManager::getTexture(ObjType obj)
   {
     map_type::iterator	it = _spriteMap.find(obj);

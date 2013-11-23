@@ -86,8 +86,7 @@ public:
   virtual ~Function() {};
   Ret	operator()()
   {
-    if (_inst != 0)
-      return ((_inst->*_func)());
+    return ((_inst->*_func)());
   }
   Ret	operator()(C *inst)
   {

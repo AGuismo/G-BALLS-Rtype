@@ -11,7 +11,7 @@ private:
 
 private:
 	frames_type							_frames;
-	Timer								*_aTimer;
+	Timer								_aTimer;
 
 private:
 	std::size_t							_curFrame;
@@ -21,12 +21,13 @@ public:
 	const sf::IntRect&					getFrame(void);
 
 public:
+	Animation();
 	Animation(float tAnim);
 	~Animation() {}
 
-private:
+public:
 	Animation(const Animation &);
-	Animation				operator=(const Animation &);
+	Animation				&operator=(const Animation &);
 };
 
 

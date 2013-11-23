@@ -5,33 +5,101 @@
 // Login   <brigno@epitech.net>
 //
 // Started on  Thu Oct 24 11:44:54 2013 brigno
-// Last update Wed Nov 20 20:01:43 2013 brigno
+// Last update Fri Nov 22 05:05:35 2013 brigno
 //
 
 #include	"Text.hh"
 
-Text::Text(const std::string &fontPath, const std::string &name, const sf::Event &ev, const sf::Vector2i &posTopLeft, const sf::Vector2i &focusTopLeft,
-	   const sf::Vector2i &focusBotRight, const size_t &size, const bool &enable) :
+Text::Text(const std::string &fontPath, const std::string &name, const sf::Event &ev, const sf::Vector2f &posTopLeft, const sf::Vector2f &focusTopLeft,
+	   const sf::Vector2f &focusBotRight, const size_t &size, const bool &enable) :
+  AWidget(ev, name, posTopLeft, focusTopLeft, focusBotRight, AWidget::TEXT)
+{
+  this->_cursor = 0;
+  this->_flag = 0;
+  if (!this->_font.loadFromFile(fontPath))
+    std::cerr << "Can't find path of Font file" << std::endl;
+  if (name == "MsgChat")
+    {
+      this->_text = sf::Text(this->_sentence, this->_font, 16);
+      this->_text.setColor(sf::Color(0, 0, 0));
+    }
+  else if (name == "NameGame" || name == "PWDGame" || name == "setPWD")
+    {
+      this->_text = sf::Text(this->_sentence, this->_font, 24);
+      this->_text.setColor(sf::Color(0, 0, 0));
+    }
+  else if (name == "IPAddress" || name == "Port")
+    {
+      this->_text = sf::Text(this->_sentence, this->_font, 24);
+      this->_text.setColor(sf::Color(0, 0, 0));
+    }
+  else if (name == "WarningMessageMenu" || name == "WarningMessageLobby")
+    {
+      this->_text = sf::Text(this->_sentence, this->_font, 16);
+      this->_text.setColor(sf::Color(255, 0, 0));
+    }
+  else if (name == "NameGameWait")
+    {
+      this->_text = sf::Text(this->_sentence, this->_font, 24);
+      this->_text.setColor(sf::Color(255, 0, 0));
+    }
+  else
+    {
+      this->_text = sf::Text(this->_sentence, this->_font, 24);
+      this->_text.setColor(sf::Color(44, 127, 255));
+    }
+  this->_text.setPosition(posTopLeft.x, posTopLeft.y);
+  this->_sizeLimit = size;
+  this->_enable = enable;
+}
+
+Text::Text(const std::string &fontPath, const std::string &name, const sf::Event &ev, const sf::Vector2f &posTopLeft, const sf::Vector2f &focusTopLeft,
+	   const sf::Vector2f &focusBotRight, const size_t &size, const bool &enable, const std::string &Txt) :
   AWidget(ev, name, posTopLeft, focusTopLeft, focusBotRight, AWidget::TEXT)
 {
   sf::Vector2f	posText;
 
 
+  this->_flag = 0;
   posText.x = posTopLeft.x;
   posText.y = posTopLeft.y;
   this->_cursor = 0;
   if (!this->_font.loadFromFile(fontPath))
     std::cerr << "Can't find path of Font file" << std::endl;
-  if (name == "MsgChat" || name == "NameGame" || name == "PWDGame")
+  if (name == "MsgChat")
     {
       this->_text = sf::Text(this->_sentence, this->_font, 16);
       this->_text.setColor(sf::Color(0, 0, 0));
     }
+  else if (name == "NameGame" || name == "PWDGame")
+    {
+      this->_text = sf::Text(this->_sentence, this->_font, 24);
+      this->_text.setColor(sf::Color(0, 0, 0));
+    }
+  else if (name == "IPAddress" || name == "Port")
+    {
+      this->_text = sf::Text(this->_sentence, this->_font, 24);
+      this->_text.setColor(sf::Color(0, 0, 0));
+    }
+  else if (name == "WarningMessageMenu" || name == "WarningMessageLobby")
+    {
+      this->_text = sf::Text(this->_sentence, this->_font, 16);
+      this->_text.setColor(sf::Color(255, 0, 0));
+    }
+  else if (name == "NameGameWait")
+    {
+      this->_text = sf::Text(this->_sentence, this->_font, 24);
+      this->_text.setColor(sf::Color(255, 0, 0));
+    }
   else
     {
-      this->_text = sf::Text(this->_sentence, this->_font, 30);
+      this->_text = sf::Text(this->_sentence, this->_font, 24);
       this->_text.setColor(sf::Color(44, 127, 255));
     }
+  this->_sentence = Txt;
+  this->_tmp = Txt;
+  this->_sentenceTmp = Txt;
+  this->_text.setString(this->_sentence);
   this->_text.move(posText);
   this->_sizeLimit = size;
   this->_enable = enable;
@@ -43,12 +111,33 @@ void			Text::clearText()
   this->_sentenceTmp = "";
   this->_sentence = "";
   this->_tmp = "";
-  this->_text.setString(this->_sentenceTmp);
+  this->_text.setString(this->_sentence);
 }
+
+Text			&Text::operator=(const Text &other)
+{
+  this->_enable = other.getEnable();
+  this->_cursor = other.getCursor();
+  this->_font = other.getFont();
+  this->_sentenceTmp = other.getSentenceTmp();
+  this->_sentence = other.getSentence();
+  this->_tmp = other.getTmp();
+  this->_text = other.getText();
+  this->_fontPath = other.getFontPath();
+  this->_sizeLimit = other.getSizeLimit();
+  this->_flag = other.getFlag();
+  return (*this);
+}
+
 
 
 MenuWindow::Status	Text::onFocus()
 {
+  if (this->_flag == 0)
+    {
+      this->_flag = 1;
+      clearText();
+    }
   if (this->_event.text.unicode >= 32 && this->_event.text.unicode <= 126)
     {
       if (this->_sentenceTmp.getSize() < this->_sizeLimit)
@@ -78,15 +167,60 @@ MenuWindow::Status	Text::onFocus()
   return (MenuWindow::CONTINUE);
 }
 
-const std::string	&Text::getText() const
+const std::string	&Text::getTmp() const
 {
   return (this->_tmp);
 }
 
-void	Text::stopFocus()
+const sf::Font		&Text::getFont() const
 {
+  return (this->_font);
 }
 
+const sf::String	&Text::getSentenceTmp() const
+{
+  return (this->_sentenceTmp);
+}
+
+const sf::String	&Text::getSentence() const
+{
+  return (this->_sentence);
+}
+
+const bool		&Text::getEnable() const
+{
+  return (this->_enable);
+}
+
+const int		&Text::getCursor() const
+{
+  return (this->_cursor);
+}
+
+const sf::Text		&Text::getText() const
+{
+  return (this->_text);
+}
+
+const std::string	&Text::getFontPath() const
+{
+  return (this->_fontPath);
+}
+
+const std::size_t	&Text::getSizeLimit() const
+{
+  return (this->_sizeLimit);
+}
+
+const int		&Text::getFlag() const
+{
+  return (this->_flag);
+}
+
+void	Text::stopFocus()
+{
+  this->_flag = 0;
+}
 
 void	Text::onHover()
 {

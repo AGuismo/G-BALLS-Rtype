@@ -11,8 +11,8 @@ SRCS =	      	main.cpp		\
 DIR.GAME=	./game/
 DIR.MENU=	./menu/
 DIR.LOAD=	./loader/
-DIR.PROT=	./protocol/
 DIR.DEPS=	./deps/
+DIR.PROT=	./$(DIR.DEPS)/protocol/
 DIR.DAT=	./database/
 
 DEPS.INC=	-I$(DIR.DEPS)/network/include -I$(DIR.DEPS)/Threads/include -I$(DIR.DEPS)/Bind/include
@@ -39,7 +39,7 @@ compile_mods:
 		@make --no-print-directory -C ./menu all F.D=$(F.D)
 		@make --no-print-directory -C ./loader all F.D=$(F.D)
 		@make --no-print-directory -C ./game all F.D=$(F.D)
-		@make --no-print-directory -C ./protocol all F.D=$(F.D)
+		@make --no-print-directory -C ./$(DIR.PROT) all F.D=$(F.D)
 		@make --no-print-directory -C ./$(DIR.DAT) all F.D=$(F.D)
 
 compile_deps:
@@ -54,7 +54,7 @@ clean_mods:
 		@make --no-print-directory -C ./menu clean
 		@make --no-print-directory -C ./loader clean
 		@make --no-print-directory -C ./game clean
-		@make --no-print-directory -C ./protocol clean
+		@make --no-print-directory -C ./$(DIR.PROT) clean
 		@make --no-print-directory -C ./$(DIR.DAT) clean F.D=$(F.D)
 
 clean_deps:
@@ -67,7 +67,7 @@ fclean_mods:
 		@make --no-print-directory -C ./menu fclean
 		@make --no-print-directory -C ./loader fclean
 		@make --no-print-directory -C ./game fclean
-		@make --no-print-directory -C ./protocol fclean
+		@make --no-print-directory -C ./$(DIR.PROT) fclean
 		@make --no-print-directory -C ./$(DIR.DAT) fclean F.D=$(F.D)
 
 fclean_deps:

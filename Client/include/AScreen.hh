@@ -35,6 +35,8 @@ public:
       SETTINGS,
       SET_CHANGE,
       INGAME,
+      BACK_SET,
+      VERIF_PWD,
       GAME
     };
 protected:
@@ -45,7 +47,7 @@ protected:
 
 public:
   AScreen(sf::RenderWindow &window, network::Manager &manager, AScreen::Status status);
-  ~AScreen();
+  virtual ~AScreen();
   virtual int	run(void) = 0;
   virtual void		clearWindow(void) = 0;
   virtual bool	load() = 0;
