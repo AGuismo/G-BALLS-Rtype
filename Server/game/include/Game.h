@@ -57,14 +57,14 @@ private:
   void bonusUpdate();
   void DispatchRequest();
   void popIA();
-  void pushBoss();
 
 private:
   client_list	_players;
   std::list<Ia *>		_IA;
   std::list<Entity *>		_objs;
   std::list<Missile *>		_missiles;
-  std::list<game::ABonus *>		_bonus;
+  std::list<game::ABonus *>	_bonus;
+  std::list<Boss *>		_titans;
   Boss				*_titan;
   game::Clock		_clock;
   struct timeval	_timer;

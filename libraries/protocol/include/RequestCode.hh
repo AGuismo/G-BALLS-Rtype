@@ -62,6 +62,7 @@ namespace requestCode
     static const CodeID SCORE =			1603;
     static const CodeID VICTORY =		1604;
     static const CodeID LOOSE =			1605;
+    static const CodeID NEXTSTAGE =			1606;
   }
 }
 
