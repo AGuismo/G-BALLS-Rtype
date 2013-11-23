@@ -15,21 +15,21 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\include\defaultIA.hh">
+    <ClInclude Include="..\API\IaAlgo.hh">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\API\IaAlgo.hh">
+    <ClInclude Include="..\API\IAPlayer.hpp">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\API\IAPlayer.hpp">
+    <ClInclude Include="..\API\types.hh">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\API\types.hh">
+    <ClInclude Include="includes\BaseBoss.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\sources\defaultIA.cpp">
+    <ClCompile Include="sources\BaseBoss.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
   </ItemGroup>

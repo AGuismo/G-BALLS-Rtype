@@ -8,7 +8,7 @@ public:
 	BaseIA(game::Pos pos);
 	~BaseIA();
 
-	int	algo(Game &game);
+	int	algo(IAPlayer &players);
 
 private:
 

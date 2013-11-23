@@ -13,8 +13,8 @@ BaseBoss::~BaseBoss()
 
 }
 
-int BaseBoss::algo(Game &game)
+int BaseBoss::algo(IAPlayer &players)
 {
-    (void)game;
+    (void)players;
 	return -1;
 }

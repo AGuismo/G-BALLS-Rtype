@@ -557,35 +557,35 @@ int	MenuWindow::checkAction()
       // call le loby
       break;
     case LOGIN:
+      this->_status = CONTINUE;
       if (dynamic_cast<Text*>(Interface::getInstance().getWidget("LoginText"))->getTmp() == "" ||
 	  dynamic_cast<Text*>(Interface::getInstance().getWidget("LoginText"))->getTmp() == "Login")
 	{
-	  this->_status = CONTINUE;
 	  this->drawMenuWarning("Login area is empty !");
 	  break;
 	}
       else if (dynamic_cast<Text*>(Interface::getInstance().getWidget("PasswordText"))->getTmp() == "" ||
 	       dynamic_cast<Text*>(Interface::getInstance().getWidget("PasswordText"))->getTmp() == "Password")
 	{
-	  this->_status = CONTINUE;
 	  this->drawMenuWarning(" Password area is empty !");
 	  break;
 	}
       InfosUser::getInstance().authenticate.login = dynamic_cast<Text*>(Interface::getInstance().getWidget("LoginText"))->getTmp();
       InfosUser::getInstance().authenticate.password = dynamic_cast<Text*>(Interface::getInstance().getWidget("PasswordText"))->getTmp();
-      // std::cout << "LOGIN : [" << InfosUser::getInstance().authenticate.login << "]" << std::endl;
-      // std::cout << "PASSWORD : [" << InfosUser::getInstance().authenticate.password << "]" << std::endl;
       this->_network.setTcp(sf::IpAddress(InfosUser::getInstance().authenticate.addressIp), InfosUser::getInstance().authenticate.portTCP);
       this->_network.switchTo(network::Manager::TCP);
       if (this->_network.isConnected())
-      	std::cout << "cool" << std::endl;
+	{
+	  // Demander au seveur si les identifiants sont bon !
+	  MediaAudioManager::getInstance().getSound("SwitchScreen")->getSound().play();
+	  this->drawLobby();
+	  break;
+	}
       else
-      	std::cout << "pas cool" << std::endl;
-      // Demander au seveur si les identifiants sont bon !
-      MediaAudioManager::getInstance().getSound("SwitchScreen")->getSound().play();
-      this->_status = CONTINUE;
-      this->drawLobby();
-      break;
+	{
+	  this->drawMenuWarning("Bad server settings !");
+	  break;
+	}
     case EXIT:
       this->_window.close();
       break;

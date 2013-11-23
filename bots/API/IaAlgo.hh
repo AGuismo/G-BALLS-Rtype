@@ -13,8 +13,8 @@
 
 #include	<list>
 #include	<vector>
-#include	"IAPlayer.hpp"
 #include	"types.hh"
+#include	"IAPlayer.hpp"
 
 class AIaAlgo
 {
