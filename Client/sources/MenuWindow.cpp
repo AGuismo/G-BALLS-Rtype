@@ -572,17 +572,13 @@ int	MenuWindow::checkAction()
 	}
       InfosUser::getInstance().authenticate.login = dynamic_cast<Text*>(Interface::getInstance().getWidget("LoginText"))->getTmp();
       InfosUser::getInstance().authenticate.password = dynamic_cast<Text*>(Interface::getInstance().getWidget("PasswordText"))->getTmp();
-      std::cout << "LOGIN : [" << InfosUser::getInstance().authenticate.login << "]" << std::endl;
-      std::cout << "PASSWORD : [" << InfosUser::getInstance().authenticate.password << "]" << std::endl;
       this->_network.setTcp(sf::IpAddress(InfosUser::getInstance().authenticate.addressIp), InfosUser::getInstance().authenticate.portTCP);
       this->_network.switchTo(network::Manager::TCP);
       if (this->_network.isConnected())
 	{
 	  // Demander au seveur si les identifiants sont bon !
-	  std::cout << "cool" << std::endl;
 	  MediaAudioManager::getInstance().getSound("SwitchScreen")->getSound().play();
 	  this->drawLobby();
-	  exit(0);
 	  break;
 	}
       else
