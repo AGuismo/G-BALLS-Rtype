@@ -1,4 +1,5 @@
 #include		<SFML/Audio.hpp>
+#include		<SFML/Network.hpp>
 #include		"EventRequest.hh"
 #include		"LeaveRequest.h"
 #include		"AObject.h"
@@ -124,7 +125,8 @@ void							Game::run(void)
 	addObj(SBYDOS1, 455, 140);
 
 	_audioManager.play(AGAME_MUSIC);
-	
+
+	_network.setUdp(sf::IpAddress("127.0.0.5"), 44202);
 	_network.switchTo(network::Manager::UDP);
 
 	while (_gameWindow->isOpen())
