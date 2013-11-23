@@ -7,7 +7,7 @@
 class Bang : public AObject
 {
 private:
-	Animation			*_bangAnimation;
+	Animation			_bangAnimation;
 
 public:
 	void				update(LookDirection lDir, int updatedPos);

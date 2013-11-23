@@ -7,16 +7,20 @@ class Timer
 {
 private:
 	sf::Clock		_tClock;
-	sf::Time		*_tTime;
+	sf::Time		_tTime;
 
 public:
 	bool			isEnded();
 	void			restart();
-	void			reset(sf::Time *nTime);
+	void			reset(const sf::Time &nTime);
 
 public:
-	Timer(sf::Time *tTime);
+	Timer(const sf::Time &);
 	Timer() {}
+
+public:
+  Timer(const Timer &);
+  Timer	&operator=(const Timer &);
 };
 
 

@@ -4,7 +4,7 @@
 void						BydosLaser::draw(void)
 {
 	if ((_vCurPos.x == _vNextPos.x && _vCurPos.y == _vNextPos.y) ||
-		_timerMvt->isEnded() || _cCurPos == _cNextPos)
+		_timerMvt.isEnded() || _cCurPos == _cNextPos)
 	{
 		_act = false;
 		_action = Nothing;
@@ -26,7 +26,7 @@ void						BydosLaser::draw(void)
 			_vCurPos.y -= (_vLag * Game::OBJ_DEC_Y_FRAME);
 		_image.setPosition(_vCurPos.x + 30.0f, _vCurPos.y + 10.0f);
 	}
-	_image.setTextureRect(_laserAnimation->getFrame());
+	_image.setTextureRect(_laserAnimation.getFrame());
 	_gameWindow->draw(_image);
 }
 
@@ -42,13 +42,13 @@ void			BydosLaser::update(LookDirection lDir, int updtatedPos)
 			_vLag = 1.0f;
 			_vCurPos.x = (float)Game::POSX(_cCurPos);
 			_vCurPos.y = (float)Game::POSY(_cCurPos);
-			_timerMvt->restart();
+			_timerMvt.restart();
 		}
 		else if (_act)
 		{
 			if (_vLag < Game::MAX_VLAG)
 				_vLag += Game::VLAG;
-			_timerMvt->restart();
+			_timerMvt.restart();
 		}
 		_vNextPos.x = (float)Game::POSX(_cNextPos);
 		_vNextPos.y = (float)Game::POSY(_cNextPos);
@@ -56,7 +56,7 @@ void			BydosLaser::update(LookDirection lDir, int updtatedPos)
 }
 
 
-BydosLaser::BydosLaser(ObjType type, int id, int pos, LookDirection ld, sf::Texture *text, sf::RenderWindow *gameWindow)
+BydosLaser::BydosLaser(ObjType type, int id, int pos, LookDirection ld, sf::Texture *text, sf::RenderWindow *gameWindow) : _laserAnimation(0.05f)
 {
 	_type = type;
 	_id = id;
@@ -70,16 +70,15 @@ BydosLaser::BydosLaser(ObjType type, int id, int pos, LookDirection ld, sf::Text
 	_image.setTexture(*text);
 	_image.setPosition((float)Game::POSX(_cCurPos) + 20.0f, (float)Game::POSY(_cCurPos) + 5.0f);
 	_mvtTime = 0.25f;
-	_timerMvt = new Timer(new sf::Time(sf::seconds(_mvtTime)));
+	_timerMvt = Timer(sf::seconds(_mvtTime));
 	_gameWindow = gameWindow;
 	_act = false;
 	_action = Nothing;
-	_laserAnimation = new Animation(0.05f);
 	_image.setTextureRect(sf::IntRect(0, 80, 100, 14));
-	_laserAnimation->addFrame(sf::IntRect(0, 80, 101, 14));
-	_laserAnimation->addFrame(sf::IntRect(100, 80, 100, 14));
-	_laserAnimation->addFrame(sf::IntRect(200, 80, 100, 14));
-/*	_laserAnimation->addFrame(sf::IntRect(299, 6, 25, 20));
-	_laserAnimation->addFrame(sf::IntRect(331, 6, 25, 20));
-	_laserAnimation->addFrame(sf::IntRect(364, 6, 26, 20));*/
+	_laserAnimation.addFrame(sf::IntRect(0, 80, 101, 14));
+	_laserAnimation.addFrame(sf::IntRect(100, 80, 100, 14));
+	_laserAnimation.addFrame(sf::IntRect(200, 80, 100, 14));
+/*	_laserAnimation.addFrame(sf::IntRect(299, 6, 25, 20));
+	_laserAnimation.addFrame(sf::IntRect(331, 6, 25, 20));
+	_laserAnimation.addFrame(sf::IntRect(364, 6, 26, 20));*/
 }

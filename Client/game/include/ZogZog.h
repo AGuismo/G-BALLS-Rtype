@@ -8,7 +8,7 @@
 class ZogZog : public AObject
 {
 private:
-	Animation			*_zogZogAnimation;
+	Animation			_zogZogAnimation;
 
 public:
 	void				update(LookDirection lDir, int updatedPos);

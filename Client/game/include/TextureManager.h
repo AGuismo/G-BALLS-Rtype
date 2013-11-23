@@ -21,7 +21,7 @@ namespace	game
     sf::Texture				*getTexture(ObjType);
     bool					addTexture(ObjType, const std::string &texturePath);
     TextureManager() {}
-    ~TextureManager() {}
+    ~TextureManager();
 
   private:
     TextureManager(const TextureManager &);

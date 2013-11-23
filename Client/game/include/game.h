@@ -71,7 +71,7 @@ public:
 
 public:
 	Game(sf::RenderWindow *gameWindow, sf::Event *event);
-	~Game() {}
+	~Game();
 
 private:
 	Game(const Game &);

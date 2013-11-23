@@ -118,6 +118,7 @@ bool	MenuWindow::load()
 
 MenuWindow::~MenuWindow()
 {
+  clearWindow();
 }
 
 void	MenuWindow::drawMenu()
@@ -407,9 +408,11 @@ void	MenuWindow::checkServer()
     {
       if ((*it)->getType() == AWidget::LINESERVER)
 	{
-	  if (dynamic_cast<LineServer*>(*it)->getFocus() == 1)
+	  LineServer	*lineServ = dynamic_cast<LineServer *>(*it);
+
+	  if (lineServ->getFocus() == 1)
 	    {
-	      this->_serverSelected = dynamic_cast<LineServer*>(*it);
+	      this->_serverSelected = lineServ;
 	      this->_flag = 1;
 	      tmp = 1;
 	      this->removeWidget("Join");
@@ -572,8 +575,24 @@ int	MenuWindow::checkAction()
 
 void	MenuWindow::clearWindow()
 {
-  this->_listImage.clear();
-  this->_listWidget.clear();
+  for (image_list::iterator it = _listImage.begin(); it != _listImage.end();)
+    {
+      Image  *cur = *it;
+
+      it = _listImage.erase(it);
+      delete cur;
+    }
+  for (widget_list::iterator it = _listWidget.begin(); it != _listWidget.end();)
+    {
+      AWidget  *cur = *it;
+
+      it = _listWidget.erase(it);
+      delete cur;
+    }
+  // this->_listImage.clear();
+  // this->_listWidget.clear();
+  _objectFocus = 0;
+  _objectHover = 0;
 }
 
 void	MenuWindow::removeWidget(const std::string &widget)
@@ -583,7 +602,10 @@ void	MenuWindow::removeWidget(const std::string &widget)
   for (it = this->_listWidget.begin(); it != this->_listWidget.end();)
     {
       if ((*it)->getName() == widget)
-	it = this->_listWidget.erase(it);
+	{
+	  delete *it;
+	  it = this->_listWidget.erase(it);
+	}
       else
 	++it;
     }

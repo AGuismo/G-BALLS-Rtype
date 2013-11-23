@@ -7,7 +7,7 @@
 class BydosLaser : public AObject
 {
 private:
-	Animation			*_laserAnimation;
+	Animation			_laserAnimation;
 
 public:
 	void				update(LookDirection lDir, int updatedPos);

@@ -5,7 +5,7 @@ void						ShrimpBoss::draw(void)
 {
 
 	if ((_vCurPos.x == _vNextPos.x && _vCurPos.y == _vNextPos.y) ||
-		_timerMvt->isEnded() || _cCurPos == _cNextPos)
+		_timerMvt.isEnded() || _cCurPos == _cNextPos)
 	{
 		_act = false;
 		_action = Nothing;
@@ -29,7 +29,7 @@ void						ShrimpBoss::draw(void)
 			_vCurPos.y -= (_vLag * Game::OBJ_DEC_Y_FRAME);
 		_image.setPosition(_vCurPos.x - 20.0f, _vCurPos.y - 20.0f);
 	}
-	_image.setTextureRect(_ShrimpBossAnimation->getFrame());
+	_image.setTextureRect(_ShrimpBossAnimation.getFrame());
 	_gameWindow->draw(_image);
 }
 
@@ -45,13 +45,13 @@ void			ShrimpBoss::update(LookDirection lDir, int updtatedPos)
 			_vLag = 1.0f;
 			_vCurPos.x = (float)Game::POSX(_cCurPos);
 			_vCurPos.y = (float)Game::POSY(_cCurPos);
-			_timerMvt->restart();
+			_timerMvt.restart();
 		}
 		else if (_act)
 		{
 			if (_vLag < Game::MAX_VLAG)
 				_vLag += Game::VLAG;
-			_timerMvt->restart();
+			_timerMvt.restart();
 		}
 		_vNextPos.x = (float)Game::POSX(_cNextPos);
 		_vNextPos.y = (float)Game::POSY(_cNextPos);
@@ -59,7 +59,7 @@ void			ShrimpBoss::update(LookDirection lDir, int updtatedPos)
 }
 
 
-ShrimpBoss::ShrimpBoss(ObjType type, int id, int pos, LookDirection ld, sf::Texture *text, sf::RenderWindow *gameWindow)
+ShrimpBoss::ShrimpBoss(ObjType type, int id, int pos, LookDirection ld, sf::Texture *text, sf::RenderWindow *gameWindow) : _ShrimpBossAnimation(0.25f)
 {
 	_type = type;
 	_id = id;
@@ -74,13 +74,12 @@ ShrimpBoss::ShrimpBoss(ObjType type, int id, int pos, LookDirection ld, sf::Text
 	_image.setTextureRect(sf::IntRect(0, 0, 48, 72));
 	_image.setPosition((float)Game::POSX(_cCurPos) - 20.0f, (float)Game::POSY(_cCurPos) - 20.0f);
 	_mvtTime = 0.25f;
-	_timerMvt = new Timer(new sf::Time(sf::seconds(_mvtTime)));
+	_timerMvt = Timer(sf::seconds(_mvtTime));
 	_gameWindow = gameWindow;
 	_act = false;
 	_action = Nothing;
-	_ShrimpBossAnimation = new Animation(0.25f);
-	_ShrimpBossAnimation->addFrame(sf::IntRect(45, 2560, 324, 433));
-	_ShrimpBossAnimation->addFrame(sf::IntRect(372, 2560, 324, 433));
-	_ShrimpBossAnimation->addFrame(sf::IntRect(699, 2560, 324, 433));
-	_ShrimpBossAnimation->addFrame(sf::IntRect(1026, 2560, 324, 433));
+	_ShrimpBossAnimation.addFrame(sf::IntRect(45, 2560, 324, 433));
+	_ShrimpBossAnimation.addFrame(sf::IntRect(372, 2560, 324, 433));
+	_ShrimpBossAnimation.addFrame(sf::IntRect(699, 2560, 324, 433));
+	_ShrimpBossAnimation.addFrame(sf::IntRect(1026, 2560, 324, 433));
 }

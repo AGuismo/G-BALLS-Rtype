@@ -8,7 +8,7 @@
 class GarbageBoss : public AObject
 {
 private:
-	Animation			*_GarbageBossAnimation;
+	Animation			_GarbageBossAnimation;
 
 public:
 	void				update(LookDirection lDir, int updatedPos);

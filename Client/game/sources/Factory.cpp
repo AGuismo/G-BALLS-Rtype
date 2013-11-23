@@ -35,9 +35,9 @@ AObject				*Factory::createObject(ObjType type, int id, int pos, LookDirection l
 		case SBYDOS1:
 			return (new Bydos1(type, id, pos, ldir, text, _gameWindow));
 			break;
-		case ZOGZOG:
-			return (new ZogZog(type, id, pos, ldir, text, _gameWindow));
-			break;
+		// case ZOGZOG:
+		// 	return (new ZogZog(type, id, pos, ldir, text, _gameWindow));
+			// break;
 		case SHRIMP_BOSS:
 			return (new ShrimpBoss(type, id, pos, ldir, text, _gameWindow));
 			break;

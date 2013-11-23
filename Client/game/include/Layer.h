@@ -20,12 +20,12 @@ private:
 	sf::RenderWindow			*_gameWindow;
 
 private:
-	sf::Vector2f				*_lCurPos;
-	sf::Vector2f				*_lInitPos;
-	sf::Vector2f				*_lResetPos;
-	sf::Vector2f				*_lLimPos;
-	sf::Vector2f				*_lIncrement;
-	bool						_lEnabled;
+	sf::Vector2f				_lCurPos;
+	sf::Vector2f				_lInitPos;
+	sf::Vector2f				_lResetPos;
+	sf::Vector2f				_lLimPos;
+	sf::Vector2f				_lIncrement;
+	bool					_lEnabled;
 
 private:
 	Timer						*_lTime;
@@ -37,8 +37,10 @@ public:
 	void						disable(void);
 
 public:
-	Layer(int id, sf::Texture *lText, sf::Vector2f *lInit, sf::Vector2f *lReset, sf::Vector2f *lLim, sf::Vector2f *lInc, Timer *lT, sf::RenderWindow *gWindow, bool lEn);
-	~Layer() {}
+  Layer(int id, sf::Texture *lText, const sf::Vector2f &lInit,
+	const sf::Vector2f &lReset, const sf::Vector2f &lLim,
+	const sf::Vector2f &lInc, Timer *lT, sf::RenderWindow *gWindow, bool lEn);
+  ~Layer() {}
 
 public:
 	struct predicate : std::unary_function<Layer *, bool>
