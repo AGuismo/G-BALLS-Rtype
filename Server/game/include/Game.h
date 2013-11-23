@@ -38,7 +38,7 @@ public:
 public:
   Game(std::list<game::Client *> &players);
   ~Game();
-  void	update();
+  bool	update();
   ID   &UniqueId();
   void	pushMissile(Missile *missile);
   void	pushRequest(ARequest *req);
@@ -53,7 +53,7 @@ private:
   void missileUpdate();
   void bossUpdate();
   void wallUpdate();
-  void playerUpdate();
+  bool playerUpdate();
   void bonusUpdate();
   void DispatchRequest();
   void popIA();

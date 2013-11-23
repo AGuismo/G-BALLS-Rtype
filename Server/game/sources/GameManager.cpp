@@ -10,11 +10,13 @@
 #include	"ClientAccepted.h"
 #include	"Protocol.hpp"
 #include	"GameClient.hh"
+#include	"Callback.hh"
+#include	"Application.hh"
 
 namespace	game
 {
-  Manager::Manager(Manager::input_event &input, Manager::output_event &output) :
-    _th(Func::Bind(&Manager::routine, this)), _input(input), _output(output)
+	Manager::Manager(Application *parent, Manager::input_event &input, Manager::output_event &output) :
+		_th(Func::Bind(&Manager::routine, this)), _input(input), _output(output), _parent(parent)
   {
     _server.monitor(true, false);
   }
@@ -81,7 +83,6 @@ namespace	game
     if ((getRequest(buf, req)) == false)
       return;
     it = std::find_if(_gameClients.begin(), _gameClients.end(), predicate(req->SessionID()));
-	std::cout << "Client " << (*it)->SessionID() << std::endl;
 	if (it != _gameClients.end())
 	{
 		std::cout << "Client " << (*it)->SessionID() << "send a request of type " << req->code() << std::endl << std::endl;
@@ -154,6 +155,7 @@ namespace	game
 
   void		Manager::update()
   {
+	  bool	asleftplayer = false;
 	  std::cout << "Manager::Update" << std::endl;
 	  if (!_games.empty())
 	  {
@@ -162,11 +164,30 @@ namespace	game
 		  _games.pop_front();
 		  if (!game->clients().empty())
 		  {
-			  game->update();
+			  asleftplayer = game->update();
 			  _games.push_back(game);
 		  }
 		  else
-			delete game;
+			  delete game;
+	  }
+
+	  if (asleftplayer == true)
+	  {
+		  client_vect::iterator it = _gameClients.begin();
+
+		  for (; it != _gameClients.end();)
+		  {
+			  if ((*it)->hasLeft())
+			  {
+				  game::Client	*c = *it;
+
+				  it = _gameClients.erase(it);
+				  _output.push(new Callback<Application, game::Client>(_parent, c,
+								&Application::ClientLeaveGame));
+			  }
+			  else
+				  ++it;
+		  }
 	  }
 	  _server.monitor(true, true);
   }
