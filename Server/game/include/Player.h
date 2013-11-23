@@ -24,13 +24,10 @@ namespace	game
 	void	extraLife(bool b) { _extraLife = b; };
 	void	pow(int p) { _pow = p; };
 	int		pow() const { return _pow; };
-	void	score(game::Score p) { _score = p; };
-	game::Score		score() const { return _score; };
 
   private:
     int		_pow;
     bool	_extraLife;
-	game::Score _score;
 
 
     friend class ::Referee;
