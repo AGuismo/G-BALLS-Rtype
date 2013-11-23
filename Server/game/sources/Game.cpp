@@ -14,6 +14,7 @@
 #include "Bonus.h"
 #include "VictoryRequest.h"
 #include "LooseRequest.h"
+#include "NextStage.hh"
 #include "BaseIA.h"
 
 Game::Game(std::list<game::Client *> &players)
@@ -229,7 +230,10 @@ void	Game::bossUpdate()
 	  if (_titans.empty())
 	      pushRequest(new VictoryRequest());
 	  else
+	  {
+	      pushRequest(new NextStageRequest());
 	      _clock.restart();
+	  }
 	  delete _titan;
 	}
       if (Referee::isCollision(_titan, *this))
@@ -241,7 +245,10 @@ void	Game::bossUpdate()
 	      if (_titans.empty())
 		  pushRequest(new VictoryRequest());
 	      else
+	      {
+		  pushRequest(new NextStageRequest());
 		  _clock.restart();
+	      }
 	      delete _titan;
 	    }
 	}
@@ -297,6 +304,7 @@ void	Game::DispatchRequest()
 	{
 	  (*it)->requestPush(req);
 	}
+
     }
 }
 

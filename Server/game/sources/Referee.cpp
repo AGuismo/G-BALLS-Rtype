@@ -8,6 +8,7 @@
 #include	"Boss.h"
 #include	"VictoryRequest.h"
 #include	"BuffRequest.h"
+#include	"NextStage.hh"
 
 Referee::Referee()
 {
@@ -216,36 +217,48 @@ bool		Referee::bonusCollision(Entity *a, Game &game)
 
 bool		Referee::bossCollision(Entity *a, Game &game)
 {
-	if (!game._titan)
-		return false;
-	if (a->_type != game::IA && a->_type != game::MISSILE &&
-		sameCase(a, game._titan) == true)
-	{
-		game._titan->_life--;
-		if (game._titan->_life <= 0)
-		{
-			game.pushRequest(new DeathRequest(game._titan->id()));
-			game.pushRequest(new VictoryRequest());
-			delete game._titan;
-		}
-		return true;
-	}
-	else if (a->_type == game::MISSILE &&
-		sameCase(a, game._titan) == true)
-	{
-		if (dynamic_cast<Missile *>(a)->getLauncher()->_type != game::IA)
-		{
-			game._titan->_life--;
-			if (game._titan->_life <= 0)
-			{
-				game.pushRequest(new DeathRequest(game._titan->id()));
-				game.pushRequest(new VictoryRequest());
-				delete game._titan;
-			}
-			return true;
-		}
-	}
+    if (!game._titan)
 	return false;
+    if (a->_type != game::IA && a->_type != game::MISSILE &&
+	sameCase(a, game._titan) == true)
+    {
+	game._titan->_life--;
+	if (game._titan->_life <= 0)
+	{
+	    game.pushRequest(new DeathRequest(game._titan->id()));
+	    if (game._titans.empty())
+		game.pushRequest(new VictoryRequest());
+	    else
+	    {
+		game.pushRequest(new NextStageRequest());
+		game._clock.restart();
+	    }
+	    delete game._titan;
+	}
+	return true;
+    }
+    else if (a->_type == game::MISSILE &&
+	     sameCase(a, game._titan) == true)
+    {
+	if (dynamic_cast<Missile *>(a)->getLauncher()->_type != game::IA)
+	{
+	    game._titan->_life--;
+	    if (game._titan->_life <= 0)
+	    {
+		game.pushRequest(new DeathRequest(game._titan->id()));
+		if (game._titans.empty())
+		    game.pushRequest(new VictoryRequest());
+		else
+		{
+		    game.pushRequest(new NextStageRequest());
+		    game._clock.restart();
+		}
+		delete game._titan;
+	    }
+	    return true;
+	}
+    }
+    return false;
 }
 
 bool		Referee::isCollision(Entity *a, Game &game)
@@ -269,4 +282,3 @@ bool		Referee::asAlivePlayers(Game &game)
 	}
 	return false;
 }
-
