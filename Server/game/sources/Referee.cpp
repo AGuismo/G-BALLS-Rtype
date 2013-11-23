@@ -89,8 +89,7 @@ bool	Referee::playerCollision(Entity *a, Game &game)
 	  else
 	    {
 		  game.pushRequest(new DeathRequest((*itp)->player()->id()));
-	      delete *itp;
-	      game._players.erase(itp);
+		  (*itp)->_alive = false;
 	    }
 	  return true;
 	}
@@ -100,8 +99,7 @@ bool	Referee::playerCollision(Entity *a, Game &game)
 	  if ((dynamic_cast<Missile *>(a))->getLauncher()->_type != game::PLAYER)
 	    {
 		  game.pushRequest(new DeathRequest((*itp)->player()->id()));
-		  delete *itp;
-	      game._players.erase(itp);
+		  (*itp)->_alive = false;
 	      return true;
 	    }
 	}

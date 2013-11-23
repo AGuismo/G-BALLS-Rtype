@@ -57,7 +57,7 @@ Game::~Game()
     }
     while (!_players.empty())
     {
-	delete _players.front().player();
+	delete _players.front()->player();
 	_players.pop_front();
     }
     while (!_titans.empty())
@@ -278,18 +278,23 @@ void	Game::pushRequest(ARequest *req)
   _toSend.requestPush(req);
 }
 
-void	Game::playerUpdate()
+bool	Game::playerUpdate()
 {
   std::list<game::Client *>::iterator itm = _players.begin();
 
   for (itm = _players.begin(); itm != _players.end(); )
     {
       (*itm)->update(*this);
-      if ((*itm)->hasLeft())
-	  itm = _players.erase(itm);
-      else
-	  itm++;
+	  if ((*itm)->hasLeft())
+	  {
+		delete (*itm)->player();
+		itm = _players.erase(itm);
+		return true;
+	  }
+	  else
+		  itm++;
     }
+  return false;
 }
 
 void	Game::DispatchRequest()
@@ -334,10 +339,10 @@ Game::client_list	&Game::clients()
   return (_players);
 }
 
-void	Game::update()
+bool	Game::update()
 {
 	std::cout << "GAME UPDATE" << std::endl;
-	playerUpdate();
+	bool asleftplayer = playerUpdate();
 	iaUpdate();
 	wallUpdate();
 	missileUpdate();
@@ -360,4 +365,5 @@ void	Game::update()
 		pushRequest(new LooseRequest());
 	DispatchRequest();
 	_timer.tv_usec = rtype::Env::getInstance().game.gameDelay;
+	return asleftplayer;
 }

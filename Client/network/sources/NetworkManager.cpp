@@ -8,7 +8,7 @@ sf::Packet	&operator<<(sf::Packet &packet, const ARequest *req);
 namespace	network
 {
   Manager::Manager() :
-    _th(Func::Bind(&Manager::routine, this)), _curState(NONE)
+    _th(Func::Bind(&Manager::routine, this)), _curState(NONE), _connected(false)
   {
   }
 

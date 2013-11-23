@@ -17,6 +17,7 @@ public:
   typedef Thread::EventQueue<ICallbacks *>	input_event;
   typedef Thread::EventQueue<ICallbacks *>	output_event;
   typedef std::list<Client *>			client_list;
+  typedef std::list<menu::Game *>		game_list;
 public:
   class InitExcept : public std::exception
   {
@@ -46,6 +47,7 @@ public:
   void	newClient(Client *);
   void	newGame(menu::Game *game);
   void	endGame(Game *game);
+  void	ClientLeaveGame(game::Client *);
 
 private:
   Application(Application const&);
@@ -59,6 +61,7 @@ private:
   game::Manager		_gameManager;
   botLoader::Manager	_botLoaderManager;
   client_list		_clients;
+  game_list			_games;
 
 private:
   struct	PredicateMenuClient : public std::unary_function<Client *, bool>
@@ -75,6 +78,14 @@ private:
     bool	operator()(const Client *);
 
     game::Client	*_client;
+  };
+
+  struct	PredicateGame : public std::unary_function<::Game *, bool>
+  {
+	  PredicateGame(::Game *);
+	  bool	operator()(const menu::Game *);
+
+	  ::Game	*_game;
   };
 };
 
