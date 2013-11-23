@@ -24,7 +24,7 @@ Game::Game(std::list<game::Client *> &players)
 	  (*it)->player(new game::Player(std::vector<game::Pos>(1, (rand() % rtype::Env::getInstance().game.mapSize) *
 																rtype::Env::getInstance().game.mapSize), UniqueId()));
   _titan = NULL;
-  for (int i = 0; i < rtype::Env::game::MAXBOSS; ++i);
+  for (int i = 0; i < rtype::Env::getInstance().game.maxBoss; ++i);
 //    _titans.push_back(new Boss(UniqueId(), BotLoader::getBoss()));
   _clock.start();
   _timer.tv_sec = 0;
@@ -340,7 +340,7 @@ void	Game::update()
 	    if (!_titans.empty())
 	    {
 		_titan = _titans.front();
-		pushRequest(new ElemRequest(_titan->_algo->type(),
+		pushRequest(new ElemRequest(_titan->algo()->type(),
 			    _titan->pos()[0], _titan->dir(), _titan->id()));
 		_titans.pop_front();
 	    }

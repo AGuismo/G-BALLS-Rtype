@@ -7,7 +7,7 @@
 NAME	     ?=	libdb.a
 
 THREAD.DIR	=	../deps/Threads
-PROTOCOL.DIR	=	../protocol
+PROTOCOL.DIR	=	../deps/protocol
 
 SRCS =	      	Backup.cpp		\
 		MD5.cpp			\

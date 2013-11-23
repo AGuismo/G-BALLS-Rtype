@@ -43,7 +43,7 @@ namespace rtype
     static const unsigned short int	POP_IA_RANGE			=	2;
     static const unsigned short int	POP_IA_MAX				=	5;
     static const unsigned short int	MAPSIZE					=	16;
-	static const unsigned short int MAXBOSS					=	2;
+      static const unsigned short int MAXBOSS					=	2;
   public:
     const char				*DatabasePath;
 
