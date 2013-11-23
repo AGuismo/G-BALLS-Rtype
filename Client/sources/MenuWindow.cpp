@@ -119,6 +119,7 @@ bool	MenuWindow::load()
 MenuWindow::~MenuWindow()
 {
   clearWindow();
+  delete _backgroundPtr;
 }
 
 void	MenuWindow::drawMenu()
