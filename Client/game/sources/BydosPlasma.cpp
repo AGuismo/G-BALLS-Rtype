@@ -84,4 +84,5 @@ BydosPlasma::BydosPlasma(ObjType type, int id, int pos, LookDirection ld, sf::Te
 
 void				BydosPlasma::onDestruction(Game &game)
 {
+  (void)game;
 }

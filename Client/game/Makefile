@@ -26,6 +26,7 @@ SRCS =	      	Animation.cpp		\
 		PlayerBlast.cpp		\
 		ZogZog.cpp		\
 		Timer.cpp		\
+		Slider.cpp		\
 
 DIR.THREAD=	../../libraries/Thread/Threads
 DIR.BIND=	../../libraries/Bind

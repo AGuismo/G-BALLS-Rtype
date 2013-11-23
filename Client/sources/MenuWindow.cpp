@@ -19,6 +19,9 @@
 #include	"MediaAudioManager.hh"
 #include	"InfosUser.hh"
 #include	"NetworkManager.hh"
+#include	"AuthRequest.hh"
+#include	"MD5.hh"
+#include	"Protocol.hpp"
 
 MenuWindow::MenuWindow(sf::RenderWindow &window, network::Manager &network):
   AScreen(window, network, START), _objectFocus(0), _objectHover(0)
@@ -190,7 +193,7 @@ void	MenuWindow::drawMenuWarning(const std::string &Msg)
 {
   this->clearWindow();
   this->_status = CONTINUE;
-  Text *tmp = new Text("FontLobby", "WarningMessageMenu", this->_event, sf::Vector2f(500, 370), sf::Vector2f(499, 369), sf::Vector2f(678, 389), 10, true, Msg);
+  Text *tmp = new Text("FontLobby", "WarningMessageMenu", this->_event, sf::Vector2f(500, 370), sf::Vector2f(0, 0), sf::Vector2f(0, 0), 10, true, Msg);
 
   this->_listImage.push_back(new Image("FondWarningMenu", sf::Vector2f(390, 160)));
   this->_listImage.push_back(new Image("TextAccessDenied", sf::Vector2f(410, 320)));
@@ -246,7 +249,7 @@ void	MenuWindow::drawLobbyWarning(const std::string &Msg)
   this->clearWindow();
   this->_status = CONTINUE;
   Text *tmp = new Text("FontLobby", "MsgChat", this->_event, sf::Vector2f(830, 640), sf::Vector2f(825, 633), sf::Vector2f(1073, 666), 100, true);
-  Text *tmp2 = new Text("FontLobby", "WarningMessageLobby", this->_event, sf::Vector2f(260, 464), sf::Vector2f(520, 415), sf::Vector2f(760, 445), 10, true, Msg);
+  Text *tmp2 = new Text("FontLobby", "WarningMessageLobby", this->_event, sf::Vector2f(260, 464), sf::Vector2f(0, 0), sf::Vector2f(0, 0), 10, true, Msg);
 
   this->_listImage.push_back(new Image("TitleLobby", sf::Vector2f(2, 10)));
   this->_listImage.push_back(new Image("FondLobby", sf::Vector2f(0, 55)));
@@ -576,7 +579,12 @@ int	MenuWindow::checkAction()
       this->_network.switchTo(network::Manager::TCP);
       if (this->_network.isConnected())
 	{
+	  this->_network.sendRequest(new Auth::Connect(InfosUser::getInstance().authenticate.login, md5(InfosUser::getInstance().authenticate.password)));
+
+
 	  // Demander au seveur si les identifiants sont bon !
+
+
 	  MediaAudioManager::getInstance().getSound("SwitchScreen")->getSound().play();
 	  this->drawLobby();
 	  break;
