@@ -113,7 +113,6 @@
     <ClInclude Include="..\include\ZogZog.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\include\ZogZog.cpp" />
     <ClCompile Include="..\sources\Animation.cpp" />
     <ClCompile Include="..\sources\AObject.cpp" />
     <ClCompile Include="..\sources\AudioManager.cpp" />
@@ -133,6 +132,7 @@
     <ClCompile Include="..\sources\ShrimpBoss.cpp" />
     <ClCompile Include="..\sources\TextureManager.cpp" />
     <ClCompile Include="..\sources\Timer.cpp" />
+    <ClCompile Include="..\sources\ZogZog.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
