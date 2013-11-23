@@ -2,9 +2,9 @@ NAME	     ?=	defaultIA.so
 
 SRCS =	      	defaultIA.cpp		\
 
-F.C	     +=
-F.I	     += -I./include
-F.D	     +=
+F.C	     += -W -Wall -Werror -fPIC
+F.I	     += -I./include -I../API
+F.L	     += -shared
 
 all:		start $(NAME)
 
