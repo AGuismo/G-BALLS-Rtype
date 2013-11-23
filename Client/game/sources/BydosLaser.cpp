@@ -82,4 +82,5 @@ BydosLaser::BydosLaser(ObjType type, int id, int pos, LookDirection ld, sf::Text
 
 void				BydosLaser::onDestruction(Game &game)
 {
+  (void)game;
 }

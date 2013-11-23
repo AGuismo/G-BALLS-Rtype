@@ -79,4 +79,5 @@ PlayerBlast::PlayerBlast(ObjType type, int id, int pos, LookDirection ld, sf::Te
 
 void				PlayerBlast::onDestruction(Game &game)
 {
+  (void)game;
 }

@@ -103,4 +103,5 @@ PlayerLaser::PlayerLaser(ObjType type, int id, int pos, LookDirection ld, sf::Te
 
 void				PlayerLaser::onDestruction(Game &game)
 {
+  (void)game;
 }
