@@ -1,7 +1,11 @@
 #include		<SFML/Audio.hpp>
+#include		"EventRequest.hh"
+#include		"LeaveRequest.h"
 #include		"AObject.h"
 #include		"game.h"
 #include		"Layer.h"
+#include		"RequestCode.hh"
+#include		"NetworkManager.hh"
 #include		<algorithm>
 #include		"Timer.h"
 
@@ -9,6 +13,7 @@ const float Game::VLAG = 0.4f;
 const float Game::MAX_VLAG = 3.0f;
 const float Game::OBJ_DEC_X_FRAME = Game::PX_DEC_X /  8.0f;
 const float Game::OBJ_DEC_Y_FRAME = Game::PX_DEC_Y / 8.0f;
+using namespace requestCode::game::client;
 
 Game::~Game()
 {
@@ -104,6 +109,7 @@ void							Game::run(void)
 	Timer						_playerMvtLock(sf::seconds(0.20f));
 	Timer						_playerFireLock(sf::seconds(0.42f));
 	Timer						test(sf::seconds(50.0f));
+	ARequest					*req;
 
 	_gameWindow->setFramerateLimit(25);
 	_gameWindow->setKeyRepeatEnabled(true);
@@ -118,7 +124,8 @@ void							Game::run(void)
 	addObj(SBYDOS1, 455, 140);
 
 	_audioManager.play(AGAME_MUSIC);
-
+	
+	_network.switchTo(network::Manager::UDP);
 
 	while (_gameWindow->isOpen())
 	{
@@ -136,6 +143,7 @@ void							Game::run(void)
 					if (_playerMvtLock.isEnded())
 					{
 						updatePlayer(Left);
+						_network.sendRequest(new EventRequest(MOVE, WEST));
 						_playerMvtLock.restart();
 					}
 					break;
@@ -143,6 +151,7 @@ void							Game::run(void)
 					if (_playerMvtLock.isEnded())
 					{
 						updatePlayer(Right);
+						_network.sendRequest(new EventRequest(MOVE, EAST));
 						_playerMvtLock.restart();
 					}
 					break;
@@ -150,6 +159,7 @@ void							Game::run(void)
 					if (_playerMvtLock.isEnded())
 					{
 						updatePlayer(Up);
+						_network.sendRequest(new EventRequest(MOVE, NORTH));
 						_playerMvtLock.restart();
 					}
 					break;
@@ -157,6 +167,7 @@ void							Game::run(void)
 					if (_playerMvtLock.isEnded())
 					{
 						updatePlayer(Down);
+						_network.sendRequest(new EventRequest(MOVE, SOUTH));
 						_playerMvtLock.restart();
 					}
 					break;
@@ -164,11 +175,13 @@ void							Game::run(void)
 					if (_playerFireLock.isEnded())
 					{
 						_audioManager.play(APLAYER_LASER);
+						_network.sendRequest(new EventRequest(SHOOT, SIMPLE));
 						delObj(44);
 						_playerFireLock.restart();
 					}
 					break;
 				case sf::Keyboard::Escape:
+					_network.sendRequest(new LeaveRequest());
 				  cleanGame();
 				  return;
 					break;
@@ -182,6 +195,10 @@ void							Game::run(void)
 		}
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) && sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
 			std::cout << "NORTH WEST MOTHERFUCKER" << std::endl;
+		while ((req = _network.recvRequest()) != 0)
+			;
+		//LAAAAAAAAAAAAAAAAAA
+
 		_gameWindow->clear();
 		cleanObjects();
 		_layerManager.upDraw();
@@ -369,7 +386,7 @@ void							Game::cleanGame()
 	_audioManager.stop(AGAME_MUSIC);
 }
 
-Game::Game(sf::RenderWindow *gameWindow, sf::Event *event) : _factory(gameWindow, &_textureManager), _layerManager(gameWindow, &_textureManager), _audioManager()
+Game::Game(sf::RenderWindow *gameWindow, sf::Event *event, network::Manager &net) : _factory(gameWindow, &_textureManager), _layerManager(gameWindow, &_textureManager), _audioManager(), _network(net)
 {
 	_gameWindow = gameWindow;
 	_event = event;

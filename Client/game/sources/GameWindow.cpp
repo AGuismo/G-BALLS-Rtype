@@ -29,6 +29,6 @@ int						GameWindow::run(void)
 
 
 GameWindow::GameWindow(sf::RenderWindow &window, network::Manager &network) :
-  AScreen(window, network, AScreen::INGAME), _game(&window, &_event)
+  AScreen(window, network, AScreen::INGAME), _game(&window, &_event, network)
 {
 }
