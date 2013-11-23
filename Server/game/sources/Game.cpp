@@ -21,17 +21,50 @@ Game::Game(std::list<game::Client *> &players)
   _players = players;
   incremental = 0;
   for (client_list::iterator it = _players.begin(); it != _players.end(); ++it)
-    (*it)->player(new game::Player(std::vector<game::Pos> (1, (rand() % rtype::Env::mapSize) * rtype::Env::mapSize), UniqueId()));
+	  (*it)->player(new game::Player(std::vector<game::Pos>(1, (rand() % rtype::Env::getInstance().game.mapSize) *
+																rtype::Env::getInstance().game.mapSize), UniqueId()));
   _titan = NULL;
+  for (int i = 0; i < rtype::Env::game::MAXBOSS; ++i);
+//    _titans.push_back(new Boss(UniqueId(), BotLoader::getBoss()));
   _clock.start();
   _timer.tv_sec = 0;
-  _timer.tv_usec = rtype::Env::gameDelay;
+  _timer.tv_usec = rtype::Env::getInstance().game.gameDelay;
   std::cout << "Bienvenue dans la faille de l'invocateur" << std::endl;
 }
 
 Game::~Game()
 {
-	std::cout << "A Game has just finished" << std::endl;
+    while (!_IA.empty())
+    {
+	delete _IA.front();
+	_IA.pop_front();
+    }
+    while (!_objs.empty())
+    {
+	delete _objs.front();
+	_objs.pop_front();
+    }
+    while (!_missiles.empty())
+    {
+	delete _missiles.front();
+	_missiles.pop_front();
+    }
+    while (!_bonus.empty())
+    {
+	delete _bonus.front();
+	_bonus.pop_front();
+    }
+    while (!_players.empty())
+    {
+	delete _players.front();
+	_players.pop_front();
+    }
+    while (!_titans.empty())
+    {
+	delete _titans.front();
+	_titans.pop_front();
+    }
+    std::cout << "A Game has just finished" << std::endl;
 }
 
 void	Game::randBonnus(Entity &a)
@@ -193,7 +226,10 @@ void	Game::bossUpdate()
       if (!Referee::isOnScreen(_titan))
 	{
 	  pushRequest(new DeathRequest(_titan->id()));
-	  pushRequest(new VictoryRequest());
+	  if (_titans.empty())
+	      pushRequest(new VictoryRequest());
+	  else
+	      _clock.restart();
 	  delete _titan;
 	}
       if (Referee::isCollision(_titan, *this))
@@ -202,7 +238,10 @@ void	Game::bossUpdate()
 	  if (_titan->_life <= 0)
 	    {
 	      pushRequest(new DeathRequest(_titan->id()));
-	      pushRequest(new VictoryRequest());
+	      if (_titans.empty())
+		  pushRequest(new VictoryRequest());
+	      else
+		  _clock.restart();
 	      delete _titan;
 	    }
 	}
@@ -263,12 +302,10 @@ void	Game::DispatchRequest()
 
 void	Game::popIA()
 {
-  if (_IA.size() < rtype::Env::maxIA)
+	if (_IA.size() < rtype::Env::getInstance().game.maxIA)
     {
-      if (_IA.size() < rtype::Env::minIA || rand() % rtype::Env::popIAmax < rtype::Env::popIArange)
+		if (_IA.size() < rtype::Env::getInstance().game.minIA || rand() % rtype::Env::getInstance().game.popIAmax < rtype::Env::getInstance().game.popIArange)
 	{
-
-	  
 	    Ia *new_ia;
 
 	    //new_ia = BotLoader::getIA();
@@ -279,7 +316,7 @@ void	Game::popIA()
 	    _IA.push_back(new_ia);
 	    pushRequest(new ElemRequest(new_ia->algo()->type(),
 	    new_ia->_pos[0], new_ia->_dir, new_ia->_id));
-	  
+
 	}
     }
 }
@@ -287,15 +324,6 @@ void	Game::popIA()
 Game::client_list	&Game::clients()
 {
   return (_players);
-}
-
-void	Game::pushBoss()
-{
-  /*
-    _titan = new Boss(UniqueId(), BotLoader::getBoss());
-    pushRequest(new ElemRequest(_titan->_algo->type(),
-    _titan->pos()[0], _titan->dir(), _titan->id()));
-  */
 }
 
 void	Game::update()
@@ -307,11 +335,21 @@ void	Game::update()
 	missileUpdate();
 	bonusUpdate();
 	_clock.update();
-	if (rtype::Env::BOSS_DELAY <= _clock.getTotalElapsedTime())
-		pushBoss();
+	if (rtype::Env::BOSS_DELAY <= _clock.getTotalElapsedTime()&& !_titan)
+	{
+	    if (!_titans.empty())
+	    {
+		_titan = _titans.front();
+		pushRequest(new ElemRequest(_titan->_algo->type(),
+			    _titan->pos()[0], _titan->dir(), _titan->id()));
+		_titans.pop_front();
+	    }
+	    else
+		pushRequest(new VictoryRequest());
+	}
 	popIA();
 	if (Referee::asAlivePlayers(*this) == false)
 		pushRequest(new LooseRequest());
 	DispatchRequest();
-	_timer.tv_usec = rtype::Env::gameDelay;
+	_timer.tv_usec = rtype::Env::getInstance().game.gameDelay;
 }

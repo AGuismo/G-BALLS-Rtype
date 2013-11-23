@@ -11,11 +11,17 @@
 class gameWindow;
 class Factory;
 
+namespace network
+{
+	class	Manager;
+}
+
 class Game
 {
 private:
-	sf::RenderWindow			*_gameWindow;
-	sf::Event				*_event;
+	sf::RenderWindow				*_gameWindow;
+	sf::Event						*_event;
+	network::Manager				&_network;
 	game::TextureManager			_textureManager;
 
 private:
@@ -70,7 +76,7 @@ public:
 
 
 public:
-	Game(sf::RenderWindow *gameWindow, sf::Event *event);
+	Game(sf::RenderWindow *gameWindow, sf::Event *event, network::Manager &);
 	~Game();
 
 private:

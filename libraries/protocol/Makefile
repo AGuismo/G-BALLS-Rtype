@@ -20,6 +20,7 @@ SRCS =	      	ARequest.cpp		\
 		BuffRequest.cpp		\
 		DeathRequest.cpp	\
 		ElemRequest.cpp		\
+		NextStage.cpp		\
 		EventRequest.cpp	\
 		LooseRequest.cpp	\
 		LeaveRequest.cpp	\
