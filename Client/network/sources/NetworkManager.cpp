@@ -27,6 +27,16 @@ namespace	network
     _th.run();
   }
 
+  void	Manager::stop()
+  {
+    _th.cancel();
+  }
+
+  void	Manager::join()
+  {
+    _th.join();
+  }
+
   void	Manager::setTcp(const sf::IpAddress &ip, unsigned short port)
   {
     Thread::MutexGuard	guard(_sock);

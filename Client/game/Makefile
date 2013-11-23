@@ -13,6 +13,8 @@ SRCS =	      	Animation.cpp		\
 		Bydos1.cpp		\
 		BydosPlasma.cpp		\
 		BydosLaser.cpp		\
+		GarbageBoss.cpp		\
+		ShrimpBoss.cpp		\
 		Factory.cpp		\
 		Game.cpp		\
 		GameWindow.cpp		\
@@ -22,6 +24,7 @@ SRCS =	      	Animation.cpp		\
 		Player.cpp		\
 		PlayerLaser.cpp		\
 		PlayerBlast.cpp		\
+		ZogZog.cpp		\
 		Timer.cpp		\
 
 DIR.THREAD=	../../libraries/Thread/Threads

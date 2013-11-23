@@ -47,7 +47,7 @@ protected:
 
 public:
   AScreen(sf::RenderWindow &window, network::Manager &manager, AScreen::Status status);
-  ~AScreen();
+  virtual ~AScreen();
   virtual int	run(void) = 0;
   virtual void		clearWindow(void) = 0;
   virtual bool	load() = 0;

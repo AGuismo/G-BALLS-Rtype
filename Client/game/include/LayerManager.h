@@ -11,7 +11,7 @@ class TextureManager;
 
 namespace sf
 {
-	class RenderWindow;
+  class RenderWindow;
 }
 
 namespace	game
@@ -21,34 +21,36 @@ namespace	game
 
 class								LayerManager
 {
-private:
-	sf::RenderWindow				*_gameWindow;
-	game::TextureManager				*_textureManager;
+ private:
+  sf::RenderWindow				*_gameWindow;
+  game::TextureManager				*_textureManager;
 
-private:
-	typedef std::deque<Layer *> layers_type;
-	layers_type						_layers;
+ private:
+  typedef std::deque<Layer *> layers_type;
+  layers_type						_layers;
 
-private:
-	Layer							*findLayer(int lId);
+ private:
+  Layer							*findLayer(int lId);
 
-public:
-	bool							addLayer(ObjType objType, LayerType lType, sf::Vector2f *lInit, sf::Vector2f *lReset, sf::Vector2f *lLim, sf::Vector2f *lInc, Timer *lTimer, bool lEn);
-	bool							enableLayer(LayerType layer);
-	bool							stopLayer(LayerType layer);
+ public:
+  bool							addLayer(ObjType objType, LayerType lType, const sf::Vector2f &lInit,
+								 const sf::Vector2f &lReset, const sf::Vector2f &lLim,
+								 const sf::Vector2f &lInc, Timer *lTimer, bool lEn);
+  bool							enableLayer(LayerType layer);
+  bool							stopLayer(LayerType layer);
 
-public:
-	void							draw(void);
-	void							update(void);
-	void							upDraw(void);
+ public:
+  void							draw(void);
+  void							update(void);
+  void							upDraw(void);
 
-public:
-	LayerManager(sf::RenderWindow *gameWindow, game::TextureManager *TextureManager);
-	~LayerManager() {}
+ public:
+  LayerManager(sf::RenderWindow *gameWindow, game::TextureManager *TextureManager);
+  ~LayerManager();
 
-private:
-	LayerManager(const LayerManager &);
-	LayerManager					operator=(const LayerManager &);
+ private:
+  LayerManager(const LayerManager &);
+  LayerManager					operator=(const LayerManager &);
 };
 
 

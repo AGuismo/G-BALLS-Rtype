@@ -5,7 +5,7 @@
 // Login   <brigno@epitech.net>
 //
 // Started on  Tue Nov  5 02:00:45 2013 brigno
-// Last update Fri Nov 22 02:16:05 2013 lambert kevin
+// Last update Sat Nov 23 10:28:20 2013 lambert kevin
 //
 
 #include	"Application.hh"
@@ -24,7 +24,10 @@ Application::Application()
 
 Application::~Application()
 {
-
+  _network.stop();
+  _network.join();
+  for (screen_list::iterator it = _listScreen.begin(); it != _listScreen.end(); ++it)
+    delete *it;
 }
 
 bool	Application::initialize()

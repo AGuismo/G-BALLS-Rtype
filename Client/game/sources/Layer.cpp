@@ -18,13 +18,13 @@ void						Layer::update(void)
 		if (_lEnabled)
 		{
 			if (_id == 43)
-				std::cout << "lposx " << _lCurPos->x << "lposy " << _lCurPos->y << " incy" << _lIncrement->y << std::endl;
+				std::cout << "lposx " << _lCurPos.x << "lposy " << _lCurPos.y << " incy" << _lIncrement.y << std::endl;
 		//	system("pause");
-			_lCurPos->x -= _lIncrement->x;
-			_lCurPos->y -= _lIncrement->y;
-			_lCurPos->x = (_lCurPos->x == _lLimPos->x) ? _lResetPos->x : _lCurPos->x;
-			_lCurPos->y = (_lCurPos->y == _lLimPos->y) ? _lResetPos->y : _lCurPos->y;
-			_lSprite.setPosition(_lCurPos->x, _lCurPos->y);
+			_lCurPos.x -= _lIncrement.x;
+			_lCurPos.y -= _lIncrement.y;
+			_lCurPos.x = (_lCurPos.x == _lLimPos.x) ? _lResetPos.x : _lCurPos.x;
+			_lCurPos.y = (_lCurPos.y == _lLimPos.y) ? _lResetPos.y : _lCurPos.y;
+			_lSprite.setPosition(_lCurPos.x, _lCurPos.y);
 		}
 	}
 	_lEnabled = ((_lTime && _lTime->isEnded()) || !_lEnabled) ? false : true;
@@ -42,7 +42,10 @@ void						Layer::disable(void)
 	_lEnabled = false;
 }
 
-Layer::Layer(int id, sf::Texture *lText, sf::Vector2f *lInit, sf::Vector2f *lReset, sf::Vector2f *lLim, sf::Vector2f *lInc, Timer *lT, sf::RenderWindow *gWindow, bool lEn)
+Layer::Layer(int id, sf::Texture *lText, const sf::Vector2f &lInit,
+	     const sf::Vector2f &lReset, const sf::Vector2f &lLim,
+	     const sf::Vector2f &lInc, Timer *lT, sf::RenderWindow *gWindow, bool lEn) :
+  _lCurPos(lInit), _lInitPos(lReset), _lResetPos(lReset), _lLimPos(lLim), _lIncrement(lInc)
 {
 	_id = id;
 	_lTexture = lText;

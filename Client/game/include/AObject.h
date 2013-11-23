@@ -31,7 +31,7 @@ protected:
 	sf::Vector2f			_vNextPos;
 
 protected:
-	Timer					*_timerMvt;
+	Timer					_timerMvt;
 	float					_mvtTime;
 
 protected:

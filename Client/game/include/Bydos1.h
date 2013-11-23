@@ -7,8 +7,8 @@
 class Bydos1 : public AObject
 {
 private:
-	Animation			*_rightAnimation;
-	Animation			*_leftAnimation;
+	Animation			_leftAnimation;
+	Animation			_rightAnimation;
 
 public:
 	void				update(LookDirection lDir, int updatedPos);

@@ -5,7 +5,7 @@ void						GarbageBoss::draw(void)
 {
 
 	if ((_vCurPos.x == _vNextPos.x && _vCurPos.y == _vNextPos.y) ||
-		_timerMvt->isEnded() || _cCurPos == _cNextPos)
+		_timerMvt.isEnded() || _cCurPos == _cNextPos)
 	{
 		_act = false;
 		_action = Nothing;
@@ -29,7 +29,7 @@ void						GarbageBoss::draw(void)
 			_vCurPos.y -= (_vLag * Game::OBJ_DEC_Y_FRAME);
 		_image.setPosition(_vCurPos.x - 20.0f, _vCurPos.y - 20.0f);
 	}
-	_image.setTextureRect(_GarbageBossAnimation->getFrame());
+	_image.setTextureRect(_GarbageBossAnimation.getFrame());
 	_gameWindow->draw(_image);
 }
 
@@ -45,13 +45,13 @@ void			GarbageBoss::update(LookDirection lDir, int updtatedPos)
 			_vLag = 1.0f;
 			_vCurPos.x = (float)Game::POSX(_cCurPos);
 			_vCurPos.y = (float)Game::POSY(_cCurPos);
-			_timerMvt->restart();
+			_timerMvt.restart();
 		}
 		else if (_act)
 		{
 			if (_vLag < Game::MAX_VLAG)
 				_vLag += Game::VLAG;
-			_timerMvt->restart();
+			_timerMvt.restart();
 		}
 		_vNextPos.x = (float)Game::POSX(_cNextPos);
 		_vNextPos.y = (float)Game::POSY(_cNextPos);
@@ -59,7 +59,7 @@ void			GarbageBoss::update(LookDirection lDir, int updtatedPos)
 }
 
 
-GarbageBoss::GarbageBoss(ObjType type, int id, int pos, LookDirection ld, sf::Texture *text, sf::RenderWindow *gameWindow)
+GarbageBoss::GarbageBoss(ObjType type, int id, int pos, LookDirection ld, sf::Texture *text, sf::RenderWindow *gameWindow) : _GarbageBossAnimation(0.35f)
 {
 	_type = type;
 	_id = id;
@@ -74,11 +74,10 @@ GarbageBoss::GarbageBoss(ObjType type, int id, int pos, LookDirection ld, sf::Te
 	_image.setTextureRect(sf::IntRect(0, 0, 48, 72));
 	_image.setPosition((float)Game::POSX(_cCurPos) - 20.0f, (float)Game::POSY(_cCurPos) - 20.0f);
 	_mvtTime = 0.25f;
-	_timerMvt = new Timer(new sf::Time(sf::seconds(_mvtTime)));
+	_timerMvt = Timer(sf::seconds(_mvtTime));
 	_gameWindow = gameWindow;
 	_act = false;
 	_action = Nothing;
-	_GarbageBossAnimation = new Animation(0.35f);
-	_GarbageBossAnimation->addFrame(sf::IntRect(0, 0, 364, 290));
-	_GarbageBossAnimation->addFrame(sf::IntRect(378, 0, 364, 290));
+	_GarbageBossAnimation.addFrame(sf::IntRect(0, 0, 364, 290));
+	_GarbageBossAnimation.addFrame(sf::IntRect(378, 0, 364, 290));
 }

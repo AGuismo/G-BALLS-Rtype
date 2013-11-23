@@ -8,7 +8,7 @@
 class ShrimpBoss : public AObject
 {
 private:
-	Animation			*_ShrimpBossAnimation;
+	Animation			_ShrimpBossAnimation;
 
 public:
 	void				update(LookDirection lDir, int updatedPos);

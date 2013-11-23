@@ -2,7 +2,7 @@
 
 bool			Timer::isEnded()
 {
-	return ((_tClock.getElapsedTime() > *_tTime) ? true : false);
+	return ((_tClock.getElapsedTime() > _tTime) ? true : false);
 }
 
 void			Timer::restart()
@@ -10,16 +10,31 @@ void			Timer::restart()
 	_tClock.restart();
 }
 
-void			Timer::reset(sf::Time *nTime)
+void			Timer::reset(const sf::Time &nTime)
 {
-	_tTime = nTime;
-	_tClock.restart();
+  _tTime = nTime;
+  _tClock.restart();
 }
 
+// void			reset(sf::Time *nTime);
 
-void			reset(sf::Time *nTime);
-
-Timer::Timer(sf::Time *tTime)
+Timer::Timer(const sf::Time &tTime) :
+  _tTime(tTime)
 {
-	_tTime = tTime;
+}
+
+Timer::Timer(const Timer &src):
+  _tClock(src._tClock), _tTime(src._tTime)
+{
+
+}
+
+Timer	&Timer::operator=(const Timer &src)
+{
+  if (&src != this)
+    {
+      _tClock = src._tClock;
+      _tTime = src._tTime;
+    }
+  return (*this);
 }
