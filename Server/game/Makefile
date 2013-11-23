@@ -11,6 +11,9 @@ SRCS =	      	GameManager.cpp		\
 		GameException.cpp	\
 		GameClient.cpp		\
 		Boss.cpp		\
+		BaseIA.cpp		\
+		IA.cpp			\
+		BaseBoss.cpp		\
 		Bonus.cpp		\
 		ElapsedTime.cpp		\
 		Entity.cpp		\

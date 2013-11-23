@@ -215,7 +215,7 @@ int			ClientAccepted::recv()
 int			ClientAccepted::send()
 {
   cBuffer::stor_type	tmp;
-  char			buf[512];
+  char			buf[512] = {0};
   int			size;
   cBuffer::size_type	count;
 
