@@ -138,15 +138,22 @@ namespace	menu
       }
   }
 
-  void		Manager::sendGame(Game *game)
-  {
-    (void)game;
-  }
-
   bool		Manager::isConnected(const std::string &clientName)
   {
     return (std::find_if(_clients.begin(), _clients.end(),
 			 PredicateClient(clientName)) != _clients.end());
+  }
+
+  void		Manager::endGame(Game *game)
+  {
+	  game_list::iterator	it;
+	  
+	  std::cout << "Manager::endGame" << std::endl;
+	  it = std::find_if(_games.begin(), _games.end(), PredicateParty(game->partyName()));
+	  if (it == _games.end())
+		  return;
+	  delete *it;
+	  _games.erase(it);
   }
 
   ///////////////////////
@@ -289,7 +296,8 @@ namespace	menu
     game_list::iterator	it = find_if(manager->_games.begin(), manager->_games.end(),
 				     PredicateParty(request->_partyName));
 
-    if (!client->authenticated() || it == manager->_games.end() || !(*it)->newPlayer(client))
+    if (!client->authenticated() || it == manager->_games.end() ||
+		!(*it)->newPlayer(client) || (*it)->status() == Game::IN_GAME)
       {
 	client->requestPush(new ServerRequest(requestCode::server::FORBIDDEN));
 	delete req;

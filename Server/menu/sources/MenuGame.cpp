@@ -6,7 +6,7 @@
 namespace	menu
 {
   Game::Game(Client *client) :
-    _owner(client), _status(OUT_GAME)
+	  _owner(client), _status(OUT_GAME), _game(0)
   {
     _clients.push_back(client);
   }
@@ -98,6 +98,15 @@ namespace	menu
   Game::client_list	&Game::getClients(void)
   {
     return (_clients);
+  }
+
+  ::Game			*Game::game(void) const
+  {
+	  return (_game);
+  }
+  void			Game::game(::Game *game)
+  {
+	  _game = game;
   }
 
   Game::Predicate::Predicate(const std::string &name) :

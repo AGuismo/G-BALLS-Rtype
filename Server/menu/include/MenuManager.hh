@@ -40,12 +40,12 @@ namespace	menu
   public:
     void	initialize(unsigned short int port = rtype::Env::TCP_SERVER_PORT);
     void	run();
+	void	endGame(menu::Game *game);
 
   private:
     void	checkNewClient();
     void	updateClients();
     void	clientRequest(Client *client);
-    void	sendGame(Game *game);
 
     template <typename Req>
     void	broadcast(const Req &req);

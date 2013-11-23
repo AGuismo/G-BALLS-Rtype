@@ -40,10 +40,10 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <TargetExt>.lib</TargetExt>
-    <IncludePath>$(SolutionDir)\..\libraries\network\network\include;$(SolutionDir)\server-r-type\include;$(SolutionDir)\..\libraries\protocol\include;$(SolutionDir)\menu\include;$(SolutionDir)\..\libraries\Thread\Threads\include;$(SolutionDir)\..\libraries\Bind\include;$(ProjectDir)\..\..\include;$(IncludePath);$(ProjectDir)\..\include</IncludePath>
+    <IncludePath>$(SolutionDir)\..\libraries\network\network\include;$(SolutionDir)\server-r-type\include;$(SolutionDir)\..\libraries\protocol\include;$(SolutionDir)\menu\include;$(SolutionDir)\..\libraries\Thread\Threads\include;$(SolutionDir)\..\libraries\Bind\include;$(ProjectDir)\..\..\include;$(IncludePath);$(ProjectDir)\..\include;$(ProjectDir)\..\..\loader\include</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>$(SolutionDir)\..\libraries\network\network\include;$(SolutionDir)\server-r-type\include;$(SolutionDir)\..\libraries\protocol\include;$(SolutionDir)\menu\include;$(SolutionDir)\..\libraries\Thread\Threads\include;$(SolutionDir)\..\libraries\Bind\include;$(ProjectDir)\..\..\include;$(IncludePath);$(ProjectDir)\..\include</IncludePath>
+    <IncludePath>$(SolutionDir)\..\libraries\network\network\include;$(SolutionDir)\server-r-type\include;$(SolutionDir)\..\libraries\protocol\include;$(SolutionDir)\menu\include;$(SolutionDir)\..\libraries\Thread\Threads\include;$(SolutionDir)\..\libraries\Bind\include;$(ProjectDir)\..\..\include;$(IncludePath);$(ProjectDir)\..\include;$(ProjectDir)\..\..\loader\include</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
