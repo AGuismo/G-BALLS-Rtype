@@ -57,7 +57,11 @@ Game::~Game()
     }
     while (!_players.empty())
     {
+<<<<<<< HEAD
 	delete (_players.front()->player());
+=======
+	delete _players.front().player();
+>>>>>>> 5edbfb1257b9f2dd82588a95117f0df264f265d0
 	_players.pop_front();
     }
     while (!_titans.empty())
@@ -285,6 +289,7 @@ bool	Game::playerUpdate()
   for (itm = _players.begin(); itm != _players.end(); )
     {
       (*itm)->update(*this);
+<<<<<<< HEAD
 	  if ((*itm)->hasLeft())
 	  {
 		delete (*itm)->player();
@@ -293,6 +298,12 @@ bool	Game::playerUpdate()
 	  }
 	  else
 		  itm++;
+=======
+      if ((*itm)->hasLeft())
+	  itm = _players.erase(itm);
+      else
+	  itm++;
+>>>>>>> 5edbfb1257b9f2dd82588a95117f0df264f265d0
     }
   return false;
 }
