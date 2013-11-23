@@ -72,6 +72,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\include\BaseBoss.h" />
     <ClInclude Include="..\include\Bonus.h" />
     <ClInclude Include="..\include\Boss.h" />
     <ClInclude Include="..\include\BossAlgo.h" />
@@ -81,6 +82,7 @@
     <ClInclude Include="..\include\GameClient.hh" />
     <ClInclude Include="..\include\GameException.hh" />
     <ClInclude Include="..\include\GameManager.hh" />
+    <ClInclude Include="..\include\BaseIA.h" />
     <ClInclude Include="..\include\IA.h" />
     <ClInclude Include="..\include\IaAlgo.hh" />
     <ClInclude Include="..\include\Missile.h" />
@@ -89,6 +91,8 @@
     <ClInclude Include="..\include\Time.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\sources\BaseBoss.cpp" />
+    <ClCompile Include="..\sources\BaseIA.cpp" />
     <ClCompile Include="..\sources\Bonus.cpp" />
     <ClCompile Include="..\sources\Boss.cpp" />
     <ClCompile Include="..\sources\Clock.cpp" />

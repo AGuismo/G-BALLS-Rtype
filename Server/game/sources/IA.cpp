@@ -10,9 +10,13 @@ Ia::~Ia()
 {
 }
 
-void	Ia::update()
+void	Ia::update(Game &game)
 {
-	move();
+	int res = _algo->algo(game);
+
+	_dir = res;
+	if (res != 0)
+		move();
 }
 
 void	Ia::move()
@@ -34,12 +38,17 @@ void	Ia::move()
 			(*it) += 1;
 }
 
-Missile	*Ia::fire(Game &game, bool charged)
+void	Ia::fire(Game &game, bool charged)
 {
 	std::vector<game::Pos> pos;
 
 	pos.push_back(_algo->firePos());
 	if (charged)
 		pos.push_back(_algo->firePos() + 1);
-	return (new Missile(*this, game::WEST, pos, game.UniqueId()));
+	while (!_algo->fires().empty())
+	{
+		game::Dir p = _algo->fires().back();
+		game.pushMissile(new Missile(*this, p, pos, game.UniqueId()));
+		_algo->fires().pop_back();
+	}
 }

@@ -51,6 +51,7 @@ namespace	game
   typedef Ruint8	Type;
   typedef Ruint16	Pos;
   typedef Rint8		TypeBuff;
+  typedef Ruint16	Score;
 }
 
 namespace	requestCode

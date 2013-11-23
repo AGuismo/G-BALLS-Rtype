@@ -74,6 +74,7 @@ namespace	game
     	}
 	  else if ((al = dynamic_cast<AliveRequest *>(req)))
 	  {
+		  std::cout << "I NEED TIME !" << std::endl;
 		  _updateToLive = -1;
 	  }
 	  else if ((lv = dynamic_cast<LeaveRequest *>(req)))
