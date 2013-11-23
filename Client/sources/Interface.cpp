@@ -12,11 +12,9 @@ Interface::~Interface()
 
 Interface	&Interface::getInstance()
 {
-  static Interface	*singleton = 0;
+  static Interface	singleton;
 
-  if (singleton == 0)
-    singleton = new Interface;
-  return (*singleton);
+  return (singleton);
 }
 
 void			Interface::addWidget(const std::string &key, AWidget *value)

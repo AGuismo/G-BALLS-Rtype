@@ -2,11 +2,9 @@
 
 InfosUser		&InfosUser::getInstance()
 {
-  static InfosUser	*singleton = 0;
+  static InfosUser	singleton;
 
-  if (singleton == 0)
-    singleton = new InfosUser();
-  return (*singleton);
+  return (singleton);
 }
 
 void	InfosUser::initAuthenticate()
@@ -32,4 +30,3 @@ InfosUser::InfosUser()
 InfosUser::~InfosUser()
 {
 }
-
