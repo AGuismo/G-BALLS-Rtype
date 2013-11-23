@@ -45,7 +45,7 @@ public:
 public:
 	virtual void			draw(void) = 0;
 	virtual void			update(LookDirection lDir, int updatedPos) = 0;
-
+	virtual void			onDestruction(Game &game) = 0;
 public:
 	const sf::Vector2f		&getVectorNextPos(void);
 	const sf::Vector2f		&getVectorCurPos(void);

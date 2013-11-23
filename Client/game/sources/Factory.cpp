@@ -8,6 +8,7 @@
 #include			"BydosPlasma.h"
 #include			"BydosLaser.h"
 #include			"ZogZog.h"
+#include			"Slider.h"
 #include			"ShrimpBoss.h"
 #include			"GarbageBoss.h"
 #include			"Bang.h"
@@ -35,9 +36,12 @@ AObject				*Factory::createObject(ObjType type, int id, int pos, LookDirection l
 		case SBYDOS1:
 			return (new Bydos1(type, id, pos, ldir, text, _gameWindow));
 			break;
-		// case ZOGZOG:
-		// 	return (new ZogZog(type, id, pos, ldir, text, _gameWindow));
-			// break;
+		case ZOGZOG:
+		 	return (new ZogZog(type, id, pos, ldir, text, _gameWindow));
+			break;
+		case SLIDER:
+			return (new Slider(type, id, pos, ldir, text, _gameWindow));
+			break;
 		case SHRIMP_BOSS:
 			return (new ShrimpBoss(type, id, pos, ldir, text, _gameWindow));
 			break;
@@ -70,8 +74,25 @@ AObject				*Factory::createObject(ObjType type, int id, int pos, LookDirection l
 	return NULL;
 }
 
-Factory::Factory(sf::RenderWindow *gameWindow, game::TextureManager *TextureManager)
+void				Factory::init(sf::RenderWindow *win, game::TextureManager *manager)
 {
-	_gameWindow = gameWindow;
-	_textureManager = TextureManager;
+	_gameWindow = win;
+	_textureManager = manager;
+}
+
+Factory				&Factory::getInstance()
+{
+	static Factory	factory;
+
+	return (factory);
+}
+
+Factory::Factory():
+_gameWindow(0), _textureManager(0)
+{
+}
+
+Factory::~Factory()
+{
+
 }

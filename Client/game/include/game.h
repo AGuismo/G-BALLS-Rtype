@@ -22,15 +22,13 @@ private:
   typedef std::deque<AObject *> obj_type;
 
 private:
-  sf::RenderWindow			*_gameWindow;
-  sf::Event				*_event;
-  game::TextureManager			_textureManager;
-  obj_type				_objects;
-  int					_idPlayer;
-  Factory				_factory;
-  LayerManager				_layerManager;
-  AudioManager				_audioManager;
-  network::Manager			&_network;
+	LayerManager				_layerManager;
+	obj_type					_objects;
+	int							_idPlayer;
+	sf::RenderWindow			*_gameWindow;
+	sf::Event					*_event;
+	game::TextureManager		_textureManager;
+	network::Manager			&_network;
 
 public:
   static const int			SIZE_GAME_BOARD = 16;
@@ -72,6 +70,8 @@ public:
   bool						load(void);
   void						run(void);
 
+public:
+	static int					generateId(void);
 
 public:
   Game(sf::RenderWindow *gameWindow, sf::Event *event, network::Manager &);

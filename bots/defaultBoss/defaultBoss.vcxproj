@@ -11,8 +11,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{74D10D70-8FC2-4A1D-A621-470F58D1D6D6}</ProjectGuid>
-    <RootNamespace>defaultIA</RootNamespace>
+    <ProjectGuid>{4CE14A19-CC3E-43C0-BD60-27727D95CC8E}</ProjectGuid>
+    <RootNamespace>defaultBoss</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -22,7 +22,7 @@
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v120</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
@@ -39,12 +39,7 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(ProjectDir)/../include;$(SolutionDir)/API/</IncludePath>
-    <TargetExt>.dll</TargetExt>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(ProjectDir)/../include;$(SolutionDir)/API/</IncludePath>
-    <TargetExt>.dll</TargetExt>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(ProjectDir)/includes;$(SolutionDir)/API/</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -73,13 +68,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\API\IaAlgo.hh" />
-    <ClInclude Include="..\..\API\IAPlayer.hpp" />
-    <ClInclude Include="..\..\API\types.hh" />
-    <ClInclude Include="..\include\defaultIA.hh" />
+    <ClInclude Include="..\API\IaAlgo.hh" />
+    <ClInclude Include="..\API\IAPlayer.hpp" />
+    <ClInclude Include="..\API\types.hh" />
+    <ClInclude Include="includes\BaseBoss.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\sources\defaultIA.cpp" />
+    <ClCompile Include="sources\BaseBoss.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

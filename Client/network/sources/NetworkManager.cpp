@@ -74,6 +74,21 @@ namespace	network
 
     if (_curState == NONE)
       _wake.signal();
+    switch (st)
+      {
+      case TCP:
+	if (!_connected)
+	  return ;
+	break;
+      case UDP:
+	if (!_connected)
+	  return ;
+	break;
+      case NONE:
+	break;
+      default:
+	break;
+      }
     _curState = st;
   }
 
@@ -87,12 +102,14 @@ namespace	network
     if (_curState == TCP)
       {
 	_state.unlock();
-	_tcp.mSock.send(packet);
+	if (_tcp.mSock.send(packet) == sf::Socket::Error)
+	  switchTo(NONE);
       }
     else if (_curState == UDP)
       {
 	_state.unlock();
-	_udp.gSock.send(packet, _udp.gIp, _udp.gPort);
+	if (_udp.gSock.send(packet, _udp.gIp, _udp.gPort) == sf::Socket::Error)
+	  switchTo(NONE);
       }
   }
 
@@ -115,7 +132,11 @@ namespace	network
     std::vector<Protocol::Byte>	data;
 
     _sock.lock();
-    _udp.gSock.receive(packet, _udp.gIp, _udp.gPort);
+    if (_udp.gSock.receive(packet, _udp.gIp, _udp.gPort) == sf::Socket::Error)
+      {
+	switchTo(NONE);
+	return ;
+      }
     _sock.unlock();
 
     packet >> req;
@@ -133,7 +154,11 @@ namespace	network
     sf::Packet			packet;
 
     _sock.lock();
-    _tcp.mSock.receive(packet);
+    if (_tcp.mSock.receive(packet) == sf::Socket::Error)
+      {
+	switchTo(NONE);
+	return ;
+      }
     _sock.unlock();
 
     packet.append(_tcp.notRead.getData(), _tcp.notRead.getDataSize());

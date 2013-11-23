@@ -1,7 +1,7 @@
-#include		"ShrimpBoss.h"
+#include		"Slider.h"
 #include		"game.h"
 
-void						ShrimpBoss::draw(void)
+void						Slider::draw(void)
 {
 
 	if ((_vCurPos.x == _vNextPos.x && _vCurPos.y == _vNextPos.y) ||
@@ -14,7 +14,7 @@ void						ShrimpBoss::draw(void)
 		_vCurPos.y = (float)Game::POSY(_cCurPos);
 		_vNextPos = _vCurPos;
 		_image.setTextureRect(sf::IntRect(0, 15, 66, 72));
-		_image.setPosition((float)Game::POSX(_cCurPos) - 20.0F, (float)Game::POSY(_cCurPos) - 20.0F);
+		_image.setPosition((float)Game::POSX(_cCurPos), (float)Game::POSY(_cCurPos));
 	}
 	else if (_act)
 	{
@@ -27,13 +27,16 @@ void						ShrimpBoss::draw(void)
 			_vCurPos.y += (_vLag * Game::OBJ_DEC_Y_FRAME);
 		if (_vCurPos.y > _vNextPos.y)
 			_vCurPos.y -= (_vLag * Game::OBJ_DEC_Y_FRAME);
-		_image.setPosition(_vCurPos.x - 20.0f, _vCurPos.y - 20.0f);
+		_image.setPosition(_vCurPos.x, _vCurPos.y);
 	}
-	_image.setTextureRect(_ShrimpBossAnimation.getFrame());
+	if (_action == Right)
+		_image.setTextureRect(_rightAnimation.getFrame());
+	else
+		_image.setTextureRect(_leftAnimation.getFrame());
 	_gameWindow->draw(_image);
 }
 
-void			ShrimpBoss::update(LookDirection lDir, int updtatedPos)
+void			Slider::update(LookDirection lDir, int updtatedPos)
 {
 	(void)lDir;
 	if (updtatedPos != Game::UNCHANGED)
@@ -59,7 +62,8 @@ void			ShrimpBoss::update(LookDirection lDir, int updtatedPos)
 }
 
 
-ShrimpBoss::ShrimpBoss(ObjType type, int id, int pos, LookDirection ld, sf::Texture *text, sf::RenderWindow *gameWindow) : _ShrimpBossAnimation(0.25f)
+Slider::Slider(ObjType type, int id, int pos, LookDirection ld, sf::Texture *text, sf::RenderWindow *gameWindow) :
+_leftAnimation(0.20f), _rightAnimation(0.14f)
 {
 	_type = type;
 	_id = id;
@@ -72,20 +76,33 @@ ShrimpBoss::ShrimpBoss(ObjType type, int id, int pos, LookDirection ld, sf::Text
 	_vNextPos = sf::Vector2f((float)Game::POSX(_cCurPos), (float)Game::POSY(_cCurPos));
 	_image.setTexture(*text);
 	_image.setTextureRect(sf::IntRect(0, 0, 48, 72));
-	_image.setPosition((float)Game::POSX(_cCurPos) - 20.0f, (float)Game::POSY(_cCurPos) - 20.0f);
-	_mvtTime = 0.25f;
+	_image.setPosition((float)Game::POSX(_cCurPos), (float)Game::POSY(_cCurPos));
+	_mvtTime = 0.60f;
 	_timerMvt = Timer(sf::seconds(_mvtTime));
 	_gameWindow = gameWindow;
 	_act = false;
 	_action = Nothing;
-	_ShrimpBossAnimation.addFrame(sf::IntRect(45, 2560, 324, 433));
-	_ShrimpBossAnimation.addFrame(sf::IntRect(372, 2560, 324, 433));
-	_ShrimpBossAnimation.addFrame(sf::IntRect(699, 2560, 324, 433));
-	_ShrimpBossAnimation.addFrame(sf::IntRect(1026, 2560, 324, 433));
+	_leftAnimation.addFrame(sf::IntRect(0, 0, 66, 68));
+	_leftAnimation.addFrame(sf::IntRect(66, 0, 66, 68));
+	_leftAnimation.addFrame(sf::IntRect(132, 0, 66, 68));
+	_leftAnimation.addFrame(sf::IntRect(198, 0, 66, 68));
+	_leftAnimation.addFrame(sf::IntRect(264, 0, 66, 68));
+	_leftAnimation.addFrame(sf::IntRect(330, 0, 66, 68));
+	_leftAnimation.addFrame(sf::IntRect(396, 0, 66, 68));
+	_leftAnimation.addFrame(sf::IntRect(462, 0, 66, 68));
+
+	_rightAnimation.addFrame(sf::IntRect(0, 68, 66, 68));
+	_rightAnimation.addFrame(sf::IntRect(66, 68, 66, 68));
+	_rightAnimation.addFrame(sf::IntRect(132, 68, 66, 68));
+	_rightAnimation.addFrame(sf::IntRect(198, 68, 66, 68));
+	_rightAnimation.addFrame(sf::IntRect(264, 68, 66, 68));
+	_rightAnimation.addFrame(sf::IntRect(330, 68, 66, 68));
+	_rightAnimation.addFrame(sf::IntRect(396, 68, 66, 68));
+	_rightAnimation.addFrame(sf::IntRect(462, 68, 66, 68));
 }
 
-void				ShrimpBoss::onDestruction(Game &game)
+void				Slider::onDestruction(Game &game)
 {
-	game.addObj(BIG_BANG, Game::generateId(), _cCurPos);
-	AudioManager::getInstance().play(ABYDOS_BOSS_DESTRUCTION);
+	game.addObj(NORMAL_BANG, Game::generateId(), _cCurPos);
+	AudioManager::getInstance().play(ABYDOS_DESTRUCTION);
 }

@@ -100,3 +100,7 @@ PlayerLaser::PlayerLaser(ObjType type, int id, int pos, LookDirection ld, sf::Te
 	_act = false;
 	_action = Nothing;
 }
+
+void				PlayerLaser::onDestruction(Game &game)
+{
+}

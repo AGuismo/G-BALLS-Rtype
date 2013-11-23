@@ -13,8 +13,8 @@ BaseIA::~BaseIA()
 
 }
 
-int	BaseIA::algo(Game &game)
+int	BaseIA::algo(IAPlayer &players)
 {
-    (void)game;
+    (void)players;
     return 6;
 }
