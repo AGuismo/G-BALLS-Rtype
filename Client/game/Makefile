@@ -29,9 +29,11 @@ SRCS =	      	Animation.cpp		\
 
 DIR.THREAD=	../../libraries/Thread/Threads
 DIR.BIND=	../../libraries/Bind
+DIR.PROT=	../../libraries/protocol
+DIR.NET=	../network/
 
 F.C	     +=	-W -Wall -Werror
-F.I	     +=	-I $(DIR.H) -I$(DIR.BIND)/include -I$(DIR.THREAD)/include -I../include
+F.I	     +=	-I $(DIR.H) -I$(DIR.BIND)/include -I$(DIR.THREAD)/include -I../include -I$(DIR.NET)/include -I$(DIR.PROT)/include
 F.D	     +=
 
 
