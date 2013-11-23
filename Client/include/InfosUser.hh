@@ -11,7 +11,8 @@ public:
     std::string			login;
     std::string			password;
     std::string			addressIp;
-    std::string			port;
+    std::string			portTCP;
+    std::string			portUDP;
   }				authenticate;
 
 public:

@@ -2,13 +2,13 @@
 #include	<algorithm>
 #include	<typeinfo>
 #include	"MenuWindow.hh"
-#include	"Background.hh"
 #include	"LineServer.hh"
 #include	"Image.hh"
 #include	"TextBlock.hh"
 #include	"AWidget.hh"
 #include	"CheckBox.hh"
 #include	"Text.hh"
+#include	"Texture.hh"
 #include	"TextArea.hh"
 #include	"Button.hh"
 #include	"Sound.hh"
@@ -21,7 +21,7 @@
 #include	"InfosUser.hh"
 
 MenuWindow::MenuWindow(sf::RenderWindow &window, network::Manager &network):
-  AScreen(window, network, START), _backgroundPtr(0), _objectFocus(0), _objectHover(0), _serverSelected(0)
+  AScreen(window, network, START), _objectFocus(0), _objectHover(0), _serverSelected(0)
 {
   this->_flag = 0;
 }
@@ -121,13 +121,14 @@ bool	MenuWindow::load()
       throw AScreen::Exception("MenuWindow can't load all textures");
     }
   this->_status = START;
+  this->_firstBackground.setTexture(TextureManager::getInstance().getTexture("Background1")->getTexture());
+  this->_secondBackground.setTexture(TextureManager::getInstance().getTexture("Background2")->getTexture());
   return (true);
 }
 
 MenuWindow::~MenuWindow()
 {
   clearWindow();
-  delete _backgroundPtr;
 }
 
 void	MenuWindow::drawMenu()
@@ -152,8 +153,6 @@ void	MenuWindow::drawMenu()
     tmp = new Text("FontMenu", "LoginText", this->_event, sf::Vector2f(525, 410), sf::Vector2f(520, 415), sf::Vector2f(760, 445), 10, true, InfosUser::getInstance().authenticate.login);
 
   tmp2 = new Text("FontMenu", "PasswordText", this->_event, sf::Vector2f(525, 515), sf::Vector2f(520, 415), sf::Vector2f(760, 445), 10, false, "Password");
-  if (this->_backgroundPtr == 0)
-    this->_backgroundPtr = new Background();
   this->_listImage.push_back(new Image("Title", sf::Vector2f(370, 60)));
   this->_listImage.push_back(new Image("Formu", sf::Vector2f(370, 175)));
   this->_listWidget.push_back(new TextArea(this->_event, "LoginArea", *tmp, sf::Vector2f(480, 380), sf::Vector2f(520, 415), sf::Vector2f(760, 445)));
@@ -181,31 +180,37 @@ void	MenuWindow::drawMenuWarning(const std::string &Msg)
 
 void	MenuWindow::drawSettings()
 {
+  Text *textIP;
+  Text *textTCP;
+  Text *textUDP;
+
   this->clearWindow();
   this->_status = CONTINUE;
-
-  Text *tmp;
-  Text *tmp2;
-
-  this->clearWindow();
   if (InfosUser::getInstance().authenticate.addressIp == "IPAddress")
-    tmp = new Text("FontLobby", "IPAddress", this->_event, sf::Vector2f(525, 410), sf::Vector2f(520, 415), sf::Vector2f(760, 445), 15, true, "Address Ip");
+    textIP = new Text("FontLobby", "IPAddress", this->_event, sf::Vector2f(525, 410), sf::Vector2f(519, 410), sf::Vector2f(766, 446), 15, true, "Address Ip");
   else
-    tmp = new Text("FontLobby", "IPAddress", this->_event, sf::Vector2f(525, 410), sf::Vector2f(520, 415), sf::Vector2f(760, 445), 15, true, InfosUser::getInstance().authenticate.addressIp);
+    textIP = new Text("FontLobby", "IPAddress", this->_event, sf::Vector2f(525, 410), sf::Vector2f(519, 410), sf::Vector2f(766, 446), 15, true, InfosUser::getInstance().authenticate.addressIp);
 
-  if (InfosUser::getInstance().authenticate.port == "Port")
-    tmp2 = new Text("FontLobby", "Port", this->_event, sf::Vector2f(525, 510), sf::Vector2f(520, 415), sf::Vector2f(760, 445), 5, true, "Port");
+  if (InfosUser::getInstance().authenticate.portTCP == "Port TCP")
+    textTCP = new Text("FontLobby", "PortTCP", this->_event, sf::Vector2f(525, 500), sf::Vector2f(518, 503), sf::Vector2f(764, 532), 5, true, "Port TCP");
   else
-    tmp2 = new Text("FontLobby", "Port", this->_event, sf::Vector2f(525, 510), sf::Vector2f(520, 415), sf::Vector2f(760, 445), 5, true, InfosUser::getInstance().authenticate.port);
+    textTCP = new Text("FontLobby", "PortTCP", this->_event, sf::Vector2f(525, 500), sf::Vector2f(518, 503), sf::Vector2f(764, 532), 5, true, InfosUser::getInstance().authenticate.portTCP);
+
+  if (InfosUser::getInstance().authenticate.portUDP == "Port UDP")
+    textUDP = new Text("FontLobby", "PortUDP", this->_event, sf::Vector2f(525, 580), sf::Vector2f(517, 580), sf::Vector2f(766, 614), 5, true, "Port UDP");
+  else
+    textUDP = new Text("FontLobby", "PortUDP", this->_event, sf::Vector2f(525, 580), sf::Vector2f(517, 580), sf::Vector2f(766, 614), 5, true, InfosUser::getInstance().authenticate.portUDP);
 
   this->_listImage.push_back(new Image("Title", sf::Vector2f(370, 60)));
   this->_listImage.push_back(new Image("FondSettings", sf::Vector2f(370, 175)));
-  this->_listWidget.push_back(new TextArea(this->_event, "IPArea", *tmp, sf::Vector2f(480, 380), sf::Vector2f(520, 415), sf::Vector2f(760, 445)));
-  this->_listWidget.push_back(new TextArea(this->_event, "PortArea", *tmp2, sf::Vector2f(480, 480), sf::Vector2f(520, 515), sf::Vector2f(765, 545)));
-  this->_listWidget.push_back(tmp);
-  this->_listWidget.push_back(tmp2);
-  this->_listWidget.push_back(new Button(this->_event, "Save", sf::Vector2f(500, 590), sf::Vector2f(506, 596), sf::Vector2f(616, 632), SET_CHANGE, true));
-  this->_listWidget.push_back(new Button(this->_event, "CancelMenu", sf::Vector2f(650, 590), sf::Vector2f(654, 596), sf::Vector2f(766, 632), BACK_SET, true));
+  this->_listWidget.push_back(new TextArea(this->_event, "IPArea", *textIP, sf::Vector2f(480, 375), sf::Vector2f(519, 410), sf::Vector2f(766, 446)));
+  this->_listWidget.push_back(new TextArea(this->_event, "PortTCPArea", *textTCP, sf::Vector2f(480, 465), sf::Vector2f(518, 503), sf::Vector2f(764, 532)));
+  this->_listWidget.push_back(new TextArea(this->_event, "PortUDPArea", *textUDP, sf::Vector2f(480, 545), sf::Vector2f(517, 580), sf::Vector2f(766, 614)));
+  this->_listWidget.push_back(textIP);
+  this->_listWidget.push_back(textTCP);
+  this->_listWidget.push_back(textUDP);
+  this->_listWidget.push_back(new Button(this->_event, "Save", sf::Vector2f(500, 630), sf::Vector2f(505, 638), sf::Vector2f(615, 672), SET_CHANGE, true));
+  this->_listWidget.push_back(new Button(this->_event, "CancelMenu", sf::Vector2f(650, 630), sf::Vector2f(655, 637), sf::Vector2f(767, 669), BACK_SET, true));
 }
 
 void	MenuWindow::drawLobbyWarning(const std::string &Msg)
@@ -375,11 +380,20 @@ void	MenuWindow::drawLobbyWait(int owner)
   this->_listWidget.push_back(new TextBlock( "ChatBlock", this->_event, sf::Vector2f(830, 210), sf::Vector2f(820, 200), sf::Vector2f(820, 200), 20));
 }
 
-
-
-void	MenuWindow::setDraw()
+void		MenuWindow::scroll()
 {
-  this->_backgroundPtr->scroll();
+  _firstPos = _firstBackground.getPosition();
+  _secondPos = _secondBackground.getPosition();
+  if (_firstPos.x == 0)
+    _secondPos.x = 1280;
+  if (_firstPos.x == -1280)
+    _firstPos.x = 1280;
+  if (_secondPos.x == -1280)
+    _secondPos.x = 1280;
+  _firstPos.x -= 5;
+  _secondPos.x -= 5;
+  _secondBackground.setPosition(_secondPos.x, 0);
+  _firstBackground.setPosition(_firstPos.x, 0);
 }
 
 void	MenuWindow::draw()
@@ -387,8 +401,9 @@ void	MenuWindow::draw()
   widget_list::iterator	it;
   image_list::iterator	itImg;
 
-  this->_window.draw(this->_backgroundPtr->getFirstBackground());
-  this->_window.draw(this->_backgroundPtr->getSecondBackground());
+  this->scroll();
+  this->_window.draw(_firstBackground);
+  this->_window.draw(_secondBackground);
   for (itImg = this->_listImage.begin(); itImg != this->_listImage.end(); itImg++)
     this->_window.draw((*itImg)->getImage());
   for (it = this->_listWidget.begin(); it != this->_listWidget.end(); it++)
@@ -452,6 +467,45 @@ int	MenuWindow::checkNbPlayer()
   return 0;
 }
 
+const sf::Vector2f	&MenuWindow::getFirstPos() const
+{
+  return (this->_firstPos);
+}
+
+const sf::Vector2f	&MenuWindow::getSecondPos() const
+{
+  return (this->_secondPos);
+}
+
+const sf::Sprite	&MenuWindow::getFirstBackground() const
+{
+  return (this->_firstBackground);
+}
+
+const sf::Sprite	&MenuWindow::getSecondBackground() const
+{
+  return (this->_secondBackground);
+}
+
+void		MenuWindow::setFirstPos(float x, float y)
+{
+  this->_firstBackground.setPosition(x, y);
+}
+
+void		MenuWindow::setFirstPos(sf::Vector2f vector)
+{
+  this->_firstPos = vector;
+}
+
+void		MenuWindow::setSecondPos(float x, float y)
+{
+  this->_secondBackground.setPosition(x, y);
+}
+
+void		MenuWindow::setSecondPos(sf::Vector2f vector)
+{
+  this->_secondPos = vector;
+}
 
 int	MenuWindow::checkAction()
 {
@@ -463,6 +517,7 @@ int	MenuWindow::checkAction()
       break;
     case GAME:
       // Lancer la partie
+      this->clearWindow();
       this->_status = BACK_LOBY;
       return (2);
     case LOGIN:
@@ -552,8 +607,15 @@ int	MenuWindow::checkAction()
 	  this->drawMenu();
 	  break;
 	}
-      else if (dynamic_cast<Text*>(Interface::getInstance().getWidget("Port"))->getTmp() == "" ||
-	       dynamic_cast<Text*>(Interface::getInstance().getWidget("Port"))->getTmp() == "Port")
+      else if (dynamic_cast<Text*>(Interface::getInstance().getWidget("PortTCP"))->getTmp() == "" ||
+	       dynamic_cast<Text*>(Interface::getInstance().getWidget("PortTCP"))->getTmp() == "Port TCP")
+	{
+	  this->_status = CONTINUE;
+	  this->drawMenu();
+	  break;
+	}
+      else if (dynamic_cast<Text*>(Interface::getInstance().getWidget("PortUDP"))->getTmp() == "" ||
+	       dynamic_cast<Text*>(Interface::getInstance().getWidget("PortUDP"))->getTmp() == "Port UDP")
 	{
 	  this->_status = CONTINUE;
 	  this->drawMenu();
@@ -562,9 +624,11 @@ int	MenuWindow::checkAction()
       else
 	{
 	  InfosUser::getInstance().authenticate.addressIp = dynamic_cast<Text*>(Interface::getInstance().getWidget("IPAddress"))->getTmp();
-	  InfosUser::getInstance().authenticate.port = dynamic_cast<Text*>(Interface::getInstance().getWidget("Port"))->getTmp();
+	  InfosUser::getInstance().authenticate.portTCP = dynamic_cast<Text*>(Interface::getInstance().getWidget("PortTCP"))->getTmp();
+	  InfosUser::getInstance().authenticate.portUDP = dynamic_cast<Text*>(Interface::getInstance().getWidget("PortUDP"))->getTmp();
 	  std::cout << "IP : [" << InfosUser::getInstance().authenticate.addressIp << "]" << std::endl;
-	  std::cout << "Port : [" << InfosUser::getInstance().authenticate.port << "]" << std::endl;
+	  std::cout << "Port TCP : [" << InfosUser::getInstance().authenticate.portTCP << "]" << std::endl;
+	  std::cout << "Port UDP : [" << InfosUser::getInstance().authenticate.portUDP << "]" << std::endl;
 	  this->_status = CONTINUE;
 	  this->drawMenu();
 	  break;
@@ -598,8 +662,6 @@ void	MenuWindow::clearWindow()
       it = _listWidget.erase(it);
       delete cur;
     }
-  // this->_listImage.clear();
-  // this->_listWidget.clear();
   _objectFocus = 0;
   _objectHover = 0;
 }
@@ -656,6 +718,7 @@ int	MenuWindow::catchEvent()
 	  this->_objectHover = returnMouseFocus((float)this->_event.mouseMove.x, (float)this->_event.mouseMove.y);
 	  if (this->_objectHover != 0)
 	    this->_objectHover->onHover();
+	  std::cout << this->_event.mouseMove.x << " " << this->_event.mouseMove.y << std::endl;
 	  break;
 	case sf::Event::MouseButtonReleased:
 	  if (this->_objectFocus != 0)
@@ -680,16 +743,10 @@ int	MenuWindow::run()
     {
       if (this->catchEvent() == 2)
 	return (AScreen::SCR_GAME);
-      this->setDraw();
       this->draw();
     }
   this->_music.stop();
   return (AScreen::SCR_EXIT); // ASCREEN::Status
-}
-
-Background		*MenuWindow::getBackgroundPtr()
-{
-  return (this->_backgroundPtr);
 }
 
 const MenuWindow::image_list	&MenuWindow::getListImage() const

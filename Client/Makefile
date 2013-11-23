@@ -4,7 +4,6 @@ SRCS =	      	main.cpp		\
 		AScreen.cpp		\
 		Application.cpp		\
 		AWidget.cpp		\
-		Background.cpp		\
 		Button.cpp		\
 		CheckBox.cpp		\
 		Image.cpp		\

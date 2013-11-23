@@ -16,9 +16,8 @@ bool					GameWindow::load(void)
   return true;
 }
 
-void					GameWindow::clearWindow(void)
+void					GameWindow::clearWindow()
 {
-
 }
 
 int						GameWindow::run(void)
