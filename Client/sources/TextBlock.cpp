@@ -5,7 +5,7 @@
 // Login   <brigno@epitech.net>
 //
 // Started on  Tue Nov 19 21:25:49 2013 brigno
-// Last update Fri Nov 22 05:05:36 2013 brigno
+// Last update Sat Nov 23 18:31:20 2013 brigno
 //
 
 #include	"TextBlock.hh"
@@ -100,9 +100,9 @@ void				TextBlock::draw(sf::RenderWindow &win)
     }
 }
 
-MenuWindow::Status		TextBlock::onFocus()
+AScreen::Status		TextBlock::onFocus()
 {
-  return (MenuWindow::CONTINUE);
+  return (AScreen::CONTINUE);
 }
 
 void				TextBlock::stopFocus()

@@ -57,7 +57,7 @@ Game::~Game()
     }
     while (!_players.empty())
     {
-	delete _players.front();
+	delete (_players.front()->player());
 	_players.pop_front();
     }
     while (!_titans.empty())
