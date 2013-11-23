@@ -29,6 +29,9 @@ namespace	network
 
   public:
     void	initialize(void);
+    void	setTcp(const sf::IpAddress &ip, unsigned short port);
+    void	setUdp(const sf::IpAddress &ip, unsigned short port);
+    void	closeTcp();
     void	run(void);
     void	switchTo(State s);
     ARequest	*recvRequest(void);
@@ -50,10 +53,18 @@ namespace	network
     Thread::Mutex	_reqlist;
     Thread::Mutex	_sock;
     Thread::Cond	_wake;
-    sf::TcpSocket	_mSock;
-    sf::UdpSocket	_gSock;
-    sf::IpAddress	_gIp;
-    unsigned short	_gPort;
+    struct
+    {
+      sf::Packet	notRead;
+      sf::TcpSocket	mSock;
+    }			_tcp;
+
+    struct
+    {
+      sf::UdpSocket	gSock;
+      sf::IpAddress	gIp;
+      unsigned short	gPort;
+    }			_udp;
     State		_curState;
   };
 

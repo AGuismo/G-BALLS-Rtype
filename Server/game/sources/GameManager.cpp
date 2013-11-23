@@ -173,8 +173,6 @@ namespace	game
 
   void			Manager::routine(Manager *self)
   {
-	  Clock::clock_time		time;
-
 	  self->_clock.start();
 	  while (true)
 	  {
@@ -192,7 +190,7 @@ namespace	game
 		  //std::cout << "Done ..." << std::endl;
 		  self->_clock.update();
 		  self->updateGameClocks(self->_clock.getElapsedTime());
-		  time = self->_clock.getElapsedTime();
+		  self->_clock.getElapsedTime();
 		  self->updateCallback();
 		  if (self->_server.read() || self->_server.write())
 		  {

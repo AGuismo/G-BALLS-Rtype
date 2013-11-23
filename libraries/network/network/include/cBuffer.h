@@ -67,7 +67,6 @@ namespace	net
     cBuffer& operator=(cBuffer const&);
 
   private:
-    //	std::deque<cBuffer::Byte>	_buf;
     std::vector<cBuffer::Byte>	_buf;
   };
 

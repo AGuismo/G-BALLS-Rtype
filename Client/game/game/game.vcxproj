@@ -99,6 +99,7 @@
     <ClInclude Include="..\include\Factory.h" />
     <ClInclude Include="..\include\game.h" />
     <ClInclude Include="..\include\gameWindow.h" />
+    <ClInclude Include="..\include\GarbageBoss.h" />
     <ClInclude Include="..\include\IObject.h" />
     <ClInclude Include="..\include\Layer.h" />
     <ClInclude Include="..\include\LayerManager.h" />
@@ -106,10 +107,13 @@
     <ClInclude Include="..\include\Player.h" />
     <ClInclude Include="..\include\PlayerBlast.h" />
     <ClInclude Include="..\include\PlayerLaser.h" />
+    <ClInclude Include="..\include\ShrimpBoss.h" />
     <ClInclude Include="..\include\TextureManager.h" />
     <ClInclude Include="..\include\Timer.h" />
+    <ClInclude Include="..\include\ZogZog.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\include\ZogZog.cpp" />
     <ClCompile Include="..\sources\Animation.cpp" />
     <ClCompile Include="..\sources\AObject.cpp" />
     <ClCompile Include="..\sources\AudioManager.cpp" />
@@ -120,11 +124,13 @@
     <ClCompile Include="..\sources\Factory.cpp" />
     <ClCompile Include="..\sources\Game.cpp" />
     <ClCompile Include="..\sources\GameWindow.cpp" />
+    <ClCompile Include="..\sources\GarbageBoss.cpp" />
     <ClCompile Include="..\sources\Layer.cpp" />
     <ClCompile Include="..\sources\LayerManager.cpp" />
     <ClCompile Include="..\sources\Player.cpp" />
     <ClCompile Include="..\sources\PlayerLaser.cpp" />
     <ClCompile Include="..\sources\PlayerBlast.cpp" />
+    <ClCompile Include="..\sources\ShrimpBoss.cpp" />
     <ClCompile Include="..\sources\TextureManager.cpp" />
     <ClCompile Include="..\sources\Timer.cpp" />
   </ItemGroup>

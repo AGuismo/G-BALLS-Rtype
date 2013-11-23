@@ -25,8 +25,8 @@ void						BydosLaser::draw(void)
 		if (_vCurPos.y > _vNextPos.y)
 			_vCurPos.y -= (_vLag * Game::OBJ_DEC_Y_FRAME);
 		_image.setPosition(_vCurPos.x + 30.0f, _vCurPos.y + 10.0f);
-		_image.setTextureRect(_laserAnimation->getFrame());
 	}
+	_image.setTextureRect(_laserAnimation->getFrame());
 	_gameWindow->draw(_image);
 }
 

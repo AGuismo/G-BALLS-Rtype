@@ -1,4 +1,9 @@
+#include	<iostream>
+#include	"Protocol.hpp"
 #include	"NetworkManager.hh"
+
+sf::Packet	&operator>>(sf::Packet &packet, ARequest *&);
+sf::Packet	&operator<<(sf::Packet &packet, const ARequest *req);
 
 namespace	network
 {
@@ -22,6 +27,26 @@ namespace	network
     _th.run();
   }
 
+  void	Manager::setTcp(const sf::IpAddress &ip, unsigned short port)
+  {
+    Thread::MutexGuard	guard(_sock);
+
+    _tcp.mSock.connect(ip, port);
+  }
+
+  void	Manager::setUdp(const sf::IpAddress &ip, unsigned short port)
+  {
+    Thread::MutexGuard	guard(_sock);
+
+    _udp.gIp = ip;
+    _udp.gPort = port;
+  }
+
+  void	Manager::closeTcp(void)
+  {
+    _tcp.mSock.disconnect();
+  }
+
   void	Manager::switchTo(Manager::State st)
   {
     Thread::MutexGuard	guard(_state);
@@ -34,18 +59,19 @@ namespace	network
   void		Manager::sendRequest(const ARequest *req)
   {
     Thread::MutexGuard	guard(_sock);
+    sf::Packet		packet;
 
-    (void)req;
+    packet << req;
     _state.lock();
     if (_curState == TCP)
       {
 	_state.unlock();
-	_mSock.send("coucou", 6);
+	_tcp.mSock.send(packet);
       }
     else if (_curState == UDP)
       {
 	_state.unlock();
-	_gSock.send("coucou", 6, _gIp, _gPort);
+	_udp.gSock.send(packet, _udp.gIp, _udp.gPort);
       }
   }
 
@@ -61,16 +87,18 @@ namespace	network
     return (req);
   }
 
-  void		Manager::udpMode()
+  void				Manager::udpMode()
   {
-    ARequest	*req = 0;
-    sf::Packet	packet;
+    ARequest			*req = 0;
+    sf::Packet			packet;
+    std::vector<Protocol::Byte>	data;
 
     _sock.lock();
-    _gSock.receive(packet, _gIp, _gPort);
+    _udp.gSock.receive(packet, _udp.gIp, _udp.gPort);
     _sock.unlock();
 
-    // Protocol Job
+    packet >> req;
+
     if (req == 0)
       return ;
     _reqlist.lock();
@@ -78,16 +106,20 @@ namespace	network
     _reqlist.unlock();
   }
 
-  void		Manager::tcpMode()
+  void				Manager::tcpMode()
   {
-    ARequest	*req = 0;
-    sf::Packet	packet;
+    ARequest			*req = 0;
+    sf::Packet			packet;
 
     _sock.lock();
-    _mSock.receive(packet);
+    _tcp.mSock.receive(packet);
     _sock.unlock();
 
-    // Protocol Job
+    packet.append(_tcp.notRead.getData(), _tcp.notRead.getDataSize());
+    packet >> req;
+    _tcp.notRead.clear();
+    _tcp.notRead.append(packet.getData(), packet.getDataSize());
+
     if (req == 0)
       return ;
     _reqlist.lock();
@@ -121,6 +153,48 @@ namespace	network
       }
     return (0);
   }
+}
+
+sf::Packet			&operator>>(sf::Packet &packet, ARequest *&req)
+{
+  std::string			data;
+  std::vector<Protocol::Byte>	b;
+  int				extracted;
+
+  packet >> data;
+  for (std::string::iterator it = data.begin(); it != data.end(); ++it)
+    b.push_back(*it);
+  try
+    {
+      req = Protocol::consume(b, extracted);
+    }
+  catch (Protocol::ConstructRequest &e)
+    {
+      std::cerr << "Manager::operator>>(sf::Packet &, const ARequest *): " << e.what() << std::endl;
+      packet << data;
+      return (packet);
+    }
+  return (packet);
+}
+
+sf::Packet			&operator<<(sf::Packet &packet, const ARequest *req)
+{
+  std::string			data;
+  std::vector<Protocol::Byte>	b;
+
+  try
+    {
+      b = Protocol::product(*req);
+    }
+  catch (Protocol::ConstructRequest &e)
+    {
+      std::cerr << "Manager::operator<<(sf::Packet &, const ARequest *): " << e.what() << std::endl;
+      return (packet);
+    }
+  for (std::vector<Protocol::Byte>::iterator it = b.begin(); it != b.end(); ++it)
+    data.push_back(*it);
+  packet << data;
+  return (packet);
 }
 
 network::Exception::Exception(const std::string &msg) throw():

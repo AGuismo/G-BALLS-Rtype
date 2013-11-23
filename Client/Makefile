@@ -16,13 +16,14 @@ SRCS =	      	main.cpp		\
 		TextBlock.cpp		\
 		Text.cpp		\
 		Texture.cpp		\
-		TextureManager.cpp
+		TextureManager.cpp	\
+		InfosUser.cpp		\
 
 DIR.THREAD=	../libraries/Thread/Threads
 DIR.BIND=	../libraries/Bind
 DIR.NETWORK=	./network/
 DIR.GAME=	./game/
-DIR.PROTO=	../Server/protocol
+DIR.PROTO=	../libraries/protocol
 
 DEPS.INC=	-I$(DIR.BIND)/include -I$(DIR.THREAD)/include -I$(DIR.GAME)/include
 

@@ -5,7 +5,7 @@
 // Login   <brigno@epitech.net>
 //
 // Started on  Tue Nov 19 21:10:46 2013 brigno
-// Last update Tue Nov 19 23:05:46 2013 brigno
+// Last update Fri Nov 22 05:05:32 2013 brigno
 //
 
 #ifndef		__TEXTBLOCK_HH__
@@ -16,8 +16,8 @@
 class		TextBlock : public AWidget
 {
 public:
-  TextBlock(const std::string &name, const sf::Event &, const sf::Vector2i &posTopLeft,
-	    const sf::Vector2i &focusTopLeft, const sf::Vector2i &focusBotRight, const size_t &size);
+  TextBlock(const std::string &name, const sf::Event &, const sf::Vector2f &posTopLeft,
+	    const sf::Vector2f &focusTopLeft, const sf::Vector2f &focusBotRight, const size_t &size);
   ~TextBlock(){};
 
 private:

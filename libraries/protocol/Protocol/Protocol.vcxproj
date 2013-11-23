@@ -1,0 +1,127 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{D69A5C00-CD7C-4BA7-A23E-4D2BB1D8B76C}</ProjectGuid>
+    <RootNamespace>Protocol</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <TargetExt>.lib</TargetExt>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(ProjectDir)\..\..\include;$(ProjectDir)\..\..\..\libraries\network\network\include;$(ProjectDir)\..\include</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <TargetExt>.lib</TargetExt>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(ProjectDir)\..\..\include;$(ProjectDir)\..\..\..\libraries\network\network\include;$(ProjectDir)\..\include</IncludePath>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_MBCS;%(PreprocessorDefinitions);WIN32;DEBUG;PROTOCOL_API</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_MBCS;%(PreprocessorDefinitions);WIN32;PROTOCOL_API</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\sources\AGameRequest.cpp" />
+    <ClCompile Include="..\sources\AliveRequest.cpp" />
+    <ClCompile Include="..\sources\ARequest.cpp" />
+    <ClCompile Include="..\sources\AuthRequest.cpp" />
+    <ClCompile Include="..\sources\BuffRequest.cpp" />
+    <ClCompile Include="..\sources\DeathRequest.cpp" />
+    <ClCompile Include="..\sources\ElemRequest.cpp" />
+    <ClCompile Include="..\sources\EventRequest.cpp" />
+    <ClCompile Include="..\sources\LeaveRequest.cpp" />
+    <ClCompile Include="..\sources\LooseRequest.cpp" />
+    <ClCompile Include="..\sources\PartyRequest.cpp" />
+    <ClCompile Include="..\sources\Protocol.cpp" />
+    <ClCompile Include="..\sources\RequestFactory.cpp" />
+    <ClCompile Include="..\sources\RootRequest.cpp" />
+    <ClCompile Include="..\sources\ScoreRequest.cpp" />
+    <ClCompile Include="..\sources\ServerRequest.cpp" />
+    <ClCompile Include="..\sources\SessionRequest.cpp" />
+    <ClCompile Include="..\sources\VictoryRequest.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\include\AGameRequest.hh" />
+    <ClInclude Include="..\include\AliveRequest.h" />
+    <ClInclude Include="..\include\ARequest.hh" />
+    <ClInclude Include="..\include\AuthRequest.hh" />
+    <ClInclude Include="..\include\BuffRequest.h" />
+    <ClInclude Include="..\include\DeathRequest.h" />
+    <ClInclude Include="..\include\ElemRequest.hh" />
+    <ClInclude Include="..\include\EventRequest.hh" />
+    <ClInclude Include="..\include\ITransformers.hh" />
+    <ClInclude Include="..\include\LeaveRequest.h" />
+    <ClInclude Include="..\include\LooseRequest.h" />
+    <ClInclude Include="..\include\PartyRequest.hh" />
+    <ClInclude Include="..\include\Protocol.hpp" />
+    <ClInclude Include="..\include\RequestCode.hh" />
+    <ClInclude Include="..\include\RequestFactory.hh" />
+    <ClInclude Include="..\include\RequestInfo.hpp" />
+    <ClInclude Include="..\include\RootRequest.hh" />
+    <ClInclude Include="..\include\ScoreRequest.h" />
+    <ClInclude Include="..\include\ServerRequest.hh" />
+    <ClInclude Include="..\include\SessionRequest.hh" />
+    <ClInclude Include="..\include\types.hh" />
+    <ClInclude Include="..\include\VictoryRequest.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\libraries\network\network\network.vcxproj">
+      <Project>{42c7e464-716a-4975-83ca-a8445b8abf0e}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

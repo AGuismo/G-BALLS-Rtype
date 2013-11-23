@@ -7,7 +7,6 @@
 a.out
 testConsumer
 *.log
-*.lib
 *.exe
 *.obj
 *.opensdf
@@ -16,7 +15,6 @@ testConsumer
 *.ilk
 *.tlog
 *.idb
-*.dll
 *.pdb
 *.exp
 *.ipch

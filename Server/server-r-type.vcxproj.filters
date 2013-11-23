@@ -27,9 +27,6 @@
     <ClInclude Include="include\Env.hh">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\types.hh">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\libraries\network\network\TimeConverter.h">
       <Filter>Header Files</Filter>
     </ClInclude>

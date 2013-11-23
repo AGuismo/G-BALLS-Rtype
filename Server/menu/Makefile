@@ -14,9 +14,9 @@ SRCS =	      	MenuManager.cpp		\
 
 DIR.THREADS=	../deps/Threads/
 DIR.NETWORK=	../deps/network/
-DIR.DB=		../database/
-DIR.PROT=	../protocol/
+DIR.PROT=	../deps/protocol/
 DIR.BIND=	../deps/Bind/
+DIR.DB=		../database/
 DIR.LOAD=	../loader/
 DIR.GAME=	../game/
 

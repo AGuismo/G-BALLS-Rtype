@@ -9,6 +9,8 @@
 class		Background;
 class		AWidget;
 class		Image;
+class		LineServer;
+
 namespace	network
 {
   class		Manager;
@@ -26,6 +28,7 @@ private:
   widget_list			_listWidget;
   AWidget			*_objectFocus;
   AWidget			*_objectHover;
+  LineServer			*_serverSelected;
   std::list<std::string>	_bufferChat;
   int				_flag;
 
@@ -55,7 +58,9 @@ public:
   void					drawSettings(void);
   void					drawLobbyCreate(void);
   void					drawLobbyWait(int owner);
-  void					drawMenuWarning();
+  void					drawMenuWarning(const std::string &Msg);
+  void					drawLobbyWarning(const std::string &Msg);
+  void					drawGetPWD();
   void					draw(void);
   int					catchEvent(void);
   int					checkAction(void);
