@@ -12,7 +12,7 @@ DIR.THREAD=	../../libraries/Thread/Threads
 DIR.NET=	../../libraries/network/network
 DIR.SRV=	../../Server/
 DIR.BIND=	../../libraries/Bind
-DIR.PROT=	../../Server/protocol
+DIR.PROT=	../../libraries/protocol
 
 F.C	     +=	-W -Wall -Werror
 F.I	     +=	-I$(DIR.H) -I$(DIR.BIND)/include -I$(DIR.THREAD)/include -I../include

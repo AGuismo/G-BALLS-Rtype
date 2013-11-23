@@ -10,6 +10,11 @@ const float Game::MAX_VLAG = 3.0f;
 const float Game::OBJ_DEC_X_FRAME = Game::PX_DEC_X /  8.0f;
 const float Game::OBJ_DEC_Y_FRAME = Game::PX_DEC_Y / 8.0f;
 
+Game::~Game()
+{
+  for (obj_type::iterator it = _objects.begin(); it != _objects.end(); ++it)
+    delete *it;
+}
 
 bool							Game::load(void)
 {
@@ -41,26 +46,33 @@ bool							Game::load(void)
 		return false;
 	if (!_textureManager.addTexture(BYDOS_LASER, std::string("./Images/r-typesheet43.png")))
 		return false;
+	if (!_textureManager.addTexture(ZOGZOG, std::string("./Images/r-typesheet24.png")))
+		return false;
+	if (!_textureManager.addTexture(SHRIMP_BOSS, std::string("./Images/r-typesheet30.png")))
+		return false;
+	if (!_textureManager.addTexture(GARBAGE_BOSS, std::string("./Images/r-typesheet38.png")))
+		return false;
 
-	if (!_layerManager.addLayer(LAYER1, LAYER_1, new sf::Vector2f(0.0f, 0.0f), new sf::Vector2f(2560.0f, 0.0f), new sf::Vector2f(-2560.0f, 0.0f), new sf::Vector2f(1.0f, 0.0f), NULL, true))
+
+	if (!_layerManager.addLayer(LAYER1, LAYER_1, sf::Vector2f(0.0f, 0.0f), sf::Vector2f(2560.0f, 0.0f), sf::Vector2f(-2560.0f, 0.0f), sf::Vector2f(1.0f, 0.0f), NULL, true))
 		return false;
-	if (!_layerManager.addLayer(LAYER2, LAYER_2, new sf::Vector2f(2560.0f, 0.0f), new sf::Vector2f(2560.0f, 0.0f), new sf::Vector2f(-2560.0f, 0.0f), new sf::Vector2f(1.0f, 0.0f), NULL, true))
+	if (!_layerManager.addLayer(LAYER2, LAYER_2, sf::Vector2f(2560.0f, 0.0f), sf::Vector2f(2560.0f, 0.0f), sf::Vector2f(-2560.0f, 0.0f), sf::Vector2f(1.0f, 0.0f), NULL, true))
 		return false;
-	if (!_layerManager.addLayer(LAYER3, LAYER_3, new sf::Vector2f(0.0f, 0.0f), new sf::Vector2f(0.0f, 0.0f), new sf::Vector2f(800.0f, 1000.0f), new sf::Vector2f(-4.0f, -5.0f), NULL, true))
+	if (!_layerManager.addLayer(LAYER3, LAYER_3, sf::Vector2f(0.0f, 0.0f), sf::Vector2f(0.0f, 0.0f), sf::Vector2f(800.0f, 1000.0f), sf::Vector2f(-4.0f, -5.0f), NULL, true))
 		return false;
-	if (!_layerManager.addLayer(LAYER3, LAYER_3, new sf::Vector2f(-50.0f, 100.0f), new sf::Vector2f(0.0f, 0.0f), new sf::Vector2f(800.0f, 1000.0f), new sf::Vector2f(-4.0f, -5.0f), NULL, true))
+	if (!_layerManager.addLayer(LAYER3, LAYER_3, sf::Vector2f(-50.0f, 100.0f), sf::Vector2f(0.0f, 0.0f), sf::Vector2f(800.0f, 1000.0f), sf::Vector2f(-4.0f, -5.0f), NULL, true))
 		return false;
-	if (!_layerManager.addLayer(LAYER3, LAYER_3, new sf::Vector2f(300.0f, 0.0f), new sf::Vector2f(0.0f, 0.0f), new sf::Vector2f(800.0f, 1000.0f), new sf::Vector2f(-8.0f, -5.0f), NULL, true))
+	if (!_layerManager.addLayer(LAYER3, LAYER_3, sf::Vector2f(300.0f, 0.0f), sf::Vector2f(0.0f, 0.0f), sf::Vector2f(800.0f, 1000.0f), sf::Vector2f(-8.0f, -5.0f), NULL, true))
 		return false;
-	if (!_layerManager.addLayer(LAYER3, LAYER_3, new sf::Vector2f(42.0f, -890.0f), new sf::Vector2f(0.0f, 0.0f), new sf::Vector2f(800.0f, 700.0f), new sf::Vector2f(-3.0f, -5.0f), NULL, true))
+	if (!_layerManager.addLayer(LAYER3, LAYER_3, sf::Vector2f(42.0f, -890.0f), sf::Vector2f(0.0f, 0.0f), sf::Vector2f(800.0f, 700.0f), sf::Vector2f(-3.0f, -5.0f), NULL, true))
 		return false;
-	if (!_layerManager.addLayer(LAYER3, LAYER_3, new sf::Vector2f(200.0f, 0.0f), new sf::Vector2f(200.0f, 0.0f), new sf::Vector2f(800.0f, 1400.0f), new sf::Vector2f(-5.0f, -5.0f), NULL, true))
+	if (!_layerManager.addLayer(LAYER3, LAYER_3, sf::Vector2f(200.0f, 0.0f), sf::Vector2f(200.0f, 0.0f), sf::Vector2f(800.0f, 1400.0f), sf::Vector2f(-5.0f, -5.0f), NULL, true))
 		return false;
-	if (!_layerManager.addLayer(LAYER3, LAYER_3, new sf::Vector2f(0.0f, 0.0f), new sf::Vector2f(0.0f, 0.0f), new sf::Vector2f(800.0f, 900.0f), new sf::Vector2f(-8.0f, -5.0f), NULL, true))
+	if (!_layerManager.addLayer(LAYER3, LAYER_3, sf::Vector2f(0.0f, 0.0f), sf::Vector2f(0.0f, 0.0f), sf::Vector2f(800.0f, 900.0f), sf::Vector2f(-8.0f, -5.0f), NULL, true))
 		return false;
-	if (!_layerManager.addLayer(LAYER3, LAYER_3, new sf::Vector2f(42.0f, -890.0f), new sf::Vector2f(0.0f, 0.0f), new sf::Vector2f(800.0f, 700.0f), new sf::Vector2f(-3.0f, -5.0f), NULL, true))
+	if (!_layerManager.addLayer(LAYER3, LAYER_3, sf::Vector2f(42.0f, -890.0f), sf::Vector2f(0.0f, 0.0f), sf::Vector2f(800.0f, 700.0f), sf::Vector2f(-3.0f, -5.0f), NULL, true))
 		return false;
-	if (!_layerManager.addLayer(LAYER3, LAYER_3, new sf::Vector2f(200.0f, 0.0f), new sf::Vector2f(200.0f, 0.0f), new sf::Vector2f(800.0f, 1400.0f), new sf::Vector2f(-5.0f, -5.0f), NULL, true))
+	if (!_layerManager.addLayer(LAYER3, LAYER_3, sf::Vector2f(200.0f, 0.0f), sf::Vector2f(200.0f, 0.0f), sf::Vector2f(800.0f, 1400.0f), sf::Vector2f(-5.0f, -5.0f), NULL, true))
 		return false;
 
 
@@ -89,9 +101,9 @@ bool							Game::load(void)
 
 void							Game::run(void)
 {
-	Timer						_playerMvtLock(new sf::Time(sf::seconds(0.20f)));
-	Timer						_playerFireLock(new sf::Time(sf::seconds(0.42f)));
-	Timer						test(new sf::Time(sf::seconds(50.0f)));
+	Timer						_playerMvtLock(sf::seconds(0.20f));
+	Timer						_playerFireLock(sf::seconds(0.42f));
+	Timer						test(sf::seconds(50.0f));
 
 	_gameWindow->setFramerateLimit(25);
 	_gameWindow->setKeyRepeatEnabled(true);
@@ -99,10 +111,10 @@ void							Game::run(void)
 	addObj(PLAYER2, 20, 40);
 	addObj(PLAYER3, 77, 10);
 	addObj(PLAYER4, 48, 200);
-	addObj(BYDOS_LASER, 4877, 0);
-	addObj(BYDOS_LASER, 4877, 100);
-	addObj(BYDOS_LASER, 44, 15);
-	addObj(BYDOS_LASER, 4877, 255);
+//	addObj(GARBAGE_BOSS, 4877, 0);
+	addObj(ZOGZOG, 4877, 100);
+	addObj(GARBAGE_BOSS, 44, 15);
+	addObj(ZOGZOG, 4877, 255);
 	addObj(SBYDOS1, 455, 140);
 
 	_audioManager.play(AGAME_MUSIC);
@@ -152,7 +164,7 @@ void							Game::run(void)
 					if (_playerFireLock.isEnded())
 					{
 						_audioManager.play(APLAYER_LASER);
-						delObj(455);
+						delObj(44);
 						_playerFireLock.restart();
 					}
 					break;
@@ -290,6 +302,12 @@ bool						Game::delObj(int id)
 			break;
 		case SBYDOS1:
 			addObj(NORMAL_BANG, idBang, entity->getCaseCurPos());
+			_audioManager.play(ABYDOS_DESTRUCTION);
+		case GARBAGE_BOSS:
+			addObj(BIG_BANG, idBang, entity->getCaseCurPos() + 3);
+			addObj(BIG_BANG, ++idBang, entity->getCaseCurPos() + 18);
+			addObj(BIG_BANG, ++idBang, entity->getCaseCurPos() + 33);
+			addObj(BIG_BANG, ++idBang, entity->getCaseCurPos() + 48);
 			_audioManager.play(ABYDOS_DESTRUCTION);
 			break;
 		default:

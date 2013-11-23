@@ -29,6 +29,7 @@ namespace	game
     int		_pow;
     bool	_extraLife;
 
+
     friend class ::Referee;
     friend class ::Game;
     friend class Client;

@@ -10,7 +10,9 @@ class Missile : public Entity
 public:
 	Missile(Entity &launcher, game::Dir dir, std::vector<game::Pos> &pos, game::ID id);
   ~Missile();
-  Entity *getLauncher() const { return &_launcher;};
+
+  Entity		*getLauncher() const { return &_launcher;};
+
 private:
   Entity		&_launcher;
   int			_pow;

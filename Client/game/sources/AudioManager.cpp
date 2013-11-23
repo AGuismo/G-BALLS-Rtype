@@ -2,6 +2,17 @@
 #include			<SFML/Audio.hpp>
 #include			<iostream>
 
+AudioManager::~AudioManager()
+{
+  for (musics_type::iterator it = _musics.begin(); it != _musics.end(); ++it)
+    delete it->second;
+  _musics.clear();
+  for (sounds_type::iterator it = _sounds.begin(); it != _sounds.end(); ++it)
+    delete it->second;
+  _sounds.clear();
+}
+
+
 bool								AudioManager::add(int id, AudioType type, bool repeat, const std::string &filepath)
 {
 	if (type == ASOUND)

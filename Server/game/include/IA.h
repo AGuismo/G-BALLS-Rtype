@@ -10,9 +10,9 @@ class Ia : public Entity
  public:
     Ia(game::ID id, AIaAlgo *algo);
   virtual ~Ia();
-  void	update();
-  void	move();
-  Missile	*fire(Game &game, bool charged);
+  void		update(Game &game);
+  void		move();
+  void		fire(Game &game, bool charged);
   AIaAlgo	*algo() { return _algo; }
 
  private:

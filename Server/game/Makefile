@@ -11,6 +11,9 @@ SRCS =	      	GameManager.cpp		\
 		GameException.cpp	\
 		GameClient.cpp		\
 		Boss.cpp		\
+		BaseIA.cpp		\
+		IA.cpp			\
+		BaseBoss.cpp		\
 		Bonus.cpp		\
 		ElapsedTime.cpp		\
 		Entity.cpp		\
@@ -25,7 +28,7 @@ DIR.THREADS=	../deps/Threads
 DIR.NET=	../deps/network
 DIR.BIND=	../deps/Bind
 DIR.MENU=	../menu/
-DIR.PROT=	../protocol/
+DIR.PROT=	../deps/protocol/
 
 F.C	     +=	-W -Wall -Werror
 F.I	     +=	-I $(DIR.H) -I$(DIR.THREADS)/include -I$(DIR.BIND)/include -I../include

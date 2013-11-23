@@ -28,6 +28,10 @@ namespace	network
     virtual ~Manager();
 
   public:
+    void	stop(void);
+    void	join(void);
+
+  public:
     void	initialize(void);
     void	setTcp(const sf::IpAddress &ip, unsigned short port);
     void	setUdp(const sf::IpAddress &ip, unsigned short port);

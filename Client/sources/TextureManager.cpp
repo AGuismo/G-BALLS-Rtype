@@ -1,14 +1,3 @@
-//
-// TextureManager.cpp for texturemanager in /home/brigno/GIT/G-BALLS-Rtype/Client
-//
-// Made by brigno
-// Login   <brigno@epitech.net>
-//
-// Started on  Tue Nov  5 22:24:09 2013 brigno
-// Last update Fri Nov 22 21:08:03 2013 brigno
-//
-
-// #include	<windows.h>
 #include	"TextureManager.hh"
 #include	"Texture.hh"
 
@@ -18,16 +7,16 @@ TextureManager::TextureManager()
 
 TextureManager::~TextureManager()
 {
-
+  for (Texture_type::iterator it = _lnk.begin(); it != _lnk.end(); ++it)
+    delete it->second;
+  _lnk.clear();
 }
 
 TextureManager	&TextureManager::getInstance()
 {
-  static TextureManager	*singleton = 0;
+  static TextureManager	singleton;
 
-  if (singleton == 0)
-    singleton = new TextureManager;
-  return (*singleton);
+  return (singleton);
 }
 
 void			TextureManager::addTexture(const std::string &key, Texture *value)

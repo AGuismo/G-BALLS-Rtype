@@ -39,10 +39,10 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)\include\;$(SolutionDir)\..\libraries\SFML\;$(SolutionDir)\game\include;$(SolutionDir)\..\libraries\network\network\include;$(SolutionDir)\..\libraries\Thread\Threads\include;$(SolutionDir)\..\libraries\Bind\include;$(SolutionDir)\network\include</IncludePath>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)\include\;$(SolutionDir)\..\libraries\SFML\;$(SolutionDir)\game\include;$(SolutionDir)\..\libraries\network\network\include;$(SolutionDir)\..\libraries\Thread\Threads\include;$(SolutionDir)\..\libraries\protocol\include;$(SolutionDir)\..\libraries\Bind\include;$(SolutionDir)\network\include</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)\include\;$(SolutionDir)\..\libraries\SFML\;$(SolutionDir)\game\include;$(SolutionDir)\..\libraries\network\network\include;$(SolutionDir)\..\libraries\Thread\Threads\include;$(SolutionDir)\..\libraries\Bind\include;$(SolutionDir)\network\include</IncludePath>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)\include\;$(SolutionDir)\..\libraries\SFML\;$(SolutionDir)\game\include;$(SolutionDir)\..\libraries\network\network\include;$(SolutionDir)\..\libraries\Thread\Threads\include;$(SolutionDir)\..\libraries\protocol\include;$(SolutionDir)\..\libraries\Bind\include;$(SolutionDir)\network\include</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>

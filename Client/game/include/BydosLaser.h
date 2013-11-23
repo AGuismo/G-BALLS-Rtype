@@ -1,12 +1,13 @@
 #ifndef BYDOSLASER_
 # define	BYDOSLASER_
+
 # include	"AObject.h"
 # include	"Animation.h"
 
 class BydosLaser : public AObject
 {
 private:
-	Animation			*_laserAnimation;
+	Animation			_laserAnimation;
 
 public:
 	void				update(LookDirection lDir, int updatedPos);

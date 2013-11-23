@@ -7,7 +7,7 @@
 class BydosPlasma : public AObject
 {
 private:
-	Animation			*_plasmaAnimation;
+	Animation			_plasmaAnimation;
 
 public:
 	void				update(LookDirection lDir, int updatedPos);

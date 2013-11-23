@@ -7,6 +7,9 @@
 #include			"PlayerBlast.h"
 #include			"BydosPlasma.h"
 #include			"BydosLaser.h"
+#include			"ZogZog.h"
+#include			"ShrimpBoss.h"
+#include			"GarbageBoss.h"
 #include			"Bang.h"
 
 AObject				*Factory::createObject(ObjType type, int id, int pos, LookDirection ldir)
@@ -31,6 +34,15 @@ AObject				*Factory::createObject(ObjType type, int id, int pos, LookDirection l
 			break;
 		case SBYDOS1:
 			return (new Bydos1(type, id, pos, ldir, text, _gameWindow));
+			break;
+		// case ZOGZOG:
+		// 	return (new ZogZog(type, id, pos, ldir, text, _gameWindow));
+			// break;
+		case SHRIMP_BOSS:
+			return (new ShrimpBoss(type, id, pos, ldir, text, _gameWindow));
+			break;
+		case GARBAGE_BOSS:
+			return (new GarbageBoss(type, id, pos, ldir, text, _gameWindow));
 			break;
 		case PLAYER_LASER:
 			return (new PlayerLaser(type, id, pos, ldir, text, _gameWindow));

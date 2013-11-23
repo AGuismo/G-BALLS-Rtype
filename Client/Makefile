@@ -27,7 +27,7 @@ DIR.THREAD=	../libraries/Thread/Threads
 DIR.BIND=	../libraries/Bind
 DIR.NETWORK=	./network/
 DIR.GAME=	./game/
-DIR.PROTO=	../Server/protocol
+DIR.PROTO=	../libraries/protocol
 
 DEPS.INC=	-I$(DIR.BIND)/include -I$(DIR.THREAD)/include -I$(DIR.GAME)/include
 
