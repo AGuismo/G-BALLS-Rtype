@@ -21,6 +21,7 @@ SRCS =	      	main.cpp		\
 		Sound.cpp		\
 		Font.cpp		\
 		InfosUser.cpp		\
+		MD5.cpp			\
 
 DIR.THREAD=	../libraries/Thread/Threads
 DIR.BIND=	../libraries/Bind
