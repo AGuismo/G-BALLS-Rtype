@@ -17,6 +17,10 @@ SRCS =	      	main.cpp		\
 		Text.cpp		\
 		Texture.cpp		\
 		TextureManager.cpp	\
+		MediaAudioManager.cpp	\
+		FontManager.cpp		\
+		Sound.cpp		\
+		Font.cpp		\
 		InfosUser.cpp		\
 
 DIR.THREAD=	../libraries/Thread/Threads
