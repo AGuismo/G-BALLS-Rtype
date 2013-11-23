@@ -28,9 +28,8 @@ private:
 	typedef std::deque<AObject *> obj_type;
 
 private:
-	Factory						_factory;
-	LayerManager				_layerManager;
 	AudioManager				_audioManager;
+	LayerManager				_layerManager;
 	obj_type					_objects;
 	int							_idPlayer;
 
@@ -74,6 +73,8 @@ public:
 	bool						load(void);
 	void						run(void);
 
+public:
+	static int					generateId(void);
 
 public:
 	Game(sf::RenderWindow *gameWindow, sf::Event *event, network::Manager &);

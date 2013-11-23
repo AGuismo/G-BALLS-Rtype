@@ -53,6 +53,8 @@ bool							Game::load(void)
 		return false;
 	if (!_textureManager.addTexture(ZOGZOG, std::string("./Images/r-typesheet24.png")))
 		return false;
+	if (!_textureManager.addTexture(SLIDER, std::string("./Images/r-typesheet23.png")))
+		return false;
 	if (!_textureManager.addTexture(SHRIMP_BOSS, std::string("./Images/r-typesheet30.png")))
 		return false;
 	if (!_textureManager.addTexture(GARBAGE_BOSS, std::string("./Images/r-typesheet38.png")))
@@ -108,8 +110,9 @@ void							Game::run(void)
 {
 	Timer						_playerMvtLock(sf::seconds(0.20f));
 	Timer						_playerFireLock(sf::seconds(0.42f));
+	Timer						_playerBlastLock(sf::seconds(1.0f));
 	Timer						test(sf::seconds(50.0f));
-	ARequest					*req;
+//	ARequest					*req;
 
 	_gameWindow->setFramerateLimit(25);
 	_gameWindow->setKeyRepeatEnabled(true);
@@ -125,7 +128,7 @@ void							Game::run(void)
 
 	_audioManager.play(AGAME_MUSIC);
 	
-	_network.switchTo(network::Manager::UDP);
+//	_network.switchTo(network::Manager::UDP);
 
 	while (_gameWindow->isOpen())
 	{
@@ -142,16 +145,42 @@ void							Game::run(void)
 				case sf::Keyboard::Left:
 					if (_playerMvtLock.isEnded())
 					{
-						updatePlayer(Left);
-						_network.sendRequest(new EventRequest(MOVE, WEST));
+						if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
+						{
+							std::cout << "NORTH WEST MOTHERFUCKER" << std::endl;
+			//				_network.sendRequest(new EventRequest(MOVE, NORTH_WEST));
+						}
+						else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
+						{
+							std::cout << "SOUTH WEST MOTHERFUCKER" << std::endl;
+		//					_network.sendRequest(new EventRequest(MOVE, SOUTH_WEST));
+						}
+						else
+						{
+							updatePlayer(Left);
+							//_network.sendRequest(new EventRequest(MOVE, WEST));
+						}
 						_playerMvtLock.restart();
 					}
 					break;
 				case sf::Keyboard::Right:
 					if (_playerMvtLock.isEnded())
 					{
-						updatePlayer(Right);
-						_network.sendRequest(new EventRequest(MOVE, EAST));
+						if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
+						{
+							std::cout << " MOTHERFUCKER NORTH EAST" << std::endl;
+	//						_network.sendRequest(new EventRequest(MOVE, SOUTH_EAST));
+						}
+						else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
+						{
+							std::cout << "SOUTH east MOTHERFUCKER" << std::endl;
+//							_network.sendRequest(new EventRequest(MOVE, SOUTH_WEST));
+						}
+						else
+						{
+							updatePlayer(Right);
+							//_network.sendRequest(new EventRequest(MOVE, EAST));
+						}
 						_playerMvtLock.restart();
 					}
 					break;
@@ -159,7 +188,7 @@ void							Game::run(void)
 					if (_playerMvtLock.isEnded())
 					{
 						updatePlayer(Up);
-						_network.sendRequest(new EventRequest(MOVE, NORTH));
+						//_network.sendRequest(new EventRequest(MOVE, NORTH));
 						_playerMvtLock.restart();
 					}
 					break;
@@ -167,7 +196,7 @@ void							Game::run(void)
 					if (_playerMvtLock.isEnded())
 					{
 						updatePlayer(Down);
-						_network.sendRequest(new EventRequest(MOVE, SOUTH));
+						//_network.sendRequest(new EventRequest(MOVE, SOUTH));
 						_playerMvtLock.restart();
 					}
 					break;
@@ -175,13 +204,13 @@ void							Game::run(void)
 					if (_playerFireLock.isEnded())
 					{
 						_audioManager.play(APLAYER_LASER);
-						_network.sendRequest(new EventRequest(SHOOT, SIMPLE));
+						//_network.sendRequest(new EventRequest(SHOOT, SIMPLE));
 						delObj(44);
 						_playerFireLock.restart();
 					}
 					break;
 				case sf::Keyboard::Escape:
-					_network.sendRequest(new LeaveRequest());
+				//	_network.sendRequest(new LeaveRequest());
 				  cleanGame();
 				  return;
 					break;
@@ -193,10 +222,8 @@ void							Game::run(void)
 				break;
 			}
 		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) && sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
-			std::cout << "NORTH WEST MOTHERFUCKER" << std::endl;
-		while ((req = _network.recvRequest()) != 0)
-			;
+	/*	while ((req = _network.recvRequest()) != 0)
+			;*/
 		//LAAAAAAAAAAAAAAAAAA
 
 		_gameWindow->clear();
@@ -303,7 +330,6 @@ bool							Game::updatePlayer(Action action)
 
 bool						Game::delObj(int id)
 {
-	static int				idBang = 66000;
 	obj_type::iterator		it = std::find_if(_objects.begin(), _objects.end(), AObject::predicate(id));
 
 	if (it != _objects.end())
@@ -311,27 +337,8 @@ bool						Game::delObj(int id)
 		AObject	*entity = *it;
 
 		_objects.erase(it);
-		switch (entity->getObjType())
-		{
-		case PLAYER1:
-			addObj(NORMAL_BANG, idBang, entity->getCaseCurPos());
-			_audioManager.play(APLAYER_DESTRUCTION);
-			break;
-		case SBYDOS1:
-			addObj(NORMAL_BANG, idBang, entity->getCaseCurPos());
-			_audioManager.play(ABYDOS_DESTRUCTION);
-		case GARBAGE_BOSS:
-			addObj(BIG_BANG, idBang, entity->getCaseCurPos() + 3);
-			addObj(BIG_BANG, ++idBang, entity->getCaseCurPos() + 18);
-			addObj(BIG_BANG, ++idBang, entity->getCaseCurPos() + 33);
-			addObj(BIG_BANG, ++idBang, entity->getCaseCurPos() + 48);
-			_audioManager.play(ABYDOS_DESTRUCTION);
-			break;
-		default:
-			break;
-		}
+		entity->onDestruction(*this);
 		delete entity;
-		idBang = ((idBang + 1) < 66000) ? 66000 : idBang + 1;
 		return true;
 	}
 	return false;
@@ -364,7 +371,7 @@ bool							Game::addObj(ObjType type, int id, int pos)
 {
 	AObject						*obj;
 
-	if ((obj = _factory.createObject(type, id, pos, East)) != NULL)
+	if ((obj = Factory::getInstance().createObject(type, id, pos, East)) != NULL)
 	{
 		_objects.push_back(obj);
 		return true;
@@ -386,8 +393,16 @@ void							Game::cleanGame()
 	_audioManager.stop(AGAME_MUSIC);
 }
 
-Game::Game(sf::RenderWindow *gameWindow, sf::Event *event, network::Manager &net) : _factory(gameWindow, &_textureManager), _layerManager(gameWindow, &_textureManager), _audioManager(), _network(net)
+int							Game::generateId(void)
 {
+	static int				id = 66000;
+
+	return ((id + 1) < 66000) ? 66000 : id + 1;
+}
+
+Game::Game(sf::RenderWindow *gameWindow, sf::Event *event, network::Manager &net) : _layerManager(gameWindow, &_textureManager), _audioManager(), _network(net)
+{
+	Factory::getInstance().init(gameWindow, &_textureManager);
 	_gameWindow = gameWindow;
 	_event = event;
 	_idPlayer = 42;

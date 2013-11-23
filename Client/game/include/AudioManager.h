@@ -39,6 +39,9 @@ public:
   bool									stop(ID);
 
 public:
+	static AudioManager					&getInstance(void);
+
+public:
   AudioManager() {}
   ~AudioManager();
 

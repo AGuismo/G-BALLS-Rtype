@@ -109,3 +109,10 @@ bool								AudioManager::stop(int id)
 	}
 	return false;
 }
+
+AudioManager				&AudioManager::getInstance()
+{
+	static AudioManager	AudioManager;
+
+	return (AudioManager);
+}

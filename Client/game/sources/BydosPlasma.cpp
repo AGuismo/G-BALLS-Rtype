@@ -81,3 +81,7 @@ BydosPlasma::BydosPlasma(ObjType type, int id, int pos, LookDirection ld, sf::Te
 	_plasmaAnimation.addFrame(sf::IntRect(331, 6, 25, 20));
 	_plasmaAnimation.addFrame(sf::IntRect(364, 6, 26, 20));
 }
+
+void				BydosPlasma::onDestruction(Game &game)
+{
+}

@@ -84,7 +84,9 @@
     <ClCompile Include="..\sources\Application.cpp" />
     <ClCompile Include="..\sources\AScreen.cpp" />
     <ClCompile Include="..\sources\AWidget.cpp" />
-    <ClCompile Include="..\sources\Background.cpp" />
+    <ClCompile Include="..\sources\Background.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="..\sources\Button.cpp" />
     <ClCompile Include="..\sources\CheckBox.cpp" />
     <ClCompile Include="..\sources\Font.cpp" />

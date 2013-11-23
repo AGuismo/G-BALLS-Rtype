@@ -113,3 +113,9 @@ Bydos1::Bydos1(ObjType type, int id, int pos, LookDirection ld, sf::Texture *tex
 	_rightAnimation.addFrame(sf::IntRect(932, 15, 66, 72));
 	_rightAnimation.addFrame(sf::IntRect(998, 15, 66, 72));
 }
+
+void				Bydos1::onDestruction(Game &game)
+{
+	game.addObj(NORMAL_BANG, Game::generateId(), _cCurPos);
+	AudioManager::getInstance().play(ABYDOS_DESTRUCTION);
+}

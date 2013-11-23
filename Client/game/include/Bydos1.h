@@ -12,7 +12,8 @@ private:
 
 public:
 	void				update(LookDirection lDir, int updatedPos);
-	virtual void		draw(void);
+	void				draw(void);
+	void				onDestruction(Game &game);
 
 public:
 	Bydos1(ObjType obj, int id, int pos, LookDirection ld, sf::Texture *text, sf::RenderWindow *gameWindow);
@@ -22,4 +23,5 @@ private:
 	Bydos1(const Bydos1 &);
 	Bydos1				operator=(const Bydos1 &);
 };
+
 #endif // !BYDOS1
