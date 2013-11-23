@@ -41,7 +41,7 @@ namespace	network
   {
     Thread::MutexGuard	guard(_sock);
 
-    if (!_tcp.mSock.connect(ip, port))
+    if (_tcp.mSock.connect(ip, port) == sf::Socket::Error)
       _connected = false;
     else
       _connected = true;
