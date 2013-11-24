@@ -94,21 +94,23 @@ namespace	network
 
   void		Manager::sendRequest(const ARequest *req)
   {
-    // Thread::MutexGuard	guard(_sock);
     sf::Packet		packet;
 
     packet << req;
+    std::cout << "network::Manager::sendRequest(const ARequest *)"
+	      << "Packet Size: " << packet.getDataSize() << std::endl;
     _state.lock();
     if (_curState == TCP)
       {
 	_state.unlock();
-	if (_tcp.mSock.send(packet) == sf::Socket::Error)
+	if (_tcp.mSock.send(packet.getData(), packet.getDataSize()) == sf::Socket::Error)
 	  switchTo(NONE);
       }
     else if (_curState == UDP)
       {
 	_state.unlock();
-	if (_udp.gSock.send(packet, _udp.gIp, _udp.gPort) == sf::Socket::Error)
+	if (_udp.gSock.send(packet.getData(), packet.getDataSize(),
+			    _udp.gIp, _udp.gPort) == sf::Socket::Error)
 	  switchTo(NONE);
       }
   }
@@ -204,13 +206,16 @@ namespace	network
 
 sf::Packet			&operator>>(sf::Packet &packet, ARequest *&req)
 {
-  std::string			data;
   std::vector<Protocol::Byte>	b;
   int				extracted;
 
-  packet >> data;
-  for (std::string::iterator it = data.begin(); it != data.end(); ++it)
-    b.push_back(*it);
+  while (!packet.endOfPacket())
+    {
+      Ruint8	c;
+
+      packet >> c;
+      b.push_back(c);
+    }
   try
     {
       req = Protocol::consume(b, extracted);
@@ -218,7 +223,8 @@ sf::Packet			&operator>>(sf::Packet &packet, ARequest *&req)
   catch (Protocol::ConstructRequest &e)
     {
       std::cerr << "Manager::operator>>(sf::Packet &, const ARequest *): " << e.what() << std::endl;
-      packet << data;
+      for (std::vector<Protocol::Byte>::iterator it = b.begin(); it != b.end(); ++it)
+	packet << *it;
       return (packet);
     }
   return (packet);
@@ -238,9 +244,9 @@ sf::Packet			&operator<<(sf::Packet &packet, const ARequest *req)
       std::cerr << "Manager::operator<<(sf::Packet &, const ARequest *): " << e.what() << std::endl;
       return (packet);
     }
+
   for (std::vector<Protocol::Byte>::iterator it = b.begin(); it != b.end(); ++it)
-    data.push_back(*it);
-  packet << data;
+    packet << *it;
   return (packet);
 }
 
