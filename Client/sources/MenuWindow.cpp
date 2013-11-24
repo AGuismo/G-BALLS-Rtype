@@ -28,6 +28,9 @@ MenuWindow::MenuWindow(sf::RenderWindow &window, network::Manager &network):
   AScreen(window, network, START), _objectFocus(0), _objectHover(0)
 {
   this->_flag = 0;
+  this->_mapCallBack[requestCode::server::OK] = &MenuWindow::receiveOk;
+  this->_mapCallBack[requestCode::server::FORBIDDEN] = &MenuWindow::receiveForbidden;
+  this->_mapCallBack[requestCode::auth::SESSION] = &MenuWindow::receiveSession;
 }
 
 bool	MenuWindow::load()
@@ -769,7 +772,20 @@ void	MenuWindow::removeWidget(const std::string &widget)
     }
 }
 
+void	MenuWindow::receiveOk()
+{
+  std::cout << "poilOk" << std::endl;
+}
 
+void	MenuWindow::receiveForbidden()
+{
+  std::cout << "poilForbidden" << std::endl;
+}
+
+void	MenuWindow::receiveSession()
+{
+  std::cout << "poilSession" << std::endl;
+}
 
 void	MenuWindow::update()
 {
@@ -779,7 +795,8 @@ void	MenuWindow::update()
 
       while ((req = this->_network.recvRequest()) != 0)
 	{
-	  req->code();
+	  std::cout << "receive !!!!!" << std::endl;
+	  (this->*(this->_mapCallBack[req->code()]))();
 	}
     }
   else if (!this->_network.isConnected() && this->_isConnected == 1)
