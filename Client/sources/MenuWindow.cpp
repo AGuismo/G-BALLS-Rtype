@@ -313,6 +313,8 @@ void	MenuWindow::drawLobby()
   float x = 62.;
   float y = 243.;
 
+
+
   this->_listWidget.push_back(new LineServer(this->_event, sf::Vector2f(x, y), sf::Vector2f(x + 7, y + 6), sf::Vector2f(x + 686, y + 26), "Poil", "2/4", true));
   y += 20;
   this->_listWidget.push_back(new LineServer(this->_event, sf::Vector2f(x, y), sf::Vector2f(x + 7, y + 6), sf::Vector2f(x + 686, y + 26), "Decul", "1/4", false));
@@ -630,9 +632,11 @@ int	MenuWindow::checkAction()
       std::cout << "LOGIN : [" << InfosUser::getInstance().create.partyName << "]" << std::endl;
       std::cout << "PASSWORD : [" << InfosUser::getInstance().create.partyPassword << "]" << std::endl;
       std::cout << "NB_PLAYER : [" << this->checkNbPlayer() << "]" << std::endl;
-      // Envoyer une création de partie au serveur
+      if (InfosUser::getInstance().create.partyPassword == "")
+	this->_network.sendRequest(new Party::Create(InfosUser::getInstance().create.partyName, this->checkNbPlayer()));
+      else
+	this->_network.sendRequest(new Party::Create(InfosUser::getInstance().create.partyName, this->checkNbPlayer(), md5(InfosUser::getInstance().create.partyPassword)));
       this->_status = CONTINUE;
-      // this->drawLobbyWait(1);
       break;
     case BACK_LOBY:
       this->drawLobby();
