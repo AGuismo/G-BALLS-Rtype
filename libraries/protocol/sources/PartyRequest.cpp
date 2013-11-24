@@ -422,4 +422,48 @@ namespace	Party
     return (new Update());
   }
 
+  ////////////
+  // Stopped //
+  ////////////
+  Stopped::Stopped() :
+    ARequest(requestCode::party::STOPPED)
+  {
+
+  }
+
+  Stopped::~Stopped()
+  {
+
+  }
+
+  Stopped::Stopped(const Stopped &src) :
+    ARequest(src)
+  {
+
+  }
+
+  Stopped		&Stopped::operator=(Stopped const &src)
+  {
+    if (&src != this)
+      {
+	_code = src._code;
+      }
+    return (*this);
+  }
+
+  Protocol			&Stopped::serialize(Protocol &rhs) const
+  {
+    rhs << _code;
+    return (rhs);
+  }
+
+  Protocol			&Stopped::unserialize(Protocol &rhs)
+  {
+    return (rhs);
+  }
+
+  ARequest			*Stopped::clone()
+  {
+    return (new Stopped());
+  }
 }

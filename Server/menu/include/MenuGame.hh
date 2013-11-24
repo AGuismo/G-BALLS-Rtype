@@ -36,11 +36,11 @@ namespace	menu
     Ruint8			maxPlayers(void) const;
     void			maxPlayers(Ruint8);
 
-	requestCode::Status			status(void) const;
+    requestCode::Status		status(void) const;
     void			status(requestCode::Status);
 
-	::Game			*game(void) const;
-	void			game(::Game *);
+    ::Game			*game(void) const;
+    void			game(::Game *);
 
     Client			*owner() const;
 

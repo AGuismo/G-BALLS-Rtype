@@ -38,6 +38,8 @@ public:
       BACK_SET,
       VERIF_PWD,
       WAIT,
+      CANCEL_GAME,
+      LEAVE_GAME,
       GAME
     };
 protected:

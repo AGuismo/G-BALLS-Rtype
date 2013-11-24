@@ -26,6 +26,8 @@ SRCS =	      	ARequest.cpp		\
 		LeaveRequest.cpp	\
 		ScoreRequest.cpp	\
 		VictoryRequest.cpp	\
+		ChatRecvRequest.cpp	\
+		ChatSendRequest.cpp	\
 
 DIR.BIND=	../deps/Bind
 DIR.NET=	../deps/network

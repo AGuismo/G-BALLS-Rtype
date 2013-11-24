@@ -125,16 +125,16 @@ namespace	menu
       (*it)->requestPush(new Req(req));
   }
 
-    void                  Manager::updateCallback()
-    {
-	ICallbacks          *cb;
+  void                  Manager::updateCallback()
+  {
+    ICallbacks          *cb;
 
-	while ((cb = _input.pop(false)) != 0)
-	{
-	    (*cb)();
-	    delete cb;
-	}
-    }
+    while ((cb = _input.pop(false)) != 0)
+      {
+	(*cb)();
+	delete cb;
+      }
+  }
 
 
   void	Manager::routine(Manager *self)
@@ -143,13 +143,13 @@ namespace	menu
       {
 	try
 	  {
-		self->_monitor.run();
-		self->updateCallback();
-		self->updateClients();
+	    self->_monitor.run();
+	    self->updateCallback();
+	    self->updateClients();
 	  }
 	catch (net::Exception &e)
 	  {
-		self->_active = false;
+	    self->_active = false;
 	    std::cerr << "Fatal error : " << e.what() << " in menu::Manager::routine" << std::endl;
 	  }
 	self->checkNewClient();
@@ -164,14 +164,14 @@ namespace	menu
 
   void		Manager::endGame(Game *game)
   {
-	  game_list::iterator	it;
+    game_list::iterator	it;
 
-	  std::cout << "Manager::endGame" << std::endl;
-	  it = std::find_if(_games.begin(), _games.end(), PredicateParty(game->partyName()));
-	  if (it == _games.end())
-		  return;
-	  delete *it;
-	  _games.erase(it);
+    std::cout << "Manager::endGame" << std::endl;
+    it = std::find_if(_games.begin(), _games.end(), PredicateParty(game->partyName()));
+    if (it == _games.end())
+      return;
+    delete *it;
+    _games.erase(it);
   }
 
   ///////////////////////
@@ -208,7 +208,7 @@ namespace	menu
 	    client->authenticated(true);
 
 	    requestCode::SessionID id = SessionRequest::Unique();
-		client->sessionID(id);
+	    client->sessionID(id);
 
 	    client->requestPush(new ServerRequest(requestCode::server::OK));
 	    client->requestPush(new SessionRequest(client->sessionID()));
@@ -267,10 +267,10 @@ namespace	menu
     client->requestPush(new ServerRequest(requestCode::server::OK));
     for (game_list::iterator it = manager->_games.begin(); it != manager->_games.end() ; ++it)
       client->requestPush(new Party::Update((*it)->partyName(),
-						   (*it)->availableSlots(),
-						   (*it)->maxPlayers(),
-						   (*it)->ispassword(),
-						   (*it)->status()));
+					    (*it)->availableSlots(),
+					    (*it)->maxPlayers(),
+					    (*it)->ispassword(),
+					    (*it)->status()));
     delete req;
   }
 
@@ -284,8 +284,8 @@ namespace	menu
 #endif
     Party::Create	*request = dynamic_cast<Party::Create *>(req);
 
-    if (!client->authenticated() || find_if(manager->_games.begin(), manager->_games.end(),
-					    PredicateParty(request->_partyName)) != manager->_games.end())
+    if (!client->authenticated() || client->inLobby() ||
+	find_if(manager->_games.begin(), manager->_games.end(), PredicateParty(request->_partyName)) != manager->_games.end())
       {
 	client->requestPush(new ServerRequest(requestCode::server::FORBIDDEN));
 	delete req;
@@ -315,7 +315,7 @@ namespace	menu
 				     PredicateParty(request->_partyName));
 
     if (!client->authenticated() || it == manager->_games.end() ||
-		!(*it)->newPlayer(client) || (*it)->status() == requestCode::party::IN_GAME)
+	!(*it)->newPlayer(client) || (*it)->status() == requestCode::party::IN_GAME)
       {
 	client->requestPush(new ServerRequest(requestCode::server::FORBIDDEN));
 	delete req;
@@ -338,24 +338,46 @@ namespace	menu
 #if defined(DEBUG)
     std::cout << "Manager::cancelGame" << std::endl;
 #endif
-    game_list::iterator	it = find_if(manager->_games.begin(), manager->_games.end(),
-				     PredicateOwner(client));
 
-    if (!client->authenticated() || it == manager->_games.end() ||
-		(*it)->status() != requestCode::party::OUT_GAME)
+    if (client->authenticated())
       {
-	client->requestPush(new ServerRequest(requestCode::server::FORBIDDEN));
-	delete req;
-	return ;
+	game_list::iterator	it = find_if(manager->_games.begin(), manager->_games.end(),
+					     PredicateParty(client->currentGame()->partyName()));
+
+	if (it != manager->_games.end() && (*it)->status() == requestCode::party::OUT_GAME)
+	  {
+	    if ((*it)->owner() == client)
+	      {
+		(*it)->broadcast(Party::Stopped());
+		manager->broadcast(Party::Update((*it)->partyName(),
+						 (*it)->availableSlots(),
+						 (*it)->maxPlayers(),
+						 (*it)->ispassword(),
+						 requestCode::party::CANCELED));
+		delete *it;
+		manager->_games.erase(it);
+		delete req;
+		return ;
+	      }
+	    else
+	      {
+		(*it)->delPlayer(client->username());
+		client->requestPush(new Party::Stopped());
+		manager->broadcast(Party::Update((*it)->partyName(),
+						 (*it)->availableSlots(),
+						 (*it)->maxPlayers(),
+						 (*it)->ispassword(),
+						 requestCode::party::UPDATE_GAME));
+		delete req;
+		return ;
+	      }
+	  }
+
       }
-    client->requestPush(new ServerRequest(requestCode::server::OK));
-    manager->broadcast(Party::Update((*it)->partyName(),
-				     (*it)->availableSlots(),
-				     (*it)->maxPlayers(),
-				     (*it)->ispassword(),
-					 requestCode::party::CANCELED));
-    manager->_games.erase(it);
+
+    client->requestPush(new ServerRequest(requestCode::server::FORBIDDEN));
     delete req;
+    return ;
   }
 
   ////////////////////
@@ -370,7 +392,7 @@ namespace	menu
 				     PredicateOwner(client));
 
     if (!client->authenticated() || it == manager->_games.end() ||
-		(*it)->status() != requestCode::party::OUT_GAME)
+	(*it)->status() != requestCode::party::OUT_GAME)
       {
 	client->requestPush(new ServerRequest(requestCode::server::FORBIDDEN));
 	delete req;
@@ -378,7 +400,7 @@ namespace	menu
       }
     client->requestPush(new ServerRequest(requestCode::server::OK));
     (*it)->broadcast(Party::Launch(Party::Launch::Unique()));
-	(*it)->status(requestCode::party::IN_GAME);
+    (*it)->status(requestCode::party::IN_GAME);
     manager->_output.push(new Callback<Application, menu::Game>(manager->_parent, *it,
 								&Application::newGame));
     delete req;

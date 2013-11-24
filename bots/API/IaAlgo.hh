@@ -19,27 +19,27 @@
 
 class IAALGO_API AIaAlgo
 {
-public:
-	static const game::Type BASEIA = 8;
+ public:
+  static const game::Type BASEIA = 8;
 
-public:
-    virtual ~AIaAlgo() {};
-	virtual int	algo(IAPlayer &players) = 0;
-	virtual AIaAlgo *getInstance() = 0;
-	std::vector<game::Pos>	&pos() { return _pos; }
-	std::list<game::Dir>	&fires() { return _fires; }
-	game::Type			&type() { return _type; }
-	game::Pos			&firePos() { return _firePos; }
-	int					&life() { return _life; }
-	virtual bool isIa() { return _isIa; }
+ public:
+  virtual ~AIaAlgo() {};
+  virtual int	algo(IAPlayer &players) = 0;
+  virtual AIaAlgo *getInstance() = 0;
+  std::vector<game::Pos>	&pos() { return _pos; }
+  std::list<game::Dir>	&fires() { return _fires; }
+  game::Type			&type() { return _type; }
+  game::Pos			&firePos() { return _firePos; }
+  int					&life() { return _life; }
+  virtual bool isIa() { return _isIa; }
 
-    protected:
-    std::vector<game::Pos>	_pos;
-	std::list<game::Dir>	_fires;
-	game::Pos			_firePos;
-    game::Type			_type;
-	int					_life;
-	bool				_isIa;
+ protected:
+  std::vector<game::Pos>	_pos;
+  std::list<game::Dir>		_fires;
+  game::Pos			_firePos;
+  game::Type			_type;
+  int				_life;
+  bool				_isIa;
 };
 
 #if defined(linux)
@@ -49,7 +49,7 @@ public:
 
 extern "C"
 {
-	IAALGO_API AIaAlgo	*getInstance();
+  IAALGO_API AIaAlgo	*getInstance();
 }
 
 #if defined(linux)
