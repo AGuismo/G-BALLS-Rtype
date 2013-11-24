@@ -873,8 +873,13 @@ void	MenuWindow::update()
 
       while ((req = this->_network.recvRequest()) != 0)
 	{
-		  std::cout << "receive !!!!! " << req->code() << std::endl;
-	  (this->*(this->_mapCallBack[req->code()]))(req);
+	  callback_map::iterator	it = _mapCallBack.find(req->code());
+
+	  std::cout << "receive !!!!! " << req->code() << std::endl;
+	  if (it != _mapCallBack.end())
+	    (this->*(it->second))(req);
+	  else
+	    std::cout << req->code() << ": not implemented yet" << std::endl;
 	}
     }
   else if (!this->_network.isConnected() && this->_isConnected == 1)
