@@ -778,10 +778,13 @@ void	MenuWindow::receiveOk()
       MediaAudioManager::getInstance().getSound("SwitchScreen")->getSound().play();
       this->drawLobbyWait(1);
     }
-  // else if (this->_currentState == LOBBY || this->_currentState == VERIF_PWD)
-  //   {
-
-  //   }
+  else if (this->_currentState == LOBBY || this->_currentState == VERIF_PWD)
+    {
+      MediaAudioManager::getInstance().getSound("SwitchScreen")->getSound().play();
+      this->drawLobbyWait(0);
+    }
+  else if (this->_currentState == WAIT)
+    this->drawLobby();
 }
 
 void	MenuWindow::receiveForbidden()
@@ -789,6 +792,12 @@ void	MenuWindow::receiveForbidden()
   std::cout << "poilForbidden" << std::endl;
   if (this->_currentState == MENU)
     this->drawMenuWarning("Authentification Failed");
+  else if (this->_currentState == CREATE)
+    this->drawLobbyWarning("Server can't created more games");
+  else if (this->_currentState == VERIF_PWD)
+    this->drawLobbyWarning("Bad Password");
+  else if (this->_currentState == LOBBY)
+    this->drawLobbyWarning("Can't join selected server");
 }
 
 void	MenuWindow::receiveSession()
