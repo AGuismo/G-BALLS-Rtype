@@ -28,17 +28,15 @@ namespace	menu
     _input(input), _output(output)
   {
     _server.monitor(true, false);
+
     _requestCallback[requestCode::auth::CONNECT] = &tryConnect;
     _requestCallback[requestCode::auth::NEW_USER] = &newUser;
-
     _requestCallback[requestCode::party::LIST] = &listGames;
     _requestCallback[requestCode::party::CREAT] = &createGame;
     _requestCallback[requestCode::party::JOIN] = &joinGame;
     _requestCallback[requestCode::party::CANCEL] = &cancelGame;
     _requestCallback[requestCode::party::CLI_START] = &launchGame;
-
-	_requestCallback[requestCode::chat::SEND_MSG] = &chatRecv;
-
+    _requestCallback[requestCode::chat::SEND_MSG] = &chatRecv;
     _requestCallback[requestCode::root::SHUTDOWN] = &shutdown;
   }
 
@@ -88,9 +86,55 @@ namespace	menu
 	request_callback_map::iterator	it = _requestCallback.find(req->code());
 
 	if (it != _requestCallback.end())
-		it->second(req, client, this);
+	  it->second(req, client, this);
 	req = client->requestPop();
       }
+  }
+
+  void	Manager::delPlayerParty(Game *game, Client *client)
+  {
+    game->delPlayer(client->username());
+    client->requestPush(new Party::Stopped());
+    broadcast(Party::Update(game->partyName(),
+			    game->availableSlots(),
+			    game->maxPlayers(),
+			    game->ispassword(),
+			    requestCode::party::UPDATE_GAME));
+  }
+  void	Manager::delParty(Game *game)
+  {
+    game->broadcast(Party::Stopped());
+    broadcast(Party::Update(game->partyName(),
+			    game->availableSlots(),
+			    game->maxPlayers(),
+			    game->ispassword(),
+			    requestCode::party::CANCELED));
+    delete game;
+  }
+
+  void	Manager::disconnectClient(Client *client)
+  {
+#if defined(DEBUG)
+    std::cerr << "menu::Manager::updateClients() Client disconnected("
+	      << client << ")" << std::endl;
+#endif
+    if (client->currentGame() != 0)
+      {
+	game_list::iterator	it = find_if(_games.begin(), _games.end(),
+					     PredicateParty(client->currentGame()->partyName()));
+
+	if (it != _games.end() && (*it)->status() == requestCode::party::OUT_GAME)
+	  {
+	    if ((*it)->owner() == client)
+	      delParty(*it);
+	    else
+	      {
+		delPlayerParty(*it, client);
+		_games.erase(it);
+	      }
+	  }
+      }
+    _monitor.unsetMonitor(*client->TcpLayer());
   }
 
   void	Manager::updateClients()
@@ -102,15 +146,10 @@ namespace	menu
 	(*it)->update();
 	if ((*it)->isTCPDisconnected())
 	  {
-	    Client	*client = *it;
-#if defined(DEBUG)
-	    std::cerr << "menu::Manager::updateClients() Client disconnected("
-		      << *it << ")" << std::endl;
-#endif
-	    _monitor.unsetMonitor(*client->TcpLayer());
+	    disconnectClient(*it);
 	    (*it)->inUse(false);
 	    it = _clients.erase(it);
-	    continue ;
+	    continue;
 	  }
 	clientRequest(*it);
 	(*it)->finalize();
@@ -351,26 +390,14 @@ namespace	menu
 #endif
 	    if ((*it)->owner() == client)
 	      {
-		(*it)->broadcast(Party::Stopped());
-		manager->broadcast(Party::Update((*it)->partyName(),
-						 (*it)->availableSlots(),
-						 (*it)->maxPlayers(),
-						 (*it)->ispassword(),
-						 requestCode::party::CANCELED));
-		delete *it;
+		manager->delParty(*it);
 		manager->_games.erase(it);
 		delete req;
 		return ;
 	      }
 	    else
 	      {
-		(*it)->delPlayer(client->username());
-		client->requestPush(new Party::Stopped());
-		manager->broadcast(Party::Update((*it)->partyName(),
-						 (*it)->availableSlots(),
-						 (*it)->maxPlayers(),
-						 (*it)->ispassword(),
-						 requestCode::party::UPDATE_GAME));
+		manager->delPlayerParty(*it, client);
 		delete req;
 		return ;
 	      }

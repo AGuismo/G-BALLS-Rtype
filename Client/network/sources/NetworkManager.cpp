@@ -174,7 +174,6 @@ namespace	network
     std::vector<Protocol::Byte>	packet;
     sf::Socket::Status		status;
 
-
     _sock.lock();
     status = _tcp.mSock.receive(bytes, 1024, received);
     if (status == sf::Socket::Error)
@@ -267,8 +266,10 @@ bool		product(std::vector<Protocol::Byte> &b, const ARequest *req)
     {
       std::cerr << "Manager::operator<<(sf::Packet &, const ARequest *): " << e.what() << std::endl;
       b.clear();
+      delete req;
       return (false);
     }
+  delete req;
   return (true);
 }
 
