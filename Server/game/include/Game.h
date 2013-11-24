@@ -46,6 +46,8 @@ public:
   void	timer(struct timeval t);
   struct timeval &timer();
   client_list	&clients();
+  void  launchGametime(int t) { _launchGameTime = t; }
+  int	launchGameTime(void) const { return _launchGameTime; }
 
 private:
   void iaUpdate();
@@ -71,6 +73,7 @@ private:
   struct timeval	_timer;
   RequestQueue		_toSend;
   ID				incremental;
+  int				_launchGameTime;
 
   friend class ::Referee;
 };

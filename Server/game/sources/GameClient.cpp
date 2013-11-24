@@ -12,7 +12,7 @@
 namespace	game
 {
   Client::Client(requestCode::SessionID &id) :
-    _alive(true), _updateToLive(0),  _hasLeft(false), _used(false),_id(id)
+	  _alive(true), _updateToLive(0), _hasLeft(false), _used(false), _hasJoin(false), _id(id)
   {
     std::cout << "game::client created" << std::endl;
   }
@@ -48,6 +48,7 @@ namespace	game
     bool	move = false;
     bool	fire = false;
 
+	_hasJoin = true;
     while ((req = _input.requestPop()) != 0)
       {
 	EventRequest	*ev;
