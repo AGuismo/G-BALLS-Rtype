@@ -28,6 +28,11 @@ AIaAlgo *BaseIA::getInstance()
 	return new BaseIA(*this);
 }
 
+AIaAlgo	*BaseIA::clone()
+{
+    return new BaseIA(*this);
+}
+
 int	BaseIA::algo(IAPlayer &players)
 {
     (void)players;

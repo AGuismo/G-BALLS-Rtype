@@ -51,6 +51,8 @@ void						PlayerLaser::draw(void)
 			break;
 		}
 	}
+	if (_timerAlive.isEnded())
+		_alive = false;
 	_gameWindow->draw(_image);
 }
 
@@ -78,6 +80,7 @@ void			PlayerLaser::update(LookDirection lDir, int updtatedPos)
 		_vNextPos.x = (float)Game::POSX(_cNextPos);
 		_vNextPos.y = (float)Game::POSY(_cNextPos);
 	}
+	_timerAlive.restart();
 }
 
 
@@ -95,6 +98,7 @@ PlayerLaser::PlayerLaser(ObjType type, int id, int pos, LookDirection ld, sf::Te
 	_image.setTexture(*text);
 	_image.setTextureRect(sf::IntRect(565, 115, 35, 24));
 	_mvtTime = 0.25f;
+	_timerAlive = Timer(sf::seconds(Game::ALIVE_TIMER));
 	_timerMvt = Timer(sf::seconds(_mvtTime));
 	_gameWindow = gameWindow;
 	_act = false;

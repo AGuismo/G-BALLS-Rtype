@@ -59,7 +59,7 @@ private:
   output_event		_input;
   menu::Manager		_menuManager;
   game::Manager		_gameManager;
-  botLoader::Manager	_botLoaderManager;
+//  botLoader::Manager	_botLoaderManager;
   client_list		_clients;
   game_list			_games;
 

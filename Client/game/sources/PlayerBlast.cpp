@@ -27,6 +27,8 @@ void						PlayerBlast::draw(void)
 			_vCurPos.y -= (_vLag * Game::OBJ_DEC_Y_FRAME);
 		_image.setPosition(_vCurPos.x, _vCurPos.y);
 	}
+	if (_timerAlive.isEnded())
+		_alive = false;
 	_gameWindow->draw(_image);
 }
 
@@ -54,6 +56,7 @@ void			PlayerBlast::update(LookDirection lDir, int updtatedPos)
 		_vNextPos.x = (float)Game::POSX(_cNextPos);
 		_vNextPos.y = (float)Game::POSY(_cNextPos);
 	}
+	_timerAlive.restart();
 }
 
 
@@ -71,6 +74,7 @@ PlayerBlast::PlayerBlast(ObjType type, int id, int pos, LookDirection ld, sf::Te
 	_image.setTexture(*text);
 	_image.setTextureRect(sf::IntRect(368, 336, 162, 40));
 	_mvtTime = 0.25f;
+	_timerAlive = Timer(sf::seconds(Game::ALIVE_TIMER));
 	_timerMvt = Timer(sf::seconds(_mvtTime));
 	_gameWindow = gameWindow;
 	_act = false;

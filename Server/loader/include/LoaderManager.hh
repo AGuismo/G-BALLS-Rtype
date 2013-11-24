@@ -13,8 +13,7 @@ namespace	botLoader
   class		Manager
   {
   public:
-    Manager();
-    ~Manager();
+      static	Manager	&getInstance();
 
   public:
     typedef AIaAlgo								*(*instance_call)(void);
@@ -28,8 +27,8 @@ namespace	botLoader
 	bool										updateIa(const std::string &path);
 
   public:
-	  const AIaAlgo								*getSimpleBydos(void);
-	  const AIaAlgo									*getBossBydos(void);
+	  AIaAlgo								*getSimpleBydos(void);
+	  AIaAlgo									*getBossBydos(void);
 	  int										getSimpleBydosSize(void);
 	  int										getBossBydosSize(void);
 
@@ -37,6 +36,8 @@ namespace	botLoader
     static void									routine(Manager *);
 
   private:
+    Manager();
+    ~Manager();
     Manager(Manager const&);
     Manager& operator=(Manager const&);
   public:
