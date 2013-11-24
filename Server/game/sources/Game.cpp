@@ -362,7 +362,8 @@ void	Game::popWall()
 
 			if (rand() % rtype::Env::getInstance().game.chanceToBreakableMax < rtype::Env::getInstance().game.chanceToBreakableMin)
 			{
-				game::Pos p = 15 * (rand() % rtype::Env::getInstance().game.mapSize);
+				game::Pos p;
+				while ((p = 15 * (rand() % rtype::Env::getInstance().game.mapSize)) != 0)
 				wall = new Entity(UniqueId(), std::vector<game::Pos>(1, p), 3, 6, UniqueId());
 			}
 			else
