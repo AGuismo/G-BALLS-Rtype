@@ -39,10 +39,11 @@ namespace	network
 
   void	Manager::setTcp(const sf::IpAddress &ip, unsigned short port)
   {
-    if (isConnected())
-      return ;
     Thread::MutexGuard	guard(_sock);
 
+    std::cout << "network::Manager::setTcp()" << std::endl;
+    if (isConnected())
+      return ;
     if (_tcp.mSock.connect(ip, port) == sf::Socket::Error)
       _connected = false;
     else
