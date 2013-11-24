@@ -114,25 +114,25 @@ void							Game::run(void)
 	Timer						_playerFireLock(sf::seconds(0.42f));
 	Timer						_playerBlastLock(sf::seconds(1.0f));
 	Timer						test(sf::seconds(50.0f));
-//	ARequest					*req;
+	ARequest					*req;
 
 	_gameWindow->setFramerateLimit(25);
 	_gameWindow->setKeyRepeatEnabled(true);
-	addObj(PLAYER1, 42, 100);
-	addObj(PLAYER2, 20, 40);
-	addObj(PLAYER3, 77, 10);
-	addObj(PLAYER4, 48, 200);
-//	addObj(GARBAGE_BOSS, 4877, 0);
-	addObj(ZOGZOG, 4877, 100);
-	addObj(ZOGZOG, 44, 100);
-	addObj(ZOGZOG, 4877, 255);
-	addObj(SBYDOS1, 455, 140);
+	// addObj(PLAYER1, 42, 100);
+	// addObj(PLAYER2, 20, 40);
+	// addObj(PLAYER3, 77, 10);
+	// addObj(PLAYER4, 48, 200);
+	// addObj(GARBAGE_BOSS, 4877, 0);
+	// addObj(ZOGZOG, 4877, 100);
+	// addObj(ZOGZOG, 44, 100);
+	// addObj(ZOGZOG, 4877, 255);
+	// addObj(SBYDOS1, 455, 140);
 
 	AudioManager::getInstance().play(AGAME_MUSIC);
 
 
-//	_network.setUdp(sf::IpAddress("127.0.0.5"), 44202);
-//	_network.switchTo(network::Manager::UDP);
+	_network.setUdp(sf::IpAddress("127.0.0.5"), 44202);
+	_network.switchTo(network::Manager::UDP);
 
 
 	while (_gameWindow->isOpen())
@@ -153,17 +153,17 @@ void							Game::run(void)
 						if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
 						{
 							std::cout << "NORTH WEST MOTHERFUCKER" << std::endl;
-			//				_network.sendRequest(new EventRequest(MOVE, NORTH_WEST));
+							_network.sendRequest(new EventRequest(MOVE, NORTH_WEST));
 						}
 						else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
 						{
 							std::cout << "SOUTH WEST MOTHERFUCKER" << std::endl;
-		//					_network.sendRequest(new EventRequest(MOVE, SOUTH_WEST));
+							_network.sendRequest(new EventRequest(MOVE, SOUTH_WEST));
 						}
 						else
 						{
-							updatePlayer(Left);
-							//_network.sendRequest(new EventRequest(MOVE, WEST));
+							// updatePlayer(Left);
+							_network.sendRequest(new EventRequest(MOVE, WEST));
 						}
 						_playerMvtLock.restart();
 					}
@@ -174,17 +174,17 @@ void							Game::run(void)
 						if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
 						{
 							std::cout << " MOTHERFUCKER NORTH EAST" << std::endl;
-	//						_network.sendRequest(new EventRequest(MOVE, SOUTH_EAST));
+							_network.sendRequest(new EventRequest(MOVE, SOUTH_EAST));
 						}
 						else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
 						{
 							std::cout << "SOUTH east MOTHERFUCKER" << std::endl;
-//							_network.sendRequest(new EventRequest(MOVE, SOUTH_WEST));
+							_network.sendRequest(new EventRequest(MOVE, SOUTH_WEST));
 						}
 						else
 						{
-							updatePlayer(Right);
-							//_network.sendRequest(new EventRequest(MOVE, EAST));
+							// updatePlayer(Right);
+							_network.sendRequest(new EventRequest(MOVE, EAST));
 						}
 						_playerMvtLock.restart();
 					}
@@ -192,30 +192,30 @@ void							Game::run(void)
 				case sf::Keyboard::Up:
 					if (_playerMvtLock.isEnded())
 					{
-						updatePlayer(Up);
-						//_network.sendRequest(new EventRequest(MOVE, NORTH));
+						// updatePlayer(Up);
+						_network.sendRequest(new EventRequest(MOVE, NORTH));
 						_playerMvtLock.restart();
 					}
 					break;
 				case sf::Keyboard::Down:
 					if (_playerMvtLock.isEnded())
 					{
-						updatePlayer(Down);
-						//_network.sendRequest(new EventRequest(MOVE, SOUTH));
+						// updatePlayer(Down);
+						_network.sendRequest(new EventRequest(MOVE, SOUTH));
 						_playerMvtLock.restart();
 					}
 					break;
 				case sf::Keyboard::Space:
 					if (_playerFireLock.isEnded())
 					{
-						AudioManager::getInstance().play(APLAYER_LASER);
-						//_network.sendRequest(new EventRequest(SHOOT, SIMPLE));
-						delObj(44);
+						// AudioManager::getInstance().play(APLAYER_LASER);
+						_network.sendRequest(new EventRequest(SHOOT, SIMPLE));
+						// delObj(44);
 						_playerFireLock.restart();
 					}
 					break;
 				case sf::Keyboard::Escape:
-				//	_network.sendRequest(new LeaveRequest());
+					_network.sendRequest(new LeaveRequest());
 				  cleanGame();
 				  return;
 					break;
@@ -227,8 +227,8 @@ void							Game::run(void)
 				break;
 			}
 		}
-	/*	while ((req = _network.recvRequest()) != 0)
-			;*/
+		while ((req = _network.recvRequest()) != 0)
+		  ;
 		//LAAAAAAAAAAAAAAAAAA
 
 		_gameWindow->clear();

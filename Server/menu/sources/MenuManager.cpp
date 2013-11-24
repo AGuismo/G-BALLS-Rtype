@@ -205,7 +205,7 @@ namespace	menu
   {
     game_list::iterator	it;
 
-    std::cout << "Manager::endGame" << std::endl;
+    std::cout << "menu::Manager::endGame()" << std::endl;
     it = std::find_if(_games.begin(), _games.end(), PredicateParty(game->partyName()));
     if (it == _games.end())
       return;

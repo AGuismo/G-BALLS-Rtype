@@ -1,5 +1,6 @@
 #include	<iostream>
 #include	<algorithm>
+#include	"Game.h"
 #include	"ICallbacks.hh"
 #include	"GameManager.hh"
 #include	"Client.hh"
@@ -161,6 +162,16 @@ namespace	game
 	  {
 		  Game *game = _games.front();
 
+		  for (std::list<game::Client *>::iterator it = game->clients().begin(); it != game->clients().end(); it++)
+		  if ((*it)->hasJoin() == false)
+		  {
+			  game->timer().tv_usec = rtype::Env::getInstance().game.gameDelay;
+			  game->launchGametime(game->launchGameTime() - 1);
+			  return;
+		  }
+		  if (game->launchGameTime() == 0)
+			  _output.push(new Callback<Application, Game>(_parent, game,
+								&Application::endGame));
 		  _games.pop_front();
 		  if (!game->clients().empty())
 		  {

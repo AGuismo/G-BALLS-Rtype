@@ -1,11 +1,11 @@
 #include <cstdlib>
 #include <ctime>
 #include <vector>
+#include "Game.h"
 #include "LoaderManager.hh"
 #include "Referee.h"
 #include "Missile.h"
 #include "Entity.h"
-#include "Game.h"
 #include "Player.h"
 #include "Env.hh"
 #include "IA.h"
@@ -37,8 +37,9 @@ Game::Game(std::list<game::Client *> &players)
   }
   _clock.start();
   _timer.tv_sec = 0;
+  _launchGameTime = 8;
   _timer.tv_usec = rtype::Env::getInstance().game.gameDelay;
-  std::cout << "Bienvenue dans la faille de l'invocateur" << std::endl;
+  std::cout << "Game::Game(): " << "Bienvenue dans la faille de l'invocateur" << std::endl;
 }
 
 Game::~Game()
