@@ -100,6 +100,7 @@
     <ClInclude Include="..\include\game.h" />
     <ClInclude Include="..\include\gameWindow.h" />
     <ClInclude Include="..\include\GarbageBoss.h" />
+    <ClInclude Include="..\include\IndestructibleWall.h" />
     <ClInclude Include="..\include\IObject.h" />
     <ClInclude Include="..\include\Layer.h" />
     <ClInclude Include="..\include\LayerManager.h" />
@@ -125,6 +126,7 @@
     <ClCompile Include="..\sources\Game.cpp" />
     <ClCompile Include="..\sources\GameWindow.cpp" />
     <ClCompile Include="..\sources\GarbageBoss.cpp" />
+    <ClCompile Include="..\sources\IndestructibleWall.cpp" />
     <ClCompile Include="..\sources\Layer.cpp" />
     <ClCompile Include="..\sources\LayerManager.cpp" />
     <ClCompile Include="..\sources\Player.cpp" />
