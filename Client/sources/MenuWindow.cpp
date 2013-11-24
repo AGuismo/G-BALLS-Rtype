@@ -182,7 +182,7 @@ void	MenuWindow::drawMenu()
 	}
     }
   if (InfosUser::getInstance().authenticate.login == "Login" && flag == 0)
-    tmp = new Text("FontMenu", "LoginText", this->_event, sf::Vector2f(525, 410), sf::Vector2f(520, 415), sf::Vector2f(760, 445), 10, true, "Login");
+    tmp = new Text("FontMenu", "LoginText", this->_event, sf::Vector2f(525, 410), sf::Vector2f(520, 415), sf::Vector2f(760, 445), 10, true, "root");
   else if (flag == 0)
     tmp = new Text("FontMenu", "LoginText", this->_event, sf::Vector2f(525, 410), sf::Vector2f(520, 415), sf::Vector2f(760, 445), 10, true, InfosUser::getInstance().authenticate.login);
 
@@ -222,13 +222,13 @@ void	MenuWindow::drawSettings()
   this->clearWindow();
   this->_status = CONTINUE;
   this->_currentState = SETTINGS;
-  if (InfosUser::getInstance().authenticate.addressIp == "IPAddress")
-    textIP = new Text("FontLobby", "IPAddress", this->_event, sf::Vector2f(525, 410), sf::Vector2f(519, 410), sf::Vector2f(766, 446), 15, true, "Address Ip");
+  if (InfosUser::getInstance().authenticate.addressIp == "Address Ip")
+    textIP = new Text("FontLobby", "IPAddress", this->_event, sf::Vector2f(525, 410), sf::Vector2f(519, 410), sf::Vector2f(766, 446), 15, true, "127.0.0.1");
   else
     textIP = new Text("FontLobby", "IPAddress", this->_event, sf::Vector2f(525, 410), sf::Vector2f(519, 410), sf::Vector2f(766, 446), 15, true, InfosUser::getInstance().authenticate.addressIp);
 
   if (InfosUser::getInstance().authenticate.portTCP == 0)
-    textTCP = new Text("FontLobby", "PortTCP", this->_event, sf::Vector2f(525, 500), sf::Vector2f(518, 503), sf::Vector2f(764, 532), 5, true, "Port TCP");
+    textTCP = new Text("FontLobby", "PortTCP", this->_event, sf::Vector2f(525, 500), sf::Vector2f(518, 503), sf::Vector2f(764, 532), 5, true, "44201");
   else
     {
       std::stringstream ss;
@@ -236,7 +236,7 @@ void	MenuWindow::drawSettings()
       textTCP = new Text("FontLobby", "PortTCP", this->_event, sf::Vector2f(525, 500), sf::Vector2f(518, 503), sf::Vector2f(764, 532), 5, true, ss.str());
     }
   if (InfosUser::getInstance().authenticate.portUDP == 0)
-    textUDP = new Text("FontLobby", "PortUDP", this->_event, sf::Vector2f(525, 580), sf::Vector2f(517, 580), sf::Vector2f(766, 614), 5, true, "Port UDP");
+    textUDP = new Text("FontLobby", "PortUDP", this->_event, sf::Vector2f(525, 580), sf::Vector2f(517, 580), sf::Vector2f(766, 614), 5, true, "44202");
   else
     {
       std::stringstream ss;
