@@ -2,8 +2,8 @@
 #include	"Protocol.hpp"
 #include	"NetworkManager.hh"
 
-sf::Packet	&operator>>(sf::Packet &packet, ARequest *&);
-sf::Packet	&operator<<(sf::Packet &packet, const ARequest *req);
+bool	consume(std::vector<Protocol::Byte> &b, ARequest *&req);
+bool	product(std::vector<Protocol::Byte> &b, const ARequest *req);
 
 namespace	network
 {
@@ -137,11 +137,12 @@ namespace	network
   void				Manager::udpMode()
   {
     ARequest			*req = 0;
-    sf::Packet			packet;
-    std::vector<Protocol::Byte>	data;
+    Protocol::Byte		bytes[1024];
+    std::size_t			extracted;
+    std::vector<Protocol::Byte>	packet;
 
     _sock.lock();
-    if (_udp.gSock.receive(packet, _udp.gIp, _udp.gPort) == sf::Socket::Error)
+    if (_udp.gSock.receive(bytes, 1024, extracted, _udp.gIp, _udp.gPort) == sf::Socket::Error)
       {
 	switchTo(NONE);
 	_sock.unlock();
@@ -149,17 +150,16 @@ namespace	network
       }
     _sock.unlock();
 
-    packet >> req;
+    while (consume(packet, req))
+      {
 #if defined(DEBUG)
-    std::cout << "network::Manager::udpMode(const ARequest *)"
-	      << "Packet Size: " << packet.getDataSize() << std::endl;
+	std::cout << "network::Manager::tcpMode(const ARequest *) -- "
+		  << "Packet Size: " << packet.size() << std::endl;
 #endif
-
-    if (req == 0)
-      return ;
-    _reqlist.lock();
-    _requests.push_back(req);
-    _reqlist.unlock();
+	_reqlist.lock();
+	_requests.push_back(req);
+	_reqlist.unlock();
+      }
   }
 
   void				Manager::tcpMode()
@@ -167,7 +167,7 @@ namespace	network
     ARequest			*req = 0;
     Protocol::Byte		bytes[1024];
     std::size_t			received;
-    sf::Packet			packet;
+    std::vector<Protocol::Byte>	packet;
     sf::Socket::Status		status;
 
 
@@ -188,21 +188,21 @@ namespace	network
       }
     _sock.unlock();
 
-    packet.append(_tcp.notRead.getData(), _tcp.notRead.getDataSize());
-    packet.append(bytes, received);
-    packet >> req;
-#if defined(DEBUG)
-    std::cout << "network::Manager::tcpMode(const ARequest *)"
-	      << "Packet Size: " << packet.getDataSize() << std::endl;
-#endif
-    _tcp.notRead.clear();
-    _tcp.notRead.append(packet.getData(), packet.getDataSize());
+    packet.insert(packet.begin(), _tcp.notRead.begin(), _tcp.notRead.end());
+    for (std::size_t it = 0; it < received; it++)
+      packet.insert(packet.end(), bytes[it]);
 
-    if (req == 0)
-      return ;
-    _reqlist.lock();
-    _requests.push_back(req);
-    _reqlist.unlock();
+    while (consume(packet, req))
+      {
+#if defined(DEBUG)
+	std::cout << "network::Manager::tcpMode(const ARequest *) -- "
+		  << "Packet Size: " << packet.size() << std::endl;
+#endif
+	_reqlist.lock();
+	_requests.push_back(req);
+	_reqlist.unlock();
+      }
+    _tcp.notRead = packet;
   }
 
   int		Manager::routine()
@@ -234,18 +234,10 @@ namespace	network
   }
 }
 
-sf::Packet			&operator>>(sf::Packet &packet, ARequest *&req)
+bool		consume(std::vector<Protocol::Byte> &b, ARequest *&req)
 {
-  std::vector<Protocol::Byte>	b;
   int				extracted;
 
-  while (!packet.endOfPacket())
-    {
-      Ruint8	c;
-
-      packet >> c;
-      b.push_back(c);
-    }
   try
     {
       req = Protocol::consume(b, extracted);
@@ -253,17 +245,15 @@ sf::Packet			&operator>>(sf::Packet &packet, ARequest *&req)
   catch (Protocol::ConstructRequest &e)
     {
       std::cerr << "Manager::operator>>(sf::Packet &, const ARequest *): " << e.what() << std::endl;
-      for (std::vector<Protocol::Byte>::iterator it = b.begin(); it != b.end(); ++it)
-	packet << *it;
-      return (packet);
+      return (false);
     }
-  return (packet);
+  b.erase(b.begin(), b.begin() + extracted);
+  return (true);
 }
 
-sf::Packet			&operator<<(sf::Packet &packet, const ARequest *req)
+bool		product(std::vector<Protocol::Byte> &b, const ARequest *req)
 {
   std::string			data;
-  std::vector<Protocol::Byte>	b;
 
   try
     {
@@ -272,12 +262,10 @@ sf::Packet			&operator<<(sf::Packet &packet, const ARequest *req)
   catch (Protocol::ConstructRequest &e)
     {
       std::cerr << "Manager::operator<<(sf::Packet &, const ARequest *): " << e.what() << std::endl;
-      return (packet);
+      b.clear();
+      return (false);
     }
-
-  for (std::vector<Protocol::Byte>::iterator it = b.begin(); it != b.end(); ++it)
-    packet << *it;
-  return (packet);
+  return (true);
 }
 
 network::Exception::Exception(const std::string &msg) throw():

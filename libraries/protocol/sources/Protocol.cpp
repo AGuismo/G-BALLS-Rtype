@@ -150,9 +150,16 @@ std::vector<Protocol::Byte>	Protocol::product(const ARequest &output)
   Protocol		p;
   std::vector<Byte>	bytes;
 
+#if defined(DEBUG)
+  std::cout << "Protocol::product(): " << "Request id -" << output.code() << "- Contruction..." << std::endl;
+#endif
+
   p._container.clear();
   request::Factory::factory(p, output);
   bytes.insert(bytes.begin(), p._container.begin(), p._container.end());
+#if defined(DEBUG)
+  std::cout << "Protocol::product(): " << "Request id -" << output.code() << "- Complete" << std::endl;
+#endif
   return (bytes);
 }
 
