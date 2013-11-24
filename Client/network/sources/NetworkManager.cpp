@@ -58,8 +58,6 @@ namespace	network
 
   bool	Manager::isConnected()
   {
-    Thread::MutexGuard	guard(_sock);
-
     return (_connected);
   }
 
@@ -105,6 +103,7 @@ namespace	network
 	_state.unlock();
 	if (_tcp.mSock.send(packet.getData(), packet.getDataSize()) == sf::Socket::Error)
 	  switchTo(NONE);
+	return ;
       }
     else if (_curState == UDP)
       {
@@ -112,7 +111,9 @@ namespace	network
 	if (_udp.gSock.send(packet.getData(), packet.getDataSize(),
 			    _udp.gIp, _udp.gPort) == sf::Socket::Error)
 	  switchTo(NONE);
+	return ;
       }
+    _state.unlock();
   }
 
   ARequest	*Manager::recvRequest()
@@ -137,6 +138,7 @@ namespace	network
     if (_udp.gSock.receive(packet, _udp.gIp, _udp.gPort) == sf::Socket::Error)
       {
 	switchTo(NONE);
+	_sock.unlock();
 	return ;
       }
     _sock.unlock();
@@ -159,6 +161,7 @@ namespace	network
     if (_tcp.mSock.receive(packet) == sf::Socket::Error)
       {
 	switchTo(NONE);
+	_sock.unlock();
 	return ;
       }
     _sock.unlock();
