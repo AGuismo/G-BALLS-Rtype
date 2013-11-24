@@ -75,13 +75,11 @@
   <ItemGroup>
     <ClInclude Include="..\include\CheckFileAbstract.h" />
     <ClInclude Include="..\include\DynamicAbstract.h" />
-    <ClInclude Include="..\include\IaAlgo.hh" />
     <ClInclude Include="..\include\IAPlayer.hpp" />
     <ClInclude Include="..\include\ICheckFileAbstract.h" />
     <ClInclude Include="..\include\LoaderException.hh" />
     <ClInclude Include="..\include\LoaderManager.hh" />
     <ClInclude Include="..\include\MDynamicAbstract.h" />
-    <ClInclude Include="..\include\types.hh" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\sources\CheckFileAbstract.cpp" />

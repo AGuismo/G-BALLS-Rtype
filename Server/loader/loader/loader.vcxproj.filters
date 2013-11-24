@@ -33,13 +33,7 @@
     <ClInclude Include="..\include\MDynamicAbstract.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\IaAlgo.hh">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\include\IAPlayer.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\types.hh">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
