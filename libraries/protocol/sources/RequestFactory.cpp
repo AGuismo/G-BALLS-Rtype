@@ -16,6 +16,8 @@
 #include	"VictoryRequest.h"
 #include	"EventRequest.hh"
 #include	"ScoreRequest.h"
+#include	"ChatSendRequest.h"
+#include	"ChatRecvRequest.h"
 
 namespace	request
 {
@@ -52,6 +54,9 @@ namespace	request
 	_lnk[requestCode::game::LOOSE] = new LooseRequest;
 	_lnk[requestCode::game::SCORE] = new ScoreRequest;
 	_lnk[requestCode::game::VICTORY] = new VictoryRequest;
+
+	_lnk[requestCode::chat::RECV_MSG] = new ChatRecvRequest;
+	_lnk[requestCode::chat::SEND_MSG] = new ChatSendRequest;
 
     _lnk[requestCode::root::SHUTDOWN] = new root::Shutdown;
   }

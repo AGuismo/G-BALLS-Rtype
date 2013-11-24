@@ -91,6 +91,7 @@ namespace	menu
     static void	joinGame(ARequest *, Client *, Manager *);
     static void	cancelGame(ARequest *, Client *, Manager *);
     static void	shutdown(ARequest *, Client *, Manager *);
+	static void	chatRecv(ARequest *, Client *, Manager *);
 
   private:
     Manager(Manager const&);
