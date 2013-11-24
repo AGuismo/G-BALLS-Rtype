@@ -10,10 +10,14 @@ namespace	sys
   }
 
 #elif defined(linux)
+# include	<dlfcn.h>
+
+
   unsigned int	sleep(unsigned int sec)
   {
     return (::sleep(sec));
   }
+
 #else
 # error "Unsupported Operating System"
 #endif

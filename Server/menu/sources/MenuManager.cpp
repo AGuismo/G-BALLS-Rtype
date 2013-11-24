@@ -443,7 +443,11 @@ namespace	menu
 	std::cout << r->code() << " | " << r->msg() << " | " << std::endl;
 	manager->broadcast(*r);
 	std::cout << "request's client : ";
+<<<<<<< HEAD
 	while ((req = client->requestPop()))
+=======
+	while ((req = client->requestPop()) != 0)
+>>>>>>> eefc8a5a23d29d44442974b2c223faba8d879571
 	{
 		std::cout << " - " << req->code() << std::endl;
 	}

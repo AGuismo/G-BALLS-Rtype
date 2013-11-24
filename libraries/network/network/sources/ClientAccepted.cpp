@@ -204,7 +204,9 @@ int			ClientAccepted::recv()
   int			readSize;
 
   readSize = readData(buf, 512);
+#if defined(DEBUG)
   std::cout << "ReadSize = " << readSize << std::endl;
+#endif
   if (readSize <= 0)
     return (readSize);
   for (int i = 0; i < readSize ; ++i)
@@ -222,7 +224,9 @@ int			ClientAccepted::send()
   count = _write.look(tmp, 512);
   for (cBuffer::size_type i = 0; i < count; ++i)
     buf[i] = tmp[i];
+#if defined(DEBUG)
   std::cout << "Buff : " << buf << std::endl;
+#endif
   if ((size = writeData(buf, count)) <= 0)
     return (size);
   _write.read(tmp, size);
