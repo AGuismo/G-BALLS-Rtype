@@ -20,6 +20,7 @@ void	InfosUser::initCreate()
 {
   create.partyName = "Party Name";
   create.partyPassword = "Party Password";
+  create.nbPlayer = 0;
 }
 
 InfosUser::InfosUser()

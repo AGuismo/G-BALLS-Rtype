@@ -5,7 +5,7 @@
 // Login   <brigno@epitech.net>
 //
 // Started on  Tue Nov 19 21:10:46 2013 brigno
-// Last update Sat Nov 23 18:25:55 2013 brigno
+// Last update Sun Nov 24 22:51:43 2013 brigno
 //
 
 #ifndef		__LINESERVER_HH__
@@ -45,6 +45,8 @@ public:
   const int					&getFocus(void) const;
   const std::string				&getGame(void) const;
   const	GameInfo				&getGameInfo(void) const;
+  void						setSlot(const std::string &string);
+  void						setPos(sf::Vector2f);
   AScreen::Status				onFocus(void);
   void						stopFocus(void);
   void						onHover(void);
