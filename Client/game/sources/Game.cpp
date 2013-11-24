@@ -9,6 +9,7 @@
 #include		"NetworkManager.hh"
 #include		<algorithm>
 #include		"Timer.h"
+#include		"InfosUser.hh"
 
 const float Game::VLAG = 0.4f;
 const float Game::ALIVE_TIMER = 3.0f;
@@ -131,7 +132,7 @@ void							Game::run(void)
 	AudioManager::getInstance().play(AGAME_MUSIC);
 
 
-	_network.setUdp(sf::IpAddress("127.0.0.5"), 44202);
+	_network.setUdp(sf::IpAddress(sf::IpAddress(InfosUser::getInstance().authenticate.addressIp)), InfosUser::getInstance().authenticate.portUDP);
 	_network.switchTo(network::Manager::UDP);
 
 

@@ -34,7 +34,7 @@ namespace	network
 
   public:
     void	initialize(void);
-    void	setTcp(const sf::IpAddress &ip, unsigned short port);
+    bool	setTcp(const sf::IpAddress &ip, unsigned short port);
     void	setUdp(const sf::IpAddress &ip, unsigned short port);
     bool	isConnected();
     void	closeTcp();
