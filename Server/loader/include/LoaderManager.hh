@@ -5,7 +5,7 @@
 #include	"IaAlgo.hh"
 #include	"CheckFileAbstract.h"
 #include	"DynamicAbstract.h"
-//#include	"myLibrary.h"
+
 
 namespace	botLoader
 {

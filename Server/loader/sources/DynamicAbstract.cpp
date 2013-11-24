@@ -5,11 +5,7 @@
 bool DynamicAbstract::DynamicOpen(const std::string &path)
 {
 	if ((handle = LoadLibrary(path.c_str())) == NULL)
-	{
-		std::cout << GetLastError() << std::endl;
 		return false;
-
-	}
 	return true;
 }
 
