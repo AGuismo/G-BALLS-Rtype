@@ -27,9 +27,11 @@ namespace	botLoader
     bool										addNewIa(const std::string &path);
 	bool										updateIa(const std::string &path);
 
-/*  public:
-	  AIaAlgo									*getSimpleBydos(void);
-	  AIaAlgo									*getBossBydos(void);*/
+  public:
+	  const AIaAlgo								*getSimpleBydos(void);
+	  const AIaAlgo									*getBossBydos(void);
+	  int										getSimpleBydosSize(void);
+	  int										getBossBydosSize(void);
 
   public:
     static void									routine(Manager *);
@@ -37,12 +39,14 @@ namespace	botLoader
   private:
     Manager(Manager const&);
     Manager& operator=(Manager const&);
+  public:
+	  typedef	std::map<std::string, AIaAlgo *>	bydos_type;
 
   private:
     ICheckFileAbstract							*_checkFile;
     DynamicAbstract								*_dynLoader;
-    std::map<std::string, AIaAlgo *>			_simpleBydos;
-    std::map<std::string, AIaAlgo *>			_bossBydos;
+    bydos_type									_simpleBydos;
+    bydos_type									_bossBydos;
     std::map<std::string, UPDATE>				*_upList;
     Threads<void (*)(Manager *)>				_th;
     Thread::Mutex								_lock;
