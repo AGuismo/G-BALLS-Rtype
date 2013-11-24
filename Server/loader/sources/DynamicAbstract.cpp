@@ -4,54 +4,47 @@
 
 bool DynamicAbstract::DynamicOpen(const std::string &path)
 {
-	if ((handle = LoadLibrary(path.c_str())) == NULL)
-		return false;
-	return true;
+  if ((handle = LoadLibrary(path.c_str())) == NULL)
+    return false;
+  return true;
 }
 
 void *DynamicAbstract::DynamicLoadSym(const std::string &symName)
 {
-	return (GetProcAddress(handle, symName.c_str()));
+  return (GetProcAddress(handle, symName.c_str()));
 }
 
 bool DynamicAbstract::DynamicClose(void)
 {
-	if (FreeLibrary(handle) == 0)
-		return false;
-	return true;
+  if (FreeLibrary(handle) == 0)
+    return false;
+  return true;
 }
 
 DynamicAbstract::DynamicAbstract()
 {
-	SetErrorMode(SEM_FAILCRITICALERRORS);
+  SetErrorMode(SEM_FAILCRITICALERRORS);
 }
 
 #elif	defined (linux)
 
 bool DynamicAbstract::DynamicOpen(const std::string &path)
 {
-	if ((handle = dlopen(path.c_str(), RTLD_LAZY)) == NULL)
-	  {
-	    std::cerr << "Dynamic open: " << dlerror() << std::endl;
-	    return false;
-	  }
-	return true;
+  if ((handle = dlopen(path.c_str(), RTLD_LAZY)) == NULL)
+    return false;
+  return true;
 }
 
 void *DynamicAbstract::DynamicLoadSym(const std::string &symName)
 {
-  void	*sym = dlsym(handle, symName.c_str());
-
-  if (sym == 0)
-    std::cerr << "Dynamic loadSym: " << symName << ": " << dlerror() << std::endl;
-  return (sym);
+  return (dlsym(handle, symName.c_str()));
 }
 
 bool DynamicAbstract::DynamicClose(void)
 {
-	if (dlclose(handle) == 0)
-		return false;
-	return true;
+  if (dlclose(handle) == 0)
+    return false;
+  return true;
 }
 
 DynamicAbstract::DynamicAbstract()
@@ -59,5 +52,5 @@ DynamicAbstract::DynamicAbstract()
 }
 
 #else
-	error "Unsupported operating system"
+error "Unsupported operating system"
 #endif // WIN32
