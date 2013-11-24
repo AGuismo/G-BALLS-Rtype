@@ -140,7 +140,7 @@ namespace	botLoader
 		return rand()%(a);
 	}
 
-	const AIaAlgo									*Manager::getBossBydos(void)
+	AIaAlgo									*Manager::getBossBydos(void)
 	{
 		int									curLoop;
 		int									goalLoop;
@@ -156,14 +156,14 @@ namespace	botLoader
 			if (curLoop == goalLoop)
 			{
 //				std::cout << "ok => " << curLoop << std::endl;
-				return it->second;
+			    return it->second->clone();
 			}
 			++curLoop;
 		}
 		return NULL;
 	}
 
-	const	AIaAlgo									*Manager::getSimpleBydos(void)
+	AIaAlgo									*Manager::getSimpleBydos(void)
 	{
 		int									curLoop;
 		int									goalLoop;
@@ -179,7 +179,7 @@ namespace	botLoader
 			if (curLoop == goalLoop)
 			{
 				//				std::cout << "ok => " << curLoop << std::endl;
-				return it->second;
+			    return it->second->clone();
 			}
 			++curLoop;
 		}
@@ -195,5 +195,11 @@ namespace	botLoader
 	{
 		return  (_bossBydos.size());
 	}
+
+Manager	&Manager::getInstance()
+{
+    static Manager manager;
+    return manager;
+}
 
 }

@@ -1,6 +1,7 @@
 #include <cstdlib>
 #include <ctime>
 #include <vector>
+#include "LoaderManager.hh"
 #include "Referee.h"
 #include "Missile.h"
 #include "Entity.h"
@@ -9,6 +10,7 @@
 #include "Env.hh"
 #include "IA.h"
 #include "Boss.h"
+#include "BaseBoss.h"
 #include "DeathRequest.h"
 #include "ElemRequest.hh"
 #include "Entity.h"
@@ -26,8 +28,13 @@ Game::Game(std::list<game::Client *> &players)
 	  (*it)->player(new game::Player(std::vector<game::Pos>(1, (rand() % rtype::Env::getInstance().game.mapSize) *
 																rtype::Env::getInstance().game.mapSize), UniqueId()));
   _titan = NULL;
-  for (int i = 0; i < rtype::Env::getInstance().game.maxBoss; ++i);
-//    _titans.push_back(new Boss(UniqueId(), BotLoader::getBoss()));
+  for (int i = 0; i < rtype::Env::getInstance().game.maxBoss; ++i)
+  {
+      if (botLoader::Manager::getInstance().getBossBydos())
+	  _titans.push_back(new Boss(UniqueId(), botLoader::Manager::getInstance().getBossBydos()));
+      else
+	  _titans.push_back(new Boss(UniqueId(), new BaseBoss()));
+  }
   _clock.start();
   _timer.tv_sec = 0;
   _timer.tv_usec = rtype::Env::getInstance().game.gameDelay;
@@ -325,7 +332,10 @@ void	Game::popIA()
 			//new_ia = BotLoader::getIA();
 			//with pos = rand() % Entity::SIZE + Entity::SIZE - 1;
 			//id = UniqueId();
-			new_ia = new Ia(UniqueId(), new BaseIA());
+			if (botLoader::Manager::getInstance().getSimpleBydos())
+			    new_ia = new Ia(UniqueId(), botLoader::Manager::getInstance().getSimpleBydos());
+			else
+			    new_ia = new Ia(UniqueId(), new BaseIA());
 
 			_IA.push_back(new_ia);
 			pushRequest(new ElemRequest(new_ia->algo()->type(),
