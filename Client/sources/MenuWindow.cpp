@@ -19,6 +19,7 @@
 #include	"MediaAudioManager.hh"
 #include	"InfosUser.hh"
 #include	"NetworkManager.hh"
+#include	"ChatSendRequest.h"
 #include	"AuthRequest.hh"
 #include	"PartyRequest.hh"
 #include	"MD5.hh"
@@ -658,6 +659,8 @@ int	MenuWindow::checkAction()
 	{
 	  msgChat = "[" + InfosUser::getInstance().authenticate.login + "] : " + dynamic_cast<Text*>(Interface::getInstance().getWidget("MsgChat"))->getTmp();
 	  std::cout << msgChat << std::endl;
+
+	  this->_network.sendRequest(new ChatSendRequest(msgChat));
 
 	  dynamic_cast<TextBlock*>(Interface::getInstance().getWidget("ChatBlock"))->addText(msgChat);
 
