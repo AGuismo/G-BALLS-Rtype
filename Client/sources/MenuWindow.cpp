@@ -595,7 +595,6 @@ int	MenuWindow::checkAction()
       if (this->_network.isConnected())
 	{
 	  this->_network.sendRequest(new Auth::Connect(InfosUser::getInstance().authenticate.login, md5(InfosUser::getInstance().authenticate.password)));
-	  this->drawLobby();
 	  break;
 	}
       else
@@ -774,13 +773,22 @@ void	MenuWindow::receiveOk()
       MediaAudioManager::getInstance().getSound("SwitchScreen")->getSound().play();
       this->drawLobby();
     }
+  else if (this->_currentState == CREATE)
+    {
+      MediaAudioManager::getInstance().getSound("SwitchScreen")->getSound().play();
+      this->drawLobbyWait(1);
+    }
+  // else if (this->_currentState == LOBBY || this->_currentState == VERIF_PWD)
+  //   {
+
+  //   }
 }
 
 void	MenuWindow::receiveForbidden()
 {
+  std::cout << "poilForbidden" << std::endl;
   if (this->_currentState == MENU)
     this->drawMenuWarning("Authentification Failed");
-  std::cout << "poilForbidden" << std::endl;
 }
 
 void	MenuWindow::receiveSession()
