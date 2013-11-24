@@ -4,11 +4,7 @@
 void						Layer::draw(void)
 {
 	if (_lEnabled)
-	{
-	//	std::cout << "plop" << std::endl;
-	//	_lSprite.setPosition(0, 0);
 		_gameWindow->draw(_lSprite);
-	}
 }
 
 void						Layer::update(void)
@@ -17,9 +13,8 @@ void						Layer::update(void)
 	{
 		if (_lEnabled)
 		{
-			if (_id == 43)
-				std::cout << "lposx " << _lCurPos.x << "lposy " << _lCurPos.y << " incy" << _lIncrement.y << std::endl;
-		//	system("pause");
+/*			if (_id == 43)
+				std::cout << "lposx " << _lCurPos.x << "lposy " << _lCurPos.y << " incy" << _lIncrement.y << std::endl;*/
 			_lCurPos.x -= _lIncrement.x;
 			_lCurPos.y -= _lIncrement.y;
 			_lCurPos.x = (_lCurPos.x == _lLimPos.x) ? _lResetPos.x : _lCurPos.x;
@@ -58,5 +53,4 @@ Layer::Layer(int id, sf::Texture *lText, const sf::Vector2f &lInit,
 	_gameWindow = gWindow;
 	_lEnabled = lEn;
 	_lSprite.setTexture(*_lTexture);
-//	_lSprite.setPosition(0, 0);
 }
