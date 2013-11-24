@@ -26,9 +26,9 @@ DefaultIA::~DefaultIA()
 
 }
 
-AIaAlgo *clone()
+AIaAlgo *DefaultIA::clone()
 {
-    return new defaultIA(*this);
+    return new DefaultIA(*this);
 }
 
 extern "C"

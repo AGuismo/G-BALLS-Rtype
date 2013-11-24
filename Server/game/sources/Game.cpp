@@ -38,7 +38,7 @@ Game::Game(std::list<game::Client *> &players)
   _clock.start();
   _timer.tv_sec = 0;
   _timer.tv_usec = rtype::Env::getInstance().game.gameDelay;
-  std::cout << "Bienvenue dans la faille de l'invocateur" << std::endl;
+  std::cout << "Game::Game(): " << "Bienvenue dans la faille de l'invocateur" << std::endl;
 }
 
 Game::~Game()
