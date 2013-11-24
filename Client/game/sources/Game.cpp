@@ -123,7 +123,7 @@ void							Game::run(void)
 	addObj(PLAYER4, 48, 200);
 //	addObj(GARBAGE_BOSS, 4877, 0);
 	addObj(ZOGZOG, 4877, 100);
-	addObj(GARBAGE_BOSS, 44, 15);
+	addObj(SHRIMP_BOSS, 44, 100);
 	addObj(ZOGZOG, 4877, 255);
 	addObj(SBYDOS1, 455, 140);
 

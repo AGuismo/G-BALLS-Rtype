@@ -89,5 +89,6 @@ ZogZog::ZogZog(ObjType type, int id, int pos, LookDirection ld, sf::Texture *tex
 void				ZogZog::onDestruction(Game &game)
 {
 	game.addObj(NORMAL_BANG, Game::generateId(), _cCurPos);
+	game.addObj(NORMAL_BANG, Game::generateId(), _cCurPos  + Game::SIZE_GAME_BOARD);
 	AudioManager::getInstance().play(ABYDOS_DESTRUCTION);
 }

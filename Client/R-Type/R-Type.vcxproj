@@ -96,6 +96,7 @@
     <ClCompile Include="..\sources\Interface.cpp" />
     <ClCompile Include="..\sources\LineServer.cpp" />
     <ClCompile Include="..\sources\main.cpp" />
+    <ClCompile Include="..\sources\MD5.cpp" />
     <ClCompile Include="..\sources\MediaAudioManager.cpp" />
     <ClCompile Include="..\sources\MenuWindow.cpp" />
     <ClCompile Include="..\sources\Sound.cpp" />
@@ -120,6 +121,7 @@
     <ClInclude Include="..\include\IScreen.hh" />
     <ClInclude Include="..\include\IWidget.hh" />
     <ClInclude Include="..\include\LineServer.hh" />
+    <ClInclude Include="..\include\MD5.hh" />
     <ClInclude Include="..\include\MediaAudioManager.hh" />
     <ClInclude Include="..\include\MenuWindow.hh" />
     <ClInclude Include="..\include\Network.hh" />

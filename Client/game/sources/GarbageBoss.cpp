@@ -84,6 +84,13 @@ GarbageBoss::GarbageBoss(ObjType type, int id, int pos, LookDirection ld, sf::Te
 
 void				GarbageBoss::onDestruction(Game &game)
 {
-	game.addObj(BIG_BANG, Game::generateId(), _cCurPos);
+	game.addObj(BIG_BANG, Game::generateId(), _cCurPos + Game::SIZE_GAME_BOARD);
+	game.addObj(BIG_BANG, Game::generateId(), _cCurPos + Game::SIZE_GAME_BOARD * 2 + 1);
+	game.addObj(BIG_BANG, Game::generateId(), _cCurPos + Game::SIZE_GAME_BOARD * 3 + 2);
+	game.addObj(BIG_BANG, Game::generateId(), _cCurPos + Game::SIZE_GAME_BOARD * 4 + 3);
+	game.addObj(BIG_BANG, Game::generateId(), _cCurPos + Game::SIZE_GAME_BOARD + 3);
+	game.addObj(BIG_BANG, Game::generateId(), _cCurPos + Game::SIZE_GAME_BOARD * 2 + 2);
+	game.addObj(BIG_BANG, Game::generateId(), _cCurPos + Game::SIZE_GAME_BOARD * 3 + 1);
+	game.addObj(BIG_BANG, Game::generateId(), _cCurPos + Game::SIZE_GAME_BOARD * 4);
 	AudioManager::getInstance().play(ABYDOS_BOSS_DESTRUCTION);
 }
