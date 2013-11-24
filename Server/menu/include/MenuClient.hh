@@ -16,6 +16,11 @@ namespace net
 
 namespace	menu
 {
+  class		Game;
+}
+
+namespace	menu
+{
   class Client
   {
   public:
@@ -50,6 +55,9 @@ namespace	menu
     Client& operator=(Client const&);
 
   public:
+    bool				inLobby(void) const;
+    Game				*currentGame() const;
+    void				currentGame(Game *);
     void				username(const std::string &);
     const std::string			&username(void) const;
     void				password(const requestCode::PasswordType &);
@@ -71,6 +79,7 @@ namespace	menu
     RequestQueue		_output;
     net::ClientAccepted		*_TcpLayer;
     requestCode::SessionID	&_id;
+    Game			*_game;
 
   private:
     struct

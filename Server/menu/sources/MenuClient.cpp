@@ -11,7 +11,7 @@
 namespace	menu
 {
   Client::Client(requestCode::SessionID &id, net::ClientAccepted *clientTcp):
-    _used(false), _TcpLayer(clientTcp), _id(id)
+    _used(false), _TcpLayer(clientTcp), _id(id), _game(0)
   {
     _auth._authenticated = false;
   }
@@ -185,6 +185,22 @@ namespace	menu
   {
     _output.requestPush(req);
   }
+
+  bool					Client::inLobby() const
+  {
+    return (_game != 0);
+  }
+
+  Game					*Client::currentGame() const
+  {
+    return (_game);
+  }
+
+  void					Client::currentGame(Game *game)
+  {
+    _game = game;
+  }
+
 
   void					Client::username(const std::string &username)
   {
