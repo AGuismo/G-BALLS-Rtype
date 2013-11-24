@@ -18,6 +18,8 @@
 #include	"Callback.hh"
 #include	"Application.hh"
 #include	"RequestCode.hh"
+#include	"ChatRecvRequest.h"
+#include	"ChatSendRequest.h"
 
 namespace	menu
 {
@@ -34,6 +36,8 @@ namespace	menu
     _requestCallback[requestCode::party::JOIN] = &joinGame;
     _requestCallback[requestCode::party::CANCEL] = &cancelGame;
     _requestCallback[requestCode::party::CLI_START] = &launchGame;
+
+	_requestCallback[requestCode::chat::SEND_MSG] = &chatRecv;
 
     _requestCallback[requestCode::root::SHUTDOWN] = &shutdown;
   }
@@ -392,6 +396,25 @@ namespace	menu
 	return;
       }
     manager->_active = false;
+  }
+
+  //////////////
+  //   Chat   //
+  //////////////
+  void	Manager::chatRecv(ARequest *req, Client *client, Manager *manager)
+  {
+#if defined(DEBUG)
+    std::cout << "Manager::chatRecv" << std::endl;
+#endif
+
+    if (!client->authenticated())
+      {
+	client->requestPush(new ServerRequest(requestCode::server::FORBIDDEN));
+	delete req;
+	return;
+      }
+	manager->broadcast(ChatSendRequest(dynamic_cast<ChatRecvRequest *>(req)->msg()));
+    delete req;
   }
 
   ///////////////
