@@ -123,6 +123,9 @@ bool	MenuWindow::load()
       TextureManager::getInstance().addTexture("TextCreationFailed", "Images/Lobby/TextCreationFailed.png");
       TextureManager::getInstance().addTexture("Stop", "Images/Lobby/Stop.png");
       TextureManager::getInstance().addTexture("TextGetPassword", "Images/Lobby/TextGetPassword.png");
+      TextureManager::getInstance().addTexture("CreateOff", "Images/Lobby/CreateOff.png");
+      TextureManager::getInstance().addTexture("CreateOffHover", "Images/Lobby/CreateOffHover.png");
+      TextureManager::getInstance().addTexture("CreateOffFocus", "Images/Lobby/CreateOffFocus.png");
     }
   catch (TextureManager::Exception &e)
     {
@@ -413,7 +416,7 @@ void	MenuWindow::drawLobbyWait(int owner)
       posX += 150;
     }
 
-  this->_listWidget.push_back(new Button(this->_event, "Create", sf::Vector2f(400, 110), sf::Vector2f(405, 112), sf::Vector2f(597, 166), AScreen::CREATE_GAME, true));
+  this->_listWidget.push_back(new Button(this->_event, "Create", sf::Vector2f(400, 110), sf::Vector2f(405, 112), sf::Vector2f(597, 166), AScreen::CREATE_GAME, false));
   this->_listWidget.push_back(new Button(this->_event, "Join", sf::Vector2f(600, 110), sf::Vector2f(605, 112), sf::Vector2f(797, 166), AScreen::JOIN_GAME, false));
   this->_listWidget.push_back(new Button(this->_event, "Refresh", sf::Vector2f(800, 110), sf::Vector2f(805, 112), sf::Vector2f(997, 166), AScreen::REFRESH_GAME, true));
   this->_listWidget.push_back(new Button(this->_event, "Disconnect", sf::Vector2f(1000, 110), sf::Vector2f(1005, 112), sf::Vector2f(1197, 166), AScreen::BACK_MENU, true));
