@@ -598,7 +598,11 @@ int	MenuWindow::checkAction()
 	}
       InfosUser::getInstance().authenticate.login = dynamic_cast<Text*>(Interface::getInstance().getWidget("LoginText"))->getTmp();
       InfosUser::getInstance().authenticate.password = dynamic_cast<Text*>(Interface::getInstance().getWidget("PasswordText"))->getTmp();
-      this->_network.setTcp(sf::IpAddress(InfosUser::getInstance().authenticate.addressIp), InfosUser::getInstance().authenticate.portTCP);
+	  if (!this->_network.setTcp(sf::IpAddress(InfosUser::getInstance().authenticate.addressIp), InfosUser::getInstance().authenticate.portTCP))
+	  {
+		  this->drawMenuWarning("Unable to reach the server !");
+		  break;
+	  }
       this->_network.switchTo(network::Manager::TCP);
       if (this->_network.isConnected())
 	{
@@ -967,6 +971,8 @@ int	MenuWindow::run()
   this->_music.play();
   while (this->_window.isOpen())
     {
+	  if (this->_status == BACK_LOBY)
+		  this->_network.switchTo(network::Manager::TCP);
       if (this->catchEvent() == 2)
 	{
 	  this->_music.stop();

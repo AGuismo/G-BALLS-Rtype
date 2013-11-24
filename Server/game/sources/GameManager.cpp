@@ -157,32 +157,44 @@ namespace	game
   void		Manager::update()
   {
 	  bool	asleftplayer = false;
+
 	  std::cout << "Manager::Update" << std::endl;
 	  if (!_games.empty())
 	  {
 		  Game *game = _games.front();
 
-		  for (std::list<game::Client *>::iterator it = game->clients().begin(); it != game->clients().end(); it++)
-		  if ((*it)->hasJoin() == false)
+		  if (game->launchGameTime() == 0)
 		  {
-			  game->timer().tv_usec = rtype::Env::getInstance().game.gameDelay;
-			  game->launchGametime(game->launchGameTime() - 1);
+			  for (std::list<game::Client *>::iterator it = game->clients().begin(); it != game->clients().end(); it++)
+			  {
+				  (*it)->alive(false);
+				  (*it)->hasLeft(true);
+				  _output.push(new Callback<Application, game::Client>(_parent, (*it),
+					  &Application::ClientLeaveGame));
+			  }
+			  _output.push(new Callback<Application, Game>(_parent, game,
+				  &Application::endGame));
+			  _games.pop_front();
 			  return;
 		  }
-		  if (game->launchGameTime() == 0)
-			  _output.push(new Callback<Application, Game>(_parent, game,
-								&Application::endGame));
-		  _games.pop_front();
-		  if (!game->clients().empty())
-		  {
-			  asleftplayer = game->update();
-			  _games.push_back(game);
-		  }
-		  else
-		  {
-		      _output.push(new Callback<Application, Game>(_parent, game,
-							   &Application::endGame));
-		  }
+			for (std::list<game::Client *>::iterator it = game->clients().begin(); it != game->clients().end(); it++)
+				if ((*it)->hasJoin() == false)
+				{
+					game->timer().tv_usec = rtype::Env::getInstance().game.gameDelay;
+					game->launchGametime(game->launchGameTime() - 1);
+					return;
+				}
+			_games.pop_front();
+			if (!game->clients().empty())
+			{
+				asleftplayer = game->update();
+				_games.push_back(game);
+			}
+			else
+			{
+				_output.push(new Callback<Application, Game>(_parent, game,
+					&Application::endGame));
+			}
 	  }
 
 	  if (asleftplayer == true)
