@@ -19,6 +19,20 @@ namespace	network
 
 class		MenuWindow : public AScreen
 {
+private:
+  enum States
+    {
+      MENU,
+      MENU_ERROR,
+      SETTINGS,
+      LOBBY,
+      LOBBY_ERROR,
+      CREATE,
+      WAIT,
+      VERIF_PWD,
+      GAME
+    };
+
 public:
   typedef std::vector<Image*>	image_list;
   typedef std::vector<AWidget*>	widget_list;
@@ -30,7 +44,9 @@ private:
   AWidget			*_objectHover;
   GameInfo			_serverSelected;
   std::list<std::string>	_bufferChat;
+  States			_currentState;
   int				_flag;
+  int				_isConnected;
   sf::Music			_music;
   int				_drawBackground;
   sf::Sprite			_firstBackground;
