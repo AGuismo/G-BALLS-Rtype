@@ -208,7 +208,12 @@ namespace	game
 			  self->_monitor.setOption(net::streamManager::TIMEOUT, self->_games.front()->timer());
 		  }
 		  else
-			  self->_monitor.unsetOption(net::streamManager::TIMEOUT);
+		  {
+		      struct	timeval	def;
+		      def.tv_sec = 1;
+		      def.tv_usec = 0;
+		      self->_monitor.setOption(net::streamManager::TIMEOUT, def);
+		  }
 		  //std::cout << "selecting ..." << std::endl;
 		  self->_monitor.run(); /* Surcouche du select() */
 		  //std::cout << "Done ..." << std::endl;
