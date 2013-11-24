@@ -134,16 +134,6 @@ namespace	game
     _id = id;
   }
 
-  void				Client::game(Game *game)
-  {
-    _game = game;
-  }
-
-  Game				*Client::game(void) const
-  {
-    return (_game);
-  }
-
   void				Client::player(Player *player)
   {
     _player = player;

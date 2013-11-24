@@ -971,6 +971,8 @@ int	MenuWindow::run()
   this->_music.play();
   while (this->_window.isOpen())
     {
+	  if (this->_status == BACK_LOBY)
+		  this->_network.switchTo(network::Manager::TCP);
       if (this->catchEvent() == 2)
 	{
 	  this->_music.stop();
