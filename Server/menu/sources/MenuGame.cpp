@@ -13,7 +13,8 @@ namespace	menu
 
   Game::~Game()
   {
-
+    for (client_list::iterator it = _clients.begin(); it != _clients.end(); ++it)
+      (*it)->currentGame(0);
   }
 
   bool				Game::newPlayer(Client *client)
@@ -31,6 +32,7 @@ namespace	menu
     if (it == _clients.end())
       return (false);
     _clients.erase(it);
+    (*it)->currentGame(0);
     return (true);
   }
 

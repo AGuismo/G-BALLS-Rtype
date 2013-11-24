@@ -19,7 +19,7 @@ DIR.IAAPI=	../../bots/API/
 
 F.C	     +=	-W -Wall -Werror
 F.I	     +=	-I $(DIR.H) -I$(DIR.BIND)/include -I$(DIR.PROTO)/include -I$(DIR.THREADS)/include
-F.I	     += -I../include -I$(DIR.IAAPI)/include
+F.I	     += -I../include -I$(DIR.IAAPI)
 F.D	     +=
 
 

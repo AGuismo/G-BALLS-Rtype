@@ -2,6 +2,7 @@
 # define LOADER_MANAGER_H_
 
 #include	"Threads.hpp"
+#include	"ThreadMutex.hh"
 #include	"CheckFileAbstract.h"
 #include	"DynamicAbstract.h"
 
@@ -16,24 +17,30 @@ namespace	botLoader
     ~Manager();
 
   public:
+    typedef AIaAlgo	*(*instance_call)(void);
+
+  public:
     void	initialize(std::string &);
     void	run();
 
   private:
-	bool			addNewIa(const std::string &path);
-	static	void	routine(Manager *);
-    /*ICI ROUTINE PAR LA SUITE MF*/
+    bool	addNewIa(const std::string &path);
+
+  public:
+    static void	routine(Manager *);
+
   private:
     Manager(Manager const&);
     Manager& operator=(Manager const&);
 
   private:
     ICheckFileAbstract					*_checkFile;
-    DynamicAbstract						*_dynLoader;
-	std::map<std::string, AIaAlgo *>	_simpleBydos;
-	std::map<std::string, AIaAlgo *>	_bossBydos;
-	std::map<std::string, UPDATE>		*_upList;
-    Threads<void (*)(Manager *)>		_th;
+    DynamicAbstract					*_dynLoader;
+    std::map<std::string, AIaAlgo *>			_simpleBydos;
+    std::map<std::string, AIaAlgo *>			_bossBydos;
+    std::map<std::string, UPDATE>			*_upList;
+    Threads<void (*)(Manager *)>			_th;
+    Thread::Mutex					_lock;
   };
 
 }

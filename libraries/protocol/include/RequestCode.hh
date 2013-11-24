@@ -41,7 +41,7 @@ namespace requestCode
 
 	static const CodeID NEW =			1300;
 	static const CodeID UPDATE =		1301;
-	static const CodeID END =			1302;
+	static const CodeID STOPPED =			1302;
 	static const CodeID SERV_START =		1303;
 
 	static const Status	OUT_GAME = 0;
