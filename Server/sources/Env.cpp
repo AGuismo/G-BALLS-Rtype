@@ -53,7 +53,7 @@ namespace rtype
   bool	Env::loadFile(const std::string &file)
   {
 	  /*map = getMap(file) -> arnaud_k*/
-	  std::map<std::string, std::map<std::string, std::string>> map;
+	  // std::map<std::string, std::map<std::string, std::string >> map;
 	  if (map.find("network") != map.end() && map["network"].find("TCP_SERVER_PORT") != map["network"].end())
 		  Set(network.TCPServerPort, map["network"]["TCP_SERVER_PORT"]);
 	  if (map.find("network") != map.end() && map["network"].find("UDP_SERVER_PORT") != map["network"].end())
