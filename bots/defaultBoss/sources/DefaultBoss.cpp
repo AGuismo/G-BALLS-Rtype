@@ -24,6 +24,11 @@ DefaultBoss::DefaultBoss(const DefaultBoss &src) : AIaAlgo()
 	_isIa = false;
 }
 
+AIaAlgo	*DefaultBoss::clone()
+{
+    return new DefaultBoss(*this);
+}
+
 DefaultBoss::~DefaultBoss()
 {
 

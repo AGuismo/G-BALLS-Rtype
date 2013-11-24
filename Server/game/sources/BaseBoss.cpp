@@ -34,6 +34,11 @@ AIaAlgo *BaseBoss::getInstance()
 	return new BaseBoss(*this);
 }
 
+AIaAlgo	*BaseBoss::clone()
+{
+    return new BaseBoss(*this);
+}
+
 int BaseBoss::algo(IAPlayer &players)
 {
     (void)players;

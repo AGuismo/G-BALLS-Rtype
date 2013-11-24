@@ -27,6 +27,8 @@ void						BydosLaser::draw(void)
 		_image.setPosition(_vCurPos.x + 30.0f, _vCurPos.y + 10.0f);
 	}
 	_image.setTextureRect(_laserAnimation.getFrame());
+	if (_timerAlive.isEnded())
+		_alive = false;
 	_gameWindow->draw(_image);
 }
 
@@ -53,6 +55,7 @@ void			BydosLaser::update(LookDirection lDir, int updtatedPos)
 		_vNextPos.x = (float)Game::POSX(_cNextPos);
 		_vNextPos.y = (float)Game::POSY(_cNextPos);
 	}
+	_timerAlive.restart();
 }
 
 
@@ -70,6 +73,7 @@ BydosLaser::BydosLaser(ObjType type, int id, int pos, LookDirection ld, sf::Text
 	_image.setTexture(*text);
 	_image.setPosition((float)Game::POSX(_cCurPos) + 20.0f, (float)Game::POSY(_cCurPos) + 5.0f);
 	_mvtTime = 0.25f;
+	_timerAlive = Timer(sf::seconds(Game::ALIVE_TIMER));
 	_timerMvt = Timer(sf::seconds(_mvtTime));
 	_gameWindow = gameWindow;
 	_act = false;

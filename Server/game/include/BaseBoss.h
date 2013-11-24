@@ -12,6 +12,7 @@ public:
 
 	int algo(IAPlayer &players);
 	AIaAlgo *getInstance();
+	AIaAlgo *clone();
 private:
 
 };

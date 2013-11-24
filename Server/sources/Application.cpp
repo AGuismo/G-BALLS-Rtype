@@ -27,7 +27,7 @@ Application::Application():
     {
      _menuManager.initialize(); // Load the menu
       _gameManager.initialize(); // Load the game system
-      _botLoaderManager.initialize(file); // Load the bot-Loader
+      botLoader::Manager::getInstance().initialize(file); // Load the bot-Loader
     }
   catch (const menu::Exception &e) // Menu loader exception
     {
@@ -56,7 +56,7 @@ void	Application::run()
 {
   std::cout << "Start Application::Run" << std::endl;
   _gameManager.run();
-  _botLoaderManager.run();
+  botLoader::Manager::getInstance().run();
   _menuManager.run();
   routine();
 }

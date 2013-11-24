@@ -26,6 +26,11 @@ DefaultIA::~DefaultIA()
 
 }
 
+AIaAlgo *clone()
+{
+    return new defaultIA(*this);
+}
+
 extern "C"
 {
 	AIaAlgo *getInstance()

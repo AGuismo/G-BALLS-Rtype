@@ -11,6 +11,7 @@
 #include		"Timer.h"
 
 const float Game::VLAG = 0.4f;
+const float Game::ALIVE_TIMER = 3.0f;
 const float Game::MAX_VLAG = 3.0f;
 const float Game::OBJ_DEC_X_FRAME = Game::PX_DEC_X /  8.0f;
 const float Game::OBJ_DEC_Y_FRAME = Game::PX_DEC_Y / 8.0f;
@@ -123,7 +124,7 @@ void							Game::run(void)
 	addObj(PLAYER4, 48, 200);
 //	addObj(GARBAGE_BOSS, 4877, 0);
 	addObj(ZOGZOG, 4877, 100);
-	addObj(SHRIMP_BOSS, 44, 100);
+	addObj(ZOGZOG, 44, 100);
 	addObj(ZOGZOG, 4877, 255);
 	addObj(SBYDOS1, 455, 140);
 

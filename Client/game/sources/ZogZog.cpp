@@ -30,6 +30,8 @@ void						ZogZog::draw(void)
 		_image.setPosition(_vCurPos.x -20.0f, _vCurPos.y -20.0f);
 	}
 	_image.setTextureRect(_zogZogAnimation.getFrame());
+	if (_timerAlive.isEnded())
+		_alive = false;
 	_gameWindow->draw(_image);
 }
 
@@ -56,6 +58,7 @@ void			ZogZog::update(LookDirection lDir, int updtatedPos)
 		_vNextPos.x = (float)Game::POSX(_cNextPos);
 		_vNextPos.y = (float)Game::POSY(_cNextPos);
 	}
+	_timerAlive.restart();
 }
 
 
@@ -75,6 +78,7 @@ ZogZog::ZogZog(ObjType type, int id, int pos, LookDirection ld, sf::Texture *tex
 	_image.setTextureRect(sf::IntRect(0, 0, 48, 72));
 	_image.setPosition((float)Game::POSX(_cCurPos) -20.0f, (float)Game::POSY(_cCurPos)-20.0f);
 	_mvtTime = 0.25f;
+	_timerAlive = Timer(sf::seconds(Game::ALIVE_TIMER));
 	_timerMvt = Timer(sf::seconds(_mvtTime));
 	_gameWindow = gameWindow;
 	_act = false;
