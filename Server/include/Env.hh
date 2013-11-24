@@ -21,6 +21,13 @@ namespace rtype
     static const unsigned int		MAX_UDP_PACKET_LENGTH =	4096;
 
   public:
+	  struct
+	  {
+		  std::string			DatabasePath;
+	  }					database;
+	  static const std::string	DB_PATH;
+
+  public:
     struct
     {
       unsigned short int		maxSimultaneousGames;
@@ -57,9 +64,6 @@ namespace rtype
 	static const unsigned short int	CHANCETOBREAKABLEMIN	=	2;
 	static const unsigned short int CHANCETOBREAKABLEMAX	=	5;
   public:
-    const char				*DatabasePath;
-
-    static const char			*DB_PATH;
     static const unsigned int		PASS_SIZE = 32;
 
   public:
@@ -68,6 +72,8 @@ namespace rtype
   private:
     void	initNetwork();
     void	initGames();
+	template <typename T>
+	void	Set(T &obj, const std::string &value);
 
   public:
     bool	loadFile(const std::string &);
