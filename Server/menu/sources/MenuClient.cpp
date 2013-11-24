@@ -7,6 +7,7 @@
 #include	"cBuffer.h"
 #include	"Protocol.hpp"
 #include	"NetException.h"
+#include	<ctype.h>
 
 namespace	menu
 {
@@ -92,7 +93,7 @@ namespace	menu
     std::cout << "menu::Client::recvSock(): ";
     for (std::vector<net::cBuffer::Byte>::iterator it = buf.begin(); it != buf.end(); ++it)
       {
-	if (!std::isprint(*it))
+	if (!isprint(*it))
 	  printf("\\%.2X", *it);
 	else
 	  printf("%c", *it);
@@ -111,7 +112,7 @@ namespace	menu
     std::cout << "menu::Client::sendSock(): ";
     for (std::vector<net::cBuffer::Byte>::iterator it = buf.begin(); it != buf.end(); ++it)
       {
-	if (!std::isprint(*it))
+	if (!isprint(*it))
 	  printf("\\%.2X", *it);
 	else
 	  printf("%c", *it);

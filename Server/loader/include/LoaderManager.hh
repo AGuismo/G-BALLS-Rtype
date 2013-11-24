@@ -17,30 +17,35 @@ namespace	botLoader
     ~Manager();
 
   public:
-    typedef AIaAlgo	*(*instance_call)(void);
+    typedef AIaAlgo								*(*instance_call)(void);
 
   public:
-    void	initialize(std::string &);
-    void	run();
+    void										initialize(std::string &);
+    void										run();
 
   private:
-    bool	addNewIa(const std::string &path);
+    bool										addNewIa(const std::string &path);
+	bool										updateIa(const std::string &path);
+
+/*  public:
+	  AIaAlgo									*getSimpleBydos(void);
+	  AIaAlgo									*getBossBydos(void);*/
 
   public:
-    static void	routine(Manager *);
+    static void									routine(Manager *);
 
   private:
     Manager(Manager const&);
     Manager& operator=(Manager const&);
 
   private:
-    ICheckFileAbstract					*_checkFile;
-    DynamicAbstract					*_dynLoader;
+    ICheckFileAbstract							*_checkFile;
+    DynamicAbstract								*_dynLoader;
     std::map<std::string, AIaAlgo *>			_simpleBydos;
     std::map<std::string, AIaAlgo *>			_bossBydos;
-    std::map<std::string, UPDATE>			*_upList;
-    Threads<void (*)(Manager *)>			_th;
-    Thread::Mutex					_lock;
+    std::map<std::string, UPDATE>				*_upList;
+    Threads<void (*)(Manager *)>				_th;
+    Thread::Mutex								_lock;
   };
 
 }
