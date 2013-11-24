@@ -125,6 +125,8 @@ void	Application::newGame(menu::Game *game)
 
 	  appIt = std::find_if(_clients.begin(), _clients.end(), PredicateMenuClient(*menuIt));
 	  (*appIt)->game().inUse(true);
+	  (*appIt)->game().hasLeft(false);
+	  (*appIt)->game().alive(true);
 	  (*appIt)->menu().inUse(false);
 	  clients.push_back(&(*appIt)->game());
 	}
@@ -152,9 +154,10 @@ void	Application::endGame(Game *game)
 	thatGame = std::find_if(_games.begin(), _games.end(), PredicateGame(game));
 	if (thatGame == _games.end())
 		return;
-	_gameOutput.push(new Callback<menu::Manager, menu::Game>(&_menuManager, *thatGame,
+	_menuOutput.push(new Callback<menu::Manager, menu::Game>(&_menuManager, *thatGame,
 		&menu::Manager::endGame));
 	_games.erase(thatGame);
+	delete game;
 }
 
 ///////////////////////
