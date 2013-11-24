@@ -20,12 +20,12 @@ Application::Application():
 
   if (!Database::getInstance().loadFile(rtype::Env::getInstance().database.DatabasePath))
     std::cout << "Warning: There is no Database or a corrupt Database in "
-	<< rtype::Env::getInstance().database.DatabasePath << std::endl
+	      << rtype::Env::getInstance().database.DatabasePath << std::endl
   	      << "Client Database will be created for further usage" << std::endl;
   Database::getInstance().newClient("root", md5("4242"), database::SUPER_USER, true);
   try
     {
-     _menuManager.initialize(); // Load the menu
+      _menuManager.initialize(); // Load the menu
       _gameManager.initialize(); // Load the game system
       _botLoaderManager.initialize(file); // Load the bot-Loader
     }
@@ -93,14 +93,14 @@ void	Application::routine()
 
 void	Application::ClientLeaveGame(game::Client *client)
 {
-	client_list::iterator	appIt;
+  client_list::iterator	appIt;
 
 #if defined(DEBUG)
-	std::cout << "Application::ClientLeaveGame(): " << "Player Leave Game..." << std::endl;
+  std::cout << "Application::ClientLeaveGame(): " << "Player Leave Game..." << std::endl;
 #endif
-	appIt = std::find_if(_clients.begin(), _clients.end(), PredicateGameClient(client));
-	(*appIt)->menu().inUse(true);
-	(*appIt)->game().inUse(false);
+  appIt = std::find_if(_clients.begin(), _clients.end(), PredicateGameClient(client));
+  (*appIt)->menu().inUse(true);
+  (*appIt)->game().inUse(false);
 }
 
 void	Application::newClient(Client *client)
@@ -123,13 +123,13 @@ void	Application::newGame(menu::Game *game)
     {
       client_list::iterator	appIt;
 
-	  appIt = std::find_if(_clients.begin(), _clients.end(), PredicateMenuClient(*menuIt));
-	  (*appIt)->game().inUse(true);
-	  (*appIt)->game().hasLeft(false);
-	  (*appIt)->game().alive(true);
-	  (*appIt)->menu().inUse(false);
-	  clients.push_back(&(*appIt)->game());
-	}
+      appIt = std::find_if(_clients.begin(), _clients.end(), PredicateMenuClient(*menuIt));
+      (*appIt)->game().inUse(true);
+      (*appIt)->game().hasLeft(false);
+      (*appIt)->game().alive(true);
+      (*appIt)->menu().inUse(false);
+      clients.push_back(&(*appIt)->game());
+    }
   _games.push_back(game);
   game->game(new Game(clients));
   _gameOutput.push(new Callback<game::Manager, Game>(&_gameManager, game->game(),
@@ -138,26 +138,27 @@ void	Application::newGame(menu::Game *game)
 
 void	Application::endGame(Game *game)
 {
-	Game::client_list::iterator	gameIt = game->clients().begin();
-	game_list::iterator		thatGame;
-#if defined(DEBUG)
-	std::cout << "Application::endGame(): " << "End of Game..." << std::endl;
-#endif
-	for (; gameIt != game->clients().end(); ++gameIt)
-	{
-		client_list::iterator	appIt;
+  Game::client_list::iterator	gameIt = game->clients().begin();
+  game_list::iterator		thatGame;
 
-		appIt = std::find_if(_clients.begin(), _clients.end(), PredicateGameClient(*gameIt));
-		(*appIt)->game().inUse(true);
-		(*appIt)->menu().inUse(false);
-	}
-	thatGame = std::find_if(_games.begin(), _games.end(), PredicateGame(game));
-	if (thatGame == _games.end())
-		return;
-	_menuOutput.push(new Callback<menu::Manager, menu::Game>(&_menuManager, *thatGame,
-		&menu::Manager::endGame));
-	_games.erase(thatGame);
-	delete game;
+#if defined(DEBUG)
+  std::cout << "Application::endGame(): " << "End of Game..." << std::endl;
+#endif
+  for (; gameIt != game->clients().end(); ++gameIt)
+    {
+      client_list::iterator	appIt;
+
+      appIt = std::find_if(_clients.begin(), _clients.end(), PredicateGameClient(*gameIt));
+      (*appIt)->game().inUse(true);
+      (*appIt)->menu().inUse(false);
+    }
+  thatGame = std::find_if(_games.begin(), _games.end(), PredicateGame(game));
+  if (thatGame == _games.end())
+    return;
+  _menuOutput.push(new Callback<menu::Manager, menu::Game>(&_menuManager, *thatGame,
+							   &menu::Manager::endGame));
+  _games.erase(thatGame);
+  delete game;
 }
 
 ///////////////////////
@@ -221,12 +222,12 @@ bool	Application::PredicateGameClient::operator()(const Client *src)
 }
 
 Application::PredicateGame::PredicateGame(Game *game) :
-_game(game)
+  _game(game)
 {
 
 }
 
 bool	Application::PredicateGame::operator()(const menu::Game *src)
 {
-	return (src->game() == _game);
+  return (src->game() == _game);
 }
