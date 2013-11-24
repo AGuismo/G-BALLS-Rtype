@@ -1,25 +1,15 @@
-//
-// IaAlgo.hh for IaAlgo in /home/gherab_f/git/G-BALLS-Rtype/Server/game
-//
-// Made by francois gherabi
-// Login   <gherab_f@epitech.net>
-//
-// Started on  Tue Nov 19 19:49:26 2013 francois gherabi
-// Last update Tue Nov 19 20:27:01 2013 francois gherabi
-//
-
 #ifndef IAALGO_H_
 # define IAALGO_H_
 
 #if defined(WIN32)
-#pragma warning(disable: 4251)
+#pragma		warning(disable: 4251)
 # if defined(IAALGO_API_EXPORT)
 # define	IAALGO_API	__declspec(dllexport)
 # else
 # define	IAALGO_API	__declspec(dllimport)
 # endif
-#elif defined(linux)
-# define	IAALGO_API	extern
+# elif defined(linux)
+#  define	IAALGO_API
 #endif
 
 #include	<list>
@@ -35,6 +25,7 @@ public:
 public:
     virtual ~AIaAlgo() {};
 	virtual int	algo(IAPlayer &players) = 0;
+	virtual AIaAlgo *getInstance() = 0;
 	std::vector<game::Pos>	&pos() { return _pos; }
 	std::list<game::Dir>	&fires() { return _fires; }
 	game::Type			&type() { return _type; }
@@ -51,9 +42,19 @@ public:
 	bool				_isIa;
 };
 
+#if defined(linux)
+# undef		IAALGO_API
+# define	IAALGO_API	extern
+#endif
+
 extern "C"
 {
 	IAALGO_API AIaAlgo	*getInstance();
 }
+
+#if defined(linux)
+# undef		IAALGO_API
+# define	IAALGO_API
+#endif
 
 #endif /* IAALGO_H_ */

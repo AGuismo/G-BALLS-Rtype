@@ -1,4 +1,5 @@
-#include "DefaultBoss.h"
+#include	<cstdlib>
+#include	"DefaultBoss.h"
 
 DefaultBoss::DefaultBoss() : AIaAlgo()
 {

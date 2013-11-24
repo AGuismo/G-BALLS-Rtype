@@ -14,9 +14,10 @@ SRCS =	      	LoaderManager.cpp	\
 
 DIR.THREADS=	../deps/Threads
 DIR.BIND=	../deps/Bind
+DIR.PROTO=	../deps/protocol
 
 F.C	     +=	-W -Wall -Werror
-F.I	     +=	-I $(DIR.H) -I$(DIR.BIND)/include -I$(DIR.THREADS)/include -I../include
+F.I	     +=	-I $(DIR.H) -I$(DIR.BIND)/include -I$(DIR.PROTO)/include -I$(DIR.THREADS)/include -I../include
 F.D	     +=
 
 

@@ -1,13 +1,3 @@
-//
-// IaAlgo.hh for IaAlgo in /home/gherab_f/git/G-BALLS-Rtype/Server/game
-//
-// Made by francois gherabi
-// Login   <gherab_f@epitech.net>
-//
-// Started on  Tue Nov 19 19:49:26 2013 francois gherabi
-// Last update Tue Nov 19 20:27:01 2013 francois gherabi
-//
-
 #ifndef IAALGO_H_
 # define IAALGO_H_
 
@@ -18,15 +8,14 @@
 # else
 # define	IAALGO_API	__declspec(dllimport)
 # endif
-#elif defined(linux)
-# define	IAALGO_API	extern
+# elif defined(linux)
+#  define	IAALGO_API
 #endif
 
 #include	<list>
 #include	<vector>
 #include	"types.hh"
 #include	"IAPlayer.hpp"
-
 
 class IAALGO_API AIaAlgo
 {
@@ -52,6 +41,11 @@ public:
 	int					_life;
 	bool				_isIa;
 };
+
+#if defined(linux)
+# undef		IAALGO_API
+# define	IAALGO_API	extern
+#endif
 
 extern "C"
 {

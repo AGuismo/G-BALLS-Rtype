@@ -1,16 +1,15 @@
-all:		start $(NAME)
-
-$(NAME):	compile_mods compile_deps compile
+all:		compile
 
 compile:
-		@make --no-print-directory -C ./defaultIA all F.L=$(F.L)
+		@make --no-print-directory -C ./defaultIA all
+		@make --no-print-directory -C ./defaultBoss all
 
 clean:
 		@make --no-print-directory -C ./defaultIA clean
+		@make --no-print-directory -C ./defaultBoss clean
 
 fclean:
 		@make --no-print-directory -C ./defaultIA fclean
+		@make --no-print-directory -C ./defaultBoss fclean
 
 re:		fclean all
-
-include .libmake
