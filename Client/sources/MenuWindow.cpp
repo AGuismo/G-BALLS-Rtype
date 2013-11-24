@@ -34,6 +34,7 @@ MenuWindow::MenuWindow(sf::RenderWindow &window, network::Manager &network):
   this->_mapCallBack[requestCode::auth::SESSION] = &MenuWindow::receiveSession;
   this->_mapCallBack[requestCode::party::UPDATE] = &MenuWindow::receiveUpdateParty;
   this->_mapCallBack[requestCode::chat::RECV_MSG] = &MenuWindow::receiveChat;
+  this->_mapCallBack[requestCode::party::STOPPED] = &MenuWindow::receiveStopParty;
 }
 
 bool	MenuWindow::load()
@@ -617,8 +618,8 @@ int	MenuWindow::checkAction()
       this->_window.close();
       break;
     case AScreen::BACK_MENU:
-      // Facultativement des annulations de création/join de partie
-      // Envoyer une demande de déconnexion au serveur
+      // this->_network.sendRequest(new Auth::Disconnect());
+      // this->_network.switchTo(NONE);
       this->_isConnected = 0;
       this->_status = CONTINUE;
       this->drawMenu();
@@ -733,12 +734,15 @@ int	MenuWindow::checkAction()
       this->_status = AScreen::CONTINUE;
       MediaAudioManager::getInstance().getSound("SwitchScreen")->getSound().play();
       this->drawLobby();
+      break;
     case AScreen::VERIF_PWD:
       this->_status = AScreen::CONTINUE;
+      break;
     case AScreen::LEAVE_GAME:
       this->_status = AScreen::CONTINUE;
       std::cout << "Je leave comme un gros porc " << std::endl;
       this->_network.sendRequest(new Party::Cancel());
+      break;
     case AScreen::CANCEL_GAME:
       this->_status = AScreen::CONTINUE;
       this->_network.sendRequest(new Party::Cancel());
@@ -789,6 +793,14 @@ void	MenuWindow::removeWidget(const std::string &widget)
       else
 	++it;
     }
+}
+
+void	MenuWindow::receiveStopParty(ARequest *req)
+{
+  (void)req;
+  std::cout << "J'ANNULE" << std::endl;
+  MediaAudioManager::getInstance().getSound("SwitchScreen")->getSound().play();
+  this->drawLobby();
 }
 
 void	MenuWindow::receiveUpdateParty(ARequest *req)
