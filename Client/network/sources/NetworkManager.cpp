@@ -3,7 +3,7 @@
 #include	"NetworkManager.hh"
 
 std::vector<Protocol::Byte>	&operator>>(std::vector<Protocol::Byte> &b, ARequest *&req);
-sf::Packet	&operator<<(sf::Packet &packet, const ARequest *req);
+std::vector<Protocol::Byte>	&operator<<(std::vector<Protocol::Byte> &b, const ARequest *req);
 
 namespace	network
 {
@@ -252,10 +252,9 @@ std::vector<Protocol::Byte>	&operator>>(std::vector<Protocol::Byte> &b, ARequest
   return (b);
 }
 
-sf::Packet			&operator<<(sf::Packet &packet, const ARequest *req)
+std::vector<Protocol::Byte>	&operator<<(std::vector<Protocol::Byte> &b, const ARequest *req)
 {
   std::string			data;
-  std::vector<Protocol::Byte>	b;
 
   try
     {
@@ -264,12 +263,11 @@ sf::Packet			&operator<<(sf::Packet &packet, const ARequest *req)
   catch (Protocol::ConstructRequest &e)
     {
       std::cerr << "Manager::operator<<(sf::Packet &, const ARequest *): " << e.what() << std::endl;
-      return (packet);
+      b.clear();
+      return (b);
     }
 
-  for (std::vector<Protocol::Byte>::iterator it = b.begin(); it != b.end(); ++it)
-    packet << *it;
-  return (packet);
+  return (b);
 }
 
 network::Exception::Exception(const std::string &msg) throw():
