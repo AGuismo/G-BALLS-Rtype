@@ -1,6 +1,11 @@
 #include "ChatSendRequest.h"
 #include "Protocol.hpp"
 
+ChatSendRequest::ChatSendRequest() : ARequest(requestCode::chat::SEND_MSG)
+{
+
+}
+
 ChatSendRequest::ChatSendRequest(const std::string &msg) : ARequest(requestCode::chat::SEND_MSG)
 {
 	_msg = msg;

@@ -8,6 +8,7 @@ class ChatSendRequest : public ARequest
 {
 public:
 	ChatSendRequest(const std::string &msg);
+	ChatSendRequest();
 	~ChatSendRequest();
 
 public:

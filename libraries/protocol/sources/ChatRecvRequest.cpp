@@ -1,6 +1,10 @@
 #include "ChatRecvRequest.h"
 #include "Protocol.hpp"
 
+ChatRecvRequest::ChatRecvRequest() : ARequest(requestCode::chat::RECV_MSG)
+{
+}
+
 ChatRecvRequest::ChatRecvRequest(const std::string &msg) : ARequest(requestCode::chat::RECV_MSG)
 {
 	_msg = msg;
