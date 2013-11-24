@@ -111,8 +111,6 @@ namespace	botLoader
 		while (true)
 		{
 			sys::sleep(5);
-			man->getBossBydos();
-			man->getSimpleBydos();
 			man->_upList = man->_checkFile->refreshFile();
 			if (man->_upList != NULL)
 			{

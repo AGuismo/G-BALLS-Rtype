@@ -43,6 +43,9 @@ namespace	menu
 	void	endGame(menu::Game *game);
 
   private:
+    void	disconnectClient(Client *client);
+    void	delPlayerParty(Game *, Client *);
+    void	delParty(Game *);
     void	checkNewClient();
     void	updateCallback();
     void	updateClients();

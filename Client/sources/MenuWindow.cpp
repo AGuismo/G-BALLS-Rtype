@@ -20,6 +20,7 @@
 #include	"InfosUser.hh"
 #include	"NetworkManager.hh"
 #include	"ChatSendRequest.h"
+#include	"ChatRecvRequest.h"
 #include	"AuthRequest.hh"
 #include	"PartyRequest.hh"
 #include	"MD5.hh"
@@ -35,6 +36,7 @@ MenuWindow::MenuWindow(sf::RenderWindow &window, network::Manager &network):
   this->_mapCallBack[requestCode::party::UPDATE] = &MenuWindow::receiveUpdateParty;
   this->_mapCallBack[requestCode::chat::RECV_MSG] = &MenuWindow::receiveChat;
   this->_mapCallBack[requestCode::party::STOPPED] = &MenuWindow::receiveStopParty;
+  this->_mapCallBack[requestCode::party::SERV_START] = &MenuWindow::receiveLaunchGame;
 }
 
 bool	MenuWindow::load()
@@ -328,15 +330,6 @@ void	MenuWindow::drawLobby()
   this->_listImage.push_back(new Image("FondLobby", sf::Vector2f(0, 55)));
   this->_listImage.push_back(new Image("MsgChat", sf::Vector2f(820, 200)));
   this->_listImage.push_back(new Image("ListServer", sf::Vector2f(50, 195)));
-  float x = 62.;
-  float y = 243.;
-
-
-
-  this->_listWidget.push_back(new LineServer(this->_event, sf::Vector2f(x, y), sf::Vector2f(x + 7, y + 6), sf::Vector2f(x + 686, y + 26), "Poil", "2/4", true));
-  y += 20;
-  this->_listWidget.push_back(new LineServer(this->_event, sf::Vector2f(x, y), sf::Vector2f(x + 7, y + 6), sf::Vector2f(x + 686, y + 26), "Decul", "1/4", false));
-
   this->_listWidget.push_back(new Button(this->_event, "Create", sf::Vector2f(400, 110), sf::Vector2f(405, 112), sf::Vector2f(597, 166), AScreen::CREATE_GAME, true));
   this->_listWidget.push_back(new Button(this->_event, "Join", sf::Vector2f(600, 110), sf::Vector2f(605, 112), sf::Vector2f(797, 166), AScreen::JOIN_GAME, false));
   this->_listWidget.push_back(new Button(this->_event, "Refresh", sf::Vector2f(800, 110), sf::Vector2f(805, 112), sf::Vector2f(997, 166), AScreen::REFRESH_GAME, true));
@@ -575,7 +568,10 @@ int	MenuWindow::checkAction()
       this->drawMenu();
       break;
     case AScreen::GAME:
-      // Lancer la partie
+      this->_network.sendRequest(new Party::Launch());
+      this->_status = CONTINUE;
+      break;
+    case AScreen::LAUNCH:
       this->clearWindow();
       this->_status = BACK_LOBY;
       return (2);
@@ -630,7 +626,7 @@ int	MenuWindow::checkAction()
       this->drawLobbyCreate();
       break;
     case AScreen::REFRESH_GAME:
-      this->_network.sendRequest(new Party::Update());
+      this->_network.sendRequest(new Party::List());
       this->_status = CONTINUE;
       break;
     case AScreen::JOIN_GAME:
@@ -665,8 +661,6 @@ int	MenuWindow::checkAction()
 	  std::cout << msgChat << std::endl;
 
 	  this->_network.sendRequest(new ChatSendRequest(msgChat));
-
-	  dynamic_cast<TextBlock*>(Interface::getInstance().getWidget("ChatBlock"))->addText(msgChat);
 
 	}
 	  dynamic_cast<Text*>(Interface::getInstance().getWidget("MsgChat"))->clearText();
@@ -795,6 +789,15 @@ void	MenuWindow::removeWidget(const std::string &widget)
     }
 }
 
+
+void	MenuWindow::receiveLaunchGame(ARequest *req)
+{
+  (void)req;
+  std::cout << "LAUNCH THE FUCKING GAME" << std::endl;
+  MediaAudioManager::getInstance().getSound("SwitchScreen")->getSound().play();
+  this->_status = AScreen::LAUNCH;
+}
+
 void	MenuWindow::receiveStopParty(ARequest *req)
 {
   (void)req;
@@ -805,14 +808,30 @@ void	MenuWindow::receiveStopParty(ARequest *req)
 
 void	MenuWindow::receiveUpdateParty(ARequest *req)
 {
+  // static float y = 243.;
+  // static float x = 62.;
   (void)req;
+
+  // Party::Update *up;
+  // std::string slot;
+
+  // up = dynamic_cast<Party::Update*>(req);
+  // slot = (up->_maxPlayers - up->_availableSlots) + "/" + up->_maxPlayers;
+
+  // this->_listWidget.push_back(new LineServer(this->_event, sf::Vector2f(x, y), sf::Vector2f(x + 7, y + 6), sf::Vector2f(x + 686, y + 26),
+  // 					     up->_partyName, slot, true));
+  // y += 20;
+
   std::cout << "UPDATE!!!!" << std::endl;
 }
 
 void	MenuWindow::receiveChat(ARequest *req)
 {
   (void)req;
-  std::cout << "chat " << std::endl;
+  std::string Msg;
+
+  Msg = dynamic_cast<ChatRecvRequest*>(req)->msg();
+  dynamic_cast<TextBlock*>(Interface::getInstance().getWidget("ChatBlock"))->addText(Msg);
 }
 
 void	MenuWindow::receiveOk(ARequest *req)
