@@ -788,18 +788,21 @@ void	MenuWindow::removeWidget(const std::string &widget)
     }
 }
 
-void	MenuWindow::receiveUpdateParty()
+void	MenuWindow::receiveUpdateParty(ARequest *req)
 {
+  (void)req;
   std::cout << "UPDATE!!!!" << std::endl;
 }
 
-void	MenuWindow::receiveChat()
+void	MenuWindow::receiveChat(ARequest *req)
 {
+  (void)req;
   std::cout << "chat " << std::endl;
 }
 
-void	MenuWindow::receiveOk()
+void	MenuWindow::receiveOk(ARequest *req)
 {
+  (void)req;
   if (this->_currentState == MENU)
     {
       this->_isConnected = 1;
@@ -827,8 +830,9 @@ void	MenuWindow::receiveOk()
     }
 }
 
-void	MenuWindow::receiveForbidden()
+void	MenuWindow::receiveForbidden(ARequest *req)
 {
+  (void)req;
   std::cout << "poilForbidden" << std::endl;
   if (this->_currentState == MENU)
     this->drawMenuWarning("Authentification Failed");
@@ -840,8 +844,9 @@ void	MenuWindow::receiveForbidden()
     this->drawLobbyWarning("Can't join selected server");
 }
 
-void	MenuWindow::receiveSession()
+void	MenuWindow::receiveSession(ARequest *req)
 {
+  (void)req;
   std::cout << "poilSession" << std::endl;
 }
 
@@ -854,7 +859,7 @@ void	MenuWindow::update()
       while ((req = this->_network.recvRequest()) != 0)
 	{
 	  std::cout << "receive !!!!!" << std::endl;
-	  (this->*(this->_mapCallBack[req->code()]))();
+	  (this->*(this->_mapCallBack[req->code()]))(req);
 	}
     }
   else if (!this->_network.isConnected() && this->_isConnected == 1)

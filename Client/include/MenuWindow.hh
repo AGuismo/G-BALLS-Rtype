@@ -7,6 +7,7 @@
 # include	<list>
 # include	"AScreen.hh"
 # include	"GameInfo.hh"
+# include	"ARequest.hh"
 # include	"RequestCode.hh"
 
 class		Background;
@@ -37,7 +38,7 @@ private:
 public:
   typedef std::vector<Image*>	image_list;
   typedef std::vector<AWidget*>	widget_list;
-  typedef std::map<requestCode::CodeID, void (MenuWindow::*)()> callback_map;
+  typedef std::map<requestCode::CodeID, void (MenuWindow::*)(ARequest*)> callback_map;
 
 private:
   image_list			_listImage;
@@ -101,11 +102,11 @@ public:
   void					setFirstPos(sf::Vector2f);
   void					setSecondPos(sf::Vector2f);
   void					setSecondPos(float x, float y);
-  void					receiveSession(void);
-  void					receiveOk(void);
-  void					receiveForbidden(void);
-  void					receiveUpdateParty(void);
-  void					receiveChat(void);
+  void					receiveSession(ARequest*);
+  void					receiveOk(ARequest*);
+  void					receiveForbidden(ARequest*);
+  void					receiveUpdateParty(ARequest*);
+  void					receiveChat(ARequest*);
   void					scroll();
 };
 

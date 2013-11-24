@@ -168,11 +168,21 @@ namespace	network
     Protocol::Byte		bytes[1024];
     std::size_t			received;
     sf::Packet			packet;
+    sf::Socket::Status		status;
+
 
     _sock.lock();
-    if (_tcp.mSock.receive(bytes, 1024, received) == sf::Socket::Error)
+    status = _tcp.mSock.receive(bytes, 1024, received);
+    if (status == sf::Socket::Error)
       {
 	switchTo(NONE);
+	_sock.unlock();
+	return ;
+      }
+    else if (status == sf::Socket::Disconnected)
+      {
+	_tcp.mSock.disconnect();
+	_connected = false;
 	_sock.unlock();
 	return ;
       }
