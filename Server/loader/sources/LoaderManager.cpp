@@ -72,7 +72,9 @@ namespace	botLoader
 
 	void	Manager::routine(Manager *man)
 	{
-		/*    while (true)
+	  (void)man;
+	  /*
+		    while (true)
 			  {
 			  sys::sleep(8);
 
