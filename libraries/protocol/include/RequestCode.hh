@@ -43,6 +43,12 @@ namespace requestCode
 	static const CodeID UPDATE =		1301;
 	static const CodeID END =			1302;
 	static const CodeID SERV_START =		1303;
+
+	static const Status	OUT_GAME = 0;
+	static const Status	IN_GAME = 1;
+	static const Status	CANCELED = 2;
+	static const Status	FINISHED = 3;
+	static const Status UPDATE_GAME = 4;
     }
 
     namespace root

@@ -40,11 +40,11 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <TargetExt>.lib</TargetExt>
-    <IncludePath>$(SolutionDir)\..\libraries\Thread\Threads\include;$(SolutionDir)\..\libraries\Bind\include;$(ProjectDir)\..\..\include;$(IncludePath);$(ProjectDir)\..\include</IncludePath>
+    <IncludePath>$(SolutionDir)\..\libraries\Thread\Threads\include;$(SolutionDir)\..\libraries\Bind\include;$(ProjectDir)\..\..\include;$(IncludePath);$(ProjectDir)\..\include;$(SolutionDir)\..\libraries\protocol\include;</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <TargetExt>.lib</TargetExt>
-    <IncludePath>$(SolutionDir)\..\libraries\Thread\Threads\include;$(SolutionDir)\..\libraries\Bind\include;$(ProjectDir)\..\..\include;$(IncludePath);$(ProjectDir)\..\include</IncludePath>
+    <IncludePath>$(SolutionDir)\..\libraries\Thread\Threads\include;$(SolutionDir)\..\libraries\Bind\include;$(ProjectDir)\..\..\include;$(IncludePath);$(ProjectDir)\..\include;$(SolutionDir)\..\libraries\protocol\include;</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>

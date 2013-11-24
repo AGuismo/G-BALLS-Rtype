@@ -17,6 +17,7 @@
 #include	"MenuGame.hh"
 #include	"Callback.hh"
 #include	"Application.hh"
+#include	"RequestCode.hh"
 
 namespace	menu
 {
@@ -310,7 +311,7 @@ namespace	menu
 				     PredicateParty(request->_partyName));
 
     if (!client->authenticated() || it == manager->_games.end() ||
-		!(*it)->newPlayer(client) || (*it)->status() == Game::IN_GAME)
+		!(*it)->newPlayer(client) || (*it)->status() == requestCode::party::IN_GAME)
       {
 	client->requestPush(new ServerRequest(requestCode::server::FORBIDDEN));
 	delete req;
@@ -337,7 +338,7 @@ namespace	menu
 				     PredicateOwner(client));
 
     if (!client->authenticated() || it == manager->_games.end() ||
-	(*it)->status() != Game::OUT_GAME)
+		(*it)->status() != requestCode::party::OUT_GAME)
       {
 	client->requestPush(new ServerRequest(requestCode::server::FORBIDDEN));
 	delete req;
@@ -348,7 +349,7 @@ namespace	menu
 				     (*it)->availableSlots(),
 				     (*it)->maxPlayers(),
 				     (*it)->ispassword(),
-				     Game::CANCELED));
+					 requestCode::party::CANCELED));
     manager->_games.erase(it);
     delete req;
   }
@@ -365,7 +366,7 @@ namespace	menu
 				     PredicateOwner(client));
 
     if (!client->authenticated() || it == manager->_games.end() ||
-	(*it)->status() != Game::OUT_GAME)
+		(*it)->status() != requestCode::party::OUT_GAME)
       {
 	client->requestPush(new ServerRequest(requestCode::server::FORBIDDEN));
 	delete req;
@@ -373,7 +374,7 @@ namespace	menu
       }
     client->requestPush(new ServerRequest(requestCode::server::OK));
     (*it)->broadcast(Party::Launch(Party::Launch::Unique()));
-    (*it)->status(Game::IN_GAME);
+	(*it)->status(requestCode::party::IN_GAME);
     manager->_output.push(new Callback<Application, menu::Game>(manager->_parent, *it,
 								&Application::newGame));
     delete req;

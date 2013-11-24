@@ -143,11 +143,6 @@ namespace	Party
   ////////////
   struct	Update : public ARequest
   {
-    static const requestCode::Status	NEW_GAME = 0;
-    static const requestCode::Status	UP_GAME = 1;
-    static const requestCode::Status	IN_GAME = 2;
-    static const requestCode::Status	DEL_GAME = 3;
-
   public:
     Update();
     Update(const std::string &partyName, Ruint8 availableSlots, Ruint8 maxPlayer,

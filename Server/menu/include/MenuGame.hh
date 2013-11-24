@@ -13,11 +13,6 @@ namespace	menu
   class Game
   {
   public:
-    static const Ruint8 OUT_GAME = 0;
-    static const Ruint8 IN_GAME = 1;
-    static const Ruint8 CANCELED = 2;
-    static const Ruint8 FINISHED = 3;
-  public:
     typedef std::list<Client *>	client_list;
 
   public:
@@ -41,8 +36,8 @@ namespace	menu
     Ruint8			maxPlayers(void) const;
     void			maxPlayers(Ruint8);
 
-    Ruint8			status(void) const;
-    void			status(Ruint8);
+	requestCode::Status			status(void) const;
+    void			status(requestCode::Status);
 
 	::Game			*game(void) const;
 	void			game(::Game *);
@@ -64,7 +59,7 @@ namespace	menu
     std::string			_partyName;
     bool			_ispassword;
     Ruint8			_maxPlayers;
-    Ruint8			_status;
+    requestCode::Status		_status;
     ::Game			*_game;
     requestCode::PasswordType	_password;
 
