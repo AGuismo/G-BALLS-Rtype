@@ -871,9 +871,9 @@ void	MenuWindow::update()
 
 int	MenuWindow::catchEvent()
 {
+  this->update();
   while (this->_window.pollEvent(this->_event))
     {
-      this->update();
       if (this->_flag == 1)
 	checkServer();
       if (checkAction() == 2)
