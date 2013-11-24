@@ -16,10 +16,12 @@ DIR.PROT=	./$(DIR.DEPS)/protocol/
 DIR.NET=	./$(DIR.DEPS)/network/
 DIR.THREAD=	./$(DIR.DEPS)/Threads/
 DIR.DAT=	./database/
+DIR.IAAPI=	./../bots/API
 
 DEPS.INC=	-I$(DIR.DEPS)/network/include -I$(DIR.DEPS)/Threads/include -I$(DIR.DEPS)/Bind/include
+DEPS.INC+=	-I$(DIR.IAAPI)/include
 
-DEPS.LNK=	-L$(DIR.NET) -lnetwork -L$(DIR.THREAD) -lThread -lpthread
+DEPS.LNK=	-L$(DIR.NET) -lnetwork -L$(DIR.THREAD) -lThread -lpthread -ldl
 
 MOD.INC=	-I$(DIR.GAME)/include -I$(DIR.MENU)/include -I$(DIR.LOAD)/include
 MOD.INC+=	-I$(DIR.PROT)/include -I$(DIR.DAT)/include

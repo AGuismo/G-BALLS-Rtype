@@ -1,8 +1,8 @@
 #pragma once
 
 #include "Entity.h"
-#include "IaAlgo.hh"
 class Referee;
+class AIaAlgo;
 
 class Boss : public Entity
 {

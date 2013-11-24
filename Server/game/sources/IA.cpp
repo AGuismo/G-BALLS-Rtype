@@ -2,6 +2,7 @@
 #include "Player.h"
 #include "Game.h"
 #include "Missile.h"
+#include "IaAlgo.hh"
 
 Ia::Ia(game::ID id, AIaAlgo *algo) : Entity(game::IA, algo->pos(), algo->life(), game::WEST, id), _algo(algo)
 {

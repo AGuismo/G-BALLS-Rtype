@@ -2,10 +2,10 @@
 # define LOADER_MANAGER_H_
 
 #include	"Threads.hpp"
-#include	"IaAlgo.hh"
 #include	"CheckFileAbstract.h"
 #include	"DynamicAbstract.h"
 
+class	AIaAlgo;
 
 namespace	botLoader
 {

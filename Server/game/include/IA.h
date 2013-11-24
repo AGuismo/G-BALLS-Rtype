@@ -1,9 +1,9 @@
 #pragma once
 
 #include	"Entity.h"
-#include	"IaAlgo.hh"
 
 class Missile;
+class AIaAlgo;
 
 class Ia : public Entity
 {
