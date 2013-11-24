@@ -120,6 +120,18 @@ namespace	menu
       (*it)->requestPush(new Req(req));
   }
 
+    void                  Manager::updateCallback()
+    {
+	ICallbacks          *cb;
+
+	while ((cb = _input.pop(false)) != 0)
+	{
+	    (*cb)();
+	    delete cb;
+	}
+    }
+
+
   void	Manager::routine(Manager *self)
   {
     while (self->_active)
@@ -127,6 +139,7 @@ namespace	menu
 	try
 	  {
 		self->_monitor.run();
+		self->updateCallback();
 		self->updateClients();
 	  }
 	catch (net::Exception &e)
@@ -147,7 +160,7 @@ namespace	menu
   void		Manager::endGame(Game *game)
   {
 	  game_list::iterator	it;
-	  
+
 	  std::cout << "Manager::endGame" << std::endl;
 	  it = std::find_if(_games.begin(), _games.end(), PredicateParty(game->partyName()));
 	  if (it == _games.end())

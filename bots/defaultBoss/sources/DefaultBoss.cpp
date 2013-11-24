@@ -28,9 +28,12 @@ DefaultBoss::~DefaultBoss()
 
 }
 
-AIaAlgo *DefaultBoss::getInstance()
+extern "C"
 {
-	return new DefaultBoss(*this);
+	AIaAlgo *getInstance()
+	{
+		return new DefaultBoss();
+	}
 }
 
 int DefaultBoss::algo(IAPlayer &players)

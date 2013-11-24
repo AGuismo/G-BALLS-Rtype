@@ -13,10 +13,15 @@ class DynamicAbstract : public MDynamicAbstract
 {
 private:
 	HMODULE	handle;
+
 public:
 	virtual bool DynamicOpen(const std::string &path);
 	virtual void *DynamicLoadSym(const std::string &symName);
 	virtual bool DynamicClose(void);
+
+public:
+	DynamicAbstract();
+
 };
 
 #elif	defined (linux)
@@ -33,6 +38,10 @@ public:
 	virtual bool DynamicOpen(const std::string &path);
 	virtual void *DynamicLoadSym(const std::string &symName);
 	virtual bool DynamicClose(void);
+
+public:
+	DynamicAbstract();
+
 };
 #else
 	error "Unsupported operating system"

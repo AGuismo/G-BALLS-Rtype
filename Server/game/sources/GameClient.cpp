@@ -37,6 +37,11 @@ namespace	game
     return _alive;
   }
 
+  void			Client::hasLeft(const bool &state)
+  {
+    _hasLeft = state;
+  }
+
   void		Client::update(Game &game)
   {
     ARequest	*req;

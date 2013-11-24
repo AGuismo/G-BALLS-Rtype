@@ -3,7 +3,7 @@
 #include <vector>
 #include "IaAlgo.hh"
 
-class DefaultBoss : public AIaAlgo
+class IAALGO_API DefaultBoss : public AIaAlgo
 {
 public:
 	DefaultBoss();

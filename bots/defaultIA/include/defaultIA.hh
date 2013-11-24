@@ -3,7 +3,7 @@
 
 # include "IaAlgo.hh"
 
-class DefaultIA : public AIaAlgo
+class IAALGO_API DefaultIA : public AIaAlgo
 {
 public:
 	DefaultIA();
@@ -15,6 +15,5 @@ public:
 private:
 
 };
-
 
 #endif /* DEFAULTIA_H_ */
