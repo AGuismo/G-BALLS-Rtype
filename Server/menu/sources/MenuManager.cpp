@@ -346,6 +346,10 @@ namespace	menu
 
 	if (it != manager->_games.end() && (*it)->status() == requestCode::party::OUT_GAME)
 	  {
+#if defined(DEBUG)
+	    std::cout << "menu::Manager::cancelGame(): " <<
+		      << std::endl;
+#endif
 	    if ((*it)->owner() == client)
 	      {
 		(*it)->broadcast(Party::Stopped());
