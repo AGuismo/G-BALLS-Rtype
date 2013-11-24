@@ -156,21 +156,21 @@ void	Game::wallUpdate()
 		  flag = true;
 		}
       else if (Referee::isCollision(*ite, *this) == true)
-		{
-		  if ((*ite)->_type == game::DESTRUCTIBLEWALL)
-			(*ite)->_life--;
-		  if ((*ite)->_life <= 0)
-			{
-			  randBonnus(*(*ite));
-			  pushRequest(new DeathRequest((*ite)->id()));
-			  delete *ite;
-			  ite = _objs.erase(ite);
-			  flag = true;
-		  }
-		}
+      {
+	  if ((*ite)->_type == game::DESTRUCTIBLEWALL)
+	      (*ite)->_life--;
+	  if ((*ite)->_life <= 0)
+	  {
+	      randBonnus(*(*ite));
+	      pushRequest(new DeathRequest((*ite)->id()));
+	      delete *ite;
+	      ite = _objs.erase(ite);
+	      flag = true;
+	  }
+      }
       else
-		pushRequest(new ElemRequest((*ite)->_type,
-					(*ite)->_pos[0], (*ite)->_dir, (*ite)->_id));
+	  pushRequest(new ElemRequest((*ite)->_type,
+				      (*ite)->_pos[0], (*ite)->_dir, (*ite)->_id));
 	  if (flag == false)
 		  ite++;
     }
@@ -361,7 +361,7 @@ void	Game::popWall()
 
 			if (rand() % rtype::Env::getInstance().game.chanceToBreakableMax < rtype::Env::getInstance().game.chanceToBreakableMin)
 			{
-				game::Pos p = 15 * (rand() % rtype::Env::getInstance().game.mapSize);
+			    while ((game::Pos p = 15 * (rand() % rtype::Env::getInstance().game.mapSize)) != 0)
 				wall = new Entity(UniqueId(), std::vector<game::Pos>(1, p), 3, 6, UniqueId());
 			}
 			else
