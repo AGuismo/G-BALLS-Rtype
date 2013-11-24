@@ -31,6 +31,12 @@ namespace rtype
 	game.popIArange = POP_IA_RANGE;
 	game.updateToLive = UPDATE_TO_LIVE;
 	game.gameDelay = GAME_DELAY;
+	game.minWall = MINWALL;
+	game.maxWall = MAXWALL;
+	game.popRangeMinWall = POPRANGEMINWALL;
+	game.popRangeMaxWall = POPRANGEMAXWALL;
+	game.chanceToBreakableMin = CHANCETOBREAKABLEMIN;
+	game.chanceToBreakableMax = CHANCETOBREAKABLEMAX;
   }
 
   bool	Env::loadFile(const std::string &file)

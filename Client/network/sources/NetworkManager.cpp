@@ -94,27 +94,31 @@ namespace	network
     _curState = st;
   }
 
-  void		Manager::sendRequest(const ARequest *req)
+  void				Manager::sendRequest(const ARequest *req)
   {
-    sf::Packet		packet;
+    std::vector<Protocol::Byte>	packet;
+    Protocol::Byte		bytes[1024];
 
-    packet << req;
+    if (!product(packet, req))
+      return ;
 #if defined(DEBUG)
     std::cout << "network::Manager::sendRequest(const ARequest *)"
-	      << "Packet Size: " << packet.getDataSize() << std::endl;
+	      << "Packet Size: " << packet.size() << std::endl;
 #endif
+    for (std::vector<Protocol::Byte>::size_type it = 0; it != packet.size(); ++it)
+      bytes[it] = packet[it];
     _state.lock();
     if (_curState == TCP)
       {
 	_state.unlock();
-	if (_tcp.mSock.send(packet.getData(), packet.getDataSize()) == sf::Socket::Error)
+	if (_tcp.mSock.send(bytes, packet.size()) == sf::Socket::Error)
 	  switchTo(NONE);
 	return ;
       }
     else if (_curState == UDP)
       {
 	_state.unlock();
-	if (_udp.gSock.send(packet.getData(), packet.getDataSize(),
+	if (_udp.gSock.send(bytes, packet.size(),
 			    _udp.gIp, _udp.gPort) == sf::Socket::Error)
 	  switchTo(NONE);
 	return ;

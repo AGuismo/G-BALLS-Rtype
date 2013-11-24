@@ -347,8 +347,7 @@ namespace	menu
 	if (it != manager->_games.end() && (*it)->status() == requestCode::party::OUT_GAME)
 	  {
 #if defined(DEBUG)
-	    std::cout << "menu::Manager::cancelGame(): " <<
-		      << std::endl;
+	    std::cout << "menu::Manager::cancelGame(): " << std::endl;
 #endif
 	    if ((*it)->owner() == client)
 	      {
@@ -439,15 +438,7 @@ namespace	menu
 	delete req;
 	return;
       }
-	std::cout << dynamic_cast<ChatSendRequest *>(req)->msg() << std::endl;
-	ChatRecvRequest *r = new ChatRecvRequest(dynamic_cast<ChatSendRequest *>(req)->msg());
-	std::cout << r->code() << " | " << r->msg() << " | " << std::endl;
-	manager->broadcast(*r);
-	std::cout << "request's client : ";
-	while ((req = client->requestPop()) != 0)
-	{
-		std::cout << " - " << req->code() << std::endl;
-	}
+    manager->broadcast(ChatRecvRequest(dynamic_cast<ChatSendRequest *>(req)->msg()));
     delete req;
   }
 

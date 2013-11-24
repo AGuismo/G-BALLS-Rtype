@@ -57,6 +57,7 @@ private:
   void bonusUpdate();
   void DispatchRequest();
   void popIA();
+  void popWall();
 
 private:
   client_list	_players;
