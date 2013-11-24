@@ -1,8 +1,8 @@
 #ifndef MENUCLIENT_H_
 # define MENUCLIENT_H_
 
-# include	<queue>
 # include	<string>
+# include	<queue>
 # include	"RequestCode.hh"
 # include	"RequestQueue.hh"
 
