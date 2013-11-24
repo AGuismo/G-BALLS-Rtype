@@ -1,5 +1,6 @@
 #include	<iostream>
 #include	<cstring>
+#include	<cstdlib>
 #include	"sys.hh"
 #include	"Bind.hpp"
 #include	"IaAlgo.hh"
