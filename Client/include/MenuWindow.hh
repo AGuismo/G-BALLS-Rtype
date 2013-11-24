@@ -108,6 +108,7 @@ public:
   void					receiveUpdateParty(ARequest*);
   void					receiveChat(ARequest*);
   void					receiveStopParty(ARequest*);
+  void					receiveLaunchGame(ARequest*);
   void					scroll();
 };
 

@@ -40,6 +40,7 @@ public:
       WAIT,
       CANCEL_GAME,
       LEAVE_GAME,
+      LAUNCH,
       GAME
     };
 protected:
