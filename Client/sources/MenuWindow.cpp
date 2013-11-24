@@ -20,6 +20,7 @@
 #include	"InfosUser.hh"
 #include	"NetworkManager.hh"
 #include	"AuthRequest.hh"
+#include	"PartyRequest.hh"
 #include	"MD5.hh"
 #include	"Protocol.hpp"
 

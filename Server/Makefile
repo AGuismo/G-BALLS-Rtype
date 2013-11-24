@@ -28,8 +28,8 @@ MOD.LNK=	-L$(DIR.MENU) -lmenu -L$(DIR.GAME) -lgame -L$(DIR.LOAD) -lloader
 MOD.LNK+=	-L$(DIR.PROT) -lprotocol -L$(DIR.DAT)/ -ldb
 
 F.C	     +=	-W -Wall -Werror
-F.I	     +=	$(DEPS.INC) $(MOD.INC) -I./include
-F.L	     += $(DEPS.LNK) $(MOD.LNK) -Wl,-rpath=./deps
+F.I	     += $(MOD.INC) $(DEPS.INC) -I./include
+F.L	     += $(MOD.LNK) $(DEPS.LNK) -Wl,-rpath=./deps
 F.D	     +=
 
 all:		start $(NAME)
