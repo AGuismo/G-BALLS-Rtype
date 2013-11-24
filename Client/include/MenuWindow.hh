@@ -7,6 +7,7 @@
 # include	<list>
 # include	"AScreen.hh"
 # include	"GameInfo.hh"
+# include	"RequestCode.hh"
 
 class		Background;
 class		AWidget;
@@ -19,18 +20,36 @@ namespace	network
 
 class		MenuWindow : public AScreen
 {
+private:
+  enum States
+    {
+      MENU,
+      MENU_ERROR,
+      SETTINGS,
+      LOBBY,
+      LOBBY_ERROR,
+      CREATE,
+      WAIT,
+      VERIF_PWD,
+      GAME
+    };
+
 public:
   typedef std::vector<Image*>	image_list;
   typedef std::vector<AWidget*>	widget_list;
+  typedef std::map<requestCode::CodeID, void (MenuWindow::*)()> callback_map;
 
 private:
   image_list			_listImage;
   widget_list			_listWidget;
+  callback_map			_mapCallBack;
   AWidget			*_objectFocus;
   AWidget			*_objectHover;
   GameInfo			_serverSelected;
   std::list<std::string>	_bufferChat;
+  States			_currentState;
   int				_flag;
+  int				_isConnected;
   sf::Music			_music;
   int				_drawBackground;
   sf::Sprite			_firstBackground;
@@ -82,6 +101,9 @@ public:
   void					setFirstPos(sf::Vector2f);
   void					setSecondPos(sf::Vector2f);
   void					setSecondPos(float x, float y);
+  void					receiveSession(void);
+  void					receiveOk(void);
+  void					receiveForbidden(void);
   void					scroll();
 };
 

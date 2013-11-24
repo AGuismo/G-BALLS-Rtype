@@ -63,6 +63,7 @@ namespace	requestCode
   typedef Ruint16	PartynameLen;
   typedef Ruint16	SessionID;
   typedef Ruint16	PartyID;
+  typedef Ruint8	Status;
 }
 
 struct rtypeAuth

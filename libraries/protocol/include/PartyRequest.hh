@@ -143,10 +143,15 @@ namespace	Party
   ////////////
   struct	Update : public ARequest
   {
+    static const requestCode::Status	NEW_GAME = 0;
+    static const requestCode::Status	UP_GAME = 1;
+    static const requestCode::Status	IN_GAME = 2;
+    static const requestCode::Status	DEL_GAME = 3;
+
   public:
     Update();
     Update(const std::string &partyName, Ruint8 availableSlots, Ruint8 maxPlayer,
-	   Ruint8 partyPass, Ruint8 status);
+	   Ruint8 partyPass, requestCode::Status status);
     ~Update();
 
   public:
@@ -158,11 +163,11 @@ namespace	Party
     Protocol	&unserialize(Protocol &);
     ARequest	*clone();
 
-    std::string	_partyName;
-    Ruint8	_availableSlots;
-    Ruint8	_maxPlayers;
-    Ruint8	_isPassword;
-    Ruint8	_status;
+    std::string		_partyName;
+    Ruint8		_availableSlots;
+    Ruint8		_maxPlayers;
+    Ruint8		_isPassword;
+    requestCode::Status	_status;
   };
 
   ///////////////////////////////
