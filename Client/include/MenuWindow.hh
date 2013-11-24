@@ -107,6 +107,7 @@ public:
   void					receiveForbidden(ARequest*);
   void					receiveUpdateParty(ARequest*);
   void					receiveChat(ARequest*);
+  void					receiveStopParty(ARequest*);
   void					scroll();
 };
 

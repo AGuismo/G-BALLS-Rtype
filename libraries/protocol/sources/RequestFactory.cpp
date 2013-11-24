@@ -33,9 +33,11 @@ namespace	request
     _lnk[requestCode::party::CREAT] = new Party::Create;
     _lnk[requestCode::party::JOIN] = new Party::Join;
     _lnk[requestCode::party::CANCEL] = new Party::Cancel;
-    _lnk[requestCode::party::SERV_START] = new Party::Launch;
-    _lnk[requestCode::party::UPDATE] = new Party::Update;
     _lnk[requestCode::party::CLI_START] = new Party::Start;
+
+    _lnk[requestCode::party::UPDATE] = new Party::Update;
+    _lnk[requestCode::party::STOPPED] = new Party::Stopped;
+    _lnk[requestCode::party::SERV_START] = new Party::Launch;
 
     _lnk[requestCode::server::OK] = new ServerRequest;
     _lnk[requestCode::server::BAD_REQ] = new ServerRequest;

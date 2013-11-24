@@ -34,6 +34,7 @@ MenuWindow::MenuWindow(sf::RenderWindow &window, network::Manager &network):
   this->_mapCallBack[requestCode::auth::SESSION] = &MenuWindow::receiveSession;
   this->_mapCallBack[requestCode::party::UPDATE] = &MenuWindow::receiveUpdateParty;
   this->_mapCallBack[requestCode::chat::RECV_MSG] = &MenuWindow::receiveChat;
+  this->_mapCallBack[requestCode::party::STOPPED] = &MenuWindow::receiveStopParty;
 }
 
 bool	MenuWindow::load()
@@ -123,6 +124,9 @@ bool	MenuWindow::load()
       TextureManager::getInstance().addTexture("TextCreationFailed", "Images/Lobby/TextCreationFailed.png");
       TextureManager::getInstance().addTexture("Stop", "Images/Lobby/Stop.png");
       TextureManager::getInstance().addTexture("TextGetPassword", "Images/Lobby/TextGetPassword.png");
+      TextureManager::getInstance().addTexture("CreateOff", "Images/Lobby/CreateOff.png");
+      TextureManager::getInstance().addTexture("CreateOffHover", "Images/Lobby/CreateOffHover.png");
+      TextureManager::getInstance().addTexture("CreateOffFocus", "Images/Lobby/CreateOffFocus.png");
     }
   catch (TextureManager::Exception &e)
     {
@@ -413,7 +417,7 @@ void	MenuWindow::drawLobbyWait(int owner)
       posX += 150;
     }
 
-  this->_listWidget.push_back(new Button(this->_event, "Create", sf::Vector2f(400, 110), sf::Vector2f(405, 112), sf::Vector2f(597, 166), AScreen::CREATE_GAME, true));
+  this->_listWidget.push_back(new Button(this->_event, "Create", sf::Vector2f(400, 110), sf::Vector2f(405, 112), sf::Vector2f(597, 166), AScreen::CREATE_GAME, false));
   this->_listWidget.push_back(new Button(this->_event, "Join", sf::Vector2f(600, 110), sf::Vector2f(605, 112), sf::Vector2f(797, 166), AScreen::JOIN_GAME, false));
   this->_listWidget.push_back(new Button(this->_event, "Refresh", sf::Vector2f(800, 110), sf::Vector2f(805, 112), sf::Vector2f(997, 166), AScreen::REFRESH_GAME, true));
   this->_listWidget.push_back(new Button(this->_event, "Disconnect", sf::Vector2f(1000, 110), sf::Vector2f(1005, 112), sf::Vector2f(1197, 166), AScreen::BACK_MENU, true));
@@ -614,8 +618,8 @@ int	MenuWindow::checkAction()
       this->_window.close();
       break;
     case AScreen::BACK_MENU:
-      // Facultativement des annulations de création/join de partie
-      // Envoyer une demande de déconnexion au serveur
+      // this->_network.sendRequest(new Auth::Disconnect());
+      // this->_network.switchTo(NONE);
       this->_isConnected = 0;
       this->_status = CONTINUE;
       this->drawMenu();
@@ -730,12 +734,15 @@ int	MenuWindow::checkAction()
       this->_status = AScreen::CONTINUE;
       MediaAudioManager::getInstance().getSound("SwitchScreen")->getSound().play();
       this->drawLobby();
+      break;
     case AScreen::VERIF_PWD:
       this->_status = AScreen::CONTINUE;
+      break;
     case AScreen::LEAVE_GAME:
       this->_status = AScreen::CONTINUE;
       std::cout << "Je leave comme un gros porc " << std::endl;
       this->_network.sendRequest(new Party::Cancel());
+      break;
     case AScreen::CANCEL_GAME:
       this->_status = AScreen::CONTINUE;
       this->_network.sendRequest(new Party::Cancel());
@@ -786,6 +793,14 @@ void	MenuWindow::removeWidget(const std::string &widget)
       else
 	++it;
     }
+}
+
+void	MenuWindow::receiveStopParty(ARequest *req)
+{
+  (void)req;
+  std::cout << "J'ANNULE" << std::endl;
+  MediaAudioManager::getInstance().getSound("SwitchScreen")->getSound().play();
+  this->drawLobby();
 }
 
 void	MenuWindow::receiveUpdateParty(ARequest *req)
@@ -858,8 +873,13 @@ void	MenuWindow::update()
 
       while ((req = this->_network.recvRequest()) != 0)
 	{
-		  std::cout << "receive !!!!! " << req->code() << std::endl;
-	  (this->*(this->_mapCallBack[req->code()]))(req);
+	  callback_map::iterator	it = _mapCallBack.find(req->code());
+
+	  std::cout << "receive !!!!! " << req->code() << std::endl;
+	  if (it != _mapCallBack.end())
+	    (this->*(it->second))(req);
+	  else
+	    std::cout << req->code() << ": not implemented yet" << std::endl;
 	}
     }
   else if (!this->_network.isConnected() && this->_isConnected == 1)

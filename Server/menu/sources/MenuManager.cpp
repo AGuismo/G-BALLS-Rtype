@@ -339,7 +339,7 @@ namespace	menu
     std::cout << "Manager::cancelGame" << std::endl;
 #endif
 
-    if (client->authenticated())
+    if (client->authenticated() || client->currentGame() != 0)
       {
 	game_list::iterator	it = find_if(manager->_games.begin(), manager->_games.end(),
 					     PredicateParty(client->currentGame()->partyName()));
@@ -438,7 +438,7 @@ namespace	menu
 	delete req;
 	return;
       }
-	manager->broadcast(ChatRecvRequest(dynamic_cast<ChatSendRequest *>(req)->msg()));
+    manager->broadcast(ChatRecvRequest(dynamic_cast<ChatSendRequest *>(req)->msg()));
     delete req;
   }
 
