@@ -1,11 +1,11 @@
 #include <cstdlib>
 #include <ctime>
 #include <vector>
+#include "Game.h"
 #include "LoaderManager.hh"
 #include "Referee.h"
 #include "Missile.h"
 #include "Entity.h"
-#include "Game.h"
 #include "Player.h"
 #include "Env.hh"
 #include "IA.h"
