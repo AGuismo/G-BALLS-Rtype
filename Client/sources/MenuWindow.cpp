@@ -865,7 +865,7 @@ void	MenuWindow::update()
 
 	  std::cout << "receive !!!!! " << req->code() << std::endl;
 	  if (it != _mapCallBack.end())
-	    (this->*(*it))(req);
+	    (this->*(it->second))(req);
 	  else
 	    std::cout << req->code() << ": not implemented yet" << std::endl;
 	}
