@@ -6,6 +6,7 @@
 #include	"Threads.hpp"
 #include	"ThreadMutex.hh"
 #include	"ThreadCond.hh"
+#include	"Protocol.hpp"
 
 class	ARequest;
 
@@ -60,8 +61,8 @@ namespace	network
     Thread::Cond	_wake;
     struct
     {
-      sf::Packet	notRead;
-      sf::TcpSocket	mSock;
+      std::vector<Protocol::Byte>	notRead;
+      sf::TcpSocket			mSock;
     }			_tcp;
 
     struct
