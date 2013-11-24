@@ -88,10 +88,7 @@ namespace	menu
 	request_callback_map::iterator	it = _requestCallback.find(req->code());
 
 	if (it != _requestCallback.end())
-	{
-		std::cout << "received request : " << req->code() << std::endl;
 		it->second(req, client, this);
-	}
 	req = client->requestPop();
       }
   }
@@ -203,7 +200,7 @@ namespace	menu
 	    Database::getInstance().getClient(request->username(), c))
 	  {
 #if defined(DEBUG)
-	    std::cout << client << ": Authentication succeed" << std::endl;
+	    std::cout << client << ": Authentification succeed" << std::endl;
 #endif
 	    client->username(c.login);
 	    client->password(c.password);
@@ -220,7 +217,7 @@ namespace	menu
 	  }
       }
 #if defined(DEBUG)
-    std::cout << client << ": Authentication failed" << std::endl;
+    std::cout << client << ": Authentification failed" << std::endl;
 #endif
     client->requestPush(new ServerRequest(requestCode::server::FORBIDDEN));
     delete req;
@@ -438,6 +435,9 @@ namespace	menu
 	delete req;
 	return;
       }
+<<<<<<< HEAD
+	manager->broadcast(ChatRecvRequest(dynamic_cast<ChatSendRequest *>(req)->msg()));
+=======
 	std::cout << dynamic_cast<ChatSendRequest *>(req)->msg() << std::endl;
 	ChatRecvRequest *r = new ChatRecvRequest(dynamic_cast<ChatSendRequest *>(req)->msg());
 	std::cout << r->code() << " | " << r->msg() << " | " << std::endl;
@@ -447,6 +447,7 @@ namespace	menu
 	{
 		std::cout << " - " << req->code() << std::endl;
 	}
+>>>>>>> eefc8a5a23d29d44442974b2c223faba8d879571
     delete req;
   }
 
