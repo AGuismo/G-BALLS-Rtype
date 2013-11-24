@@ -31,6 +31,8 @@ MenuWindow::MenuWindow(sf::RenderWindow &window, network::Manager &network):
   this->_mapCallBack[requestCode::server::OK] = &MenuWindow::receiveOk;
   this->_mapCallBack[requestCode::server::FORBIDDEN] = &MenuWindow::receiveForbidden;
   this->_mapCallBack[requestCode::auth::SESSION] = &MenuWindow::receiveSession;
+  this->_mapCallBack[requestCode::party::UPDATE] = &MenuWindow::receiveUpdateParty;
+  this->_mapCallBack[requestCode::chat::RECV_MSG] = &MenuWindow::receiveChat;
 }
 
 bool	MenuWindow::load()
@@ -277,7 +279,7 @@ void	MenuWindow::drawLobbyWarning(const std::string &Msg)
   this->_listWidget.push_back(new TextArea(this->_event, "TextChatArea", *tmp, sf::Vector2f(787, 600), sf::Vector2f(825, 633), sf::Vector2f(1073, 666)));
   this->_listWidget.push_back(tmp);
   this->_listWidget.push_back(tmp2);
-  this->_listWidget.push_back(new TextBlock("ChatBlock", this->_event, sf::Vector2f(830, 210), sf::Vector2f(820, 200), sf::Vector2f(820, 200), 20));
+  this->_listWidget.push_back(new TextBlock("ChatBlock", this->_event, sf::Vector2f(830, 210), sf::Vector2f(820, 200), sf::Vector2f(820, 200), 40));
 }
 
 void	MenuWindow::drawGetPWD()
@@ -307,7 +309,7 @@ void	MenuWindow::drawGetPWD()
   this->_listWidget.push_back(new TextArea(this->_event, "TextPWDArea", *tmp2, sf::Vector2f(355, 350), sf::Vector2f(393, 386), sf::Vector2f(641, 419)));
   this->_listWidget.push_back(tmp);
   this->_listWidget.push_back(tmp2);
-  this->_listWidget.push_back(new TextBlock("ChatBlock", this->_event, sf::Vector2f(830, 210), sf::Vector2f(820, 200), sf::Vector2f(820, 200), 20));
+  this->_listWidget.push_back(new TextBlock("ChatBlock", this->_event, sf::Vector2f(830, 210), sf::Vector2f(820, 200), sf::Vector2f(820, 200), 40));
 }
 
 
@@ -337,7 +339,7 @@ void	MenuWindow::drawLobby()
   this->_listWidget.push_back(new Button(this->_event, "Submit", sf::Vector2f(1100, 625), sf::Vector2f(1116, 633), sf::Vector2f(1224, 666), AScreen::SUBMIT, true));
   this->_listWidget.push_back(new TextArea(this->_event, "TextChatArea", *tmp, sf::Vector2f(787, 600), sf::Vector2f(825, 633), sf::Vector2f(1073, 666)));
   this->_listWidget.push_back(tmp);
-  this->_listWidget.push_back(new TextBlock("ChatBlock", this->_event, sf::Vector2f(830, 210), sf::Vector2f(820, 200), sf::Vector2f(820, 200), 20));
+  this->_listWidget.push_back(new TextBlock("ChatBlock", this->_event, sf::Vector2f(830, 210), sf::Vector2f(820, 200), sf::Vector2f(820, 200), 40));
 }
 
 void	MenuWindow::drawLobbyCreate()
@@ -378,7 +380,7 @@ void	MenuWindow::drawLobbyCreate()
   this->_listWidget.push_back(tmp);
   this->_listWidget.push_back(tmp2);
   this->_listWidget.push_back(tmp3);
-  this->_listWidget.push_back(new TextBlock("ChatBlock", this->_event, sf::Vector2f(830, 210), sf::Vector2f(820, 200), sf::Vector2f(820, 200), 20));
+  this->_listWidget.push_back(new TextBlock("ChatBlock", this->_event, sf::Vector2f(830, 210), sf::Vector2f(820, 200), sf::Vector2f(820, 200), 40));
 }
 
 void	MenuWindow::drawLobbyWait(int owner)
@@ -417,13 +419,18 @@ void	MenuWindow::drawLobbyWait(int owner)
   this->_listWidget.push_back(new Button(this->_event, "Submit", sf::Vector2f(1100, 625), sf::Vector2f(1116, 633), sf::Vector2f(1224, 666), AScreen::SUBMIT, true));
   this->_listWidget.push_back(new TextArea(this->_event, "TextChatArea", *tmp, sf::Vector2f(787, 600), sf::Vector2f(825, 633), sf::Vector2f(1073, 666)));
   if (owner == 1)
-    this->_listWidget.push_back(new Button(this->_event, "Start", sf::Vector2f(250, 585), sf::Vector2f(254, 592), sf::Vector2f(447, 639), AScreen::GAME, true));
+    {
+      this->_listWidget.push_back(new Button(this->_event, "Start", sf::Vector2f(250, 585), sf::Vector2f(254, 592), sf::Vector2f(447, 639), AScreen::GAME, true));
+      this->_listWidget.push_back(new Button(this->_event, "Cancel", sf::Vector2f(500, 585), sf::Vector2f(505, 590), sf::Vector2f(697, 641), AScreen::CANCEL_GAME, true));
+    }
   else
-    this->_listWidget.push_back(new Button(this->_event, "Start", sf::Vector2f(250, 585), sf::Vector2f(254, 592), sf::Vector2f(447, 639), AScreen::GAME, false));
-  this->_listWidget.push_back(new Button(this->_event, "Cancel", sf::Vector2f(500, 585), sf::Vector2f(505, 590), sf::Vector2f(697, 641), AScreen::BACK_LOBY, true));
+    {
+      this->_listWidget.push_back(new Button(this->_event, "Start", sf::Vector2f(250, 585), sf::Vector2f(254, 592), sf::Vector2f(447, 639), AScreen::GAME, false));
+      this->_listWidget.push_back(new Button(this->_event, "Cancel", sf::Vector2f(500, 585), sf::Vector2f(505, 590), sf::Vector2f(697, 641), AScreen::LEAVE_GAME, true));
+    }
   this->_listWidget.push_back(tmp);
   this->_listWidget.push_back(tmp2);
-  this->_listWidget.push_back(new TextBlock( "ChatBlock", this->_event, sf::Vector2f(830, 210), sf::Vector2f(820, 200), sf::Vector2f(820, 200), 20));
+  this->_listWidget.push_back(new TextBlock( "ChatBlock", this->_event, sf::Vector2f(830, 210), sf::Vector2f(820, 200), sf::Vector2f(820, 200), 40));
 }
 
 void		MenuWindow::scroll()
@@ -555,6 +562,7 @@ void		MenuWindow::setSecondPos(sf::Vector2f vector)
 
 int	MenuWindow::checkAction()
 {
+  std::string msgChat;
   switch (this->_status)
     {
     case AScreen::START:
@@ -570,7 +578,6 @@ int	MenuWindow::checkAction()
     case AScreen::WAIT:
       //si le password est bon
       this->_status = CONTINUE;
-      this->drawLobbyWait(0);
       // si le password foire
       // call le loby
       break;
@@ -613,10 +620,12 @@ int	MenuWindow::checkAction()
       this->drawMenu();
       break;
     case AScreen::CREATE_GAME:
+      this->_status = CONTINUE;
+      MediaAudioManager::getInstance().getSound("SwitchScreen")->getSound().play();
       this->drawLobbyCreate();
       break;
     case AScreen::REFRESH_GAME:
-      // demander une update au serveur
+      this->_network.sendRequest(new Party::Update());
       this->_status = CONTINUE;
       break;
     case AScreen::JOIN_GAME:
@@ -636,23 +645,24 @@ int	MenuWindow::checkAction()
 	}
       InfosUser::getInstance().create.partyName = dynamic_cast<Text*>(Interface::getInstance().getWidget("NameGame"))->getTmp();
       InfosUser::getInstance().create.partyPassword = dynamic_cast<Text*>(Interface::getInstance().getWidget("PWDGame"))->getTmp();
-      std::cout << "LOGIN : [" << InfosUser::getInstance().create.partyName << "]" << std::endl;
-      std::cout << "PASSWORD : [" << InfosUser::getInstance().create.partyPassword << "]" << std::endl;
-      std::cout << "NB_PLAYER : [" << this->checkNbPlayer() << "]" << std::endl;
       if (InfosUser::getInstance().create.partyPassword == "")
 	this->_network.sendRequest(new Party::Create(InfosUser::getInstance().create.partyName, this->checkNbPlayer()));
       else
 	this->_network.sendRequest(new Party::Create(InfosUser::getInstance().create.partyName, this->checkNbPlayer(), md5(InfosUser::getInstance().create.partyPassword)));
       this->_status = CONTINUE;
       break;
-    case AScreen::BACK_LOBY:
-      this->drawLobby();
-      break;
     case AScreen::SUBMIT:
       this->_status = CONTINUE;
       //Envoyer un message au serveur
-      dynamic_cast<TextBlock*>(Interface::getInstance().getWidget("ChatBlock"))->addText(dynamic_cast<Text*>(Interface::getInstance().getWidget("MsgChat"))->getTmp());
-      dynamic_cast<Text*>(Interface::getInstance().getWidget("MsgChat"))->clearText();
+      if (dynamic_cast<Text*>(Interface::getInstance().getWidget("MsgChat"))->getTmp() != "")
+	{
+	  msgChat = "[" + InfosUser::getInstance().authenticate.login + "] : " + dynamic_cast<Text*>(Interface::getInstance().getWidget("MsgChat"))->getTmp();
+	  std::cout << msgChat << std::endl;
+
+	  dynamic_cast<TextBlock*>(Interface::getInstance().getWidget("ChatBlock"))->addText(msgChat);
+
+	}
+	  dynamic_cast<Text*>(Interface::getInstance().getWidget("MsgChat"))->clearText();
       break;
     case AScreen::SELECT_SERVER:
       this->_status = CONTINUE;
@@ -713,9 +723,20 @@ int	MenuWindow::checkAction()
       this->_status = AScreen::CONTINUE;
       this->drawMenu();
       break;
+    case AScreen::BACK_LOBY:
+      this->_status = AScreen::CONTINUE;
+      MediaAudioManager::getInstance().getSound("SwitchScreen")->getSound().play();
+      this->drawLobby();
     case AScreen::VERIF_PWD:
       this->_status = AScreen::CONTINUE;
-      this->drawLobbyWait(0);
+    case AScreen::LEAVE_GAME:
+      this->_status = AScreen::CONTINUE;
+      std::cout << "Je leave comme un gros porc " << std::endl;
+      this->_network.sendRequest(new Party::Cancel());
+    case AScreen::CANCEL_GAME:
+      this->_status = AScreen::CONTINUE;
+      this->_network.sendRequest(new Party::Cancel());
+      break;
     default:
       break;
     }
@@ -764,27 +785,43 @@ void	MenuWindow::removeWidget(const std::string &widget)
     }
 }
 
+void	MenuWindow::receiveUpdateParty()
+{
+  std::cout << "UPDATE!!!!" << std::endl;
+}
+
+void	MenuWindow::receiveChat()
+{
+  std::cout << "chat " << std::endl;
+}
+
 void	MenuWindow::receiveOk()
 {
-  std::cout << "poilOk" << std::endl;
   if (this->_currentState == MENU)
     {
       this->_isConnected = 1;
+      std::cout << "JE ME CONNECTE" << std::endl;
       MediaAudioManager::getInstance().getSound("SwitchScreen")->getSound().play();
       this->drawLobby();
     }
   else if (this->_currentState == CREATE)
     {
       MediaAudioManager::getInstance().getSound("SwitchScreen")->getSound().play();
+      std::cout << "Je CREE UNE PARTIE" << std::endl;
       this->drawLobbyWait(1);
     }
   else if (this->_currentState == LOBBY || this->_currentState == VERIF_PWD)
     {
       MediaAudioManager::getInstance().getSound("SwitchScreen")->getSound().play();
+      std::cout << "Je JOIN UNE PARTIE" << std::endl;
       this->drawLobbyWait(0);
     }
   else if (this->_currentState == WAIT)
-    this->drawLobby();
+    {
+      MediaAudioManager::getInstance().getSound("SwitchScreen")->getSound().play();
+      std::cout << "JE LEAVE UNE PARTIE" << std::endl;
+      this->drawLobby();
+    }
 }
 
 void	MenuWindow::receiveForbidden()

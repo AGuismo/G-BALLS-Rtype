@@ -104,6 +104,8 @@ public:
   void					receiveSession(void);
   void					receiveOk(void);
   void					receiveForbidden(void);
+  void					receiveUpdateParty(void);
+  void					receiveChat(void);
   void					scroll();
 };
 
