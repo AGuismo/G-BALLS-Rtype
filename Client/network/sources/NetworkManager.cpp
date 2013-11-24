@@ -239,7 +239,7 @@ namespace	network
 
 bool		consume(std::vector<Protocol::Byte> &b, ARequest *&req)
 {
-  int				extracted;
+  int		extracted;
 
   try
     {
