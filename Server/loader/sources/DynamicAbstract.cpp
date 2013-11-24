@@ -31,13 +31,20 @@ DynamicAbstract::DynamicAbstract()
 bool DynamicAbstract::DynamicOpen(const std::string &path)
 {
 	if ((handle = dlopen(path.c_str(), RTLD_LAZY)) == NULL)
-		return false;
+	  {
+	    std::cerr << "Dynamic open: " << dlerror() << std::endl;
+	    return false;
+	  }
 	return true;
 }
 
 void *DynamicAbstract::DynamicLoadSym(const std::string &symName)
 {
-	return (dlsym(handle, symName.c_str()));
+  void	*sym = dlsym(handle, symName.c_str());
+
+  if (sym == 0)
+    std::cerr << "Dynamic loadSym: " << symName << ": " << dlerror() << std::endl;
+  return (sym);
 }
 
 bool DynamicAbstract::DynamicClose(void)

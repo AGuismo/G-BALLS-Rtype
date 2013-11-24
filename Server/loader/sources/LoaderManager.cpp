@@ -54,6 +54,7 @@ namespace	botLoader
       {
 	instance_call	inst;
 
+	std::cout << "open working: " << path.c_str() << std::endl;
 	inst = (instance_call)_dynLoader->DynamicLoadSym(std::string("getInstance"));
 	if (inst != 0)
 	  {
@@ -63,6 +64,7 @@ namespace	botLoader
 	      _simpleBydos[path] = ia;
 	    else
 	      _bossBydos[path] = ia;
+	    return (true);
 	  }
       }
     else
