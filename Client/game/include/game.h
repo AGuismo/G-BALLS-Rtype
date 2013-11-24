@@ -43,9 +43,10 @@ public:
 public:
   static const float			VLAG;
   static const float			MAX_VLAG;
+  static const float			ALIVE_TIMER;
 
 public:
-  static const int			UNCHANGED = -42;
+	static const int			UNCHANGED = -42;
 
 public:
   static int					POSX(int x) { return ((x % SIZE_GAME_BOARD) * PX_DEC_X); }

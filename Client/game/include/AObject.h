@@ -32,6 +32,7 @@ protected:
 
 protected:
 	Timer					_timerMvt;
+	Timer					_timerAlive;
 	float					_mvtTime;
 
 protected:

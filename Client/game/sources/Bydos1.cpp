@@ -47,12 +47,14 @@ void						Bydos1::draw(void)
 		_image.setTextureRect(_leftAnimation.getFrame());
 		break;
 	}
+	if (_timerAlive.isEnded())
+		_alive = false;
 	_gameWindow->draw(_image);
 }
 
 void			Bydos1::update(LookDirection lDir, int updtatedPos)
 {
-  (void)lDir;
+	(void)lDir;
 	if (updtatedPos != Game::UNCHANGED)
 	{
 		_cNextPos = updtatedPos;
@@ -73,6 +75,7 @@ void			Bydos1::update(LookDirection lDir, int updtatedPos)
 		_vNextPos.x = (float)Game::POSX(_cNextPos);
 		_vNextPos.y = (float)Game::POSY(_cNextPos);
 	}
+	_timerAlive.restart();
 }
 
 
@@ -93,6 +96,7 @@ Bydos1::Bydos1(ObjType type, int id, int pos, LookDirection ld, sf::Texture *tex
 	_image.setPosition((float)Game::POSX(_cCurPos), (float)Game::POSY(_cCurPos));
 	_mvtTime = 0.60f;
 	_timerMvt = Timer(sf::seconds(_mvtTime));
+	_timerAlive = Timer(sf::seconds(Game::ALIVE_TIMER));
 	_gameWindow = gameWindow;
 	_act = false;
 	_action = Nothing;
