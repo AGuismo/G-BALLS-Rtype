@@ -594,14 +594,7 @@ int	MenuWindow::checkAction()
       this->_network.switchTo(network::Manager::TCP);
       if (this->_network.isConnected())
 	{
-	  this->_isConnected = 1;
 	  this->_network.sendRequest(new Auth::Connect(InfosUser::getInstance().authenticate.login, md5(InfosUser::getInstance().authenticate.password)));
-
-
-	  // Demander au seveur si les identifiants sont bon !
-
-
-	  MediaAudioManager::getInstance().getSound("SwitchScreen")->getSound().play();
 	  this->drawLobby();
 	  break;
 	}
@@ -775,10 +768,18 @@ void	MenuWindow::removeWidget(const std::string &widget)
 void	MenuWindow::receiveOk()
 {
   std::cout << "poilOk" << std::endl;
+  if (this->_currentState == MENU)
+    {
+      this->_isConnected = 1;
+      MediaAudioManager::getInstance().getSound("SwitchScreen")->getSound().play();
+      this->drawLobby();
+    }
 }
 
 void	MenuWindow::receiveForbidden()
 {
+  if (this->_currentState == MENU)
+    this->drawMenuWarning("Authentification Failed");
   std::cout << "poilForbidden" << std::endl;
 }
 
