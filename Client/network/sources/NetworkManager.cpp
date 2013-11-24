@@ -39,6 +39,8 @@ namespace	network
 
   void	Manager::setTcp(const sf::IpAddress &ip, unsigned short port)
   {
+    if (isConnected())
+      return ;
     Thread::MutexGuard	guard(_sock);
 
     if (_tcp.mSock.connect(ip, port) == sf::Socket::Error)
@@ -63,6 +65,8 @@ namespace	network
 
   void	Manager::closeTcp(void)
   {
+    Thread::MutexGuard	guard(_sock);
+
     _tcp.mSock.disconnect();
   }
 
@@ -95,7 +99,7 @@ namespace	network
     sf::Packet		packet;
 
     packet << req;
-#if defined(WIN32)
+#if defined(DEBUG)
     std::cout << "network::Manager::sendRequest(const ARequest *)"
 	      << "Packet Size: " << packet.getDataSize() << std::endl;
 #endif
@@ -146,7 +150,7 @@ namespace	network
     _sock.unlock();
 
     packet >> req;
-#if defined(WIN32)
+#if defined(DEBUG)
     std::cout << "network::Manager::udpMode(const ARequest *)"
 	      << "Packet Size: " << packet.getDataSize() << std::endl;
 #endif
@@ -161,10 +165,12 @@ namespace	network
   void				Manager::tcpMode()
   {
     ARequest			*req = 0;
+    Protocol::Byte		bytes[1024];
+    std::size_t			received;
     sf::Packet			packet;
 
     _sock.lock();
-    if (_tcp.mSock.receive(packet) == sf::Socket::Error)
+    if (_tcp.mSock.receive(bytes, 1024, received) == sf::Socket::Error)
       {
 	switchTo(NONE);
 	_sock.unlock();
@@ -173,8 +179,9 @@ namespace	network
     _sock.unlock();
 
     packet.append(_tcp.notRead.getData(), _tcp.notRead.getDataSize());
+    packet.append(bytes, received);
     packet >> req;
-#if defined(WIN32)
+#if defined(DEBUG)
     std::cout << "network::Manager::tcpMode(const ARequest *)"
 	      << "Packet Size: " << packet.getDataSize() << std::endl;
 #endif
