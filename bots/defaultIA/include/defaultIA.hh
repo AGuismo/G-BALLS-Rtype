@@ -3,14 +3,15 @@
 
 # include "IaAlgo.hh"
 
-class BaseIA : public AIaAlgo
+class DefaultIA : public AIaAlgo
 {
 public:
-	BaseIA(game::Pos pos);
-	~BaseIA();
+	DefaultIA();
+	DefaultIA(const DefaultIA &src);
+	~DefaultIA();
 
 	int	algo(IAPlayer &players);
-
+	AIaAlgo *getInstance();
 private:
 
 };

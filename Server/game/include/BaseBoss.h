@@ -6,11 +6,12 @@
 class BaseBoss : public AIaAlgo
 {
 public:
-	BaseBoss(std::vector<game::Pos> &pos);
+	BaseBoss();
+	BaseBoss(const BaseBoss &src);
 	~BaseBoss();
 
 	int algo(IAPlayer &players);
-
+	AIaAlgo *getInstance();
 private:
 
 };
