@@ -6,11 +6,12 @@
 class DefaultBoss : public AIaAlgo
 {
 public:
-	DefaultBoss(std::vector<game::Pos> &pos);
+	DefaultBoss();
+	DefaultBoss(const DefaultBoss &src);
 	~DefaultBoss();
 
 	int algo(IAPlayer &players);
-
+	AIaAlgo *getInstance();
 private:
 
 };

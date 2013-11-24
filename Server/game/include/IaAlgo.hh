@@ -13,8 +13,8 @@
 
 #include	<list>
 #include	<vector>
-#include	"IAPlayer.hpp"
 #include	"types.hh"
+#include	"IAPlayer.hpp"
 
 class AIaAlgo
 {
@@ -24,11 +24,13 @@ public:
 public:
     virtual ~AIaAlgo() {};
 	virtual int	algo(IAPlayer &players) = 0;
+	virtual AIaAlgo *getInstance() = 0;
 	std::vector<game::Pos>	&pos() { return _pos; }
 	std::list<game::Dir>	&fires() { return _fires; }
 	game::Type			&type() { return _type; }
 	game::Pos			&firePos() { return _firePos; }
 	int					&life() { return _life; }
+	virtual bool isIa() { return _isIa; }
 
     protected:
     std::vector<game::Pos>	_pos;
@@ -36,6 +38,7 @@ public:
 	game::Pos			_firePos;
     game::Type			_type;
 	int					_life;
+	bool				_isIa;
 };
 
 #endif /* IAALGO_H_ */

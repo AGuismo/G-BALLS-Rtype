@@ -66,6 +66,9 @@
     <ClInclude Include="..\include\BaseBoss.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\include\IAPlayer.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\sources\GameException.cpp">

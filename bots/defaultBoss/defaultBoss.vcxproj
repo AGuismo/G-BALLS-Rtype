@@ -71,10 +71,10 @@
     <ClInclude Include="..\API\IaAlgo.hh" />
     <ClInclude Include="..\API\IAPlayer.hpp" />
     <ClInclude Include="..\API\types.hh" />
-    <ClInclude Include="includes\BaseBoss.h" />
+    <ClInclude Include="includes\DefaultBoss.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="sources\BaseBoss.cpp" />
+    <ClCompile Include="sources\DefaultBoss.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

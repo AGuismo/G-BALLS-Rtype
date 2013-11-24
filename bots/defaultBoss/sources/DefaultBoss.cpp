@@ -1,17 +1,17 @@
-#include "BaseBoss.h"
+#include "DefaultBoss.h"
 
-BaseBoss::BaseBoss() : AIaAlgo()
+DefaultBoss::DefaultBoss() : AIaAlgo()
 {
 	_pos.push_back(15 * (rand() % 13));
 	_pos.push_back(_pos.back() + 30);
 	_pos.push_back(_pos.back() + 30);
 	_firePos = _pos[_pos.size() / 2];
-	//	_type = ;
+//	_type = ;
 	_life = 10;
 	_isIa = false;
 }
 
-BaseBoss::BaseBoss(const BaseBoss &src)
+DefaultBoss::DefaultBoss(const DefaultBoss &src) : AIaAlgo()
 {
 	static_cast<void>(src);
 	_pos.push_back(15 * (rand() % 13));
@@ -23,18 +23,19 @@ BaseBoss::BaseBoss(const BaseBoss &src)
 	_isIa = false;
 }
 
-BaseBoss::~BaseBoss()
+DefaultBoss::~DefaultBoss()
 {
 
 }
 
-AIaAlgo *BaseBoss::getInstance()
+AIaAlgo *DefaultBoss::getInstance()
 {
-	return new BaseBoss(*this);
+	return new DefaultBoss(*this);
 }
 
-int BaseBoss::algo(IAPlayer &players)
+int DefaultBoss::algo(IAPlayer &players)
 {
     (void)players;
-	return 6;
+	_fires.push_back(6);
+	return -1;
 }
