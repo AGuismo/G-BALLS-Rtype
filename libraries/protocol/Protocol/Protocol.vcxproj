@@ -78,6 +78,7 @@
     <ClCompile Include="..\sources\ARequest.cpp" />
     <ClCompile Include="..\sources\AuthRequest.cpp" />
     <ClCompile Include="..\sources\BuffRequest.cpp" />
+    <ClCompile Include="..\sources\ChatSendRequest.cpp" />
     <ClCompile Include="..\sources\DeathRequest.cpp" />
     <ClCompile Include="..\sources\ElemRequest.cpp" />
     <ClCompile Include="..\sources\EventRequest.cpp" />
@@ -99,6 +100,7 @@
     <ClInclude Include="..\include\ARequest.hh" />
     <ClInclude Include="..\include\AuthRequest.hh" />
     <ClInclude Include="..\include\BuffRequest.h" />
+    <ClInclude Include="..\include\ChatSendRequest.h" />
     <ClInclude Include="..\include\DeathRequest.h" />
     <ClInclude Include="..\include\ElemRequest.hh" />
     <ClInclude Include="..\include\EventRequest.hh" />
