@@ -1,4 +1,5 @@
 #include "BaseBoss.h"
+#include <cstdlib>
 
 BaseBoss::BaseBoss() : AIaAlgo()
 {

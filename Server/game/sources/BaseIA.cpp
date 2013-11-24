@@ -1,4 +1,5 @@
 #include "BaseIA.h"
+#include <cstdlib>
 
 BaseIA::BaseIA()
 {
