@@ -37,17 +37,20 @@ namespace	network
     _th.join();
   }
 
-  void	Manager::setTcp(const sf::IpAddress &ip, unsigned short port)
+  bool	Manager::setTcp(const sf::IpAddress &ip, unsigned short port)
   {
     Thread::MutexGuard	guard(_sock);
+	sf::Socket::Status	st;
 
     std::cout << "network::Manager::setTcp()" << std::endl;
     if (isConnected())
-      return ;
-    if (_tcp.mSock.connect(ip, port) == sf::Socket::Error)
-      _connected = false;
-    else
+      return (false);
+	st = _tcp.mSock.connect(ip, port);
+	if (st == sf::Socket::Done)
       _connected = true;
+    else
+      _connected = false;
+	return (_connected);
   }
 
   void	Manager::setUdp(const sf::IpAddress &ip, unsigned short port)
