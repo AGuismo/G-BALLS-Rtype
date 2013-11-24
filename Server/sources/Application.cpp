@@ -18,9 +18,9 @@ Application::Application():
 {
   std::string	file("botlibrary");
 
-  if (!Database::getInstance().loadFile(rtype::Env::getInstance().DatabasePath))
+  if (!Database::getInstance().loadFile(rtype::Env::getInstance().database.DatabasePath))
     std::cout << "Warning: There is no Database or a corrupt Database in "
-  	      << rtype::Env::getInstance().DatabasePath << std::endl
+	<< rtype::Env::getInstance().database.DatabasePath << std::endl
   	      << "Client Database will be created for further usage" << std::endl;
   Database::getInstance().newClient("root", md5("4242"), database::SUPER_USER, true);
   try
@@ -44,12 +44,12 @@ Application::Application():
       std::cerr << "In Application::run(), catch: " << e.what() << std::endl;
       throw Application::InitExcept("Application Init fail");
     }
-  Database::getInstance().saveFile(rtype::Env::getInstance().DatabasePath);
+  Database::getInstance().saveFile(rtype::Env::getInstance().database.DatabasePath);
 }
 
 Application::~Application()
 {
-  Database::getInstance().saveFile(rtype::Env::getInstance().DatabasePath);
+  Database::getInstance().saveFile(rtype::Env::getInstance().database.DatabasePath);
 }
 
 void	Application::run()
