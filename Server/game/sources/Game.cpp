@@ -364,6 +364,7 @@ void	Game::popWall()
 			{
 				game::Pos p;
 				while ((p = 15 * (rand() % rtype::Env::getInstance().game.mapSize)) != 0)
+					;
 				wall = new Entity(UniqueId(), std::vector<game::Pos>(1, p), 3, 6, UniqueId());
 			}
 			else
