@@ -44,6 +44,7 @@ namespace	menu
 
   private:
     void	checkNewClient();
+    void	updateCallback();
     void	updateClients();
     void	clientRequest(Client *client);
 

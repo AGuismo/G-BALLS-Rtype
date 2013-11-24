@@ -168,7 +168,11 @@ namespace	game
 			  _games.push_back(game);
 		  }
 		  else
-			  delete game;
+		  {
+		      _output.push(new Callback<Application, Game>(_parent, game,
+							   &Application::endGame));
+		      //delete game;
+		  }
 	  }
 
 	  if (asleftplayer == true)

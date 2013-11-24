@@ -57,6 +57,7 @@ namespace	game
     requestCode::SessionID	SessionID() const;
     void			alive(const bool &state);
     bool			alive() const ;
+    void			hasLeft(const bool &state);
     void			SessionID(const requestCode::SessionID);
 
   public:
