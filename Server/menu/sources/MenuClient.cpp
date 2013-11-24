@@ -91,7 +91,12 @@ namespace	menu
     std::cout << "menu::Client::recvSock(): " << _TcpLayer->lookRead(buf, 512) << std::endl;
     std::cout << "menu::Client::recvSock(): ";
     for (std::vector<net::cBuffer::Byte>::iterator it = buf.begin(); it != buf.end(); ++it)
-      printf("%.2X", *it);
+      {
+	if (!std::isprint(*it))
+	  printf("\\%.2X", *it);
+	else
+	  printf("%c", *it);
+      }
     printf("\n");
 #endif
   }
@@ -105,7 +110,12 @@ namespace	menu
     std::cout << "menu::Client::sendSock(): " << _TcpLayer->lookWrite(buf, 512) << std::endl;
     std::cout << "menu::Client::sendSock(): ";
     for (std::vector<net::cBuffer::Byte>::iterator it = buf.begin(); it != buf.end(); ++it)
-      printf("%.2X  ", *it);
+      {
+	if (!std::isprint(*it))
+	  printf("\\%.2X", *it);
+	else
+	  printf("%c", *it);
+      }
     printf("\n");
 #endif
     try

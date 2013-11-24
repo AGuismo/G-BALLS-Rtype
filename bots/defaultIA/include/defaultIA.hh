@@ -11,7 +11,6 @@ public:
 	~DefaultIA();
 
 	int	algo(IAPlayer &players);
-	AIaAlgo *getInstance();
 private:
 
 };

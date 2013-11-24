@@ -9,6 +9,7 @@ namespace	menu
 	  _owner(client), _status(requestCode::party::OUT_GAME), _game(0)
   {
     _clients.push_back(client);
+    client->currentGame(this);
   }
 
   Game::~Game()
@@ -22,6 +23,7 @@ namespace	menu
     if (availableSlots() == 0)
       return (false);
     _clients.push_back(client);
+    client->currentGame(this);
     return (true);
   }
 
