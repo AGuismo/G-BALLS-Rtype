@@ -11,6 +11,7 @@ public:
 	~DefaultBoss();
 
 	int algo(IAPlayer &players);
+	AIaAlgo	*clone();
 private:
 
 };

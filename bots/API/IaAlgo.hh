@@ -30,6 +30,7 @@ class IAALGO_API AIaAlgo
   game::Type			&type() { return _type; }
   game::Pos			&firePos() { return _firePos; }
   int					&life() { return _life; }
+  virtual AIaAlgo		*clone() = 0;
   virtual bool isIa() { return _isIa; }
 
  protected:
