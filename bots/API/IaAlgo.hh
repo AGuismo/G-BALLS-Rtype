@@ -12,6 +12,7 @@
 # define IAALGO_H_
 
 #if defined(WIN32)
+#pragma warning(disable: 4251)
 # if defined(IAALGO_API_EXPORT)
 # define	IAALGO_API	__declspec(dllexport)
 # else
@@ -25,7 +26,6 @@
 #include	<vector>
 #include	"types.hh"
 #include	"IAPlayer.hpp"
-#pragma warning(disable: 4251)
 
 class IAALGO_API AIaAlgo
 {
