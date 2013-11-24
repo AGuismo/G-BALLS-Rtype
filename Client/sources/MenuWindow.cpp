@@ -858,7 +858,7 @@ void	MenuWindow::update()
 
       while ((req = this->_network.recvRequest()) != 0)
 	{
-	  std::cout << "receive !!!!!" << std::endl;
+		  std::cout << "receive !!!!! " << req->code() << std::endl;
 	  (this->*(this->_mapCallBack[req->code()]))(req);
 	}
     }

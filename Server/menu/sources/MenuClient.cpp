@@ -105,7 +105,7 @@ namespace	menu
     std::cout << "menu::Client::sendSock(): " << _TcpLayer->lookWrite(buf, 512) << std::endl;
     std::cout << "menu::Client::sendSock(): ";
     for (std::vector<net::cBuffer::Byte>::iterator it = buf.begin(); it != buf.end(); ++it)
-      printf("%.2X", *it);
+      printf("%.2X  ", *it);
     printf("\n");
 #endif
     try

@@ -88,7 +88,10 @@ namespace	menu
 	request_callback_map::iterator	it = _requestCallback.find(req->code());
 
 	if (it != _requestCallback.end())
-	  it->second(req, client, this);
+	{
+		std::cout << "received request : " << req->code() << std::endl;
+		it->second(req, client, this);
+	}
 	req = client->requestPop();
       }
   }
@@ -435,7 +438,15 @@ namespace	menu
 	delete req;
 	return;
       }
-	manager->broadcast(ChatSendRequest(dynamic_cast<ChatRecvRequest *>(req)->msg()));
+	std::cout << dynamic_cast<ChatSendRequest *>(req)->msg() << std::endl;
+	ChatRecvRequest *r = new ChatRecvRequest(dynamic_cast<ChatSendRequest *>(req)->msg());
+	std::cout << r->code() << " | " << r->msg() << " | " << std::endl;
+	manager->broadcast(*r);
+	std::cout << "request's client : ";
+	while (req = client->requestPop())
+	{
+		std::cout << " - " << req->code() << std::endl;
+	}
     delete req;
   }
 
