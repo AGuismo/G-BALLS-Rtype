@@ -40,10 +40,10 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <TargetExt>.lib</TargetExt>
-    <IncludePath>$(SolutionDir)\..\libraries\network\network\include;$(SolutionDir)\server-r-type\include;$(SolutionDir)\..\libraries\protocol\include;$(SolutionDir)\menu\include;$(SolutionDir)\..\libraries\Thread\Threads\include;$(SolutionDir)\..\libraries\Bind\include;$(ProjectDir)\..\..\include;$(IncludePath);$(ProjectDir)\..\include;$(ProjectDir)\..\..\loader\include</IncludePath>
+    <IncludePath>$(SolutionDir)\..\libraries\network\network\include;$(SolutionDir)\server-r-type\include;$(SolutionDir)\..\libraries\protocol\include;$(SolutionDir)\menu\include;$(SolutionDir)\..\libraries\Thread\Threads\include;$(SolutionDir)\..\libraries\Bind\include;$(ProjectDir)\..\..\include;$(IncludePath);$(ProjectDir)\..\include;$(ProjectDir)\..\..\loader\include;$(SolutionDir)\..\bots\API</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>$(SolutionDir)\..\libraries\network\network\include;$(SolutionDir)\server-r-type\include;$(SolutionDir)\..\libraries\protocol\include;$(SolutionDir)\menu\include;$(SolutionDir)\..\libraries\Thread\Threads\include;$(SolutionDir)\..\libraries\Bind\include;$(ProjectDir)\..\..\include;$(IncludePath);$(ProjectDir)\..\include;$(ProjectDir)\..\..\loader\include</IncludePath>
+    <IncludePath>$(SolutionDir)\..\libraries\network\network\include;$(SolutionDir)\server-r-type\include;$(SolutionDir)\..\libraries\protocol\include;$(SolutionDir)\menu\include;$(SolutionDir)\..\libraries\Thread\Threads\include;$(SolutionDir)\..\libraries\Bind\include;$(ProjectDir)\..\..\include;$(IncludePath);$(ProjectDir)\..\include;$(ProjectDir)\..\..\loader\include;$(SolutionDir)\..\bots\API</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -84,8 +84,6 @@
     <ClInclude Include="..\include\GameManager.hh" />
     <ClInclude Include="..\include\BaseIA.h" />
     <ClInclude Include="..\include\IA.h" />
-    <ClInclude Include="..\include\IaAlgo.hh" />
-    <ClInclude Include="..\include\IAPlayer.hpp" />
     <ClInclude Include="..\include\Missile.h" />
     <ClInclude Include="..\include\Player.h" />
     <ClInclude Include="..\include\Referee.h" />

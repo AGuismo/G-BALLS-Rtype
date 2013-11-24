@@ -6,7 +6,7 @@
 # if defined(IAALGO_API_EXPORT)
 # define	IAALGO_API	__declspec(dllexport)
 # else
-# define	IAALGO_API	__declspec(dllimport)
+# define	IAALGO_API
 # endif
 # elif defined(linux)
 #  define	IAALGO_API
