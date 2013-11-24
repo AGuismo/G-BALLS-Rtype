@@ -95,8 +95,10 @@ namespace	network
     sf::Packet		packet;
 
     packet << req;
+#if defined(WIN32)
     std::cout << "network::Manager::sendRequest(const ARequest *)"
 	      << "Packet Size: " << packet.getDataSize() << std::endl;
+#endif
     _state.lock();
     if (_curState == TCP)
       {
@@ -144,6 +146,10 @@ namespace	network
     _sock.unlock();
 
     packet >> req;
+#if defined(WIN32)
+    std::cout << "network::Manager::udpMode(const ARequest *)"
+	      << "Packet Size: " << packet.getDataSize() << std::endl;
+#endif
 
     if (req == 0)
       return ;
@@ -168,6 +174,10 @@ namespace	network
 
     packet.append(_tcp.notRead.getData(), _tcp.notRead.getDataSize());
     packet >> req;
+#if defined(WIN32)
+    std::cout << "network::Manager::tcpMode(const ARequest *)"
+	      << "Packet Size: " << packet.getDataSize() << std::endl;
+#endif
     _tcp.notRead.clear();
     _tcp.notRead.append(packet.getData(), packet.getDataSize());
 
