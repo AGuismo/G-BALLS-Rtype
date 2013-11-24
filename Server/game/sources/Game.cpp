@@ -1,5 +1,6 @@
 #include <cstdlib>
 #include <ctime>
+#include <vector>
 #include "Referee.h"
 #include "Missile.h"
 #include "Entity.h"
@@ -318,25 +319,53 @@ void	Game::popIA()
 	if (_IA.size() < rtype::Env::getInstance().game.maxIA)
     {
 		if (_IA.size() < rtype::Env::getInstance().game.minIA || rand() % rtype::Env::getInstance().game.popIAmax < rtype::Env::getInstance().game.popIArange)
-	{
-	    Ia *new_ia;
+		{
+			Ia *new_ia;
 
-	    //new_ia = BotLoader::getIA();
-	    //with pos = rand() % Entity::SIZE + Entity::SIZE - 1;
-	    //id = UniqueId();
-		new_ia = new Ia(UniqueId(), new BaseIA());
+			//new_ia = BotLoader::getIA();
+			//with pos = rand() % Entity::SIZE + Entity::SIZE - 1;
+			//id = UniqueId();
+			new_ia = new Ia(UniqueId(), new BaseIA());
 
-	    _IA.push_back(new_ia);
-	    pushRequest(new ElemRequest(new_ia->algo()->type(),
-	    new_ia->_pos[0], new_ia->_dir, new_ia->_id));
+			_IA.push_back(new_ia);
+			pushRequest(new ElemRequest(new_ia->algo()->type(),
+			new_ia->_pos[0], new_ia->_dir, new_ia->_id));
 
-	}
+		}
     }
 }
 
 Game::client_list	&Game::clients()
 {
   return (_players);
+}
+
+void	Game::popWall()
+{
+	if (_objs.size() < rtype::Env::getInstance().game.maxWall)
+	{
+		if (_objs.size() < rtype::Env::getInstance().game.minWall ||
+			rand() % rtype::Env::getInstance().game.popRangeMaxWall < rtype::Env::getInstance().game.popRangeMinWall)
+		{
+			Entity *wall;
+
+			if (rand() % rtype::Env::getInstance().game.chanceToBreakableMax < rtype::Env::getInstance().game.chanceToBreakableMin)
+			{
+				game::Pos p = 15 * (rand() % rtype::Env::getInstance().game.mapSize);
+				wall = new Entity(UniqueId(), std::vector<game::Pos>(1, p), 3, 6, UniqueId());
+			}
+			else
+			{
+				game::Pos p = rand() % 2 == 1 ? rtype::Env::getInstance().game.mapSize - 1 :
+												rtype::Env::getInstance().game.mapSize * rtype::Env::getInstance().game.mapSize -1;
+				wall = new Entity(UniqueId(), std::vector<game::Pos>(1, p), -1, 6, UniqueId());
+			}
+			_objs.push_back(wall);
+			pushRequest(new ElemRequest(wall->type(),
+				wall->_pos[0], wall->_dir, wall->_id));
+
+		}
+	}
 }
 
 bool	Game::update()
@@ -361,6 +390,7 @@ bool	Game::update()
 		pushRequest(new VictoryRequest());
 	}
 	popIA();
+	popWall();
 	if (Referee::asAlivePlayers(*this) == false)
 		pushRequest(new LooseRequest());
 	DispatchRequest();

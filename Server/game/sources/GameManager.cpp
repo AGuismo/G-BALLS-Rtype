@@ -171,7 +171,6 @@ namespace	game
 		  {
 		      _output.push(new Callback<Application, Game>(_parent, game,
 							   &Application::endGame));
-		      //delete game;
 		  }
 	  }
 

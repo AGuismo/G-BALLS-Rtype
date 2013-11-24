@@ -435,19 +435,7 @@ namespace	menu
 	delete req;
 	return;
       }
-<<<<<<< HEAD
 	manager->broadcast(ChatRecvRequest(dynamic_cast<ChatSendRequest *>(req)->msg()));
-=======
-	std::cout << dynamic_cast<ChatSendRequest *>(req)->msg() << std::endl;
-	ChatRecvRequest *r = new ChatRecvRequest(dynamic_cast<ChatSendRequest *>(req)->msg());
-	std::cout << r->code() << " | " << r->msg() << " | " << std::endl;
-	manager->broadcast(*r);
-	std::cout << "request's client : ";
-	while ((req = client->requestPop()) != 0)
-	{
-		std::cout << " - " << req->code() << std::endl;
-	}
->>>>>>> eefc8a5a23d29d44442974b2c223faba8d879571
     delete req;
   }
 
