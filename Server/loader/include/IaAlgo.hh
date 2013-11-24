@@ -25,7 +25,7 @@
 #include	<vector>
 #include	"types.hh"
 #include	"IAPlayer.hpp"
-#pragma warning(disable: 4251)
+#pragma		warning(disable: 4251)
 
 class IAALGO_API AIaAlgo
 {
@@ -35,6 +35,7 @@ public:
 public:
     virtual ~AIaAlgo() {};
 	virtual int	algo(IAPlayer &players) = 0;
+	virtual AIaAlgo *getInstance() = 0;
 	std::vector<game::Pos>	&pos() { return _pos; }
 	std::list<game::Dir>	&fires() { return _fires; }
 	game::Type			&type() { return _type; }

@@ -5,7 +5,11 @@
 bool DynamicAbstract::DynamicOpen(const std::string &path)
 {
 	if ((handle = LoadLibrary(path.c_str())) == NULL)
+	{
+		std::cout << GetLastError() << std::endl;
 		return false;
+
+	}
 	return true;
 }
 
@@ -19,6 +23,11 @@ bool DynamicAbstract::DynamicClose(void)
 	if (FreeLibrary(handle) == 0)
 		return false;
 	return true;
+}
+
+DynamicAbstract::DynamicAbstract()
+{
+	SetErrorMode(SEM_FAILCRITICALERRORS);
 }
 
 #elif	defined (linux)
@@ -40,6 +49,10 @@ bool DynamicAbstract::DynamicClose(void)
 	if (dlclose(handle) == 0)
 		return false;
 	return true;
+}
+
+DynamicAbstract::DynamicAbstract()
+{
 }
 
 #else

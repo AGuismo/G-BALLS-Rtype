@@ -26,9 +26,12 @@ DefaultIA::~DefaultIA()
 
 }
 
-AIaAlgo *DefaultIA::getInstance()
+extern "C"
 {
-	return new DefaultIA();
+	AIaAlgo *getInstance()
+	{
+		return new DefaultIA();
+	}
 }
 
 int	DefaultIA::algo(IAPlayer &players)
