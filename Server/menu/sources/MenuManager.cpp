@@ -205,7 +205,7 @@ namespace	menu
   {
     game_list::iterator	it;
 
-    std::cout << "Manager::endGame" << std::endl;
+    std::cout << "menu::Manager::endGame()" << std::endl;
     it = std::find_if(_games.begin(), _games.end(), PredicateParty(game->partyName()));
     if (it == _games.end())
       return;
@@ -273,7 +273,7 @@ namespace	menu
     Auth::NewUser	*request = dynamic_cast<Auth::NewUser *>(req);
 
     (void)manager;
-    if (!client->authenticated())
+    if (client->authenticated() && client->permissions() == database::SUPER_USER)
       {
 	if (Database::getInstance().newClient(request->username(), request->password()))
 	  {
@@ -447,6 +447,8 @@ namespace	menu
 	delete req;
 	return;
       }
+    client->requestPush(new ServerRequest(requestCode::server::OK));
+    delete req;
     manager->_active = false;
   }
 

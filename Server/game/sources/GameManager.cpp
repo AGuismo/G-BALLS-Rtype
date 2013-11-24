@@ -1,5 +1,6 @@
 #include	<iostream>
 #include	<algorithm>
+#include	"Game.h"
 #include	"ICallbacks.hh"
 #include	"GameManager.hh"
 #include	"Client.hh"
@@ -156,22 +157,44 @@ namespace	game
   void		Manager::update()
   {
 	  bool	asleftplayer = false;
+
 	  std::cout << "Manager::Update" << std::endl;
 	  if (!_games.empty())
 	  {
 		  Game *game = _games.front();
 
-		  _games.pop_front();
-		  if (!game->clients().empty())
+		  if (game->launchGameTime() == 0)
 		  {
-			  asleftplayer = game->update();
-			  _games.push_back(game);
+			  for (std::list<game::Client *>::iterator it = game->clients().begin(); it != game->clients().end(); it++)
+			  {
+				  (*it)->alive(false);
+				  (*it)->hasLeft(true);
+				  _output.push(new Callback<Application, game::Client>(_parent, (*it),
+					  &Application::ClientLeaveGame));
+			  }
+			  _output.push(new Callback<Application, Game>(_parent, game,
+				  &Application::endGame));
+			  _games.pop_front();
+			  return;
 		  }
-		  else
-		  {
-		      _output.push(new Callback<Application, Game>(_parent, game,
-							   &Application::endGame));
-		  }
+			for (std::list<game::Client *>::iterator it = game->clients().begin(); it != game->clients().end(); it++)
+				if ((*it)->hasJoin() == false)
+				{
+					game->timer().tv_usec = rtype::Env::getInstance().game.gameDelay;
+					game->launchGametime(game->launchGameTime() - 1);
+					return;
+				}
+			_games.pop_front();
+			if (!game->clients().empty())
+			{
+				asleftplayer = game->update();
+				_games.push_back(game);
+			}
+			else
+			{
+				_output.push(new Callback<Application, Game>(_parent, game,
+					&Application::endGame));
+			}
 	  }
 
 	  if (asleftplayer == true)
@@ -208,7 +231,12 @@ namespace	game
 			  self->_monitor.setOption(net::streamManager::TIMEOUT, self->_games.front()->timer());
 		  }
 		  else
-			  self->_monitor.unsetOption(net::streamManager::TIMEOUT);
+		  {
+		      struct	timeval	def;
+		      def.tv_sec = 1;
+		      def.tv_usec = 0;
+		      self->_monitor.setOption(net::streamManager::TIMEOUT, def);
+		  }
 		  //std::cout << "selecting ..." << std::endl;
 		  self->_monitor.run(); /* Surcouche du select() */
 		  //std::cout << "Done ..." << std::endl;

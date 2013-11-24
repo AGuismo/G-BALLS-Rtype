@@ -1,11 +1,11 @@
 #include <cstdlib>
 #include <ctime>
 #include <vector>
+#include "Game.h"
 #include "LoaderManager.hh"
 #include "Referee.h"
 #include "Missile.h"
 #include "Entity.h"
-#include "Game.h"
 #include "Player.h"
 #include "Env.hh"
 #include "IA.h"
@@ -37,8 +37,9 @@ Game::Game(std::list<game::Client *> &players)
   }
   _clock.start();
   _timer.tv_sec = 0;
+  _launchGameTime = 8;
   _timer.tv_usec = rtype::Env::getInstance().game.gameDelay;
-  std::cout << "Bienvenue dans la faille de l'invocateur" << std::endl;
+  std::cout << "Game::Game(): " << "Bienvenue dans la faille de l'invocateur" << std::endl;
 }
 
 Game::~Game()
@@ -156,21 +157,21 @@ void	Game::wallUpdate()
 		  flag = true;
 		}
       else if (Referee::isCollision(*ite, *this) == true)
-		{
-		  if ((*ite)->_type == game::DESTRUCTIBLEWALL)
-			(*ite)->_life--;
-		  if ((*ite)->_life <= 0)
-			{
-			  randBonnus(*(*ite));
-			  pushRequest(new DeathRequest((*ite)->id()));
-			  delete *ite;
-			  ite = _objs.erase(ite);
-			  flag = true;
-		  }
-		}
+      {
+	  if ((*ite)->_type == game::DESTRUCTIBLEWALL)
+	      (*ite)->_life--;
+	  if ((*ite)->_life <= 0)
+	  {
+	      randBonnus(*(*ite));
+	      pushRequest(new DeathRequest((*ite)->id()));
+	      delete *ite;
+	      ite = _objs.erase(ite);
+	      flag = true;
+	  }
+      }
       else
-		pushRequest(new ElemRequest((*ite)->_type,
-					(*ite)->_pos[0], (*ite)->_dir, (*ite)->_id));
+	  pushRequest(new ElemRequest((*ite)->_type,
+				      (*ite)->_pos[0], (*ite)->_dir, (*ite)->_id));
 	  if (flag == false)
 		  ite++;
     }
@@ -361,7 +362,9 @@ void	Game::popWall()
 
 			if (rand() % rtype::Env::getInstance().game.chanceToBreakableMax < rtype::Env::getInstance().game.chanceToBreakableMin)
 			{
-				game::Pos p = 15 * (rand() % rtype::Env::getInstance().game.mapSize);
+				game::Pos p;
+				while ((p = 15 * (rand() % rtype::Env::getInstance().game.mapSize)) != 0)
+					;
 				wall = new Entity(UniqueId(), std::vector<game::Pos>(1, p), 3, 6, UniqueId());
 			}
 			else

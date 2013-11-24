@@ -37,16 +37,20 @@ namespace	network
     _th.join();
   }
 
-  void	Manager::setTcp(const sf::IpAddress &ip, unsigned short port)
+  bool	Manager::setTcp(const sf::IpAddress &ip, unsigned short port)
   {
-    if (isConnected())
-      return ;
     Thread::MutexGuard	guard(_sock);
+	sf::Socket::Status	st;
 
-    if (_tcp.mSock.connect(ip, port) == sf::Socket::Error)
-      _connected = false;
-    else
+    std::cout << "network::Manager::setTcp()" << std::endl;
+    if (isConnected())
+      return (false);
+	st = _tcp.mSock.connect(ip, port);
+	if (st == sf::Socket::Done)
       _connected = true;
+    else
+      _connected = false;
+	return (_connected);
   }
 
   void	Manager::setUdp(const sf::IpAddress &ip, unsigned short port)
@@ -144,15 +148,26 @@ namespace	network
     Protocol::Byte		bytes[1024];
     std::size_t			extracted;
     std::vector<Protocol::Byte>	packet;
+    sf::SocketSelector		select;
 
     _sock.lock();
-    if (_udp.gSock.receive(bytes, 1024, extracted, _udp.gIp, _udp.gPort) == sf::Socket::Error)
+    select.add(_udp.gSock);
+    select.wait(sf::milliseconds(100));
+    if (select.isReady(_udp.gSock))
       {
-	switchTo(NONE);
+	if (_udp.gSock.receive(bytes, 1024, extracted, _udp.gIp, _udp.gPort) == sf::Socket::Error)
+	  {
+	    switchTo(NONE);
+	    _sock.unlock();
+	    return ;
+	  }
+	_sock.unlock();
+      }
+    else
+      {
 	_sock.unlock();
 	return ;
       }
-    _sock.unlock();
 
     while (consume(packet, req))
       {
@@ -173,9 +188,18 @@ namespace	network
     std::size_t			received;
     std::vector<Protocol::Byte>	packet;
     sf::Socket::Status		status;
+    sf::SocketSelector		select;
 
     _sock.lock();
-    status = _tcp.mSock.receive(bytes, 1024, received);
+    select.add(_tcp.mSock);
+    select.wait(sf::milliseconds(100));
+    if (select.isReady(_tcp.mSock))
+      status = _tcp.mSock.receive(bytes, 1024, received);
+    else
+      {
+	_sock.unlock();
+	return ;
+      }
     if (status == sf::Socket::Error)
       {
 	switchTo(NONE);
@@ -239,7 +263,7 @@ namespace	network
 
 bool		consume(std::vector<Protocol::Byte> &b, ARequest *&req)
 {
-  int				extracted;
+  int		extracted;
 
   try
     {

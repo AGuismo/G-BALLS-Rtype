@@ -69,16 +69,18 @@ namespace	game
     struct sockaddr_in getAddr() const { return _addr; };
     void			setAddr(struct sockaddr_in addr) { _addr = addr; };
     bool			hasLeft() const { return _hasLeft; };
+	bool			hasJoin() const { return _hasJoin; };
+	void			hasJoin(bool b) { _hasJoin = b; };
 
   private:
     game::Player		*_player;
-    Game			*_game;
     bool			_alive;
     int				_updateToLive;
 
   private:
     bool			_hasLeft;
     bool			_used;
+	bool			_hasJoin;
     RequestQueue		_input;
     RequestQueue		_output;
     /*request_callback_map _requestCallback;*/
