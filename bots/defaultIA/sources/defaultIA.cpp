@@ -1,19 +1,37 @@
+#include <cstdlib>
+#include <ctime>
 #include	"defaultIA.hh"
 
-BaseIA::BaseIA(game::Pos pos)
+DefaultIA::DefaultIA()
 {
-	_pos.push_back(pos);
-	_firePos = pos;
+	srand((unsigned int)(time(NULL)));
+	_pos.push_back(15 * (rand() % 16));
+	_firePos = _pos[0];
 	_life = 1;
 	_type = BASEIA;
 }
 
-BaseIA::~BaseIA()
+DefaultIA::DefaultIA(const DefaultIA &src)
+{
+	static_cast<void>(src);
+	srand((unsigned int)(time(NULL)));
+	_pos.push_back(15 * (rand() % 16));
+	_firePos = _pos[0];
+	_life = 1;
+	_type = BASEIA;
+}
+
+DefaultIA::~DefaultIA()
 {
 
 }
 
-int	BaseIA::algo(IAPlayer &players)
+AIaAlgo *DefaultIA::getInstance()
+{
+	return new DefaultIA();
+}
+
+int	DefaultIA::algo(IAPlayer &players)
 {
 	(void)players;
 	return 6;

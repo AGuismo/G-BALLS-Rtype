@@ -5,10 +5,12 @@
 class BaseIA : public AIaAlgo
 {
 public:
-	BaseIA(game::Pos pos);
+	BaseIA();
+	BaseIA(const BaseIA &src);
 	~BaseIA();
 
 	int	algo(IAPlayer &players);
+	AIaAlgo *getInstance();
 
 private:
 

@@ -324,7 +324,7 @@ void	Game::popIA()
 	    //new_ia = BotLoader::getIA();
 	    //with pos = rand() % Entity::SIZE + Entity::SIZE - 1;
 	    //id = UniqueId();
-		new_ia = new Ia(UniqueId(), new BaseIA(rand() % Entity::SIZE + Entity::SIZE - 1));
+		new_ia = new Ia(UniqueId(), new BaseIA());
 
 	    _IA.push_back(new_ia);
 	    pushRequest(new ElemRequest(new_ia->algo()->type(),

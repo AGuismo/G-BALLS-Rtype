@@ -24,12 +24,12 @@
     <ClInclude Include="..\API\types.hh">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="includes\BaseBoss.h">
+    <ClInclude Include="includes\DefaultBoss.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="sources\BaseBoss.cpp">
+    <ClCompile Include="sources\DefaultBoss.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
   </ItemGroup>

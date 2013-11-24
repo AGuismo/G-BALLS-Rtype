@@ -1,4 +1,5 @@
 #include "IA.h"
+#include "Player.h"
 #include "Game.h"
 #include "Missile.h"
 
@@ -12,10 +13,17 @@ Ia::~Ia()
 
 void	Ia::update(Game &game)
 {
-	int res = _algo->algo(game);
+	IAPlayer	pos;
+	int			i = 0;
+	for (std::list<game::Client *>::iterator it = game.clients().begin(); it != game.clients().end(); ++it)
+	{
+		pos[i] = (*it)->player()->pos()[0];
+		++i;
+	}
+	int res = _algo->algo(pos);
 
 	_dir = res;
-	if (res != 0)
+	if (res != -1)
 		move();
 }
 

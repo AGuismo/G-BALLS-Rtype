@@ -80,7 +80,7 @@ private:
     game::Client	*_client;
   };
 
-  struct	PredicateGame : public std::unary_function<::Game *, bool>
+  struct	PredicateGame : public std::unary_function< ::Game *, bool>
   {
 	  PredicateGame(::Game *);
 	  bool	operator()(const menu::Game *);
