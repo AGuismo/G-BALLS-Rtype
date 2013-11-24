@@ -568,7 +568,7 @@ int	MenuWindow::checkAction()
       this->drawMenu();
       break;
     case AScreen::GAME:
-      this->_network.sendRequest(new Party::Launch());
+      this->_network.sendRequest(new Party::Start());
       this->_status = CONTINUE;
       break;
     case AScreen::LAUNCH:
