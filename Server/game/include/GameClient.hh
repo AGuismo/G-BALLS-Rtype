@@ -74,7 +74,6 @@ namespace	game
 
   private:
     game::Player		*_player;
-    Game			*_game;
     bool			_alive;
     int				_updateToLive;
 
