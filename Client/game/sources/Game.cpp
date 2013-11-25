@@ -4,6 +4,7 @@
 #include		"DeathRequest.h"
 #include		"ElemRequest.hh"
 #include		"LeaveRequest.h"
+#include		"AliveRequest.h"
 #include		"AObject.h"
 #include		"game.h"
 #include		"Layer.h"
@@ -118,6 +119,7 @@ void							Game::run(void)
 	Timer						_playerMvtLock(sf::seconds(0.20f));
 	Timer						_playerFireLock(sf::seconds(0.42f));
 	Timer						_playerBlastLock(sf::seconds(1.0f));
+	Timer						_aliveRequest(sf::seconds(0.25f));
 	Timer						test(sf::seconds(50.0f));
 	ARequest					*req;
 
@@ -239,7 +241,11 @@ void							Game::run(void)
 		}
 		while ((req = _network.recvRequest()) != 0)
 		  (this->*_map[req->code()])(req);
-
+		if (_aliveRequest.isEnded())
+		{
+			_network.sendRequest(new AliveRequest());
+			_aliveRequest.restart();
+		}
 		_gameWindow->clear();
 		cleanObjects();
 		_layerManager.upDraw();
