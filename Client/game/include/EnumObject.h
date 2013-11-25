@@ -13,7 +13,7 @@ enum Action
 	Destroy
 };
 
-enum LookDirection
+/*enum LookDirection
 {
 	North = 0,
 	NorthEast,
@@ -24,7 +24,7 @@ enum LookDirection
 	West,
 	NorthWest,
 	Unset
-};
+};*/
 
 
 #endif // !ENUMOBJECT
