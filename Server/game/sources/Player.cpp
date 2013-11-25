@@ -26,7 +26,7 @@ namespace	game
   {
     std::vector<game::Pos>::iterator it = _pos.begin();
 
-	for (int i = 0; i < _pos.size(); ++i)
+	for (unsigned int i = 0; i < _pos.size(); ++i)
 		_prevPos[i] = _pos[i];
     if (dir == 0 || dir == 1 || dir == 7)
 	  for (; it != _pos.end(); it++)
