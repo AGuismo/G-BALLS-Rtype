@@ -164,7 +164,7 @@ void							Game::run(void)
 	_gameWindow->setKeyRepeatEnabled(true);
 
 //	addObj(server::POWER_BONUS, 44, 100);
-	
+
 	AudioManager::getInstance().play(AGAME_MUSIC);
 
 	_network.setUdp(sf::IpAddress(sf::IpAddress(InfosUser::getInstance().authenticate.addressIp)), InfosUser::getInstance().authenticate.portUDP);
@@ -261,7 +261,12 @@ void							Game::run(void)
 		}*/
 
 		while ((req = _network.recvRequest()) != 0)
-			(this->*_map[req->code()])(req);
+		  {
+		    callback_map::iterator	it = _map.find(req->code());
+
+		    if (it != _map.end())
+		      (this->*(it->second))(req);
+		  }
 
 		if (_aliveRequest.isEnded())
 		{
