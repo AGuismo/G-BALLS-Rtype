@@ -31,6 +31,8 @@ SRCS =	      	Animation.cpp		\
 		ZogZog.cpp		\
 		Timer.cpp		\
 		Slider.cpp		\
+		VitalityBonus.cpp	\
+		PowerBonus.cpp		\
 
 DIR.THREAD=	../../libraries/Thread/Threads
 DIR.BIND=	../../libraries/Bind

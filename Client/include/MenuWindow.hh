@@ -115,7 +115,8 @@ public:
   void					setGameList(void);
   void					deleteLineServer(const std::string &);
   void					updateLineServer(const std::string &, const std::string &);
-  void					scroll();
+  void					scroll(void);
+  void					removeImagePlayer(void);
 };
 
 #endif	/* !__MENU_WINDOW_HH__ */

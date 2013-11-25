@@ -87,4 +87,5 @@ VitalityBonus::VitalityBonus(game::Type type, int id, int pos, game::Dir ld, sf:
 
 void				VitalityBonus::onDestruction(Game &game)
 {
+  (void)game;
 }
