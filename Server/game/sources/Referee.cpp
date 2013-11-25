@@ -65,7 +65,7 @@ bool	Referee::sameCase(const Entity *a, const Entity *b)
 	{
 		for (itb = b->_pos.begin(); itb != b->_pos.end(); itb++)
 		{
-			if ((*ita) == (*itb))
+ 			if ((*ita) == (*itb))
 			{
 				return true;
 			}
@@ -240,6 +240,7 @@ bool		Referee::bossCollision(Entity *a, Game &game)
 		game._clock.restart();
 	    }
 	    delete game._titan;
+		game._titan = NULL;
 	}
 	return true;
     }

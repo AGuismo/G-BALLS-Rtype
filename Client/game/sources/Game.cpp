@@ -165,7 +165,7 @@ void							Game::run(void)
 	_gameWindow->setKeyRepeatEnabled(true);
 	_inGame = true;
 //	addObj(server::POWER_BONUS, 44, 100);
-	
+
 	AudioManager::getInstance().play(AGAME_MUSIC);
 
 	_network.setUdp(sf::IpAddress(sf::IpAddress(InfosUser::getInstance().authenticate.addressIp)), InfosUser::getInstance().authenticate.portUDP);
@@ -260,11 +260,13 @@ void							Game::run(void)
 			_playerBlastLock.restart();
 		}*/
 
-		while ((req = _network.recvRequest()) != 0)
-		{
-			(this->*_map[req->code()])(req);
-			_lostConnection.restart();
-		}
+		    callback_map::iterator	it = _map.find(req->code());
+
+			if (it != _map.end())
+			{
+				(this->*(it->second))(req);
+				_lostConnection.restart();
+			}
 
 		if (_aliveRequest.isEnded())
 		{
@@ -278,7 +280,6 @@ void							Game::run(void)
 			cleanGame();
 			return;
 		}
-
 		_gameWindow->clear();
 		cleanObjects();
 		_layerManager.upDraw();
@@ -422,7 +423,7 @@ void	Game::nextStage(const ARequest *req)
 {
   (void)req;
   _layerManager.enableLayer(LNEXSTAGE);
-  AudioManager::getInstance().play(ANEXT_STAGE)  ;
+  AudioManager::getInstance().play(ANEXT_STAGE);
 }
 
 Game::Game(sf::RenderWindow *gameWindow, sf::Event *event, network::Manager &net) : _layerManager(gameWindow, &_textureManager), _network(net)

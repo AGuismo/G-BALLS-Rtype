@@ -396,7 +396,9 @@ void	Game::popWall()
 
 bool	Game::update()
 {
+#if defined(DEBUG)
 	std::cout << "GAME UPDATE" << std::endl;
+#endif
 	bool asleftplayer = playerUpdate();
 	iaUpdate();
 	wallUpdate();
