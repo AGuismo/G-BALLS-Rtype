@@ -20,7 +20,6 @@ void						Bydos1::draw(void)
 	}
 	else if (_act)
 	{
-		findAnimation();
 		if (_vCurPos.x < _vNextPos.x)
 			_vCurPos.x += (_vLag * Game::OBJ_DEC_X_FRAME);
 		if (_vCurPos.x > _vNextPos.x)
@@ -31,24 +30,10 @@ void						Bydos1::draw(void)
 			_vCurPos.y -= (_vLag * Game::OBJ_DEC_Y_FRAME);
 		_image.setPosition(_vCurPos.x, _vCurPos.y);
 	}
-	switch (_action)
-	{
-	case Up:
-		_image.setTextureRect(_leftAnimation.getFrame());
-		break;
-	case Down:
-		_image.setTextureRect(_leftAnimation.getFrame());
-		break;
-	case Left:
-		_image.setTextureRect(_leftAnimation.getFrame());
-		break;
-	case Right:
+	if (_ld == requestCode::game::client::EAST)
 		_image.setTextureRect(_rightAnimation.getFrame());
-		break;
-	default:
+	else
 		_image.setTextureRect(_leftAnimation.getFrame());
-		break;
-	}
 	if (_timerAlive.isEnded())
 		_alive = false;
 	_gameWindow->draw(_image);
@@ -56,7 +41,7 @@ void						Bydos1::draw(void)
 
 void			Bydos1::update(game::Dir lDir, int updtatedPos)
 {
-	(void)lDir;
+	_ld = lDir;
 	if (updtatedPos != Game::UNCHANGED)
 	{
 		_cNextPos = updtatedPos;
