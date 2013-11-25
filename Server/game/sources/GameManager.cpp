@@ -87,9 +87,7 @@ namespace	game
     _server.readFromBuffer(buf, rtype::Env::getInstance().network.maxUDPpacketLength);
 #if defined(DEBUG)
     std::cout<< "Manager::readData::buf = " << buf.size() << std::endl;
-#endif
 	for (std::vector<cBuffer::Byte>::iterator it = buf.begin(); it != buf.end(); it++)
-#if defined(DEBUG)
 	  std::cout << *it;
 #endif
     if ((getRequest(buf, req)) == false)
