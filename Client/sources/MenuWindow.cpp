@@ -339,6 +339,7 @@ void	MenuWindow::drawLobby()
   this->_listWidget.push_back(new TextArea(this->_event, "TextChatArea", *tmp, sf::Vector2f(787, 600), sf::Vector2f(825, 633), sf::Vector2f(1073, 666)));
   this->_listWidget.push_back(tmp);
   this->_listWidget.push_back(new TextBlock("ChatBlock", this->_event, sf::Vector2f(830, 210), sf::Vector2f(820, 200), sf::Vector2f(820, 200), 40));
+  this->setGameList();
 }
 
 void	MenuWindow::drawLobbyCreate()
@@ -447,8 +448,8 @@ void		MenuWindow::scroll()
     _firstPos.x = 1280;
   if (_secondPos.x == -1280)
     _secondPos.x = 1280;
-  _firstPos.x -= 5;
-  _secondPos.x -= 5;
+  _firstPos.x -= 2;
+  _secondPos.x -= 2;
   _secondBackground.setPosition(_secondPos.x, 0);
   _firstBackground.setPosition(_firstPos.x, 0);
 }
@@ -463,6 +464,7 @@ void		MenuWindow::setGameList()
   for (itGame = this->_listGame.begin(); itGame != this->_listGame.end(); ++itGame)
     {
       (*itGame)->setPos(sf::Vector2f(x, y));
+      (*itGame)->setFocus(sf::Vector2f(x + 7, y + 6), sf::Vector2f(x + 686, y + 26));
       y += 20;
     }
 }
@@ -473,7 +475,6 @@ void	MenuWindow::draw()
   image_list::iterator	itImg;
   game_list::iterator itGame;
 
-  this->setGameList();
   this->scroll();
   this->_window.draw(_firstBackground);
   this->_window.draw(_secondBackground);
@@ -481,19 +482,28 @@ void	MenuWindow::draw()
     this->_window.draw((*itImg)->getImage());
   for (it = this->_listWidget.begin(); it != this->_listWidget.end(); it++)
     (*it)->draw(this->_window);
-  for (itGame = this->_listGame.begin(); itGame != this->_listGame.end(); itGame++)
-    (*itGame)->draw(this->_window);
+  if (this->_currentState == LOBBY)
+    {
+      for (itGame = this->_listGame.begin(); itGame != this->_listGame.end(); itGame++)
+	(*itGame)->draw(this->_window);
+    }
   this->_window.display();
 }
 
 AWidget	*MenuWindow::returnMouseFocus(float x, float y)
 {
   widget_list::iterator	it;
+  game_list::iterator	itgame;
 
   for (it = this->_listWidget.begin(); it != this->_listWidget.end(); it++)
     {
       if ((*it)->isFocus(sf::Vector2f(x, y)) == true)
 	return *it;
+    }
+  for (itgame = this->_listGame.begin(); itgame != this->_listGame.end(); itgame++)
+    {
+      if ((*itgame)->isFocus(sf::Vector2f(x, y)) == true)
+	return *itgame;
     }
   return (0);
 }
@@ -503,6 +513,7 @@ void	MenuWindow::checkServer()
   widget_list::iterator it;
   int		tmp = 0;
 
+  std::cout << "CHECK LE SERVER" << std::endl;
   for (it = this->_listWidget.begin(); it != this->_listWidget.end(); ++it)
     {
       if ((*it)->getType() == AWidget::LINESERVER)
@@ -727,24 +738,16 @@ int	MenuWindow::checkAction()
       else
 	{
 	  InfosUser::getInstance().authenticate.addressIp = dynamic_cast<Text*>(Interface::getInstance().getWidget("IPAddress"))->getTmp();
-
 	  std::stringstream ss;
 	  unsigned short int		    portTCP;
 	  unsigned short int		    portUDP;
-
 	  ss << dynamic_cast<Text*>(Interface::getInstance().getWidget("PortTCP"))->getTmp();
 	  ss >> portTCP;
-
 	  ss.clear();
 	  ss << dynamic_cast<Text*>(Interface::getInstance().getWidget("PortUDP"))->getTmp();
 	  ss >> portUDP;
-
-
 	  InfosUser::getInstance().authenticate.portTCP = portTCP;
 	  InfosUser::getInstance().authenticate.portUDP = portUDP;
-	  std::cout << "IP : [" << InfosUser::getInstance().authenticate.addressIp << "]" << std::endl;
-	  std::cout << "Port TCP : [" << InfosUser::getInstance().authenticate.portTCP << "]" << std::endl;
-	  std::cout << "Port UDP : [" << InfosUser::getInstance().authenticate.portUDP << "]" << std::endl;
 	  this->_status = CONTINUE;
 	  this->drawMenu();
 	  break;
@@ -896,14 +899,6 @@ void	MenuWindow::receiveUpdateParty(ARequest *req)
 
   std::cout << "SLOT : [" << slot << "]" << std::endl;
 
-
-  // slot = tmp;
-  // nbMax.clear();
-  // nbMax >> tmp;
-  // slot += "/" + tmp;
-
-  // std::cout << "AFFICHER SLOT : [" << slot << "]" << std::endl;
-  // std::cout << "AFFICHER NAME : [" << up->_partyName << "]" << std::endl;
   if (up->_status == requestCode::party::OUT_GAME)
     {
       if (up->_isPassword == Party::Create::PASS)
@@ -1022,7 +1017,10 @@ int	MenuWindow::catchEvent()
 	  if (this->_event.key.code == sf::Keyboard::Escape)
 	    this->_window.close();
 	  if (this->_event.key.code == sf::Keyboard::F1)
-	    return 2;
+	    {
+	      this->_status = BACK_LOBY;
+	      return 2;
+	    }
 	  break;
 	case sf::Event::TextEntered:
 	  if (this->_objectFocus != 0)

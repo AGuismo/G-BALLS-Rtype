@@ -5,7 +5,7 @@
 // Login   <brigno@epitech.net>
 //
 // Started on  Tue Nov 19 21:25:49 2013 brigno
-// Last update Sun Nov 24 23:04:23 2013 brigno
+// Last update Mon Nov 25 02:40:19 2013 brigno
 //
 
 #include	"LineServer.hh"
@@ -113,7 +113,7 @@ void				LineServer::stopFocus()
 {
   if (this->_event.type != sf::Event::MouseButtonReleased)
     {
-      this->_focus = 0;
+        this->_focus = 0;
       if (this->_gameInfo._lock == true)
 	this->_image.setTexture(TextureManager::getInstance().getTexture("LineServerLock")->getTexture());
       else
