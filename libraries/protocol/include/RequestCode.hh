@@ -43,6 +43,9 @@ namespace requestCode
     static const CodeID STOPPED =		1301;
     static const CodeID SERV_START =	1302;
 
+    static const Ruint8	PASS = 1;
+    static const Ruint8	NO_PASS = 0;
+
     static const Status OUT_GAME =		0;
     static const Status IN_GAME =		1;
     static const Status CANCELED =		2;
@@ -119,6 +122,11 @@ namespace requestCode
       static const Type BIG_BANG = 22;
 	  static const Type VITALITY_BONUS = 23;
 	  static const Type POWER_BONUS = 24;
+	  static const Type MISSILE = 25;
+	  static const Type IA = 26;
+	  static const Type BOSS = 27;
+	  static const Type PLAYER = 28;
+	  static const Type BONUS = 29;
     }
   }
 }

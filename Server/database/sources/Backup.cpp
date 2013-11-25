@@ -63,35 +63,6 @@ save::Backup&		Backup::operator RC(unsigned int, val);
 save::Backup&		Backup::operator RC(unsigned long, val);
 save::Backup&		Backup::operator RC(unsigned short, val);
 
-save::Backup&		Backup::operator <<(const char * s)
-{
-  while ( push(*s++) );
-  return (*this);
-}
-
-save::Backup&		Backup::operator >>(char * s)
-{
-  while ( pop(*s++) );
-  return (*this);
-}
-
-save::Backup&		Backup::operator <<(const std::string & str)
-{
-  return (*this) << str.c_str();
-}
-
-save::Backup&		Backup::operator >>(std::string & str)
-{
-  char		c;
-
-  str.clear();
-  while (pop(c))
-    {
-      str.push_back(c);
-    }
-  return (*this);
-}
-
 Backup::Byte*		Backup::data(void)
 {
   size_type	size = _ctainer.size();

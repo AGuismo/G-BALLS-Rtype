@@ -24,9 +24,10 @@ Game::Game(std::list<game::Client *> &players)
 {
   _players = players;
   incremental = 0;
+  game::Type t = requestCode::game::server::PLAYER1;
   for (client_list::iterator it = _players.begin(); it != _players.end(); ++it)
 	  (*it)->player(new game::Player(std::vector<game::Pos>(1, (rand() % rtype::Env::getInstance().game.mapSize) *
-																rtype::Env::getInstance().game.mapSize), UniqueId()));
+																rtype::Env::getInstance().game.mapSize), UniqueId(), t++));
   _titan = NULL;
   for (int i = 0; i < rtype::Env::getInstance().game.maxBoss; ++i)
   {
@@ -161,7 +162,7 @@ void	Game::wallUpdate()
       else if (Referee::isCollision(*ite, *this) == true)
       {
 		  /*On perd ite ici*/
-	  if ((*ite)->_type == game::DESTRUCTIBLEWALL)
+		  if ((*ite)->_type == requestCode::game::server::DESTRUCTIBLE_WALL)
 	      (*ite)->_life--;
 	  if ((*ite)->_life <= 0)
 	  {

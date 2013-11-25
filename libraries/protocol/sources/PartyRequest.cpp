@@ -105,14 +105,14 @@ namespace	Party
 
   Create::Create(const std::string &partyName, Ruint8 nbPlayers) :
     ARequest(requestCode::party::CREAT), _partyName(partyName), _maxPlayers(nbPlayers),
-    _isPassword(NO_PASS)
+    _isPassword(requestCode::party::NO_PASS)
   {
 
   }
 
   Create::Create(const std::string &partyName, Ruint8 nbPlayers, requestCode::PasswordType pass) :
     ARequest(requestCode::party::CREAT), _partyName(partyName), _maxPlayers(nbPlayers),
-    _isPassword(PASS), _partyPass(pass)
+    _isPassword(requestCode::party::PASS), _partyPass(pass)
   {
 
   }
@@ -149,7 +149,7 @@ namespace	Party
     rhs << _code << len;
     rhs.push(_partyName, len);
     rhs << _maxPlayers << _isPassword;
-    if (_isPassword == PASS)
+    if (_isPassword == requestCode::party::PASS)
       rhs.push(_partyPass, rtypeAuth::PASS_SIZE);
     return (rhs);
   }
@@ -161,7 +161,7 @@ namespace	Party
     rhs >> len;
     rhs.pop(_partyName, len);
     rhs >> _maxPlayers >> _isPassword;
-    if (_isPassword == PASS)
+    if (_isPassword == requestCode::party::PASS)
       rhs.pop(_partyPass, rtypeAuth::PASS_SIZE);
     return (rhs);
   }
@@ -226,14 +226,14 @@ namespace	Party
   }
 
   Join::Join(const std::string &partyName) :
-    ARequest(requestCode::party::JOIN), _partyName(partyName), _isPassword(Create::NO_PASS)
+    ARequest(requestCode::party::JOIN), _partyName(partyName), _isPassword(requestCode::party::NO_PASS)
   {
 
   }
 
   Join::Join(const std::string &partyName, requestCode::PasswordType pass) :
     ARequest(requestCode::party::JOIN), _partyName(partyName),
-    _isPassword(Create::PASS), _partyPass(pass)
+    _isPassword(requestCode::party::PASS), _partyPass(pass)
   {
 
   }
@@ -269,7 +269,7 @@ namespace	Party
     rhs << _code << len;
     rhs.push(_partyName, _partyName.length());
     rhs << _isPassword;
-    if (_isPassword == Create::PASS)
+    if (_isPassword == requestCode::party::PASS)
       rhs.push(_partyPass, rtypeAuth::PASS_SIZE);
     return (rhs);
   }
@@ -281,7 +281,7 @@ namespace	Party
     rhs >> len;
     rhs.pop(_partyName, len);
     rhs >> _isPassword;
-    if (_isPassword == Create::PASS)
+    if (_isPassword == requestCode::party::PASS)
       rhs.pop(_partyPass, rtypeAuth::PASS_SIZE);
     return (rhs);
   }

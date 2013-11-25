@@ -86,4 +86,5 @@ PowerBonus::PowerBonus(game::Type type, int id, int pos, game::Dir ld, sf::Textu
 
 void				PowerBonus::onDestruction(Game &game)
 {
+  (void)game;
 }

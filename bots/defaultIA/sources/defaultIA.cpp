@@ -1,6 +1,7 @@
 #include <cstdlib>
 #include <ctime>
 #include	"defaultIA.hh"
+#include	"RequestCode.hh"
 
 DefaultIA::DefaultIA()
 {
@@ -8,7 +9,7 @@ DefaultIA::DefaultIA()
 	_pos.push_back(15 * (rand() % 16));
 	_firePos = _pos[0];
 	_life = 1;
-	_type = BASEIA;
+	_type = requestCode::game::server::SBYDOS1;
 }
 
 DefaultIA::DefaultIA(const DefaultIA &src)
@@ -18,7 +19,7 @@ DefaultIA::DefaultIA(const DefaultIA &src)
 	_pos.push_back(15 * (rand() % 16));
 	_firePos = _pos[0];
 	_life = 1;
-	_type = BASEIA;
+	_type = requestCode::game::server::SBYDOS1;
 }
 
 DefaultIA::~DefaultIA()

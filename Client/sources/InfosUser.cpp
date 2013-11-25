@@ -16,17 +16,18 @@ void	InfosUser::initAuthenticate()
   authenticate.portUDP = 0;
 }
 
-void	InfosUser::initCreate()
+void	InfosUser::initGame()
 {
-  create.partyName = "Party Name";
-  create.partyPassword = "Party Password";
-  create.nbPlayer = 0;
+  game.partyName = "Party Name";
+  game.partyPassword = "Party Password";
+  game.nbPlayer = 0;
+  game.maxPlayer = 4;
 }
 
 InfosUser::InfosUser()
 {
   initAuthenticate();
-  initCreate();
+  initGame();
 }
 
 InfosUser::~InfosUser()

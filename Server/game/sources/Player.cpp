@@ -4,8 +4,8 @@
 
 namespace	game
 {
-  Player::Player(const std::vector<game::Pos> &pos, ID id) :
-    Entity(PLAYER, pos, 1, EAST, id), _pow(0), _extraLife(false)
+	Player::Player(const std::vector<game::Pos> &pos, ID id, Type t) :
+		Entity(requestCode::game::server::PLAYER , pos, 1, EAST, id), _pow(0), _extraLife(false), _typePlayer(t)
   {
 #if defined(DEBUG)
     std::cout << "A new character is comming" << std::endl;
@@ -48,6 +48,6 @@ namespace	game
     pos.push_back(_pos[0]);
     if (charged)
       pos.push_back(_pos[0] + 1);
-    return (new Missile(*this, EAST, pos, game.UniqueId()));
+	return (new Missile(*this, EAST, pos, game.UniqueId(), charged == true ? requestCode::game::server::PLAYER_BLAST : requestCode::game::server::PLAYER_LASER));
   }
 }

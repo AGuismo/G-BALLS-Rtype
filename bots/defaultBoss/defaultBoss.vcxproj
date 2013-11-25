@@ -39,7 +39,10 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(ProjectDir)/includes;$(SolutionDir)/API/</IncludePath>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(ProjectDir)/include;$(SolutionDir)/API/;$(SolutionDir)/../librairies/protocol/include;</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(ProjectDir)/include;$(SolutionDir)/API/;$(SolutionDir)/../librairies/protocol/include;</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -71,7 +74,7 @@
     <ClInclude Include="..\API\IaAlgo.hh" />
     <ClInclude Include="..\API\IAPlayer.hpp" />
     <ClInclude Include="..\API\types.hh" />
-    <ClInclude Include="includes\DefaultBoss.h" />
+    <ClInclude Include="include\DefaultBoss.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sources\DefaultBoss.cpp" />

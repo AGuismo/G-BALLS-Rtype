@@ -24,7 +24,7 @@
     <ClInclude Include="..\API\types.hh">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="includes\DefaultBoss.h">
+    <ClInclude Include="include\DefaultBoss.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
   </ItemGroup>

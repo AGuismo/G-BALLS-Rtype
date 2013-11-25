@@ -5,7 +5,7 @@
 // Login   <brigno@epitech.net>
 //
 // Started on  Wed Oct 23 19:58:14 2013 brigno
-// Last update Fri Nov 22 05:05:34 2013 brigno
+// Last update Mon Nov 25 14:44:49 2013 brigno
 //
 
 #include	"Image.hh"
@@ -16,6 +16,7 @@ Image::Image(const std::string &name, const sf::Vector2f &pos)
 {
   this->_image.setTexture(TextureManager::getInstance().getTexture(name)->getTexture());
   this->_image.setPosition(pos.x, pos.y);
+  this->_name = name;
 }
 
 Image::~Image()
@@ -30,4 +31,9 @@ const sf::Sprite	&Image::getImage() const
 const sf::Vector2f	&Image::getPos() const
 {
   return (this->_pos);
+}
+
+const std::string	&Image::getName() const
+{
+  return (this->_name);
 }

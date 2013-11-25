@@ -26,9 +26,13 @@ SRCS =	      	Animation.cpp		\
 		Player.cpp		\
 		PlayerLaser.cpp		\
 		PlayerBlast.cpp		\
+		PowerBonus.cpp		\
+		VitalityBonus.cpp	\
 		ZogZog.cpp		\
 		Timer.cpp		\
 		Slider.cpp		\
+		VitalityBonus.cpp	\
+		PowerBonus.cpp		\
 
 DIR.THREAD=	../../libraries/Thread/Threads
 DIR.BIND=	../../libraries/Bind
