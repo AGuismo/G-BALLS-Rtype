@@ -46,11 +46,8 @@ Game::Game(std::list<game::Client *> &players)
   _timer.tv_sec = 0;
   _launchGameTime = 8;
   _timer.tv_usec = rtype::Env::getInstance().game.gameDelay;
-<<<<<<< HEAD
   _isFinished = false;
-=======
 #if defined(DEBUG)
->>>>>>> a56843d880510e2cb91d99f27920fbbe3f37f250
   std::cout << "Game::Game(): " << "Bienvenue dans la faille de l'invocateur" << std::endl;
 #endif
 }
