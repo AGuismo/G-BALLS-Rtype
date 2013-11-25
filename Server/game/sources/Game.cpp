@@ -35,7 +35,8 @@ Game::Game(std::list<game::Client *> &players)
   _titan = NULL;
   for (int i = 0; i < rtype::Env::getInstance().game.maxBoss; ++i)
   {
-    AIaAlgo	*algo = botLoader::Manager::getInstance().getBossBydos();
+    // AIaAlgo	*algo = botLoader::Manager::getInstance().getBossBydos();
+    AIaAlgo	*algo = 0;
 
       if (algo != 0)
 	  _titans.push_back(new Boss(UniqueId(), algo));
@@ -46,6 +47,7 @@ Game::Game(std::list<game::Client *> &players)
   _timer.tv_sec = 0;
   _launchGameTime = 8;
   _timer.tv_usec = rtype::Env::getInstance().game.gameDelay;
+  _isFinished = false;
 #if defined(DEBUG)
   std::cout << "Game::Game(): " << "Bienvenue dans la faille de l'invocateur" << std::endl;
 #endif
@@ -348,11 +350,9 @@ void	Game::popIA()
 		if (_IA.size() < rtype::Env::getInstance().game.minIA || rand() % rtype::Env::getInstance().game.popIAmax < rtype::Env::getInstance().game.popIArange)
 		{
 			Ia *new_ia;
-			AIaAlgo	*algo = botLoader::Manager::getInstance().getSimpleBydos();
+			AIaAlgo	*algo = 0;
+			// AIaAlgo	*algo = botLoader::Manager::getInstance().getSimpleBydos();
 
-			//new_ia = BotLoader::getIA();
-			//with pos = rand() % Entity::SIZE + Entity::SIZE - 1;
-			//id = UniqueId();
 			if (algo != 0)
 			    new_ia = new Ia(UniqueId(), algo);
 			else
@@ -407,27 +407,36 @@ bool	Game::update()
 	std::cout << "GAME UPDATE" << std::endl;
 #endif
 	bool asleftplayer = playerUpdate();
-	iaUpdate();
-	wallUpdate();
-	missileUpdate();
-	bonusUpdate();
-	_clock.update();
-	if (rtype::Env::BOSS_DELAY <= _clock.getTotalElapsedTime()&& !_titan)
+	if (_isFinished == false)
 	{
-	    if (!_titans.empty())
-	    {
-		_titan = _titans.front();
-		pushRequest(new ElemRequest(_titan->algo()->type(),
-			    _titan->pos()[0], _titan->dir(), _titan->id()));
-		_titans.pop_front();
-	    }
-	    else
-		pushRequest(new VictoryRequest());
+		iaUpdate();
+		wallUpdate();
+		missileUpdate();
+		bonusUpdate();
+		_clock.update();
+		if (rtype::Env::BOSS_DELAY <= _clock.getTotalElapsedTime() && !_titan)
+		{
+			if (!_titans.empty())
+			{
+				_titan = _titans.front();
+				pushRequest(new ElemRequest(_titan->algo()->type(),
+					_titan->pos()[0], _titan->dir(), _titan->id()));
+				_titans.pop_front();
+			}
+			else
+			{
+				_isFinished = true;
+				pushRequest(new VictoryRequest());
+			}
+		}
+		popIA();
+		popWall();
+		if (Referee::asAlivePlayers(*this) == false)
+		{
+			pushRequest(new LooseRequest());
+			_isFinished = true;
+		}
 	}
-	popIA();
-	popWall();
-	if (Referee::asAlivePlayers(*this) == false)
-		pushRequest(new LooseRequest());
 	DispatchRequest();
 	_timer.tv_usec = rtype::Env::getInstance().game.gameDelay;
 	return asleftplayer;

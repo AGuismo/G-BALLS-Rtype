@@ -1,5 +1,6 @@
 #include	<cstdlib>
 #include	"DefaultBoss.h"
+#include	"RequestCode.hh"
 
 DefaultBoss::DefaultBoss() : AIaAlgo()
 {

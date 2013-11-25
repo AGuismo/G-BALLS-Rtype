@@ -81,7 +81,7 @@ _leftAnimation(0.20f), _rightAnimation(0.14f)
 	_image.setTexture(*text);
 	_image.setTextureRect(sf::IntRect(0, 0, 48, 72));
 	_image.setPosition((float)Game::POSX(_cCurPos), (float)Game::POSY(_cCurPos));
-	_mvtTime = 0.60f;
+	_mvtTime = 0.30f;
 	_timerAlive = Timer(sf::seconds(Game::ALIVE_TIMER));
 	_timerMvt = Timer(sf::seconds(_mvtTime));
 	_gameWindow = gameWindow;
@@ -107,6 +107,6 @@ _leftAnimation(0.20f), _rightAnimation(0.14f)
 
 void				Slider::onDestruction(Game &game)
 {
-	game.addObj(server::NORMAL_BANG, Game::generateId(), _cCurPos);
+	game.addObj(server::NORMAL_BANG, Game::generateId(), _cNextPos);
 	AudioManager::getInstance().play(ABYDOS_DESTRUCTION);
 }

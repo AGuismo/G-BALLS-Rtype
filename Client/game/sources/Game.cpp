@@ -88,26 +88,8 @@ bool							Game::load(void)
 		return false;
 	if (!_layerManager.addLayer(server::BG2, LBG2, sf::Vector2f(2560.0f, 0.0f), sf::Vector2f(2560.0f, 0.0f), sf::Vector2f(-2560.0f, 0.0f), sf::Vector2f(1.0f, 0.0f), NULL, true))
 		return false;
-/*	if (!_layerManager.addLayer(server::LAYER3, LAYER_3, sf::Vector2f(0.0f, 0.0f), sf::Vector2f(0.0f, 0.0f), sf::Vector2f(800.0f, 1000.0f), sf::Vector2f(-4.0f, -5.0f), NULL, true))
-		return false;
-	if (!_layerManager.addLayer(server::LAYER3, LAYER_3, sf::Vector2f(-50.0f, 100.0f), sf::Vector2f(0.0f, 0.0f), sf::Vector2f(800.0f, 1000.0f), sf::Vector2f(-4.0f, -5.0f), NULL, true))
-		return false;
-	if (!_layerManager.addLayer(server::LAYER3, LAYER_3, sf::Vector2f(300.0f, 0.0f), sf::Vector2f(0.0f, 0.0f), sf::Vector2f(800.0f, 1000.0f), sf::Vector2f(-8.0f, -5.0f), NULL, true))
-		return false;
-	if (!_layerManager.addLayer(server::LAYER3, LAYER_3, sf::Vector2f(42.0f, -890.0f), sf::Vector2f(0.0f, 0.0f), sf::Vector2f(800.0f, 700.0f), sf::Vector2f(-3.0f, -5.0f), NULL, true))
-		return false;
-	if (!_layerManager.addLayer(server::LAYER3, LAYER_3, sf::Vector2f(200.0f, 0.0f), sf::Vector2f(200.0f, 0.0f), sf::Vector2f(800.0f, 1400.0f), sf::Vector2f(-5.0f, -5.0f), NULL, true))
-		return false;
-	if (!_layerManager.addLayer(server::LAYER3, LAYER_3, sf::Vector2f(0.0f, 0.0f), sf::Vector2f(0.0f, 0.0f), sf::Vector2f(800.0f, 900.0f), sf::Vector2f(-8.0f, -5.0f), NULL, true))
-		return false;
-	if (!_layerManager.addLayer(server::LAYER3, LAYER_3, sf::Vector2f(42.0f, -890.0f), sf::Vector2f(0.0f, 0.0f), sf::Vector2f(800.0f, 700.0f), sf::Vector2f(-3.0f, -5.0f), NULL, true))
-		return false;
-	if (!_layerManager.addLayer(server::LAYER3, LAYER_3, sf::Vector2f(200.0f, 0.0f), sf::Vector2f(200.0f, 0.0f), sf::Vector2f(800.0f, 1400.0f), sf::Vector2f(-5.0f, -5.0f), NULL, true))
-		return false;*/
-
 	if (!_layerManager.addLayer(server::COMET, LCOMET, sf::Vector2f(200.0f, 0.0f), sf::Vector2f(200.0f, 0.0f), sf::Vector2f(1000.0f, 1300.0f), sf::Vector2f(-5.0f, -5.0f), NULL, true))
 		return false;
-
 
 	if (!_layerManager.addLayer(server::VICTORY, LVICTORY, sf::Vector2f(0.0f, 0.0f), sf::Vector2f(0.0f, 0.0f), sf::Vector2f(0.0f, 0.0f), sf::Vector2f(0.0f, 0.0f), new Timer(sf::Time(sf::seconds(4.0))), false))
 		return false;
@@ -115,11 +97,6 @@ bool							Game::load(void)
 		return false;
 	if (!_layerManager.addLayer(server::NEXSTAGE, LNEXSTAGE, sf::Vector2f(0.0f, 0.0f), sf::Vector2f(0.0f, 0.0f), sf::Vector2f(0.0f, 0.0f), sf::Vector2f(0.0f, 0.0f), new Timer(sf::Time(sf::seconds(4.0))), false))
 		return false;
-
-/*	bool							addLayer(game::Type objType, LayerType lType, const sf::Vector2f &lInit,
-		const sf::Vector2f &lReset, const sf::Vector2f &lLim,
-		const sf::Vector2f &lInc, Timer *lTimer, bool lEn);
-*/
 
 
 	if (!AudioManager::getInstance().add(AGAME_MUSIC, AMUSIC, true, std::string("./Sounds/GameMusic.wav")))
@@ -158,12 +135,12 @@ void							Game::run(void)
 	Timer						_playerFireLock(sf::seconds(0.42f));
 	Timer						_playerBlastLock(sf::seconds(1.40f));
 	Timer						_aliveRequest(sf::seconds(0.25f));
+	Timer						_lostConnection(sf::seconds(3.25f));
 	ARequest					*req;
 
 	_gameWindow->setFramerateLimit(25);
 	_gameWindow->setKeyRepeatEnabled(true);
-
-//	addObj(server::POWER_BONUS, 44, 100);
+	_inGame = true;
 
 	AudioManager::getInstance().play(AGAME_MUSIC);
 
@@ -224,7 +201,6 @@ void							Game::run(void)
 				case sf::Keyboard::Space:
 					if (_playerFireLock.isEnded())
 					{
-						// AudioManager::getInstance().play(APLAYER_LASER);
 						_network.sendRequest(new EventRequest(SHOOT, SIMPLE, InfosUser::getInstance().authenticate.id));
 						_playerFireLock.restart();
 					}
@@ -243,29 +219,13 @@ void							Game::run(void)
 			}
 		}
 
-/*		if (sf::Keyboard::isKeyPressed(sf::Keyboard::LControl) == true)
-		{
-			AudioManager::getInstance().play(APLAYER_CHARGED);
-		}
-		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::LControl) == false && _playerBlastLock.isEnded())
-		{
-			AudioManager::getInstance().stop(APLAYER_CHARGED);
-			AudioManager::getInstance().play(APLAYER_RELEASED);
-			_network.sendRequest(new EventRequest(SHOOT, BLAST, InfosUser::getInstance().authenticate.id));
-			_playerBlastLock.restart();
-		}
-		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::LControl) == false && !_playerBlastLock.isEnded())
-		{
-			AudioManager::getInstance().stop(APLAYER_CHARGED);
-			_playerBlastLock.restart();
-		}*/
-
 		while ((req = _network.recvRequest()) != 0)
 		  {
 		    callback_map::iterator	it = _map.find(req->code());
 
 		    if (it != _map.end())
 		      (this->*(it->second))(req);
+			_lostConnection.restart();
 		  }
 
 		if (_aliveRequest.isEnded())
@@ -274,6 +234,12 @@ void							Game::run(void)
 			_aliveRequest.restart();
 		}
 
+		if (_lostConnection.isEnded() || _inGame == false)
+		{
+			_network.sendRequest(new LeaveRequest(InfosUser::getInstance().authenticate.id));
+			cleanGame();
+			return;
+		}
 		_gameWindow->clear();
 		cleanObjects();
 		_layerManager.upDraw();
@@ -406,6 +372,7 @@ void	Game::victory(const ARequest *req)
   (void)req;
   _layerManager.enableLayer(LVICTORY);
   AudioManager::getInstance().play(AVICTORY);
+ // _inGame = false;
 }
 
 void	Game::loose(const ARequest *req)
@@ -413,13 +380,14 @@ void	Game::loose(const ARequest *req)
   (void)req;
   _layerManager.enableLayer(LLOOSE);
   AudioManager::getInstance().play(AGAME_OVER);
+//  _inGame = false;
 }
 
 void	Game::nextStage(const ARequest *req)
 {
   (void)req;
   _layerManager.enableLayer(LNEXSTAGE);
-  AudioManager::getInstance().play(ANEXT_STAGE)  ;
+  AudioManager::getInstance().play(ANEXT_STAGE);
 }
 
 Game::Game(sf::RenderWindow *gameWindow, sf::Event *event, network::Manager &net) : _layerManager(gameWindow, &_textureManager), _network(net)
