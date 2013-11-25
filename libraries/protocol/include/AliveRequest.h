@@ -6,8 +6,9 @@
 class AliveRequest : public AGameRequest
 {
 public:
-  AliveRequest();
-  ~AliveRequest();
+	AliveRequest();
+	AliveRequest(requestCode::SessionID id);
+	~AliveRequest();
 
 public:
   Protocol			&serialize(Protocol &) const;
