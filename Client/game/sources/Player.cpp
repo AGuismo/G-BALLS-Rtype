@@ -84,6 +84,7 @@ Player::Player(game::Type type, int id, int pos, game::Dir ld, sf::Texture *text
 	_vCurPos = sf::Vector2f((float)Game::POSX(_cCurPos), (float)Game::POSY(_cCurPos));
 	_vNextPos = sf::Vector2f((float)Game::POSX(_cCurPos), (float)Game::POSY(_cCurPos));
 	_indexSprite = 0;
+	exit(0);
 	switch (type)
 	{
 	case server::PLAYER1:
