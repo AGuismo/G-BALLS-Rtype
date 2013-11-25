@@ -384,6 +384,8 @@ void	MenuWindow::drawLobbyCreate()
 
 void	MenuWindow::drawLobbyWait(int owner)
 {
+  Text *tmp2;
+
   this->clearWindow();
   this->_status = CONTINUE;
   this->_currentState = WAIT;
@@ -394,21 +396,14 @@ void	MenuWindow::drawLobbyWait(int owner)
   this->_listImage.push_back(new Image("FondCreate", sf::Vector2f(50, 200)));
   this->_listImage.push_back(new Image("TextWait", sf::Vector2f(80, 220)));
   if (owner == 0)
-    Text *tmp2 = new Text("FontLobby", "NameGameWait", this->_event, sf::Vector2f(170, 297), sf::Vector2f(825, 633), sf::Vector2f(1073, 666), 100, true, this->_serverSelected._name);
+    tmp2 = new Text("FontLobby", "NameGameWait", this->_event, sf::Vector2f(170, 297), sf::Vector2f(825, 633), sf::Vector2f(1073, 666), 100, true, this->_serverSelected._name);
   else
-    Text *tmp2 = new Text("FontLobby", "NameGameWait", this->_event, sf::Vector2f(170, 297), sf::Vector2f(825, 633), sf::Vector2f(1073, 666), 100, true, "POIL");
-  // else
-  //   {
-  //     Text *tmp2 = new Text("FontLobby", "NameGameWait", this->_event, sf::Vector2f(170, 297), sf::Vector2f(825, 633), sf::Vector2f(1073, 666), 100, true, InfosUser::getInstance().);
-
-
-  //   }
+    tmp2 = new Text("FontLobby", "NameGameWait", this->_event, sf::Vector2f(170, 297), sf::Vector2f(825, 633), sf::Vector2f(1073, 666), 100, true, InfosUser::getInstance().connect.partyName);
 
   //demander le nombre de joueur connecter
 
   // float posX = 150;
   // int i = 0;
-  std::cout << "[" << this->_serverSelected._slots << "]" << std::endl;
   // for (i = 0; i < this->_serverSelected._gameInfo._slots; i++)
   //   {
   //     this->_listImage.push_back(new Image("PlayerConnected", sf::Vector2f(posX, 450)));
@@ -874,25 +869,29 @@ void	MenuWindow::updateLineServer(const std::string &nameParty, const std::strin
 
 void	MenuWindow::receiveUpdateParty(ARequest *req)
 {
+  std::cout << "poildebite" << std::endl;
+
   float x = 62.;
   float y = 243.;
 
   Party::Update *up;
   std::string slot = "";
   std::stringstream nbMax;
-  std::string tmp;
+  int tmp;
 
   up = dynamic_cast<Party::Update*>(req);
   nbMax << up->_maxPlayers;
   nbMax >> tmp;
-  slot += tmp;
-  nbMax.clear();
-  nbMax << (up->_maxPlayers - up->_availableSlots);
-  nbMax >> tmp;
-  slot += "/" + tmp;
 
-  std::cout << "AFFICHER SLOT : [" << slot << "]" << std::endl;
-  std::cout << "AFFICHER NAME : [" << up->_partyName << "]" << std::endl;
+  std::cout << "TMP" << tmp << std::endl;
+  // slot = tmp;
+  // nbMax.clear();
+  // nbMax << (up->_maxPlayers - up->_availableSlots);
+  // nbMax >> tmp;
+  // slot += "/" + tmp;
+
+  // std::cout << "AFFICHER SLOT : [" << slot << "]" << std::endl;
+  // std::cout << "AFFICHER NAME : [" << up->_partyName << "]" << std::endl;
   if (up->_status == requestCode::party::OUT_GAME)
     {
       if (up->_isPassword == Party::Create::PASS)
