@@ -229,12 +229,12 @@ void	MenuWindow::drawSettings()
   this->clearWindow();
   this->_status = CONTINUE;
   this->_currentState = SETTINGS;
-  if (InfosUser::getInstance().authenticate.addressIp == "Address Ip")
+  if (InfosUser::getInstance().authenticate.addressIp == "127.0.0.1")
     textIP = new Text("FontLobby", "IPAddress", this->_event, sf::Vector2f(525, 410), sf::Vector2f(519, 410), sf::Vector2f(766, 446), 15, true, "127.0.0.1");
   else
     textIP = new Text("FontLobby", "IPAddress", this->_event, sf::Vector2f(525, 410), sf::Vector2f(519, 410), sf::Vector2f(766, 446), 15, true, InfosUser::getInstance().authenticate.addressIp);
 
-  if (InfosUser::getInstance().authenticate.portTCP == 0)
+  if (InfosUser::getInstance().authenticate.portTCP == 44201)
     textTCP = new Text("FontLobby", "PortTCP", this->_event, sf::Vector2f(525, 500), sf::Vector2f(518, 503), sf::Vector2f(764, 532), 5, true, "44201");
   else
     {
@@ -242,7 +242,7 @@ void	MenuWindow::drawSettings()
       ss << InfosUser::getInstance().authenticate.portTCP;
       textTCP = new Text("FontLobby", "PortTCP", this->_event, sf::Vector2f(525, 500), sf::Vector2f(518, 503), sf::Vector2f(764, 532), 5, true, ss.str());
     }
-  if (InfosUser::getInstance().authenticate.portUDP == 0)
+  if (InfosUser::getInstance().authenticate.portUDP == 44201)
     textUDP = new Text("FontLobby", "PortUDP", this->_event, sf::Vector2f(525, 580), sf::Vector2f(517, 580), sf::Vector2f(766, 614), 5, true, "44202");
   else
     {
@@ -814,7 +814,6 @@ void	MenuWindow::removeWidget(const std::string &widget)
 void	MenuWindow::receiveLaunchGame(ARequest *req)
 {
   (void)req;
-  std::cout << "LAUNCH THE FUCKING GAME" << std::endl;
   MediaAudioManager::getInstance().getSound("SwitchScreen")->getSound().play();
   this->_status = AScreen::LAUNCH;
 }
@@ -822,7 +821,6 @@ void	MenuWindow::receiveLaunchGame(ARequest *req)
 void	MenuWindow::receiveStopParty(ARequest *req)
 {
   (void)req;
-  std::cout << "J'ANNULE" << std::endl;
   MediaAudioManager::getInstance().getSound("SwitchScreen")->getSound().play();
   this->drawLobby();
 }
@@ -852,7 +850,6 @@ void	MenuWindow::removeImagePlayer()
   for (it = this->_listImage.begin(); it != this->_listImage.end();)
     {
       tmpName = (*it)->getName();
-      std::cout << "NAME : " << tmpName << std::endl;
       if (tmpName == "PlayerConnected" || tmpName == "PlayerNotConnected")
 	it = this->_listImage.erase(it);
       else
@@ -869,29 +866,30 @@ void	MenuWindow::updateLineServer(const std::string &nameParty, const std::strin
       if ((*it)->getType() == AWidget::LINESERVER && (*it)->getGame() == nameParty)
 	{
 	  (*it)->setSlot(slot);
+	  if (this->_currentState == WAIT)
+	    {
+	      float	posX = 150;
+	      unsigned int	i = 0;
+
+	      this->removeImagePlayer();
+	      for (i = 0; i < InfosUser::getInstance().game.nbPlayer; i++)
+		{
+		  this->_listImage.push_back(new Image("PlayerConnected", sf::Vector2f(posX, 450)));
+		  posX += 150;
+		}
+	      while (i < InfosUser::getInstance().game.maxPlayer)
+		{
+		  this->_listImage.push_back(new Image("PlayerNotConnected", sf::Vector2f(posX, 450)));
+		  ++i;
+		  posX += 150;
+		}
+	    }
 	  return;
 	}
       else
 	++it;
     }
-  if (this->_currentState == WAIT)
-    {
-      float	posX = 150;
-      unsigned int	i = 0;
-
-      this->removeImagePlayer();
-      for (i = 0; i < InfosUser::getInstance().game.nbPlayer; i++)
-	{
-	  this->_listImage.push_back(new Image("PlayerConnected", sf::Vector2f(posX, 450)));
-	  posX += 150;
-	}
-      while (i < InfosUser::getInstance().game.maxPlayer)
-	{
-	  this->_listImage.push_back(new Image("PlayerNotConnected", sf::Vector2f(posX, 450)));
-	  ++i;
-	  posX += 150;
-	}
-    }
+  std::cout << this->_currentState << std::endl;
 }
 
 void	MenuWindow::gameExist(const std::string &slot, bool pwd)
@@ -911,13 +909,31 @@ void	MenuWindow::gameExist(const std::string &slot, bool pwd)
       if ((*it)->getType() == AWidget::LINESERVER && (*it)->getGame() == InfosUser::getInstance().game.partyName)
 	{
 	  *it = tmpServ;
+	  if (this->_currentState == WAIT)
+	    {
+	      float	posX = 150;
+	      unsigned int	i = 0;
+
+	      this->removeImagePlayer();
+	      for (i = 0; i < InfosUser::getInstance().game.nbPlayer; i++)
+		{
+		  this->_listImage.push_back(new Image("PlayerConnected", sf::Vector2f(posX, 450)));
+		  posX += 150;
+		}
+	      while (i < InfosUser::getInstance().game.maxPlayer)
+		{
+		  this->_listImage.push_back(new Image("PlayerNotConnected", sf::Vector2f(posX, 450)));
+		  ++i;
+		  posX += 150;
+		}
+	    }
 	  return;
 	}
       else
 	++it;
     }
   this->_listGame.push_back(new LineServer(this->_event, sf::Vector2f(x, y), sf::Vector2f(x + 7, y + 6), sf::Vector2f(x + 686, y + 26),
-					   InfosUser::getInstance().game.partyName, slot, true));
+					   InfosUser::getInstance().game.partyName, slot, pwd));
 }
 
 void	MenuWindow::receiveUpdateParty(ARequest *req)
@@ -927,7 +943,6 @@ void	MenuWindow::receiveUpdateParty(ARequest *req)
   std::stringstream ss;
   int tmpnbMax;
   int tmpcurrent;
-
 
   up = dynamic_cast<Party::Update*>(req);
   tmpnbMax = up->_maxPlayers;
@@ -941,34 +956,24 @@ void	MenuWindow::receiveUpdateParty(ARequest *req)
   InfosUser::getInstance().game.maxPlayer = tmpnbMax;
   InfosUser::getInstance().game.nbPlayer = tmpcurrent;
   InfosUser::getInstance().game.partyName = up->_partyName;
-  // InfosUser::getInstance().party.pwd = ;
 
   if (up->_status == requestCode::party::OUT_GAME)
     {
-      std::cout << "AJOUUUUUUUUUUUUUUUUUUUT" << std::endl;
       if (up->_isPassword == requestCode::party::PASS)
 	gameExist(slot, true);
       else
 	gameExist(slot, false);
     }
   else if ((up->_status == requestCode::party::CANCELED) || (up->_status == requestCode::party::FINISHED))
-    {
-      std::cout << "SUPPR" << std::endl;
-      deleteLineServer(up->_partyName);
-    }
+    deleteLineServer(up->_partyName);
   else if (up->_status == requestCode::party::UPDATE_GAME)
-    {
-      std::cout << "MODIF" << std::endl;
-      updateLineServer(up->_partyName, slot);
-    }
+    updateLineServer(up->_partyName, slot);
   this->setGameList();
 }
 
 void	MenuWindow::receiveChat(ARequest *req)
 {
-  (void)req;
   std::string Msg;
-
   Msg = dynamic_cast<ChatRecvRequest*>(req)->msg();
   dynamic_cast<TextBlock*>(Interface::getInstance().getWidget("ChatBlock"))->addText(Msg);
 }

@@ -11,9 +11,9 @@ void	InfosUser::initAuthenticate()
 {
   authenticate.login = "Login";
   authenticate.password = "Password";
-  authenticate.addressIp = "Address Ip";
-  authenticate.portTCP = 0;
-  authenticate.portUDP = 0;
+  authenticate.addressIp = "127.0.0.1";
+  authenticate.portTCP = 44201;
+  authenticate.portUDP = 44202;
 }
 
 void	InfosUser::initGame()
