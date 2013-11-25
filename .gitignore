@@ -6,6 +6,7 @@
 *.d
 a.out
 testConsumer
+*.db
 *.log
 *.exe
 *.obj
