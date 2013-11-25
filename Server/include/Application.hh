@@ -8,6 +8,11 @@
 # include	"LoaderManager.hh"
 # include	"ThreadEvent.hpp"
 
+#if defined(WIN32)
+#pragma warning( disable : 4251)
+#pragma warning( disable : 4244)
+#endif
+
 class	Game;
 class	Client;
 

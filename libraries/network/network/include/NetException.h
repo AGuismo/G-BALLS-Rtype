@@ -5,6 +5,10 @@
 #include	<string>
 #include	"abs_sockets.h"
 
+#if defined(WIN32)
+#pragma warning( disable : 4251)
+#endif
+
 namespace net
 {
 	class ABS_SOCKET_API Exception : public std::exception

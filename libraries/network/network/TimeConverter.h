@@ -2,6 +2,7 @@
 
 #if defined(linux)
 # include	<sys/time.h>
+#pragma warning( disable : 4244)
 #elif defined(WIN32)
 # include	<windows.h>
 #endif

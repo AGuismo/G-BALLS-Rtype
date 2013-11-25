@@ -3,6 +3,7 @@
  
 # if defined(WIN32)
 #  include <windows.h>
+#pragma warning( disable : 4244)
 # elif defined(linux)
 #  include <ctime>
 #  include <sys/time.h>
