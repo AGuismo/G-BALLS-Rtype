@@ -15,13 +15,13 @@ DeathRequest::~DeathRequest()
 
 Protocol			&DeathRequest::serialize(Protocol &rhs) const
 {
-	rhs << _id;
+	rhs << _code << _sessionID << _id;
 	return rhs;
 }
 
 Protocol		&DeathRequest::unserialize(Protocol &rhs)
 {
-	rhs >> _id;
+	rhs >> _sessionID >> _id;
 	return rhs;
 }
 
