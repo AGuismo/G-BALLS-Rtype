@@ -1,6 +1,6 @@
 #include "NextStage.hh"
 
-NextStageRequest::NextStageRequest(): AGameRequest(requestCode::game::VICTORY)
+NextStageRequest::NextStageRequest(): AGameRequest(requestCode::game::NEXTSTAGE)
 {}
 NextStageRequest::~NextStageRequest()
 {}
