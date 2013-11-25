@@ -10,12 +10,12 @@ private:
 	int					_indexSprite;
 
 public:
-	void				update(LookDirection lDir, int updatedPos);
+	void				update(game::Dir lDir, int updatedPos);
 	void				draw(void);
 	void				onDestruction(Game &game);
 
 public:
-	Player(ObjType obj, int id, int pos, LookDirection ld, sf::Texture *text, sf::RenderWindow *gameWindow);
+	Player(game::Type obj, int id, int pos, game::Dir ld, sf::Texture *text, sf::RenderWindow *gameWindow);
 	~Player() {}
 
 private:

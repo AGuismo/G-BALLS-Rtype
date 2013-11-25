@@ -57,7 +57,7 @@ void						PlayerLaser::draw(void)
 }
 
 
-void			PlayerLaser::update(LookDirection lDir, int updtatedPos)
+void			PlayerLaser::update(game::Dir lDir, int updtatedPos)
 {
 	_ld = lDir;
 	if (updtatedPos != Game::UNCHANGED)
@@ -84,7 +84,7 @@ void			PlayerLaser::update(LookDirection lDir, int updtatedPos)
 }
 
 
-PlayerLaser::PlayerLaser(ObjType type, int id, int pos, LookDirection ld, sf::Texture *text, sf::RenderWindow *gameWindow)
+PlayerLaser::PlayerLaser(game::Type type, int id, int pos, game::Dir ld, sf::Texture *text, sf::RenderWindow *gameWindow)
 {
 	_type = type;
 	_id = id;

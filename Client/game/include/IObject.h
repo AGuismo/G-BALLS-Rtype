@@ -9,7 +9,7 @@ class IObject
 {
 public:
 	virtual void					draw(void) = 0;
-	virtual void					update(LookDirection lDir, int updatedPos) = 0;
+	virtual void					update(game::Dir lDir, int updatedPos) = 0;
 	virtual void					onDestruction(Game &game) = 0;
 
 public:

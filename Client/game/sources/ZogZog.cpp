@@ -1,6 +1,8 @@
 #include		"ZogZog.h"
 #include		"game.h"
 
+using namespace requestCode::game;
+
 void						ZogZog::draw(void)
 {
 
@@ -35,7 +37,7 @@ void						ZogZog::draw(void)
 	_gameWindow->draw(_image);
 }
 
-void			ZogZog::update(LookDirection lDir, int updtatedPos)
+void			ZogZog::update(game::Dir lDir, int updtatedPos)
 {
 	(void)lDir;
 	if (updtatedPos != Game::UNCHANGED)
@@ -62,7 +64,7 @@ void			ZogZog::update(LookDirection lDir, int updtatedPos)
 }
 
 
-ZogZog::ZogZog(ObjType type, int id, int pos, LookDirection ld, sf::Texture *text, sf::RenderWindow *gameWindow) :
+ZogZog::ZogZog(game::Type type, int id, int pos, game::Dir ld, sf::Texture *text, sf::RenderWindow *gameWindow) :
   _zogZogAnimation(0.14f)
 {
 	_type = type;
@@ -92,7 +94,7 @@ ZogZog::ZogZog(ObjType type, int id, int pos, LookDirection ld, sf::Texture *tex
 
 void				ZogZog::onDestruction(Game &game)
 {
-	game.addObj(NORMAL_BANG, Game::generateId(), _cCurPos);
-	game.addObj(NORMAL_BANG, Game::generateId(), _cCurPos  + Game::SIZE_GAME_BOARD);
+  game.addObj(server::NORMAL_BANG, Game::generateId(), _cCurPos);
+  game.addObj(server::NORMAL_BANG, Game::generateId(), _cCurPos  + Game::SIZE_GAME_BOARD);
 	AudioManager::getInstance().play(ABYDOS_DESTRUCTION);
 }

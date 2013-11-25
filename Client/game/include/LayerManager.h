@@ -6,6 +6,7 @@
 # include	"EnumObject.h"
 # include	"EnumLayer.h"
 # include	"Layer.h"
+# include	"RequestCode.hh"
 
 class TextureManager;
 
@@ -33,7 +34,7 @@ class								LayerManager
   Layer							*findLayer(int lId);
 
  public:
-  bool							addLayer(ObjType objType, LayerType lType, const sf::Vector2f &lInit,
+  bool							addLayer(game::Type objType, LayerType lType, const sf::Vector2f &lInit,
 								 const sf::Vector2f &lReset, const sf::Vector2f &lLim,
 								 const sf::Vector2f &lInc, Timer *lTimer, bool lEn);
   bool							enableLayer(LayerType layer);

@@ -14,7 +14,9 @@
 #include			"Bang.h"
 #include			"IndestructibleWall.h"
 
-AObject				*Factory::createObject(ObjType type, int id, int pos, LookDirection ldir)
+using namespace requestCode::game;
+
+AObject				*Factory::createObject(game::Type type, int id, int pos, game::Dir ldir)
 {
 	sf::Texture	*text;
 
@@ -22,52 +24,52 @@ AObject				*Factory::createObject(ObjType type, int id, int pos, LookDirection l
 	{
 		switch (type)
 		{
-		case PLAYER1:
+		case server::PLAYER1:
 			return (new Player(type, id, pos, ldir, text, _gameWindow));
 			break;
-		case PLAYER2:
+		case server::PLAYER2:
 			return (new Player(type, id, pos, ldir, text, _gameWindow));
 			break;
-		case PLAYER3:
+		case server::PLAYER3:
 			return (new Player(type, id, pos, ldir, text, _gameWindow));
 			break;
-		case PLAYER4:
+		case server::PLAYER4:
 			return (new Player(type, id, pos, ldir, text, _gameWindow));
 			break;
-		case SBYDOS1:
+		case server::SBYDOS1:
 			return (new Bydos1(type, id, pos, ldir, text, _gameWindow));
 			break;
-		case ZOGZOG:
+		case server::ZOGZOG:
 		 	return (new ZogZog(type, id, pos, ldir, text, _gameWindow));
 			break;
-		case SLIDER:
+		case server::SLIDER:
 			return (new Slider(type, id, pos, ldir, text, _gameWindow));
 			break;
-		case SHRIMP_BOSS:
+		case server::SHRIMP_BOSS:
 			return (new ShrimpBoss(type, id, pos, ldir, text, _gameWindow));
 			break;
-		case GARBAGE_BOSS:
+		case server::GARBAGE_BOSS:
 			return (new GarbageBoss(type, id, pos, ldir, text, _gameWindow));
 			break;
-		case PLAYER_LASER:
+		case server::PLAYER_LASER:
 			return (new PlayerLaser(type, id, pos, ldir, text, _gameWindow));
 			break;
-		case PLAYER_BLAST:
+		case server::PLAYER_BLAST:
 			return (new PlayerBlast(type, id, pos, ldir, text, _gameWindow));
 			break;
-		case BYDOS_PLASMA:
+		case server::BYDOS_PLASMA:
 			return (new BydosPlasma(type, id, pos, ldir, text, _gameWindow));
 			break;
-		case BYDOS_LASER:
+		case server::BYDOS_LASER:
 			return (new BydosLaser(type, id, pos, ldir, text, _gameWindow));
 			break;
-		case INDESTRUCTIBLE_WALL:
+		case server::INDESTRUCTIBLE_WALL:
 			return (new IndestructibleWall(type, id, pos, ldir, text, _gameWindow));
 			break;
-		case NORMAL_BANG:
+		case server::NORMAL_BANG:
 			return (new Bang(type, id, pos, ldir, text, _gameWindow));
 			break;
-		case BIG_BANG:
+		case server::BIG_BANG:
 			return (new Bang(type, id, pos, ldir, text, _gameWindow));
 			break;
 		default:

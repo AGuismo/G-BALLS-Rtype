@@ -12,12 +12,12 @@ private:
 	Animation			_rightAnimation;
 
 public:
-	void				update(LookDirection lDir, int updatedPos);
+	void				update(game::Dir lDir, int updatedPos);
 	void				draw(void);
 	void				onDestruction(Game &game);
 
 public:
-	Slider(ObjType obj, int id, int pos, LookDirection ld, sf::Texture *text, sf::RenderWindow *gameWindow);
+	Slider(game::Type obj, int id, int pos, game::Dir ld, sf::Texture *text, sf::RenderWindow *gameWindow);
 	~Slider() {}
 
 private:

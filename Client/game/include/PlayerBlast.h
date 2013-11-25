@@ -7,12 +7,12 @@
 class PlayerBlast : public AObject
 {
 public:
-	void				update(LookDirection lDir, int updatedPos);
+	void				update(game::Dir lDir, int updatedPos);
 	void				draw(void);
 	void				onDestruction(Game &game);
 
 public:
-	PlayerBlast(ObjType obj, int id, int pos, LookDirection ld, sf::Texture *text, sf::RenderWindow *gameWindow);
+	PlayerBlast(game::Type obj, int id, int pos, game::Dir ld, sf::Texture *text, sf::RenderWindow *gameWindow);
 	~PlayerBlast() {}
 
 private:

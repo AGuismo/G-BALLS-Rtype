@@ -32,7 +32,7 @@ void						BydosPlasma::draw(void)
 	_gameWindow->draw(_image);
 }
 
-void			BydosPlasma::update(LookDirection lDir, int updtatedPos)
+void			BydosPlasma::update(game::Dir lDir, int updtatedPos)
 {
 	(void)lDir;
 	if (updtatedPos != Game::UNCHANGED)
@@ -59,7 +59,7 @@ void			BydosPlasma::update(LookDirection lDir, int updtatedPos)
 }
 
 
-BydosPlasma::BydosPlasma(ObjType type, int id, int pos, LookDirection ld, sf::Texture *text, sf::RenderWindow *gameWindow) :
+BydosPlasma::BydosPlasma(game::Type type, int id, int pos, game::Dir ld, sf::Texture *text, sf::RenderWindow *gameWindow) :
   _plasmaAnimation(0.1f)
 {
 	_type = type;

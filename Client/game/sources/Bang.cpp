@@ -1,5 +1,8 @@
 #include		"Bang.h"
 #include		"game.h"
+#include		"RequestCode.hh"
+
+using namespace requestCode::game;
 
 void						Bang::draw(void)
 {
@@ -12,14 +15,14 @@ void						Bang::draw(void)
 		_alive = false;
 }
 
-void			Bang::update(LookDirection lDir, int updtatedPos)
+void			Bang::update(game::Dir lDir, int updtatedPos)
 {
 	(void)lDir;
 	(void)updtatedPos;
 }
 
 
-Bang::Bang(ObjType type, int id, int pos, LookDirection ld, sf::Texture *text, sf::RenderWindow *gameWindow)
+Bang::Bang(game::Type type, int id, int pos, game::Dir ld, sf::Texture *text, sf::RenderWindow *gameWindow)
 {
   (void)ld;
 	_type = type;
@@ -33,7 +36,7 @@ Bang::Bang(ObjType type, int id, int pos, LookDirection ld, sf::Texture *text, s
 	_image.setTextureRect(sf::IntRect(0, 0, 650, 100));
 	switch (type)
 	{
-	case NORMAL_BANG:
+	case server::NORMAL_BANG:
 		_mvtTime = 0.72f;
 		_timerMvt = Timer(sf::seconds(_mvtTime));
 		_bangAnimation = Animation(0.12f);
@@ -45,7 +48,7 @@ Bang::Bang(ObjType type, int id, int pos, LookDirection ld, sf::Texture *text, s
 		_bangAnimation.addFrame(sf::IntRect(583, 0, 65, 70));
 		_image.setPosition((float)Game::POSX(_cCurPos), (float)Game::POSY(_cCurPos) - 20);
 		break;
-	case BIG_BANG:
+	case server::BIG_BANG:
 		_mvtTime = 0.8f;
 		_timerMvt = Timer(sf::seconds(_mvtTime));
 		_bangAnimation = Animation(0.1f);

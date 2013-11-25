@@ -1,6 +1,7 @@
 #include	"Player.h"
 #include	"game.h"
 
+using namespace requestCode::game;
 
 void						Player::draw(void)
 {
@@ -45,7 +46,7 @@ void						Player::draw(void)
 	_gameWindow->draw(_image);
 }
 
-void			Player::update(LookDirection lDir, int updtatedPos)
+void			Player::update(game::Dir lDir, int updtatedPos)
 {
   (void)lDir;
 	if (updtatedPos != Game::UNCHANGED)
@@ -71,7 +72,7 @@ void			Player::update(LookDirection lDir, int updtatedPos)
 }
 
 
-Player::Player(ObjType type, int id, int pos, LookDirection ld, sf::Texture *text, sf::RenderWindow *gameWindow)
+Player::Player(game::Type type, int id, int pos, game::Dir ld, sf::Texture *text, sf::RenderWindow *gameWindow)
 {
 	_type = type;
 	_id = id;
@@ -85,16 +86,16 @@ Player::Player(ObjType type, int id, int pos, LookDirection ld, sf::Texture *tex
 	_indexSprite = 0;
 	switch (type)
 	{
-	case PLAYER1:
+	case server::PLAYER1:
 		_indexSprite = 0;
 		break;
-	case PLAYER2:
+	case server::PLAYER2:
 		_indexSprite = 34;
 		break;
-	case PLAYER3:
+	case server::PLAYER3:
 		_indexSprite = 68;
 		break;
-	case PLAYER4:
+	case server::PLAYER4:
 		_indexSprite = 102;
 		break;
 	default:
@@ -112,6 +113,6 @@ Player::Player(ObjType type, int id, int pos, LookDirection ld, sf::Texture *tex
 
 void				Player::onDestruction(Game &game)
 {
-	game.addObj(BIG_BANG, Game::generateId(), _cCurPos);
+  game.addObj(server::BIG_BANG, Game::generateId(), _cCurPos);
 	AudioManager::getInstance().play(APLAYER_DESTRUCTION);
 }

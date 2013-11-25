@@ -5,21 +5,21 @@
 #include	<map>
 #include	<SFML/Graphics.hpp>
 #include	"EnumObject.h"
-
+#include	"RequestCode.hh"
 
 namespace	game
 {
   class		TextureManager
   {
   public:
-    typedef std::map<ObjType, sf::Texture*> map_type;
+    typedef std::map<game::Type, sf::Texture*> map_type;
 
   private:
     map_type				 _spriteMap;
 
   public:
-    sf::Texture				*getTexture(ObjType);
-    bool					addTexture(ObjType, const std::string &texturePath);
+    sf::Texture				*getTexture(game::Type);
+    bool					addTexture(game::Type, const std::string &texturePath);
     TextureManager() {}
     ~TextureManager();
 

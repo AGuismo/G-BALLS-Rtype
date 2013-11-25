@@ -5,14 +5,14 @@
 # include	<algorithm>
 # include	"game.h"
 # include	"IObject.h"
-
+# include	"RequestCode.hh"
 
 class AObject : public IObject
 {
 protected:
 	int						_id;
-	ObjType					_type;
-	LookDirection			_ld;
+	game::Type					_type;
+	game::Dir			_ld;
 	Action					_action;
 
 protected:
@@ -45,7 +45,7 @@ public:
 
 public:
 	virtual void			draw(void) = 0;
-	virtual void			update(LookDirection lDir, int updatedPos) = 0;
+	virtual void			update(game::Dir lDir, int updatedPos) = 0;
 	virtual void			onDestruction(Game &game) = 0;
 public:
 	const sf::Vector2f		&getVectorNextPos(void);
@@ -54,7 +54,7 @@ public:
 	int						getCaseCurPos(void);
 
 public:
-	ObjType					getObjType(void);
+	game::Type					getObjType(void);
 	int						getObjId(void);
 
 public:

@@ -33,7 +33,7 @@ void						IndestructibleWall::draw(void)
 	_gameWindow->draw(_image);
 }
 
-void			IndestructibleWall::update(LookDirection lDir, int updtatedPos)
+void			IndestructibleWall::update(game::Dir lDir, int updtatedPos)
 {
 	(void)lDir;
 	if (updtatedPos != Game::UNCHANGED)
@@ -60,7 +60,7 @@ void			IndestructibleWall::update(LookDirection lDir, int updtatedPos)
 }
 
 
-IndestructibleWall::IndestructibleWall(ObjType type, int id, int pos, LookDirection ld, sf::Texture *text, sf::RenderWindow *gameWindow)
+IndestructibleWall::IndestructibleWall(game::Type type, int id, int pos, game::Dir ld, sf::Texture *text, sf::RenderWindow *gameWindow)
 {
 	_type = type;
 	_id = id;
