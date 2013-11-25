@@ -46,6 +46,7 @@ Game::Game(std::list<game::Client *> &players)
   _timer.tv_sec = 0;
   _launchGameTime = 8;
   _timer.tv_usec = rtype::Env::getInstance().game.gameDelay;
+  _isFinished = false;
 #if defined(DEBUG)
   std::cout << "Game::Game(): " << "Bienvenue dans la faille de l'invocateur" << std::endl;
 #endif
@@ -407,27 +408,36 @@ bool	Game::update()
 	std::cout << "GAME UPDATE" << std::endl;
 #endif
 	bool asleftplayer = playerUpdate();
-	iaUpdate();
-	wallUpdate();
-	missileUpdate();
-	bonusUpdate();
-	_clock.update();
-	if (rtype::Env::BOSS_DELAY <= _clock.getTotalElapsedTime()&& !_titan)
+	if (_isFinished == false)
 	{
-	    if (!_titans.empty())
-	    {
-		_titan = _titans.front();
-		pushRequest(new ElemRequest(_titan->algo()->type(),
-			    _titan->pos()[0], _titan->dir(), _titan->id()));
-		_titans.pop_front();
-	    }
-	    else
-		pushRequest(new VictoryRequest());
+		iaUpdate();
+		wallUpdate();
+		missileUpdate();
+		bonusUpdate();
+		_clock.update();
+		if (rtype::Env::BOSS_DELAY <= _clock.getTotalElapsedTime() && !_titan)
+		{
+			if (!_titans.empty())
+			{
+				_titan = _titans.front();
+				pushRequest(new ElemRequest(_titan->algo()->type(),
+					_titan->pos()[0], _titan->dir(), _titan->id()));
+				_titans.pop_front();
+			}
+			else
+			{
+				_isFinished = true;
+				pushRequest(new VictoryRequest());
+			}
+		}
+		popIA();
+		popWall();
+		if (Referee::asAlivePlayers(*this) == false)
+		{
+			pushRequest(new LooseRequest());
+			_isFinished = true;
+		}
 	}
-	popIA();
-	popWall();
-	if (Referee::asAlivePlayers(*this) == false)
-		pushRequest(new LooseRequest());
 	DispatchRequest();
 	_timer.tv_usec = rtype::Env::getInstance().game.gameDelay;
 	return asleftplayer;
