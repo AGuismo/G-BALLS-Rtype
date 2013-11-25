@@ -7,7 +7,7 @@ BaseIA::BaseIA()
 	_pos.push_back((15 * (rand() % 16)));
 	_firePos = _pos[0];
 	_life = 1;
-	_type = requestCode::game::server::SBYDOS1;
+	_type = requestCode::game::server::SLIDER;
 }
 
 BaseIA::BaseIA(const BaseIA &src)
@@ -16,7 +16,7 @@ BaseIA::BaseIA(const BaseIA &src)
 	_pos.push_back((15 * (rand() % 16)));
 	_firePos = _pos[0];
 	_life = 1;
-	_type = requestCode::game::server::SBYDOS1;
+	_type = requestCode::game::server::SLIDER;
 }
 
 BaseIA::~BaseIA()

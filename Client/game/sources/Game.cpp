@@ -109,11 +109,11 @@ bool							Game::load(void)
 		return false;
 
 
-	/*if (!_layerManager.addLayer(server::VICTORY, LVICTORY, sf::Vector2f(0.0f, 0.0f), sf::Vector2f(0.0f, 0.0f), sf::Vector2f(0.0f, 0.0f), sf::Vector2f(0.0f, 0.0f), new Timer(sf::Time(4.0)), false))
-		return false;*/
-	if (!_layerManager.addLayer(server::LOOSE, LLOOSE, sf::Vector2f(0.0f, 0.0f), sf::Vector2f(0.0f, 0.0f), sf::Vector2f(0.0f, 0.0f), sf::Vector2f(0.0f, 0.0f), NULL, false))
+	if (!_layerManager.addLayer(server::VICTORY, LVICTORY, sf::Vector2f(0.0f, 0.0f), sf::Vector2f(0.0f, 0.0f), sf::Vector2f(0.0f, 0.0f), sf::Vector2f(0.0f, 0.0f), new Timer(sf::Time(sf::seconds(4.0))), false))
 		return false;
-	if (!_layerManager.addLayer(server::NEXSTAGE, LNEXSTAGE, sf::Vector2f(0.0f, 0.0f), sf::Vector2f(0.0f, 0.0f), sf::Vector2f(0.0f, 0.0f), sf::Vector2f(0.0f, 0.0f), NULL, false))
+	if (!_layerManager.addLayer(server::LOOSE, LLOOSE, sf::Vector2f(0.0f, 0.0f), sf::Vector2f(0.0f, 0.0f), sf::Vector2f(0.0f, 0.0f), sf::Vector2f(0.0f, 0.0f), new Timer(sf::Time(sf::seconds(4.0))), false))
+		return false;
+	if (!_layerManager.addLayer(server::NEXSTAGE, LNEXSTAGE, sf::Vector2f(0.0f, 0.0f), sf::Vector2f(0.0f, 0.0f), sf::Vector2f(0.0f, 0.0f), sf::Vector2f(0.0f, 0.0f), new Timer(sf::Time(sf::seconds(4.0))), false))
 		return false;
 
 /*	bool							addLayer(game::Type objType, LayerType lType, const sf::Vector2f &lInit,
@@ -167,7 +167,7 @@ void							Game::run(void)
 	// addObj(INDESTRUCTIBLE_WALL, 42, 253);
 	// addObj(INDESTRUCTIBLE_WALL, 42, 0);
 	// addObj(INDESTRUCTIBLE_WALL, 42, 1);
-	// addObj(INDESTRUCTIBLE_WALL, 42, 2);
+//	 addObj(server::POWER_BONUS, 42, 80);
 	// addObj(server::PLAYER2, 20, 40);
 	// addObj(server::PLAYER3, 77, 10);
 	// addObj(server::PLAYER4, 48, 200);
@@ -179,6 +179,8 @@ void							Game::run(void)
 
 	AudioManager::getInstance().play(AGAME_MUSIC);
 
+
+	_layerManager.enableLayer(LNEXSTAGE);
 
 	_network.setUdp(sf::IpAddress(sf::IpAddress(InfosUser::getInstance().authenticate.addressIp)), InfosUser::getInstance().authenticate.portUDP);
 	_network.switchTo(network::Manager::UDP);
@@ -316,72 +318,6 @@ void							Game::cleanObjects(void)
 }
 
 
-/*bool							Game::updatePlayer(Action action)
-{
-	int							updatedPos = UNCHANGED;
-	obj_type::iterator			it = std::find_if(_objects.begin(), _objects.end(), AObject::predicate(_idPlayer));
-
-	if (it != _objects.end())
-	{
-		switch (action)
-		{
-		case Left:
-			updatedPos = ((*it)->getCaseCurPos() % Game::SIZE_GAME_BOARD == 0) ? (*it)->getCaseCurPos() : (*it)->getCaseCurPos() - 1;
-			(*it)->update(Unset, updatedPos);
-			break;
-		case Right:
-			updatedPos = (((*it)->getCaseCurPos() + 1) % Game::SIZE_GAME_BOARD == 0) ? (*it)->getCaseCurPos() : (*it)->getCaseCurPos() + 1;
-			(*it)->update(Unset, updatedPos);
-			break;
-		case Up:
-			updatedPos = ((*it)->getCaseCurPos() / Game::SIZE_GAME_BOARD == 0) ? (*it)->getCaseCurPos() : (*it)->getCaseCurPos() - Game::SIZE_GAME_BOARD;
-			(*it)->update(Unset, updatedPos);
-			break;
-		case Down:
-			updatedPos = ((*it)->getCaseCurPos() + Game::SIZE_GAME_BOARD > Game::CASE_GAME_BOARD) ? (*it)->getCaseCurPos() : (*it)->getCaseCurPos() + Game::SIZE_GAME_BOARD;
-			(*it)->update(Unset, updatedPos);
-			break;
-		default:
-			(*it)->update(Unset, updatedPos);
-			break;
-		}
-//		return true;
-	}
-
-
-	obj_type::iterator ot = std::find_if(_objects.begin(), _objects.end(), AObject::predicate(44));
-	if (ot != _objects.end())
-	{
-		switch (action)
-		{
-		case Left:
-			updatedPos = ((*ot)->getCaseCurPos() % Game::SIZE_GAME_BOARD == 0) ? (*ot)->getCaseCurPos() : (*ot)->getCaseCurPos() - 1;
-			(*ot)->update(Unset, updatedPos);
-			break;
-		case Right:
-			updatedPos = (((*ot)->getCaseCurPos() + 1) % Game::SIZE_GAME_BOARD == 0) ? (*ot)->getCaseCurPos() : (*ot)->getCaseCurPos() + 1;
-			(*ot)->update(Unset, updatedPos);
-			break;
-		case Up:
-			updatedPos = ((*ot)->getCaseCurPos() / Game::SIZE_GAME_BOARD == 0) ? (*ot)->getCaseCurPos() : (*ot)->getCaseCurPos() - Game::SIZE_GAME_BOARD;
-			(*ot)->update(Unset, updatedPos);
-			break;
-		case Down:
-			updatedPos = ((*ot)->getCaseCurPos() + Game::SIZE_GAME_BOARD > Game::CASE_GAME_BOARD) ? (*ot)->getCaseCurPos() : (*ot)->getCaseCurPos() + Game::SIZE_GAME_BOARD;
-			(*ot)->update(Unset, updatedPos);
-			break;
-		case Fire:
-			updatedPos = (*ot)->getCaseCurPos() + 6;
-			(*ot)->update(Unset, updatedPos);
-			break;
-		default:
-			(*ot)->update(Unset, updatedPos);
-			break;
-		}
-		return true;
-	}
-	return false;
-}*/
 
 
 bool						Game::delObj(int id)
@@ -399,16 +335,6 @@ bool						Game::delObj(int id)
 	}
 	return false;
 }
-
-/*GAME_MUSIC = 0,
-PLAYER_LASER,
-PLAYER_CHARGED,
-PLAYER_RELEASED,
-PLAYER_DESTRUCTION,
-BYDOS_PLASMA,
-BYDOS_LASER,
-BYDOS_DESTRUCTION,
-BYDOS_BOSS_DESTRUCTION*/
 
 bool							Game::updateObj(game::Type type, game::Dir lDir, int id, int pos)
 {
@@ -484,18 +410,21 @@ void	Game::score(const ARequest *req)
 void	Game::victory(const ARequest *req)
 {
   (void)req;
+  _layerManager.enableLayer(LVICTORY);
   AudioManager::getInstance().play(AVICTORY);
 }
 
 void	Game::loose(const ARequest *req)
 {
   (void)req;
+  _layerManager.enableLayer(LLOOSE);
   AudioManager::getInstance().play(AGAME_OVER);
 }
 
 void	Game::nextStage(const ARequest *req)
 {
   (void)req;
+  _layerManager.enableLayer(LNEXSTAGE);
   AudioManager::getInstance().play(ANEXT_STAGE)  ;
 }
 
