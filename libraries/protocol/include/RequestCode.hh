@@ -94,7 +94,6 @@ namespace requestCode
     namespace server
     {
       using ::game::Type;
-
       static const Type PLAYER1 = 0;
       static const Type PLAYER2 = 1;
       static const Type PLAYER3 = 2;
