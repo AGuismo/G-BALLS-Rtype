@@ -2,7 +2,7 @@ NAME	     ?=	defaultBoss.so
 
 SRCS =	      	DefaultBoss.cpp		\
 
-F.C	     += -W -Wall -Werror -fPIC
+F.C	     += -W -Wall  -fPIC
 F.I	     += -I./include -I../API
 F.L	     += -shared
 

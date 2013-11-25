@@ -32,7 +32,7 @@ SRCS =	      	ARequest.cpp		\
 DIR.BIND=	../deps/Bind
 DIR.NET=	../deps/network
 
-F.C	     +=	-W -Wall -Werror
+F.C	     +=	-W -Wall 
 F.I	     +=	-I $(DIR.H) -I$(DIR.BIND)/include -I$(DIR.NET)/include -I../include
 F.D	     +=
 

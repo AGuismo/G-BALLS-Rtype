@@ -15,7 +15,7 @@ DEPS.LNK=	-L$(DIR.NET) -lnetwork
 
 MOD.LNK=	-L$(DIR.PROT) -lprotocol -L$(DIR.DB) -ldb
 
-F.C	     +=	-W -Wall -Werror
+F.C	     +=	-W -Wall 
 F.I	     += $(MOD.INC) $(DEPS.INC) -I./include
 F.L	     += $(MOD.LNK) $(DEPS.LNK) -Wl,-rpath=$(DIR.DEPS)
 F.D	     +=
