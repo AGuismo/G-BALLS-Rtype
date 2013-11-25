@@ -115,7 +115,6 @@ namespace	game
 			buf = Protocol::product(*req);
 			_server.writeIntoBuffer(buf, buf.size());
 			_server.send();
-			std::cout << "A Request is just sent" << std::endl;
 		}
 	}
 	_server.monitor(true, false);
@@ -164,7 +163,9 @@ namespace	game
   {
 	  bool	asleftplayer = false;
 
+#if defined(DEBUG)
 	  std::cout << "Manager::Update" << std::endl;
+#endif
 	  if (!_games.empty())
 	  {
 		  Game *game = _games.front();
@@ -239,10 +240,7 @@ namespace	game
 		  self->_clock.update();
 		  self->updateGameClocks(self->_clock.getElapsedTime());
 		  if (!self->_games.empty())
-		  {
-			  std::cout << "Selecting for " << self->_games.front()->timer().tv_sec << " sec and " << self->_games.front()->timer().tv_usec << std::endl;
 			  self->_monitor.setOption(net::streamManager::TIMEOUT, self->_games.front()->timer());
-		  }
 		  else
 		  {
 		      struct	timeval	def;
@@ -250,9 +248,7 @@ namespace	game
 		      def.tv_usec = 0;
 		      self->_monitor.setOption(net::streamManager::TIMEOUT, def);
 		  }
-		  //std::cout << "selecting ..." << std::endl;
 		  self->_monitor.run(); /* Surcouche du select() */
-		  //std::cout << "Done ..." << std::endl;
 		  self->_clock.update();
 		  self->updateGameClocks(self->_clock.getElapsedTime());
 		  self->updateCallback();

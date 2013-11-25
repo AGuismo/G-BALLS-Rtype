@@ -56,7 +56,9 @@ Application::~Application()
 
 void	Application::run()
 {
+#if defined(DEBUG)
   std::cout << "Start Application::Run" << std::endl;
+#endif
   _gameManager.run();
   botLoader::Manager::getInstance().run();
   _menuManager.run();
@@ -73,7 +75,9 @@ void	Application::updateClients()
       (*it)->update();
       if (!(*it)->isUse())
 	{
+#if defined(DEBUG)
 	  std::cout << "Application::updateClients(): " << "Client deleted" << std::endl;
+#endif
 	  delete *it;
 	  it = _clients.erase(it);
 	}
@@ -113,6 +117,8 @@ void	Application::ClientLeaveGame(game::Client *client)
   appIt = std::find_if(_clients.begin(), _clients.end(), PredicateGameClient(client));
   (*appIt)->menu().inUse(true);
   (*appIt)->game().inUse(false);
+//  (*appIt)->game().hasLeft(false);
+//  (*appIt)->game().alive(true);
 }
 
 void	Application::newClient(Client *client)
