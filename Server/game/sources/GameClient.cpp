@@ -57,21 +57,21 @@ namespace	game
 	EventRequest	*ev;
 	AliveRequest	*al;
 	LeaveRequest	*lv;
-	if ((ev = dynamic_cast<EventRequest *>(req)))
+	if ((ev = dynamic_cast<EventRequest *>(req)) && _alive)
 	  {
 		_updateToLive = -1;
 	    if (ev->event() == 0 && !move)
 	      {
-		move = true;
-		_player->move(ev->param());
-		if (Referee::isCollision(_player, game) || !Referee::isOnScreen(_player))
-		  {
-		    _alive = false;
-		    game.pushRequest(new DeathRequest(_id));
-		  }
-		else
-			game.pushRequest(new ElemRequest(requestCode::game::server::PLAYER,
-						   _player->_pos[0], _player->_dir, _player->_id));
+			move = true;
+			_player->move(ev->param());
+			if (Referee::isCollision(_player, game) || !Referee::isOnScreen(_player))
+			  {
+				_alive = false;
+				game.pushRequest(new DeathRequest(_id));
+			  }
+			else
+				game.pushRequest(new ElemRequest(requestCode::game::server::PLAYER,
+							   _player->_pos[0], _player->_dir, _player->_id));
 	      }
 	    else if (!fire)
 	      {
