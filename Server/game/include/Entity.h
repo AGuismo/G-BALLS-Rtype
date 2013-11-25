@@ -22,13 +22,13 @@ namespace	game
 
 namespace	game
 {
-  static const Type WALL = 1;
-  static const Type DESTRUCTIBLEWALL = 2;
-  static const Type MISSILE = 3;
-  static const Type IA = 4;
-  static const Type BOSS = 5;
-  static const Type PLAYER = 6;
-  static const Type BONUS = 7;
+  static const Type WALL = 71;
+  static const Type DESTRUCTIBLEWALL = 72;
+  static const Type MISSILE = 73;
+  static const Type IA = 74;
+  static const Type BOSS = 75;
+  static const Type PLAYER = 76;
+  static const Type BONUS = 77;
 }
 
 class Entity

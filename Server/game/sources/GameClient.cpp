@@ -48,7 +48,6 @@ namespace	game
     bool	move = false;
     bool	fire = false;
 
-	_hasJoin = true;
     while ((req = _input.requestPop()) != 0)
       {
 	EventRequest	*ev;

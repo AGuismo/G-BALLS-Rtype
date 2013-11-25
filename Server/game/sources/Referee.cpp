@@ -121,8 +121,8 @@ bool		Referee::iaCollision(Entity *a, Game &game)
 			{
 			    game.randBonnus(*(*itia));
 			  game.pushRequest(new DeathRequest((*itia)->id()));
-			  delete *itia;
-			  game._IA.erase(itia);
+			  //delete *itia;
+			  //game._IA.erase(itia);
 			}
 		  return true;
 		}
@@ -136,8 +136,8 @@ bool		Referee::iaCollision(Entity *a, Game &game)
 				{
 				    game.randBonnus(*(*itia));
 					game.pushRequest(new DeathRequest((*itia)->id()));
-					delete *itia;
-					game._IA.erase(itia);
+					//delete *itia;
+					//game._IA.erase(itia);
 				}
 				return true;
 			}
@@ -148,22 +148,22 @@ bool		Referee::iaCollision(Entity *a, Game &game)
 
 bool		Referee::wallCollision(Entity *a, Game &game)
 {
-  std::list<Entity *>::iterator ite = game._objs.begin();
+  std::list<Entity *>::iterator itwall = game._objs.begin();
 
-  for (; ite != game._objs.end(); ite++)
+  for (; itwall != game._objs.end(); itwall++)
     {
       if (a->_type != game::WALL && a->_type != game::DESTRUCTIBLEWALL &&
-	  sameCase(a, *ite) == true)
+	  sameCase(a, *itwall) == true)
 		{
-		  if ((*ite)->_type != game::WALL)
+		  if ((*itwall)->_type != game::WALL)
 			{
-			  (*ite)->_life--;
-			if ((*ite)->_life <= 0)
+			  (*itwall)->_life--;
+			if ((*itwall)->_life <= 0)
 				{
-				  game.randBonnus(*(*ite));
-				  game.pushRequest(new DeathRequest((*ite)->id()));
-				  delete *ite;
-				  ite = game._objs.erase(ite);
+				  game.randBonnus(*(*itwall));
+				  game.pushRequest(new DeathRequest((*itwall)->id()));
+				  //delete *itwall;
+				  //itwall = game._objs.erase(itwall);
 				}
 			}
 		  return true;
@@ -182,8 +182,8 @@ bool		Referee::missileCollision(Entity *a, Game &game)
 		  sameCase(a, *itm) == true)
 	  {
 		  game._toSend.requestPush(new DeathRequest((*itm)->id()));
-		  delete *itm;
-		  itm = game._missiles.erase(itm);
+		  //delete *itm;
+		  //itm = game._missiles.erase(itm);
 		  return true;
 	  }
 	  else
@@ -203,8 +203,8 @@ bool		Referee::bonusCollision(Entity *a, Game &game)
 		{
 		    game._toSend.requestPush(new BuffRequest(a->id(), (*itb)->typeb()));
 			(*itb)->applyBuff(dynamic_cast<game::Player *>(a));
-			delete *itb;
-			itb = game._bonus.erase(itb);
+			//delete *itb;
+			//itb = game._bonus.erase(itb);
 			return true;
 		}
 		else
