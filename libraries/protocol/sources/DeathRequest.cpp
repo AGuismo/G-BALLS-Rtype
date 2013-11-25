@@ -1,4 +1,5 @@
 #include "DeathRequest.h"
+#include <iostream>
 
 DeathRequest::DeathRequest() : AGameRequest(requestCode::game::DEATH)
 {
@@ -7,6 +8,7 @@ DeathRequest::DeathRequest() : AGameRequest(requestCode::game::DEATH)
 DeathRequest::DeathRequest(Ruint16 id) :
 AGameRequest(requestCode::game::DEATH), _id(id)
 {
+	std::cout << "Death Request on " << id << std::endl;
 }
 
 DeathRequest::~DeathRequest()
