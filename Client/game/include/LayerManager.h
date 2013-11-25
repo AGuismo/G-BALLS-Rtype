@@ -27,7 +27,7 @@ class								LayerManager
   game::TextureManager				*_textureManager;
 
  private:
-  typedef std::deque<Layer *> layers_type;
+  typedef std::deque<Layer *>		 layers_type;
   layers_type						_layers;
 
  private:
