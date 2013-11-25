@@ -303,7 +303,6 @@ namespace	menu
 	delete req;
 	return ;
       }
-    client->requestPush(new ServerRequest(requestCode::server::OK));
     for (game_list::iterator it = manager->_games.begin(); it != manager->_games.end() ; ++it)
       client->requestPush(new Party::Update((*it)->partyName(),
 					    (*it)->availableSlots(),
