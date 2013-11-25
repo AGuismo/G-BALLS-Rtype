@@ -881,13 +881,18 @@ void	MenuWindow::receiveUpdateParty(ARequest *req)
   std::string tmp;
   int tmpnbMax;
   int tmpcurrent;
+
+
   up = dynamic_cast<Party::Update*>(req);
+
+
   ss << up->_maxPlayers;
   ss >> tmpnbMax;
+  std::cout << "TMPNBMAX" << tmpnbMax << std::endl;
   ss.clear();
   ss << (up->_maxPlayers - up->_availableSlots);
   ss >> tmpcurrent;
-  std::cout << "TMP" << tmp << std::endl;
+  std::cout << "TMPCURRENT" << tmpcurrent << std::endl;
   ss.clear();
   ss << tmpnbMax;
   ss >> tmp;
@@ -933,26 +938,22 @@ void	MenuWindow::receiveOk(ARequest *req)
   if (this->_currentState == MENU)
     {
       this->_isConnected = 1;
-      std::cout << "JE ME CONNECTE" << std::endl;
       MediaAudioManager::getInstance().getSound("SwitchScreen")->getSound().play();
       this->drawLobby();
     }
   else if (this->_currentState == CREATE)
     {
       MediaAudioManager::getInstance().getSound("SwitchScreen")->getSound().play();
-      std::cout << "Je CREE UNE PARTIE" << std::endl;
       this->drawLobbyWait(1);
     }
   else if (this->_currentState == LOBBY || this->_currentState == VERIF_PWD)
     {
       MediaAudioManager::getInstance().getSound("SwitchScreen")->getSound().play();
-      std::cout << "Je JOIN UNE PARTIE" << std::endl;
       this->drawLobbyWait(0);
     }
   else if (this->_currentState == WAIT)
     {
       MediaAudioManager::getInstance().getSound("SwitchScreen")->getSound().play();
-      std::cout << "JE LEAVE UNE PARTIE" << std::endl;
       this->drawLobby();
     }
 }
@@ -985,7 +986,6 @@ void	MenuWindow::update()
 	{
 	  callback_map::iterator	it = _mapCallBack.find(req->code());
 
-	  std::cout << "receive !!!!! " << req->code() << std::endl;
 	  if (it != _mapCallBack.end())
 	    (this->*(it->second))(req);
 	  else
