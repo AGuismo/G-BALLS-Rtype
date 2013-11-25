@@ -82,6 +82,7 @@ BydosLaser::BydosLaser(game::Type type, int id, int pos, game::Dir ld, sf::Textu
 	_laserAnimation.addFrame(sf::IntRect(0, 80, 101, 14));
 	_laserAnimation.addFrame(sf::IntRect(100, 80, 100, 14));
 	_laserAnimation.addFrame(sf::IntRect(200, 80, 100, 14));
+	AudioManager::getInstance().play(ABYDOS_LASER);
 }
 
 void				BydosLaser::onDestruction(Game &game)

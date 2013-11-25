@@ -103,6 +103,7 @@ PlayerLaser::PlayerLaser(game::Type type, int id, int pos, game::Dir ld, sf::Tex
 	_gameWindow = gameWindow;
 	_act = false;
 	_action = Nothing;
+	AudioManager::getInstance().play(APLAYER_LASER);
 }
 
 void				PlayerLaser::onDestruction(Game &game)

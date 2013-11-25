@@ -84,6 +84,7 @@ BydosPlasma::BydosPlasma(game::Type type, int id, int pos, game::Dir ld, sf::Tex
 	_plasmaAnimation.addFrame(sf::IntRect(299, 6, 25, 20));
 	_plasmaAnimation.addFrame(sf::IntRect(331, 6, 25, 20));
 	_plasmaAnimation.addFrame(sf::IntRect(364, 6, 26, 20));
+	AudioManager::getInstance().play(ABYDOS_PLASMA);
 }
 
 void				BydosPlasma::onDestruction(Game &game)
