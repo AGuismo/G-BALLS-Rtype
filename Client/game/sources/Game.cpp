@@ -105,7 +105,7 @@ bool							Game::load(void)
 	if (!_layerManager.addLayer(server::LAYER3, LAYER_3, sf::Vector2f(200.0f, 0.0f), sf::Vector2f(200.0f, 0.0f), sf::Vector2f(800.0f, 1400.0f), sf::Vector2f(-5.0f, -5.0f), NULL, true))
 		return false;*/
 
-	if (!_layerManager.addLayer(server::COMET, LAYER_4, sf::Vector2f(200.0f, 0.0f), sf::Vector2f(200.0f, 0.0f), sf::Vector2f(1200.0f, 1500.0f), sf::Vector2f(-5.0f, -5.0f), NULL, true))
+	if (!_layerManager.addLayer(server::COMET, LAYER_4, sf::Vector2f(200.0f, 0.0f), sf::Vector2f(200.0f, 0.0f), sf::Vector2f(1000.0f, 1300.0f), sf::Vector2f(-5.0f, -5.0f), NULL, true))
 		return false;
 
 	if (!AudioManager::getInstance().add(AGAME_MUSIC, AMUSIC, true, std::string("./Sounds/Lepi.ogg")))

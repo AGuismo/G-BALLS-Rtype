@@ -17,7 +17,7 @@
 namespace	game
 {
 	Manager::Manager(Application *parent, Manager::input_event &input, Manager::output_event &output) :
-		_th(Func::Bind(&Manager::routine, this)), _input(input), _output(output), _parent(parent)
+	  _th(Func::Bind(&Manager::routine, this)), _input(input), _output(output), _parent(parent)
   {
     _server.monitor(true, false);
   }
@@ -43,6 +43,7 @@ namespace	game
 
   void	Manager::run()
   {
+    _active = true;
     _th.run();
     std::cout << "Game manager started..." << std::endl;
   }
@@ -221,10 +222,15 @@ namespace	game
 	  _server.monitor(true, true);
   }
 
+  void			Manager::stop()
+  {
+    _active = false;
+  }
+
   void			Manager::routine(Manager *self)
   {
 	  self->_clock.start();
-	  while (true)
+	  while (self->_active)
 	  {
 		  self->_clock.update();
 		  self->updateGameClocks(self->_clock.getElapsedTime());

@@ -21,6 +21,7 @@ namespace	botLoader
   public:
     void										initialize(std::string &);
     void										run();
+    void										stop();
 
   private:
     bool										addNewIa(const std::string &path);
@@ -44,6 +45,7 @@ namespace	botLoader
 	  typedef	std::map<std::string, AIaAlgo *>	bydos_type;
 
   private:
+    bool								_active;
     ICheckFileAbstract							*_checkFile;
     DynamicAbstract								*_dynLoader;
     bydos_type									_simpleBydos;

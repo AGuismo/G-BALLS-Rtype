@@ -176,6 +176,10 @@ namespace	menu
       }
   }
 
+  void	Manager::stop()
+  {
+    _active = false;
+  }
 
   void	Manager::routine(Manager *self)
   {
@@ -456,7 +460,8 @@ namespace	menu
       }
     client->requestPush(new ServerRequest(requestCode::server::OK));
     delete req;
-    manager->_active = false;
+    manager->_output.push(new Callback<Application, Client>(manager->_parent, client,
+							    &Application::stop));
   }
 
   //////////////
