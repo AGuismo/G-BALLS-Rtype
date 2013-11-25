@@ -199,9 +199,9 @@ void							Game::run(void)
 					if (_playerMvtLock.isEnded())
 					{
 						if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
-							_network.sendRequest(new EventRequest(MOVE, SOUTH_EAST, InfosUser::getInstance().authenticate.id));
+							_network.sendRequest(new EventRequest(MOVE, NORTH_EAST, InfosUser::getInstance().authenticate.id));
 						else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
-							_network.sendRequest(new EventRequest(MOVE, SOUTH_WEST, InfosUser::getInstance().authenticate.id));
+							_network.sendRequest(new EventRequest(MOVE, SOUTH_EAST, InfosUser::getInstance().authenticate.id));
 						else
 							_network.sendRequest(new EventRequest(MOVE, EAST, InfosUser::getInstance().authenticate.id));
 						_playerMvtLock.restart();
@@ -259,7 +259,7 @@ void							Game::run(void)
 			AudioManager::getInstance().stop(APLAYER_CHARGED);
 			_playerBlastLock.restart();
 		}*/
-		
+
 		while ((req = _network.recvRequest()) != 0)
 			(this->*_map[req->code()])(req);
 
