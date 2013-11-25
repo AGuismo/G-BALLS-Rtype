@@ -158,11 +158,12 @@ void							Game::run(void)
 	Timer						_playerFireLock(sf::seconds(0.42f));
 	Timer						_playerBlastLock(sf::seconds(1.40f));
 	Timer						_aliveRequest(sf::seconds(0.25f));
+	Timer						_lostConnection(sf::seconds(3.25f));
 	ARequest					*req;
 
 	_gameWindow->setFramerateLimit(25);
 	_gameWindow->setKeyRepeatEnabled(true);
-
+	_inGame = true;
 //	addObj(server::POWER_BONUS, 44, 100);
 	
 	AudioManager::getInstance().play(AGAME_MUSIC);
@@ -224,7 +225,6 @@ void							Game::run(void)
 				case sf::Keyboard::Space:
 					if (_playerFireLock.isEnded())
 					{
-						// AudioManager::getInstance().play(APLAYER_LASER);
 						_network.sendRequest(new EventRequest(SHOOT, SIMPLE, InfosUser::getInstance().authenticate.id));
 						_playerFireLock.restart();
 					}
@@ -261,12 +261,22 @@ void							Game::run(void)
 		}*/
 
 		while ((req = _network.recvRequest()) != 0)
+		{
 			(this->*_map[req->code()])(req);
+			_lostConnection.restart();
+		}
 
 		if (_aliveRequest.isEnded())
 		{
 			_network.sendRequest(new AliveRequest(InfosUser::getInstance().authenticate.id));
 			_aliveRequest.restart();
+		}
+
+		if (_lostConnection.isEnded() || _inGame == false)
+		{
+			_network.sendRequest(new LeaveRequest(InfosUser::getInstance().authenticate.id));
+			cleanGame();
+			return;
 		}
 
 		_gameWindow->clear();
@@ -397,6 +407,7 @@ void	Game::victory(const ARequest *req)
   (void)req;
   _layerManager.enableLayer(LVICTORY);
   AudioManager::getInstance().play(AVICTORY);
+  _inGame = false;
 }
 
 void	Game::loose(const ARequest *req)
@@ -404,6 +415,7 @@ void	Game::loose(const ARequest *req)
   (void)req;
   _layerManager.enableLayer(LLOOSE);
   AudioManager::getInstance().play(AGAME_OVER);
+  _inGame = false;
 }
 
 void	Game::nextStage(const ARequest *req)

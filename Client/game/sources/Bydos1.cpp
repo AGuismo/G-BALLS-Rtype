@@ -81,7 +81,7 @@ Bydos1::Bydos1(game::Type type, int id, int pos, game::Dir ld, sf::Texture *text
 	_image.setTexture(*text);
 	_image.setTextureRect(sf::IntRect(0, 0, 48, 72));
 	_image.setPosition((float)Game::POSX(_cCurPos), (float)Game::POSY(_cCurPos));
-	_mvtTime = 0.60f;
+	_mvtTime = 0.30f;
 	_timerMvt = Timer(sf::seconds(_mvtTime));
 	_timerAlive = Timer(sf::seconds(Game::ALIVE_TIMER));
 	_gameWindow = gameWindow;

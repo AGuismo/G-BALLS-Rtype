@@ -21,6 +21,9 @@ namespace network
 class Game
 {
 private:
+	bool									_inGame;
+
+private:
   typedef std::deque<AObject *>				obj_type;
   typedef void	(Game::*game_callback)(const ARequest *);
   typedef std::map<requestCode::CodeID, game_callback>	callback_map;
