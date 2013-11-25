@@ -7,11 +7,10 @@ class IAALGO_API DefaultIA : public AIaAlgo
 {
 public:
 	DefaultIA();
-	DefaultIA(const DefaultIA &src);
 	~DefaultIA();
 
-	int	algo(IAPlayer &players);
-	AIaAlgo	*clone();
+	virtual int	algo(IAPlayer &players);
+	virtual AIaAlgo	*clone();
 private:
 
 };
