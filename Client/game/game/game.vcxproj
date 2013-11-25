@@ -136,6 +136,7 @@
     <ClCompile Include="..\sources\Player.cpp" />
     <ClCompile Include="..\sources\PlayerLaser.cpp" />
     <ClCompile Include="..\sources\PlayerBlast.cpp" />
+    <ClCompile Include="..\sources\PowerBonus.cpp" />
     <ClCompile Include="..\sources\ShrimpBoss.cpp" />
     <ClCompile Include="..\sources\Slider.cpp" />
     <ClCompile Include="..\sources\TextureManager.cpp" />
