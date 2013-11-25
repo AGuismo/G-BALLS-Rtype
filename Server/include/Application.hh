@@ -39,6 +39,7 @@ public:
   virtual ~Application();
 
 public:
+  void	stop(menu::Client *);
   void	run();
   void	routine();
   void	updateClients();
@@ -54,6 +55,7 @@ private:
   Application& operator=(Application const&);
 
 private:
+  bool			_active;
   input_event		_gameOutput;
   input_event		_menuOutput;
   output_event		_input;
