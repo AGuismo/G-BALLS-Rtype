@@ -1,7 +1,7 @@
-#include		"IndestructibleWall.h"
+#include		"DestructibleWall.h"
 #include		"game.h"
 
-void						IndestructibleWall::draw(void)
+void						DestructibleWall::draw(void)
 {
 
 	if ((_vCurPos.x == _vNextPos.x && _vCurPos.y == _vNextPos.y) ||
@@ -33,7 +33,7 @@ void						IndestructibleWall::draw(void)
 	_gameWindow->draw(_image);
 }
 
-void			IndestructibleWall::update(LookDirection lDir, int updtatedPos)
+void			DestructibleWall::update(LookDirection lDir, int updtatedPos)
 {
 	(void)lDir;
 	if (updtatedPos != Game::UNCHANGED)
@@ -60,7 +60,7 @@ void			IndestructibleWall::update(LookDirection lDir, int updtatedPos)
 }
 
 
-IndestructibleWall::IndestructibleWall(ObjType type, int id, int pos, LookDirection ld, sf::Texture *text, sf::RenderWindow *gameWindow)
+DestructibleWall::DestructibleWall(ObjType type, int id, int pos, LookDirection ld, sf::Texture *text, sf::RenderWindow *gameWindow)
 {
 	_type = type;
 	_id = id;
@@ -81,6 +81,8 @@ IndestructibleWall::IndestructibleWall(ObjType type, int id, int pos, LookDirect
 	_action = Nothing;
 }
 
-void				IndestructibleWall::onDestruction(Game &game)
+void				DestructibleWall::onDestruction(Game &game)
 {
+	game.addObj(NORMAL_BANG, Game::generateId(), _cCurPos);
+	AudioManager::getInstance().play(ABYDOS_DESTRUCTION);
 }

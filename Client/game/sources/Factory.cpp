@@ -13,6 +13,7 @@
 #include			"GarbageBoss.h"
 #include			"Bang.h"
 #include			"IndestructibleWall.h"
+#include			"DestructibleWall.h"
 
 AObject				*Factory::createObject(ObjType type, int id, int pos, LookDirection ldir)
 {
@@ -63,6 +64,9 @@ AObject				*Factory::createObject(ObjType type, int id, int pos, LookDirection l
 			break;
 		case INDESTRUCTIBLE_WALL:
 			return (new IndestructibleWall(type, id, pos, ldir, text, _gameWindow));
+			break;
+		case DESTRUCTIBLE_WALL:
+			return (new DestructibleWall(type, id, pos, ldir, text, _gameWindow));
 			break;
 		case NORMAL_BANG:
 			return (new Bang(type, id, pos, ldir, text, _gameWindow));
