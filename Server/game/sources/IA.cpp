@@ -26,6 +26,7 @@ void	Ia::update(Game &game)
 	_dir = res;
 	if (res != -1)
 		move();
+	fire(game, false);
 }
 
 void	Ia::move()

@@ -13,8 +13,6 @@ void						Layer::update(void)
 	{
 		if (_lEnabled)
 		{
-/*			if (_id == 43)
-				std::cout << "lposx " << _lCurPos.x << "lposy " << _lCurPos.y << " incy" << _lIncrement.y << std::endl;*/
 			_lCurPos.x -= _lIncrement.x;
 			_lCurPos.y -= _lIncrement.y;
 			_lCurPos.x = (_lCurPos.x == _lLimPos.x) ? _lResetPos.x : _lCurPos.x;

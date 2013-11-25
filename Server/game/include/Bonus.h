@@ -23,9 +23,6 @@ namespace game
     friend class ::Referee;
   };
 
-  static const TypeBuff EXTRALIFE = 127;
-  static const TypeBuff POW = 128;
-
   class ExtraLife : public ABonus
   {
   public:

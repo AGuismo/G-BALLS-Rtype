@@ -9,6 +9,7 @@
 #include	"VictoryRequest.h"
 #include	"BuffRequest.h"
 #include	"NextStage.hh"
+#include	"Env.hh"
 
 Referee::Referee()
 {
@@ -42,9 +43,11 @@ bool	Referee::isOnScreen(const Entity *a)
 
 	for (ita = a->_pos.begin(); ita != a->_pos.end(); ita++)
 	{
-		if ((*ita) + 1 != (*itprev) &&
-			(*ita) - 1 != (*itprev) &&
-			(*ita) != (*itprev))
+		game::Pos p = *ita;
+		game::Pos pp = *itprev;
+		if ((p) % rtype::Env::getInstance().game.mapSize + 1 != pp % rtype::Env::getInstance().game.mapSize &&
+			(p) % rtype::Env::getInstance().game.mapSize - 1!= pp % rtype::Env::getInstance().game.mapSize &&
+			p != pp)
 			return false;
 		itprev++;
 	}
@@ -76,33 +79,36 @@ bool	Referee::playerCollision(Entity *a, Game &game)
 
   for (; itp != game._players.end(); itp++)
     {
-	  if (a->_type == requestCode::game::server::BONUS)
-	{
-	    game._toSend.requestPush(new BuffRequest((*itp)->player()->id(), dynamic_cast<game::ABonus *>(a)->typeb()));
-	    dynamic_cast<game::ABonus *>(a)->applyBuff((*itp)->player());
-	}
-	  else if (a->_type != requestCode::game::server::PLAYER && a->_type != requestCode::game::server::MISSILE &&
-	  sameCase(a, (*itp)->player()) == true)
-	{
-	  if ((*itp)->player()->_extraLife == true)
-		  (*itp)->player()->_extraLife = false;
-	  else
-	    {
-		  game.pushRequest(new DeathRequest((*itp)->player()->id()));
-		  (*itp)->_alive = false;
-	    }
-	  return true;
-	}
-	  else if (a->_type == requestCode::game::server::MISSILE &&
-		  sameCase(a, (*itp)->player()) == true)
-	{
-		  if ((dynamic_cast<Missile *>(a))->getLauncher()->_type != requestCode::game::server::PLAYER)
-	    {
-		  game.pushRequest(new DeathRequest((*itp)->player()->id()));
-		  (*itp)->_alive = false;
-	      return true;
-	    }
-	}
+	  if ((*itp)->alive())
+	  {
+		  if (a->_type == requestCode::game::server::BONUS)
+		  {
+			  game._toSend.requestPush(new BuffRequest((*itp)->player()->id(), dynamic_cast<game::ABonus *>(a)->typeb()));
+			  dynamic_cast<game::ABonus *>(a)->applyBuff((*itp)->player());
+		  }
+		  else if (a->_type != requestCode::game::server::PLAYER && a->_type != requestCode::game::server::MISSILE &&
+			  sameCase(a, (*itp)->player()) == true)
+		  {
+			  if ((*itp)->player()->_extraLife == true)
+				  (*itp)->player()->_extraLife = false;
+			  else
+			  {
+				  game.pushRequest(new DeathRequest((*itp)->player()->id()));
+				  (*itp)->_alive = false;
+			  }
+			  return true;
+		  }
+		  else if (a->_type == requestCode::game::server::MISSILE &&
+			  sameCase(a, (*itp)->player()) == true)
+		  {
+			  if ((dynamic_cast<Missile *>(a))->getLauncher()->_type != requestCode::game::server::PLAYER)
+			  {
+				  game.pushRequest(new DeathRequest((*itp)->player()->id()));
+				  (*itp)->_alive = false;
+				  return true;
+			  }
+		  }
+	  }
     }
   return false;
 }
@@ -155,7 +161,7 @@ bool		Referee::wallCollision(Entity *a, Game &game)
 	  if (a->_type != requestCode::game::server::INDESTRUCTIBLE_WALL && a->_type != requestCode::game::server::DESTRUCTIBLE_WALL &&
 	  sameCase(a, *itwall) == true)
 		{
-		  if ((*itwall)->_type != requestCode::game::server::INDESTRUCTIBLE_WALL)
+		  if ((*itwall)->_type != requestCode::game::server::INDESTRUCTIBLE_WALL && (*itwall)->_type != requestCode::game::server::DESTRUCTIBLE_WALL)
 			{
 			  (*itwall)->_life--;
 			if ((*itwall)->_life <= 0)

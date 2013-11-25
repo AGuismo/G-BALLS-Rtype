@@ -3,12 +3,20 @@
 
 enum LayerType
 {
-	LAYER_1 = 0, 
-	LAYER_2,
-	LAYER_3,
-	LAYER_4,
-	LAYER_5,
-	LAYER_6
+	LBG1 = 15,
+	LBG2,
+	LVICTORY,
+	LLOOSE,
+	LNEXSTAGE,
+	LCOMET
 };
+
+/*static const Type BG1 = 15;
+static const Type BG2 = 16;
+static const Type VICTORY = 17;
+static const Type LOOSE = 18;
+static const Type NEXSTAGE = 19;
+static const Type COMET = 20;*/
+
 
 #endif // !ENUMLAYER_
