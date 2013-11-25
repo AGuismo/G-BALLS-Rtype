@@ -10,7 +10,6 @@ EventRequest::~EventRequest()
 
 EventRequest::EventRequest(EventRequest const&src): AGameRequest(src)
 {
-
 }
 
 Ruint8				EventRequest::event()const

@@ -259,9 +259,7 @@ void							Game::run(void)
 			AudioManager::getInstance().stop(APLAYER_CHARGED);
 			_playerBlastLock.restart();
 		}
-
-
-
+		
 		while ((req = _network.recvRequest()) != 0)
 			(this->*_map[req->code()])(req);
 
@@ -270,6 +268,7 @@ void							Game::run(void)
 			_network.sendRequest(new AliveRequest(InfosUser::getInstance().authenticate.id));
 			_aliveRequest.restart();
 		}
+
 		_gameWindow->clear();
 		cleanObjects();
 		_layerManager.upDraw();
@@ -415,7 +414,7 @@ bool							Game::addObj(game::Type type, int id, int pos)
 {
 	AObject						*obj;
 
-	if ((obj = Factory::getInstance().createObject(type, id, pos, East)) != NULL)
+	if ((obj = Factory::getInstance().createObject(type, id, pos, requestCode::game::client::EAST)) != NULL)
 	{
 		_objects.push_back(obj);
 		return true;

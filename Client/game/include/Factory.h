@@ -20,7 +20,7 @@ namespace	game
 class					Factory
 {
 private:
-	sf::RenderWindow	*_gameWindow;
+	sf::RenderWindow		*_gameWindow;
 	game::TextureManager	*_textureManager;
 
 public:

@@ -28,22 +28,22 @@ void						PlayerLaser::draw(void)
 		_image.setPosition(_vCurPos.x +15.0f, _vCurPos.y +8.0f);
 		switch (_ld)
 		{
-		case East:
+		case requestCode::game::client::EAST:
 			_image.setTextureRect(sf::IntRect(565, 115, 35, 24));
 			break;
-		case West:
+		case requestCode::game::client::WEST:
 			_image.setTextureRect(sf::IntRect(600, 115, 35, 24));
 			break;
-		case NorthEast:
+		case requestCode::game::client::NORTH_EAST:
 			_image.setTextureRect(sf::IntRect(530, 186, 35, 24));
 			break;
-		case SouthEast:
+		case requestCode::game::client::SOUTH_EAST:
 			_image.setTextureRect(sf::IntRect(565, 186, 35, 24));
 			break;
-		case SouthWest:
+		case requestCode::game::client::SOUTH_WEST:
 			_image.setTextureRect(sf::IntRect(600, 186, 35, 24));
 			break;
-		case NorthWest:
+		case requestCode::game::client::NORTH_WEST:
 			_image.setTextureRect(sf::IntRect(635, 186, 35, 24));
 			break;
 		default:
