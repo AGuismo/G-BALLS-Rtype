@@ -646,8 +646,8 @@ int	MenuWindow::checkAction()
       this->_window.close();
       break;
     case AScreen::BACK_MENU:
-      // this->_network.sendRequest(new Auth::Disconnect());
-      // this->_network.switchTo(NONE);
+      this->_network.closeTcp();
+      this->_network.switchTo(network::Manager::NONE);
       this->_isConnected = 0;
       this->_status = CONTINUE;
       this->drawMenu();
@@ -908,8 +908,8 @@ void	MenuWindow::updateLineServer(const std::string &nameParty, const std::strin
 
 void	MenuWindow::receiveUpdateParty(ARequest *req)
 {
-  float x = 2000.;
-  float y = 2000.;
+  float x = 300.;
+  float y = 300.;
 
   Party::Update *up;
   std::string slot;
@@ -934,14 +934,14 @@ void	MenuWindow::receiveUpdateParty(ARequest *req)
 
   if (up->_status == requestCode::party::OUT_GAME)
     {
-      if (up->_isPassword == Party::Create::PASS)
+      if (up->_isPassword == requestCode::party::PASS)
 	this->_listGame.push_back(new LineServer(this->_event, sf::Vector2f(x, y), sf::Vector2f(x + 7, y + 6), sf::Vector2f(x + 686, y + 26),
 						 up->_partyName, slot, true));
       else
 	this->_listGame.push_back(new LineServer(this->_event, sf::Vector2f(x, y), sf::Vector2f(x + 7, y + 6), sf::Vector2f(x + 686, y + 26),
 						   up->_partyName, slot, false));
     }
-  else if (up->_status == requestCode::party::CANCELED || up->_status == requestCode::party::FINISHED)
+  else if ((up->_status == requestCode::party::CANCELED) || (up->_status == requestCode::party::FINISHED))
     deleteLineServer(up->_partyName);
   // else if (up->_status == Party::IN_GAME)
   //   {
@@ -984,7 +984,7 @@ void	MenuWindow::receiveOk(ARequest *req)
       MediaAudioManager::getInstance().getSound("SwitchScreen")->getSound().play();
       this->drawLobby();
     }
-  else if (this->_currentState = VERIF_PWD)
+  else if (this->_currentState == VERIF_PWD)
     {
       MediaAudioManager::getInstance().getSound("SwitchScreen")->getSound().play();
       this->drawLobbyWait(0);

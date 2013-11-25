@@ -5,7 +5,7 @@
 // Login   <brigno@epitech.net>
 //
 // Started on  Thu Oct 24 16:32:14 2013 brigno
-// Last update Mon Nov 25 02:36:15 2013 brigno
+// Last update Mon Nov 25 16:15:44 2013 brigno
 //
 
 #include	"AWidget.hh"
@@ -35,4 +35,15 @@ void	AWidget::setFocus(const sf::Vector2f &posTopLeft, const sf::Vector2f &posBo
 {
   this->_focusTopLeft = posTopLeft;
   this->_focusBotRight = posBotRight;
+}
+
+void	AWidget::setPos(const sf::Vector2f &pos)
+{
+  std::cout << "AVANT :" << std::endl;
+  std::cout << this->_posTopLeft.x << std::endl;
+  std::cout << this->_posTopLeft.y << std::endl;
+  this->_posTopLeft = pos;
+  std::cout << "APRES :" << std::endl;
+  std::cout << this->_posTopLeft.x << std::endl;
+  std::cout << this->_posTopLeft.y << std::endl;
 }
