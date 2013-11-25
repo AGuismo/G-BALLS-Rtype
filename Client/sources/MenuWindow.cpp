@@ -1030,8 +1030,6 @@ void	MenuWindow::update()
 	  callback_map::iterator	it = _mapCallBack.find(req->code());
 	  if (it != _mapCallBack.end())
 	    (this->*(it->second))(req);
-	  else
-	    std::cout << req->code() << ": not implemented yet" << std::endl;
 	}
     }
   else if (!this->_network.isConnected() && this->_isConnected == 1)

@@ -35,8 +35,10 @@ Game::Game(std::list<game::Client *> &players)
   _titan = NULL;
   for (int i = 0; i < rtype::Env::getInstance().game.maxBoss; ++i)
   {
-      if (botLoader::Manager::getInstance().getBossBydos())
-	  _titans.push_back(new Boss(UniqueId(), botLoader::Manager::getInstance().getBossBydos()));
+    AIaAlgo	*algo = botLoader::Manager::getInstance().getBossBydos();
+
+      if (algo != 0)
+	  _titans.push_back(new Boss(UniqueId(), algo));
       else
 	  _titans.push_back(new Boss(UniqueId(), new BaseBoss()));
   }
@@ -245,7 +247,7 @@ void	Game::bossUpdate()
 {
   if (_titan)
     {
-      _titan->update();
+      _titan->update(*this);
       if (!Referee::isOnScreen(_titan))
 	{
 	  pushRequest(new DeathRequest(_titan->id()));
@@ -342,12 +344,13 @@ void	Game::popIA()
 		if (_IA.size() < rtype::Env::getInstance().game.minIA || rand() % rtype::Env::getInstance().game.popIAmax < rtype::Env::getInstance().game.popIArange)
 		{
 			Ia *new_ia;
+			AIaAlgo	*algo = botLoader::Manager::getInstance().getSimpleBydos();
 
 			//new_ia = BotLoader::getIA();
 			//with pos = rand() % Entity::SIZE + Entity::SIZE - 1;
 			//id = UniqueId();
-			if (botLoader::Manager::getInstance().getSimpleBydos())
-			    new_ia = new Ia(UniqueId(), botLoader::Manager::getInstance().getSimpleBydos());
+			if (algo != 0)
+			    new_ia = new Ia(UniqueId(), algo);
 			else
 			    new_ia = new Ia(UniqueId(), new BaseIA());
 
