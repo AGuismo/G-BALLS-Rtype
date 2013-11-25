@@ -244,8 +244,8 @@ bool		Referee::bossCollision(Entity *a, Game &game)
 	}
 	return true;
     }
-    else if (a->_type == requestCode::game::server::MISSILE &&
-	     sameCase(a, game._titan) == true)
+    else if (game._titan != NULL && a->_type == requestCode::game::server::MISSILE &&
+  	     sameCase(a, game._titan) == true)
     {
 		if (dynamic_cast<Missile *>(a)->getLauncher()->_type != requestCode::game::server::IA)
 	{
@@ -261,6 +261,7 @@ bool		Referee::bossCollision(Entity *a, Game &game)
 		    game._clock.restart();
 		}
 		delete game._titan;
+		game._titan = NULL;
 	    }
 	    return true;
 	}

@@ -10,7 +10,7 @@ public:
 	Boss(ID id, AIaAlgo *algo);
   ~Boss(void);
 
-  void	update();
+  void	update(Game &game);
   void	move();
   void	fire(Game &game, bool charged);
   AIaAlgo	*algo() { return _algo; }
