@@ -42,9 +42,6 @@ namespace	Party
 
   struct	Create : public ARequest
   {
-    static const Ruint8	PASS = 0;
-    static const Ruint8	NO_PASS = 1;
-
   public:
     Create();
     Create(const std::string &partyName, Ruint8 nbPlayers);

@@ -98,7 +98,7 @@ namespace	menu
     broadcast(Party::Update(game->partyName(),
 			    game->availableSlots(),
 			    game->maxPlayers(),
-			    game->ispassword(),
+			    game->ispassword() ? requestCode::party::PASS : requestCode::party::NO_PASS,
 			    requestCode::party::UPDATE_GAME));
   }
 
@@ -108,7 +108,7 @@ namespace	menu
     broadcast(Party::Update(game->partyName(),
 			    game->availableSlots(),
 			    game->maxPlayers(),
-			    game->ispassword(),
+			    game->ispassword() ? requestCode::party::PASS : requestCode::party::NO_PASS,
 			    requestCode::party::CANCELED));
     delete game;
   }
@@ -314,7 +314,7 @@ namespace	menu
       client->requestPush(new Party::Update((*it)->partyName(),
 					    (*it)->availableSlots(),
 					    (*it)->maxPlayers(),
-					    (*it)->ispassword(),
+					    (*it)->ispassword() ? requestCode::party::PASS : requestCode::party::NO_PASS,
 					    (*it)->status()));
     delete req;
   }
@@ -340,15 +340,16 @@ namespace	menu
 
     game->partyName(request->_partyName);
     game->maxPlayers(request->_maxPlayers);
-    if (request->_isPassword == Party::Create::PASS)
+    if (request->_isPassword == requestCode::party::PASS)
       game->password(request->_partyPass);
     manager->_games.push_back(game);
     delete req;
     client->requestPush(new ServerRequest(requestCode::server::OK));
+    std::cout << "IsPassword? " << game->ispassword() << std::endl;
     manager->broadcast(Party::Update(game->partyName(),
 				     game->availableSlots(),
 				     game->maxPlayers(),
-				     game->ispassword(),
+				     game->ispassword() ? requestCode::party::PASS : requestCode::party::NO_PASS,
 				     game->status()));
   }
 
@@ -375,7 +376,7 @@ namespace	menu
     manager->broadcast(Party::Update((*it)->partyName(),
 				     (*it)->availableSlots(),
 				     (*it)->maxPlayers(),
-				     (*it)->ispassword(),
+				     (*it)->ispassword() ? requestCode::party::PASS : requestCode::party::NO_PASS,
 				     (*it)->status()));
     delete req;
   }
