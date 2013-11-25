@@ -26,8 +26,12 @@ Game::Game(std::list<game::Client *> &players)
   incremental = 0;
   game::Type t = requestCode::game::server::PLAYER1;
   for (client_list::iterator it = _players.begin(); it != _players.end(); ++it)
+  {
 	  (*it)->player(new game::Player(std::vector<game::Pos>(1, (rand() % rtype::Env::getInstance().game.mapSize) *
-																rtype::Env::getInstance().game.mapSize), UniqueId(), t++));
+		  rtype::Env::getInstance().game.mapSize), UniqueId(), t));
+	  pushRequest(new ElemRequest(t, (*it)->player()->pos()[0], (*it)->player()->dir(), (*it)->player()->id()));
+	  t++;
+  }
   _titan = NULL;
   for (int i = 0; i < rtype::Env::getInstance().game.maxBoss; ++i)
   {
@@ -90,6 +94,7 @@ void	Game::randBonnus(Entity &a)
 	  pushRequest(new ElemRequest((_bonus.back())->type(),
 				      (_bonus.back())->pos()[0], (_bonus.back())->dir(),
 				      (_bonus.back())->id()));
+	  /*CAREFUL HERE*/
 	}
       else
 	{
@@ -161,17 +166,16 @@ void	Game::wallUpdate()
 		}
       else if (Referee::isCollision(*ite, *this) == true)
       {
-		  /*On perd ite ici*/
 		  if ((*ite)->_type == requestCode::game::server::DESTRUCTIBLE_WALL)
 	      (*ite)->_life--;
-	  if ((*ite)->_life <= 0)
-	  {
-	      randBonnus(*(*ite));
-	      pushRequest(new DeathRequest((*ite)->id()));
-	      delete *ite;
-	      ite = _objs.erase(ite);
-	      flag = true;
-	  }
+		  if ((*ite)->_life <= 0)
+		  {
+			  randBonnus(*(*ite));
+			  pushRequest(new DeathRequest((*ite)->id()));
+			  delete *ite;
+			  ite = _objs.erase(ite);
+			  flag = true;
+		  }
       }
       else
 	  pushRequest(new ElemRequest((*ite)->_type,
@@ -187,7 +191,7 @@ void	Game::missileUpdate()
 
   for (itm = _missiles.begin(); itm != _missiles.end();)
     {
-	  bool						flag = false;
+	  bool						flag = true;
 
       for (unsigned int i = 0;;)
 		{
@@ -197,6 +201,7 @@ void	Game::missileUpdate()
 			  pushRequest(new DeathRequest((*itm)->id()));
 			  delete *itm;
 			  itm = _missiles.erase(itm);
+			  flag = false;
 			  break;
 			}
 		  if (++i >= (*itm)->_speed)
@@ -205,10 +210,12 @@ void	Game::missileUpdate()
 			  break;
 			}
 		}
-	  pushRequest(new ElemRequest((*itm)->_type,
-		  (*itm)->_pos[0], (*itm)->_dir, (*itm)->_id));
 	  if (flag == true)
+	  {
+		  pushRequest(new ElemRequest((*itm)->_type,
+			  (*itm)->_pos[0], (*itm)->_dir, (*itm)->_id));
 		  itm++;
+	  }
     }
 }
 
@@ -371,13 +378,13 @@ void	Game::popWall()
 				game::Pos p;
 				while ((p = 15 * (rand() % rtype::Env::getInstance().game.mapSize)) != 0)
 					;
-				wall = new Entity(UniqueId(), std::vector<game::Pos>(1, p), 3, 6, UniqueId());
+				wall = new Entity(requestCode::game::server::DESTRUCTIBLE_WALL, std::vector<game::Pos>(1, p), 3, 6, UniqueId());
 			}
 			else
 			{
 				game::Pos p = rand() % 2 == 1 ? rtype::Env::getInstance().game.mapSize - 1 :
 												rtype::Env::getInstance().game.mapSize * rtype::Env::getInstance().game.mapSize -1;
-				wall = new Entity(UniqueId(), std::vector<game::Pos>(1, p), -1, 6, UniqueId());
+				wall = new Entity(requestCode::game::server::INDESTRUCTIBLE_WALL, std::vector<game::Pos>(1, p), -1, 6, UniqueId());
 			}
 			_objs.push_back(wall);
 			pushRequest(new ElemRequest(wall->type(),

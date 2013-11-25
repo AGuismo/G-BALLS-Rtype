@@ -84,9 +84,9 @@ bool							Game::load(void)
 		return false;
 
 
-	if (!_layerManager.addLayer(server::BG1, LAYER_1, sf::Vector2f(0.0f, 0.0f), sf::Vector2f(2560.0f, 0.0f), sf::Vector2f(-2560.0f, 0.0f), sf::Vector2f(1.0f, 0.0f), NULL, true))
+	if (!_layerManager.addLayer(server::BG1, LBG1, sf::Vector2f(0.0f, 0.0f), sf::Vector2f(2560.0f, 0.0f), sf::Vector2f(-2560.0f, 0.0f), sf::Vector2f(1.0f, 0.0f), NULL, true))
 		return false;
-	if (!_layerManager.addLayer(server::BG2, LAYER_2, sf::Vector2f(2560.0f, 0.0f), sf::Vector2f(2560.0f, 0.0f), sf::Vector2f(-2560.0f, 0.0f), sf::Vector2f(1.0f, 0.0f), NULL, true))
+	if (!_layerManager.addLayer(server::BG2, LBG2, sf::Vector2f(2560.0f, 0.0f), sf::Vector2f(2560.0f, 0.0f), sf::Vector2f(-2560.0f, 0.0f), sf::Vector2f(1.0f, 0.0f), NULL, true))
 		return false;
 /*	if (!_layerManager.addLayer(server::LAYER3, LAYER_3, sf::Vector2f(0.0f, 0.0f), sf::Vector2f(0.0f, 0.0f), sf::Vector2f(800.0f, 1000.0f), sf::Vector2f(-4.0f, -5.0f), NULL, true))
 		return false;
@@ -105,8 +105,22 @@ bool							Game::load(void)
 	if (!_layerManager.addLayer(server::LAYER3, LAYER_3, sf::Vector2f(200.0f, 0.0f), sf::Vector2f(200.0f, 0.0f), sf::Vector2f(800.0f, 1400.0f), sf::Vector2f(-5.0f, -5.0f), NULL, true))
 		return false;*/
 
-	if (!_layerManager.addLayer(server::COMET, LAYER_4, sf::Vector2f(200.0f, 0.0f), sf::Vector2f(200.0f, 0.0f), sf::Vector2f(1000.0f, 1300.0f), sf::Vector2f(-5.0f, -5.0f), NULL, true))
+	if (!_layerManager.addLayer(server::COMET, LCOMET, sf::Vector2f(200.0f, 0.0f), sf::Vector2f(200.0f, 0.0f), sf::Vector2f(1000.0f, 1300.0f), sf::Vector2f(-5.0f, -5.0f), NULL, true))
 		return false;
+
+
+	if (!_layerManager.addLayer(server::VICTORY, LVICTORY, sf::Vector2f(0.0f, 0.0f), sf::Vector2f(0.0f, 0.0f), sf::Vector2f(0.0f, 0.0f), sf::Vector2f(0.0f, 0.0f), NULL, false))
+		return false;
+	if (!_layerManager.addLayer(server::LOOSE, LLOOSE, sf::Vector2f(0.0f, 0.0f), sf::Vector2f(0.0f, 0.0f), sf::Vector2f(0.0f, 0.0f), sf::Vector2f(0.0f, 0.0f), NULL, false))
+		return false;
+	if (!_layerManager.addLayer(server::NEXSTAGE, LNEXSTAGE, sf::Vector2f(0.0f, 0.0f), sf::Vector2f(0.0f, 0.0f), sf::Vector2f(0.0f, 0.0f), sf::Vector2f(0.0f, 0.0f), NULL, false))
+		return false;
+
+/*	bool							addLayer(game::Type objType, LayerType lType, const sf::Vector2f &lInit,
+		const sf::Vector2f &lReset, const sf::Vector2f &lLim,
+		const sf::Vector2f &lInc, Timer *lTimer, bool lEn);
+*/
+
 
 	if (!AudioManager::getInstance().add(AGAME_MUSIC, AMUSIC, true, std::string("./Sounds/GameMusic.wav")))
 		return false;
@@ -144,7 +158,6 @@ void							Game::run(void)
 	Timer						_playerFireLock(sf::seconds(0.42f));
 	Timer						_playerBlastLock(sf::seconds(1.40f));
 	Timer						_aliveRequest(sf::seconds(0.25f));
-	Timer						test(sf::seconds(50.0f));
 	ARequest					*req;
 
 	_gameWindow->setFramerateLimit(25);

@@ -25,18 +25,17 @@ namespace	game
   {
     std::vector<game::Pos>::iterator it = _pos.begin();
 
-    (void)dir;
     _prevPos = _pos;
-    if (_dir == 0 || _dir == 1 || _dir == 7)
+    if (dir == 0 || dir == 1 || dir == 7)
       for (; it != _pos.end(); it++)
 	(*it) -= SIZE;
-    if (_dir == 4 || _dir == 5 || _dir == 3)
+    if (dir == 4 || dir == 5 || dir == 3)
       for (; it != _pos.end(); it++)
 	(*it) += SIZE;
-    if (_dir == 6 || _dir == 1 || _dir == 5)
+    if (dir == 6 || dir == 1 || dir == 5)
       for (; it != _pos.end(); it++)
 	(*it) -= 1;
-    if (_dir == 2 || _dir == 3 || _dir == 7)
+    if (dir == 2 || dir == 3 || dir == 7)
       for (; it != _pos.end(); it++)
 	(*it) += 1;
   }

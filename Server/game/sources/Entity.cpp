@@ -4,9 +4,13 @@ Entity::Entity(game::Type type, std::vector<game::Pos> pos, int life, game::Dir 
 	       game::ID id) :
   _life(life), _dir(dir), _speed(1)
 {
+	int i;
   _type = type;
-  _pos = pos;
-  _prevPos = pos;
+  for (i = 0; i < pos.size(); ++i)
+  {
+	  _pos.push_back(pos[i]);
+	  _prevPos.push_back(pos[i]);
+  }
   _id = id;
 }
 
@@ -38,8 +42,10 @@ std::vector<game::Pos>		&Entity::pos()
 void	Entity::update()
 {
   std::vector<game::Pos>::iterator it = _pos.begin();
+  int		i;
 
-  _prevPos = _pos;
+  for (i = 0; i < _pos.size(); ++i)
+	  _prevPos[i] = _pos[i];
   if (_dir == game::NORTH || _dir == game::NORTH_WEST || _dir == game::NORTH_EAST)
     for (; it != _pos.end(); it++)
       (*it) -=	SIZE;
