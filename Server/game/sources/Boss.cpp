@@ -1,6 +1,7 @@
 #include "Boss.h"
 #include "Missile.h"
 #include "IaAlgo.hh"
+#include "Player.h"
 
 Boss::Boss(ID id, AIaAlgo *algo) :
 Entity(requestCode::game::server::BOSS, algo->pos(), algo->life(), game::WEST, id), _algo(algo)
@@ -12,8 +13,22 @@ Boss::~Boss(void)
 {
 }
 
-void	Boss::update()
-{}
+void	Boss::update(Game &game)
+{
+	IAPlayer	pos;
+	int			i = 0;
+	for (std::list<game::Client *>::iterator it = game.clients().begin(); it != game.clients().end(); ++it)
+	{
+		pos[i] = (*it)->player()->pos()[0];
+		++i;
+	}
+	int res = _algo->algo(pos);
+
+	_dir = res;
+	if (res != -1)
+		move();
+	fire(game, false);
+}
 
 void	Boss::move()
 {

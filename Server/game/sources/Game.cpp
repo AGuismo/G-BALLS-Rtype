@@ -245,7 +245,7 @@ void	Game::bossUpdate()
 {
   if (_titan)
     {
-      _titan->update();
+      _titan->update(*this);
       if (!Referee::isOnScreen(_titan))
 	{
 	  pushRequest(new DeathRequest(_titan->id()));
