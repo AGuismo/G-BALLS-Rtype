@@ -6,6 +6,12 @@ AGameRequest::AGameRequest(const requestCode::CodeID code, requestCode::SessionI
 
 }
 
+AGameRequest::AGameRequest(const requestCode::CodeID code):
+  ARequest(code), _sessionID(0)
+{
+
+}
+
 AGameRequest::~AGameRequest()
 {
 
