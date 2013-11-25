@@ -69,6 +69,11 @@ bool							Game::load(void)
 		return false;
 	if (!_textureManager.addTexture(server::INDESTRUCTIBLE_WALL, std::string("./Images/r-type_indestructible_wall.png")))
 		return false;
+	if (!_textureManager.addTexture(server::VITALITY_BONUS , std::string("./Images/r-type_vitality_bonus.png")))
+		return false;
+	if (!_textureManager.addTexture(server::POWER_BONUS, std::string("./Images/r-type_power_bonus.png")))
+		return false;
+
 
 	if (!_layerManager.addLayer(server::LAYER1, LAYER_1, sf::Vector2f(0.0f, 0.0f), sf::Vector2f(2560.0f, 0.0f), sf::Vector2f(-2560.0f, 0.0f), sf::Vector2f(1.0f, 0.0f), NULL, true))
 		return false;
@@ -135,8 +140,8 @@ void							Game::run(void)
 	// addObj(server::PLAYER3, 77, 10);
 	// addObj(server::PLAYER4, 48, 200);
 	// addObj(server::GARBAGE_BOSS, 4877, 0);
-	// addObj(server::ZOGZOG, 4877, 100);
-	// addObj(server::ZOGZOG, 44, 100);
+	//addObj(server::ZOGZOG, 4877, 100);
+	 addObj(server::POWER_BONUS, 44, 100);
 	// addObj(server::ZOGZOG, 4877, 255);
 	// addObj(server::SBYDOS1, 455, 140);
 

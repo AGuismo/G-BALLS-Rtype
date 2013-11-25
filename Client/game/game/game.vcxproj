@@ -76,7 +76,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)/../libraries/SFML/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)/../libraries/SFML/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_UNICODE;UNICODE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
@@ -109,10 +109,12 @@
     <ClInclude Include="..\include\Player.h" />
     <ClInclude Include="..\include\PlayerBlast.h" />
     <ClInclude Include="..\include\PlayerLaser.h" />
+    <ClInclude Include="..\include\PowerBonus.h" />
     <ClInclude Include="..\include\ShrimpBoss.h" />
     <ClInclude Include="..\include\Slider.h" />
     <ClInclude Include="..\include\TextureManager.h" />
     <ClInclude Include="..\include\Timer.h" />
+    <ClInclude Include="..\include\VitalityBonus.h" />
     <ClInclude Include="..\include\ZogZog.h" />
   </ItemGroup>
   <ItemGroup>
@@ -134,10 +136,12 @@
     <ClCompile Include="..\sources\Player.cpp" />
     <ClCompile Include="..\sources\PlayerLaser.cpp" />
     <ClCompile Include="..\sources\PlayerBlast.cpp" />
+    <ClCompile Include="..\sources\PowerBonus .cpp" />
     <ClCompile Include="..\sources\ShrimpBoss.cpp" />
     <ClCompile Include="..\sources\Slider.cpp" />
     <ClCompile Include="..\sources\TextureManager.cpp" />
     <ClCompile Include="..\sources\Timer.cpp" />
+    <ClCompile Include="..\sources\VitalityBonus.cpp" />
     <ClCompile Include="..\sources\ZogZog.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

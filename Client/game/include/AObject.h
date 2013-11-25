@@ -11,8 +11,8 @@ class AObject : public IObject
 {
 protected:
 	int						_id;
-	game::Type					_type;
-	game::Dir			_ld;
+	game::Type				_type;
+	game::Dir				_ld;
 	Action					_action;
 
 protected:
