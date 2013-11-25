@@ -240,7 +240,11 @@ void							Game::run(void)
 			}
 		}
 		while ((req = _network.recvRequest()) != 0)
-		  (this->*_map[req->code()])(req);
+		{
+			std::cout << "RECEIVED SOMETHING" << std::endl;
+			(this->*_map[req->code()])(req);
+		}
+
 		if (_aliveRequest.isEnded())
 		{
 			_network.sendRequest(new AliveRequest(InfosUser::getInstance().authenticate.id));
