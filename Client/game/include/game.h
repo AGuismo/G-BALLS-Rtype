@@ -58,7 +58,7 @@ public:
   static int					POSY(int y) { return ((y / SIZE_GAME_BOARD) * PX_DEC_Y); }
 
 private:
-  bool						updatePlayer(Action action);
+//  bool						updatePlayer(Action action);
 
 private:
   void						drawObjects(void);

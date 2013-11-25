@@ -42,7 +42,11 @@ namespace	menu
 
   Manager::~Manager()
   {
-    _th.cancel();
+  }
+
+  void	Manager::join()
+  {
+    _th.join();
   }
 
   void	Manager::initialize(unsigned short int port)
@@ -93,7 +97,7 @@ namespace	menu
 
   void	Manager::delPlayerParty(Game *game, Client *client)
   {
-    game->delPlayer(client->username());
+    std::cout << "DelPlayer: " << game->delPlayer(client->username()) << std::endl;
     client->requestPush(new Party::Stopped());
     broadcast(Party::Update(game->partyName(),
 			    game->availableSlots(),
@@ -136,6 +140,7 @@ namespace	menu
 	  }
       }
     _monitor.unsetMonitor(*client->TcpLayer());
+    client->inUse(false);
   }
 
   void	Manager::updateClients()
@@ -148,7 +153,6 @@ namespace	menu
 	if ((*it)->isTCPDisconnected())
 	  {
 	    disconnectClient(*it);
-	    (*it)->inUse(false);
 	    it = _clients.erase(it);
 	    continue;
 	  }

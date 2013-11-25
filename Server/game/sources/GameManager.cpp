@@ -24,7 +24,11 @@ namespace	game
 
   Manager::~Manager()
   {
-    _th.cancel();
+  }
+
+  void	Manager::join()
+  {
+    _th.join();
   }
 
   void	Manager::initialize(unsigned short int port)
