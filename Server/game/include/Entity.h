@@ -20,17 +20,6 @@ namespace	game
   static const Dir	NORTH_WEST = 7;
 }
 
-namespace	game
-{
-  static const Type WALL = 71;
-  static const Type DESTRUCTIBLEWALL = 72;
-  static const Type MISSILE = 73;
-  static const Type IA = 74;
-  static const Type BOSS = 75;
-  static const Type PLAYER = 76;
-  static const Type BONUS = 77;
-}
-
 class Entity
 {
 protected:

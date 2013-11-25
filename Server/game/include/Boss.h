@@ -12,7 +12,7 @@ public:
 
   void	update();
   void	move();
-  Missile	*fire(Game &game, bool charged);
+  void	fire(Game &game, bool charged);
   AIaAlgo	*algo() { return _algo; }
 
 private:

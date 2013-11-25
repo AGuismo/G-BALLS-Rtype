@@ -15,7 +15,7 @@ namespace	game
   class Player : public Entity
   {
   public:
-	  Player(const std::vector<game::Pos> &pos, ID id);
+	  Player(const std::vector<game::Pos> &pos, ID id, Type t);
     virtual	~Player();
 
     virtual void	move(Dir dir);
@@ -24,10 +24,12 @@ namespace	game
 	void	extraLife(bool b) { _extraLife = b; };
 	void	pow(int p) { _pow = p; };
 	int		pow() const { return _pow; };
+	Type	typePlayer() const{ return _type; };
 
   private:
     int		_pow;
     bool	_extraLife;
+	Type	_typePlayer;
 
 
     friend class ::Referee;

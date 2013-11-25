@@ -4,7 +4,7 @@
 #include "Missile.h"
 #include "IaAlgo.hh"
 
-Ia::Ia(game::ID id, AIaAlgo *algo) : Entity(game::IA, algo->pos(), algo->life(), game::WEST, id), _algo(algo)
+Ia::Ia(game::ID id, AIaAlgo *algo) : Entity(requestCode::game::server::IA, algo->pos(), algo->life(), game::WEST, id), _algo(algo)
 {
 }
 
@@ -57,7 +57,8 @@ void	Ia::fire(Game &game, bool charged)
 	while (!_algo->fires().empty())
 	{
 		game::Dir p = _algo->fires().back();
-		game.pushMissile(new Missile(*this, p, pos, game.UniqueId()));
+		game.pushMissile(new Missile(*this, p, pos, game.UniqueId(),
+				charged == true ? requestCode::game::server::BYDOS_PLASMA : requestCode::game::server::BYDOS_LASER));
 		_algo->fires().pop_back();
 	}
 }

@@ -1,12 +1,13 @@
 #include "BaseIA.h"
 #include <cstdlib>
+#include "RequestCode.hh"
 
 BaseIA::BaseIA()
 {
 	_pos.push_back((15 * rand() % 16));
 	_firePos = _pos[0];
 	_life = 1;
-	_type = BASEIA;
+	_type = requestCode::game::server::SBYDOS1;
 }
 
 BaseIA::BaseIA(const BaseIA &src)
@@ -15,7 +16,7 @@ BaseIA::BaseIA(const BaseIA &src)
 	_pos.push_back((15 * rand() % 16));
 	_firePos = _pos[0];
 	_life = 1;
-	_type = BASEIA;
+	_type = requestCode::game::server::SBYDOS1;
 }
 
 BaseIA::~BaseIA()
