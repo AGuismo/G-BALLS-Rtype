@@ -117,6 +117,7 @@ public:
   void					updateLineServer(const std::string &, const std::string &);
   void					scroll(void);
   void					removeImagePlayer(void);
+  void					gameExist(const std::string&, bool);
 };
 
 #endif	/* !__MENU_WINDOW_HH__ */

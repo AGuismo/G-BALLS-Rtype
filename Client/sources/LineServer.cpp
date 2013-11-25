@@ -5,7 +5,7 @@
 // Login   <brigno@epitech.net>
 //
 // Started on  Tue Nov 19 21:25:49 2013 brigno
-// Last update Mon Nov 25 17:05:52 2013 brigno
+// Last update Mon Nov 25 17:48:54 2013 brigno
 //
 
 #include	"LineServer.hh"
@@ -33,6 +33,19 @@ LineServer::LineServer(const sf::Event &ev, const sf::Vector2f &posTopLeft,
   this->_gameInfo._lock = lock;
   this->_textGame.setColor(sf::Color(0, 0, 0));
   this->_textSlot.setColor(sf::Color(0, 0, 0));
+}
+
+LineServer	&LineServer::operator=(const LineServer &other)
+{
+  this->_pos = other.getPos();
+  this->_font = other.getFont();
+  this->_textGame = other.getTextGame();
+  this->_textSlot = other.getTextSlot();
+  this->_game = other.getGame();
+  this->_image = other.getImage();
+  this->_gameInfo = other.getGameInfo();
+  this->_focus = other.getFocus();
+  return (*this);
 }
 
 const GameInfo	&LineServer::getGameInfo() const
