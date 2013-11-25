@@ -50,6 +50,8 @@ Application::Application():
 Application::~Application()
 {
   Database::getInstance().saveFile(rtype::Env::getInstance().database.DatabasePath);
+  _menuManager.join();
+  _gameManager.join();
 }
 
 void	Application::run()
