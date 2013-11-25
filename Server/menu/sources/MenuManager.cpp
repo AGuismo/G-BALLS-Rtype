@@ -101,6 +101,7 @@ namespace	menu
 			    game->ispassword(),
 			    requestCode::party::UPDATE_GAME));
   }
+
   void	Manager::delParty(Game *game)
   {
     game->broadcast(Party::Stopped());
@@ -123,7 +124,7 @@ namespace	menu
 	game_list::iterator	it = find_if(_games.begin(), _games.end(),
 					     PredicateParty(client->currentGame()->partyName()));
 
-	if (it != _games.end() && (*it)->status() == requestCode::party::OUT_GAME)
+	if (it != _games.end())
 	  {
 	    if ((*it)->owner() == client)
 	      delParty(*it);
@@ -246,8 +247,9 @@ namespace	menu
 	    client->permissions(c.rights);
 	    client->authenticated(true);
 
-	    requestCode::SessionID id = SessionRequest::Unique();
-	    client->sessionID(id);
+	    if (c.session == 0)
+	      c.session = SessionRequest::Unique();
+	    client->sessionID(c.session);
 
 	    client->requestPush(new ServerRequest(requestCode::server::OK));
 	    client->requestPush(new SessionRequest(client->sessionID()));

@@ -59,6 +59,8 @@ public:
     requestCode::PasswordType	password;
     requestCode::SessionID	session;
     database::Rights		rights;
+
+    Client() : session(0), rights(0) {}
   };
 
 public:
