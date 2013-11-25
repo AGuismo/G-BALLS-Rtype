@@ -12,6 +12,7 @@
 #include			"ShrimpBoss.h"
 #include			"GarbageBoss.h"
 #include			"Bang.h"
+#include			"IndestructibleWall.h"
 
 AObject				*Factory::createObject(ObjType type, int id, int pos, LookDirection ldir)
 {
@@ -59,6 +60,9 @@ AObject				*Factory::createObject(ObjType type, int id, int pos, LookDirection l
 			break;
 		case BYDOS_LASER:
 			return (new BydosLaser(type, id, pos, ldir, text, _gameWindow));
+			break;
+		case INDESTRUCTIBLE_WALL:
+			return (new IndestructibleWall(type, id, pos, ldir, text, _gameWindow));
 			break;
 		case NORMAL_BANG:
 			return (new Bang(type, id, pos, ldir, text, _gameWindow));

@@ -93,6 +93,9 @@
     <ClInclude Include="..\include\Slider.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
+    <ClInclude Include="..\include\IndestructibleWall.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\sources\Animation.cpp">
@@ -156,6 +159,9 @@
       <Filter>Fichiers sources</Filter>
     </ClCompile>
     <ClCompile Include="..\sources\Slider.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\sources\IndestructibleWall.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
   </ItemGroup>

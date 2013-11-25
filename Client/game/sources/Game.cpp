@@ -62,7 +62,8 @@ bool							Game::load(void)
 		return false;
 	if (!_textureManager.addTexture(GARBAGE_BOSS, std::string("./Images/r-typesheet38.png")))
 		return false;
-
+	if (!_textureManager.addTexture(INDESTRUCTIBLE_WALL, std::string("./Images/r-type_indestructible_wall.png")))
+		return false;
 
 	if (!_layerManager.addLayer(LAYER1, LAYER_1, sf::Vector2f(0.0f, 0.0f), sf::Vector2f(2560.0f, 0.0f), sf::Vector2f(-2560.0f, 0.0f), sf::Vector2f(1.0f, 0.0f), NULL, true))
 		return false;
@@ -107,7 +108,6 @@ bool							Game::load(void)
 	return true;
 }
 
-//projectiles + singleton
 
 void							Game::run(void)
 {
@@ -119,7 +119,12 @@ void							Game::run(void)
 
 	_gameWindow->setFramerateLimit(25);
 	_gameWindow->setKeyRepeatEnabled(true);
-	// addObj(PLAYER1, 42, 100);
+/*	addObj(INDESTRUCTIBLE_WALL, 42, 254);
+	addObj(INDESTRUCTIBLE_WALL, 42, 255);
+	addObj(INDESTRUCTIBLE_WALL, 42, 253);
+	addObj(INDESTRUCTIBLE_WALL, 42, 0);
+	addObj(INDESTRUCTIBLE_WALL, 42, 1);
+	addObj(INDESTRUCTIBLE_WALL, 42, 2);*/
 	// addObj(PLAYER2, 20, 40);
 	// addObj(PLAYER3, 77, 10);
 	// addObj(PLAYER4, 48, 200);
