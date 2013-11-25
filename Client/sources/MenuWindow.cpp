@@ -876,9 +876,8 @@ void	MenuWindow::receiveUpdateParty(ARequest *req)
   float y = 243.;
 
   Party::Update *up;
-  std::string slot = "";
+  std::string slot;
   std::stringstream ss;
-  std::string tmp;
   int tmpnbMax;
   int tmpcurrent;
 
@@ -886,21 +885,15 @@ void	MenuWindow::receiveUpdateParty(ARequest *req)
   up = dynamic_cast<Party::Update*>(req);
 
 
-  ss << up->_maxPlayers;
-  ss >> tmpnbMax;
-  std::cout << "TMPNBMAX" << tmpnbMax << std::endl;
-  ss.clear();
-  ss << (up->_maxPlayers - up->_availableSlots);
-  ss >> tmpcurrent;
-  std::cout << "TMPCURRENT" << tmpcurrent << std::endl;
-  ss.clear();
-  ss << tmpnbMax;
-  ss >> tmp;
-  slot = tmp + "/";
-  ss.clear();
+  tmpnbMax = up->_maxPlayers;
+  tmpcurrent = (up->_maxPlayers - up->_availableSlots);
+  std::cout << "TMPNBMAX: " << tmpnbMax << std::endl;
+  std::cout << "TMPCURRENT: " << tmpcurrent << std::endl;
   ss << tmpcurrent;
-  ss >> tmp;
-  slot += tmp;
+  slot += ss.str();
+  ss.str("");
+  ss << tmpnbMax;
+  slot += "/" + ss.str();
 
   std::cout << "SLOT : [" << slot << "]" << std::endl;
 
