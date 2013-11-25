@@ -107,6 +107,6 @@ _leftAnimation(0.20f), _rightAnimation(0.14f)
 
 void				Slider::onDestruction(Game &game)
 {
-  game.addObj(server::NORMAL_BANG, Game::generateId(), _cCurPos);
+	game.addObj(server::NORMAL_BANG, Game::generateId(), _cCurPos);
 	AudioManager::getInstance().play(ABYDOS_DESTRUCTION);
 }

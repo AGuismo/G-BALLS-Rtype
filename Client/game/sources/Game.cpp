@@ -163,7 +163,7 @@ void							Game::run(void)
 	_gameWindow->setFramerateLimit(25);
 	_gameWindow->setKeyRepeatEnabled(true);
 
-	addObj(server::POWER_BONUS, 44, 100);
+//	addObj(server::POWER_BONUS, 44, 100);
 	
 	AudioManager::getInstance().play(AGAME_MUSIC);
 
