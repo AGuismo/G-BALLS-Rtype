@@ -20,7 +20,6 @@ void						Slider::draw(void)
 	}
 	else if (_act)
 	{
-		findAnimation();
 		if (_vCurPos.x < _vNextPos.x)
 			_vCurPos.x += (_vLag * Game::OBJ_DEC_X_FRAME);
 		if (_vCurPos.x > _vNextPos.x)
@@ -31,7 +30,7 @@ void						Slider::draw(void)
 			_vCurPos.y -= (_vLag * Game::OBJ_DEC_Y_FRAME);
 		_image.setPosition(_vCurPos.x, _vCurPos.y);
 	}
-	if (_action == Right)
+	if (_ld == requestCode::game::client::EAST)
 		_image.setTextureRect(_rightAnimation.getFrame());
 	else
 		_image.setTextureRect(_leftAnimation.getFrame());
@@ -42,7 +41,7 @@ void						Slider::draw(void)
 
 void			Slider::update(game::Dir lDir, int updtatedPos)
 {
-	(void)lDir;
+	_ld = lDir;
 	if (updtatedPos != Game::UNCHANGED)
 	{
 		_cNextPos = updtatedPos;

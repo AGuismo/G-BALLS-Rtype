@@ -57,8 +57,9 @@ bool		Database::saveFile(const std::string path)
 save::Backup &	Database::save(save::Backup &backup)
 {
   Thread::MutexGuard	guard(_lock);
+  Ruint16		clientSize = _clients.size();
 
-  backup << _clients.size();
+  backup << clientSize;
   for (client_list::iterator it = _clients.begin(); it != _clients.end(); ++it)
     {
       Ruint16	len = it->login.size();
@@ -73,7 +74,7 @@ save::Backup &	Database::save(save::Backup &backup)
 save::Backup &	Database::load(save::Backup &backup)
 {
   Thread::MutexGuard	guard(_lock);
-  client_list::size_type	nbClients;
+  Ruint16		nbClients;
 
   backup >> nbClients;
   for (client_list::size_type it = 0; it < nbClients; ++it)
