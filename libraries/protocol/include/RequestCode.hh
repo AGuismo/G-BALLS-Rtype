@@ -120,6 +120,11 @@ namespace requestCode
       static const Type BIG_BANG = 22;
 	  static const Type VITALITY_BONUS = 23;
 	  static const Type POWER_BONUS = 24;
+	  static const Type MISSILE = 25;
+	  static const Type IA = 26;
+	  static const Type BOSS = 27;
+	  static const Type PLAYER = 28;
+	  static const Type BONUS = 29;
     }
   }
 }

@@ -3,7 +3,7 @@
 #include "IaAlgo.hh"
 
 Boss::Boss(ID id, AIaAlgo *algo) :
-Entity(game::BOSS, algo->pos(), algo->life(), game::WEST, id), _algo(algo)
+Entity(requestCode::game::server::BOSS, algo->pos(), algo->life(), game::WEST, id), _algo(algo)
 {
 }
 
@@ -34,12 +34,18 @@ void	Boss::move()
 		(*it) += 1;
 }
 
-Missile	*Boss::fire(Game &game, bool charged)
+void	Boss::fire(Game &game, bool charged)
 {
 	std::vector<game::Pos> pos;
 
 	pos.push_back(_algo->firePos());
 	if (charged)
 		pos.push_back(_algo->firePos() + 1);
-	return (new Missile(*this, game::WEST, pos, game.UniqueId()));
+	while (!_algo->fires().empty())
+	{
+		game::Dir p = _algo->fires().back();
+		game.pushMissile(new Missile(*this, p, pos, game.UniqueId(),
+			charged == true ? requestCode::game::server::BYDOS_PLASMA : requestCode::game::server::BYDOS_LASER));
+		_algo->fires().pop_back();
+	}
 }

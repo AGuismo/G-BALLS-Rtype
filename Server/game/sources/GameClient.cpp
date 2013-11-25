@@ -67,10 +67,10 @@ namespace	game
 		if (Referee::isCollision(_player, game) || !Referee::isOnScreen(_player))
 		  {
 		    _alive = false;
-		    game.pushRequest(new DeathRequest(_player->_id));
+		    game.pushRequest(new DeathRequest(_id));
 		  }
 		else
-		  game.pushRequest(new ElemRequest(PLAYER,
+			game.pushRequest(new ElemRequest(requestCode::game::server::PLAYER,
 						   _player->_pos[0], _player->_dir, _player->_id));
 	      }
 	    else if (!fire)
@@ -78,7 +78,7 @@ namespace	game
 		Missile *missile = _player->fire(game, false);
 		game.pushMissile(missile);
 		fire = true;
-		game.pushRequest(new ElemRequest(MISSILE,
+		game.pushRequest(new ElemRequest(requestCode::game::server::MISSILE,
 						 missile->pos()[0], missile->dir(), missile->id()));
 	      }
 	  }

@@ -20,9 +20,6 @@
 class IAALGO_API AIaAlgo
 {
  public:
-  static const game::Type BASEIA = 78;
-
- public:
   virtual ~AIaAlgo() {};
   virtual int	algo(IAPlayer &players) = 0;
   std::vector<game::Pos>	&pos() { return _pos; }
