@@ -6,7 +6,7 @@
 namespace	menu
 {
   Game::Game(Client *client) :
-	  _owner(client), _status(requestCode::party::OUT_GAME), _game(0)
+    _owner(client), _ispassword(false), _status(requestCode::party::OUT_GAME), _game(0)
   {
     _clients.push_back(client);
     client->currentGame(this);

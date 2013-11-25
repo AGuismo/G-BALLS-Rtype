@@ -876,26 +876,24 @@ void	MenuWindow::receiveUpdateParty(ARequest *req)
   float y = 243.;
 
   Party::Update *up;
-  std::string slot = "";
+  std::string slot;
   std::stringstream ss;
-  std::string tmp;
   int tmpnbMax;
   int tmpcurrent;
+
+
   up = dynamic_cast<Party::Update*>(req);
-  ss << up->_maxPlayers;
-  ss >> tmpnbMax;
-  ss.clear();
-  ss << (up->_maxPlayers - up->_availableSlots);
-  ss >> tmpcurrent;
-  std::cout << "TMP" << tmp << std::endl;
-  ss.clear();
-  ss << tmpnbMax;
-  ss >> tmp;
-  slot = tmp + "/";
-  ss.clear();
+
+
+  tmpnbMax = up->_maxPlayers;
+  tmpcurrent = (up->_maxPlayers - up->_availableSlots);
+  std::cout << "TMPNBMAX: " << tmpnbMax << std::endl;
+  std::cout << "TMPCURRENT: " << tmpcurrent << std::endl;
   ss << tmpcurrent;
-  ss >> tmp;
-  slot += tmp;
+  slot += ss.str();
+  ss.str("");
+  ss << tmpnbMax;
+  slot += "/" + ss.str();
 
   std::cout << "SLOT : [" << slot << "]" << std::endl;
 
@@ -933,26 +931,22 @@ void	MenuWindow::receiveOk(ARequest *req)
   if (this->_currentState == MENU)
     {
       this->_isConnected = 1;
-      std::cout << "JE ME CONNECTE" << std::endl;
       MediaAudioManager::getInstance().getSound("SwitchScreen")->getSound().play();
       this->drawLobby();
     }
   else if (this->_currentState == CREATE)
     {
       MediaAudioManager::getInstance().getSound("SwitchScreen")->getSound().play();
-      std::cout << "Je CREE UNE PARTIE" << std::endl;
       this->drawLobbyWait(1);
     }
   else if (this->_currentState == LOBBY || this->_currentState == VERIF_PWD)
     {
       MediaAudioManager::getInstance().getSound("SwitchScreen")->getSound().play();
-      std::cout << "Je JOIN UNE PARTIE" << std::endl;
       this->drawLobbyWait(0);
     }
   else if (this->_currentState == WAIT)
     {
       MediaAudioManager::getInstance().getSound("SwitchScreen")->getSound().play();
-      std::cout << "JE LEAVE UNE PARTIE" << std::endl;
       this->drawLobby();
     }
 }
@@ -985,7 +979,6 @@ void	MenuWindow::update()
 	{
 	  callback_map::iterator	it = _mapCallBack.find(req->code());
 
-	  std::cout << "receive !!!!! " << req->code() << std::endl;
 	  if (it != _mapCallBack.end())
 	    (this->*(it->second))(req);
 	  else
