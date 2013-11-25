@@ -122,6 +122,6 @@ Bydos1::Bydos1(game::Type type, int id, int pos, game::Dir ld, sf::Texture *text
 
 void				Bydos1::onDestruction(Game &game)
 {
-  game.addObj(server::NORMAL_BANG, Game::generateId(), _cCurPos);
+	game.addObj(server::NORMAL_BANG, Game::generateId(), _cCurPos);
 	AudioManager::getInstance().play(ABYDOS_DESTRUCTION);
 }

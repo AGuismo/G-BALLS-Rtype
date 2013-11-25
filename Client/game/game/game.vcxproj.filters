@@ -179,8 +179,5 @@
     <ClCompile Include="..\sources\VitalityBonus.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="..\sources\PowerBonus .cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
   </ItemGroup>
 </Project>

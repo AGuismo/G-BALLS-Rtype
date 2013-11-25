@@ -108,7 +108,7 @@ bool							Game::load(void)
 	if (!_layerManager.addLayer(server::COMET, LAYER_4, sf::Vector2f(200.0f, 0.0f), sf::Vector2f(200.0f, 0.0f), sf::Vector2f(1000.0f, 1300.0f), sf::Vector2f(-5.0f, -5.0f), NULL, true))
 		return false;
 
-	if (!AudioManager::getInstance().add(AGAME_MUSIC, AMUSIC, true, std::string("./Sounds/Lepi.ogg")))
+	if (!AudioManager::getInstance().add(AGAME_MUSIC, AMUSIC, true, std::string("./Sounds/GameMusic.wav")))
 		return false;
 	if (!AudioManager::getInstance().add(APLAYER_LASER, ASOUND, false, std::string("./Sounds/PlayerLaser.wav")))
 		return false;
@@ -120,11 +120,19 @@ bool							Game::load(void)
 		return false;
 	if (!AudioManager::getInstance().add(ABYDOS_PLASMA, ASOUND, false, std::string("./Sounds/BydosPlasma.flac")))
 		return false;
-	if (!AudioManager::getInstance().add(server::BYDOS_LASER, ASOUND, false, std::string("./Sounds/BydosLaser.wav")))
+	if (!AudioManager::getInstance().add(ABYDOS_LASER, ASOUND, false, std::string("./Sounds/BydosLaser.wav")))
 		return false;
 	if (!AudioManager::getInstance().add(ABYDOS_DESTRUCTION, ASOUND, false, std::string("./Sounds/BydosDestruction.wav")))
 		return false;
 	if (!AudioManager::getInstance().add(ABYDOS_BOSS_DESTRUCTION, ASOUND, false, std::string("./Sounds/BydosBossDestruction.wav")))
+		return false;
+	if (!AudioManager::getInstance().add(AGAME_OVER, ASOUND, false, std::string("./Sounds/GameOver.wav")))
+		return false;
+	if (!AudioManager::getInstance().add(ABONUS, ASOUND, false, std::string("./Sounds/Bonus.wav")))
+		return false;
+	if (!AudioManager::getInstance().add(AVICTORY, ASOUND, false, std::string("./Sounds/Victory.wav")))
+		return false;
+	if (!AudioManager::getInstance().add(ANEXT_STAGE, ASOUND, false, std::string("./Sounds/NextStage.wav")))
 		return false;
 	return true;
 }
@@ -134,7 +142,7 @@ void							Game::run(void)
 {
 	Timer						_playerMvtLock(sf::seconds(0.20f));
 	Timer						_playerFireLock(sf::seconds(0.42f));
-	Timer						_playerBlastLock(sf::seconds(1.0f));
+	Timer						_playerBlastLock(sf::seconds(1.40f));
 	Timer						_aliveRequest(sf::seconds(0.25f));
 	Timer						test(sf::seconds(50.0f));
 	ARequest					*req;
@@ -179,20 +187,11 @@ void							Game::run(void)
 					if (_playerMvtLock.isEnded())
 					{
 						if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
-						{
-							std::cout << "NORTH WEST MOTHERFUCKER" << std::endl;
 							_network.sendRequest(new EventRequest(MOVE, NORTH_WEST, InfosUser::getInstance().authenticate.id));
-						}
 						else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
-						{
-							std::cout << "SOUTH WEST MOTHERFUCKER" << std::endl;
 							_network.sendRequest(new EventRequest(MOVE, SOUTH_WEST, InfosUser::getInstance().authenticate.id));
-						}
 						else
-						{
-							// updatePlayer(Left);
 							_network.sendRequest(new EventRequest(MOVE, WEST, InfosUser::getInstance().authenticate.id));
-						}
 						_playerMvtLock.restart();
 					}
 					break;
@@ -200,27 +199,17 @@ void							Game::run(void)
 					if (_playerMvtLock.isEnded())
 					{
 						if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
-						{
-							std::cout << " MOTHERFUCKER NORTH EAST" << std::endl;
 							_network.sendRequest(new EventRequest(MOVE, SOUTH_EAST, InfosUser::getInstance().authenticate.id));
-						}
 						else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
-						{
-							std::cout << "SOUTH east MOTHERFUCKER" << std::endl;
 							_network.sendRequest(new EventRequest(MOVE, SOUTH_WEST, InfosUser::getInstance().authenticate.id));
-						}
 						else
-						{
-							// updatePlayer(Right);
 							_network.sendRequest(new EventRequest(MOVE, EAST, InfosUser::getInstance().authenticate.id));
-						}
 						_playerMvtLock.restart();
 					}
 					break;
 				case sf::Keyboard::Up:
 					if (_playerMvtLock.isEnded())
 					{
-						// updatePlayer(Up);
 						_network.sendRequest(new EventRequest(MOVE, NORTH, InfosUser::getInstance().authenticate.id));
 						_playerMvtLock.restart();
 					}
@@ -228,7 +217,6 @@ void							Game::run(void)
 				case sf::Keyboard::Down:
 					if (_playerMvtLock.isEnded())
 					{
-						// updatePlayer(Down);
 						_network.sendRequest(new EventRequest(MOVE, SOUTH, InfosUser::getInstance().authenticate.id));
 						_playerMvtLock.restart();
 					}
@@ -238,7 +226,6 @@ void							Game::run(void)
 					{
 						// AudioManager::getInstance().play(APLAYER_LASER);
 						_network.sendRequest(new EventRequest(SHOOT, SIMPLE, InfosUser::getInstance().authenticate.id));
-						// delObj(44);
 						_playerFireLock.restart();
 					}
 					break;
@@ -255,11 +242,28 @@ void							Game::run(void)
 				break;
 			}
 		}
-		while ((req = _network.recvRequest()) != 0)
+
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::LControl) == true)
 		{
-			std::cout << "RECEIVED SOMETHING" << std::endl;
-			(this->*_map[req->code()])(req);
+			AudioManager::getInstance().play(APLAYER_CHARGED);
 		}
+		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::LControl) == false && _playerBlastLock.isEnded())
+		{
+			AudioManager::getInstance().stop(APLAYER_CHARGED);
+			AudioManager::getInstance().play(APLAYER_RELEASED);
+			_network.sendRequest(new EventRequest(SHOOT, BLAST, InfosUser::getInstance().authenticate.id));
+			_playerBlastLock.restart();
+		}
+		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::LControl) == false && !_playerBlastLock.isEnded())
+		{
+			AudioManager::getInstance().stop(APLAYER_CHARGED);
+			_playerBlastLock.restart();
+		}
+
+
+
+		while ((req = _network.recvRequest()) != 0)
+			(this->*_map[req->code()])(req);
 
 		if (_aliveRequest.isEnded())
 		{
@@ -300,7 +304,7 @@ void							Game::cleanObjects(void)
 }
 
 
-bool							Game::updatePlayer(Action action)
+/*bool							Game::updatePlayer(Action action)
 {
 	int							updatedPos = UNCHANGED;
 	obj_type::iterator			it = std::find_if(_objects.begin(), _objects.end(), AObject::predicate(_idPlayer));
@@ -365,7 +369,7 @@ bool							Game::updatePlayer(Action action)
 		return true;
 	}
 	return false;
-}
+}*/
 
 
 bool						Game::delObj(int id)
@@ -457,6 +461,7 @@ void	Game::death(const ARequest *req)
 void	Game::buff(const ARequest *req)
 {
   (void)req;
+  AudioManager::getInstance().play(ABONUS);
 }
 
 void	Game::score(const ARequest *req)
@@ -467,16 +472,19 @@ void	Game::score(const ARequest *req)
 void	Game::victory(const ARequest *req)
 {
   (void)req;
+  AudioManager::getInstance().play(AVICTORY);
 }
 
 void	Game::loose(const ARequest *req)
 {
   (void)req;
+  AudioManager::getInstance().play(AGAME_OVER);
 }
 
 void	Game::nextStage(const ARequest *req)
 {
   (void)req;
+  AudioManager::getInstance().play(ANEXT_STAGE)  ;
 }
 
 Game::Game(sf::RenderWindow *gameWindow, sf::Event *event, network::Manager &net) : _layerManager(gameWindow, &_textureManager), _network(net)
