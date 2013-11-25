@@ -7,9 +7,11 @@
 #include	"LayerManager.h"
 #include	"AudioManager.h"
 #include	"Factory.h"
+#include	"RequestCode.hh"
 
 class gameWindow;
 class Factory;
+class ARequest;
 
 namespace network
 {
@@ -19,7 +21,9 @@ namespace network
 class Game
 {
 private:
-  typedef std::deque<AObject *> obj_type;
+  typedef std::deque<AObject *>				obj_type;
+  typedef void	(Game::*game_callback)(const ARequest *);
+  typedef std::map<requestCode::CodeID, game_callback>	callback_map;
 
 private:
 	LayerManager				_layerManager;
@@ -29,6 +33,7 @@ private:
 	sf::Event					*_event;
 	game::TextureManager		_textureManager;
 	network::Manager			&_network;
+  callback_map				_map;
 
 public:
   static const int			SIZE_GAME_BOARD = 16;
@@ -63,8 +68,8 @@ private:
   void						cleanGame(void);
 
 public:
-  bool						updateObj(ObjType type, LookDirection lDir, int id, int pos);
-  bool						addObj(ObjType type, int id, int pos);
+  bool						updateObj(game::Type type, game::Dir lDir, int id, int pos);
+  bool						addObj(game::Type type, int id, int pos);
   bool						delObj(int id);
 
 public:
@@ -73,6 +78,15 @@ public:
 
 public:
 	static int					generateId(void);
+
+private:
+  void					elem(const ARequest *req);
+  void					death(const ARequest *req);
+  void					buff(const ARequest *req);
+  void					score(const ARequest *req);
+  void					victory(const ARequest *req);
+  void					loose(const ARequest *req);
+  void					nextStage(const ARequest *req);
 
 public:
   Game(sf::RenderWindow *gameWindow, sf::Event *event, network::Manager &);

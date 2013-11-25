@@ -1,6 +1,8 @@
 #include		"ShrimpBoss.h"
 #include		"game.h"
 
+using namespace requestCode::game;
+
 void						ShrimpBoss::draw(void)
 {
 
@@ -33,7 +35,7 @@ void						ShrimpBoss::draw(void)
 	_gameWindow->draw(_image);
 }
 
-void			ShrimpBoss::update(LookDirection lDir, int updtatedPos)
+void			ShrimpBoss::update(game::Dir lDir, int updtatedPos)
 {
 	(void)lDir;
 	if (updtatedPos != Game::UNCHANGED)
@@ -59,7 +61,7 @@ void			ShrimpBoss::update(LookDirection lDir, int updtatedPos)
 }
 
 
-ShrimpBoss::ShrimpBoss(ObjType type, int id, int pos, LookDirection ld, sf::Texture *text, sf::RenderWindow *gameWindow) : _ShrimpBossAnimation(0.25f)
+ShrimpBoss::ShrimpBoss(game::Type type, int id, int pos, game::Dir ld, sf::Texture *text, sf::RenderWindow *gameWindow) : _ShrimpBossAnimation(0.25f)
 {
 	_type = type;
 	_id = id;
@@ -86,13 +88,13 @@ ShrimpBoss::ShrimpBoss(ObjType type, int id, int pos, LookDirection ld, sf::Text
 
 void				ShrimpBoss::onDestruction(Game &game)
 {
-	game.addObj(BIG_BANG, Game::generateId(), _cCurPos + Game::SIZE_GAME_BOARD);
-	game.addObj(BIG_BANG, Game::generateId(), _cCurPos + Game::SIZE_GAME_BOARD + 1);
-	game.addObj(BIG_BANG, Game::generateId(), _cCurPos + Game::SIZE_GAME_BOARD * 2 + 1);
-	game.addObj(BIG_BANG, Game::generateId(), _cCurPos + Game::SIZE_GAME_BOARD * 3 + 2);
-	game.addObj(BIG_BANG, Game::generateId(), _cCurPos + Game::SIZE_GAME_BOARD * 4 + 2);
-	game.addObj(BIG_BANG, Game::generateId(), _cCurPos + Game::SIZE_GAME_BOARD * 5 + 2);
-	game.addObj(BIG_BANG, Game::generateId(), _cCurPos + Game::SIZE_GAME_BOARD * 6 + 2);
-	game.addObj(BIG_BANG, Game::generateId(), _cCurPos + Game::SIZE_GAME_BOARD * 7 + 1);
+	game.addObj(server::BIG_BANG, Game::generateId(), _cCurPos + Game::SIZE_GAME_BOARD);
+	game.addObj(server::BIG_BANG, Game::generateId(), _cCurPos + Game::SIZE_GAME_BOARD + 1);
+	game.addObj(server::BIG_BANG, Game::generateId(), _cCurPos + Game::SIZE_GAME_BOARD * 2 + 1);
+	game.addObj(server::BIG_BANG, Game::generateId(), _cCurPos + Game::SIZE_GAME_BOARD * 3 + 2);
+	game.addObj(server::BIG_BANG, Game::generateId(), _cCurPos + Game::SIZE_GAME_BOARD * 4 + 2);
+	game.addObj(server::BIG_BANG, Game::generateId(), _cCurPos + Game::SIZE_GAME_BOARD * 5 + 2);
+	game.addObj(server::BIG_BANG, Game::generateId(), _cCurPos + Game::SIZE_GAME_BOARD * 6 + 2);
+	game.addObj(server::BIG_BANG, Game::generateId(), _cCurPos + Game::SIZE_GAME_BOARD * 7 + 1);
 	AudioManager::getInstance().play(ABYDOS_BOSS_DESTRUCTION);
 }

@@ -44,7 +44,7 @@ int							AObject::getCaseCurPos(void)
 	return (_cNextPos);
 }
 
-ObjType						AObject::getObjType(void)
+game::Type						AObject::getObjType(void)
 {
 	return (_type);
 }

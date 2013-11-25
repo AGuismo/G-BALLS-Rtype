@@ -1,6 +1,8 @@
 #include		<SFML/Audio.hpp>
 #include		<SFML/Network.hpp>
 #include		"EventRequest.hh"
+#include		"DeathRequest.h"
+#include		"ElemRequest.hh"
 #include		"LeaveRequest.h"
 #include		"AObject.h"
 #include		"game.h"
@@ -16,7 +18,9 @@ const float Game::ALIVE_TIMER = 3.0f;
 const float Game::MAX_VLAG = 3.0f;
 const float Game::OBJ_DEC_X_FRAME = Game::PX_DEC_X /  8.0f;
 const float Game::OBJ_DEC_Y_FRAME = Game::PX_DEC_Y / 8.0f;
+
 using namespace requestCode::game::client;
+using namespace requestCode::game;
 
 Game::~Game()
 {
@@ -26,64 +30,64 @@ Game::~Game()
 
 bool							Game::load(void)
 {
-	if(!_textureManager.addTexture(PLAYER1, std::string("./Images/r-typesheet42.png")))
+	if(!_textureManager.addTexture(server::PLAYER1, std::string("./Images/r-typesheet42.png")))
 		return false;
-	if (!_textureManager.addTexture(PLAYER2, std::string("./Images/r-typesheet42.png")))
+	if (!_textureManager.addTexture(server::PLAYER2, std::string("./Images/r-typesheet42.png")))
 		return false;
-	if (!_textureManager.addTexture(PLAYER3, std::string("./Images/r-typesheet42.png")))
+	if (!_textureManager.addTexture(server::PLAYER3, std::string("./Images/r-typesheet42.png")))
 		return false;
-	if (!_textureManager.addTexture(PLAYER4, std::string("./Images/r-typesheet42.png")))
+	if (!_textureManager.addTexture(server::PLAYER4, std::string("./Images/r-typesheet42.png")))
 		return false;
-	if (!_textureManager.addTexture(SBYDOS1, std::string("./Images/r-typesheet5.png")))
+	if (!_textureManager.addTexture(server::SBYDOS1, std::string("./Images/r-typesheet5.png")))
 		return false;
-	if (!_textureManager.addTexture(LAYER1, std::string("./Images/Aurora1.png")))
+	if (!_textureManager.addTexture(server::LAYER1, std::string("./Images/Aurora1.png")))
 		return false;
-	if (!_textureManager.addTexture(LAYER2, std::string("./Images/Aurora2.png")))
+	if (!_textureManager.addTexture(server::LAYER2, std::string("./Images/Aurora2.png")))
 		return false;
-	if (!_textureManager.addTexture(LAYER3, std::string("./Images/Comet1.png")))
+	if (!_textureManager.addTexture(server::LAYER3, std::string("./Images/Comet1.png")))
 		return false;
-	if (!_textureManager.addTexture(NORMAL_BANG, std::string("./Images/r-typesheet44.png")))
+	if (!_textureManager.addTexture(server::NORMAL_BANG, std::string("./Images/r-typesheet44.png")))
 		return false;
-	if (!_textureManager.addTexture(BIG_BANG, std::string("./Images/r-typesheet44.png")))
+	if (!_textureManager.addTexture(server::BIG_BANG, std::string("./Images/r-typesheet44.png")))
 		return false;
-	if (!_textureManager.addTexture(PLAYER_LASER, std::string("./Images/r-typesheet2.png")))
+	if (!_textureManager.addTexture(server::PLAYER_LASER, std::string("./Images/r-typesheet2.png")))
 		return false;
-	if (!_textureManager.addTexture(PLAYER_BLAST, std::string("./Images/r-typesheet1.png")))
+	if (!_textureManager.addTexture(server::PLAYER_BLAST, std::string("./Images/r-typesheet1.png")))
 		return false;
-	if (!_textureManager.addTexture(BYDOS_PLASMA, std::string("./Images/r-typesheet43.png")))
+	if (!_textureManager.addTexture(server::BYDOS_PLASMA, std::string("./Images/r-typesheet43.png")))
 		return false;
-	if (!_textureManager.addTexture(BYDOS_LASER, std::string("./Images/r-typesheet43.png")))
+	if (!_textureManager.addTexture(server::BYDOS_LASER, std::string("./Images/r-typesheet43.png")))
 		return false;
-	if (!_textureManager.addTexture(ZOGZOG, std::string("./Images/r-typesheet24.png")))
+	if (!_textureManager.addTexture(server::ZOGZOG, std::string("./Images/r-typesheet24.png")))
 		return false;
-	if (!_textureManager.addTexture(SLIDER, std::string("./Images/r-typesheet23.png")))
+	if (!_textureManager.addTexture(server::SLIDER, std::string("./Images/r-typesheet23.png")))
 		return false;
-	if (!_textureManager.addTexture(SHRIMP_BOSS, std::string("./Images/r-typesheet30.png")))
+	if (!_textureManager.addTexture(server::SHRIMP_BOSS, std::string("./Images/r-typesheet30.png")))
 		return false;
-	if (!_textureManager.addTexture(GARBAGE_BOSS, std::string("./Images/r-typesheet38.png")))
+	if (!_textureManager.addTexture(server::GARBAGE_BOSS, std::string("./Images/r-typesheet38.png")))
 		return false;
-	if (!_textureManager.addTexture(INDESTRUCTIBLE_WALL, std::string("./Images/r-type_indestructible_wall.png")))
+	if (!_textureManager.addTexture(server::INDESTRUCTIBLE_WALL, std::string("./Images/r-type_indestructible_wall.png")))
 		return false;
 
-	if (!_layerManager.addLayer(LAYER1, LAYER_1, sf::Vector2f(0.0f, 0.0f), sf::Vector2f(2560.0f, 0.0f), sf::Vector2f(-2560.0f, 0.0f), sf::Vector2f(1.0f, 0.0f), NULL, true))
+	if (!_layerManager.addLayer(server::LAYER1, LAYER_1, sf::Vector2f(0.0f, 0.0f), sf::Vector2f(2560.0f, 0.0f), sf::Vector2f(-2560.0f, 0.0f), sf::Vector2f(1.0f, 0.0f), NULL, true))
 		return false;
-	if (!_layerManager.addLayer(LAYER2, LAYER_2, sf::Vector2f(2560.0f, 0.0f), sf::Vector2f(2560.0f, 0.0f), sf::Vector2f(-2560.0f, 0.0f), sf::Vector2f(1.0f, 0.0f), NULL, true))
+	if (!_layerManager.addLayer(server::LAYER2, LAYER_2, sf::Vector2f(2560.0f, 0.0f), sf::Vector2f(2560.0f, 0.0f), sf::Vector2f(-2560.0f, 0.0f), sf::Vector2f(1.0f, 0.0f), NULL, true))
 		return false;
-	if (!_layerManager.addLayer(LAYER3, LAYER_3, sf::Vector2f(0.0f, 0.0f), sf::Vector2f(0.0f, 0.0f), sf::Vector2f(800.0f, 1000.0f), sf::Vector2f(-4.0f, -5.0f), NULL, true))
+	if (!_layerManager.addLayer(server::LAYER3, LAYER_3, sf::Vector2f(0.0f, 0.0f), sf::Vector2f(0.0f, 0.0f), sf::Vector2f(800.0f, 1000.0f), sf::Vector2f(-4.0f, -5.0f), NULL, true))
 		return false;
-	if (!_layerManager.addLayer(LAYER3, LAYER_3, sf::Vector2f(-50.0f, 100.0f), sf::Vector2f(0.0f, 0.0f), sf::Vector2f(800.0f, 1000.0f), sf::Vector2f(-4.0f, -5.0f), NULL, true))
+	if (!_layerManager.addLayer(server::LAYER3, LAYER_3, sf::Vector2f(-50.0f, 100.0f), sf::Vector2f(0.0f, 0.0f), sf::Vector2f(800.0f, 1000.0f), sf::Vector2f(-4.0f, -5.0f), NULL, true))
 		return false;
-	if (!_layerManager.addLayer(LAYER3, LAYER_3, sf::Vector2f(300.0f, 0.0f), sf::Vector2f(0.0f, 0.0f), sf::Vector2f(800.0f, 1000.0f), sf::Vector2f(-8.0f, -5.0f), NULL, true))
+	if (!_layerManager.addLayer(server::LAYER3, LAYER_3, sf::Vector2f(300.0f, 0.0f), sf::Vector2f(0.0f, 0.0f), sf::Vector2f(800.0f, 1000.0f), sf::Vector2f(-8.0f, -5.0f), NULL, true))
 		return false;
-	if (!_layerManager.addLayer(LAYER3, LAYER_3, sf::Vector2f(42.0f, -890.0f), sf::Vector2f(0.0f, 0.0f), sf::Vector2f(800.0f, 700.0f), sf::Vector2f(-3.0f, -5.0f), NULL, true))
+	if (!_layerManager.addLayer(server::LAYER3, LAYER_3, sf::Vector2f(42.0f, -890.0f), sf::Vector2f(0.0f, 0.0f), sf::Vector2f(800.0f, 700.0f), sf::Vector2f(-3.0f, -5.0f), NULL, true))
 		return false;
-	if (!_layerManager.addLayer(LAYER3, LAYER_3, sf::Vector2f(200.0f, 0.0f), sf::Vector2f(200.0f, 0.0f), sf::Vector2f(800.0f, 1400.0f), sf::Vector2f(-5.0f, -5.0f), NULL, true))
+	if (!_layerManager.addLayer(server::LAYER3, LAYER_3, sf::Vector2f(200.0f, 0.0f), sf::Vector2f(200.0f, 0.0f), sf::Vector2f(800.0f, 1400.0f), sf::Vector2f(-5.0f, -5.0f), NULL, true))
 		return false;
-	if (!_layerManager.addLayer(LAYER3, LAYER_3, sf::Vector2f(0.0f, 0.0f), sf::Vector2f(0.0f, 0.0f), sf::Vector2f(800.0f, 900.0f), sf::Vector2f(-8.0f, -5.0f), NULL, true))
+	if (!_layerManager.addLayer(server::LAYER3, LAYER_3, sf::Vector2f(0.0f, 0.0f), sf::Vector2f(0.0f, 0.0f), sf::Vector2f(800.0f, 900.0f), sf::Vector2f(-8.0f, -5.0f), NULL, true))
 		return false;
-	if (!_layerManager.addLayer(LAYER3, LAYER_3, sf::Vector2f(42.0f, -890.0f), sf::Vector2f(0.0f, 0.0f), sf::Vector2f(800.0f, 700.0f), sf::Vector2f(-3.0f, -5.0f), NULL, true))
+	if (!_layerManager.addLayer(server::LAYER3, LAYER_3, sf::Vector2f(42.0f, -890.0f), sf::Vector2f(0.0f, 0.0f), sf::Vector2f(800.0f, 700.0f), sf::Vector2f(-3.0f, -5.0f), NULL, true))
 		return false;
-	if (!_layerManager.addLayer(LAYER3, LAYER_3, sf::Vector2f(200.0f, 0.0f), sf::Vector2f(200.0f, 0.0f), sf::Vector2f(800.0f, 1400.0f), sf::Vector2f(-5.0f, -5.0f), NULL, true))
+	if (!_layerManager.addLayer(server::LAYER3, LAYER_3, sf::Vector2f(200.0f, 0.0f), sf::Vector2f(200.0f, 0.0f), sf::Vector2f(800.0f, 1400.0f), sf::Vector2f(-5.0f, -5.0f), NULL, true))
 		return false;
 
 
@@ -99,7 +103,7 @@ bool							Game::load(void)
 		return false;
 	if (!AudioManager::getInstance().add(ABYDOS_PLASMA, ASOUND, false, std::string("./Sounds/BydosPlasma.flac")))
 		return false;
-	if (!AudioManager::getInstance().add(BYDOS_LASER, ASOUND, false, std::string("./Sounds/BydosLaser.wav")))
+	if (!AudioManager::getInstance().add(server::BYDOS_LASER, ASOUND, false, std::string("./Sounds/BydosLaser.wav")))
 		return false;
 	if (!AudioManager::getInstance().add(ABYDOS_DESTRUCTION, ASOUND, false, std::string("./Sounds/BydosDestruction.wav")))
 		return false;
@@ -119,20 +123,20 @@ void							Game::run(void)
 
 	_gameWindow->setFramerateLimit(25);
 	_gameWindow->setKeyRepeatEnabled(true);
-/*	addObj(INDESTRUCTIBLE_WALL, 42, 254);
-	addObj(INDESTRUCTIBLE_WALL, 42, 255);
-	addObj(INDESTRUCTIBLE_WALL, 42, 253);
-	addObj(INDESTRUCTIBLE_WALL, 42, 0);
-	addObj(INDESTRUCTIBLE_WALL, 42, 1);
-	addObj(INDESTRUCTIBLE_WALL, 42, 2);*/
-	// addObj(PLAYER2, 20, 40);
-	// addObj(PLAYER3, 77, 10);
-	// addObj(PLAYER4, 48, 200);
-	// addObj(GARBAGE_BOSS, 4877, 0);
-	// addObj(ZOGZOG, 4877, 100);
-	// addObj(ZOGZOG, 44, 100);
-	// addObj(ZOGZOG, 4877, 255);
-	// addObj(SBYDOS1, 455, 140);
+	// addObj(INDESTRUCTIBLE_WALL, 42, 254);
+	// addObj(INDESTRUCTIBLE_WALL, 42, 255);
+	// addObj(INDESTRUCTIBLE_WALL, 42, 253);
+	// addObj(INDESTRUCTIBLE_WALL, 42, 0);
+	// addObj(INDESTRUCTIBLE_WALL, 42, 1);
+	// addObj(INDESTRUCTIBLE_WALL, 42, 2);
+	// addObj(server::PLAYER2, 20, 40);
+	// addObj(server::PLAYER3, 77, 10);
+	// addObj(server::PLAYER4, 48, 200);
+	// addObj(server::GARBAGE_BOSS, 4877, 0);
+	// addObj(server::ZOGZOG, 4877, 100);
+	// addObj(server::ZOGZOG, 44, 100);
+	// addObj(server::ZOGZOG, 4877, 255);
+	// addObj(server::SBYDOS1, 455, 140);
 
 	AudioManager::getInstance().play(AGAME_MUSIC);
 
@@ -234,8 +238,7 @@ void							Game::run(void)
 			}
 		}
 		while ((req = _network.recvRequest()) != 0)
-		  ;
-		//LAAAAAAAAAAAAAAAAAA
+		  (this->*_map[req->code()])(req);
 
 		_gameWindow->clear();
 		cleanObjects();
@@ -365,7 +368,7 @@ BYDOS_LASER,
 BYDOS_DESTRUCTION,
 BYDOS_BOSS_DESTRUCTION*/
 
-bool							Game::updateObj(ObjType type, LookDirection lDir, int id, int pos)
+bool							Game::updateObj(game::Type type, game::Dir lDir, int id, int pos)
 {
 	obj_type::iterator it = std::find_if(_objects.begin(), _objects.end(), AObject::predicate(id));
 
@@ -378,7 +381,7 @@ bool							Game::updateObj(ObjType type, LookDirection lDir, int id, int pos)
 		return (addObj(type, id, pos));
 }
 
-bool							Game::addObj(ObjType type, int id, int pos)
+bool							Game::addObj(game::Type type, int id, int pos)
 {
 	AObject						*obj;
 
@@ -411,10 +414,57 @@ int							Game::generateId(void)
 	return ((id + 1) < 66000) ? 66000 : id + 1;
 }
 
+void	Game::elem(const ARequest *req)
+{
+  const ElemRequest	*elem = dynamic_cast<const ElemRequest *>(req);
+
+  updateObj(elem->type(), elem->dir(), elem->ID(), elem->pos());
+}
+
+void	Game::death(const ARequest *req)
+{
+  const DeathRequest	*death = dynamic_cast<const DeathRequest *>(req);
+
+  delObj(death->ID());
+}
+
+void	Game::buff(const ARequest *req)
+{
+  (void)req;
+}
+
+void	Game::score(const ARequest *req)
+{
+  (void)req;
+}
+
+void	Game::victory(const ARequest *req)
+{
+  (void)req;
+}
+
+void	Game::loose(const ARequest *req)
+{
+  (void)req;
+}
+
+void	Game::nextStage(const ARequest *req)
+{
+  (void)req;
+}
+
 Game::Game(sf::RenderWindow *gameWindow, sf::Event *event, network::Manager &net) : _layerManager(gameWindow, &_textureManager), _network(net)
 {
 	Factory::getInstance().init(gameWindow, &_textureManager);
 	_gameWindow = gameWindow;
 	_event = event;
 	_idPlayer = 42;
+
+	_map[requestCode::game::ELEM] = &Game::elem;
+	_map[requestCode::game::DEATH] = &Game::death;
+	_map[requestCode::game::BUFF] = &Game::buff;
+	_map[requestCode::game::SCORE] = &Game::score;
+	_map[requestCode::game::VICTORY] = &Game::victory;
+	_map[requestCode::game::LOOSE] = &Game::loose;
+	_map[requestCode::game::NEXTSTAGE] = &Game::nextStage;
 }

@@ -1,6 +1,8 @@
 #include		"DestructibleWall.h"
 #include		"game.h"
 
+using namespace requestCode::game;
+
 void						DestructibleWall::draw(void)
 {
 
@@ -33,7 +35,7 @@ void						DestructibleWall::draw(void)
 	_gameWindow->draw(_image);
 }
 
-void			DestructibleWall::update(LookDirection lDir, int updtatedPos)
+void			DestructibleWall::update(game::Dir lDir, int updtatedPos)
 {
 	(void)lDir;
 	if (updtatedPos != Game::UNCHANGED)
@@ -60,7 +62,7 @@ void			DestructibleWall::update(LookDirection lDir, int updtatedPos)
 }
 
 
-DestructibleWall::DestructibleWall(ObjType type, int id, int pos, LookDirection ld, sf::Texture *text, sf::RenderWindow *gameWindow)
+DestructibleWall::DestructibleWall(game::Type type, int id, int pos, game::Dir ld, sf::Texture *text, sf::RenderWindow *gameWindow)
 {
 	_type = type;
 	_id = id;
@@ -83,6 +85,6 @@ DestructibleWall::DestructibleWall(ObjType type, int id, int pos, LookDirection 
 
 void				DestructibleWall::onDestruction(Game &game)
 {
-	game.addObj(NORMAL_BANG, Game::generateId(), _cCurPos);
+	game.addObj(server::NORMAL_BANG, Game::generateId(), _cCurPos);
 	AudioManager::getInstance().play(ABYDOS_DESTRUCTION);
 }
