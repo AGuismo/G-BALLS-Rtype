@@ -25,7 +25,7 @@ private:
 	sf::Vector2f				_lResetPos;
 	sf::Vector2f				_lLimPos;
 	sf::Vector2f				_lIncrement;
-	bool					_lEnabled;
+	bool						_lEnabled;
 
 private:
 	Timer						*_lTime;

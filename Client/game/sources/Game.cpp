@@ -109,8 +109,8 @@ bool							Game::load(void)
 		return false;
 
 
-	if (!_layerManager.addLayer(server::VICTORY, LVICTORY, sf::Vector2f(0.0f, 0.0f), sf::Vector2f(0.0f, 0.0f), sf::Vector2f(0.0f, 0.0f), sf::Vector2f(0.0f, 0.0f), NULL, false))
-		return false;
+	/*if (!_layerManager.addLayer(server::VICTORY, LVICTORY, sf::Vector2f(0.0f, 0.0f), sf::Vector2f(0.0f, 0.0f), sf::Vector2f(0.0f, 0.0f), sf::Vector2f(0.0f, 0.0f), new Timer(sf::Time(4.0)), false))
+		return false;*/
 	if (!_layerManager.addLayer(server::LOOSE, LLOOSE, sf::Vector2f(0.0f, 0.0f), sf::Vector2f(0.0f, 0.0f), sf::Vector2f(0.0f, 0.0f), sf::Vector2f(0.0f, 0.0f), NULL, false))
 		return false;
 	if (!_layerManager.addLayer(server::NEXSTAGE, LNEXSTAGE, sf::Vector2f(0.0f, 0.0f), sf::Vector2f(0.0f, 0.0f), sf::Vector2f(0.0f, 0.0f), sf::Vector2f(0.0f, 0.0f), NULL, false))
