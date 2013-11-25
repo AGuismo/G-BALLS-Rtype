@@ -13,6 +13,7 @@
 class		Background;
 class		AWidget;
 class		Image;
+class		LineServer;
 
 namespace	network
 {
@@ -38,6 +39,7 @@ private:
 public:
   typedef std::vector<Image*>	image_list;
   typedef std::vector<AWidget*>	widget_list;
+  typedef std::list<LineServer*> game_list;
   typedef std::map<requestCode::CodeID, void (MenuWindow::*)(ARequest*)> callback_map;
 
 private:
@@ -48,6 +50,7 @@ private:
   AWidget			*_objectHover;
   GameInfo			_serverSelected;
   std::list<std::string>	_bufferChat;
+  game_list			_listGame;
   States			_currentState;
   int				_flag;
   int				_isConnected;
@@ -109,6 +112,9 @@ public:
   void					receiveChat(ARequest*);
   void					receiveStopParty(ARequest*);
   void					receiveLaunchGame(ARequest*);
+  void					setGameList(void);
+  void					deleteLineServer(const std::string &);
+  void					updateLineServer(const std::string &, const std::string &);
   void					scroll();
 };
 

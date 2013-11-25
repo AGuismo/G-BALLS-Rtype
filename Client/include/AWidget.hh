@@ -5,7 +5,7 @@
 // Login   <brigno@epitech.net>
 //
 // Started on  Thu Oct 24 14:31:48 2013 brigno
-// Last update Sat Nov 23 18:21:00 2013 brigno
+// Last update Mon Nov 25 02:16:59 2013 brigno
 //
 
 #ifndef		__AWIDGET_HH__
@@ -43,6 +43,7 @@ public:
   virtual void		onHover(void) = 0;
   virtual void		stopHover(void) = 0;
   virtual void		draw(sf::RenderWindow &) = 0;
+  virtual void		setFocus(const sf::Vector2f &, const sf::Vector2f &);
   bool			isFocus(const sf::Vector2f &pos);
   const std::string	&getName(void) const {return (_name);};
   const Type		&getType(void) const {return (_type);};
