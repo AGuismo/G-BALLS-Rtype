@@ -162,25 +162,10 @@ void							Game::run(void)
 
 	_gameWindow->setFramerateLimit(25);
 	_gameWindow->setKeyRepeatEnabled(true);
-	// addObj(INDESTRUCTIBLE_WALL, 42, 254);
-	// addObj(INDESTRUCTIBLE_WALL, 42, 255);
-	// addObj(INDESTRUCTIBLE_WALL, 42, 253);
-	// addObj(INDESTRUCTIBLE_WALL, 42, 0);
-	// addObj(INDESTRUCTIBLE_WALL, 42, 1);
-//	 addObj(server::POWER_BONUS, 42, 80);
-	// addObj(server::PLAYER2, 20, 40);
-	// addObj(server::PLAYER3, 77, 10);
-	// addObj(server::PLAYER4, 48, 200);
-	// addObj(server::GARBAGE_BOSS, 4877, 0);
-	//addObj(server::ZOGZOG, 4877, 100);
-	 addObj(server::POWER_BONUS, 44, 100);
-	// addObj(server::ZOGZOG, 4877, 255);
-	// addObj(server::SBYDOS1, 455, 140);
 
+	addObj(server::POWER_BONUS, 44, 100);
+	
 	AudioManager::getInstance().play(AGAME_MUSIC);
-
-
-	_layerManager.enableLayer(LNEXSTAGE);
 
 	_network.setUdp(sf::IpAddress(sf::IpAddress(InfosUser::getInstance().authenticate.addressIp)), InfosUser::getInstance().authenticate.portUDP);
 	_network.switchTo(network::Manager::UDP);
