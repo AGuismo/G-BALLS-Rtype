@@ -385,6 +385,8 @@ void	MenuWindow::drawLobbyCreate()
 void	MenuWindow::drawLobbyWait(int owner)
 {
   Text *tmp2;
+  float	posX = 150;
+  unsigned int	i = 0;
 
   this->clearWindow();
   this->_status = CONTINUE;
@@ -400,10 +402,6 @@ void	MenuWindow::drawLobbyWait(int owner)
   else
     tmp2 = new Text("FontLobby", "NameGameWait", this->_event, sf::Vector2f(170, 297), sf::Vector2f(825, 633), sf::Vector2f(1073, 666), 100, true, InfosUser::getInstance().game.partyName);
 
-  //demander le nombre de joueur connecter
-  float	posX = 150;
-  unsigned int	i = 0;
-
   for (i = 0; i < InfosUser::getInstance().game.nbPlayer; i++)
     {
       this->_listImage.push_back(new Image("PlayerConnected", sf::Vector2f(posX, 450)));
@@ -415,8 +413,6 @@ void	MenuWindow::drawLobbyWait(int owner)
       ++i;
       posX += 150;
     }
-
-
   this->_listWidget.push_back(new Button(this->_event, "Create", sf::Vector2f(400, 110), sf::Vector2f(405, 112), sf::Vector2f(597, 166), AScreen::CREATE_GAME, false));
   this->_listWidget.push_back(new Button(this->_event, "Join", sf::Vector2f(600, 110), sf::Vector2f(605, 112), sf::Vector2f(797, 166), AScreen::JOIN_GAME, false));
   this->_listWidget.push_back(new Button(this->_event, "Refresh", sf::Vector2f(800, 110), sf::Vector2f(805, 112), sf::Vector2f(997, 166), AScreen::REFRESH_GAME, true));
@@ -679,17 +675,10 @@ int	MenuWindow::checkAction()
       InfosUser::getInstance().game.partyPassword = dynamic_cast<Text*>(Interface::getInstance().getWidget("PWDGame"))->getTmp();
       InfosUser::getInstance().game.nbPlayer = 1;
       InfosUser::getInstance().game.maxPlayer = checkNbPlayer();
-      std::cout << "PartyPassword: " << InfosUser::getInstance().game.partyPassword << ":" << InfosUser::getInstance().game.partyPassword.size() << std::endl;
-      if (InfosUser::getInstance().game.partyPassword.empty())
-	{
-	  std::cout << "Party no Password" << std::endl;
-	  this->_network.sendRequest(new Party::Create(InfosUser::getInstance().game.partyName, this->checkNbPlayer()));
-	}
+      if (InfosUser::getInstance().game.partyPassword.empty() || InfosUser::getInstance().game.partyPassword == "Party Password")
+	this->_network.sendRequest(new Party::Create(InfosUser::getInstance().game.partyName, this->checkNbPlayer()));
       else
-	{
-	  std::cout << "Party Password" << std::endl;
-	  this->_network.sendRequest(new Party::Create(InfosUser::getInstance().game.partyName, this->checkNbPlayer(), md5(InfosUser::getInstance().game.partyPassword)));
-	}
+	this->_network.sendRequest(new Party::Create(InfosUser::getInstance().game.partyName, this->checkNbPlayer(), md5(InfosUser::getInstance().game.partyPassword)));
       this->_status = CONTINUE;
       break;
     case AScreen::SUBMIT:

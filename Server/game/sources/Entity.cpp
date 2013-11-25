@@ -4,7 +4,7 @@ Entity::Entity(game::Type type, std::vector<game::Pos> pos, int life, game::Dir 
 	       game::ID id) :
   _life(life), _dir(dir), _speed(1)
 {
-	int i;
+  unsigned int i;
   _type = type;
   for (i = 0; i < pos.size(); ++i)
   {
@@ -42,7 +42,7 @@ std::vector<game::Pos>		&Entity::pos()
 void	Entity::update()
 {
   std::vector<game::Pos>::iterator it = _pos.begin();
-  int		i;
+  unsigned int		i;
 
   for (i = 0; i < _pos.size(); ++i)
 	  _prevPos[i] = _pos[i];
