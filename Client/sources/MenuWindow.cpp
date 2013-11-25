@@ -607,10 +607,8 @@ int	MenuWindow::checkAction()
       return (2);
       break;
     case AScreen::WAIT:
-      //si le password est bon
       this->_status = CONTINUE;
-      // si le password foire
-      // call le loby
+      this->_network.sendRequest(new Party::Join(this->_serverSelected._name, dynamic_cast<Text*>(Interface::getInstance().getWidget("setPWD"))->getTmp()));
       break;
     case AScreen::LOGIN:
       this->_status = CONTINUE;
@@ -630,8 +628,8 @@ int	MenuWindow::checkAction()
       InfosUser::getInstance().authenticate.password = dynamic_cast<Text*>(Interface::getInstance().getWidget("PasswordText"))->getTmp();
 	  if (!this->_network.setTcp(sf::IpAddress(InfosUser::getInstance().authenticate.addressIp), InfosUser::getInstance().authenticate.portTCP))
 	  {
-		  this->drawMenuWarning("Unable to reach the server !");
-		  break;
+	    this->drawMenuWarning("Unable to reach the server !");
+	    break;
 	  }
       this->_network.switchTo(network::Manager::TCP);
       if (this->_network.isConnected())
@@ -648,8 +646,8 @@ int	MenuWindow::checkAction()
       this->_window.close();
       break;
     case AScreen::BACK_MENU:
-      // this->_network.sendRequest(new Auth::Disconnect());
-      // this->_network.switchTo(NONE);
+      this->_network.closeTcp();
+      this->_network.switchTo(network::Manager::NONE);
       this->_isConnected = 0;
       this->_status = CONTINUE;
       this->drawMenu();
@@ -669,7 +667,6 @@ int	MenuWindow::checkAction()
 	this->drawGetPWD();
       else
 	this->_network.sendRequest(new Party::Join(this->_serverSelected._name));
-	this->drawLobbyWait(0);
       break;
     case AScreen::VALIDE:
       if (dynamic_cast<Text*>(Interface::getInstance().getWidget("NameGame"))->getTmp() == "" ||
@@ -861,10 +858,14 @@ void	MenuWindow::deleteLineServer(const std::string &nameParty)
 void	MenuWindow::removeImagePlayer()
 {
   image_list::iterator it;
+  std::string		tmpName;
+
 
   for (it = this->_listImage.begin(); it != this->_listImage.end();)
     {
-      if ((*it)->getName() == "PlayerConnected" || (*it)->getName() == "PlayerNotConnected")
+      tmpName = (*it)->getName();
+      std::cout << "NAME : " << tmpName << std::endl;
+      if (tmpName == "PlayerConnected" || tmpName == "PlayerNotConnected")
 	it = this->_listImage.erase(it);
       else
 	++it;
@@ -907,8 +908,8 @@ void	MenuWindow::updateLineServer(const std::string &nameParty, const std::strin
 
 void	MenuWindow::receiveUpdateParty(ARequest *req)
 {
-  float x = 62.;
-  float y = 243.;
+  float x = 300.;
+  float y = 300.;
 
   Party::Update *up;
   std::string slot;
@@ -933,14 +934,14 @@ void	MenuWindow::receiveUpdateParty(ARequest *req)
 
   if (up->_status == requestCode::party::OUT_GAME)
     {
-      if (up->_isPassword == Party::Create::PASS)
+      if (up->_isPassword == requestCode::party::PASS)
 	this->_listGame.push_back(new LineServer(this->_event, sf::Vector2f(x, y), sf::Vector2f(x + 7, y + 6), sf::Vector2f(x + 686, y + 26),
 						 up->_partyName, slot, true));
       else
 	this->_listGame.push_back(new LineServer(this->_event, sf::Vector2f(x, y), sf::Vector2f(x + 7, y + 6), sf::Vector2f(x + 686, y + 26),
 						   up->_partyName, slot, false));
     }
-  else if (up->_status == requestCode::party::CANCELED || up->_status == requestCode::party::FINISHED)
+  else if ((up->_status == requestCode::party::CANCELED) || (up->_status == requestCode::party::FINISHED))
     deleteLineServer(up->_partyName);
   // else if (up->_status == Party::IN_GAME)
   //   {
@@ -982,6 +983,11 @@ void	MenuWindow::receiveOk(ARequest *req)
     {
       MediaAudioManager::getInstance().getSound("SwitchScreen")->getSound().play();
       this->drawLobby();
+    }
+  else if (this->_currentState == VERIF_PWD)
+    {
+      MediaAudioManager::getInstance().getSound("SwitchScreen")->getSound().play();
+      this->drawLobbyWait(0);
     }
 }
 
@@ -1088,8 +1094,8 @@ int	MenuWindow::run()
   this->_music.play();
   while (this->_window.isOpen())
     {
-	  if (this->_status == BACK_LOBY)
-		  this->_network.switchTo(network::Manager::TCP);
+      if (this->_status == BACK_LOBY)
+	this->_network.switchTo(network::Manager::TCP);
       if (this->catchEvent() == 2)
 	{
 	  this->_music.stop();

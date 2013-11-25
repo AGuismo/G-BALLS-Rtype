@@ -5,7 +5,7 @@
 // Login   <brigno@epitech.net>
 //
 // Started on  Tue Nov 19 21:25:49 2013 brigno
-// Last update Mon Nov 25 02:40:19 2013 brigno
+// Last update Mon Nov 25 16:08:03 2013 brigno
 //
 
 #include	"LineServer.hh"
@@ -43,11 +43,6 @@ const GameInfo	&LineServer::getGameInfo() const
 void		LineServer::setSlot(const std::string &slot)
 {
   this->_gameInfo._slots = slot;
-}
-
-void		LineServer::setPos(sf::Vector2f pos)
-{
-  this->_pos = pos;
 }
 
 const std::string		&LineServer::getGame() const
