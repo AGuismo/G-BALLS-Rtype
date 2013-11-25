@@ -49,7 +49,7 @@ bool	Referee::isOnScreen(const Entity *a)
 			(p) % rtype::Env::getInstance().game.mapSize - 1 != pp % rtype::Env::getInstance().game.mapSize &&
 			(p) + rtype::Env::getInstance().game.mapSize != pp&&
 			(p) - rtype::Env::getInstance().game.mapSize != pp &&
-			p != pp) || p < 0 || p > rtype::Env::getInstance().game.mapSize * rtype::Env::getInstance().game.mapSize - 1)
+			p != pp) || p > rtype::Env::getInstance().game.mapSize * rtype::Env::getInstance().game.mapSize - 1)
 			return false;
 		itprev++;
 	}
