@@ -80,7 +80,7 @@ namespace	game
   private:
     bool			_hasLeft;
     bool			_used;
-	bool			_hasJoin;
+    bool			_hasJoin;
     RequestQueue		_input;
     RequestQueue		_output;
     /*request_callback_map _requestCallback;*/
