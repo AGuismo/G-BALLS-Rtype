@@ -256,7 +256,7 @@ void							Game::run(void)
 			}
 		}
 
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::LControl) == true)
+/*		if (sf::Keyboard::isKeyPressed(sf::Keyboard::LControl) == true)
 		{
 			AudioManager::getInstance().play(APLAYER_CHARGED);
 		}
@@ -271,7 +271,7 @@ void							Game::run(void)
 		{
 			AudioManager::getInstance().stop(APLAYER_CHARGED);
 			_playerBlastLock.restart();
-		}
+		}*/
 		
 		while ((req = _network.recvRequest()) != 0)
 			(this->*_map[req->code()])(req);
