@@ -48,9 +48,9 @@ namespace rtype
 	  unsigned short int		chanceToBreakableMax;
 	}				game;
     static const unsigned short int	MAX_SIMULTANEOUS_GAMES	=	20;
-    static const unsigned long long	BOSS_DELAY				=	900000/*00*/;
+    static const unsigned long long	BOSS_DELAY				=	90000000;
     static const unsigned long long	GAME_DELAY				=	250000;
-    static const unsigned short int	UPDATE_TO_LIVE			=	888;
+    static const unsigned short int	UPDATE_TO_LIVE			=	8;
     static const unsigned short int	MIN_IA					=	4;
     static const unsigned short int	MAX_IA					=	24;
     static const unsigned short int	POP_IA_RANGE			=	2;

@@ -5,7 +5,7 @@
 
 BaseBoss::BaseBoss() : AIaAlgo()
 {
-	_pos.push_back((15 * (rand() % rtype::Env::getInstance().game.mapSize + 1)) - 1);
+	_pos.push_back((rand() % 16 * 16) - 8);
 	_pos.push_back(_pos.back() + 30);
 	_pos.push_back(_pos.back() + 30);
 	_firePos = _pos[_pos.size() / 2];
