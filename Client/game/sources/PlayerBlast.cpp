@@ -33,7 +33,7 @@ void						PlayerBlast::draw(void)
 }
 
 
-void			PlayerBlast::update(LookDirection lDir, int updtatedPos)
+void			PlayerBlast::update(game::Dir lDir, int updtatedPos)
 {
 	_ld = lDir;
 	if (updtatedPos != Game::UNCHANGED)
@@ -60,7 +60,7 @@ void			PlayerBlast::update(LookDirection lDir, int updtatedPos)
 }
 
 
-PlayerBlast::PlayerBlast(ObjType type, int id, int pos, LookDirection ld, sf::Texture *text, sf::RenderWindow *gameWindow)
+PlayerBlast::PlayerBlast(game::Type type, int id, int pos, game::Dir ld, sf::Texture *text, sf::RenderWindow *gameWindow)
 {
 	_type = type;
 	_id = id;

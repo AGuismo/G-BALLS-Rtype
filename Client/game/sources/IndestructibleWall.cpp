@@ -33,7 +33,7 @@ void						IndestructibleWall::draw(void)
 	_gameWindow->draw(_image);
 }
 
-void			IndestructibleWall::update(LookDirection lDir, int updtatedPos)
+void			IndestructibleWall::update(game::Dir lDir, int updtatedPos)
 {
 	(void)lDir;
 	if (updtatedPos != Game::UNCHANGED)
@@ -60,7 +60,7 @@ void			IndestructibleWall::update(LookDirection lDir, int updtatedPos)
 }
 
 
-IndestructibleWall::IndestructibleWall(ObjType type, int id, int pos, LookDirection ld, sf::Texture *text, sf::RenderWindow *gameWindow)
+IndestructibleWall::IndestructibleWall(game::Type type, int id, int pos, game::Dir ld, sf::Texture *text, sf::RenderWindow *gameWindow)
 {
 	_type = type;
 	_id = id;
@@ -72,7 +72,6 @@ IndestructibleWall::IndestructibleWall(ObjType type, int id, int pos, LookDirect
 	_vCurPos = sf::Vector2f((float)Game::POSX(_cCurPos), (float)Game::POSY(_cCurPos));
 	_vNextPos = sf::Vector2f((float)Game::POSX(_cCurPos), (float)Game::POSY(_cCurPos));
 	_image.setTexture(*text);
-//	_image.setTextureRect(sf::IntRect(0, 0, 48, 72));
 	_image.setPosition((float)Game::POSX(_cCurPos), (float)Game::POSY(_cCurPos));
 	_mvtTime = 0.60f;
 	_timerMvt = Timer(sf::seconds(_mvtTime));

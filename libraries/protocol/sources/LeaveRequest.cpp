@@ -2,6 +2,10 @@
 
 LeaveRequest::LeaveRequest() : AGameRequest(requestCode::game::LEAVE)
 {}
+
+LeaveRequest::LeaveRequest(requestCode::SessionID id) : AGameRequest(requestCode::game::LEAVE, id)
+{}
+
 LeaveRequest::~LeaveRequest()
 {}
 

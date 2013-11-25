@@ -93,6 +93,7 @@
     <ClInclude Include="..\include\Bydos1.h" />
     <ClInclude Include="..\include\BydosLaser.h" />
     <ClInclude Include="..\include\BydosPlasma.h" />
+    <ClInclude Include="..\include\DestructibleWall.h" />
     <ClInclude Include="..\include\EnumAudio.h" />
     <ClInclude Include="..\include\EnumLayer.h" />
     <ClInclude Include="..\include\EnumObject.h" />
@@ -122,6 +123,7 @@
     <ClCompile Include="..\sources\Bydos1.cpp" />
     <ClCompile Include="..\sources\BydosLaser.cpp" />
     <ClCompile Include="..\sources\BydosPlasma.cpp" />
+    <ClCompile Include="..\sources\DestructibleWall.cpp" />
     <ClCompile Include="..\sources\Factory.cpp" />
     <ClCompile Include="..\sources\Game.cpp" />
     <ClCompile Include="..\sources\GameWindow.cpp" />

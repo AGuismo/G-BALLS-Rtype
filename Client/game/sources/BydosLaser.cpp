@@ -32,7 +32,7 @@ void						BydosLaser::draw(void)
 	_gameWindow->draw(_image);
 }
 
-void			BydosLaser::update(LookDirection lDir, int updtatedPos)
+void			BydosLaser::update(game::Dir lDir, int updtatedPos)
 {
 	(void)lDir;
 	if (updtatedPos != Game::UNCHANGED)
@@ -59,7 +59,7 @@ void			BydosLaser::update(LookDirection lDir, int updtatedPos)
 }
 
 
-BydosLaser::BydosLaser(ObjType type, int id, int pos, LookDirection ld, sf::Texture *text, sf::RenderWindow *gameWindow) : _laserAnimation(0.05f)
+BydosLaser::BydosLaser(game::Type type, int id, int pos, game::Dir ld, sf::Texture *text, sf::RenderWindow *gameWindow) : _laserAnimation(0.05f)
 {
 	_type = type;
 	_id = id;

@@ -1,6 +1,8 @@
 #include		"Slider.h"
 #include		"game.h"
 
+using namespace requestCode::game;
+
 void						Slider::draw(void)
 {
 
@@ -38,7 +40,7 @@ void						Slider::draw(void)
 	_gameWindow->draw(_image);
 }
 
-void			Slider::update(LookDirection lDir, int updtatedPos)
+void			Slider::update(game::Dir lDir, int updtatedPos)
 {
 	(void)lDir;
 	if (updtatedPos != Game::UNCHANGED)
@@ -65,7 +67,7 @@ void			Slider::update(LookDirection lDir, int updtatedPos)
 }
 
 
-Slider::Slider(ObjType type, int id, int pos, LookDirection ld, sf::Texture *text, sf::RenderWindow *gameWindow) :
+Slider::Slider(game::Type type, int id, int pos, game::Dir ld, sf::Texture *text, sf::RenderWindow *gameWindow) :
 _leftAnimation(0.20f), _rightAnimation(0.14f)
 {
 	_type = type;
@@ -106,6 +108,6 @@ _leftAnimation(0.20f), _rightAnimation(0.14f)
 
 void				Slider::onDestruction(Game &game)
 {
-	game.addObj(NORMAL_BANG, Game::generateId(), _cCurPos);
+  game.addObj(server::NORMAL_BANG, Game::generateId(), _cCurPos);
 	AudioManager::getInstance().play(ABYDOS_DESTRUCTION);
 }

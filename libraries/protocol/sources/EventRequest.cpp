@@ -1,6 +1,6 @@
 #include "EventRequest.hh"
 
-EventRequest::EventRequest(Ruint8 event, Ruint8 param): AGameRequest(requestCode::game::EVENT), _event(event), _param(param)
+EventRequest::EventRequest(Ruint8 event, Ruint8 param, requestCode::SessionID id): AGameRequest(requestCode::game::EVENT, id), _event(event), _param(param)
 {
 }
 

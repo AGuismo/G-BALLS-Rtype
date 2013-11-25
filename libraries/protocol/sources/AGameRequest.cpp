@@ -1,5 +1,11 @@
 #include	"AGameRequest.hh"
 
+AGameRequest::AGameRequest(const requestCode::CodeID code, requestCode::SessionID id):
+  ARequest(code), _sessionID(id)
+{
+
+}
+
 AGameRequest::AGameRequest(const requestCode::CodeID code):
   ARequest(code), _sessionID(0)
 {

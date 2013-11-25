@@ -10,14 +10,14 @@ namespace	game
     _spriteMap.clear();
   }
 
-  sf::Texture				*TextureManager::getTexture(ObjType obj)
+  sf::Texture				*TextureManager::getTexture(game::Type obj)
   {
     map_type::iterator	it = _spriteMap.find(obj);
 
     return (it == _spriteMap.end() ? NULL : it->second);
   }
 
-  bool					TextureManager::addTexture(ObjType obj, const std::string &texturePath)
+  bool					TextureManager::addTexture(game::Type obj, const std::string &texturePath)
   {
     sf::Texture			*newTexture = new sf::Texture;
 

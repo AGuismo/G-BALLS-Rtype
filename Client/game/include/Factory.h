@@ -2,6 +2,7 @@
 # define	FACTORY
 
 #include	"EnumObject.h"
+#include	"RequestCode.hh"
 
 class TextureManager;
 class AObject;
@@ -23,7 +24,7 @@ private:
 	game::TextureManager	*_textureManager;
 
 public:
-	AObject				*createObject(ObjType type, int id, int pos, LookDirection ld);
+	AObject				*createObject(game::Type type, int id, int pos, game::Dir ld);
 	void				init(sf::RenderWindow *, game::TextureManager *);
 
 public:

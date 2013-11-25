@@ -1,6 +1,8 @@
 #include		"Bydos1.h"
 #include		"game.h"
 
+using namespace requestCode::game;
+
 void						Bydos1::draw(void)
 {
 
@@ -52,7 +54,7 @@ void						Bydos1::draw(void)
 	_gameWindow->draw(_image);
 }
 
-void			Bydos1::update(LookDirection lDir, int updtatedPos)
+void			Bydos1::update(game::Dir lDir, int updtatedPos)
 {
 	(void)lDir;
 	if (updtatedPos != Game::UNCHANGED)
@@ -79,7 +81,7 @@ void			Bydos1::update(LookDirection lDir, int updtatedPos)
 }
 
 
-Bydos1::Bydos1(ObjType type, int id, int pos, LookDirection ld, sf::Texture *text, sf::RenderWindow *gameWindow) :
+Bydos1::Bydos1(game::Type type, int id, int pos, game::Dir ld, sf::Texture *text, sf::RenderWindow *gameWindow) :
   _leftAnimation(0.14f), _rightAnimation(0.14f)
 {
 	_type = type;
@@ -120,6 +122,6 @@ Bydos1::Bydos1(ObjType type, int id, int pos, LookDirection ld, sf::Texture *tex
 
 void				Bydos1::onDestruction(Game &game)
 {
-	game.addObj(NORMAL_BANG, Game::generateId(), _cCurPos);
+  game.addObj(server::NORMAL_BANG, Game::generateId(), _cCurPos);
 	AudioManager::getInstance().play(ABYDOS_DESTRUCTION);
 }

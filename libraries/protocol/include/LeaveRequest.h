@@ -5,8 +5,9 @@
 
 class LeaveRequest : public AGameRequest
 {
-public:
-	LeaveRequest();
+public: 
+  LeaveRequest();
+  LeaveRequest(requestCode::SessionID);
 	~LeaveRequest();
 
 public:

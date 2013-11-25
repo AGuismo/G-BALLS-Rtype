@@ -6,6 +6,7 @@
 class AGameRequest : public ARequest
 {
 public:
+  AGameRequest(const requestCode::CodeID, requestCode::SessionID);
   AGameRequest(const requestCode::CodeID);
   virtual ~AGameRequest();
 

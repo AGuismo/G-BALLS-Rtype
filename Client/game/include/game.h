@@ -68,8 +68,8 @@ private:
   void						cleanGame(void);
 
 public:
-  bool						updateObj(ObjType type, LookDirection lDir, int id, int pos);
-  bool						addObj(ObjType type, int id, int pos);
+  bool						updateObj(game::Type type, game::Dir lDir, int id, int pos);
+  bool						addObj(game::Type type, int id, int pos);
   bool						delObj(int id);
 
 public:

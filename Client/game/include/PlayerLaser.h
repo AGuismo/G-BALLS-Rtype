@@ -7,12 +7,12 @@
 class PlayerLaser : public AObject
 {
 public:
-	void				update(LookDirection lDir, int updatedPos);
+	void				update(game::Dir lDir, int updatedPos);
 	void				draw(void);
 	void				onDestruction(Game &game);
 
 public:
-	PlayerLaser(ObjType obj, int id, int pos, LookDirection ld, sf::Texture *text, sf::RenderWindow *gameWindow);
+	PlayerLaser(game::Type obj, int id, int pos, game::Dir ld, sf::Texture *text, sf::RenderWindow *gameWindow);
 	~PlayerLaser() {}
 
 private:

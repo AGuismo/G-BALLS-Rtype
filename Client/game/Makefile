@@ -13,6 +13,7 @@ SRCS =	      	Animation.cpp		\
 		Bydos1.cpp		\
 		BydosPlasma.cpp		\
 		IndestructibleWall.cpp	\
+		DestructibleWall.cpp	\
 		BydosLaser.cpp		\
 		GarbageBoss.cpp		\
 		ShrimpBoss.cpp		\

@@ -1,9 +1,9 @@
-#include		"ZogZog.h"
+#include		"DestructibleWall.h"
 #include		"game.h"
 
 using namespace requestCode::game;
 
-void						ZogZog::draw(void)
+void						DestructibleWall::draw(void)
 {
 
 	if ((_vCurPos.x == _vNextPos.x && _vCurPos.y == _vNextPos.y) ||
@@ -15,8 +15,7 @@ void						ZogZog::draw(void)
 		_vCurPos.x = (float)Game::POSX(_cCurPos);
 		_vCurPos.y = (float)Game::POSY(_cCurPos);
 		_vNextPos = _vCurPos;
-		_image.setTextureRect(sf::IntRect(0, 15, 66, 72));
-		_image.setPosition((float)Game::POSX(_cCurPos) -20.0F, (float)Game::POSY(_cCurPos) - 20.0F);
+		_image.setPosition((float)Game::POSX(_cCurPos), (float)Game::POSY(_cCurPos));
 	}
 	else if (_act)
 	{
@@ -29,15 +28,14 @@ void						ZogZog::draw(void)
 			_vCurPos.y += (_vLag * Game::OBJ_DEC_Y_FRAME);
 		if (_vCurPos.y > _vNextPos.y)
 			_vCurPos.y -= (_vLag * Game::OBJ_DEC_Y_FRAME);
-		_image.setPosition(_vCurPos.x -20.0f, _vCurPos.y -20.0f);
+		_image.setPosition(_vCurPos.x, _vCurPos.y);
 	}
-	_image.setTextureRect(_zogZogAnimation.getFrame());
 	if (_timerAlive.isEnded())
 		_alive = false;
 	_gameWindow->draw(_image);
 }
 
-void			ZogZog::update(game::Dir lDir, int updtatedPos)
+void			DestructibleWall::update(game::Dir lDir, int updtatedPos)
 {
 	(void)lDir;
 	if (updtatedPos != Game::UNCHANGED)
@@ -64,8 +62,7 @@ void			ZogZog::update(game::Dir lDir, int updtatedPos)
 }
 
 
-ZogZog::ZogZog(game::Type type, int id, int pos, game::Dir ld, sf::Texture *text, sf::RenderWindow *gameWindow) :
-  _zogZogAnimation(0.14f)
+DestructibleWall::DestructibleWall(game::Type type, int id, int pos, game::Dir ld, sf::Texture *text, sf::RenderWindow *gameWindow)
 {
 	_type = type;
 	_id = id;
@@ -77,24 +74,17 @@ ZogZog::ZogZog(game::Type type, int id, int pos, game::Dir ld, sf::Texture *text
 	_vCurPos = sf::Vector2f((float)Game::POSX(_cCurPos), (float)Game::POSY(_cCurPos));
 	_vNextPos = sf::Vector2f((float)Game::POSX(_cCurPos), (float)Game::POSY(_cCurPos));
 	_image.setTexture(*text);
-	_image.setTextureRect(sf::IntRect(0, 0, 48, 72));
-	_image.setPosition((float)Game::POSX(_cCurPos) -20.0f, (float)Game::POSY(_cCurPos)-20.0f);
-	_mvtTime = 0.25f;
-	_timerAlive = Timer(sf::seconds(Game::ALIVE_TIMER));
+	_image.setPosition((float)Game::POSX(_cCurPos), (float)Game::POSY(_cCurPos));
+	_mvtTime = 0.60f;
 	_timerMvt = Timer(sf::seconds(_mvtTime));
+	_timerAlive = Timer(sf::seconds(Game::ALIVE_TIMER));
 	_gameWindow = gameWindow;
 	_act = false;
 	_action = Nothing;
-	_zogZogAnimation.addFrame(sf::IntRect(0, 0, 130, 132));
-	_zogZogAnimation.addFrame(sf::IntRect(130, 0, 130, 132));
-	_zogZogAnimation.addFrame(sf::IntRect(260, 0, 130, 132));
-	_zogZogAnimation.addFrame(sf::IntRect(390, 0, 130, 132));
-	_zogZogAnimation.addFrame(sf::IntRect(520, 0, 130, 132));
 }
 
-void				ZogZog::onDestruction(Game &game)
+void				DestructibleWall::onDestruction(Game &game)
 {
-  game.addObj(server::NORMAL_BANG, Game::generateId(), _cCurPos);
-  game.addObj(server::NORMAL_BANG, Game::generateId(), _cCurPos  + Game::SIZE_GAME_BOARD);
+	game.addObj(server::NORMAL_BANG, Game::generateId(), _cCurPos);
 	AudioManager::getInstance().play(ABYDOS_DESTRUCTION);
 }

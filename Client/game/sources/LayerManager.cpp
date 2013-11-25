@@ -1,8 +1,8 @@
+#include		<algorithm>
 #include		"LayerManager.h"
 #include		"TextureManager.h"
 #include		"Timer.h"
-
-#include		<algorithm>
+#include		"RequestCode.hh"
 
 LayerManager::~LayerManager()
 {
@@ -10,7 +10,7 @@ LayerManager::~LayerManager()
     delete *it;
 }
 
-bool							LayerManager::addLayer(ObjType objType, LayerType lType, const sf::Vector2f &lInit, const sf::Vector2f &lReset, const sf::Vector2f &lLim, const sf::Vector2f &lInc, Timer *lTimer, bool lEn)
+bool							LayerManager::addLayer(game::Type objType, LayerType lType, const sf::Vector2f &lInit, const sf::Vector2f &lReset, const sf::Vector2f &lLim, const sf::Vector2f &lInc, Timer *lTimer, bool lEn)
 {
   Layer						*newL;
   sf::Texture					*text;

@@ -10,12 +10,12 @@ private:
 	Animation			_laserAnimation;
 
 public:
-	void				update(LookDirection lDir, int updatedPos);
+	void				update(game::Dir lDir, int updatedPos);
 	void				draw(void);
 	void				onDestruction(Game &game);
 
 public:
-	BydosLaser(ObjType obj, int id, int pos, LookDirection ld, sf::Texture *text, sf::RenderWindow *gameWindow);
+	BydosLaser(game::Type obj, int id, int pos, game::Dir ld, sf::Texture *text, sf::RenderWindow *gameWindow);
 	~BydosLaser() {}
 
 private:

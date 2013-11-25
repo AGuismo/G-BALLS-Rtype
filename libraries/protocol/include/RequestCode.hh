@@ -108,15 +108,16 @@ namespace requestCode
       static const Type PLAYER_BLAST = 10;
       static const Type BYDOS_PLASMA = 11;
       static const Type BYDOS_LASER = 12;
-      static const Type INDESTRUCTIBLE_WALL = 13;
-      static const Type LAYER1 = 14;
-      static const Type LAYER2 = 15;
-      static const Type LAYER3 = 16;
-      static const Type LAYER4 = 17;
-      static const Type LAYER5 = 18;
-      static const Type LAYER6 = 19;
-      static const Type NORMAL_BANG = 20;
-      static const Type BIG_BANG = 21;
+	  static const Type DESTRUCTIBLE_WALL = 13;
+	  static const Type INDESTRUCTIBLE_WALL = 14;
+      static const Type LAYER1 = 15;
+      static const Type LAYER2 = 16;
+      static const Type LAYER3 = 17;
+      static const Type LAYER4 = 18;
+      static const Type LAYER5 = 19;
+      static const Type LAYER6 = 20;
+      static const Type NORMAL_BANG = 21;
+      static const Type BIG_BANG = 22;
     }
   }
 }
