@@ -157,8 +157,6 @@ bool	MenuWindow::load()
       std::cerr << e.what() << std::endl;
       throw AScreen::Exception("MenuWindow can't load all textures");
     }
-
-
   this->_isConnected = 0;
   this->_status = START;
   this->_firstBackground.setTexture(TextureManager::getInstance().getTexture("Background1")->getTexture());
@@ -184,16 +182,16 @@ void	MenuWindow::drawMenu()
     {
       if (Stocktmp->getTmp() != "" && Stocktmp->getTmp() != "Login")
 	{
-	  tmp = new Text("FontMenu", "LoginText", this->_event, sf::Vector2f(525, 410), sf::Vector2f(520, 415), sf::Vector2f(760, 445), 10, true, Stocktmp->getTmp());
+	  tmp = new Text("FontLobby", "LoginText", this->_event, sf::Vector2f(560, 415), sf::Vector2f(520, 415), sf::Vector2f(760, 445), 12, true, Stocktmp->getTmp());
 	  flag = 1;
 	}
     }
   if (InfosUser::getInstance().authenticate.login == "Login" && flag == 0)
-    tmp = new Text("FontMenu", "LoginText", this->_event, sf::Vector2f(525, 410), sf::Vector2f(520, 415), sf::Vector2f(760, 445), 10, true, "root");
+    tmp = new Text("FontLobby", "LoginText", this->_event, sf::Vector2f(560, 415), sf::Vector2f(520, 415), sf::Vector2f(760, 445), 10, true, "Login");
   else if (flag == 0)
-    tmp = new Text("FontMenu", "LoginText", this->_event, sf::Vector2f(525, 410), sf::Vector2f(520, 415), sf::Vector2f(760, 445), 10, true, InfosUser::getInstance().authenticate.login);
+    tmp = new Text("FontLobby", "LoginText", this->_event, sf::Vector2f(560, 415), sf::Vector2f(520, 415), sf::Vector2f(760, 445), 10, true, InfosUser::getInstance().authenticate.login);
 
-  tmp2 = new Text("FontMenu", "PasswordText", this->_event, sf::Vector2f(525, 515), sf::Vector2f(520, 415), sf::Vector2f(760, 445), 10, false, "Password");
+  tmp2 = new Text("FontLobby", "PasswordText", this->_event, sf::Vector2f(525, 515), sf::Vector2f(520, 415), sf::Vector2f(760, 445), 10, false, "Password");
   this->_listImage.push_back(new Image("Title", sf::Vector2f(370, 60)));
   this->_listImage.push_back(new Image("Formu", sf::Vector2f(370, 175)));
   this->_listWidget.push_back(new TextArea(this->_event, "LoginArea", *tmp, sf::Vector2f(480, 380), sf::Vector2f(520, 415), sf::Vector2f(760, 445)));
@@ -683,14 +681,10 @@ int	MenuWindow::checkAction()
       break;
     case AScreen::SUBMIT:
       this->_status = CONTINUE;
-      //Envoyer un message au serveur
       if (dynamic_cast<Text*>(Interface::getInstance().getWidget("MsgChat"))->getTmp() != "")
 	{
 	  msgChat = "[" + InfosUser::getInstance().authenticate.login + "] : " + dynamic_cast<Text*>(Interface::getInstance().getWidget("MsgChat"))->getTmp();
-	  std::cout << msgChat << std::endl;
-
 	  this->_network.sendRequest(new ChatSendRequest(msgChat));
-
 	}
       dynamic_cast<Text*>(Interface::getInstance().getWidget("MsgChat"))->clearText();
       break;
@@ -755,7 +749,6 @@ int	MenuWindow::checkAction()
       break;
     case AScreen::LEAVE_GAME:
       this->_status = AScreen::CONTINUE;
-      std::cout << "Je leave comme un gros porc " << std::endl;
       this->_network.sendRequest(new Party::Cancel());
       break;
     case AScreen::CANCEL_GAME:
@@ -889,7 +882,6 @@ void	MenuWindow::updateLineServer(const std::string &nameParty, const std::strin
       else
 	++it;
     }
-  std::cout << this->_currentState << std::endl;
 }
 
 void	MenuWindow::gameExist(const std::string &slot, bool pwd)
@@ -1015,11 +1007,11 @@ void	MenuWindow::receiveForbidden(ARequest *req)
   if (this->_currentState == MENU)
     this->drawMenuWarning("Authentification Failed");
   else if (this->_currentState == CREATE)
-    this->drawLobbyWarning("Server can't created more games");
+    this->drawLobbyWarning("Server can't create more games");
   else if (this->_currentState == VERIF_PWD)
     this->drawLobbyWarning("Bad Password");
   else if (this->_currentState == LOBBY)
-    this->drawLobbyWarning("Can't join selected server");
+    this->drawLobbyWarning("Can't join the game");
 }
 
 void	MenuWindow::receiveSession(ARequest *req)
@@ -1036,7 +1028,6 @@ void	MenuWindow::update()
       while ((req = this->_network.recvRequest()) != 0)
 	{
 	  callback_map::iterator	it = _mapCallBack.find(req->code());
-
 	  if (it != _mapCallBack.end())
 	    (this->*(it->second))(req);
 	  else
