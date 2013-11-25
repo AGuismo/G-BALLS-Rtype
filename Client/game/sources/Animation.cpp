@@ -23,6 +23,7 @@ Animation::Animation() :
   _curFrame(0)
 {
 }
+
 Animation::Animation(float aTime) :
   _aTimer(sf::seconds(aTime)), _curFrame(0)
 {
