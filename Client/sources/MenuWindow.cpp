@@ -680,7 +680,7 @@ int	MenuWindow::checkAction()
       InfosUser::getInstance().game.partyPassword = dynamic_cast<Text*>(Interface::getInstance().getWidget("PWDGame"))->getTmp();
       InfosUser::getInstance().game.nbPlayer = 1;
       InfosUser::getInstance().game.maxPlayer = checkNbPlayer();
-      std::cout << "PartyPassword: " << InfosUser::getInstance().game.partyPassword << std::endl;
+      std::cout << "PartyPassword: " << InfosUser::getInstance().game.partyPassword << ":" << InfosUser::getInstance().game.partyPassword.size() << std::endl;
       if (InfosUser::getInstance().game.partyPassword.empty())
 	{
 	  std::cout << "Party no Password" << std::endl;

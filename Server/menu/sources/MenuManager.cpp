@@ -97,7 +97,11 @@ namespace	menu
 
   void	Manager::delPlayerParty(Game *game, Client *client)
   {
-    std::cout << "DelPlayer: " << game->delPlayer(client->username()) << std::endl;
+#if defined(DEBUG)
+	    std::cout << "menu::Manager::delPlayerParty() - "
+		      << game << ", Game Name: " << game->partyName()
+		      << " - Client Name: " << client->username() << std::endl;
+#endif
     client->requestPush(new Party::Stopped());
     broadcast(Party::Update(game->partyName(),
 			    game->availableSlots(),
@@ -108,6 +112,10 @@ namespace	menu
 
   void	Manager::delParty(Game *game)
   {
+#if defined(DEBUG)
+	    std::cout << "menu::Manager::delParty() - "
+		      << game << ", Game Name: " << game->partyName() << std::endl;
+#endif
     game->broadcast(Party::Stopped());
     broadcast(Party::Update(game->partyName(),
 			    game->availableSlots(),
@@ -120,7 +128,7 @@ namespace	menu
   void	Manager::disconnectClient(Client *client)
   {
 #if defined(DEBUG)
-    std::cerr << "menu::Manager::updateClients() Client disconnected("
+    std::cerr << "menu::Manager::disconnectClients() Client disconnected("
 	      << client << ")" << std::endl;
 #endif
     if (client->currentGame() != 0)
@@ -130,13 +138,17 @@ namespace	menu
 
 	if (it != _games.end())
 	  {
+#if defined(DEBUG)
+	    std::cout << "menu::Manager::disconnectClients()"
+		      << "Client was in a game: " << client->currentGame()->partyName() << std::endl;
+#endif
 	    if ((*it)->owner() == client)
-	      delParty(*it);
-	    else
 	      {
-		delPlayerParty(*it, client);
+		delParty(*it);
 		_games.erase(it);
 	      }
+	    else
+	      delPlayerParty(*it, client);
 	  }
       }
     _monitor.unsetMonitor(*client->TcpLayer());
@@ -315,11 +327,17 @@ namespace	menu
 	return ;
       }
     for (game_list::iterator it = manager->_games.begin(); it != manager->_games.end() ; ++it)
-      client->requestPush(new Party::Update((*it)->partyName(),
-					    (*it)->availableSlots(),
-					    (*it)->maxPlayers(),
-					    (*it)->ispassword() ? requestCode::party::PASS : requestCode::party::NO_PASS,
-					    (*it)->status()));
+      {
+#if defined(DEBUG)
+	std::cout << "Manager::listGames(): " << *it << ", GameName: "
+		  << (*it)->partyName() << std::endl;
+#endif
+	client->requestPush(new Party::Update((*it)->partyName(),
+					      (*it)->availableSlots(),
+					      (*it)->maxPlayers(),
+					      (*it)->ispassword() ? requestCode::party::PASS : requestCode::party::NO_PASS,
+					      (*it)->status()));
+      }
     delete req;
   }
 
