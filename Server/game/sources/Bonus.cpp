@@ -10,7 +10,7 @@ using namespace game;
 ////////////
 
 ABonus::ABonus(game::Dir dir, game::Pos pos, game::ID id, game::TypeBuff type) :
-Entity(requestCode::game::server::BONUS, std::vector<game::Pos>(pos), 1, dir, id), _typeb(type)
+Entity(requestCode::game::server::BONUS, std::vector<game::Pos>(1, pos), 1, dir, id), _typeb(type)
 {
 	std::cout << "A bonus has been discovered" << std::endl;
 }
@@ -27,7 +27,7 @@ ABonus::~ABonus()
 ///////////////
 
 ExtraLife::ExtraLife(game::Dir dir, game::Pos pos, game::ID id) :
-ABonus(dir, pos, id, game::EXTRALIFE)
+ABonus(dir, pos, id, requestCode::game::server::VITALITY_BONUS)
 {}
 
 ExtraLife::~ExtraLife()
@@ -45,7 +45,7 @@ void ExtraLife::applyBuff(Player *p)
 ////////////
 
 Pow::Pow(game::Dir dir, game::Pos pos, game::ID id) :
-ABonus(dir, pos, id, game::POW)
+ABonus(dir, pos, id, requestCode::game::server::POWER_BONUS)
 {}
 
 Pow::~Pow()
