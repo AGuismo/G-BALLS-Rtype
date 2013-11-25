@@ -40,17 +40,17 @@ namespace	network
   bool	Manager::setTcp(const sf::IpAddress &ip, unsigned short port)
   {
     Thread::MutexGuard	guard(_sock);
-	sf::Socket::Status	st;
+    sf::Socket::Status	st;
 
     std::cout << "network::Manager::setTcp()" << std::endl;
     if (isConnected())
       return (false);
-	st = _tcp.mSock.connect(ip, port);
-	if (st == sf::Socket::Done)
+    st = _tcp.mSock.connect(ip, port);
+    if (st == sf::Socket::Done)
       _connected = true;
     else
       _connected = false;
-	return (_connected);
+    return (_connected);
   }
 
   void	Manager::setUdp(const sf::IpAddress &ip, unsigned short port)
@@ -149,15 +149,24 @@ namespace	network
     std::size_t			extracted;
     std::vector<Protocol::Byte>	packet;
     sf::SocketSelector		select;
+    sf::Socket::Status		st;
 
     _sock.lock();
     select.add(_udp.gSock);
     select.wait(sf::milliseconds(100));
     if (select.isReady(_udp.gSock))
       {
-	if (_udp.gSock.receive(bytes, 1024, extracted, _udp.gIp, _udp.gPort) == sf::Socket::Error)
+	st = _udp.gSock.receive(bytes, 1024, extracted, _udp.gIp, _udp.gPort);
+	if (st == sf::Socket::Error)
 	  {
 	    switchTo(NONE);
+	    _connected = false;
+	    _sock.unlock();
+	    return ;
+	  }
+	else if (st == sf::Socket::Disconnected)
+	  {
+	    _connected = false;
 	    _sock.unlock();
 	    return ;
 	  }
@@ -168,6 +177,9 @@ namespace	network
 	_sock.unlock();
 	return ;
       }
+
+    for (std::size_t it = 0; it < extracted; it++)
+      packet.insert(packet.end(), bytes[it]);
 
     while (consume(packet, req))
       {
@@ -203,6 +215,7 @@ namespace	network
     if (status == sf::Socket::Error)
       {
 	switchTo(NONE);
+	_connected = false;
 	_sock.unlock();
 	return ;
       }

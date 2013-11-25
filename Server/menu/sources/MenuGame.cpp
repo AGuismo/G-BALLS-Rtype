@@ -33,8 +33,8 @@ namespace	menu
 
     if (it == _clients.end())
       return (false);
-    _clients.erase(it);
     (*it)->currentGame(0);
+    _clients.erase(it);
     return (true);
   }
 

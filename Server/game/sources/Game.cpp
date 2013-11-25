@@ -86,16 +86,16 @@ void	Game::randBonnus(Entity &a)
       if (!(dice_roll = rand() % 2))
 	{
 	  _bonus.push_back(new game::ExtraLife(game::WEST, a.pos()[0], UniqueId()));
-	  pushRequest(new ElemRequest((*_bonus.end())->type(),
-				      (*_bonus.end())->pos()[0], (*_bonus.end())->dir(),
-				      (*_bonus.end())->id()));
+	  pushRequest(new ElemRequest((_bonus.back())->type(),
+				      (_bonus.back())->pos()[0], (_bonus.back())->dir(),
+				      (_bonus.back())->id()));
 	}
       else
 	{
 	  _bonus.push_back(new game::Pow(game::WEST, a.pos()[0], UniqueId()));
-	  pushRequest(new ElemRequest((*_bonus.end())->type(),
-				      (*_bonus.end())->pos()[0], (*_bonus.end())->dir(),
-				      (*_bonus.end())->id()));
+	  pushRequest(new ElemRequest((_bonus.back())->type(),
+		  (_bonus.back())->pos()[0], (_bonus.back())->dir(),
+		  (_bonus.back())->id()));
 	}
     }
 }
@@ -128,10 +128,12 @@ void	Game::iaUpdate()
 			  flag = true;
 		  }
 		}
-      pushRequest(new ElemRequest((*itia)->algo()->type(),
-				  (*itia)->_pos[0], (*itia)->_dir, (*itia)->_id));
 	  if (flag == false)
+	  {
+		  pushRequest(new ElemRequest((*itia)->algo()->type(),
+			  (*itia)->_pos[0], (*itia)->_dir, (*itia)->_id));
 		  itia++;
+	  }
 	}
 }
 
@@ -158,6 +160,7 @@ void	Game::wallUpdate()
 		}
       else if (Referee::isCollision(*ite, *this) == true)
       {
+		  /*On perd ite ici*/
 	  if ((*ite)->_type == game::DESTRUCTIBLEWALL)
 	      (*ite)->_life--;
 	  if ((*ite)->_life <= 0)
@@ -222,9 +225,11 @@ void	Game::bonusUpdate()
 		  itb = _bonus.erase(itb);
 	  }
 	  else
+	  {
 		  itb++;
-      pushRequest(new ElemRequest((*itb)->_type,
-				  (*itb)->_pos[0], (*itb)->_dir, (*itb)->_id));
+		  pushRequest(new ElemRequest((*itb)->_type,
+			  (*itb)->_pos[0], (*itb)->_dir, (*itb)->_id));
+	  }
     }
 }
 
