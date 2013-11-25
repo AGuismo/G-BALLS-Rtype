@@ -98,10 +98,11 @@ namespace	menu
   void	Manager::delPlayerParty(Game *game, Client *client)
   {
 #if defined(DEBUG)
-	    std::cout << "menu::Manager::delPlayerParty() - "
-		      << game << ", Game Name: " << game->partyName()
-		      << " - Client Name: " << client->username() << std::endl;
+    std::cout << "menu::Manager::delPlayerParty() - "
+	      << game << ", Game Name: " << game->partyName()
+	      << " - Client Name: " << client->username() << std::endl;
 #endif
+    game->delPlayer(client->username());
     client->requestPush(new Party::Stopped());
     broadcast(Party::Update(game->partyName(),
 			    game->availableSlots(),
@@ -113,8 +114,8 @@ namespace	menu
   void	Manager::delParty(Game *game)
   {
 #if defined(DEBUG)
-	    std::cout << "menu::Manager::delParty() - "
-		      << game << ", Game Name: " << game->partyName() << std::endl;
+    std::cout << "menu::Manager::delParty() - "
+	      << game << ", Game Name: " << game->partyName() << std::endl;
 #endif
     game->broadcast(Party::Stopped());
     broadcast(Party::Update(game->partyName(),

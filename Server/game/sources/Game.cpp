@@ -178,7 +178,7 @@ void	Game::wallUpdate()
 		  }
       }
       else
-	  pushRequest(new ElemRequest((*ite)->_type,
+		pushRequest(new ElemRequest((*ite)->_type,
 				      (*ite)->_pos[0], (*ite)->_dir, (*ite)->_id));
 	  if (flag == false)
 		  ite++;
@@ -212,7 +212,7 @@ void	Game::missileUpdate()
 		}
 	  if (flag == true)
 	  {
-		  pushRequest(new ElemRequest((*itm)->_type,
+		  pushRequest(new ElemRequest((*itm)->_typeMissile,
 			  (*itm)->_pos[0], (*itm)->_dir, (*itm)->_id));
 		  itm++;
 	  }
@@ -234,9 +234,9 @@ void	Game::bonusUpdate()
 	  }
 	  else
 	  {
-		  itb++;
 		  pushRequest(new ElemRequest((*itb)->_type,
 			  (*itb)->_pos[0], (*itb)->_dir, (*itb)->_id));
+		  itb++;
 	  }
     }
 }

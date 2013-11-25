@@ -1,5 +1,5 @@
 #include "ElemRequest.hh"
-
+#include <iostream>
 
 ElemRequest::ElemRequest() : AGameRequest(requestCode::game::ELEM)
 {
@@ -7,7 +7,15 @@ ElemRequest::ElemRequest() : AGameRequest(requestCode::game::ELEM)
 
 ElemRequest::ElemRequest(game::Type type, game::Pos pos, game::Dir dir, game::ID id) :
   AGameRequest(requestCode::game::ELEM), _type(type), _pos(pos), _dir(dir), _id(id)
-{}
+{
+#if defined(DEBUG)
+	std::cout << "Creating ElemRequest with param : " << std::endl <<
+		"type : " << (int)type << std::endl <<
+		"pos : " << pos << std::endl <<
+		"dir : " << (int)dir << std::endl <<
+		"id : " << id << std::endl;
+#endif
+}
 
 
 

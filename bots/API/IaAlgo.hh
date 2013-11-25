@@ -20,6 +20,10 @@
 class IAALGO_API AIaAlgo
 {
  public:
+  AIaAlgo() : _type(0), _life(0), _isIa(true)
+    {
+
+    }
   virtual ~AIaAlgo() {};
   virtual int	algo(IAPlayer &players) = 0;
   virtual AIaAlgo		*clone() = 0;

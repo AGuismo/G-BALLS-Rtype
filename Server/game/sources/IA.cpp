@@ -33,7 +33,8 @@ void	Ia::move()
 {
 	std::vector<game::Pos>::iterator it = _pos.begin();
 
-	_prevPos = _pos;
+	for (int i = 0; i < _pos.size(); ++i)
+		_prevPos[i] = _pos[i];
     if (_dir == game::NORTH || _dir == game::NORTH_WEST || _dir == game::NORTH_EAST)
 		for (; it != _pos.end(); it++)
 			(*it) -= SIZE;

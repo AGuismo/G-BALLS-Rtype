@@ -185,8 +185,8 @@ namespace	network
     while (consume(packet, req))
       {
 #if defined(DEBUG)
-	std::cout << "network::Manager::tcpMode(const ARequest *) -- "
-		  << "Packet Size: " << packet.size() << std::endl;
+	std::cout << "network::Manager::udpMode(const ARequest *) -- "
+		  << "Last Packet Size: " << packet.size() << std::endl;
 #endif
 	_reqlist.lock();
 	_requests.push_back(req);
