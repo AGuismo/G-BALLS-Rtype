@@ -23,14 +23,15 @@ public:
     std::string			partyName;
     std::string			partyPassword;
     unsigned int		nbPlayer;
-  }				create;
+    unsigned int		maxPlayer;
+  }				game;
 
 public:
   static InfosUser	&getInstance();
 
 private:
   void	initAuthenticate();
-  void	initCreate();
+  void	initGame();
 
 private:
   InfosUser();

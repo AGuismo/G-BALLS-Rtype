@@ -351,10 +351,10 @@ void	MenuWindow::drawLobbyCreate()
   Text *tmp2;
   Text *tmp3;
 
-  if (InfosUser::getInstance().create.partyName == "Party Name")
+  if (InfosUser::getInstance().game.partyName == "Party Name")
     tmp2 = new Text("FontLobby", "NameGame", this->_event, sf::Vector2f(200, 300), sf::Vector2f(520, 415), sf::Vector2f(760, 445), 15, true, "Party Name");
   else
-    tmp2 = new Text("FontLobby", "NameGame", this->_event, sf::Vector2f(200, 300), sf::Vector2f(520, 415), sf::Vector2f(760, 445), 15, true, InfosUser::getInstance().create.partyName);
+    tmp2 = new Text("FontLobby", "NameGame", this->_event, sf::Vector2f(200, 300), sf::Vector2f(520, 415), sf::Vector2f(760, 445), 15, true, InfosUser::getInstance().game.partyName);
   tmp3 = new Text("FontLobby", "PWDGame", this->_event, sf::Vector2f(245, 475), sf::Vector2f(520, 415), sf::Vector2f(760, 445), 10, false, "Party Password");
 
   this->_listImage.push_back(new Image("TitleLobby", sf::Vector2f(2, 10)));
@@ -399,23 +399,24 @@ void	MenuWindow::drawLobbyWait(int owner)
   if (owner == 0)
     tmp2 = new Text("FontLobby", "NameGameWait", this->_event, sf::Vector2f(170, 297), sf::Vector2f(825, 633), sf::Vector2f(1073, 666), 100, true, this->_serverSelected._name);
   else
-    tmp2 = new Text("FontLobby", "NameGameWait", this->_event, sf::Vector2f(170, 297), sf::Vector2f(825, 633), sf::Vector2f(1073, 666), 100, true, InfosUser::getInstance().create.partyName);
+    tmp2 = new Text("FontLobby", "NameGameWait", this->_event, sf::Vector2f(170, 297), sf::Vector2f(825, 633), sf::Vector2f(1073, 666), 100, true, InfosUser::getInstance().game.partyName);
 
   //demander le nombre de joueur connecter
+  float	posX = 150;
+  unsigned int	i = 0;
 
-  // float posX = 150;
-  // int i = 0;
-  // for (i = 0; i < this->_serverSelected._gameInfo._slots; i++)
-  //   {
-  //     this->_listImage.push_back(new Image("PlayerConnected", sf::Vector2f(posX, 450)));
-  //     posX += 150;
-  //   }
-  // while (i < 4)
-  //   {
-  //     this->_listImage.push_back(new Image("PlayerNotConnected", sf::Vector2f(posX, 450)));
-  //     ++i;
-  //     posX += 150;
-  //   }
+  for (i = 0; i < InfosUser::getInstance().game.nbPlayer; i++)
+    {
+      this->_listImage.push_back(new Image("PlayerConnected", sf::Vector2f(posX, 450)));
+      posX += 150;
+    }
+  while (i < InfosUser::getInstance().game.maxPlayer)
+    {
+      this->_listImage.push_back(new Image("PlayerNotConnected", sf::Vector2f(posX, 450)));
+      ++i;
+      posX += 150;
+    }
+
 
   this->_listWidget.push_back(new Button(this->_event, "Create", sf::Vector2f(400, 110), sf::Vector2f(405, 112), sf::Vector2f(597, 166), AScreen::CREATE_GAME, false));
   this->_listWidget.push_back(new Button(this->_event, "Join", sf::Vector2f(600, 110), sf::Vector2f(605, 112), sf::Vector2f(797, 166), AScreen::JOIN_GAME, false));
@@ -510,25 +511,19 @@ AWidget	*MenuWindow::returnMouseFocus(float x, float y)
 
 void	MenuWindow::checkServer()
 {
-  widget_list::iterator it;
+  game_list::iterator it;
   int		tmp = 0;
 
-  std::cout << "CHECK LE SERVER" << std::endl;
-  for (it = this->_listWidget.begin(); it != this->_listWidget.end(); ++it)
+  for (it = this->_listGame.begin(); it != this->_listGame.end(); ++it)
     {
-      if ((*it)->getType() == AWidget::LINESERVER)
+      if ((*it)->getFocus() == 1)
 	{
-	  LineServer	*lineServ = dynamic_cast<LineServer *>(*it);
-
-	  if (lineServ->getFocus() == 1)
-	    {
-	      this->_flag = 1;
-	      this->_serverSelected = lineServ->getGameInfo();
-	      tmp = 1;
-	      this->removeWidget("Join");
-	      this->_listWidget.push_back(new Button(this->_event, "Join", sf::Vector2f(600, 110), sf::Vector2f(605, 112), sf::Vector2f(797, 166), AScreen::JOIN_GAME, true));
-	      return ;
-	    }
+	  this->_flag = 1;
+	  this->_serverSelected = (*it)->getGameInfo();
+	  tmp = 1;
+	  this->removeWidget("Join");
+	  this->_listWidget.push_back(new Button(this->_event, "Join", sf::Vector2f(600, 110), sf::Vector2f(605, 112), sf::Vector2f(797, 166), AScreen::JOIN_GAME, true));
+	  return ;
 	}
     }
   if (this->_flag == 1 && tmp == 0)
@@ -673,6 +668,7 @@ int	MenuWindow::checkAction()
       if (this->_serverSelected._lock)
 	this->drawGetPWD();
       else
+	this->_network.sendRequest(new Party::Join(this->_serverSelected._name));
 	this->drawLobbyWait(0);
       break;
     case AScreen::VALIDE:
@@ -683,14 +679,15 @@ int	MenuWindow::checkAction()
 	  this->drawLobbyWarning("Name game area is empty !");
 	  break;
 	}
-      InfosUser::getInstance().create.partyName = dynamic_cast<Text*>(Interface::getInstance().getWidget("NameGame"))->getTmp();
-      InfosUser::getInstance().create.partyPassword = dynamic_cast<Text*>(Interface::getInstance().getWidget("PWDGame"))->getTmp();
-      InfosUser::getInstance().create.nbPlayer = checkNbPlayer();
-      std::cout << "PartyPassword: " << InfosUser::getInstance().create.partyPassword << std::endl;
-      if (InfosUser::getInstance().create.partyPassword.empty())
-	this->_network.sendRequest(new Party::Create(InfosUser::getInstance().create.partyName, this->checkNbPlayer()));
+      InfosUser::getInstance().game.partyName = dynamic_cast<Text*>(Interface::getInstance().getWidget("NameGame"))->getTmp();
+      InfosUser::getInstance().game.partyPassword = dynamic_cast<Text*>(Interface::getInstance().getWidget("PWDGame"))->getTmp();
+      InfosUser::getInstance().game.nbPlayer = 1;
+      InfosUser::getInstance().game.maxPlayer = checkNbPlayer();
+      std::cout << "PartyPassword: " << InfosUser::getInstance().game.partyPassword << std::endl;
+      if (InfosUser::getInstance().game.partyPassword.empty())
+	this->_network.sendRequest(new Party::Create(InfosUser::getInstance().game.partyName, this->checkNbPlayer()));
       else
-	this->_network.sendRequest(new Party::Create(InfosUser::getInstance().create.partyName, this->checkNbPlayer(), md5(InfosUser::getInstance().create.partyPassword)));
+	this->_network.sendRequest(new Party::Create(InfosUser::getInstance().game.partyName, this->checkNbPlayer(), md5(InfosUser::getInstance().game.partyPassword)));
       this->_status = CONTINUE;
       break;
     case AScreen::SUBMIT:
@@ -855,6 +852,19 @@ void	MenuWindow::deleteLineServer(const std::string &nameParty)
     }
 }
 
+void	MenuWindow::removeImagePlayer()
+{
+  image_list::iterator it;
+
+  for (it = this->_listImage.begin(); it != this->_listImage.end();)
+    {
+      if ((*it)->getName() == "PlayerConnected" || (*it)->getName() == "PlayerNotConnected")
+	it = this->_listImage.erase(it);
+      else
+	++it;
+    }
+}
+
 void	MenuWindow::updateLineServer(const std::string &nameParty, const std::string &slot)
 {
   game_list::iterator	it;
@@ -868,6 +878,24 @@ void	MenuWindow::updateLineServer(const std::string &nameParty, const std::strin
 	}
       else
 	++it;
+    }
+  if (this->_currentState == WAIT)
+    {
+      float	posX = 150;
+      unsigned int	i = 0;
+
+      this->removeImagePlayer();
+      for (i = 0; i < InfosUser::getInstance().game.nbPlayer; i++)
+	{
+	  this->_listImage.push_back(new Image("PlayerConnected", sf::Vector2f(posX, 450)));
+	  posX += 150;
+	}
+      while (i < InfosUser::getInstance().game.maxPlayer)
+	{
+	  this->_listImage.push_back(new Image("PlayerNotConnected", sf::Vector2f(posX, 450)));
+	  ++i;
+	  posX += 150;
+	}
     }
 }
 
@@ -884,20 +912,18 @@ void	MenuWindow::receiveUpdateParty(ARequest *req)
 
 
   up = dynamic_cast<Party::Update*>(req);
-
-
   tmpnbMax = up->_maxPlayers;
   tmpcurrent = (up->_maxPlayers - up->_availableSlots);
-  std::cout << "TMPNBMAX: " << tmpnbMax << std::endl;
-  std::cout << "TMPCURRENT: " << tmpcurrent << std::endl;
   ss << tmpcurrent;
   slot += ss.str();
   ss.str("");
   ss << tmpnbMax;
   slot += "/" + ss.str();
 
-  std::cout << "SLOT : [" << slot << "]" << std::endl;
-  std::cout << "IsPassword: " << (int)up->_isPassword << std::endl;
+  InfosUser::getInstance().game.maxPlayer = tmpnbMax;
+  InfosUser::getInstance().game.nbPlayer = tmpcurrent;
+  InfosUser::getInstance().game.partyName = up->_partyName;
+  // InfosUser::getInstance().party.pwd = ;
 
   if (up->_status == requestCode::party::OUT_GAME)
     {
