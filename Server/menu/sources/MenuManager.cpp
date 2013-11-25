@@ -251,6 +251,7 @@ namespace	menu
 
 	    client->requestPush(new ServerRequest(requestCode::server::OK));
 	    client->requestPush(new SessionRequest(client->sessionID()));
+	    listGames(0, client, manager);
 	    delete req;
 	    return ;
 	  }
