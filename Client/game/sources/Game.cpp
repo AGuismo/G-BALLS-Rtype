@@ -1,6 +1,8 @@
 #include		<SFML/Audio.hpp>
 #include		<SFML/Network.hpp>
 #include		"EventRequest.hh"
+#include		"DeathRequest.h"
+#include		"ElemRequest.hh"
 #include		"LeaveRequest.h"
 #include		"AObject.h"
 #include		"game.h"
@@ -234,8 +236,7 @@ void							Game::run(void)
 			}
 		}
 		while ((req = _network.recvRequest()) != 0)
-		  ;
-		//LAAAAAAAAAAAAAAAAAA
+		  (this->*_map[req->code()])(req);
 
 		_gameWindow->clear();
 		cleanObjects();
@@ -411,10 +412,59 @@ int							Game::generateId(void)
 	return ((id + 1) < 66000) ? 66000 : id + 1;
 }
 
+void	Game::elem(const ARequest *req)
+{
+  // const ElemRequest	*elem = dynamic_cast<const ElemRequest *>(req);
+
+  // updateObj(elem->type(), elem->dir(), elem->ID(), elem->pos());
+  (void)req;
+}
+
+void	Game::death(const ARequest *req)
+{
+  // const DeathRequest	*death = dynamic_cast<const DeathRequest *>(req);
+
+  // delObj(death->ID());
+  (void)req;
+}
+
+void	Game::buff(const ARequest *req)
+{
+  (void)req;
+}
+
+void	Game::score(const ARequest *req)
+{
+  (void)req;
+}
+
+void	Game::victory(const ARequest *req)
+{
+  (void)req;
+}
+
+void	Game::loose(const ARequest *req)
+{
+  (void)req;
+}
+
+void	Game::nextStage(const ARequest *req)
+{
+  (void)req;
+}
+
 Game::Game(sf::RenderWindow *gameWindow, sf::Event *event, network::Manager &net) : _layerManager(gameWindow, &_textureManager), _network(net)
 {
 	Factory::getInstance().init(gameWindow, &_textureManager);
 	_gameWindow = gameWindow;
 	_event = event;
 	_idPlayer = 42;
+
+	_map[requestCode::game::ELEM] = &Game::elem;
+	_map[requestCode::game::DEATH] = &Game::death;
+	_map[requestCode::game::BUFF] = &Game::buff;
+	_map[requestCode::game::SCORE] = &Game::score;
+	_map[requestCode::game::VICTORY] = &Game::victory;
+	_map[requestCode::game::LOOSE] = &Game::loose;
+	_map[requestCode::game::NEXTSTAGE] = &Game::nextStage;
 }
