@@ -277,7 +277,7 @@ void	MenuWindow::drawLobbyWarning(const std::string &Msg)
   this->_listImage.push_back(new Image("FondWarningLobby", sf::Vector2f(165, 250)));
   this->_listImage.push_back(new Image("TextCreationFailed", sf::Vector2f(190, 415)));
   this->_listImage.push_back(new Image("Warning", sf::Vector2f(340, 280)));
-  this->_listWidget.push_back(new Button(this->_event, "Back", sf::Vector2f(320, 490), sf::Vector2f(326, 496), sf::Vector2f(516, 547), AScreen::CREATE_GAME, true));
+  this->_listWidget.push_back(new Button(this->_event, "Back", sf::Vector2f(320, 490), sf::Vector2f(326, 496), sf::Vector2f(516, 547), AScreen::BACK_LOBY, true));
 
   this->_listWidget.push_back(new Button(this->_event, "Create", sf::Vector2f(400, 110), sf::Vector2f(405, 112), sf::Vector2f(597, 166), AScreen::CREATE_GAME, true));
   this->_listWidget.push_back(new Button(this->_event, "Join", sf::Vector2f(600, 110), sf::Vector2f(605, 112), sf::Vector2f(797, 166), AScreen::JOIN_GAME, false));
@@ -339,7 +339,6 @@ void	MenuWindow::drawLobby()
   this->_listWidget.push_back(new TextArea(this->_event, "TextChatArea", *tmp, sf::Vector2f(787, 600), sf::Vector2f(825, 633), sf::Vector2f(1073, 666)));
   this->_listWidget.push_back(tmp);
   this->_listWidget.push_back(new TextBlock("ChatBlock", this->_event, sf::Vector2f(830, 210), sf::Vector2f(820, 200), sf::Vector2f(820, 200), 40));
-  this->setGameList();
 }
 
 void	MenuWindow::drawLobbyCreate()
@@ -477,6 +476,7 @@ void	MenuWindow::draw()
   game_list::iterator itGame;
 
   this->scroll();
+  this->setGameList();
   this->_window.draw(_firstBackground);
   this->_window.draw(_secondBackground);
   for (itImg = this->_listImage.begin(); itImg != this->_listImage.end(); itImg++)
