@@ -380,7 +380,7 @@ namespace	Party
     ARequest(src), _partyName(src._partyName), _availableSlots(src._availableSlots),
     _maxPlayers(src._maxPlayers), _isPassword(src._isPassword), _status(src._status)
   {
-
+    _code = src._code;
   }
 
   Update		&Update::operator=(Update const &src)

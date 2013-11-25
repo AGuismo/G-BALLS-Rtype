@@ -84,4 +84,5 @@ IndestructibleWall::IndestructibleWall(ObjType type, int id, int pos, LookDirect
 
 void				IndestructibleWall::onDestruction(Game &game)
 {
+  (void)game;
 }
