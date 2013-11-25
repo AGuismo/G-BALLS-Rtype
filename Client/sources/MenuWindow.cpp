@@ -347,14 +347,17 @@ void	MenuWindow::drawLobbyCreate()
   this->_status = CONTINUE;
   this->_currentState = CREATE;
   Text *tmp = new Text("FontLobby", "MsgChat", this->_event, sf::Vector2f(830, 640), sf::Vector2f(825, 633), sf::Vector2f(1073, 666), 100, true);
-  Text *tmp2;
-  Text *tmp3;
+  Text *tmp2 = 0;
+  Text *tmp3 = 0;
 
   if (InfosUser::getInstance().game.partyName == "Party Name")
     tmp2 = new Text("FontLobby", "NameGame", this->_event, sf::Vector2f(200, 300), sf::Vector2f(520, 415), sf::Vector2f(760, 445), 15, true, "Party Name");
   else
     tmp2 = new Text("FontLobby", "NameGame", this->_event, sf::Vector2f(200, 300), sf::Vector2f(520, 415), sf::Vector2f(760, 445), 15, true, InfosUser::getInstance().game.partyName);
-  tmp3 = new Text("FontLobby", "PWDGame", this->_event, sf::Vector2f(245, 475), sf::Vector2f(520, 415), sf::Vector2f(760, 445), 10, false, "Party Password");
+  tmp3 = new Text("FontLobby", "PWDGame", this->_event, sf::Vector2f(245, 475), sf::Vector2f(238, 469), sf::Vector2f(487, 502), 10, false, "Party Password");
+
+
+  tmp2 = new Text("FontMenu", "PasswordText", this->_event, sf::Vector2f(525, 515), sf::Vector2f(520, 415), sf::Vector2f(760, 445), 10, false, "Password");
 
   this->_listImage.push_back(new Image("TitleLobby", sf::Vector2f(2, 10)));
   this->_listImage.push_back(new Image("FondLobby", sf::Vector2f(0, 55)));
@@ -625,11 +628,11 @@ int	MenuWindow::checkAction()
 	}
       InfosUser::getInstance().authenticate.login = dynamic_cast<Text*>(Interface::getInstance().getWidget("LoginText"))->getTmp();
       InfosUser::getInstance().authenticate.password = dynamic_cast<Text*>(Interface::getInstance().getWidget("PasswordText"))->getTmp();
-	  if (!this->_network.setTcp(sf::IpAddress(InfosUser::getInstance().authenticate.addressIp), InfosUser::getInstance().authenticate.portTCP))
-	  {
-	    this->drawMenuWarning("Unable to reach the server !");
-	    break;
-	  }
+      if (!this->_network.setTcp(sf::IpAddress(InfosUser::getInstance().authenticate.addressIp), InfosUser::getInstance().authenticate.portTCP))
+	{
+	  this->drawMenuWarning("Unable to reach the server !");
+	  break;
+	}
       this->_network.switchTo(network::Manager::TCP);
       if (this->_network.isConnected())
 	{
@@ -703,7 +706,7 @@ int	MenuWindow::checkAction()
 	  this->_network.sendRequest(new ChatSendRequest(msgChat));
 
 	}
-	  dynamic_cast<Text*>(Interface::getInstance().getWidget("MsgChat"))->clearText();
+      dynamic_cast<Text*>(Interface::getInstance().getWidget("MsgChat"))->clearText();
       break;
     case AScreen::SELECT_SERVER:
       this->_status = CONTINUE;
@@ -905,11 +908,34 @@ void	MenuWindow::updateLineServer(const std::string &nameParty, const std::strin
     }
 }
 
-void	MenuWindow::receiveUpdateParty(ARequest *req)
+void	MenuWindow::gameExist(const std::string &slot, bool pwd)
 {
+  game_list::iterator	it;
+  LineServer		*tmpServ;
   float x = 300.;
   float y = 300.;
 
+  if (pwd)
+    tmpServ = new LineServer(this->_event, sf::Vector2f(x, y), sf::Vector2f(x + 7, y + 6), sf::Vector2f(x + 686, y + 26), InfosUser::getInstance().game.partyName, slot, true);
+  else
+    tmpServ = new LineServer(this->_event, sf::Vector2f(x, y), sf::Vector2f(x + 7, y + 6), sf::Vector2f(x + 686, y + 26), InfosUser::getInstance().game.partyName, slot, false);
+
+  for (it = this->_listGame.begin(); it != this->_listGame.end();)
+    {
+      if ((*it)->getType() == AWidget::LINESERVER && (*it)->getGame() == InfosUser::getInstance().game.partyName)
+	{
+	  *it = tmpServ;
+	  return;
+	}
+      else
+	++it;
+    }
+  this->_listGame.push_back(new LineServer(this->_event, sf::Vector2f(x, y), sf::Vector2f(x + 7, y + 6), sf::Vector2f(x + 686, y + 26),
+					   InfosUser::getInstance().game.partyName, slot, true));
+}
+
+void	MenuWindow::receiveUpdateParty(ARequest *req)
+{
   Party::Update *up;
   std::string slot;
   std::stringstream ss;
@@ -933,21 +959,22 @@ void	MenuWindow::receiveUpdateParty(ARequest *req)
 
   if (up->_status == requestCode::party::OUT_GAME)
     {
+      std::cout << "AJOUUUUUUUUUUUUUUUUUUUT" << std::endl;
       if (up->_isPassword == requestCode::party::PASS)
-	this->_listGame.push_back(new LineServer(this->_event, sf::Vector2f(x, y), sf::Vector2f(x + 7, y + 6), sf::Vector2f(x + 686, y + 26),
-						 up->_partyName, slot, true));
+	gameExist(slot, true);
       else
-	this->_listGame.push_back(new LineServer(this->_event, sf::Vector2f(x, y), sf::Vector2f(x + 7, y + 6), sf::Vector2f(x + 686, y + 26),
-						   up->_partyName, slot, false));
+	gameExist(slot, false);
     }
   else if ((up->_status == requestCode::party::CANCELED) || (up->_status == requestCode::party::FINISHED))
-    deleteLineServer(up->_partyName);
-  // else if (up->_status == Party::IN_GAME)
-  //   {
-
-  //   }
+    {
+      std::cout << "SUPPR" << std::endl;
+      deleteLineServer(up->_partyName);
+    }
   else if (up->_status == requestCode::party::UPDATE_GAME)
-    updateLineServer(up->_partyName, slot);
+    {
+      std::cout << "MODIF" << std::endl;
+      updateLineServer(up->_partyName, slot);
+    }
   this->setGameList();
 }
 
