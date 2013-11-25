@@ -20,7 +20,7 @@
 class IAALGO_API AIaAlgo
 {
  public:
-  static const game::Type BASEIA = 8;
+  static const game::Type BASEIA = 78;
 
  public:
   virtual ~AIaAlgo() {};

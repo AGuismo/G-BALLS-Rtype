@@ -41,12 +41,21 @@ bool							Game::load(void)
 		return false;
 	if (!_textureManager.addTexture(server::SBYDOS1, std::string("./Images/r-typesheet5.png")))
 		return false;
-	if (!_textureManager.addTexture(server::LAYER1, std::string("./Images/Aurora1.png")))
+	if (!_textureManager.addTexture(server::BG1, std::string("./Images/Aurora1.png")))
 		return false;
-	if (!_textureManager.addTexture(server::LAYER2, std::string("./Images/Aurora2.png")))
+	if (!_textureManager.addTexture(server::BG2, std::string("./Images/Aurora2.png")))
 		return false;
-	if (!_textureManager.addTexture(server::LAYER3, std::string("./Images/Comet1.png")))
+	if (!_textureManager.addTexture(server::COMET, std::string("./Images/Comet1.png")))
 		return false;
+
+	if (!_textureManager.addTexture(server::LOOSE, std::string("./Images/r-type-loose.png")))
+		return false;
+	if (!_textureManager.addTexture(server::VICTORY, std::string("./Images/r-type-victory.png")))
+		return false;
+	if (!_textureManager.addTexture(server::NEXSTAGE, std::string("./Images/r-type-next_stage.png")))
+		return false;
+
+
 	if (!_textureManager.addTexture(server::NORMAL_BANG, std::string("./Images/r-typesheet44.png")))
 		return false;
 	if (!_textureManager.addTexture(server::BIG_BANG, std::string("./Images/r-typesheet44.png")))
@@ -69,12 +78,17 @@ bool							Game::load(void)
 		return false;
 	if (!_textureManager.addTexture(server::INDESTRUCTIBLE_WALL, std::string("./Images/r-type_indestructible_wall.png")))
 		return false;
+	if (!_textureManager.addTexture(server::VITALITY_BONUS , std::string("./Images/r-type_vitality_bonus.png")))
+		return false;
+	if (!_textureManager.addTexture(server::POWER_BONUS, std::string("./Images/r-type_power_bonus.png")))
+		return false;
 
-	if (!_layerManager.addLayer(server::LAYER1, LAYER_1, sf::Vector2f(0.0f, 0.0f), sf::Vector2f(2560.0f, 0.0f), sf::Vector2f(-2560.0f, 0.0f), sf::Vector2f(1.0f, 0.0f), NULL, true))
+
+	if (!_layerManager.addLayer(server::BG1, LAYER_1, sf::Vector2f(0.0f, 0.0f), sf::Vector2f(2560.0f, 0.0f), sf::Vector2f(-2560.0f, 0.0f), sf::Vector2f(1.0f, 0.0f), NULL, true))
 		return false;
-	if (!_layerManager.addLayer(server::LAYER2, LAYER_2, sf::Vector2f(2560.0f, 0.0f), sf::Vector2f(2560.0f, 0.0f), sf::Vector2f(-2560.0f, 0.0f), sf::Vector2f(1.0f, 0.0f), NULL, true))
+	if (!_layerManager.addLayer(server::BG2, LAYER_2, sf::Vector2f(2560.0f, 0.0f), sf::Vector2f(2560.0f, 0.0f), sf::Vector2f(-2560.0f, 0.0f), sf::Vector2f(1.0f, 0.0f), NULL, true))
 		return false;
-	if (!_layerManager.addLayer(server::LAYER3, LAYER_3, sf::Vector2f(0.0f, 0.0f), sf::Vector2f(0.0f, 0.0f), sf::Vector2f(800.0f, 1000.0f), sf::Vector2f(-4.0f, -5.0f), NULL, true))
+/*	if (!_layerManager.addLayer(server::LAYER3, LAYER_3, sf::Vector2f(0.0f, 0.0f), sf::Vector2f(0.0f, 0.0f), sf::Vector2f(800.0f, 1000.0f), sf::Vector2f(-4.0f, -5.0f), NULL, true))
 		return false;
 	if (!_layerManager.addLayer(server::LAYER3, LAYER_3, sf::Vector2f(-50.0f, 100.0f), sf::Vector2f(0.0f, 0.0f), sf::Vector2f(800.0f, 1000.0f), sf::Vector2f(-4.0f, -5.0f), NULL, true))
 		return false;
@@ -89,8 +103,10 @@ bool							Game::load(void)
 	if (!_layerManager.addLayer(server::LAYER3, LAYER_3, sf::Vector2f(42.0f, -890.0f), sf::Vector2f(0.0f, 0.0f), sf::Vector2f(800.0f, 700.0f), sf::Vector2f(-3.0f, -5.0f), NULL, true))
 		return false;
 	if (!_layerManager.addLayer(server::LAYER3, LAYER_3, sf::Vector2f(200.0f, 0.0f), sf::Vector2f(200.0f, 0.0f), sf::Vector2f(800.0f, 1400.0f), sf::Vector2f(-5.0f, -5.0f), NULL, true))
-		return false;
+		return false;*/
 
+	if (!_layerManager.addLayer(server::COMET, LAYER_4, sf::Vector2f(200.0f, 0.0f), sf::Vector2f(200.0f, 0.0f), sf::Vector2f(1200.0f, 1500.0f), sf::Vector2f(-5.0f, -5.0f), NULL, true))
+		return false;
 
 	if (!AudioManager::getInstance().add(AGAME_MUSIC, AMUSIC, true, std::string("./Sounds/Lepi.ogg")))
 		return false;
@@ -135,8 +151,8 @@ void							Game::run(void)
 	// addObj(server::PLAYER3, 77, 10);
 	// addObj(server::PLAYER4, 48, 200);
 	// addObj(server::GARBAGE_BOSS, 4877, 0);
-	// addObj(server::ZOGZOG, 4877, 100);
-	// addObj(server::ZOGZOG, 44, 100);
+	//addObj(server::ZOGZOG, 4877, 100);
+	 addObj(server::POWER_BONUS, 44, 100);
 	// addObj(server::ZOGZOG, 4877, 255);
 	// addObj(server::SBYDOS1, 455, 140);
 
