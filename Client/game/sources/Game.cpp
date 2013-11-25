@@ -243,7 +243,7 @@ void							Game::run(void)
 		  (this->*_map[req->code()])(req);
 		if (_aliveRequest.isEnded())
 		{
-			_network.sendRequest(new AliveRequest());
+			_network.sendRequest(new AliveRequest(InfosUser::getInstance().authenticate.id));
 			_aliveRequest.restart();
 		}
 		_gameWindow->clear();
