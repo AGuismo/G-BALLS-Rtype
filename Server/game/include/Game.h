@@ -48,7 +48,7 @@ public:
   client_list	&clients();
   void  launchGametime(int t) { _launchGameTime = t; }
   int	launchGameTime(void) const { return _launchGameTime; }
-
+ 
 private:
   void iaUpdate();
   void entityUpdate();
@@ -74,6 +74,7 @@ private:
   RequestQueue		_toSend;
   ID				incremental;
   int				_launchGameTime;
+  bool				_isFinished;
 
   friend class ::Referee;
 };

@@ -25,6 +25,9 @@ AIaAlgo	*BaseBoss::clone()
 
 int BaseBoss::algo(IAPlayer &players)
 {
-    (void)players;
-	return 6;
+    static_cast<void>(players);
+	_fires.push_back(6);
+	_fires.push_back(7);
+	_fires.push_back(5);
+	return -1;
 }
