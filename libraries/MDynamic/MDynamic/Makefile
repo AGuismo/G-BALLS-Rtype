@@ -9,7 +9,7 @@ NAME	     ?=	libMDynamic.so
 SRCS =		DynamicAbstract.cpp
 
 
-F.C	     +=	-W -Wall -Werror -fPIC
+F.C	     +=	-W -Wall  -fPIC
 F.I	     +=	-I$(DIR.H)
 F.L	     += -shared
 F.D	     +=

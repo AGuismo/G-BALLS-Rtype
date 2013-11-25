@@ -17,7 +17,7 @@ DIR.BIND=	../deps/Bind
 DIR.PROTO=	../deps/protocol
 DIR.IAAPI=	../../bots/API/
 
-F.C	     +=	-W -Wall -Werror
+F.C	     +=	-W -Wall 
 F.I	     +=	-I $(DIR.H) -I$(DIR.BIND)/include -I$(DIR.PROTO)/include -I$(DIR.THREADS)/include
 F.I	     += -I../include -I$(DIR.IAAPI)
 F.D	     +=

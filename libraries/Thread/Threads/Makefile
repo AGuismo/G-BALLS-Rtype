@@ -9,7 +9,7 @@ NAME	     ?=	libThread.so
 SRCS =	      	ThreadCond.cpp	\
 		ThreadMutex.cpp	\
 
-F.C	     +=	-W -Wall -Werror -fPIC
+F.C	     +=	-W -Wall  -fPIC
 F.I	     +=	-I $(DIR.H) -I./deps/Bind/include
 F.L	     += -lpthread -shared
 F.D	     += -DNDEBUG

@@ -14,7 +14,7 @@ SRCS =	      	Backup.cpp		\
 		Database.cpp		\
 		Salt.cpp
 
-F.C	     +=	-W -Wall -Werror
+F.C	     +=	-W -Wall 
 F.I	     +=	-I $(DIR.H) -I$(THREAD.DIR)/include -I$(PROTOCOL.DIR)/include -I../include
 F.D	     +=
 

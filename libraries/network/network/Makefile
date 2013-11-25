@@ -16,7 +16,7 @@ SRCS =	      	AMonitorable.cpp	\
 		UdpServer.cpp		\
 		NetException.cpp	\
 
-F.C	     +=	-W -Wall -Werror -fPIC
+F.C	     +=	-W -Wall  -fPIC
 F.I	     +=	-I $(DIR.H)
 F.L	     += -shared
 F.D	     += -DNDEBUG

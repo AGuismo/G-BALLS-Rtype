@@ -9,7 +9,7 @@ EVENT		?=	testEvent
 THREAD_POOL     ?=	testThreadPool
 
 
-F.C	     +=	-W -Wall -Werror -fPIC
+F.C	     +=	-W -Wall  -fPIC
 F.I	     +=	-I $(DIR.H)
 F.L	     += -lpthread -shared
 F.D	     += -DNDEBUG
