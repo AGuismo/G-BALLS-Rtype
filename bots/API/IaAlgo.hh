@@ -25,13 +25,14 @@ class IAALGO_API AIaAlgo
  public:
   virtual ~AIaAlgo() {};
   virtual int	algo(IAPlayer &players) = 0;
+  virtual AIaAlgo		*clone() = 0;
+
   std::vector<game::Pos>	&pos() { return _pos; }
-  std::list<game::Dir>	&fires() { return _fires; }
+  std::list<game::Dir>		&fires() { return _fires; }
   game::Type			&type() { return _type; }
   game::Pos			&firePos() { return _firePos; }
-  int					&life() { return _life; }
-  virtual AIaAlgo		*clone() = 0;
-  virtual bool isIa() { return _isIa; }
+  int				&life() { return _life; }
+  bool				isIa() { return _isIa; }
 
  protected:
   std::vector<game::Pos>	_pos;
