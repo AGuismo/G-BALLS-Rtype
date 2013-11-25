@@ -299,7 +299,9 @@ void							Game::cleanObjects(void)
 		{
 			AObject	*entity = *it;
 			it = _objects.erase(it);
+#if defined(DEBUG)
 			std::cout << entity->getObjType() << std::endl;
+#endif
 			delete entity;
 		}
 		else
@@ -356,7 +358,9 @@ void							Game::cleanGame()
 	for (obj_type::iterator it = _objects.begin(); it != _objects.end();)
 	{
 			AObject	*entity = *it;
+#if defined(DEBUG)
 			std::cout << (*it)->getObjType() << std::endl;
+#endif
 			it = _objects.erase(it);
 			delete entity;
 	}

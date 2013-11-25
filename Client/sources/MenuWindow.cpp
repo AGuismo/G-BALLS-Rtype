@@ -687,8 +687,6 @@ int	MenuWindow::checkAction()
       if (dynamic_cast<Text*>(Interface::getInstance().getWidget("MsgChat"))->getTmp() != "")
 	{
 	  msgChat = "[" + InfosUser::getInstance().authenticate.login + "] : " + dynamic_cast<Text*>(Interface::getInstance().getWidget("MsgChat"))->getTmp();
-	  std::cout << msgChat << std::endl;
-
 	  this->_network.sendRequest(new ChatSendRequest(msgChat));
 
 	}
@@ -755,7 +753,6 @@ int	MenuWindow::checkAction()
       break;
     case AScreen::LEAVE_GAME:
       this->_status = AScreen::CONTINUE;
-      std::cout << "Je leave comme un gros porc " << std::endl;
       this->_network.sendRequest(new Party::Cancel());
       break;
     case AScreen::CANCEL_GAME:
@@ -889,7 +886,6 @@ void	MenuWindow::updateLineServer(const std::string &nameParty, const std::strin
       else
 	++it;
     }
-  std::cout << this->_currentState << std::endl;
 }
 
 void	MenuWindow::gameExist(const std::string &slot, bool pwd)
@@ -1039,8 +1035,6 @@ void	MenuWindow::update()
 
 	  if (it != _mapCallBack.end())
 	    (this->*(it->second))(req);
-	  else
-	    std::cout << req->code() << ": not implemented yet" << std::endl;
 	}
     }
   else if (!this->_network.isConnected() && this->_isConnected == 1)
