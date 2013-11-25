@@ -21,7 +21,7 @@ namespace net
     virtual const char	*what() const throw();
 
   protected:
-    const char		*_what;
+    std::string		_what;
   };
 
 }

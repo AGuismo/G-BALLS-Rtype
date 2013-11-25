@@ -40,6 +40,7 @@ namespace	botLoader
 
 	void	Manager::run()
 	{
+	  _active = true;
 		_th.run();
 		std::cout << "Loader manager started..." << std::endl;
 	}
@@ -99,10 +100,15 @@ namespace	botLoader
 		return false;
 	}
 
+  void	Manager::stop()
+  {
+    _active = false;
+  }
+
 	void	Manager::routine(Manager *man)
 	{
 		(void)man;
-		while (true)
+		while (man->_active)
 		{
 			sys::sleep(5);
 			man->_lock.lock();

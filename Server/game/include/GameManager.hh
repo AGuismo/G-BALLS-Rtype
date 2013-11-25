@@ -49,6 +49,7 @@ namespace	game
   public:
     void	initialize(unsigned short int port = rtype::Env::UDP_SERVER_PORT);
     void	run();
+    void	stop();
 
   private:
     static void		routine(Manager *);
@@ -81,6 +82,7 @@ namespace	game
 
 
   private:
+    bool				_active;
     Threads<void (*)(Manager *)>	_th;
     Clock				_clock;
     std::deque<Game *>		_games;

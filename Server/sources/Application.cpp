@@ -58,6 +58,7 @@ void	Application::run()
   _gameManager.run();
   botLoader::Manager::getInstance().run();
   _menuManager.run();
+  _active = true;
   routine();
 }
 
@@ -79,9 +80,15 @@ void	Application::updateClients()
     }
 }
 
+void	Application::stop(menu::Client *client)
+{
+  (void)client;
+  _active = false;
+}
+
 void	Application::routine()
 {
-  while (true)
+  while (_active)
     {
       ICallbacks	*callbacks = _input.pop();
 
@@ -89,6 +96,9 @@ void	Application::routine()
       delete callbacks;
       updateClients();
     }
+  _gameManager.stop();
+  _menuManager.stop();
+  botLoader::Manager::getInstance().stop();
 }
 
 void	Application::ClientLeaveGame(game::Client *client)

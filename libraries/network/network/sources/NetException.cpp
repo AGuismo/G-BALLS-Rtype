@@ -29,5 +29,5 @@ Exception::~Exception() throw()
 
 const char	*Exception::what() const throw()
 {
-  return (_what);
+  return (_what.c_str());
 }

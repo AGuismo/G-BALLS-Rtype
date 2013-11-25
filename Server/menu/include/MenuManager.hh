@@ -40,7 +40,8 @@ namespace	menu
   public:
     void	initialize(unsigned short int port = rtype::Env::TCP_SERVER_PORT);
     void	run();
-	void	endGame(menu::Game *game);
+    void	stop();
+    void	endGame(menu::Game *game);
 
   private:
     void	disconnectClient(Client *client);
