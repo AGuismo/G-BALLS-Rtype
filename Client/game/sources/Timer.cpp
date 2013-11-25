@@ -16,7 +16,6 @@ void			Timer::reset(const sf::Time &nTime)
   _tClock.restart();
 }
 
-// void			reset(sf::Time *nTime);
 
 Timer::Timer(const sf::Time &tTime) :
   _tTime(tTime)
