@@ -5,7 +5,7 @@
 // Login   <brigno@epitech.net>
 //
 // Started on  Tue Nov 19 21:10:46 2013 brigno
-// Last update Mon Nov 25 16:11:07 2013 brigno
+// Last update Mon Nov 25 17:49:44 2013 brigno
 //
 
 #ifndef		__LINESERVER_HH__
@@ -21,10 +21,10 @@ public:
 	     const sf::Vector2f &focusTopLeft, const sf::Vector2f &focusBotRight,
 	     const std::string &gameName, const std::string &slotName, bool lock);
   ~LineServer(){};
+  LineServer &operator=(const LineServer &other);
 
 private:
   LineServer(const LineServer &other);
-  LineServer operator=(const LineServer &other);
 
 private:
   sf::Vector2f			_pos;
