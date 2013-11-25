@@ -167,7 +167,7 @@ int			main(int ac, char **av)
 	      send_req(client, new Party::Cancel());
 	      break;
 	    case 'g':
-	      send_req(client, new Party::Join("Toto"));
+	      send_req(client, new Party::Join("test"));
 	      break;
 	    case 'h':
 	      std::cout << "a: " << "Auth::Connect" << std::endl

@@ -688,9 +688,15 @@ int	MenuWindow::checkAction()
       InfosUser::getInstance().create.nbPlayer = checkNbPlayer();
       std::cout << "PartyPassword: " << InfosUser::getInstance().create.partyPassword << std::endl;
       if (InfosUser::getInstance().create.partyPassword.empty())
-	this->_network.sendRequest(new Party::Create(InfosUser::getInstance().create.partyName, this->checkNbPlayer()));
+	{
+	  std::cout << "Party no Password" << std::endl;
+	  this->_network.sendRequest(new Party::Create(InfosUser::getInstance().create.partyName, this->checkNbPlayer()));
+	}
       else
-	this->_network.sendRequest(new Party::Create(InfosUser::getInstance().create.partyName, this->checkNbPlayer(), md5(InfosUser::getInstance().create.partyPassword)));
+	{
+	  std::cout << "Party Password" << std::endl;
+	  this->_network.sendRequest(new Party::Create(InfosUser::getInstance().create.partyName, this->checkNbPlayer(), md5(InfosUser::getInstance().create.partyPassword)));
+	}
       this->_status = CONTINUE;
       break;
     case AScreen::SUBMIT:

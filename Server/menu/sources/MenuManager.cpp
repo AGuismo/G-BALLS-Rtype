@@ -345,6 +345,7 @@ namespace	menu
     manager->_games.push_back(game);
     delete req;
     client->requestPush(new ServerRequest(requestCode::server::OK));
+    std::cout << "IsPassword? " << game->ispassword() << std::endl;
     manager->broadcast(Party::Update(game->partyName(),
 				     game->availableSlots(),
 				     game->maxPlayers(),
