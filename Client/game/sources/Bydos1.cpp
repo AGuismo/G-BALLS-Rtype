@@ -108,6 +108,8 @@ Bydos1::Bydos1(game::Type type, int id, int pos, game::Dir ld, sf::Texture *text
 void				Bydos1::onDestruction(Game &game)
 {
 	game.addObj(server::NORMAL_BANG, Game::generateId(), _cCurPos);
+#if defined(DEBUG)
 	std::cout << "Explosion pos [" << _cCurPos << "] id:[" << _id << std::endl;
+#endif
 	AudioManager::getInstance().play(ABYDOS_DESTRUCTION);
 }

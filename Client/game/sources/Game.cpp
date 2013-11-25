@@ -260,6 +260,7 @@ void							Game::run(void)
 			_playerBlastLock.restart();
 		}*/
 
+<<<<<<< HEAD
 		    callback_map::iterator	it = _map.find(req->code());
 
 			if (it != _map.end())
@@ -267,6 +268,15 @@ void							Game::run(void)
 				(this->*(it->second))(req);
 				_lostConnection.restart();
 			}
+=======
+		while ((req = _network.recvRequest()) != 0)
+		  {
+		    callback_map::iterator	it = _map.find(req->code());
+
+		    if (it != _map.end())
+		      (this->*(it->second))(req);
+		  }
+>>>>>>> a56843d880510e2cb91d99f27920fbbe3f37f250
 
 		if (_aliveRequest.isEnded())
 		{
@@ -305,7 +315,9 @@ void							Game::cleanObjects(void)
 		{
 			AObject	*entity = *it;
 			it = _objects.erase(it);
+#if defined(DEBUG)
 			std::cout << entity->getObjType() << std::endl;
+#endif
 			delete entity;
 		}
 		else
@@ -362,7 +374,9 @@ void							Game::cleanGame()
 	for (obj_type::iterator it = _objects.begin(); it != _objects.end();)
 	{
 			AObject	*entity = *it;
+#if defined(DEBUG)
 			std::cout << (*it)->getObjType() << std::endl;
+#endif
 			it = _objects.erase(it);
 			delete entity;
 	}
