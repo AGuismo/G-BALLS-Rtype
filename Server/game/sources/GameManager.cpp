@@ -49,7 +49,9 @@ namespace	game
   {
     _active = true;
     _th.run();
+#if defined(DEBUG)
     std::cout << "Game manager started..." << std::endl;
+#endif
   }
 
   bool	Manager::getRequest(std::vector<cBuffer::Byte> &buf,
@@ -83,15 +85,21 @@ namespace	game
 
     _server.recv();
     _server.readFromBuffer(buf, rtype::Env::getInstance().network.maxUDPpacketLength);
-	std::cout << "Manager::readData::buf = " << buf.size() << std::endl;
+#if defined(DEBUG)
+    std::cout<< "Manager::readData::buf = " << buf.size() << std::endl;
+#endif
 	for (std::vector<cBuffer::Byte>::iterator it = buf.begin(); it != buf.end(); it++)
-      std::cout << *it;
+#if defined(DEBUG)
+	  std::cout << *it;
+#endif
     if ((getRequest(buf, req)) == false)
       return;
     it = std::find_if(_gameClients.begin(), _gameClients.end(), predicate(req->SessionID()));
 	if (it != _gameClients.end())
 	{
-		std::cout << "Client " << (*it)->SessionID() << "send a request of type " << req->code() << std::endl << std::endl;
+#if defined(DEBUG)
+	  std::cout << "Client " << (*it)->SessionID() << "send a request of type " << req->code() << std::endl << std::endl;
+#endif
 		(*it)->setAddr(_server.getClientAddr());
 		(*it)->requestPushInput(req);
 		(*it)->hasJoin(true);
@@ -254,7 +262,6 @@ namespace	game
 		  self->updateCallback();
 		  if (self->_server.read() || self->_server.write())
 		  {
-			  //std::cout << "Action to do" << std::endl << std::endl;
 			  try
 			  {
 				  if (self->_server.read())
@@ -269,7 +276,6 @@ namespace	game
 		  }
 		  if (self->_monitor.isTimeout())
 		  {
-			  //std::cout << "Auto Exit" << std::endl;
 			  self->update();
 		  }
 	  }
@@ -292,7 +298,9 @@ namespace	game
 
   bool		Manager::predicate::operator()(const Client *rhs)
   {
+#if defined(DEBUG)
 	  std::cout << _id << " || " << rhs->SessionID() << std::endl;
+#endif
     return (_id == rhs->SessionID());
   }
 }

@@ -66,7 +66,9 @@ namespace	menu
   void	Manager::run()
   {
     _th.run();
+#if defined(DEBUG)
     std::cout << "Menu manager started..." << std::endl;
+#endif
   }
 
   void	Manager::checkNewClient()

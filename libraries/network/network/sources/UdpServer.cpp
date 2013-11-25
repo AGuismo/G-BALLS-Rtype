@@ -227,7 +227,9 @@ void UdpServer::recv()
   //ClientAccepted	*c;
 
   count = readData(buff, 512);
+#if defined(DEBUG)
   std::cout << "UdpServer::recv::count = " << count << std::endl;
+#endif
   if (count <= 0)
     return /*(0)*/;
   //c = new ClientAccepted(_sock, _addr);

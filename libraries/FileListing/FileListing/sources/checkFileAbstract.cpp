@@ -23,7 +23,7 @@ std::map<std::string, UPDATE>						*checkFileAbstract::refreshFile(void)
 		return NULL;
 	}
 
-	do 
+	do
 	{
 		if (ffd.dwFileAttributes != FILE_ATTRIBUTE_DIRECTORY)
 		{
@@ -82,8 +82,9 @@ std::map<std::string, UPDATE>						*checkFileAbstract::refreshFile(void)
 
 	_update.clear();
 
+#if defined(DEBUG)
 	std::cout << _fileToCheck.c_str() << std::endl;
-
+#endif
 	if ((dp = opendir(_fileToCheck.c_str())) == NULL)
 		return NULL;
 

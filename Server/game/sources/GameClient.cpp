@@ -16,7 +16,9 @@ namespace	game
     _used(false), _hasJoin(false), _id(id)
 
   {
+#if defined(DEBUG)
     std::cout << "game::client created" << std::endl;
+#endif
   }
 
   Client::Client(requestCode::SessionID &id, struct sockaddr_in addr) :
@@ -24,7 +26,9 @@ namespace	game
     _used(false), _hasJoin(false),
     _addr(addr), _id(id)
   {
+#if defined(DEBUG)
     std::cout << "game::client created" << std::endl;
+#endif
   }
 
   Client::~Client()

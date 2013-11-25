@@ -48,7 +48,9 @@ int			ClientAccepted::readData(char *data, int maxSize)
       _state = STATEERROR;
       throw net::Exception("RecvFrom Failure: " + WSAGetLastError());
     }
+#if defined(DEBUG)
   std::cout << "readData::readSize = " << readSize << std::endl;
+#endif
   if (readSize == 0)
     _state = DISCONNECTED;
   return (readSize);

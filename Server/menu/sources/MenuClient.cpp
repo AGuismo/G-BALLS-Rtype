@@ -27,7 +27,6 @@ namespace	menu
 #if defined(DEBUG)
     if (_TcpLayer == 0)
       throw "No TCP socket";
-    //  std::cout << __PRETTY_FUNCTION__ << std::endl;
 #endif
     if (_TcpLayer->read())
       {

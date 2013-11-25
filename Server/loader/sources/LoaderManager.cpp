@@ -41,8 +41,10 @@ namespace	botLoader
 	void	Manager::run()
 	{
 	  _active = true;
-		_th.run();
-		std::cout << "Loader manager started..." << std::endl;
+	  _th.run();
+#if defined(DEBUG)
+	  std::cout << "Loader manager started..." << std::endl;
+#endif
 	}
 
 	bool	Manager::addNewIa(const std::string &path)

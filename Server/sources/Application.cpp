@@ -19,9 +19,11 @@ Application::Application():
   std::string	file("botlibrary");
 
   if (!Database::getInstance().loadFile(rtype::Env::getInstance().database.DatabasePath))
+#if defined(DEBUG)
     std::cout << "Warning: There is no Database or a corrupt Database in "
 	      << rtype::Env::getInstance().database.DatabasePath << std::endl
   	      << "Client Database will be created for further usage" << std::endl;
+#endif
   Database::getInstance().newClient("root", md5("4242"), database::SUPER_USER, true);
   try
     {

@@ -46,7 +46,9 @@ Game::Game(std::list<game::Client *> &players)
   _timer.tv_sec = 0;
   _launchGameTime = 8;
   _timer.tv_usec = rtype::Env::getInstance().game.gameDelay;
+#if defined(DEBUG)
   std::cout << "Game::Game(): " << "Bienvenue dans la faille de l'invocateur" << std::endl;
+#endif
 }
 
 Game::~Game()
@@ -81,7 +83,9 @@ Game::~Game()
 	delete _titans.front();
 	_titans.pop_front();
     }
+#if defined(DEBUG)
     std::cout << "A Game has just finished" << std::endl;
+#endif
 }
 
 void	Game::randBonnus(Entity &a)
