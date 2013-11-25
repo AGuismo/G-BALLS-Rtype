@@ -686,7 +686,8 @@ int	MenuWindow::checkAction()
       InfosUser::getInstance().create.partyName = dynamic_cast<Text*>(Interface::getInstance().getWidget("NameGame"))->getTmp();
       InfosUser::getInstance().create.partyPassword = dynamic_cast<Text*>(Interface::getInstance().getWidget("PWDGame"))->getTmp();
       InfosUser::getInstance().create.nbPlayer = checkNbPlayer();
-      if (InfosUser::getInstance().create.partyPassword == "")
+      std::cout << "PartyPassword: " << InfosUser::getInstance().create.partyPassword << std::endl;
+      if (InfosUser::getInstance().create.partyPassword.empty())
 	this->_network.sendRequest(new Party::Create(InfosUser::getInstance().create.partyName, this->checkNbPlayer()));
       else
 	this->_network.sendRequest(new Party::Create(InfosUser::getInstance().create.partyName, this->checkNbPlayer(), md5(InfosUser::getInstance().create.partyPassword)));
@@ -896,6 +897,7 @@ void	MenuWindow::receiveUpdateParty(ARequest *req)
   slot += "/" + ss.str();
 
   std::cout << "SLOT : [" << slot << "]" << std::endl;
+  std::cout << "IsPassword: " << (int)up->_isPassword << std::endl;
 
   if (up->_status == requestCode::party::OUT_GAME)
     {
