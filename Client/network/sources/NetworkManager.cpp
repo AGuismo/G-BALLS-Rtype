@@ -42,7 +42,6 @@ namespace	network
     Thread::MutexGuard	guard(_sock);
     sf::Socket::Status	st;
 
-    std::cout << "network::Manager::setTcp()" << std::endl;
     if (isConnected())
       return (false);
     st = _tcp.mSock.connect(ip, port);
@@ -107,8 +106,8 @@ namespace	network
     if (!product(packet, req))
       return ;
 #if defined(DEBUG)
-//    std::cout << "network::Manager::sendRequest(const ARequest *)"
-//	      << "Packet Size: " << packet.size() << std::endl;
+   std::cout << "network::Manager::sendRequest(const ARequest *)"
+	      << "Packet Size: " << packet.size() << std::endl;
 #endif
     for (std::vector<Protocol::Byte>::size_type it = 0; it != packet.size(); ++it)
       bytes[it] = packet[it];
@@ -279,13 +278,17 @@ bool		consume(std::vector<Protocol::Byte> &b, ARequest *&req)
 {
   int		extracted;
 
+  if (b.empty())
+    return (false);
   try
     {
       req = Protocol::consume(b, extracted);
     }
   catch (Protocol::ConstructRequest &e)
     {
+#if defined(DEBUG)
       std::cerr << "Manager::operator>>(sf::Packet &, const ARequest *): " << e.what() << std::endl;
+#endif
       return (false);
     }
   b.erase(b.begin(), b.begin() + extracted);
@@ -302,7 +305,9 @@ bool		product(std::vector<Protocol::Byte> &b, const ARequest *req)
     }
   catch (Protocol::ConstructRequest &e)
     {
+#if defined(DEBUG)
       std::cerr << "Manager::operator<<(sf::Packet &, const ARequest *): " << e.what() << std::endl;
+#endif
       b.clear();
       delete req;
       return (false);

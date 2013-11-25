@@ -35,8 +35,10 @@ Game::Game(std::list<game::Client *> &players)
   _titan = NULL;
   for (int i = 0; i < rtype::Env::getInstance().game.maxBoss; ++i)
   {
-      if (botLoader::Manager::getInstance().getBossBydos())
-	  _titans.push_back(new Boss(UniqueId(), botLoader::Manager::getInstance().getBossBydos()));
+    AIaAlgo	*algo = botLoader::Manager::getInstance().getBossBydos();
+
+      if (algo != 0)
+	  _titans.push_back(new Boss(UniqueId(), algo));
       else
 	  _titans.push_back(new Boss(UniqueId(), new BaseBoss()));
   }
@@ -44,8 +46,13 @@ Game::Game(std::list<game::Client *> &players)
   _timer.tv_sec = 0;
   _launchGameTime = 8;
   _timer.tv_usec = rtype::Env::getInstance().game.gameDelay;
+<<<<<<< HEAD
   _isFinished = false;
+=======
+#if defined(DEBUG)
+>>>>>>> a56843d880510e2cb91d99f27920fbbe3f37f250
   std::cout << "Game::Game(): " << "Bienvenue dans la faille de l'invocateur" << std::endl;
+#endif
 }
 
 Game::~Game()
@@ -80,7 +87,9 @@ Game::~Game()
 	delete _titans.front();
 	_titans.pop_front();
     }
+#if defined(DEBUG)
     std::cout << "A Game has just finished" << std::endl;
+#endif
 }
 
 void	Game::randBonnus(Entity &a)
@@ -343,12 +352,13 @@ void	Game::popIA()
 		if (_IA.size() < rtype::Env::getInstance().game.minIA || rand() % rtype::Env::getInstance().game.popIAmax < rtype::Env::getInstance().game.popIArange)
 		{
 			Ia *new_ia;
+			AIaAlgo	*algo = botLoader::Manager::getInstance().getSimpleBydos();
 
 			//new_ia = BotLoader::getIA();
 			//with pos = rand() % Entity::SIZE + Entity::SIZE - 1;
 			//id = UniqueId();
-			if (botLoader::Manager::getInstance().getSimpleBydos())
-			    new_ia = new Ia(UniqueId(), botLoader::Manager::getInstance().getSimpleBydos());
+			if (algo != 0)
+			    new_ia = new Ia(UniqueId(), algo);
 			else
 			    new_ia = new Ia(UniqueId(), new BaseIA());
 
