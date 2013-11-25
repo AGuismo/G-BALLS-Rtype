@@ -12,7 +12,7 @@ LayerManager::~LayerManager()
 
 bool							LayerManager::addLayer(game::Type objType, LayerType lType, const sf::Vector2f &lInit, const sf::Vector2f &lReset, const sf::Vector2f &lLim, const sf::Vector2f &lInc, Timer *lTimer, bool lEn)
 {
-  Layer						*newL;
+  Layer							*newL;
   sf::Texture					*text;
 
   if ((text = _textureManager->getTexture(objType)) != NULL)
