@@ -163,17 +163,17 @@ void							Game::run(void)
 						if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
 						{
 							std::cout << "NORTH WEST MOTHERFUCKER" << std::endl;
-							_network.sendRequest(new EventRequest(MOVE, NORTH_WEST));
+							_network.sendRequest(new EventRequest(MOVE, NORTH_WEST, InfosUser::getInstance().authenticate.id));
 						}
 						else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
 						{
 							std::cout << "SOUTH WEST MOTHERFUCKER" << std::endl;
-							_network.sendRequest(new EventRequest(MOVE, SOUTH_WEST));
+							_network.sendRequest(new EventRequest(MOVE, SOUTH_WEST, InfosUser::getInstance().authenticate.id));
 						}
 						else
 						{
 							// updatePlayer(Left);
-							_network.sendRequest(new EventRequest(MOVE, WEST));
+							_network.sendRequest(new EventRequest(MOVE, WEST, InfosUser::getInstance().authenticate.id));
 						}
 						_playerMvtLock.restart();
 					}
@@ -184,17 +184,17 @@ void							Game::run(void)
 						if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
 						{
 							std::cout << " MOTHERFUCKER NORTH EAST" << std::endl;
-							_network.sendRequest(new EventRequest(MOVE, SOUTH_EAST));
+							_network.sendRequest(new EventRequest(MOVE, SOUTH_EAST, InfosUser::getInstance().authenticate.id));
 						}
 						else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
 						{
 							std::cout << "SOUTH east MOTHERFUCKER" << std::endl;
-							_network.sendRequest(new EventRequest(MOVE, SOUTH_WEST));
+							_network.sendRequest(new EventRequest(MOVE, SOUTH_WEST, InfosUser::getInstance().authenticate.id));
 						}
 						else
 						{
 							// updatePlayer(Right);
-							_network.sendRequest(new EventRequest(MOVE, EAST));
+							_network.sendRequest(new EventRequest(MOVE, EAST, InfosUser::getInstance().authenticate.id));
 						}
 						_playerMvtLock.restart();
 					}
@@ -203,7 +203,7 @@ void							Game::run(void)
 					if (_playerMvtLock.isEnded())
 					{
 						// updatePlayer(Up);
-						_network.sendRequest(new EventRequest(MOVE, NORTH));
+						_network.sendRequest(new EventRequest(MOVE, NORTH, InfosUser::getInstance().authenticate.id));
 						_playerMvtLock.restart();
 					}
 					break;
@@ -211,7 +211,7 @@ void							Game::run(void)
 					if (_playerMvtLock.isEnded())
 					{
 						// updatePlayer(Down);
-						_network.sendRequest(new EventRequest(MOVE, SOUTH));
+						_network.sendRequest(new EventRequest(MOVE, SOUTH, InfosUser::getInstance().authenticate.id));
 						_playerMvtLock.restart();
 					}
 					break;
@@ -219,13 +219,13 @@ void							Game::run(void)
 					if (_playerFireLock.isEnded())
 					{
 						// AudioManager::getInstance().play(APLAYER_LASER);
-						_network.sendRequest(new EventRequest(SHOOT, SIMPLE));
+						_network.sendRequest(new EventRequest(SHOOT, SIMPLE, InfosUser::getInstance().authenticate.id));
 						// delObj(44);
 						_playerFireLock.restart();
 					}
 					break;
 				case sf::Keyboard::Escape:
-					_network.sendRequest(new LeaveRequest());
+					_network.sendRequest(new LeaveRequest(InfosUser::getInstance().authenticate.id));
 				  cleanGame();
 				  return;
 					break;
