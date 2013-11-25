@@ -5,13 +5,9 @@
 
 Database	&Database::getInstance()
 {
-  static Thread::Mutex	lock;
-  Thread::MutexGuard	guard(lock);
-  static Database	*db;
+  static Database	db;
 
-  if (db == 0)
-    db = new Database();
-  return (*db);
+  return (db);
 }
 
 Database::Database()
