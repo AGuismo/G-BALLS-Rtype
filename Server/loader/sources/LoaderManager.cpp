@@ -146,7 +146,7 @@ namespace	botLoader
 		if (_bossBydos.size() == 0)
 			return NULL;
 		curLoop = 0;
-		goalLoop = simpleRand(_bossBydos.size());
+		goalLoop = simpleRand(_bossBydos.size()) - 1;
 		for (it = _bossBydos.begin(); it != _bossBydos.end(); ++it)
 		{
 			if (curLoop == goalLoop)
@@ -168,7 +168,7 @@ namespace	botLoader
 		if (_simpleBydos.size() == 0)
 			return NULL;
 		curLoop = 0;
-		goalLoop = simpleRand(_simpleBydos.size());
+		goalLoop = simpleRand(_simpleBydos.size()) - 1;
 		for (it = _simpleBydos.begin(); it != _simpleBydos.end(); ++it)
 		{
 			if (curLoop == goalLoop)
