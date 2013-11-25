@@ -72,6 +72,7 @@ namespace	network
     Thread::MutexGuard	guard(_sock);
 
     _tcp.mSock.disconnect();
+    _connected = false;
   }
 
   void	Manager::switchTo(Manager::State st)

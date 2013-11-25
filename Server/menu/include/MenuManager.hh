@@ -41,6 +41,7 @@ namespace	menu
     void	initialize(unsigned short int port = rtype::Env::TCP_SERVER_PORT);
     void	run();
     void	stop();
+    void	join();
     void	endGame(menu::Game *game);
 
   private:

@@ -16,5 +16,6 @@ int		main(int argc, const char *argv[])
   app->run();
   (void)argc;
   (void)argv;
+  delete app;
   return (0);
 }

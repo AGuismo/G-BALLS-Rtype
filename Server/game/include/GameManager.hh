@@ -49,6 +49,7 @@ namespace	game
   public:
     void	initialize(unsigned short int port = rtype::Env::UDP_SERVER_PORT);
     void	run();
+    void	join();
     void	stop();
 
   private:
