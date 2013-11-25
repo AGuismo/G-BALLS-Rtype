@@ -43,7 +43,7 @@ namespace	menu
     return (_clients);
   }
 
-  bool				Game::ispassword() const
+    bool				Game::ispassword() const
   {
     return (_ispassword);
   }

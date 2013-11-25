@@ -43,6 +43,9 @@ namespace requestCode
     static const CodeID STOPPED =		1301;
     static const CodeID SERV_START =	1302;
 
+    static const Ruint8	PASS = 1;
+    static const Ruint8	NO_PASS = 0;
+
     static const Status OUT_GAME =		0;
     static const Status IN_GAME =		1;
     static const Status CANCELED =		2;
