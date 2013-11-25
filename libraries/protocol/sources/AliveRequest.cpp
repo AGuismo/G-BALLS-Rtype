@@ -2,6 +2,12 @@
 
 AliveRequest::AliveRequest(): AGameRequest(requestCode::game::ALIVE)
 {}
+
+AliveRequest::AliveRequest(requestCode::SessionID id) : AGameRequest(requestCode::game::ALIVE, id)
+{
+
+}
+
 AliveRequest::~AliveRequest()
 {}
 
