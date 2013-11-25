@@ -227,11 +227,14 @@ namespace	menu
   {
     game_list::iterator	it;
 
-    std::cout << "menu::Manager::endGame()" << std::endl;
     it = std::find_if(_games.begin(), _games.end(), PredicateParty(game->partyName()));
     if (it == _games.end())
       return;
-    delete *it;
+    broadcast(Party::Update(game->partyName(),
+			    game->availableSlots(),
+			    game->maxPlayers(),
+			    game->ispassword() ? requestCode::party::PASS : requestCode::party::NO_PASS,
+			    requestCode::party::FINISHED));
     _games.erase(it);
   }
 
@@ -367,8 +370,8 @@ namespace	menu
       game->password(request->_partyPass);
     manager->_games.push_back(game);
     delete req;
+    game->status(requestCode::party::OUT_GAME);
     client->requestPush(new ServerRequest(requestCode::server::OK));
-    std::cout << "IsPassword? " << game->ispassword() << std::endl;
     manager->broadcast(Party::Update(game->partyName(),
 				     game->availableSlots(),
 				     game->maxPlayers(),
@@ -466,6 +469,11 @@ namespace	menu
     client->requestPush(new ServerRequest(requestCode::server::OK));
     (*it)->broadcast(Party::Launch(Party::Launch::Unique()));
     (*it)->status(requestCode::party::IN_GAME);
+    manager->broadcast(Party::Update((*it)->partyName(),
+				     (*it)->availableSlots(),
+				     (*it)->maxPlayers(),
+				     (*it)->ispassword() ? requestCode::party::PASS : requestCode::party::NO_PASS,
+				     (*it)->status()));
     manager->_output.push(new Callback<Application, menu::Game>(manager->_parent, *it,
 								&Application::newGame));
     delete req;
