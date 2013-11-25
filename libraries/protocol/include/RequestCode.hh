@@ -61,12 +61,12 @@ namespace requestCode
     static const CodeID LEAVE =		606;
     static const CodeID ALIVE =		607;
 
-    static const CodeID ELEM =		1600;
-    static const CodeID DEATH =		1601;
-    static const CodeID BUFF =		1602;
-    static const CodeID SCORE =		1603;
+    static const CodeID ELEM =			1600;
+    static const CodeID DEATH =			1601;
+    static const CodeID BUFF =			1602;
+    static const CodeID SCORE =			1603;
     static const CodeID VICTORY =		1604;
-    static const CodeID LOOSE =		1605;
+    static const CodeID LOOSE =			1605;
     static const CodeID NEXTSTAGE =		1606;
     namespace client
     {
@@ -78,13 +78,13 @@ namespace requestCode
       static const Event	MOVE =		0;
       static const Event	SHOOT =		1;
 
-      static const Dir	NORTH =		0;
+      static const Dir	NORTH =			0;
       static const Dir	NORTH_EAST =	1;
-      static const Dir	EAST =		2;
+      static const Dir	EAST =			2;
       static const Dir	SOUTH_EAST =	3;
-      static const Dir	SOUTH =		4;
+      static const Dir	SOUTH =			4;
       static const Dir	SOUTH_WEST =	5;
-      static const Dir	WEST =		6;
+      static const Dir	WEST =			6;
       static const Dir	NORTH_WEST =	7;
 
       static const Shoot	SIMPLE =	0;
@@ -118,6 +118,8 @@ namespace requestCode
       static const Type LAYER6 = 20;
       static const Type NORMAL_BANG = 21;
       static const Type BIG_BANG = 22;
+	  static const Type VITALITY_BONUS = 23;
+	  static const Type POWER_BONUS = 24;
     }
   }
 }

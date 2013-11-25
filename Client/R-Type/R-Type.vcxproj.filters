@@ -24,9 +24,6 @@
     <ClCompile Include="..\sources\AWidget.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\sources\Background.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\sources\Button.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

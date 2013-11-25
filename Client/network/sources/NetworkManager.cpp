@@ -106,8 +106,8 @@ namespace	network
     if (!product(packet, req))
       return ;
 #if defined(DEBUG)
-    std::cout << "network::Manager::sendRequest(const ARequest *)"
-	      << "Packet Size: " << packet.size() << std::endl;
+//    std::cout << "network::Manager::sendRequest(const ARequest *)"
+//	      << "Packet Size: " << packet.size() << std::endl;
 #endif
     for (std::vector<Protocol::Byte>::size_type it = 0; it != packet.size(); ++it)
       bytes[it] = packet[it];

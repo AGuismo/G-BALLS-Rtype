@@ -14,6 +14,8 @@
 #include			"Bang.h"
 #include			"IndestructibleWall.h"
 #include			"DestructibleWall.h"
+#include			"VitalityBonus.h"
+#include			"PowerBonus.h"
 
 using namespace requestCode::game;
 
@@ -75,6 +77,12 @@ AObject				*Factory::createObject(game::Type type, int id, int pos, game::Dir ld
 			break;
 		case server::BIG_BANG:
 			return (new Bang(type, id, pos, ldir, text, _gameWindow));
+			break;
+		case server::VITALITY_BONUS:
+			return (new VitalityBonus(type, id, pos, ldir, text, _gameWindow));
+			break;
+		case server::POWER_BONUS:
+			return (new PowerBonus(type, id, pos, ldir, text, _gameWindow));
 			break;
 		default:
 			return NULL;
