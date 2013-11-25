@@ -476,7 +476,6 @@ void	MenuWindow::draw()
   game_list::iterator itGame;
 
   this->scroll();
-  this->setGameList();
   this->_window.draw(_firstBackground);
   this->_window.draw(_secondBackground);
   for (itImg = this->_listImage.begin(); itImg != this->_listImage.end(); itImg++)
@@ -949,6 +948,7 @@ void	MenuWindow::receiveUpdateParty(ARequest *req)
   //   }
   else if (up->_status == requestCode::party::UPDATE_GAME)
     updateLineServer(up->_partyName, slot);
+  this->setGameList();
 }
 
 void	MenuWindow::receiveChat(ARequest *req)

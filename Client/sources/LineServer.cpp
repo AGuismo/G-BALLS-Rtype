@@ -5,7 +5,7 @@
 // Login   <brigno@epitech.net>
 //
 // Started on  Tue Nov 19 21:25:49 2013 brigno
-// Last update Mon Nov 25 16:08:03 2013 brigno
+// Last update Mon Nov 25 17:05:52 2013 brigno
 //
 
 #include	"LineServer.hh"
@@ -82,7 +82,7 @@ const int			&LineServer::getFocus() const
 
 void				LineServer::draw(sf::RenderWindow &win)
 {
-
+  _pos = this->_posTopLeft;
   this->_image.setPosition(_pos.x, _pos.y);
   this->_textGame.setPosition(_pos.x + 10, _pos.y + 6);
   this->_textSlot.setPosition(_pos.x + 515, _pos.y + 6);
