@@ -10,6 +10,7 @@ Ia::Ia(game::ID id, AIaAlgo *algo) : Entity(requestCode::game::server::IA, algo-
 
 Ia::~Ia()
 {
+	delete _algo;
 }
 
 void	Ia::update(Game &game)

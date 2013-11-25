@@ -11,6 +11,7 @@ Entity(requestCode::game::server::BOSS, algo->pos(), algo->life(), game::WEST, i
 
 Boss::~Boss(void)
 {
+	delete _algo;
 }
 
 void	Boss::update(Game &game)
