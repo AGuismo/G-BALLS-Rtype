@@ -89,6 +89,7 @@ namespace	game
 		std::cout << "Client " << (*it)->SessionID() << "send a request of type " << req->code() << std::endl << std::endl;
 		(*it)->setAddr(_server.getClientAddr());
 		(*it)->requestPushInput(req);
+		(*it)->hasJoin(true);
 	}
 	_server.read(false);
   }
@@ -175,6 +176,7 @@ namespace	game
 			  _output.push(new Callback<Application, Game>(_parent, game,
 				  &Application::endGame));
 			  _games.pop_front();
+			  _server.monitor(true, false);
 			  return;
 		  }
 			for (std::list<game::Client *>::iterator it = game->clients().begin(); it != game->clients().end(); it++)
@@ -182,6 +184,7 @@ namespace	game
 				{
 					game->timer().tv_usec = rtype::Env::getInstance().game.gameDelay;
 					game->launchGametime(game->launchGameTime() - 1);
+					_server.monitor(true, false);
 					return;
 				}
 			_games.pop_front();
@@ -227,7 +230,7 @@ namespace	game
 		  self->updateGameClocks(self->_clock.getElapsedTime());
 		  if (!self->_games.empty())
 		  {
-			  //std::cout << "Selecting for " << self->_games.front()->timer().tv_sec << " sec and " << self->_games.front()->timer().tv_usec << std::endl;
+			  std::cout << "Selecting for " << self->_games.front()->timer().tv_sec << " sec and " << self->_games.front()->timer().tv_usec << std::endl;
 			  self->_monitor.setOption(net::streamManager::TIMEOUT, self->_games.front()->timer());
 		  }
 		  else
@@ -242,7 +245,6 @@ namespace	game
 		  //std::cout << "Done ..." << std::endl;
 		  self->_clock.update();
 		  self->updateGameClocks(self->_clock.getElapsedTime());
-		  self->_clock.getElapsedTime();
 		  self->updateCallback();
 		  if (self->_server.read() || self->_server.write())
 		  {
@@ -259,11 +261,10 @@ namespace	game
 				  std::cerr << "Error " << e.what() << "in Manager::routine." << std::endl;
 			  }
 		  }
-		  else
+		  if (self->_monitor.isTimeout())
 		  {
 			  //std::cout << "Auto Exit" << std::endl;
 			  self->update();
-			  self->_server.monitor(true, true);
 		  }
 	  }
   }
