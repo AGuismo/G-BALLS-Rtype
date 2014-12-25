@@ -1,22 +1,27 @@
 #pragma once
 
 #include "Entity.h"
-class Referee;
+
 class AIaAlgo;
 
-class Boss : public Entity
+namespace game
 {
-public:
-	Boss(ID id, AIaAlgo *algo);
-  ~Boss(void);
+  class Referee;
 
-  void	update(Game &game);
-  void	move();
-  void	fire(Game &game, bool charged);
-  AIaAlgo	*algo() { return _algo; }
+  class Boss : public Entity
+  {
+  public:
+    Boss(ID id, AIaAlgo *algo);
+    ~Boss(void);
 
-private:
-	AIaAlgo	*_algo;
+    void	update(Game &game);
+    void	move();
+    void	fire(Game &game, bool charged);
+    AIaAlgo	*algo() { return _algo; }
 
-  friend class Referee;
-};
+  private:
+    AIaAlgo	*_algo;
+
+    friend class Referee;
+  };
+}

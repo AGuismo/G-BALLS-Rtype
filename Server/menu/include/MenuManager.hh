@@ -11,11 +11,11 @@
 # include	"ThreadEvent.hpp"
 # include	"Threads.hpp"
 
-class	Application;
 class	ARequest;
 class	Manager;
 class	Game;
 class	ICallbacks;
+class	IApplicationCallbacks;
 
 namespace	menu
 {
@@ -27,14 +27,14 @@ namespace	menu
 {
   class		Manager
   {
-    typedef Thread::EventQueue<ICallbacks *>	output_event;
-    typedef Thread::EventQueue<ICallbacks *>	input_event;
-    typedef std::list<Game *>			game_list;
-    typedef std::list<Client *>			client_list;
     typedef void (*request_callback)(ARequest *, Client *, Manager *);
+    typedef Thread::EventQueue<IApplicationCallbacks *>		output_event;
+    typedef Thread::EventQueue<ICallbacks *>			input_event;
+    typedef std::list<Game *>					game_list;
+    typedef std::list<Client *>					client_list;
     typedef std::map<requestCode::CodeID, request_callback>	request_callback_map;
   public:
-    Manager(Application *parent, input_event &input, output_event &output);
+    Manager(input_event &input, output_event &output);
     virtual ~Manager();
 
   public:
@@ -42,7 +42,9 @@ namespace	menu
     void	run();
     void	stop();
     void	join();
+
     void	endGame(menu::Game *game);
+    void	clientLeaveGame(requestCode::SessionID);
 
   private:
     void	disconnectClient(Client *client);
@@ -73,12 +75,14 @@ namespace	menu
       const Client	*_client;
     };
 
-    struct	PredicateClient : std::unary_function< Client *, bool>
+    struct	PredicateClient : std::unary_function<Client *, bool>
     {
       PredicateClient(const std::string &login);
+      PredicateClient(const requestCode::SessionID);
       bool	operator()(const Client *client);
 
-      const std::string	_login;
+      const std::string			_login;
+      const requestCode::SessionID	_id;
     };
 
     bool	isConnected(const std::string &login);
@@ -96,14 +100,13 @@ namespace	menu
     static void	joinGame(ARequest *, Client *, Manager *);
     static void	cancelGame(ARequest *, Client *, Manager *);
     static void	shutdown(ARequest *, Client *, Manager *);
-	static void	chatRecv(ARequest *, Client *, Manager *);
+    static void	chatRecv(ARequest *, Client *, Manager *);
 
   private:
     Manager(Manager const&);
     Manager& operator=(Manager const&);
 
   private:
-    Application				*_parent;
     Threads<void (*)(Manager *)>	_th;
     bool				_active;
     net::TcpServer			_server;

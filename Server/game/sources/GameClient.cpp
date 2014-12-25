@@ -11,9 +11,9 @@
 
 namespace	game
 {
-  Client::Client(requestCode::SessionID &id) :
+  Client::Client(requestCode::SessionID id) :
     _player(0), _alive(true), _updateToLive(0), _hasLeft(false),
-    _used(false), _hasJoin(false), _id(id)
+    _hasJoin(false), _id(id) // _used(false),
 
   {
 #if defined(DEBUG)
@@ -21,9 +21,9 @@ namespace	game
 #endif
   }
 
-  Client::Client(requestCode::SessionID &id, struct sockaddr_in addr) :
+  Client::Client(requestCode::SessionID id, struct sockaddr_in addr) :
     _player(0), _alive(true), _updateToLive(0), _hasLeft(false),
-    _used(false), _hasJoin(false),
+    _hasJoin(false), // _used(false),
     _addr(addr), _id(id)
   {
 #if defined(DEBUG)
@@ -50,60 +50,61 @@ namespace	game
     _hasLeft = state;
   }
 
-  void		Client::update(Game &game)
+  void		Client::update(game::Game &game)
   {
     ARequest	*req;
     bool	move = false;
     bool	fire = false;
 
     while ((req = _input.requestPop()) != 0)
+    {
+      EventRequest	*ev;
+      AliveRequest	*al;
+      LeaveRequest	*lv;
+
+      if ((ev = dynamic_cast<EventRequest *>(req)) && _alive)
       {
-	EventRequest	*ev;
-	AliveRequest	*al;
-	LeaveRequest	*lv;
-	if ((ev = dynamic_cast<EventRequest *>(req)) && _alive)
-	  {
-		_updateToLive = -1;
-	    if (ev->event() == 0 && !move)
-	      {
-			move = true;
-			_player->move(ev->param());
-			if (Referee::isCollision(_player, game) || !Referee::isOnScreen(_player))
-			  {
-				_alive = false;
-				game.pushRequest(new DeathRequest(_id));
-			  }
-			else
-				game.pushRequest(new ElemRequest(requestCode::game::server::PLAYER,
-							   _player->_pos[0], _player->_dir, _player->_id));
-	      }
-	    else if (!fire)
-	      {
-		Missile *missile = _player->fire(game, false);
-		game.pushMissile(missile);
-		fire = true;
-		game.pushRequest(new ElemRequest(requestCode::game::server::MISSILE,
-						 missile->pos()[0], missile->dir(), missile->id()));
-	      }
-	  }
-	else if ((al = dynamic_cast<AliveRequest *>(req)))
-	  {
-	    _updateToLive = -1;
-	  }
-	else if ((lv = dynamic_cast<LeaveRequest *>(req)))
+	_updateToLive = -1;
+	if (ev->event() == 0 && !move)
+	{
+	  move = true;
+	  _player->move(ev->param());
+	  if (Referee::isCollision(_player, game) || !Referee::isOnScreen(_player))
 	  {
 	    _alive = false;
-	    _hasLeft = true;
-	    game.pushRequest(new DeathRequest(_player->_id));
+	    game.pushRequest(new DeathRequest(_id));
 	  }
+	  else
+	    game.pushRequest(new ElemRequest(requestCode::game::server::PLAYER,
+					     _player->_pos[0], _player->_dir, _player->_id));
+	}
+	else if (!fire)
+	{
+	  Missile *missile = _player->fire(game, false);
+	  game.pushMissile(missile);
+	  fire = true;
+	  game.pushRequest(new ElemRequest(requestCode::game::server::MISSILE,
+					   missile->pos()[0], missile->dir(), missile->id()));
+	}
       }
-    _updateToLive++;
-	if (_updateToLive == rtype::Env::getInstance().game.updateToLive)
+      else if ((al = dynamic_cast<AliveRequest *>(req)))
+      {
+	_updateToLive = -1;
+      }
+      else if ((lv = dynamic_cast<LeaveRequest *>(req)))
       {
 	_alive = false;
 	_hasLeft = true;
 	game.pushRequest(new DeathRequest(_player->_id));
       }
+    }
+    _updateToLive++;
+    if (_updateToLive == rtype::Env::getInstance().game.updateToLive)
+    {
+      _alive = false;
+      _hasLeft = true;
+      game.pushRequest(new DeathRequest(_player->_id));
+    }
   }
 
   void	Client::finalize()
@@ -131,12 +132,12 @@ namespace	game
     _output.requestPush(req);
   }
 
-  requestCode::SessionID	Client::SessionID() const
+  requestCode::SessionID	Client::sessionID() const
   {
     return (_id);
   }
 
-  void				Client::SessionID(const requestCode::SessionID id)
+  void				Client::sessionID(const requestCode::SessionID id)
   {
     _id = id;
   }

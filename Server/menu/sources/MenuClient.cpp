@@ -4,6 +4,7 @@
 #include	<iostream>
 #include	"ClientAccepted.h"
 #include	"MenuClient.hh"
+#include	"Client.hh"
 #include	"cBuffer.h"
 #include	"Protocol.hpp"
 #include	"NetException.h"
@@ -11,14 +12,17 @@
 
 namespace	menu
 {
-  Client::Client(requestCode::SessionID &id, net::ClientAccepted *clientTcp):
-    _used(false), _TcpLayer(clientTcp), _id(id), _game(0)
+  Client::Client(net::ClientAccepted *clientTcp):
+    _TcpLayer(clientTcp), _id(::Client::generateUniqueID()), _game(0)
   {
     _auth._authenticated = false;
   }
 
   Client::~Client()
   {
+#if defined(DEBUG)
+    std::cout << "Client " << this << " : Deleted" << std::endl;
+#endif
     delete _TcpLayer;
   }
 
@@ -120,7 +124,7 @@ namespace	menu
 #endif
     try
       {
-	if (_TcpLayer->send() <= 0)
+	if (_TcpLayer->send() < 0)
 	  return ;
       }
     catch (const net::Exception &e)

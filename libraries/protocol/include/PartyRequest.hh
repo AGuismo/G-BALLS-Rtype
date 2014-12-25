@@ -12,7 +12,7 @@ namespace	Party
   {
   public:
     Start();
-    ~Start();
+    virtual ~Start();
 
   public:
     Start(const Start &);
@@ -28,7 +28,7 @@ namespace	Party
   {
   public:
     List();
-    ~List();
+    virtual ~List();
 
   public:
     List(const List &);
@@ -46,7 +46,7 @@ namespace	Party
     Create();
     Create(const std::string &partyName, Ruint8 nbPlayers);
     Create(const std::string &partyName, Ruint8 nbPlayers, requestCode::PasswordType pass);
-    ~Create();
+    virtual ~Create();
 
   public:
     Create(const Create &);
@@ -68,7 +68,7 @@ namespace	Party
   {
   public:
     Cancel();
-    ~Cancel();
+    virtual ~Cancel();
 
   public:
     Cancel(const Cancel &);
@@ -86,7 +86,7 @@ namespace	Party
     Join(const std::string &partyName);
     Join(const std::string &partyName, requestCode::PasswordType pass);
     Join();
-    ~Join();
+    virtual ~Join();
 
   public:
     Join(const Join &);
@@ -117,7 +117,7 @@ namespace	Party
   public:
     Launch();
     Launch(requestCode::PartyID);
-    ~Launch();
+    virtual ~Launch();
 
   public:
     Launch(const Launch &);
@@ -144,7 +144,7 @@ namespace	Party
     Update();
     Update(const std::string &partyName, Ruint8 availableSlots, Ruint8 maxPlayer,
 	   Ruint8 partyPass, requestCode::Status status);
-    ~Update();
+    virtual ~Update();
 
   public:
     Update(const Update &);
@@ -169,7 +169,7 @@ namespace	Party
   {
   public:
     Stopped();
-    ~Stopped();
+    virtual ~Stopped();
 
   public:
     Stopped(const Stopped &);

@@ -2,40 +2,34 @@
 # define CLIENT_H_
 
 # include	<queue>
-# include	"MenuClient.hh"
-# include	"GameClient.hh"
 # include	"RequestQueue.hh"
-
-namespace net
-{
-  class ClientAccepted;
-}
 
 class ARequest;
 
 class Client
 {
 public:
+  enum State
+    {
+      NONE, // Never happens
+      MENU, // Client in menu
+      GAME, // Client in Game
+      DISCONNECTED, // Client in Game - Menu disconnected
+      DELETED // Client in Menu - disconnected
+    };
+
+public:
   Client();
-  Client(net::ClientAccepted *);
+  Client(requestCode::SessionID id, State st = NONE);
   ~Client();
 
 public:
-/*  ARequest		*requestPop();
-  void			requestPush(ARequest *);*/
+  static requestCode::SessionID		generateUniqueID();
 
-public:
-  void			update();
-  bool			isUse() const;
-
-
-public:
-  menu::Client				&menu();
-  game::Client				&game();
-  const menu::Client			&menu() const;
-  const game::Client			&game() const;
-  requestCode::SessionID		&id();
+  const requestCode::SessionID		&id() const;
   void					id(requestCode::SessionID id);
+  State					state() const;
+  void					state(State st);
 
 private:
   Client(Client const&);
@@ -43,8 +37,7 @@ private:
 
 private:
   requestCode::SessionID	_id;
-  menu::Client		_menu;
-  game::Client		_game;
+  State				_state;
 };
 
 #endif /* CLIENT_H_ */

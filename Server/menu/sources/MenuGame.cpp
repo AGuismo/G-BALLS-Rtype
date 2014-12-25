@@ -1,12 +1,12 @@
 #include	<algorithm>
-#include	"Game.h"
+// #include	"Game.h"
 #include	"MenuGame.hh"
 #include	"Client.hh"
 
 namespace	menu
 {
   Game::Game(Client *client) :
-    _owner(client), _ispassword(false), _status(requestCode::party::OUT_GAME), _game(0)
+    _owner(client), _ispassword(false), _status(requestCode::party::OUT_GAME) //, _game(0)
   {
     _clients.push_back(client);
     client->currentGame(this);
@@ -20,7 +20,7 @@ namespace	menu
 
   bool				Game::newPlayer(Client *client)
   {
-    if (availableSlots() == 0)
+    if (availableSlots() == 0 || status() == requestCode::party::IN_GAME)
       return (false);
     _clients.push_back(client);
     client->currentGame(this);
@@ -104,14 +104,14 @@ namespace	menu
     return (_clients);
   }
 
-  ::Game			*Game::game(void) const
-  {
-	  return (_game);
-  }
-  void			Game::game(::Game *game)
-  {
-	  _game = game;
-  }
+  // ::Game			*Game::game(void) const
+  // {
+  // 	  return (_game);
+  // }
+  // void			Game::game(::Game *game)
+  // {
+  // 	  _game = game;
+  // }
 
   Game::Predicate::Predicate(const std::string &name) :
     _name(name)

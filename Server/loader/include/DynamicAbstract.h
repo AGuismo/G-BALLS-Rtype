@@ -12,15 +12,15 @@ typedef void  *(__stdcall *Fptr)();
 class DynamicAbstract : public MDynamicAbstract
 {
 private:
-	HMODULE	handle;
+  HMODULE	handle;
 
 public:
-	virtual bool DynamicOpen(const std::string &path);
-	virtual void *DynamicLoadSym(const std::string &symName);
-	virtual bool DynamicClose(void);
+  virtual bool DynamicOpen(const std::string &path);
+  virtual void *DynamicLoadSym(const std::string &symName);
+  virtual bool DynamicClose(void);
 
 public:
-	DynamicAbstract();
+  DynamicAbstract();
 
 };
 
@@ -33,17 +33,17 @@ typedef void	*(*Fptr)();
 class DynamicAbstract : public MDynamicAbstract
 {
 private:
-	void	*handle;
+  void	*handle;
 public:
-	virtual bool DynamicOpen(const std::string &path);
-	virtual void *DynamicLoadSym(const std::string &symName);
-	virtual bool DynamicClose(void);
+  virtual bool DynamicOpen(const std::string &path);
+  virtual void *DynamicLoadSym(const std::string &symName);
+  virtual bool DynamicClose(void);
 
 public:
-	DynamicAbstract();
+  DynamicAbstract();
 
 };
 #else
-	error "Unsupported operating system"
+error "Unsupported operating system"
 #endif // WIN32
 #endif // !DYNAMIC_ABSTRACT

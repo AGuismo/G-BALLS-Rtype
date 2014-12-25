@@ -13,28 +13,28 @@ namespace	botLoader
   class		Manager
   {
   public:
-      static	Manager	&getInstance();
+    static	Manager	&getInstance();
 
   public:
-    typedef AIaAlgo								*(*instance_call)(void);
+    typedef AIaAlgo	*(*instance_call)(void);
 
   public:
-    void										initialize(std::string &);
-    void										run();
-    void										stop();
+    void		initialize(std::string &);
+    void		run();
+    void		stop();
 
   private:
-    bool										addNewIa(const std::string &path);
-	bool										updateIa(const std::string &path);
+    bool		addNewIa(const std::string &path);
+    bool		updateIa(const std::string &path);
 
   public:
-	  AIaAlgo								*getSimpleBydos(void);
-	  AIaAlgo									*getBossBydos(void);
-	  int										getSimpleBydosSize(void);
-	  int										getBossBydosSize(void);
+    AIaAlgo		*getSimpleBydos(void);
+    AIaAlgo		*getBossBydos(void);
+    int			getSimpleBydosSize(void);
+    int			getBossBydosSize(void);
 
   public:
-    static void									routine(Manager *);
+    static void		routine(Manager *);
 
   private:
     Manager();
@@ -42,17 +42,17 @@ namespace	botLoader
     Manager(Manager const&);
     Manager& operator=(Manager const&);
   public:
-	  typedef	std::map<std::string, AIaAlgo *>	bydos_type;
+    typedef	std::map<std::string, AIaAlgo *>	bydos_type;
 
   private:
-    bool								_active;
-    ICheckFileAbstract							*_checkFile;
-    DynamicAbstract								*_dynLoader;
-    bydos_type									_simpleBydos;
-    bydos_type									_bossBydos;
-    std::map<std::string, UPDATE>				*_upList;
-    Threads<void (*)(Manager *)>				_th;
-    Thread::Mutex								_lock;
+    bool				_active;
+    ICheckFileAbstract			*_checkFile;
+    DynamicAbstract			*_dynLoader;
+    bydos_type				_simpleBydos;
+    bydos_type				_bossBydos;
+    std::map<std::string, UPDATE>	*_upList;
+    Threads<void (*)(Manager *)>	_th;
+    Thread::Mutex			_lock;
   };
 
 }
