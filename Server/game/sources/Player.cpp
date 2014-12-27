@@ -1,7 +1,8 @@
-#include	"Game.h" /*Must be included in first*/
+#include	"Game.hh" /*Must be included in first*/
 #include	"Player.h"
 #include	"Missile.h"
 #include	"Env.hh"
+#include	"Application.hh" // Log purpose
 
 namespace	game
 {
@@ -9,14 +10,14 @@ namespace	game
 		Entity(requestCode::game::server::PLAYER , pos, 1, EAST, id), _pow(0), _extraLife(false), _typePlayer(t)
   {
 #if defined(DEBUG)
-    std::cout << "A new character is comming" << std::endl;
+    Application::log << "A new character is comming" << std::endl;
 #endif
   }
 
   Player::~Player()
   {
 #if defined(DEBUG)
-    std::cout << "A player is dead" << std::endl;
+    Application::log << "A player is dead" << std::endl;
 #endif
   }
 

@@ -5,12 +5,17 @@
 // Login   <lamber_k@epitech.net>
 //
 // Started on  Mon Apr 15 14:22:56 2013 lambert kevin
-// Last update Fri Oct 25 05:50:48 2013 lambert kevin
+// Last update Thu Dec 25 19:47:09 2014 lamber_k
 //
 
 #include	<iostream>
 #include	"ThreadCond.hh"
 #include	"ThreadMutex.hh"
+#if defined(linux)
+# include	<errno.h>
+# include	<sys/time.h>
+#endif
+
 
 namespace	Thread
 {
@@ -56,37 +61,68 @@ namespace	Thread
     return (true);
   }
 
-  bool	Cond::wait(Mutex &m, msTime ms)
+  bool	Cond::wait(Mutex &m, msTime maxWait_ms, bool &isTimeout)
   {
 #if defined(WIN32)
-    if (ms == 0)
-      {
-	if (SleepConditionVariableCS(&_c, &m._m, INFINITE) != 0)
-	  return (false);
-      }
+    bool	res;
+
+    if (maxWait_ms == 0)
+      res = SleepConditionVariableCS(&_c, &m._m, INFINITE);
     else
-      {
-	if (SleepConditionVariableCS(&_c, &m._m, ms) != 0)
-	  return (false);
-      }
+      res = SleepConditionVariableCS(&_c, &m._m, maxWait_ms);
+
+    if (!res && GetLastError() == ERROR_TIMEOUT)
+      isTimeout = true;
+    else
+      isTimeout = false;
+    return (res);
+
 #elif defined(linux)
-    if (ms == 0)
-      {
-	if (pthread_cond_wait(&_c, &m._m) != 0)
-	  return (false);
-      }
+    int		res;
+
+    if (maxWait_ms == 0)
+      res = pthread_cond_wait(&_c, &m._m);
     else
       {
 	struct timespec	sleepTime;
+	struct timeval	now;
 
-	sleepTime.tv_sec = ms / 1000;
-	sleepTime.tv_nsec = (ms % 1000) * 1000000;
-	if (pthread_cond_timedwait(&_c, &m._m, &sleepTime) != 0)
-	  return (false);
+	gettimeofday(&now,NULL);
+
+
+	sleepTime.tv_sec = now.tv_sec + maxWait_ms / 1000;
+	sleepTime.tv_nsec = (now.tv_usec + 1000UL*maxWait_ms)*1000UL;
+	if (sleepTime.tv_nsec > 1000000000L)
+	{
+	  sleepTime.tv_sec += (sleepTime.tv_nsec / 1000000000UL);
+	  sleepTime.tv_nsec -= ((sleepTime.tv_nsec / 1000000000UL) * 1000000000UL);
+	}
+	res = pthread_cond_timedwait(&_c, &m._m, &sleepTime);
       }
+
+    if (res == ETIMEDOUT)
+      isTimeout = true;
+    else
+      isTimeout = false;
+    return (res == 0);
+
 #else
 #error "Unsupported Operating system"
 #endif
-    return (true);
+  }
+
+  bool	Cond::wait(Mutex &m)
+  {
+#if defined(WIN32)
+
+    return (SleepConditionVariableCS(&_c, &m._m, INFINITE));
+
+#elif defined(linux)
+
+    return (pthread_cond_wait(&_c, &m._m) == 0);
+
+#else
+#error "Unsupported Operating system"
+#endif
   }
 }

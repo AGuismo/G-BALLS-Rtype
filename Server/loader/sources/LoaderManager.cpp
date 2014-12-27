@@ -6,6 +6,7 @@
 #include	"IaAlgo.hh"
 #include	"LoaderManager.hh"
 #include	"LoaderException.hh"
+#include	"Application.hh" // Log purpose
 
 namespace	botLoader
 {
@@ -30,7 +31,7 @@ namespace	botLoader
     _dynLoader = new DynamicAbstract;
     _upList = _checkFile->refreshFile();
     if (_upList == NULL)
-      std::cerr << "Bot library repertory empty or inexistant but it's ok we have defaults IA ! Gniark Gniark !" << std::endl;
+      Application::log << "Bot library repertory empty or inexistant but we have defaults IA" << std::endl;
     else
     {
       for (std::map<std::string, UPDATE>::iterator it = _upList->begin(); it != _upList->end(); ++it)
@@ -46,7 +47,7 @@ namespace	botLoader
     _active = true;
     _th.run();
 #if defined(DEBUG)
-    std::cout << "Loader manager started..." << std::endl;
+    Application::log << "Loader manager started..." << std::endl;
 #endif
   }
 

@@ -43,10 +43,11 @@ namespace net
     bool	isDisconnected() const;
 
   public:
-    cBuffer::size_type readFromBuffer(std::vector<cBuffer::Byte> &, cBuffer::size_type count);
-    cBuffer::size_type writeIntoBuffer(const std::vector<cBuffer::Byte> &, cBuffer::size_type count);
-    cBuffer::size_type lookRead(std::vector<cBuffer::Byte> &buf, cBuffer::size_type count);
-    cBuffer::size_type lookWrite(std::vector<cBuffer::Byte> &buf, cBuffer::size_type count);
+    cBuffer::size_type	readFromBuffer(std::vector<cBuffer::Byte> &, cBuffer::size_type count);
+    cBuffer::size_type	writeIntoBuffer(const std::vector<cBuffer::Byte> &, cBuffer::size_type count);
+    cBuffer::size_type	lookRead(std::vector<cBuffer::Byte> &buf, cBuffer::size_type count);
+    cBuffer::size_type	lookWrite(std::vector<cBuffer::Byte> &buf, cBuffer::size_type count);
+    int			directWrite(const char *, size_t count, const struct sockaddr_in &client);
 
     void	setClientAddr(struct sockaddr_in s);
     struct sockaddr_in		getClientAddr() const;

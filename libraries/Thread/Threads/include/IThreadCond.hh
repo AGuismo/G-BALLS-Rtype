@@ -7,14 +7,16 @@ namespace	Thread
 {
   class DECLPORT ICond
   {
-    typedef int	msTime;
+  protected:
+    typedef size_t	msTime;
   public:
     virtual ~ICond() {}
 
   public:
     virtual bool	broadcast() = 0;
     virtual bool	signal() = 0;
-    virtual bool	wait(Mutex &m, msTime waitMaxDelay) = 0;
+    virtual bool	wait(Mutex &m) = 0;
+    virtual bool	wait(Mutex &m, msTime waitMaxDelay, bool &isTimeout) = 0;
   };
 }
 

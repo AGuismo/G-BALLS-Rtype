@@ -13,18 +13,16 @@
 # include	"RequestQueue.hh"
 # include	"RequestCode.hh"
 
-class		ARequest;
-class		Missile;
-class		Referee;
 
 namespace	game
 {
   class		Player;
   class		Game;
-}
+  class		GamePool;
+  // class		ARequest;
+  // class		Missile;
+  // class		Referee;
 
-namespace	game
-{
   class Client
   {
     /*typedef void(*request_callback)(ARequest *, Client *);
@@ -37,6 +35,7 @@ namespace	game
   public:
     void	update(Game &game);
     void	finalize();
+    void	waitForJoin();
 
   private:
     Client(Client const&);
@@ -60,10 +59,10 @@ namespace	game
     void			hasLeft(const bool &state);
 
   public:
-    void			game(Game *game);
-    Game			*game(void) const;
     void			player(game::Player *player);
     game::Player		*player(void) const;
+    void			gamePool(GamePool *gamePool);
+    GamePool			*gamePool() const;
 
     struct sockaddr_in		getAddr() const { return _addr; };
     void			setAddr(struct sockaddr_in addr) { _addr = addr; };
@@ -81,6 +80,7 @@ namespace	game
     bool			_hasJoin;
     RequestQueue		_input;
     RequestQueue		_output;
+    GamePool			*_associatedPool;
     /*request_callback_map _requestCallback;*/
 
   private:

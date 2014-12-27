@@ -5,7 +5,7 @@
 // Login   <lamber_k@epitech.net>
 //
 // Started on  Mon Apr 15 13:13:42 2013 lambert kevin
-// Last update Wed Nov  6 18:55:37 2013 lambert kevin
+// Last update Thu Dec 25 19:18:19 2014 lamber_k
 //
 
 #ifndef		THREADCOND_HH_
@@ -21,7 +21,7 @@ namespace	Thread
   class		Cond : public ICond
   {
   public:
-    typedef int	msTime;
+    typedef ICond::msTime	msTime;
 
   private:
     pthread_cond_t	_c;
@@ -31,7 +31,8 @@ namespace	Thread
     virtual ~Cond();
     virtual bool	broadcast();
     virtual bool	signal();
-    virtual bool	wait(Mutex &, msTime = 0);
+    virtual bool	wait(Mutex &m);
+    virtual bool	wait(Mutex &m, msTime msWait, bool &isTimeout);
     static Cond		*createCond();
 
     friend class	Mutex;

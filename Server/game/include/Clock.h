@@ -22,7 +22,7 @@ namespace	game
 
     void			start();
     void			update();
-	void			restart();
+    void			restart();
     clock_time		getElapsedTime() const {return _elapsedTime;};
     clock_time		getTotalElapsedTime() const { return _totalElapsedTime;};
 

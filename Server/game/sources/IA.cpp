@@ -1,6 +1,6 @@
 #include "IA.h"
 #include "Player.h"
-#include "Game.h"
+#include "Game.hh"
 #include "Missile.h"
 #include "IaAlgo.hh"
 

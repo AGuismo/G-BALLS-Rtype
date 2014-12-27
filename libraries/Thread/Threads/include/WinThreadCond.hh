@@ -5,7 +5,7 @@
 // Login   <lamber_k@epitech.net>
 //
 // Started on  Mon Apr 15 13:13:42 2013 lambert kevin
-// Last update Wed Nov  6 18:55:50 2013 lambert kevin
+// Last update Thu Dec 25 18:44:52 2014 lamber_k
 //
 
 #ifndef		WINTHREADCOND_HH_
@@ -21,7 +21,7 @@ namespace	Thread
   class	DECLPORT	Cond : public ICond
   {
   public:
-    typedef int		msTime;
+    typedef size_t	msTime;
 
   private:
     CONDITION_VARIABLE	_c;
@@ -31,7 +31,8 @@ namespace	Thread
     virtual ~Cond();
     virtual bool	broadcast();
     virtual bool	signal();
-    virtual bool	wait(Mutex &_m, msTime = 0);
+    virtual bool	wait(Mutex &m);
+    virtual bool	wait(Mutex &m, msTime msWait, bool &isTimeout);
 
     friend class	Mutex;
   };

@@ -1,6 +1,11 @@
 #include	"UdpServer.h"
 #include	"NetException.h"
 
+#if defined(DEBUG)
+# include <iostream>
+#endif //!DEBUG
+
+
 using namespace net;
 
 #if defined(WIN32)
@@ -22,20 +27,20 @@ SOCKET UdpServer::getSocket() const
 
 void	UdpServer::setClientAddr(struct sockaddr_in s)
 {
-	_clientAddr = s;
+  _clientAddr = s;
 }
 
 struct sockaddr_in		UdpServer::getClientAddr() const
 {
-	return _clientAddr;
+  return _clientAddr;
 }
 
 void UdpServer::initialize(int port, int nbClients)
 {
   if((_sock = WSASocket(AF_INET , SOCK_DGRAM , IPPROTO_UDP, NULL, 0, WSA_FLAG_OVERLAPPED)) == INVALID_SOCKET)
-    {
-      throw net::Exception("WSASocket failed: ");
-    }
+  {
+    throw net::Exception("WSASocket failed: ");
+  }
 
   //Prepare the sockaddr_in structure
   _addr.sin_family = AF_INET;
@@ -45,9 +50,9 @@ void UdpServer::initialize(int port, int nbClients)
 
   //Bind
   if( bind(_sock ,(struct sockaddr *)&_addr , sizeof(_addr)) == SOCKET_ERROR)
-    {
-      throw net::Exception("Bind failed: ");
-    }
+  {
+    throw net::Exception("Bind failed: ");
+  }
 }
 
 int			UdpServer::readData(char *data, int maxSize)
@@ -60,43 +65,44 @@ int			UdpServer::readData(char *data, int maxSize)
   wbuff.len = maxSize;
   if (WSARecvFrom(_sock, &wbuff, 1, &readSize, &flags,
 		  reinterpret_cast<sockaddr *>(&_clientAddr), &size, 0, 0) == -1)
-    {
-      _state = STATEERROR;
-      throw net::Exception("RecvFrom Failure: ");
-    }
+  {
+    _state = STATEERROR;
+    throw net::Exception("RecvFrom Failure: ");
+  }
   if (readSize == 0)
     _state = DISCONNECTED;
   return (readSize);
 }
 
-int			UdpServer::writeData(const char *data, int size)
+int			UdpServer::directWrite(const char *data, int size,
+					       const struct sockaddr_in &client)
 {
   WSABUF	wbuff;
   DWORD		writeSize;
 
   wbuff.buf = const_cast<char *>(data);
   wbuff.len = size;
-  if (WSASendTo(_sock, &wbuff, 1, &writeSize, 0, reinterpret_cast<sockaddr *>(&_clientAddr),
-		sizeof(_clientAddr), 0, 0) == -1)
-    {
-      _state = STATEERROR;
-      throw net::Exception("SendTo Failure: ");
-    }
+  if (WSASendTo(_sock, &wbuff, 1, &writeSize, 0, reinterpret_cast<sockaddr *>(&client),
+		sizeof(client), 0, 0) == -1)
+  {
+    _state = STATEERROR;
+    throw net::Exception("SendTo Failure: ");
+  }
   if (writeSize == 0)
-    {
-      _state = DISCONNECTED;
-      return (0);
-    }
+  {
+    _state = DISCONNECTED;
+    return (0);
+  }
   return (writeSize);
 }
 
 void	UdpServer::close()
 {
   if (closesocket(_sock) == -1)
-    {
-      _state = STATEERROR;
-      throw net::Exception("Close Failure: " + WSAGetLastError());
-    }
+  {
+    _state = STATEERROR;
+    throw net::Exception("Close Failure: " + WSAGetLastError());
+  }
   _state = DISCONNECTED;
   _sock = 0;
 }
@@ -124,21 +130,21 @@ SOCKET UdpServer::getSocket() const
 
 void	UdpServer::setClientAddr(struct sockaddr_in s)
 {
-	_clientAddr = s;
+  _clientAddr = s;
 }
 
 struct sockaddr_in		UdpServer::getClientAddr() const
 {
-	return _clientAddr;
+  return _clientAddr;
 }
 
 void UdpServer::initialize(int port, int nbClients)
 {
   (void)nbClients;
   if((_sock = socket(AF_INET , SOCK_DGRAM , IPPROTO_UDP)) == -1)
-    {
-      throw net::Exception("Socket failed: " + std::string(strerror(errno)));
-    }
+  {
+    throw net::Exception("Socket failed: " + std::string(strerror(errno)));
+  }
 
   //Prepare the sockaddr_in structure
   _addr.sin_family = AF_INET;
@@ -146,53 +152,55 @@ void UdpServer::initialize(int port, int nbClients)
   _addr.sin_port = htons(port);
   //Bind
   if(bind(_sock ,(struct sockaddr *)&_addr , sizeof(_addr)) == -1)
-    {
-      throw net::Exception("Bind failed: " + std::string(strerror(errno)));
-    }
+  {
+    throw net::Exception("Bind failed: " + std::string(strerror(errno)));
+  }
 }
 
 
 int			UdpServer::readData(char *data, int maxSize)
 {
-  socklen_t		size = sizeof(_addr);
+  socklen_t		size = sizeof(_clientAddr);
   int			readSize;
 
-  readSize = recvfrom(_sock, data, maxSize, 0, reinterpret_cast<sockaddr *>(&_addr), &size);
+  readSize = recvfrom(_sock, data, maxSize, 0, reinterpret_cast<sockaddr *>(&_clientAddr), &size);
   if (readSize == -1)
-    {
-      _state = STATEERROR;
-      throw net::Exception("RecvFrom Failure: " + std::string(strerror(errno)));
-    }
+  {
+    _state = STATEERROR;
+    throw net::Exception("RecvFrom Failure: " + std::string(strerror(errno)));
+  }
   if (readSize == 0)
     _state = DISCONNECTED;
   return (readSize);
 }
 
-int			UdpServer::writeData(const char *data, int size)
+int			UdpServer::directWrite(const char *data, size_t maxSize,
+					       const struct sockaddr_in &client)
 {
   int			writeSize;
 
-  writeSize = sendto(_sock, data, size, 0, reinterpret_cast<sockaddr *>(&_addr), sizeof(_addr));
+  writeSize = sendto(_sock, data, maxSize, 0,
+		     reinterpret_cast<const sockaddr *>(&client), sizeof(client));
   if (writeSize == -1)
-    {
-      _state = STATEERROR;
-      throw net::Exception("SendTo Failure: " + std::string(strerror(errno)));
-    }
+  {
+    _state = STATEERROR;
+    throw net::Exception("SendTo Failure: " + std::string(strerror(errno)));
+  }
   if (writeSize == 0)
-    {
-      _state = DISCONNECTED;
-      return (0);
-    }
+  {
+    _state = DISCONNECTED;
+    return (0);
+  }
   return (writeSize);
 }
 
 void UdpServer::close()
 {
   if (::close(_sock) == -1)
-    {
-      _state = STATEERROR;
-      throw net::Exception("Close Failure: " + std::string(strerror(errno)));
-    }
+  {
+    _state = STATEERROR;
+    throw net::Exception("Close Failure: " + std::string(strerror(errno)));
+  }
   _state = DISCONNECTED;
   _sock = 0;
 }
@@ -218,7 +226,10 @@ bool	UdpServer::isDisconnected() const
   return (_state == DISCONNECTED);
 }
 
-#include <iostream>
+int			UdpServer::writeData(const char *data, int maxSize)
+{
+  return (directWrite(data, maxSize, _clientAddr));
+}
 
 void UdpServer::recv()
 {
@@ -234,10 +245,10 @@ void UdpServer::recv()
     return /*(0)*/;
   //c = new ClientAccepted(_sock, _addr);
   for (int i = 0; i < count ; ++i)
-    {
-      _read.push(buff[i]);
-      //c->_read.push(buff[i]);
-    }
+  {
+    _read.push(buff[i]);
+    //c->_read.push(buff[i]);
+  }
   //return (c);
 }
 

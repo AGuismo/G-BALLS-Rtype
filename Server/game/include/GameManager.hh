@@ -21,25 +21,26 @@
 # include	"RequestCode.hh"
 // # include	"cBuffer.h"
 # include	"GameClient.hh"
-# include	"Game.h"
+// # include	"Game.hh"
 # include	"ThreadEvent.hpp"
 
 //class	Client;
 class	AGameRequest;
 class	ICallbacks;
+class	IApplicationCallbacks;
 using	net::cBuffer;
 
 namespace	game
 {
   class	Client;
+  class	GamePool;
 
   class Manager
   {
-    typedef void(*request_callback)(ARequest *, Client *, Manager *);
     typedef Thread::EventQueue<ICallbacks *>			input_event;
     typedef Thread::EventQueue<IApplicationCallbacks *>		output_event;
-    typedef std::map<requestCode::CodeID, request_callback>	request_callback_map;
-    typedef std::list<Client *>					client_vect;
+    typedef std::list<GamePool *>				pool_list;
+    typedef std::list<Client *>					client_list;
     typedef std::deque<Game *>					game_list;
 
   public:
@@ -54,45 +55,48 @@ namespace	game
 
   private:
     static void		routine(Manager *);
-    bool		getRequest(std::vector<cBuffer::Byte> &buf,
-				   AGameRequest *&request);
+    bool		getRequest(AGameRequest *&request);
+    GamePool		*findFreeGameSlot();
 
   public:
     void		newGame(Game *);
+    void		cancelGame(const Game *);
+    void		endGame(const Game *);
+
+  public:
+    net::UdpServer	&server();
 
   private:
-    void		update();
     void		updateCallback();
-    void		readData();
-    void		writeData();
-    void		updateGameClocks(Clock::clock_time time);
+    void		dispatchMessages();
+    // void		update();
+    // void		writeData();
+    // void		updateGameClocks(Clock::clock_time time);
 
   private:
-    void				getGame();
-    void				sessionID(const requestCode::SessionID &);
-    const requestCode::SessionID	&sessionID(void) const;
-    client_vect::iterator		findSource(net::ClientAccepted *client,
-						   std::vector<cBuffer::Byte> &buf,
-						   AGameRequest *&request);
+    // void				getGame();
+    // void				sessionID(const requestCode::SessionID &);
+    // const requestCode::SessionID	&sessionID(void) const;
+    // client_list::iterator		findSource(net::ClientAccepted *client,
+    // 						   std::vector<cBuffer::Byte> &buf,
+    // 						   AGameRequest *&request);
 
   private:
     Manager(Manager const&);
     Manager& operator=(Manager const&);
 
-  private :
-
-
   private:
     bool				_active;
     Threads<void (*)(Manager *)>	_th;
-    Clock				_clock;
-    game_list				_games;
+    // Clock				_clock;
+    // game_list			_games;
     input_event				&_input;
     output_event			&_output;
+    input_event				_inputFromPools;
+    pool_list				_gamePools;
+    client_list				_gameClients;
     net::UdpServer			_server;
     net::streamManager			_monitor;
-    client_vect				_gameClients;
-    // request_callback_map		_requestCallback;
 
   private:
     class predicate : public std::unary_function< Client *, bool>
@@ -106,6 +110,19 @@ namespace	game
 
     private:
       const requestCode::SessionID	_id;
+    };
+
+    class PredicateClients : public std::unary_function< const Client *, bool>
+    {
+    public:
+      PredicateClients(const client_list &clients);
+      ~PredicateClients();
+
+    public:
+      bool		operator()(const Client *rhs);
+
+    private:
+      const client_list	_clients;
     };
 
   };

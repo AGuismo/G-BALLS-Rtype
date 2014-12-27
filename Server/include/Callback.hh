@@ -39,6 +39,7 @@ protected:
   C				*_self;
 };
 
+
 template <class P0>
 class ApplicationCallback : public IApplicationCallbacks
 {

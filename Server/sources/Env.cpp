@@ -6,6 +6,7 @@
 namespace rtype
 {
   const std::string Env::DB_PATH = "./misc/rtype.db";
+  const std::string Env::LOG_FILE = "./misc/rtype_server.log";
 
   Env		&Env::getInstance()
   {

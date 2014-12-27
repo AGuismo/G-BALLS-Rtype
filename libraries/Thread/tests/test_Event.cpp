@@ -13,7 +13,7 @@
 #include	"ThreadEvent.hpp"
 #include	"Threads.hpp"
 
-static Thread::EventQueue<int>	event;
+static Thread::EventQueue<int *>	event;
 static Thread::Mutex		disp;
 
 void		producer(int id)

@@ -4,12 +4,12 @@
 #ifdef WIN32
 
 
-std::map<std::string, UPDATE>						*checkFileAbstract::refreshFile(void)
+std::map<std::string, UPDATE>	*checkFileAbstract::refreshFile(void)
 {
-  WIN32_FIND_DATA									ffd;
-  HANDLE											hFind = INVALID_HANDLE_VALUE;
-  std::map<std::string, FILETIME>::iterator		it;
-  std::map<std::string, UPDATE>::iterator			ot;
+  WIN32_FIND_DATA		ffd;
+  HANDLE			hFind = INVALID_HANDLE_VALUE;
+  std::map<std::string, FILETIME>::iterator	it;
+  std::map<std::string, UPDATE>::iterator	ot;
 
   _update.clear();
 
@@ -21,37 +21,37 @@ std::map<std::string, UPDATE>						*checkFileAbstract::refreshFile(void)
     return NULL;
 
   do
+  {
+    if (ffd.dwFileAttributes != FILE_ATTRIBUTE_DIRECTORY)
     {
-      if (ffd.dwFileAttributes != FILE_ATTRIBUTE_DIRECTORY)
-	{
-	  if ((it = _fileList.find(ffd.cFileName)) == _fileList.end())
-	    {
-	      _fileList.insert(std::pair<std::string, FILETIME>(std::string(ffd.cFileName), ffd.ftLastWriteTime));
-	      _update.insert(std::pair<std::string, UPDATE>(std::string(ffd.cFileName), NEW));
-	    }
-	  else if (CompareFileTime(&(it->second), &ffd.ftLastWriteTime) != 0)
-	    {
-	      it->second = ffd.ftLastWriteTime;
-	      _update.insert(std::pair<std::string, UPDATE>(std::string(ffd.cFileName), UPDATED));
-	    }
-	  else
-	    {
-	      _update.insert(std::pair<std::string, UPDATE>(std::string(ffd.cFileName), UNCHANGED));
-	    }
-	}
-    } while (FindNextFile(hFind, &ffd) != 0);
+      if ((it = _fileList.find(ffd.cFileName)) == _fileList.end())
+      {
+	_fileList.insert(std::pair<std::string, FILETIME>(std::string(ffd.cFileName), ffd.ftLastWriteTime));
+	_update.insert(std::pair<std::string, UPDATE>(std::string(ffd.cFileName), NEW));
+      }
+      else if (CompareFileTime(&(it->second), &ffd.ftLastWriteTime) != 0)
+      {
+	it->second = ffd.ftLastWriteTime;
+	_update.insert(std::pair<std::string, UPDATE>(std::string(ffd.cFileName), UPDATED));
+      }
+      else
+      {
+	_update.insert(std::pair<std::string, UPDATE>(std::string(ffd.cFileName), UNCHANGED));
+      }
+    }
+  } while (FindNextFile(hFind, &ffd) != 0);
 
 
   for (it = _fileList.begin(); it != _fileList.end(); ++it)
+  {
+    ot = _update.find(it->first);
+    if (ot == _update.end())
     {
-      ot = _update.find(it->first);
-      if (ot == _update.end())
-	{
-	  _update.insert(std::pair<std::string, UPDATE>(std::string(it->first.c_str()), DELETED));
-	  _fileList.erase(it);
-	  it = _fileList.begin();
-	}
+      _update.insert(std::pair<std::string, UPDATE>(std::string(it->first.c_str()), DELETED));
+      _fileList.erase(it);
+      it = _fileList.begin();
     }
+  }
 
   FindClose(hFind);
   return &_update;
@@ -68,18 +68,17 @@ checkFileAbstract::checkFileAbstract(std::string &fileToCheck)
 #elif	defined (linux)
 
 
-std::map<std::string, UPDATE>						*checkFileAbstract::refreshFile(void)
+std::map<std::string, UPDATE>		*checkFileAbstract::refreshFile(void)
 {
-  DIR								*dp;
-  struct dirent							*dirp;
-  struct stat 							st;
-  std::string							nPath;
-  std::map<std::string, time_t>::iterator				it;
-  std::map<std::string, UPDATE>::iterator				ot;
-  bool								empty = true;
+  DIR					*dp;
+  struct dirent				*dirp;
+  struct stat 				st;
+  std::string				nPath;
+  std::map<std::string, time_t>::iterator	it;
+  std::map<std::string, UPDATE>::iterator	ot;
+  bool						empty = true;
+
   _update.clear();
-
-
   if ((dp = opendir(_fileToCheck.c_str())) == NULL)
     return NULL;
 
@@ -87,47 +86,47 @@ std::map<std::string, UPDATE>						*checkFileAbstract::refreshFile(void)
     return NULL;
 
   do
+  {
+    nPath.clear();
+    if (dirp->d_type == DT_REG)
     {
-      nPath.clear();
-      if (dirp->d_type == DT_REG)
-	{
-	  empty = false;
-	  nPath += _fileToCheck.c_str();
-	  nPath += "/";
-	  nPath += dirp->d_name;
-	  if (stat(nPath.c_str(), &st) == -1)
-	    return NULL;
-	  if ((it = _fileList.find(dirp->d_name)) == _fileList.end())
-	    {
-	      _fileList.insert(std::pair<std::string, time_t>(std::string(dirp->d_name), st.st_mtime));
-	      _update.insert(std::pair<std::string, UPDATE>(std::string(dirp->d_name), NEW));
-	    }
-	  else if (difftime(it->second, st.st_mtime) != 0)
-	    {
-	      it->second = st.st_mtime;
-	      _update.insert(std::pair<std::string, UPDATE>(std::string(dirp->d_name), UPDATED));
-	    }
-	  else
-	    {
-	      _update.insert(std::pair<std::string, UPDATE>(std::string(dirp->d_name), UNCHANGED));
-	    }
-	}
+      empty = false;
+      nPath += _fileToCheck.c_str();
+      nPath += "/";
+      nPath += dirp->d_name;
+      if (stat(nPath.c_str(), &st) == -1)
+	return NULL;
+      if ((it = _fileList.find(dirp->d_name)) == _fileList.end())
+      {
+	_fileList.insert(std::pair<std::string, time_t>(std::string(dirp->d_name), st.st_mtime));
+	_update.insert(std::pair<std::string, UPDATE>(std::string(dirp->d_name), NEW));
+      }
+      else if (difftime(it->second, st.st_mtime) != 0)
+      {
+	it->second = st.st_mtime;
+	_update.insert(std::pair<std::string, UPDATE>(std::string(dirp->d_name), UPDATED));
+      }
+      else
+      {
+	_update.insert(std::pair<std::string, UPDATE>(std::string(dirp->d_name), UNCHANGED));
+      }
+    }
 
-    } while ((dirp = readdir(dp)) != NULL);
+  } while ((dirp = readdir(dp)) != NULL);
 
   if (empty == true)
     return NULL;
 
   for (it = _fileList.begin(); it != _fileList.end(); ++it)
+  {
+    ot = _update.find(it->first);
+    if (ot == _update.end())
     {
-      ot = _update.find(it->first);
-      if (ot == _update.end())
-	{
-	  _update.insert(std::pair<std::string, UPDATE>(std::string(it->first.c_str()), DELETED));
-	  _fileList.erase(it);
-	  it = _fileList.begin();
-	}
+      _update.insert(std::pair<std::string, UPDATE>(std::string(it->first.c_str()), DELETED));
+      _fileList.erase(it);
+      it = _fileList.begin();
     }
+  }
 
   closedir(dp);
   return &_update;

@@ -4,8 +4,8 @@ namespace	game
 {
   Clock::Clock()
   {
-	  _elapsedTime = 0;
-	  _totalElapsedTime = 0;
+    _elapsedTime = 0;
+    _totalElapsedTime = 0;
   }
 
   Clock::~Clock()
@@ -24,7 +24,7 @@ namespace	game
 
   void		Clock::restart()
   {
-	  _totalElapsedTime = 0;
+    _totalElapsedTime = 0;
   }
 
   void		Clock::update()

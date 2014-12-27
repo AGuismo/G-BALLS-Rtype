@@ -53,6 +53,21 @@ namespace	Thread
       return (getData());
     }
 
+    T			pop(size_t maxWait_ms, bool &isTimeout)
+    {
+      Thread::MutexGuard	guard(_m);
+
+      isTimeout = false;
+      while (empty() && !isTimeout)
+	_condNotEmpty.wait(_m, maxWait_ms, isTimeout);
+      if (isTimeout)
+	return NULL;
+      if (_maxPendingEvents != 0 &&
+	  _stack.size() == _maxPendingEvents)
+      	_condNotFull.broadcast();
+      return (getData());
+    }
+
     bool		push(T data, bool blocking = true)
     {
       Thread::MutexGuard	guard(_m);

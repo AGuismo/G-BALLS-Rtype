@@ -8,6 +8,7 @@
 #include	"cBuffer.h"
 #include	"Protocol.hpp"
 #include	"NetException.h"
+#include	"Application.hh"
 #include	<ctype.h>
 
 namespace	menu
@@ -21,7 +22,7 @@ namespace	menu
   Client::~Client()
   {
 #if defined(DEBUG)
-    std::cout << "Client " << this << " : Deleted" << std::endl;
+    Application::log << "Client " << this << " : Deleted" << std::endl;
 #endif
     delete _TcpLayer;
   }
@@ -33,14 +34,14 @@ namespace	menu
       throw "No TCP socket";
 #endif
     if (_TcpLayer->read())
-      {
-	recvSock();
-	while (inputRequest());
-      }
+    {
+      recvSock();
+      while (inputRequest());
+    }
     if (_TcpLayer->write())
-      {
-	sendSock();
-      }
+    {
+      sendSock();
+    }
   }
 
   void		Client::finalize()
@@ -77,61 +78,51 @@ namespace	menu
   void		Client::recvSock()
   {
 #if defined(DEBUG)
-    std::cout << "menu::Client::recvSock(): " << "The client have data to read" << std::endl;
+    Application::log << "menu::Client::recvSock(): " << "The client have data to read" << std::endl;
 #endif
     try
-      {
-	if (_TcpLayer->recv() <= 0)
-	  return ;
-      }
-    catch (const net::Exception &e)
-      {
-	std::cerr << "Error : " << e.what() << " in menu::client" << std::endl;
+    {
+      if (_TcpLayer->recv() <= 0)
 	return ;
-      }
+    }
+    catch (const net::Exception &e)
+    {
+      Application::log << "Error : " << e.what() << " in menu::client" << std::endl;
+      return ;
+    }
 #if defined(DEBUG)
     std::vector<net::cBuffer::Byte> buf;
-
-    std::cout << "menu::Client::recvSock(): " << _TcpLayer->lookRead(buf, 512) << std::endl;
-    std::cout << "menu::Client::recvSock(): ";
-    for (std::vector<net::cBuffer::Byte>::iterator it = buf.begin(); it != buf.end(); ++it)
-      {
-	if (!isprint(*it))
-	  printf("\\%.2X", *it);
-	else
-	  printf("%c", *it);
-      }
-    printf("\n");
+    _TcpLayer->lookRead(buf, 512);
+    Application::log << "menu::Client::recvSock(): " << buf.size()
+		     << log::Log::hexDump(buf) << std::endl;
 #endif
   }
 
   void				Client::sendSock()
   {
 #if defined(DEBUG)
-    std::cout << "menu::Client::sendSock(): " << "The client have data to send" << std::endl;
     std::vector<net::cBuffer::Byte> buf;
-
-    std::cout << "menu::Client::sendSock(): " << _TcpLayer->lookWrite(buf, 512) << std::endl;
-    std::cout << "menu::Client::sendSock(): ";
-    for (std::vector<net::cBuffer::Byte>::iterator it = buf.begin(); it != buf.end(); ++it)
-      {
-	if (!isprint(*it))
-	  printf("\\%.2X", *it);
-	else
-	  printf("%c", *it);
-      }
-    printf("\n");
+    _TcpLayer->lookWrite(buf, 512);
+    Application::log << "The client have data to send" << "menu::Client::sendSock(): "
+		     << buf.size() << log::Log::hexDump(buf) << std::endl;
+    // for (std::vector<net::cBuffer::Byte>::iterator it = buf.begin(); it != buf.end(); ++it)
+    //   {
+    // 	if (!isprint(*it))
+    // 	  printf("\\%.2X", *it);
+    // 	else
+    // 	  printf("%c", *it);
+    //   }
 #endif
     try
-      {
-	if (_TcpLayer->send() < 0)
-	  return ;
-      }
-    catch (const net::Exception &e)
-      {
-	std::cerr << "Error : " << e.what() << " in menu::client" << std::endl;
+    {
+      if (_TcpLayer->send() < 0)
 	return ;
-      }
+    }
+    catch (const net::Exception &e)
+    {
+      Application::log << "Error : " << e.what() << " in menu::client" << std::endl;
+      return ;
+    }
   }
 
   bool					Client::inputRequest()
@@ -143,19 +134,19 @@ namespace	menu
     if (_TcpLayer->lookRead(buf, 512) == 0)
       return (false);
     try
-      {
-	req = Protocol::consume(buf, extracted);
-      }
+    {
+      req = Protocol::consume(buf, extracted);
+    }
     catch (Protocol::ConstructRequest &e)
-      {
+    {
 #if defined(DEBUG)
-	std::cerr << "Client::inputRequest()" << "Failed to create request: " << e.what() << std::endl;
+      Application::log << "Client::inputRequest()" << "Failed to create request: " << e.what() << std::endl;
 #endif
-	return (false);
-      }
+      return (false);
+    }
 #if defined(DEBUG)
-    std::cerr << "Client::inputRequest(): Request successfully unserialized" << std::endl;
-    std::cerr << "Extracted " << extracted << std::endl;
+    Application::log << "Client::inputRequest(): Request successfully unserialized. "
+		     << "Extracted " << extracted << " Bytes" << std::endl;
 #endif
     _TcpLayer->readFromBuffer(buf, extracted);
     _input.requestPush(req);
@@ -171,21 +162,21 @@ namespace	menu
       return (false);
     req = _output.requestPop();
     try
-      {
-	buf = Protocol::product(*req);
-	delete req;
-      }
+    {
+      buf = Protocol::product(*req);
+      delete req;
+    }
     catch (Protocol::ConstructRequest &e)
-      {
+    {
 #if defined(DEBUG)
-	std::cerr << "Client::outputRequest(): " << "Failed to serialize request: "
-		  << e.what() << std::endl;
+      Application::log << "Client::outputRequest(): " << "Failed to serialize request: "
+		       << e.what() << std::endl;
 #endif
-	return (false);
-      }
+      return (false);
+    }
     _TcpLayer->writeIntoBuffer(buf, buf.size());
 #if defined(DEBUG)
-    std::cout << "Client::outputRequest(): Request successfully serialized" << std::endl;
+    Application::log << "Client::outputRequest(): Request successfully serialized" << std::endl;
 #endif
     return (true);
   }

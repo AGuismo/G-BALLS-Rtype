@@ -5,11 +5,13 @@
 # include	<string>
 # include	<list>
 # include	<set>
+# include	<fstream>
 // # include	"MenuManager.hh"
 // # include	"GameManager.hh"
 # include	"LoaderManager.hh"
 # include	"ThreadEvent.hpp"
 # include	"RequestCode.hh"
+# include	"Log.hh"
 
 #if defined(WIN32)
 #pragma warning( disable : 4251)
@@ -64,6 +66,9 @@ public:
   virtual ~Application();
 
 public:
+  static log::Log	log;
+
+public:
   void	stop(menu::Client *);
   void	run();
   void	routine();
@@ -72,7 +77,8 @@ public:
   void	newClient(requestCode::SessionID clientID);
   void  clientDisconnected(requestCode::SessionID clientID);
   void	newGame(menu::Game *game);
-  void	endGame(game::Game *game);
+  void	endGame(const game::Game *game);
+  void	cancelGame(const game::Game *game);
   void	ClientLeaveGame(requestCode::SessionID clientID);
 
 private:
@@ -89,6 +95,7 @@ private:
   //  botLoader::Manager	_botLoaderManager;
   client_list		_clients;
   game_list		_games;
+  std::ofstream		_log;
 
 private:
   struct	PredicateClient : public std::unary_function<Client *, bool>

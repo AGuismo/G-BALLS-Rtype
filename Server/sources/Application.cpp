@@ -9,22 +9,26 @@
 #include	"LoaderException.hh"
 #include	"Database.hh"
 #include	"Salt.hpp"
-#include	"Game.h"
+#include	"Game.hh"
 #include	"Callback.hh"
 #include	"Client.hh"
 
 Salt::size_type	Salt::SALT = 42;
+log::Log	Application::log;
 
 Application::Application():
-  _menuManager(0), _gameManager(0)
+  _menuManager(0), _gameManager(0),
+  _log(rtype::Env::LOG_FILE.c_str(), std::ofstream::app | std::ofstream::out)
 {
   std::string	file("botlibrary");
 
+  Application::log.changeStream(_log);
+  log << "rtype server: Initialize..." << std::endl;
   if (!Database::getInstance().loadFile(rtype::Env::getInstance().database.DatabasePath))
 #if defined(DEBUG)
-    std::cout << "Warning: There is no Database or a corrupt Database in "
-	      << rtype::Env::getInstance().database.DatabasePath << std::endl
-  	      << "Client Database will be created for further usage" << std::endl;
+    log << "Warning: There is no Database or a corrupt Database in "
+	<< rtype::Env::getInstance().database.DatabasePath
+	<< ". Client Database will be created for further usage";
 #endif
   Database::getInstance().newClient("root", md5("4242"), database::SUPER_USER, true);
   try
@@ -37,25 +41,26 @@ Application::Application():
     }
   catch (const menu::Exception &e) // Menu loader exception
     {
-      std::cerr << "In Application::run(), catch: " << e.what() << std::endl;
+      log << "In Application::run(), catch: " << e.what() << std::endl;
       delete _menuManager;
       throw Application::InitExcept("Application Init fail");
     }
   catch (const game::Exception &e) // game loader exception
     {
-      std::cerr << "In Application::run(), catch: " << e.what() << std::endl;
+      log << "In Application::run(), catch: " << e.what() << std::endl;
       delete _menuManager;
       delete _gameManager;
       throw Application::InitExcept("Application Init fail");
     }
   catch (const botLoader::Exception &e) // Catch Bot loader exception
     {
-      std::cerr << "In Application::run(), catch: " << e.what() << std::endl;
+      log << "In Application::run(), catch: " << e.what() << std::endl;
       delete _menuManager;
       delete _gameManager;
       throw Application::InitExcept("Application Init fail");
     }
   Database::getInstance().saveFile(rtype::Env::getInstance().database.DatabasePath);
+  log << "rtype server: Initialization success" << std::endl;
 }
 
 Application::~Application()
@@ -65,17 +70,19 @@ Application::~Application()
   delete _gameManager;
   for (client_list::iterator it = _clients.begin(); it != _clients.end(); ++it)
     delete *it;
+  log << "rtype server: deleted" << std::endl;
 }
 
 void	Application::run()
 {
 #if defined(DEBUG)
-  std::cout << "Start Application::Run" << std::endl;
+  log << "Start Application::Run" << std::endl;
 #endif
   _gameManager->run();
   botLoader::Manager::getInstance().run();
   _menuManager->run();
   _active = true;
+  log << "rtype server: started" << std::endl;
   routine();
 }
 
@@ -88,7 +95,7 @@ void	Application::run()
 //       if ((*it)->state() == State::DELETED || (*it)->state() == State::DISCONNECTED)
 // 	{
 // #if defined(DEBUG)
-// 	  std::cout << "Application::updateClients(): " << "Client deleted" << std::endl;
+// 	  std::cout << "Application::updateClients(): " << "Client deleted";
 // #endif
 // 	  delete *it;
 // 	  it = _clients.erase(it);
@@ -117,6 +124,7 @@ void	Application::routine()
   _gameManager->stop();
   _menuManager->stop();
   botLoader::Manager::getInstance().stop();
+  log << "rtype server: stopped" << std::endl;
 }
 
 void	Application::clientDisconnected(requestCode::SessionID clientID)
@@ -124,7 +132,7 @@ void	Application::clientDisconnected(requestCode::SessionID clientID)
   client_list::iterator	appIt;
 
 #if defined(DEBUG)
-  std::cout << "Application::ClientDisconnected(): " << "Client in menu is disconnected" << std::endl;
+  log << "Application::ClientDisconnected(): " << "Client in menu is disconnected" << std::endl;
 #endif
   appIt = std::find_if(_clients.begin(), _clients.end(), PredicateClient(clientID));
   (*appIt)->state(Client::DISCONNECTED); // erase/delete appIt ? Memory Leak
@@ -138,7 +146,7 @@ void	Application::ClientLeaveGame(requestCode::SessionID client)
   client_list::iterator	appIt;
 
 #if defined(DEBUG)
-  std::cout << "Application::ClientLeaveGame(): " << "Player Leave Game..." << std::endl;
+  log << "Application::ClientLeaveGame(): " << "Player Leave Game..." << std::endl;
 #endif
   appIt = std::find_if(_clients.begin(), _clients.end(), PredicateClient(client));
   (*appIt)->state(Client::MENU);
@@ -154,7 +162,7 @@ void	Application::ClientLeaveGame(requestCode::SessionID client)
 void	Application::newClient(requestCode::SessionID clientID)
 {
 #if defined(DEBUG)
-  std::cout << "Application::newClient(): " << "new Client with ID(" << clientID << ")" << std::endl;
+  log << "Application::newClient(): " << "new Client with ID(" << clientID << ")" << std::endl;
 #endif
   _clients.push_back(new Client(clientID, Client::MENU));
 }
@@ -166,7 +174,7 @@ void	Application::newGame(menu::Game *menuGame)
   game::Game				*loadedGame;
 
 #if defined(DEBUG)
-  std::cout << "Application::newGame(): " << "Start Game..." << std::endl;
+  log << "Application::newGame(): " << "Start Game..." << std::endl;
 #endif
   for (; menuIt != menuGame->clients().end(); ++menuIt)
     {
@@ -188,15 +196,19 @@ void	Application::newGame(menu::Game *menuGame)
 							     &game::Manager::newGame));
 }
 
-void	Application::endGame(game::Game *loadedGame)
+void	Application::endGame(const game::Game *loadedGame)
 {
-  game::Game::client_list::iterator	gameIt = loadedGame->clients().begin();
-  game_list::iterator			thatGame;
+  game::Game::client_list::const_iterator	gameIt;
+  game_list::iterator				thatGame;
 
+  thatGame = std::find_if(_games.begin(), _games.end(), PredicateGame(loadedGame));
+  if (thatGame == _games.end())
+    return;
 #if defined(DEBUG)
-  std::cout << "Application::endGame(): " << "End of Game..." << std::endl;
+  log << "Application::endGame(): " << thatGame->second << " End of Game..." << std::endl;
 #endif
-  for (; gameIt != loadedGame->clients().end(); ++gameIt)
+  for (gameIt = thatGame->second->clients().begin();
+       gameIt != thatGame->second->clients().end(); ++gameIt)
     {
       client_list::iterator	appIt;
 
@@ -208,9 +220,36 @@ void	Application::endGame(game::Game *loadedGame)
       // (*appIt)->menu()->inUse(true);
       (*appIt)->state(Client::MENU);
     }
+  _menuOutput.push(new Callback<menu::Manager, menu::Game *>(_menuManager, thatGame->first,
+							     &menu::Manager::endGame));
+  _games.erase(thatGame);
+  delete loadedGame;
+}
+
+void	Application::cancelGame(const game::Game *loadedGame)
+{
+  game::Game::client_list::const_iterator	gameIt;
+  game_list::iterator				thatGame;
+
   thatGame = std::find_if(_games.begin(), _games.end(), PredicateGame(loadedGame));
   if (thatGame == _games.end())
     return;
+#if defined(DEBUG)
+  log << "Application::endGame(): " << thatGame->second << " End of Game..." << std::endl;
+#endif
+  for (gameIt = thatGame->second->clients().begin();
+       gameIt != thatGame->second->clients().end(); ++gameIt)
+    {
+      client_list::iterator	appIt;
+
+      appIt = std::find_if(_clients.begin(), _clients.end(), PredicateClient((*gameIt)->sessionID()));
+      // (*appIt)->game().inUse(true);
+      // (*appIt)->menu().inUse(false);
+      // delete (*appIt)->game();
+      // (*appIt)->game(0);
+      // (*appIt)->menu()->inUse(true);
+      (*appIt)->state(Client::MENU);
+    }
   _menuOutput.push(new Callback<menu::Manager, menu::Game *>(_menuManager, thatGame->first,
 							     &menu::Manager::endGame));
   _games.erase(thatGame);

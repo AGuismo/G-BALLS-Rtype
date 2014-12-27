@@ -1,5 +1,5 @@
 #include	"Referee.h"
-#include	"Game.h"
+#include	"Game.hh"
 #include	"Player.h"
 #include	"Missile.h"
 #include	"DeathRequest.h"
@@ -79,9 +79,9 @@ namespace game
 
   bool	Referee::playerCollision(Entity *a, Game &game)
   {
-    std::list<game::Client *>::iterator itp = game._players.begin();
+    std::list<game::Client *>::iterator itp = game._clients.begin();
 
-    for (; itp != game._players.end(); itp++)
+    for (; itp != game._clients.end(); itp++)
     {
       if ((*itp)->alive())
       {

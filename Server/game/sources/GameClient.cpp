@@ -1,4 +1,5 @@
 #include	"GameClient.hh"
+#include	"GamePool.hh"
 #include	"EventRequest.hh"
 #include	"Player.h"
 #include	"AliveRequest.h"
@@ -8,6 +9,7 @@
 #include	"LeaveRequest.h"
 #include	"Missile.h"
 #include	"Referee.h"
+#include	"Application.hh" // log purpose
 
 namespace	game
 {
@@ -17,7 +19,7 @@ namespace	game
 
   {
 #if defined(DEBUG)
-    std::cout << "game::client created" << std::endl;
+    Application::log << "game::client created" << std::endl;
 #endif
   }
 
@@ -27,7 +29,7 @@ namespace	game
     _addr(addr), _id(id)
   {
 #if defined(DEBUG)
-    std::cout << "game::client created" << std::endl;
+    Application::log << "game::client created" << std::endl;
 #endif
   }
 
@@ -50,13 +52,31 @@ namespace	game
     _hasLeft = state;
   }
 
+  void		Client::waitForJoin()
+  {
+    ARequest	*req;
+
+    while ((req = requestPop()) != 0)
+    {
+      if (req->code() == requestCode::game::ALIVE)
+      {
+	_hasJoin = true;
+#if defined(DEBUG)
+	Application::log << "game::Client::waitForJoin() Client " << sessionID()
+		  << " on Pool " << gamePool()->poolID << " has join his game" << std::endl;
+#endif // !DEBUG
+      }
+
+    }
+  }
+
   void		Client::update(game::Game &game)
   {
     ARequest	*req;
     bool	move = false;
     bool	fire = false;
 
-    while ((req = _input.requestPop()) != 0)
+    while ((req = requestPop()) != 0)
     {
       EventRequest	*ev;
       AliveRequest	*al;
@@ -74,17 +94,17 @@ namespace	game
 	    _alive = false;
 	    game.pushRequest(new DeathRequest(_id));
 	  }
-	  else
-	    game.pushRequest(new ElemRequest(requestCode::game::server::PLAYER,
-					     _player->_pos[0], _player->_dir, _player->_id));
+	  // else
+	  //   game.pushRequest(new ElemRequest(requestCode::game::server::PLAYER,
+	  // 				     _player->_pos[0], _player->_dir, _player->_id));
 	}
 	else if (!fire)
 	{
 	  Missile *missile = _player->fire(game, false);
 	  game.pushMissile(missile);
 	  fire = true;
-	  game.pushRequest(new ElemRequest(requestCode::game::server::MISSILE,
-					   missile->pos()[0], missile->dir(), missile->id()));
+	  // game.pushRequest(new ElemRequest(requestCode::game::server::MISSILE,
+	  // 				   missile->pos()[0], missile->dir(), missile->id()));
 	}
       }
       else if ((al = dynamic_cast<AliveRequest *>(req)))
@@ -150,5 +170,15 @@ namespace	game
   Player			*Client::player(void) const
   {
     return (_player);
+  }
+
+  void				Client::gamePool(GamePool *pool)
+  {
+    _associatedPool = pool;
+  }
+
+  GamePool			*Client::gamePool() const
+  {
+    return (_associatedPool);
   }
 }

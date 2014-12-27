@@ -1,7 +1,7 @@
 #pragma once
 
 #include <map>
-#include "Game.h"
+#include "Game.hh"
 #include "types.hh"
 
 

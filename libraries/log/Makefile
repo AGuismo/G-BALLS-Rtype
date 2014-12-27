@@ -4,30 +4,21 @@
 
 
 
-NAME	     ?=	libloader.a
+NAME	     ?=	liblog.so
 
 
-SRCS =	      	LoaderManager.cpp	\
-		LoaderException.cpp	\
-		CheckFileAbstract.cpp	\
-		DynamicAbstract.cpp	\
+SRCS =	      	Log.cpp		\
+		Debug.cpp
 
-DIR.THREADS=	../deps/Threads
-DIR.BIND=	../deps/Bind
-DIR.LOG=	../deps/log
-DIR.PROTO=	../deps/protocol
-DIR.IAAPI=	../../bots/API/
-
-F.C	     +=	-W -Wall 
-F.I	     +=	-I $(DIR.H) -I$(DIR.BIND)/include -I$(DIR.PROTO)/include
-F.I	     += -I$(DIR.THREADS)/include -I$(DIR.LOG)/include
-F.I	     += -I../include -I$(DIR.IAAPI)
-F.D	     +=
+F.C	     +=	-W -Wall  -fPIC
+F.I	     +=	-I $(DIR.H)
+F.L	     += -shared
+F.D	     += -DNDEBUG
 
 
 all:		start $(NAME)
 
-$(NAME):	lib_compile
+$(NAME):	compile
 
 clean:		remove_objects
 

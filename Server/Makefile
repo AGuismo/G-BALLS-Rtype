@@ -13,15 +13,16 @@ DIR.MENU=	./menu/
 DIR.LOAD=	./loader/
 DIR.DEPS=	./deps/
 DIR.PROT=	./$(DIR.DEPS)/protocol/
+DIR.LOG=	./$(DIR.DEPS)/log/
 DIR.NET=	./$(DIR.DEPS)/network/
 DIR.THREAD=	./$(DIR.DEPS)/Threads/
 DIR.DAT=	./database/
 DIR.IAAPI=	./../bots/API
 
 DEPS.INC=	-I$(DIR.DEPS)/network/include -I$(DIR.DEPS)/Threads/include -I$(DIR.DEPS)/Bind/include
-DEPS.INC+=	-I$(DIR.IAAPI)/include
+DEPS.INC+=	-I$(DIR.IAAPI)/include -I$(DIR.LOG)/include
 
-DEPS.LNK=	-L$(DIR.NET) -lnetwork -L$(DIR.THREAD) -lThread -lpthread -ldl
+DEPS.LNK=	-L$(DIR.NET) -lnetwork -L$(DIR.THREAD) -lThread -lpthread -ldl -L$(DIR.LOG) -llog
 
 MOD.INC=	-I$(DIR.GAME)/include -I$(DIR.MENU)/include -I$(DIR.LOAD)/include
 MOD.INC+=	-I$(DIR.PROT)/include -I$(DIR.DAT)/include
@@ -50,8 +51,10 @@ compile_deps:
 		@$(ECHO) $(ES) "Compile Dependancies" $(EE)
 		@make --no-print-directory -C ./$(DIR.THREAD) all F.D=$(F.D)
 		@make --no-print-directory -C ./$(DIR.NET) all F.D=$(F.D)
+		@make --no-print-directory -C ./$(DIR.LOG) all F.D=$(F.D)
 		@cp ./$(DIR.THREAD)/libThread.so ./$(DIR.DEPS)
 		@cp ./$(DIR.NET)/libnetwork.so ./$(DIR.DEPS)
+		@cp ./$(DIR.LOG)/liblog.so ./$(DIR.DEPS)
 
 clean_mods:
 		@$(ECHO) $(ES) "Clean Modules" $(EE)
@@ -65,6 +68,7 @@ clean_deps:
 		@$(ECHO) $(ES) "Clean Dependancies" $(EE)
 		@make --no-print-directory -C ./$(DIR.THREAD) clean
 		@make --no-print-directory -C ./$(DIR.NET) clean
+		@make --no-print-directory -C ./$(DIR.LOG) clean
 
 fclean_mods:
 		@$(ECHO) $(ES) "Full clean Modules" $(EE)
@@ -78,8 +82,10 @@ fclean_deps:
 		@$(ECHO) $(ES) "Full clean Dependancies" $(EE)
 		@make --no-print-directory -C ./$(DIR.THREAD) fclean
 		@make --no-print-directory -C ./$(DIR.NET) fclean
+		@make --no-print-directory -C ./$(DIR.LOG) fclean
 		@rm -f ./$(DIR.DEPS)/libThread.so
 		@rm -f ./$(DIR.DEPS)/libnetwork.so
+		@rm -f ./$(DIR.DEPS)/liblog.so
 
 clean:		remove_objects clean_mods clean_deps
 

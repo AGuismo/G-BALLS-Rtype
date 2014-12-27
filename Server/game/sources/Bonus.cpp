@@ -1,5 +1,6 @@
-#include "Bonus.h"
-#include "Player.h"
+#include	"Bonus.h"
+#include	"Player.h"
+#include	"Application.hh" // Log purpose
 
 using namespace game;
 
@@ -13,7 +14,7 @@ ABonus::ABonus(game::Dir dir, game::Pos pos, game::ID id, game::TypeBuff type) :
 Entity(requestCode::game::server::BONUS, std::vector<game::Pos>(1, pos), 1, dir, id), _typeb(type)
 {
 #if defined(DEBUG)
-  std::cout << "A bonus has been discovered" << std::endl;
+  Application::log << "A bonus has been discovered" << std::endl;
 #endif
 }
 
