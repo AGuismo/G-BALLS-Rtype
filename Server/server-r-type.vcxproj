@@ -49,7 +49,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_MBCS;%(PreprocessorDefinitions);WIN32;DEBUG</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_MBCS;%(PreprocessorDefinitions);WIN32;WIN32_LEAN_AND_MEAN;DEBUG</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -62,7 +62,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_MBCS;%(PreprocessorDefinitions);WIN32;NDEBUG</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_MBCS;%(PreprocessorDefinitions);WIN32;WIN32_LEAN_AND_MEAN;NDEBUG</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -71,7 +71,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\libraries\network\network\TimeConverter.h" />
     <ClInclude Include="include\Application.hh" />
     <ClInclude Include="include\Client.hh" />
     <ClInclude Include="include\Env.hh" />
@@ -79,7 +78,6 @@
     <ClInclude Include="include\sys.hh" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\libraries\network\network\TimeConverter.cpp" />
     <ClCompile Include="sources\Application.cpp" />
     <ClCompile Include="sources\Client.cpp" />
     <ClCompile Include="sources\Env.cpp" />

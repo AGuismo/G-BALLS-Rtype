@@ -30,7 +30,12 @@ void UdpClient::init(std::string adress, std::string port)
   ZeroMemory(&_addr, sizeof(_addr));
   _addr.sin_family = AF_INET;
   WSAHtons(_sock, num, &_addr.sin_port);
-  _addr.sin_addr.S_un.S_addr = inet_addr(adress.c_str());
+//  _addr.sin_addr.S_un.S_addr = inet_addr(adress.c_str());
+  if (inet_pton(AF_INET, adress.c_str(), &_addr.sin_addr.S_un.S_addr) == -1)
+  {
+	  throw net::Exception("WSASocket failed with error : " + WSAGetLastError());
+  }
+
 }
 #elif defined(linux)
 # include	<errno.h>

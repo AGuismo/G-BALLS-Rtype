@@ -14,13 +14,13 @@
 # include	"RequestCode.hh"
 
 class		ARequest;
-class		Missile;
-class		Referee;
 
 namespace	game
 {
   class		Player;
   class		Game;
+  class		Missile;
+  class		Referee;
 }
 
 namespace	game

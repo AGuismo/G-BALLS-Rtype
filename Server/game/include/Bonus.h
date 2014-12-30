@@ -19,8 +19,8 @@ namespace game
   protected:
     game::TypeBuff _typeb;
 
-    friend class ::Game;
-    friend class ::Referee;
+    friend class Game;
+    friend class Referee;
   };
 
   class ExtraLife : public ABonus

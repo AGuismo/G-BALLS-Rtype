@@ -1,3 +1,12 @@
+// Some Win/Linux Abstractions
+#if defined(WIN32)
+# include	<windows.h>
+#elif defined(linux)
+# include	<unistd.h>
+#else
+# error "Unsupported Operating System"
+#endif
+
 #include	"sys.hh"
 
 namespace	sys
