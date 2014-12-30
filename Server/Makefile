@@ -53,9 +53,9 @@ compile_deps:
 		@make --no-print-directory -C ./$(DIR.THREAD) all F.D=$(F.D)
 		@make --no-print-directory -C ./$(DIR.NET) all F.D=$(F.D)
 		@make --no-print-directory -C ./$(DIR.LOG) all F.D=$(F.D)
-		@cp ./$(DIR.THREAD)/libThread.so ./$(DIR.DEPS)
-		@cp ./$(DIR.NET)/libnetwork.so ./$(DIR.DEPS)
-		@cp ./$(DIR.LOG)/liblog.so ./$(DIR.DEPS)
+		@cp ./$(DIR.THREAD)/libThread.so ./deps
+		@cp ./$(DIR.NET)/libnetwork.so ./deps
+		@cp ./$(DIR.LOG)/liblog.so ./deps
 
 clean_mods:
 		@$(ECHO) $(ES) "Clean Modules" $(EE)
@@ -84,9 +84,9 @@ fclean_deps:
 		@make --no-print-directory -C ./$(DIR.THREAD) fclean
 		@make --no-print-directory -C ./$(DIR.NET) fclean
 		@make --no-print-directory -C ./$(DIR.LOG) fclean
-		@rm -f ./$(DIR.DEPS)/libThread.so
-		@rm -f ./$(DIR.DEPS)/libnetwork.so
-		@rm -f ./$(DIR.DEPS)/liblog.so
+		@rm -f ./deps/libThread.so
+		@rm -f ./deps/libnetwork.so
+		@rm -f ./deps/liblog.so
 
 clean:		remove_objects clean_mods clean_deps
 
