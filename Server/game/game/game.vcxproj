@@ -40,17 +40,17 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <TargetExt>.lib</TargetExt>
-    <IncludePath>$(SolutionDir)\..\libraries\network\network\include;$(SolutionDir)\server-r-type\include;$(SolutionDir)\..\libraries\protocol\include;$(SolutionDir)\menu\include;$(SolutionDir)\..\libraries\Thread\Threads\include;$(SolutionDir)\..\libraries\Bind\include;$(ProjectDir)\..\..\include;$(IncludePath);$(ProjectDir)\..\include;$(ProjectDir)\..\..\loader\include;$(SolutionDir)\..\bots\API</IncludePath>
+    <IncludePath>$(SolutionDir)\..\libraries\log\include;$(SolutionDir)\..\libraries\network\network\include;$(SolutionDir)\server-r-type\include;$(SolutionDir)\..\libraries\protocol\include;$(SolutionDir)\menu\include;$(SolutionDir)\..\libraries\Thread\Threads\include;$(SolutionDir)\..\libraries\Bind\include;$(ProjectDir)\..\..\include;$(IncludePath);$(ProjectDir)\..\include;$(ProjectDir)\..\..\loader\include;$(SolutionDir)\..\bots\API</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>$(SolutionDir)\..\libraries\network\network\include;$(SolutionDir)\server-r-type\include;$(SolutionDir)\..\libraries\protocol\include;$(SolutionDir)\menu\include;$(SolutionDir)\..\libraries\Thread\Threads\include;$(SolutionDir)\..\libraries\Bind\include;$(ProjectDir)\..\..\include;$(IncludePath);$(ProjectDir)\..\include;$(ProjectDir)\..\..\loader\include;$(SolutionDir)\..\bots\API</IncludePath>
+    <IncludePath>$(SolutionDir)\..\libraries\log\include;$(SolutionDir)\..\libraries\network\network\include;$(SolutionDir)\server-r-type\include;$(SolutionDir)\..\libraries\protocol\include;$(SolutionDir)\menu\include;$(SolutionDir)\..\libraries\Thread\Threads\include;$(SolutionDir)\..\libraries\Bind\include;$(ProjectDir)\..\..\include;$(IncludePath);$(ProjectDir)\..\include;$(ProjectDir)\..\..\loader\include;$(SolutionDir)\..\bots\API</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_MBCS;%(PreprocessorDefinitions);WIN32;DEBUG</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32_LEAN_AND_MEAN;_MBCS;%(PreprocessorDefinitions);WIN32;DEBUG</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -63,7 +63,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_MBCS;%(PreprocessorDefinitions);NDEBUG;WIN32</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32_LEAN_AND_MEAN;_MBCS;%(PreprocessorDefinitions);NDEBUG;WIN32</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -83,6 +83,7 @@
     <ClInclude Include="..\include\GameException.hh" />
     <ClInclude Include="..\include\GameManager.hh" />
     <ClInclude Include="..\include\BaseIA.h" />
+    <ClInclude Include="..\include\GamePool.hh" />
     <ClInclude Include="..\include\IA.h" />
     <ClInclude Include="..\include\Missile.h" />
     <ClInclude Include="..\include\Player.h" />
@@ -101,6 +102,7 @@
     <ClCompile Include="..\sources\GameClient.cpp" />
     <ClCompile Include="..\sources\GameException.cpp" />
     <ClCompile Include="..\sources\GameManager.cpp" />
+    <ClCompile Include="..\sources\GamePool.cpp" />
     <ClCompile Include="..\sources\IA.cpp" />
     <ClCompile Include="..\sources\Missile.cpp" />
     <ClCompile Include="..\sources\Player.cpp" />

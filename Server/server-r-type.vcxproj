@@ -39,10 +39,10 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>$(SolutionDir)\..\libraries\protocol\include;$(SolutionDir)\..\libraries\Bind\include;$(SolutionDir)\..\libraries\network\network\include;$(SolutionDir)\..\libraries\Thread\Threads\include;$(IncludePath);$(ProjectDir)\include;$(ProjectDir)\menu\include;$(ProjectDir)\loader\include;$(ProjectDir)\game\include;$(ProjectDir)\database\include</IncludePath>
+    <IncludePath>$(SolutionDir)\..\libraries\log\include;$(SolutionDir)\..\libraries\protocol\include;$(SolutionDir)\..\libraries\Bind\include;$(SolutionDir)\..\libraries\network\network\include;$(SolutionDir)\..\libraries\Thread\Threads\include;$(IncludePath);$(ProjectDir)\include;$(ProjectDir)\menu\include;$(ProjectDir)\loader\include;$(ProjectDir)\game\include;$(ProjectDir)\database\include</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IncludePath>$(SolutionDir)\..\libraries\protocol\include;$(SolutionDir)\..\libraries\Bind\include;$(SolutionDir)\..\libraries\network\network\include;$(SolutionDir)\..\libraries\Thread\Threads\include;$(IncludePath);$(ProjectDir)\include;$(ProjectDir)\menu\include;$(ProjectDir)\loader\include;$(ProjectDir)\game\include;$(ProjectDir)\database\include</IncludePath>
+    <IncludePath>$(SolutionDir)\..\libraries\log\include;$(SolutionDir)\..\libraries\protocol\include;$(SolutionDir)\..\libraries\Bind\include;$(SolutionDir)\..\libraries\network\network\include;$(SolutionDir)\..\libraries\Thread\Threads\include;$(IncludePath);$(ProjectDir)\include;$(ProjectDir)\menu\include;$(ProjectDir)\loader\include;$(ProjectDir)\game\include;$(ProjectDir)\database\include</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -86,6 +86,9 @@
     <ClCompile Include="sources\sys.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\libraries\log\log\log.vcxproj">
+      <Project>{5a204a93-cabb-4a49-880f-d27bf76b57ef}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\libraries\network\network\network.vcxproj">
       <Project>{42c7e464-716a-4975-83ca-a8445b8abf0e}</Project>
     </ProjectReference>

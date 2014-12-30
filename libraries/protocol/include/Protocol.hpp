@@ -8,9 +8,6 @@
 # include	"types.hh"
 # include	"RequestCode.hh"
 
-#if defined(WIN32) && defined(PROTOCOL_API)
-extern template class __declspec(dllimport) std::vector<Ruint8>;
-#endif
 class Protocol
 {
 public:

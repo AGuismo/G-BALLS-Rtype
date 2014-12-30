@@ -11,6 +11,8 @@
 #include	"NetException.h"
 #include	"Application.hh"
 
+using namespace loglib;
+
 namespace	menu
 {
   Client::Client(net::ClientAccepted *clientTcp):
@@ -94,7 +96,7 @@ namespace	menu
     std::vector<net::cBuffer::Byte> buf;
     _TcpLayer->lookRead(buf, 512);
     Application::log << "menu::Client::recvSock(): " << buf.size()
-		     << log::Log::hexDump(buf) << std::endl;
+		     << Log::hexDump(buf) << std::endl;
 #endif
   }
 
@@ -104,7 +106,7 @@ namespace	menu
     std::vector<net::cBuffer::Byte> buf;
     _TcpLayer->lookWrite(buf, 512);
     Application::log << "The client have data to send" << "menu::Client::sendSock(): "
-		     << buf.size() << log::Log::hexDump(buf) << std::endl;
+		     << buf.size() << Log::hexDump(buf) << std::endl;
     // for (std::vector<net::cBuffer::Byte>::iterator it = buf.begin(); it != buf.end(); ++it)
     //   {
     // 	if (!isprint(*it))

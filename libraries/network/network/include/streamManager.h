@@ -13,14 +13,10 @@
 #include <vector>
 #include <exception>
 #include "AMonitorable.h"
-#include "abs_sockets.h"
 
 namespace net
 {
-#if defined(WIN32)
-  EXMP template class ABS_SOCKET_API std::vector<AMonitorable *>;
-#endif
-  class ABS_SOCKET_API streamManager
+  class streamManager
   {
   public:
     enum Opt

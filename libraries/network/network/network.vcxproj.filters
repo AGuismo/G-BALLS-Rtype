@@ -15,9 +15,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\abs_sockets.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
     <ClInclude Include="include\AMonitorable.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>

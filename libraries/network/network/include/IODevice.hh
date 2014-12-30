@@ -1,11 +1,9 @@
 #ifndef IODEVICE_H_
 # define IODEVICE_H_
 
-# include	"abs_sockets.h"
-
 namespace	net
 {
-  class ABS_SOCKET_API IODevice
+  class IODevice
   {
   public:
     virtual ~IODevice() {}

@@ -4,7 +4,7 @@
 #include	"MenuClient.hh"
 #include	"MenuManager.hh"
 #include	"MenuException.hh"
-#include	"sys.hh"
+//#include	"sys.hh"
 #include	"Client.hh"
 #include	"NetException.h"
 #include	"AuthRequest.hh"

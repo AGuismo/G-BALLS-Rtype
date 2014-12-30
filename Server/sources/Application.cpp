@@ -14,7 +14,7 @@
 #include	"Client.hh"
 
 Salt::size_type	Salt::SALT = 42;
-log::Log	Application::log;
+loglib::Log	Application::log;
 
 Application::Application():
   _menuManager(0), _gameManager(0),

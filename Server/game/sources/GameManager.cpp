@@ -15,6 +15,8 @@
 #include	"Callback.hh"
 #include	"Application.hh"
 
+using namespace loglib;
+
 namespace	game
 {
 
@@ -89,7 +91,7 @@ namespace	game
     _server.lookRead(buf, 512);
 #if defined(DEBUG)
     Application::log<< "Manager::getRequest::buf = " << buf.size()
-		    << log::Log::hexDump(buf) << std::endl;
+		    << Log::hexDump(buf) << std::endl;
 #endif
     try
     {

@@ -4,13 +4,11 @@
 #include	<vector>
 #include	<deque>
 #include	<string>
-#include	"abs_sockets.h"
 //#include	"assert.h"
 
-EXMP template class ABS_SOCKET_API std::vector<unsigned char>;
 namespace	net
 {
-  class ABS_SOCKET_API cBuffer
+  class		cBuffer
   {
   public:
     typedef unsigned char				Byte;

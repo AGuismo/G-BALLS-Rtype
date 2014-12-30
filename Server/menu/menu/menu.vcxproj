@@ -39,11 +39,11 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>$(ProjectDir)\..\..\loader\include;$(SolutionDir)\game\include;$(SolutionDir)\..\libraries\protocol\include;$(SolutionDir)\..\libraries\Thread\Threads\include;$(ProjectDir)\..\..\include;$(IncludePath);$(ProjectDir)\..\include;$(SolutionDir)\..\libraries\network\network\include;$(SolutionDir)\..\libraries\Bind\include;$(ProjectDir)\..\..\database\include</IncludePath>
+    <IncludePath>$(ProjectDir)\..\..\loader\include;$(SolutionDir)\game\include;$(SolutionDir)\..\libraries\log\include;$(SolutionDir)\..\libraries\protocol\include;$(SolutionDir)\..\libraries\Thread\Threads\include;$(ProjectDir)\..\..\include;$(IncludePath);$(ProjectDir)\..\include;$(SolutionDir)\..\libraries\network\network\include;$(SolutionDir)\..\libraries\Bind\include;$(ProjectDir)\..\..\database\include</IncludePath>
     <TargetExt>.lib</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IncludePath>$(ProjectDir)\..\..\loader\include;$(SolutionDir)\game\include;$(SolutionDir)\..\libraries\protocol\include;$(SolutionDir)\..\libraries\Thread\Threads\include;$(ProjectDir)\..\..\include;$(IncludePath);$(ProjectDir)\..\include;$(SolutionDir)\..\libraries\network\network\include;$(SolutionDir)\..\libraries\Bind\include;$(ProjectDir)\..\..\database\include</IncludePath>
+    <IncludePath>$(ProjectDir)\..\..\loader\include;$(SolutionDir)\game\include;$(SolutionDir)\..\libraries\log\include;$(SolutionDir)\..\libraries\protocol\include;$(SolutionDir)\..\libraries\Thread\Threads\include;$(ProjectDir)\..\..\include;$(IncludePath);$(ProjectDir)\..\include;$(SolutionDir)\..\libraries\network\network\include;$(SolutionDir)\..\libraries\Bind\include;$(ProjectDir)\..\..\database\include</IncludePath>
     <TargetExt>.lib</TargetExt>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -87,6 +87,9 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\libraries\Bind\Bind.vcxproj">
       <Project>{b0528781-5f02-4c9d-9ddc-c4deaebc7928}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\libraries\log\log\log.vcxproj">
+      <Project>{5a204a93-cabb-4a49-880f-d27bf76b57ef}</Project>
     </ProjectReference>
     <ProjectReference Include="..\..\..\libraries\network\network\network.vcxproj">
       <Project>{42c7e464-716a-4975-83ca-a8445b8abf0e}</Project>

@@ -2,7 +2,6 @@
 
 #include <string>
 #include "ClientAccepted.h"
-#include "abs_sockets.h"
 #if defined(WIN32)
 #include <Ws2tcpip.h>
 #elif defined(linux)
@@ -13,7 +12,7 @@
 
 namespace net
 {
-  class ABS_SOCKET_API TcpClient : public ClientAccepted
+  class TcpClient : public ClientAccepted
   {
   public:
     TcpClient();

@@ -1,8 +1,6 @@
 #ifndef AMONITORABLE_H_
 # define AMONITORABLE_H_
 
-#include "abs_sockets.h"
-
 #if defined(WIN32)
 #include <winsock2.h>
 #elif defined(linux)
@@ -14,7 +12,7 @@
 namespace net
 {
 
-  class  ABS_SOCKET_API AMonitorable
+  class  AMonitorable
   {
   public:
     AMonitorable(bool read = true, bool write = true);

@@ -1,3 +1,7 @@
+#if defined(DEBUG)
+# include	<iostream>
+#endif // !DEBUG
+#include	<ctime>
 #include	<algorithm>
 #include	"GamePool.hh"
 #include	"Game.hh"
@@ -6,9 +10,6 @@
 #include	"Callback.hh"
 #include	"AGameRequest.hh"
 #include	"Application.hh" // Log purpose
-#if defined(DEBUG)
-# include	<iostream>
-#endif // !DEBUG
 
 using namespace game;
 

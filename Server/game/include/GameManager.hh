@@ -1,20 +1,21 @@
 #ifndef GAMEMANAGER_H_
 # define GAMEMANAGER_H_
 
-#if defined(WIN32)
-#include <WinSock2.h>
-#include <time.h>
-#elif defined(linux)
-#include <sys/time.h>
-#else
-# error "Unsupported operating system"
-#endif
+//#if defined(WIN32)
+//#include <WinSock2.h>
+//#include 
+//#elif defined(linux)
+//#include <sys/time.h>
+//#else
+//# error "Unsupported operating system"
+//#endif
 
 # include	<list>
 # include	<map>
 # include	<vector>
+# include	<ctime>
 # include	"Threads.hpp"
-# include	"Clock.h"
+//# include	"Clock.h"
 # include	"UdpServer.h"
 # include	"streamManager.h"
 # include	"Env.hh"
