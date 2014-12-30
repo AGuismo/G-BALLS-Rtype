@@ -27,7 +27,6 @@
 //class	Client;
 class	AGameRequest;
 class	ICallbacks;
-class	Application;
 using	net::cBuffer;
 
 namespace	game
@@ -36,14 +35,15 @@ namespace	game
 
   class Manager
   {
-    typedef Thread::EventQueue<ICallbacks *>	input_event;
-    typedef Thread::EventQueue<ICallbacks *>	output_event;
     typedef void(*request_callback)(ARequest *, Client *, Manager *);
+    typedef Thread::EventQueue<ICallbacks *>			input_event;
+    typedef Thread::EventQueue<IApplicationCallbacks *>		output_event;
     typedef std::map<requestCode::CodeID, request_callback>	request_callback_map;
-    typedef std::list<Client *>			client_vect;
+    typedef std::list<Client *>					client_vect;
+    typedef std::deque<Game *>					game_list;
 
   public:
-    Manager(Application *parent, input_event &input, output_event &output);
+    Manager(input_event &input, output_event &output);
     ~Manager();
 
   public:
@@ -65,7 +65,7 @@ namespace	game
     void		updateCallback();
     void		readData();
     void		writeData();
-	void		updateGameClocks(Clock::clock_time time);
+    void		updateGameClocks(Clock::clock_time time);
 
   private:
     void				getGame();
@@ -86,14 +86,13 @@ namespace	game
     bool				_active;
     Threads<void (*)(Manager *)>	_th;
     Clock				_clock;
-    std::deque<Game *>		_games;
+    game_list				_games;
     input_event				&_input;
     output_event			&_output;
     net::UdpServer			_server;
     net::streamManager			_monitor;
     client_vect				_gameClients;
-    request_callback_map		_requestCallback;
-	Application				*_parent;
+    // request_callback_map		_requestCallback;
 
   private:
     class predicate : public std::unary_function< Client *, bool>

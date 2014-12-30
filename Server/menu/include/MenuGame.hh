@@ -6,7 +6,10 @@
 # include	"types.hh"
 # include	"MenuClient.hh"
 
-class Game;
+// namespace game
+// {
+//   class Game;
+// }
 
 namespace	menu
 {
@@ -39,8 +42,8 @@ namespace	menu
     requestCode::Status		status(void) const;
     void			status(requestCode::Status);
 
-    ::Game			*game(void) const;
-    void			game(::Game *);
+    // game::Game			*game(void) const;
+    // void			game(game::Game *);
 
     Client			*owner() const;
 
@@ -60,7 +63,7 @@ namespace	menu
     bool			_ispassword;
     Ruint8			_maxPlayers;
     requestCode::Status		_status;
-    ::Game			*_game;
+    // ::Game			*_game;
     requestCode::PasswordType	_password;
 
   private:

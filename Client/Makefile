@@ -28,10 +28,11 @@ DIR.BIND=	../libraries/Bind
 DIR.NETWORK=	./network/
 DIR.GAME=	./game/
 DIR.PROTO=	../libraries/protocol
+DIR.SFML=	/usr/local/
 
-DEPS.INC=	-I$(DIR.BIND)/include -I$(DIR.THREAD)/include -I$(DIR.GAME)/include
+DEPS.INC=	-I$(DIR.BIND)/include -I$(DIR.THREAD)/include -I$(DIR.GAME)/include -I$(DIR.SFML)/include
 
-DEPS.LNK=	-lsfml-graphics -lsfml-window -lsfml-system  -lsfml-network -lsfml-audio
+DEPS.LNK=	-L$(DIR.SFML)/lib/ -lsfml-graphics -lsfml-window -lsfml-system  -lsfml-network -lsfml-audio -lGLEW
 DEPS.LNK+=	-L$(DIR.THREAD) -lThread -lpthread
 
 MOD.INC=	-I$(DIR.NETWORK)/include -I$(DIR.PROTO)/include
@@ -40,7 +41,7 @@ MOD.LNK=	-L$(DIR.NETWORK) -lnetwork -L$(DIR.GAME) -lgame -L$(DIR.PROTO) -lprotoc
 
 F.C	     +=	-W -Wall -Werror
 F.I	     += $(MOD.INC) $(DEPS.INC) -I./include
-F.L	     += $(MOD.LNK) $(DEPS.LNK) -Wl,--rpath=$(DIR.THREAD)
+F.L	     += $(MOD.LNK) $(DEPS.LNK) -Wl,--rpath=$(DIR.THREAD):/usr/local/lib
 F.D	     +=
 
 all:		start $(NAME)

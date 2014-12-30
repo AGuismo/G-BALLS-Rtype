@@ -1,6 +1,5 @@
 #include	<algorithm>
 #include	<iostream>
-#include	"Game.h" /*Must be included in first*/
 #include	"Database.hh"
 #include	"MenuClient.hh"
 #include	"MenuManager.hh"
@@ -12,8 +11,6 @@
 #include	"SessionRequest.hh"
 #include	"PartyRequest.hh"
 #include	"ServerRequest.hh"
-#include	"GameClient.hh"
-#include	"Player.h"
 #include	"MenuGame.hh"
 #include	"Callback.hh"
 #include	"Application.hh"
@@ -23,8 +20,8 @@
 
 namespace	menu
 {
-  Manager::Manager(Application *parent, Manager::input_event &input, Manager::output_event &output) :
-    _parent(parent), _th(Func::Bind(&Manager::routine, this)), _active(true),
+  Manager::Manager(Manager::input_event &input, Manager::output_event &output) :
+    _th(Func::Bind(&Manager::routine, this)), _active(true),
     _input(input), _output(output)
   {
     _server.monitor(true, false);
@@ -42,6 +39,12 @@ namespace	menu
 
   Manager::~Manager()
   {
+    _active = false;
+    join();
+    for (game_list::iterator it = _games.begin(); it != _games.end(); ++it)
+      delete *it;
+    for (client_list::iterator it = _clients.begin(); it != _clients.end(); ++it)
+      delete *it;
   }
 
   void	Manager::join()
@@ -75,11 +78,11 @@ namespace	menu
   {
     if (_server.read())
       {
-	::Client	*client = new ::Client(_server.accept());
+	Client		*menuClient = new Client(_server.accept());
 
-	_clients.push_back(&client->menu());
-	_monitor.setMonitor(*(client->menu().TcpLayer()));
-	_output.push(new Callback<Application, ::Client>(_parent, client, &Application::newClient));
+	_clients.push_back(menuClient);
+	_monitor.setMonitor(*(menuClient->TcpLayer()));
+	_output.push(new ApplicationCallback<requestCode::SessionID>(menuClient->sessionID(), &Application::newClient));
       }
   }
 
@@ -155,7 +158,7 @@ namespace	menu
 	  }
       }
     _monitor.unsetMonitor(*client->TcpLayer());
-    client->inUse(false);
+    // client->inUse(false);
   }
 
   void	Manager::updateClients()
@@ -167,8 +170,11 @@ namespace	menu
 	(*it)->update();
 	if ((*it)->isTCPDisconnected())
 	  {
-	    disconnectClient(*it);
+	    Client	*processed = *it;
+	    disconnectClient(processed);
 	    it = _clients.erase(it);
+	    _output.push(new ApplicationCallback<requestCode::SessionID>(processed->sessionID(), &Application::clientDisconnected));
+	    delete processed;
 	    continue;
 	  }
 	clientRequest(*it);
@@ -206,6 +212,10 @@ namespace	menu
       {
 	try
 	  {
+	    struct timeval	def;
+	    def.tv_sec = 1;
+	    def.tv_usec = 0;
+	    self->_monitor.setOption(net::streamManager::TIMEOUT, def);
 	    self->_monitor.run();
 	    self->updateCallback();
 	    self->updateClients();
@@ -223,6 +233,21 @@ namespace	menu
   {
     return (std::find_if(_clients.begin(), _clients.end(),
 			 PredicateClient(clientName)) != _clients.end());
+  }
+
+
+  ////////////////////////
+  // Callback Functions //
+  ////////////////////////
+
+  void		Manager::clientLeaveGame(requestCode::SessionID clientID)
+  {
+    client_list::iterator	itCli = std::find_if(_clients.begin(), _clients.end(),
+						     PredicateClient(clientID));
+    game_list::iterator	itGame = std::find_if(_games.begin(), _games.end(),
+					      PredicateParty((*itCli)->currentGame()->partyName()));
+
+    (*itGame)->delPlayer((*itCli)->username());
   }
 
   void		Manager::endGame(Game *game)
@@ -394,7 +419,7 @@ namespace	menu
 				     PredicateParty(request->_partyName));
 
     if (!client->authenticated() || it == manager->_games.end() ||
-	!(*it)->newPlayer(client) || (*it)->status() == requestCode::party::IN_GAME)
+	!(*it)->newPlayer(client))
       {
 	client->requestPush(new ServerRequest(requestCode::server::FORBIDDEN));
 	delete req;
@@ -476,8 +501,7 @@ namespace	menu
 				     (*it)->maxPlayers(),
 				     (*it)->ispassword() ? requestCode::party::PASS : requestCode::party::NO_PASS,
 				     (*it)->status()));
-    manager->_output.push(new Callback<Application, menu::Game>(manager->_parent, *it,
-								&Application::newGame));
+    manager->_output.push(new ApplicationCallback<menu::Game *>(*it, &Application::newGame));
     delete req;
   }
 
@@ -494,8 +518,7 @@ namespace	menu
       }
     client->requestPush(new ServerRequest(requestCode::server::OK));
     delete req;
-    manager->_output.push(new Callback<Application, Client>(manager->_parent, client,
-							    &Application::stop));
+    manager->_output.push(new ApplicationCallback<Client *>(client, &Application::stop));
   }
 
   //////////////
@@ -522,14 +545,20 @@ namespace	menu
   ///////////////
 
   Manager::PredicateClient::PredicateClient(const std::string &login) :
-    _login(login)
+    _login(login), _id(0) // ID can't be 0
+  {
+
+  }
+
+  Manager::PredicateClient::PredicateClient(const requestCode::SessionID id) :
+    _id(id)
   {
 
   }
 
   bool	Manager::PredicateClient::operator()(const Client *client)
   {
-    return (client->username() == _login);
+    return (client->username() == _login || client->sessionID() == _id);
   }
 
   Manager::PredicateParty::PredicateParty(const std::string &partyName) :

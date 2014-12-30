@@ -2,6 +2,7 @@
 # define EVENT_H_
 
 #include	<deque>
+#include	<vector>
 #include	"ThreadMutex.hh"
 #include	"ThreadCond.hh"
 

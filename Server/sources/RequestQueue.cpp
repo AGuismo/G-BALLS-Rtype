@@ -1,4 +1,5 @@
 #include	"RequestQueue.hh"
+#include	"ARequest.hh"
 
 RequestQueue::RequestQueue()
 {
@@ -7,7 +8,11 @@ RequestQueue::RequestQueue()
 
 RequestQueue::~RequestQueue()
 {
-
+  while (!_queue.empty())
+  {
+    delete _queue.front();
+    _queue.pop();
+  }
 }
 
 ARequest		*RequestQueue::requestPop(void)

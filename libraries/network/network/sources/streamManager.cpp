@@ -111,6 +111,8 @@ void streamManager::run()
 	FD_SET((*it)->getSocket(), &_readMonitor);
       if ((*it)->monitorWrite())
 	FD_SET((*it)->getSocket(), &_writeMonitor);
+      (*it)->read(false);
+      (*it)->write(false);
     }
   if (_optTimeout || _optNonBlocking)
     {
@@ -130,14 +132,10 @@ void streamManager::run()
     }
   for (it = _monitors.begin(); it != _monitors.end(); ++it)
     {
-      if (FD_ISSET((*it)->getSocket(), &_readMonitor))
+      if ((*it)->monitorRead() && FD_ISSET((*it)->getSocket(), &_readMonitor))
 	(*it)->read(true);
-      else
-	(*it)->read(false);
-      if (FD_ISSET((*it)->getSocket(), &_writeMonitor))
+      if ((*it)->monitorWrite() && FD_ISSET((*it)->getSocket(), &_writeMonitor))
 	(*it)->write(true);
-      else
-	(*it)->write(false);
     }
 }
 

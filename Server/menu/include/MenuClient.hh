@@ -24,7 +24,7 @@ namespace	menu
   class Client
   {
   public:
-    Client(requestCode::SessionID &, net::ClientAccepted *clientTcp = 0);
+    Client(net::ClientAccepted *clientTcp = 0);
     virtual ~Client();
 
   private:
@@ -69,16 +69,11 @@ namespace	menu
     void				authenticated(bool);
     bool				authenticated(void) const;
 
-  public:
-    bool	inUse(void) const {return (_used);};
-    void	inUse(bool used) {_used = used;};
-
   private:
-    bool			_used;
     RequestQueue		_input;
     RequestQueue		_output;
     net::ClientAccepted		*_TcpLayer;
-    requestCode::SessionID	&_id;
+    requestCode::SessionID	_id;
     Game			*_game;
 
   private:

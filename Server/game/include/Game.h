@@ -17,64 +17,66 @@
 
 class Event;
 class TIMER;
-class Referee;
-class Missile;
-class Entity;
-class Ia;
-class Boss;
 
 namespace	game
 {
+  class		Ia;
+  class		Boss;
+  class		Referee;
+  class		Missile;
+  class		Entity;
   class		Player;
   class		ABonus;
 }
 
 typedef	Ruint16	ID;
-
-class Game
+namespace game
 {
-public:
-  typedef std::list<game::Client *>	client_list;
-public:
-  Game(std::list<game::Client *> &players);
-  ~Game();
-  bool	update();
-  ID   &UniqueId();
-  void	pushMissile(Missile *missile);
-  void	pushRequest(ARequest *req);
-  void	randBonnus(Entity &a);
-  void	timer(struct timeval t);
-  struct timeval &timer();
-  client_list	&clients();
-  void  launchGametime(int t) { _launchGameTime = t; }
-  int	launchGameTime(void) const { return _launchGameTime; }
- 
-private:
-  void iaUpdate();
-  void entityUpdate();
-  void missileUpdate();
-  void bossUpdate();
-  void wallUpdate();
-  bool playerUpdate();
-  void bonusUpdate();
-  void DispatchRequest();
-  void popIA();
-  void popWall();
+  class Game
+  {
+  public:
+    typedef std::list<Client *>	client_list;
+  public:
+    Game(std::list<Client *> &players);
+    ~Game();
+    bool	update();
+    ID		&UniqueId();
+    void	pushMissile(Missile *missile);
+    void	pushRequest(ARequest *req);
+    void	randBonnus(Entity &a);
+    void	timer(struct timeval t);
+    struct timeval &timer();
+    client_list	&clients();
+    void	launchGametime(int t) { _launchGameTime = t; }
+    int		launchGameTime(void) const { return _launchGameTime; }
 
-private:
-  client_list	_players;
-  std::list<Ia *>		_IA;
-  std::list<Entity *>		_objs;
-  std::list<Missile *>		_missiles;
-  std::list<game::ABonus *>	_bonus;
-  std::list<Boss *>		_titans;
-  Boss				*_titan;
-  game::Clock		_clock;
-  struct timeval	_timer;
-  RequestQueue		_toSend;
-  ID				incremental;
-  int				_launchGameTime;
-  bool				_isFinished;
+  private:
+    void iaUpdate();
+    void entityUpdate();
+    void missileUpdate();
+    void bossUpdate();
+    void wallUpdate();
+    bool playerUpdate();
+    void bonusUpdate();
+    void DispatchRequest();
+    void popIA();
+    void popWall();
 
-  friend class ::Referee;
-};
+  private:
+    client_list			_players;
+    std::list<Ia *>		_IA;
+    std::list<Entity *>		_objs;
+    std::list<Missile *>	_missiles;
+    std::list<game::ABonus *>	_bonus;
+    std::list<Boss *>		_titans;
+    Boss			*_titan;
+    game::Clock			_clock;
+    struct timeval		_timer;
+    RequestQueue		_toSend;
+    ID				incremental;
+    int				_launchGameTime;
+    bool			_isFinished;
+
+    friend class Referee;
+  };
+}

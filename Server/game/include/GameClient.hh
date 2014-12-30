@@ -14,14 +14,13 @@
 # include	"RequestCode.hh"
 
 class		ARequest;
-
-class		Game;
 class		Missile;
 class		Referee;
 
 namespace	game
 {
   class		Player;
+  class		Game;
 }
 
 namespace	game
@@ -31,8 +30,8 @@ namespace	game
     /*typedef void(*request_callback)(ARequest *, Client *);
       typedef std::map<requestCode::CodeID, request_callback> request_callback_map;*/
   public:
-    Client(requestCode::SessionID &);
-    Client(requestCode::SessionID &, struct sockaddr_in addr);
+    Client(requestCode::SessionID);
+    Client(requestCode::SessionID, struct sockaddr_in addr);
     virtual ~Client();
 
   public:
@@ -43,22 +42,22 @@ namespace	game
     Client(Client const&);
     Client& operator=(Client const&);
 
-  public:
-    bool			inUse(void) const {return (_used);};
-    void			inUse(bool used) {_used = used;};
+    // public:
+    //   bool			inUse(void) const {return (_used);};
+    //   void			inUse(bool used) {_used = used;};
 
   public:
-    ARequest		*requestPop();
-    ARequest		*requestPopOutput();
+    ARequest			*requestPop();
+    ARequest			*requestPopOutput();
     void			requestPushInput(ARequest *req);
     void			requestPush(ARequest *req);
 
   public:
-    requestCode::SessionID	SessionID() const;
+    requestCode::SessionID	sessionID() const;
+    void			sessionID(const requestCode::SessionID);
     void			alive(const bool &state);
     bool			alive() const ;
     void			hasLeft(const bool &state);
-    void			SessionID(const requestCode::SessionID);
 
   public:
     void			game(Game *game);
@@ -66,11 +65,11 @@ namespace	game
     void			player(game::Player *player);
     game::Player		*player(void) const;
 
-    struct sockaddr_in getAddr() const { return _addr; };
+    struct sockaddr_in		getAddr() const { return _addr; };
     void			setAddr(struct sockaddr_in addr) { _addr = addr; };
     bool			hasLeft() const { return _hasLeft; };
-	bool			hasJoin() const { return _hasJoin; };
-	void			hasJoin(bool b) { _hasJoin = b; };
+    bool			hasJoin() const { return _hasJoin; };
+    void			hasJoin(bool b) { _hasJoin = b; };
 
   private:
     game::Player		*_player;
@@ -79,7 +78,6 @@ namespace	game
 
   private:
     bool			_hasLeft;
-    bool			_used;
     bool			_hasJoin;
     RequestQueue		_input;
     RequestQueue		_output;
@@ -87,10 +85,10 @@ namespace	game
 
   private:
     struct sockaddr_in		_addr;
-    requestCode::SessionID	&_id;
+    requestCode::SessionID	_id;
 
-    friend class ::Game;
-    friend class ::Referee;
+    friend class Game;
+    friend class Referee;
   };
 }
 

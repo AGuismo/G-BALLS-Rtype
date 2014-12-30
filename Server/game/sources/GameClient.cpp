@@ -11,9 +11,9 @@
 
 namespace	game
 {
-  Client::Client(requestCode::SessionID &id) :
+  Client::Client(requestCode::SessionID id) :
     _player(0), _alive(true), _updateToLive(0), _hasLeft(false),
-    _used(false), _hasJoin(false), _id(id)
+    _hasJoin(false), _id(id) // _used(false),
 
   {
 #if defined(DEBUG)
@@ -21,9 +21,9 @@ namespace	game
 #endif
   }
 
-  Client::Client(requestCode::SessionID &id, struct sockaddr_in addr) :
+  Client::Client(requestCode::SessionID id, struct sockaddr_in addr) :
     _player(0), _alive(true), _updateToLive(0), _hasLeft(false),
-    _used(false), _hasJoin(false),
+    _hasJoin(false), // _used(false),
     _addr(addr), _id(id)
   {
 #if defined(DEBUG)
@@ -50,7 +50,7 @@ namespace	game
     _hasLeft = state;
   }
 
-  void		Client::update(Game &game)
+  void		Client::update(game::Game &game)
   {
     ARequest	*req;
     bool	move = false;
@@ -61,6 +61,7 @@ namespace	game
       EventRequest	*ev;
       AliveRequest	*al;
       LeaveRequest	*lv;
+
       if ((ev = dynamic_cast<EventRequest *>(req)) && _alive)
       {
 	_updateToLive = -1;
@@ -131,12 +132,12 @@ namespace	game
     _output.requestPush(req);
   }
 
-  requestCode::SessionID	Client::SessionID() const
+  requestCode::SessionID	Client::sessionID() const
   {
     return (_id);
   }
 
-  void				Client::SessionID(const requestCode::SessionID id)
+  void				Client::sessionID(const requestCode::SessionID id)
   {
     _id = id;
   }

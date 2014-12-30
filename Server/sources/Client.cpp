@@ -1,50 +1,25 @@
 #include	<iostream>
+#include	"MenuClient.hh"
+#include	"GameClient.hh"
 #include	"ClientAccepted.h"
 #include	"ARequest.hh"
 #include	"Client.hh"
 
-Client::Client(net::ClientAccepted *clientTcp):
-  _menu(_id, clientTcp), _game(_id, clientTcp->_addr)
+Client::Client():
+  _id(0), _state(NONE)
 {
-  _menu.inUse(true);
-  _game.inUse(false);
+}
+
+Client::Client(requestCode::SessionID id, State st):
+  _id(id), _state(st)
+{
 }
 
 Client::~Client()
 {
 }
 
-void	Client::update()
-{
-
-}
-
-bool	Client::isUse() const
-{
-  return (_menu.inUse() || _game.inUse());
-}
-
-const menu::Client		&Client::menu() const
-{
-  return (_menu);
-}
-
-const game::Client		&Client::game() const
-{
-  return (_game);
-}
-
-menu::Client		&Client::menu()
-{
-  return (_menu);
-}
-
-game::Client		&Client::game()
-{
-  return (_game);
-}
-
-requestCode::SessionID	&Client::id()
+const requestCode::SessionID	&Client::id() const
 {
   return _id;
 }
@@ -52,4 +27,21 @@ requestCode::SessionID	&Client::id()
 void	Client::id(requestCode::SessionID id)
 {
   _id = id;
+}
+
+Client::State			Client::state() const
+{
+  return (_state);
+}
+
+void				Client::state(State st)
+{
+  _state = st;
+}
+
+requestCode::SessionID		Client::generateUniqueID()
+{
+  static requestCode::SessionID	id = 1;
+
+  return (id++);
 }
