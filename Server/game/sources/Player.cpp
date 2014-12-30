@@ -7,7 +7,7 @@
 namespace	game
 {
 	Player::Player(const std::vector<game::Pos> &pos, ID id, Type t) :
-		Entity(requestCode::game::server::PLAYER , pos, 1, EAST, id), _pow(0), _extraLife(false), _typePlayer(t)
+	  Entity(t, pos, 1, EAST, id), _pow(0), _extraLife(false), _typePlayer(t)
   {
 #if defined(DEBUG)
     Application::log << "A new character is comming" << std::endl;

@@ -434,9 +434,9 @@ namespace game
       t++;
 #if defined(DEBUG)
       Application::log << "game::Game::prepareGame() - Game " << this
-		<< ", create player " << (*it)->player()->id()
-		<< " at pos (" << pos % rtype::Env::getInstance().game.mapSize
-		<< ", " << pos / rtype::Env::getInstance().game.mapSize << ")" << std::endl;
+		       << ", create player " << (*it)->player()->id()
+		       << " at pos (" << pos % rtype::Env::getInstance().game.mapSize
+		       << ", " << pos / rtype::Env::getInstance().game.mapSize << ")" << std::endl;
 #endif // !DEBUG
     }
     _titan = NULL;
@@ -477,7 +477,7 @@ namespace game
     else
     {
       Application::log << "Game::update() - Game " << this << ", " << _attempsClientConfirmation
-		<< " before cancellation" << std::endl;
+		       << " before cancellation" << std::endl;
 #endif // !DEBUG
     }
   }
@@ -522,7 +522,8 @@ namespace game
 
       buf = Protocol::product(req);
       std::copy(buf.begin(), buf.end(), data);
-      _parent->parent()->server().directWrite(data, buf.size(), (*it)->getAddr());
+      if ((*it)->hasJoin())
+	_parent->parent()->server().directWrite(data, buf.size(), (*it)->getAddr());
     }
   }
 
@@ -539,7 +540,7 @@ namespace game
     {
       const Player	*p = (*it)->player();
 
-      send(ElemRequest(requestCode::game::server::PLAYER, p->_pos[0], p->_dir, p->_id));
+      send(ElemRequest(p->_type, p->_pos[0], p->_dir, p->_id));
     }
 
     for (ia_list::const_iterator it = _IA.begin(); it != _IA.end(); it++)
