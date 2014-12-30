@@ -57,53 +57,53 @@ namespace	game
     bool	fire = false;
 
     while ((req = _input.requestPop()) != 0)
+    {
+      EventRequest	*ev;
+      AliveRequest	*al;
+      LeaveRequest	*lv;
+      if ((ev = dynamic_cast<EventRequest *>(req)) && _alive)
       {
-	EventRequest	*ev;
-	AliveRequest	*al;
-	LeaveRequest	*lv;
-	if ((ev = dynamic_cast<EventRequest *>(req)) && _alive)
-	  {
-		_updateToLive = -1;
-	    if (ev->event() == 0 && !move)
-	      {
-			move = true;
-			_player->move(ev->param());
-			if (Referee::isCollision(_player, game) || !Referee::isOnScreen(_player))
-			  {
-				_alive = false;
-				game.pushRequest(new DeathRequest(_id));
-			  }
-			else
-				game.pushRequest(new ElemRequest(requestCode::game::server::PLAYER,
-							   _player->_pos[0], _player->_dir, _player->_id));
-	      }
-	    else if (!fire)
-	      {
-		Missile *missile = _player->fire(game, false);
-		game.pushMissile(missile);
-		fire = true;
-		game.pushRequest(new ElemRequest(requestCode::game::server::MISSILE,
-						 missile->pos()[0], missile->dir(), missile->id()));
-	      }
-	  }
-	else if ((al = dynamic_cast<AliveRequest *>(req)))
-	  {
-	    _updateToLive = -1;
-	  }
-	else if ((lv = dynamic_cast<LeaveRequest *>(req)))
+	_updateToLive = -1;
+	if (ev->event() == 0 && !move)
+	{
+	  move = true;
+	  _player->move(ev->param());
+	  if (Referee::isCollision(_player, game) || !Referee::isOnScreen(_player))
 	  {
 	    _alive = false;
-	    _hasLeft = true;
-	    game.pushRequest(new DeathRequest(_player->_id));
+	    game.pushRequest(new DeathRequest(_id));
 	  }
+	  else
+	    game.pushRequest(new ElemRequest(requestCode::game::server::PLAYER,
+					     _player->_pos[0], _player->_dir, _player->_id));
+	}
+	else if (!fire)
+	{
+	  Missile *missile = _player->fire(game, false);
+	  game.pushMissile(missile);
+	  fire = true;
+	  game.pushRequest(new ElemRequest(requestCode::game::server::MISSILE,
+					   missile->pos()[0], missile->dir(), missile->id()));
+	}
       }
-    _updateToLive++;
-	if (_updateToLive == rtype::Env::getInstance().game.updateToLive)
+      else if ((al = dynamic_cast<AliveRequest *>(req)))
+      {
+	_updateToLive = -1;
+      }
+      else if ((lv = dynamic_cast<LeaveRequest *>(req)))
       {
 	_alive = false;
 	_hasLeft = true;
 	game.pushRequest(new DeathRequest(_player->_id));
       }
+    }
+    _updateToLive++;
+    if (_updateToLive == rtype::Env::getInstance().game.updateToLive)
+    {
+      _alive = false;
+      _hasLeft = true;
+      game.pushRequest(new DeathRequest(_player->_id));
+    }
   }
 
   void	Client::finalize()

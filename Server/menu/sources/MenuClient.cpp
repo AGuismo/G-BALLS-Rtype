@@ -2,12 +2,12 @@
 #include	<stdio.h>
 #endif
 #include	<iostream>
+#include	<ctype.h>
 #include	"ClientAccepted.h"
 #include	"MenuClient.hh"
 #include	"cBuffer.h"
 #include	"Protocol.hpp"
 #include	"NetException.h"
-#include	<ctype.h>
 
 namespace	menu
 {

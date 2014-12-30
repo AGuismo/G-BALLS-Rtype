@@ -24,12 +24,13 @@ SRCS =	      	GameManager.cpp		\
 		Referee.cpp		\
 		Time.cpp		\
 
-DIR.THREADS=	../deps/Threads
-DIR.NET=	../deps/network
-DIR.BIND=	../deps/Bind
+DIR.DEPS=	../../libraries/
+DIR.THREADS=	./$(DIR.DEPS)/Thread/Threads/
+DIR.NET=	./$(DIR.DEPS)/network/network/
+DIR.BIND=	./$(DIR.DEPS)/Bind
+DIR.PROT=	./$(DIR.DEPS)/protocol/
 DIR.MENU=	../menu/
 DIR.LOADER=	../loader/
-DIR.PROT=	../deps/protocol/
 DIR.IAAPI=	../../bots/API/
 
 F.C	     +=	-W -Wall 

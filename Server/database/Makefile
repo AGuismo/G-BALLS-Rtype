@@ -6,8 +6,8 @@
 
 NAME	     ?=	libdb.a
 
-THREAD.DIR	=	../deps/Threads
-PROTOCOL.DIR	=	../deps/protocol
+THREAD.DIR	=	../../libraries/Thread/Threads
+PROTOCOL.DIR	=	../../libraries/protocol
 
 SRCS =	      	Backup.cpp		\
 		MD5.cpp			\

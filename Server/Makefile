@@ -11,14 +11,15 @@ SRCS =	      	main.cpp		\
 DIR.GAME=	./game/
 DIR.MENU=	./menu/
 DIR.LOAD=	./loader/
-DIR.DEPS=	./deps/
+DIR.DEPS=	../libraries
 DIR.PROT=	./$(DIR.DEPS)/protocol/
-DIR.NET=	./$(DIR.DEPS)/network/
-DIR.THREAD=	./$(DIR.DEPS)/Threads/
+DIR.NET=	./$(DIR.DEPS)/network/network/
+DIR.THREAD=	./$(DIR.DEPS)/Thread/Threads/
+DIR.BIND=	./$(DIR.DEPS)/Bind/
 DIR.DAT=	./database/
 DIR.IAAPI=	./../bots/API
 
-DEPS.INC=	-I$(DIR.DEPS)/network/include -I$(DIR.DEPS)/Threads/include -I$(DIR.DEPS)/Bind/include
+DEPS.INC=	-I$(DIR.NET)/include -I$(DIR.THREAD)/include -I$(DIR.BIND)/include
 DEPS.INC+=	-I$(DIR.IAAPI)/include
 
 DEPS.LNK=	-L$(DIR.NET) -lnetwork -L$(DIR.THREAD) -lThread -lpthread -ldl

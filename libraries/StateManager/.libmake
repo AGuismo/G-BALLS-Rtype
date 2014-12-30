@@ -6,7 +6,7 @@
 ## Login   <barato_j@epitech.net>
 ##
 ## Started on  Fri Apr 26 18:09:49 2013 jules baratoux
-## Last update Tue Jun 11 21:28:37 2013 lambert kevin
+## Last update Sat Nov 23 21:28:16 2013 lambert kevin
 ##
 ## ┌───────────────────────────────────────────────────────────────────────────┐
 ## │                            MAKEFILE LIBRARY                               │
@@ -68,17 +68,15 @@ DEPS          = $(OBJS:.o=.d)
 
 start:          $(PREQ)
 
-ifeq ($(LD), $(AR))
-compile:	$(OBJS)
+lib_compile:	$(OBJS)
 		$(ECHO) "options" $(F.C) $(F.D) "\n"
-		$(ECHO) $(LD) $(F.L) $(wordlist 1,4, $(notdir $(OBJS)))"..."
-		@$(LD) $(NAME) $(F.L) $(OBJS)
-else
+		$(ECHO) ar rcs $(F.L) $(wordlist 1,4, $(notdir $(OBJS)))"..."
+		@ar rcs $(NAME) $(F.L) $(OBJS)
+
 compile:	$(OBJS)
 		$(ECHO) "options" $(F.C) $(F.D) "\n"
 		$(ECHO) $(LD) $(F.L) $(wordlist 1,4, $(notdir $(OBJS)))"..."
 		@$(LD) $(OBJS) $(F.L) -o $(NAME)
-endif
 
 remove_objects:
 		$(ECHO) rm $(wordlist 1,4, $(notdir $(OBJS)))"..."

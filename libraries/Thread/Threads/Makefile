@@ -10,7 +10,7 @@ SRCS =	      	ThreadCond.cpp	\
 		ThreadMutex.cpp	\
 
 F.C	     +=	-W -Wall  -fPIC
-F.I	     +=	-I $(DIR.H) -I./deps/Bind/include
+F.I	     +=	-I $(DIR.H) -I./../../Bind/include
 F.L	     += -lpthread -shared
 F.D	     += -DNDEBUG
 
