@@ -1,8 +1,8 @@
 #ifndef CHECK_FILE_ABSTRACT
 # define	CHECK_FILE_ABSTRACT
 
-#include	"ICheckFileAbstract.h"
 #include	<map>
+#include	"ICheckFileAbstract.h"
 
 #ifdef WIN32 
 

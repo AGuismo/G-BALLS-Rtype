@@ -2,6 +2,7 @@
 #include	<stdio.h>
 #endif
 #include	<iostream>
+#include	<ctype.h>
 #include	"ClientAccepted.h"
 #include	"MenuClient.hh"
 #include	"Client.hh"
@@ -9,7 +10,6 @@
 #include	"Protocol.hpp"
 #include	"NetException.h"
 #include	"Application.hh"
-#include	<ctype.h>
 
 namespace	menu
 {

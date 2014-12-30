@@ -12,10 +12,11 @@ SRCS =	      	LoaderManager.cpp	\
 		CheckFileAbstract.cpp	\
 		DynamicAbstract.cpp	\
 
-DIR.THREADS=	../deps/Threads
-DIR.BIND=	../deps/Bind
-DIR.LOG=	../deps/log
-DIR.PROTO=	../deps/protocol
+DIR.DEPS=	../../libraries/
+DIR.LOG=	./$(DIR.DEPS)/log
+DIR.THREADS=	./$(DIR.DEPS)/Thread/Threads
+DIR.BIND=	./$(DIR.DEPS)/Bind
+DIR.PROTO=	./$(DIR.DEPS)/protocol
 DIR.IAAPI=	../../bots/API/
 
 F.C	     +=	-W -Wall 

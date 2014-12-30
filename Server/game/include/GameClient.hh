@@ -13,15 +13,15 @@
 # include	"RequestQueue.hh"
 # include	"RequestCode.hh"
 
+class		ARequest;
 
 namespace	game
 {
   class		Player;
   class		Game;
   class		GamePool;
-  // class		ARequest;
-  // class		Missile;
-  // class		Referee;
+  class		Missile;
+  class		Referee;
 
   class Client
   {

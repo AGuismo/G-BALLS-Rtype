@@ -2,9 +2,9 @@ NAME	     ?=	root
 
 SRCS =	      	main.cpp		\
 
-DIR.DEPS=	./../deps
+DIR.DEPS=	./../../libraries/
 DIR.PROT=	$(DIR.DEPS)/protocol/
-DIR.NET=	$(DIR.DEPS)/network/
+DIR.NET=	$(DIR.DEPS)/network/network/
 DIR.DB=		../database/
 
 DEPS.INC=	-I$(DIR.NET)/include
