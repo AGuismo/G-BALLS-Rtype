@@ -20,6 +20,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "R-Type", "R-Type\R-Type.vcx
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Protocol", "..\libraries\protocol\Protocol\Protocol.vcxproj", "{D69A5C00-CD7C-4BA7-A23E-4D2BB1D8B76C}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Referee", "Referee\Referee.vcxproj", "{76458539-62E9-412A-87C1-7621EE985A5D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		compileTests|Win32 = compileTests|Win32
@@ -112,6 +114,22 @@ Global
 		{D69A5C00-CD7C-4BA7-A23E-4D2BB1D8B76C}.testEvent|Win32.Build.0 = Release|Win32
 		{D69A5C00-CD7C-4BA7-A23E-4D2BB1D8B76C}.testThreadPool|Win32.ActiveCfg = Release|Win32
 		{D69A5C00-CD7C-4BA7-A23E-4D2BB1D8B76C}.testThreadPool|Win32.Build.0 = Release|Win32
+		{76458539-62E9-412A-87C1-7621EE985A5D}.compileTests|Win32.ActiveCfg = Release|Win32
+		{76458539-62E9-412A-87C1-7621EE985A5D}.compileTests|Win32.Build.0 = Release|Win32
+		{76458539-62E9-412A-87C1-7621EE985A5D}.Debug Static|Win32.ActiveCfg = Debug|Win32
+		{76458539-62E9-412A-87C1-7621EE985A5D}.Debug Static|Win32.Build.0 = Debug|Win32
+		{76458539-62E9-412A-87C1-7621EE985A5D}.Debug|Win32.ActiveCfg = Debug|Win32
+		{76458539-62E9-412A-87C1-7621EE985A5D}.Debug|Win32.Build.0 = Debug|Win32
+		{76458539-62E9-412A-87C1-7621EE985A5D}.Release Static|Win32.ActiveCfg = Release|Win32
+		{76458539-62E9-412A-87C1-7621EE985A5D}.Release Static|Win32.Build.0 = Release|Win32
+		{76458539-62E9-412A-87C1-7621EE985A5D}.Release|Win32.ActiveCfg = Release|Win32
+		{76458539-62E9-412A-87C1-7621EE985A5D}.Release|Win32.Build.0 = Release|Win32
+		{76458539-62E9-412A-87C1-7621EE985A5D}.testConsumer|Win32.ActiveCfg = Release|Win32
+		{76458539-62E9-412A-87C1-7621EE985A5D}.testConsumer|Win32.Build.0 = Release|Win32
+		{76458539-62E9-412A-87C1-7621EE985A5D}.testEvent|Win32.ActiveCfg = Release|Win32
+		{76458539-62E9-412A-87C1-7621EE985A5D}.testEvent|Win32.Build.0 = Release|Win32
+		{76458539-62E9-412A-87C1-7621EE985A5D}.testThreadPool|Win32.ActiveCfg = Release|Win32
+		{76458539-62E9-412A-87C1-7621EE985A5D}.testThreadPool|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
