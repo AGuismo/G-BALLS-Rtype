@@ -1,0 +1,89 @@
+## ┌───────────────────────────────────────────────────────────────────────────┐
+## │                                MAKEFILE                                   │
+## └───────────────────────────────────────────────────────────────────────────┘
+
+
+
+NAME	     ?=	libnetwork.a
+
+SRCS =	      	NetworkManager.cpp
+
+DIR.THREAD=	../../libraries/Thread/Threads
+DIR.NET=	../../libraries/network/network
+DIR.SRV=	../../Server/
+DIR.BIND=	../../libraries/Bind
+DIR.PROT=	../../libraries/protocol
+DIR.SFML=	/usr/local/
+
+F.C	     +=	-W -Wall 
+F.I	     +=	-I$(DIR.H) -I$(DIR.BIND)/include -I$(DIR.THREAD)/include -I../include
+F.I	     += -I$(DIR.PROT)/include -I$(DIR.NET)/include -I$(DIR.SRV)/include
+F.I	     += -I$(DIR.SFML)/include
+F.D	     +=
+
+
+all:		start $(NAME)
+
+$(NAME):	lib_compile
+
+clean:		remove_objects
+
+fclean:		clean remove_name
+
+re:		fclean all
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+include .libmake
