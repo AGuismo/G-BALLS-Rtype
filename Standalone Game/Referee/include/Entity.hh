@@ -45,7 +45,16 @@ public:
 	bool	isMoveable() const;
 
 public:
-	// get, set
+	type			getType() const;
+	void			setType(const type &t);
+	unsigned short	getID() const;
+	void			setID(unsigned short ID);
+	Position		getPosition() const;
+	void			setPosition(const Position &pos);
+	unsigned short	getHeight() const;
+	void			setHeight(unsigned short Height);
+	unsigned short	getWidth() const;
+	void			setWidth(unsigned short Width);
 
 protected:
 	type			_type;

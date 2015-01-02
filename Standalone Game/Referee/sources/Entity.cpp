@@ -44,3 +44,52 @@ Entity::type	Entity::createType(Entity::majortype maj, Entity::minortype min)
 	t.desc.min = min;
 	return (t);
 }
+
+Entity::type	Entity::getType() const
+{
+	return (_type);
+}
+
+void			Entity::setType(const type &t)
+{
+	_type = t;
+}
+
+unsigned short	Entity::getID() const
+{
+	return (_id);
+}
+void			Entity::setID(unsigned short ID)
+{
+	_id = ID;
+}
+
+Position		Entity::getPosition() const
+{
+	return (_p);
+}
+
+void			Entity::setPosition(const Position &pos)
+{
+	_p = pos;
+}
+
+unsigned short	Entity::getHeight() const
+{
+	return (_height);
+}
+
+void			Entity::setHeight(unsigned short Height)
+{
+	_height = Height;
+}
+
+unsigned short	Entity::getWidth() const
+{
+	return (_width);
+}
+
+void			Entity::setWidth(unsigned short Width)
+{
+	_width = Width;
+}

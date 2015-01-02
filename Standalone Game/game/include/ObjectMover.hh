@@ -14,11 +14,19 @@ public:
 	ObjectMover		&operator=(const ObjectMover &src);
 
 public:
-	Entity		&getEntity();
-	Animation	&getAnimation();
+	void			update();
+
+public:
+	Entity			&getEntity();
+	Animation		&getAnimation();
+	sf::Vector2f	getCurrentPos() const;
 
 private:
-	Entity		_entity;
-	Animation	_animations;
+	Entity			_entity;
+	Animation		_animations;
+
+	sf::Vector2f	_previousPos;
+	sf::Vector2f	_currentPos;
+	sf::Vector2f	_nextPos;
 };
 

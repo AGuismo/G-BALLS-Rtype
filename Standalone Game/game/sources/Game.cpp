@@ -131,7 +131,7 @@ void							Game::run(void)
 	_gameWindow->setKeyRepeatEnabled(true);
 
 	AudioManager::getInstance().play(AGAME_MUSIC);
-	_objects[1] = ObjectFactory::getInstance().createObject(Entity::createType(Entity::PLAYER, 1), 1, Position(50, 50, Position::EAST));
+	_objects[1] = ObjectFactory::getInstance().createObject(Entity::createType(Entity::PLAYER, 1), 1, Position(250, 250, Position::EAST));
 
 	while (_gameWindow->isOpen())
 	{
@@ -240,8 +240,9 @@ void							Game::drawObjects(void)
 	for (obj_map_type::const_iterator it = _objects.begin(); it != _objects.end(); ++it)
 	{
 		const sf::Texture	&texture = it->second->getAnimation().getFrame();
-		const sf::Sprite	sprite(texture);
+		sf::Sprite	sprite(texture);
 
+		sprite.setPosition(it->second->getCurrentPos());
 		_gameWindow->draw(sprite);
 	}
 }

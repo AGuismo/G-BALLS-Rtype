@@ -27,9 +27,9 @@ public:
 	Position	&operator=(const Position &src);
 
 public:
-	inline pos		x() const;
-	inline pos		y() const;
-	inline dir		direction() const;
+	pos		x() const;
+	pos		y() const;
+	dir		direction() const;
 
 	inline void		x(pos x);
 	inline void		y(pos y);
