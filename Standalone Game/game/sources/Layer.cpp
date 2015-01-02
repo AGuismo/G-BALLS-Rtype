@@ -1,4 +1,4 @@
-#include		"Layer.h"
+#include		"Layer.hh"
 #include		<iostream>
 
 void						Layer::draw(void)
@@ -35,7 +35,7 @@ void						Layer::disable(void)
 	_lEnabled = false;
 }
 
-Layer::Layer(int id, sf::Texture *lText, const sf::Vector2f &lInit,
+Layer::Layer(int id, const sf::Texture &lText, const sf::Vector2f &lInit,
 	     const sf::Vector2f &lReset, const sf::Vector2f &lLim,
 	     const sf::Vector2f &lInc, Timer *lT, sf::RenderWindow *gWindow, bool lEn) :
   _lCurPos(lInit), _lInitPos(lReset), _lResetPos(lReset), _lLimPos(lLim), _lIncrement(lInc)
@@ -50,5 +50,5 @@ Layer::Layer(int id, sf::Texture *lText, const sf::Vector2f &lInit,
 	_lTime = lT;
 	_gameWindow = gWindow;
 	_lEnabled = lEn;
-	_lSprite.setTexture(*_lTexture);
+	_lSprite.setTexture(_lTexture);
 }

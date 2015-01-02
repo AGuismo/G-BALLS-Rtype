@@ -1,0 +1,73 @@
+#ifndef GAME
+# define	GAME
+
+#include	<map>
+#include	"TextureManager.hh"
+#include	"LayerManager.hh"
+#include	"AudioManager.hh"
+#include	"ObjectFactory.hh"
+
+class ARequest;
+class ObjectMover;
+
+class Game
+{
+private:
+  typedef std::map<unsigned short, ObjectMover *>	obj_map_type;
+  typedef void	(Game::*game_callback)(const ARequest *);
+  typedef std::map<requestCode::CodeID, game_callback>	callback_map;
+
+  struct Texture
+  {
+	  std::string					ImagePath;
+	  game::TextureManager::Key	TextureCode;
+	  sf::IntRect					pos;
+
+	  Texture(const std::string &ImagePath, const game::TextureManager::Key &TextureCode, const sf::IntRect &pos) :
+		  ImagePath(ImagePath), TextureCode(TextureCode), pos(pos) {}
+  };
+
+private:
+	LayerManager				_layerManager;
+	obj_map_type				_objects;
+	unsigned short				_idPlayer;
+	sf::RenderWindow			*_gameWindow;
+	sf::Event					*_event;
+	game::TextureManager		_textureManager;
+	callback_map				_map;
+
+private:
+  void						drawObjects(void);
+  void						cleanObjects(void);
+
+private:
+  void						cleanGame(void);
+
+public:
+  bool						updateObj(game::Type type, game::Dir lDir, int id, int pos);
+  bool						addObj(game::Type type, int id, int pos);
+  bool						delObj(int id);
+
+public:
+  bool						load(void);
+  void						run(void);
+
+private:
+  void					elem(const ARequest *req);
+  void					death(const ARequest *req);
+  void					buff(const ARequest *req);
+  void					score(const ARequest *req);
+  void					victory(const ARequest *req);
+  void					loose(const ARequest *req);
+  void					nextStage(const ARequest *req);
+
+public:
+  Game(sf::RenderWindow *gameWindow, sf::Event *event);
+  ~Game();
+
+private:
+  Game(const Game &);
+  Game					operator=(const Game &);
+};
+
+#endif // !GAME

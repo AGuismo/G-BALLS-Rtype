@@ -18,36 +18,45 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Entity.hh">
+    <ClInclude Include="include\Destructible.hh">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Position.hh">
+    <ClInclude Include="include\Entity.hh">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Moveable.hh">
+    <ClInclude Include="include\Moveable.hh">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Destructible.hh">
+    <ClInclude Include="include\Player.hh">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Player.hh">
+    <ClInclude Include="include\Position.hh">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Referee.hh">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Rules.hh">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Entity.cpp">
+    <ClCompile Include="sources\Destructible.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Position.cpp">
+    <ClCompile Include="sources\Entity.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Moveable.cpp">
+    <ClCompile Include="sources\Moveable.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Destructible.cpp">
+    <ClCompile Include="sources\Player.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Player.cpp">
+    <ClCompile Include="sources\Position.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\Referee.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

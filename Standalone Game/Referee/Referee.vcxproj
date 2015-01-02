@@ -39,7 +39,12 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <IncludePath>$(ProjectDir)/include;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <IncludePath>$(ProjectDir)/include;$(IncludePath)</IncludePath>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <PrecompiledHeader>
@@ -76,18 +81,21 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Destructible.hh" />
-    <ClInclude Include="Entity.hh" />
-    <ClInclude Include="Moveable.hh" />
-    <ClInclude Include="Player.hh" />
-    <ClInclude Include="Position.hh" />
+    <ClInclude Include="include\Destructible.hh" />
+    <ClInclude Include="include\Entity.hh" />
+    <ClInclude Include="include\Moveable.hh" />
+    <ClInclude Include="include\Player.hh" />
+    <ClInclude Include="include\Position.hh" />
+    <ClInclude Include="include\Referee.hh" />
+    <ClInclude Include="include\Rules.hh" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Destructible.cpp" />
-    <ClCompile Include="Entity.cpp" />
-    <ClCompile Include="Moveable.cpp" />
-    <ClCompile Include="Player.cpp" />
-    <ClCompile Include="Position.cpp" />
+    <ClCompile Include="sources\Destructible.cpp" />
+    <ClCompile Include="sources\Entity.cpp" />
+    <ClCompile Include="sources\Moveable.cpp" />
+    <ClCompile Include="sources\Player.cpp" />
+    <ClCompile Include="sources\Position.cpp" />
+    <ClCompile Include="sources\Referee.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

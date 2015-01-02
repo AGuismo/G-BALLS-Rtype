@@ -39,10 +39,10 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)\include\;$(SolutionDir)\..\libraries\SFML\;$(SolutionDir)\game\include;$(SolutionDir)\..\libraries\Thread\Threads\include;$(SolutionDir)\..\libraries\protocol\include;$(SolutionDir)\..\libraries\Bind\include</IncludePath>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)\include\;$(SolutionDir)\..\libraries\SFML\;$(SolutionDir)\Referee\include;$(SolutionDir)\game\include;$(SolutionDir)\..\libraries\Thread\Threads\include;$(SolutionDir)\..\libraries\protocol\include;$(SolutionDir)\..\libraries\Bind\include</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)\include\;$(SolutionDir)\..\libraries\SFML\;$(SolutionDir)\game\include;$(SolutionDir)\..\libraries\Thread\Threads\include;$(SolutionDir)\..\libraries\protocol\include;$(SolutionDir)\..\libraries\Bind\include</IncludePath>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)\include\;$(SolutionDir)\..\libraries\SFML\;$(SolutionDir)\Referee\include;$(SolutionDir)\game\include;$(SolutionDir)\..\libraries\Thread\Threads\include;$(SolutionDir)\..\libraries\protocol\include;$(SolutionDir)\..\libraries\Bind\include</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -135,6 +135,9 @@
     </ProjectReference>
     <ProjectReference Include="..\game\game\game.vcxproj">
       <Project>{54b9dab2-4f28-4103-83ff-093e5e14c627}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Referee\Referee.vcxproj">
+      <Project>{76458539-62e9-412a-87c1-7621ee985a5d}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

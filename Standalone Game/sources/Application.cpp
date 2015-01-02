@@ -11,7 +11,7 @@
 #include	"Application.hh"
 #include	"AScreen.hh"
 #include	"MenuWindow.hh"
-#include	"gameWindow.h"
+#include	"GameWindow.hh"
 
 const char	*Application::WINDOW_NAME = "R-Type";
 

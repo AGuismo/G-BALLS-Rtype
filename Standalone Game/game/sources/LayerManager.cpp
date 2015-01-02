@@ -1,7 +1,6 @@
 #include		<algorithm>
-#include		"LayerManager.h"
-#include		"TextureManager.h"
-#include		"Timer.h"
+#include		"LayerManager.hh"
+#include		"Timer.hh"
 #include		"RequestCode.hh"
 
 LayerManager::~LayerManager()
@@ -10,12 +9,12 @@ LayerManager::~LayerManager()
     delete *it;
 }
 
-bool							LayerManager::addLayer(game::Type objType, LayerType lType, const sf::Vector2f &lInit, const sf::Vector2f &lReset, const sf::Vector2f &lLim, const sf::Vector2f &lInc, Timer *lTimer, bool lEn)
+bool			LayerManager::addLayer(const std::string &path, LayerType lType, const sf::Vector2f &lInit, const sf::Vector2f &lReset, const sf::Vector2f &lLim, const sf::Vector2f &lInc, Timer *lTimer, bool lEn)
 {
-  Layer							*newL;
-  sf::Texture					*text;
+  Layer			*newL;
+  sf::Texture	text;
 
-  if ((text = _textureManager->getTexture(objType)) != NULL)
+  if (text.loadFromFile(path))
     {
       newL = new Layer(lType, text, lInit, lReset, lLim, lInc, lTimer, _gameWindow, lEn);
       _layers.push_back(newL);
@@ -24,7 +23,7 @@ bool							LayerManager::addLayer(game::Type objType, LayerType lType, const sf:
   return false;
 }
 
-Layer							*LayerManager::findLayer(int lId)
+Layer			*LayerManager::findLayer(int lId)
 {
   layers_type::iterator it = std::find_if(_layers.begin(), _layers.end(), Layer::predicate(lId));
   if (it != _layers.end())
@@ -81,8 +80,8 @@ void							LayerManager::upDraw(void)
     }
 }
 
-LayerManager::LayerManager(sf::RenderWindow *gameWindow, game::TextureManager *TextureManager)
+LayerManager::LayerManager(sf::RenderWindow *gameWindow)
 {
   _gameWindow = gameWindow;
-  _textureManager = TextureManager;
+
 }

@@ -6,7 +6,7 @@
 #pragma comment(lib, "winmm.lib")
 #pragma comment(lib, "gdi32.lib")
 #endif // SFML_STATIC
-#include		"gameWindow.h"
+#include		"GameWindow.hh"
 #include		"AScreen.hh"
 
 bool					GameWindow::load(void)
