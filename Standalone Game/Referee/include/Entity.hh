@@ -17,6 +17,7 @@ public:
 	};
 
 	typedef unsigned char	minortype;
+	typedef short			velocity;
 
 	union	type
 	{
@@ -30,6 +31,7 @@ public:
 
 public:
 	Entity(type t, unsigned short id, const Position &pos,
+		   velocity v, short hp, short shield,
 		   unsigned short height, unsigned short width);
 	Entity();
 	virtual ~Entity();
@@ -42,7 +44,16 @@ public:
 	static type	createType(majortype maj, minortype min = 0);
 
 public:
-	bool	isMoveable() const;
+	bool			isMoveable() const;
+	velocity		speed() const;
+	void			speed(velocity v);
+
+public:
+	bool			isDestructible() const;
+	short			hp() const;
+	void			hp(short hp);
+	short			shield() const;
+	void			shield(short shield);
 
 public:
 	type			getType() const;
@@ -62,5 +73,12 @@ protected:
 	Position		_p;
 	unsigned short	_height;
 	unsigned short	_width;
+
+	bool			_isMoveable;
+	velocity		_velocity;
+
+	bool			_isDestructible;
+	short			_hp;
+	short			_shield;
 };
 

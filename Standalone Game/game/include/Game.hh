@@ -20,7 +20,7 @@ private:
   struct Texture
   {
 	  std::string					ImagePath;
-	  game::TextureManager::Key	TextureCode;
+	  game::TextureManager::Key		TextureCode;
 	  sf::IntRect					pos;
 
 	  Texture(const std::string &ImagePath, const game::TextureManager::Key &TextureCode, const sf::IntRect &pos) :
@@ -39,6 +39,7 @@ private:
 private:
   void						drawObjects(void);
   void						cleanObjects(void);
+  void						onMyselfMove(Position::dir dir);
 
 private:
   void						cleanGame(void);

@@ -117,17 +117,22 @@ bool							Game::load(void)
 	return true;
 }
 
+void			Game::onMyselfMove(Position::dir direction)
+{
+	ObjectMover	*self = _objects[_idPlayer];
+
+	self->onMove(direction);
+}
 
 void							Game::run(void)
 {
-	Timer						_playerMvtLock(sf::seconds(0.25));
 	Timer						_playerFireLock(sf::seconds(0.5f));
 	Timer						_playerBlastLock(sf::seconds(2.0f));
 	Timer						_aliveRequest(sf::seconds(0.5f));
 	Timer						_lostConnection(sf::seconds(3.0f));
 	//ARequest					*req;
 
-	_gameWindow->setFramerateLimit(25);
+	//_gameWindow->setFramerateLimit(25);
 	_gameWindow->setKeyRepeatEnabled(true);
 
 	AudioManager::getInstance().play(AGAME_MUSIC);
@@ -146,42 +151,47 @@ void							Game::run(void)
 				switch (_event->key.code)
 				{
 				case sf::Keyboard::Left:
-					if (_playerMvtLock.isEnded())
-					{
-						//if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
-						//	_network.sendRequest(new EventRequest(MOVE, NORTH_WEST, InfosUser::getInstance().authenticate.id));
-						//else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
-						//	_network.sendRequest(new EventRequest(MOVE, SOUTH_WEST, InfosUser::getInstance().authenticate.id));
-						//else
-						//	_network.sendRequest(new EventRequest(MOVE, WEST, InfosUser::getInstance().authenticate.id));
-						_playerMvtLock.restart();
-					}
+					if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
+						onMyselfMove(Position::NORTH_WEST);
+						//_network.sendRequest(new EventRequest(MOVE, NORTH_WEST, InfosUser::getInstance().authenticate.id));
+					else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
+						onMyselfMove(Position::SOUTH_WEST);
+					//_network.sendRequest(new EventRequest(MOVE, SOUTH_WEST, InfosUser::getInstance().authenticate.id));
+					else
+						onMyselfMove(Position::WEST);
+					//_network.sendRequest(new EventRequest(MOVE, WEST, InfosUser::getInstance().authenticate.id));
 					break;
 				case sf::Keyboard::Right:
-					if (_playerMvtLock.isEnded())
-					{
-						//if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
-						//	_network.sendRequest(new EventRequest(MOVE, NORTH_EAST, InfosUser::getInstance().authenticate.id));
-						//else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
-						//	_network.sendRequest(new EventRequest(MOVE, SOUTH_EAST, InfosUser::getInstance().authenticate.id));
-						//else
-						//	_network.sendRequest(new EventRequest(MOVE, EAST, InfosUser::getInstance().authenticate.id));
-						_playerMvtLock.restart();
-					}
+					if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
+						onMyselfMove(Position::NORTH_EAST);
+					else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
+						onMyselfMove(Position::SOUTH_EAST);
+					else
+						onMyselfMove(Position::EAST);
+					//if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
+					//	_network.sendRequest(new EventRequest(MOVE, NORTH_EAST, InfosUser::getInstance().authenticate.id));
+					//else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
+					//	_network.sendRequest(new EventRequest(MOVE, SOUTH_EAST, InfosUser::getInstance().authenticate.id));
+					//else
+					//	_network.sendRequest(new EventRequest(MOVE, EAST, InfosUser::getInstance().authenticate.id));
 					break;
 				case sf::Keyboard::Up:
-					if (_playerMvtLock.isEnded())
-					{
-						//_network.sendRequest(new EventRequest(MOVE, NORTH, InfosUser::getInstance().authenticate.id));
-						_playerMvtLock.restart();
-					}
+					if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+						onMyselfMove(Position::NORTH_EAST);
+					else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+						onMyselfMove(Position::NORTH_WEST);
+					else
+						onMyselfMove(Position::NORTH);
+					//_network.sendRequest(new EventRequest(MOVE, NORTH, InfosUser::getInstance().authenticate.id));
 					break;
 				case sf::Keyboard::Down:
-					if (_playerMvtLock.isEnded())
-					{
-						//_network.sendRequest(new EventRequest(MOVE, SOUTH, InfosUser::getInstance().authenticate.id));
-						_playerMvtLock.restart();
-					}
+					if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+						onMyselfMove(Position::SOUTH_EAST);
+					else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+						onMyselfMove(Position::SOUTH_WEST);
+					else
+						onMyselfMove(Position::SOUTH);
+					//_network.sendRequest(new EventRequest(MOVE, SOUTH, InfosUser::getInstance().authenticate.id));
 					break;
 				case sf::Keyboard::Space:
 					if (_playerFireLock.isEnded())
@@ -219,12 +229,12 @@ void							Game::run(void)
 			_aliveRequest.restart();
 		}
 
-		if (_lostConnection.isEnded())
-		{
+		//if (_lostConnection.isEnded())
+		//{
 			//_network.sendRequest(new LeaveRequest(InfosUser::getInstance().authenticate.id));
-			cleanGame();
-			return;
-		}
+		//	cleanGame();
+		//	return;
+		//}
 		_gameWindow->clear();
 		cleanObjects();
 		_layerManager.upDraw();
@@ -239,6 +249,8 @@ void							Game::drawObjects(void)
 {
 	for (obj_map_type::const_iterator it = _objects.begin(); it != _objects.end(); ++it)
 	{
+		it->second->update();
+
 		const sf::Texture	&texture = it->second->getAnimation().getFrame();
 		sf::Sprite	sprite(texture);
 
@@ -381,7 +393,7 @@ Game::Game(sf::RenderWindow *gameWindow, sf::Event *event) : _layerManager(gameW
 	ObjectFactory::getInstance().init(&_textureManager);
 	_gameWindow = gameWindow;
 	_event = event;
-	_idPlayer = 42;
+	_idPlayer = 1;
 
 	_map[requestCode::game::ELEM] = &Game::elem;
 	_map[requestCode::game::DEATH] = &Game::death;

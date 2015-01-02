@@ -30,7 +30,7 @@ const sf::Texture&					Animation::getFrame(const std::string &action)
 }
 
 Animation::Animation() :
-_curFrame(0), _curAction(ACT_DEFAULT)
+_aTimer(sf::seconds(ANIM_FRAME_DURATION)), _curFrame(0), _curAction(ACT_DEFAULT)
 {
 }
 

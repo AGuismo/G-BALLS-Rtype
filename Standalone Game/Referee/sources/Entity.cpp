@@ -1,13 +1,13 @@
-#include "Entity.hh"
+#include	"Entity.hh"
 
-Entity::Entity(type t, unsigned short id, const Position &pos, unsigned short height, unsigned short width) :
-_type(t), _id(id), _p(pos), _height(height), _width(width)
+Entity::Entity(type t, unsigned short id, const Position &pos, velocity v, short hp, short shield, unsigned short height, unsigned short width) :
+_type(t), _id(id), _p(pos), _height(height), _width(width), _isMoveable(true), _velocity(v), _hp(hp), _shield(shield)
 {
 
 }
 
 Entity::Entity():
-_type(createType(NONE, 0)), _id(0), _height(0), _width(0)
+_type(createType(NONE, 0)), _id(0), _height(0), _width(0), _isMoveable(true), _velocity(0), _hp(1), _shield(0)
 {
 
 }
@@ -18,7 +18,8 @@ Entity::~Entity()
 }
 
 Entity::Entity(const Entity &src) :
-_type(src._type), _id(src._id), _p(src._p), _height(src._height), _width(src._width)
+_type(src._type), _id(src._id), _p(src._p), _height(src._height), _width(src._width), _isMoveable(src._isMoveable),
+_velocity(src._velocity), _hp(src._hp), _shield(src._shield)
 {
 
 }
@@ -32,6 +33,10 @@ Entity	&Entity::operator=(const Entity &src)
 		_p = src._p;
 		_height = src._height;
 		_width = src._width;
+		_isMoveable = src._isMoveable;
+		_velocity = src._velocity;
+		_hp = src._hp;
+		_shield = src._shield;
 	}
 	return (*this);
 }
@@ -92,4 +97,39 @@ unsigned short	Entity::getWidth() const
 void			Entity::setWidth(unsigned short Width)
 {
 	_width = Width;
+}
+
+bool			Entity::isMoveable() const
+{
+	return (_isMoveable);
+}
+
+short	Entity::hp() const
+{
+	return (_hp);
+}
+
+void	Entity::hp(short hp)
+{
+	_hp = hp;
+}
+
+short	Entity::shield() const
+{
+	return (_shield);
+}
+
+void	Entity::shield(short shield)
+{
+	_shield = shield;
+}
+
+Entity::velocity	Entity::speed() const
+{
+	return (_velocity);
+}
+
+void		Entity::speed(velocity v)
+{
+	_velocity = v;
 }
