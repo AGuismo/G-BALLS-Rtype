@@ -38,6 +38,8 @@ bool							Game::load(void)
 	t.push_back(Texture("./Images/r-typesheet42.png", game::TextureManager::Key(Entity::createType(Entity::PLAYER, 4), Animation::ACT_UP), sf::IntRect(264, 102, 68, 38)));
 	t.push_back(Texture("./Images/r-typesheet42.png", game::TextureManager::Key(Entity::createType(Entity::PLAYER, 4), Animation::ACT_DOWN), sf::IntRect(0, 102, 68, 38)));
 
+ 	t.push_back(Texture("./Images/r-typesheet1.png", game::TextureManager::Key(Entity::createType(Entity::MISSILE, 1)), sf::IntRect(368, 336, 162, 40)));
+
 	//if (!_textureManager.addTexture(server::SBYDOS1, std::string("./Images/r-typesheet5.png")))
 	//	return false;
 
@@ -130,6 +132,7 @@ void							Game::run(void)
 	Timer						_playerBlastLock(sf::seconds(2.0f));
 	Timer						_aliveRequest(sf::seconds(0.5f));
 	Timer						_lostConnection(sf::seconds(3.0f));
+	int							id = 2;
 	//ARequest					*req;
 
 	//_gameWindow->setFramerateLimit(25);
@@ -196,6 +199,8 @@ void							Game::run(void)
 				case sf::Keyboard::Space:
 					if (_playerFireLock.isEnded())
 					{
+						_objects[id] = ObjectFactory::getInstance().createObject(Entity::createType(Entity::MISSILE, 1), id, Position(500, 500, Position::EAST));
+						++id;
 						//_network.sendRequest(new EventRequest(SHOOT, SIMPLE, InfosUser::getInstance().authenticate.id));
 						_playerFireLock.restart();
 					}

@@ -5,6 +5,7 @@
 #include	<map>
 #include	<SFML/Graphics.hpp>
 #include	"Entity.hh"
+#include	"Animation.hh"
 
 namespace	game
 {
@@ -18,7 +19,7 @@ namespace	game
 		  std::string	action;
 		  int			frame;
 
-		  Key(const Entity::type &type, const std::string &action = "default", int frame = 0) :
+		  Key(const Entity::type &type, const std::string &action = Animation::ACT_DEFAULT, int frame = 0) :
 			  type(type), action(action), frame(frame) {}
 
 		  bool	operator<(const Key &rhs) const

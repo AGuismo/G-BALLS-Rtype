@@ -14,7 +14,8 @@ public:
 	ObjectMover		&operator=(const ObjectMover &src);
 
 public:
-	void			update();
+	virtual void		update();
+	virtual void		onMove(Position::dir direction);
 
 public:
 	Entity				&getEntity();
@@ -22,9 +23,8 @@ public:
 	const sf::Vector2f	&getPreviousPos() const;
 	const sf::Vector2f	&getCurrentPos() const;
 	const sf::Vector2f	&getNextPos() const;
-	void				onMove(Position::dir direction);
 
-private:
+protected:
 	Entity			_entity;
 	Animation		_animations;
 

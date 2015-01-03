@@ -33,6 +33,9 @@
     <ClInclude Include="include\Rules.hh">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\Missile.hh">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sources\Entity.cpp">
@@ -45,6 +48,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="sources\Referee.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Missile.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

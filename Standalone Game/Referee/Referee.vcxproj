@@ -82,6 +82,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Entity.hh" />
+    <ClInclude Include="include\Missile.hh" />
     <ClInclude Include="include\Player.hh" />
     <ClInclude Include="include\Position.hh" />
     <ClInclude Include="include\Referee.hh" />
@@ -92,6 +93,7 @@
     <ClCompile Include="sources\Player.cpp" />
     <ClCompile Include="sources\Position.cpp" />
     <ClCompile Include="sources\Referee.cpp" />
+    <ClCompile Include="source\Missile.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

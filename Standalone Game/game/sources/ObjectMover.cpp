@@ -63,7 +63,7 @@ const sf::Vector2f	&ObjectMover::getNextPos() const
 
 void			ObjectMover::onMove(Position::dir direction)
 {
-	if (_entity.isMoveable() && !_moving)
+	if (_entity.isMoveable() && (!_moving || _previousPos == _nextPos))
 	{
 		sf::Vector2f	posOffset(0.f, 0.f);
 
@@ -118,5 +118,4 @@ void			ObjectMover::update()
 			_currentPos.y = _previousPos.y + (_nextPos.y - _previousPos.y) * progress;
 		}
 	}
-	// TODO !
 }

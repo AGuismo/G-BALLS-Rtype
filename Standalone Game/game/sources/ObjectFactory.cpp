@@ -1,8 +1,13 @@
+// Class from Referee
+#include			"Position.hh"
+#include			"Player.hh"
+#include			"Missile.hh"
+
+// Physics
 #include			"ObjectFactory.hh"
 #include			"TextureManager.hh"
-#include			"Player.hh"
 #include			"ObjectMover.hh"
-#include			"Position.hh"
+#include			"ObjectMoverStraight.hh"
 
 using namespace requestCode::game;
 
@@ -12,6 +17,9 @@ ObjectMover		*ObjectFactory::createObject(const Entity::type &type, unsigned sho
 	{
 	case Entity::PLAYER:
 		return (new ObjectMover(Player(id, pos, type.desc.min), getAnimation(type)));
+		break;
+	case Entity::MISSILE:
+		return (new ObjectMoverStraight(Missile(id, pos, type.desc.min), getAnimation(type)));
 		break;
 	//case server::SBYDOS1:
 	//	return (new Bydos1(type, id, pos, ldir, text, _gameWindow));
