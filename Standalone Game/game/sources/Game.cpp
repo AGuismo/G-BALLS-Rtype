@@ -1,6 +1,7 @@
 #include		<SFML/Audio.hpp>
 #include		<SFML/Network.hpp>
 #include		<algorithm>
+#include		"EventManager.hh"
 #include		"Animation.hh"
 #include		"Game.hh"
 #include		"Layer.hh"
@@ -126,17 +127,72 @@ void			Game::onMyselfMove(Position::dir direction)
 	self->onMove(direction);
 }
 
+void			Game::onMoveLeft(sf::Keyboard::Key key, Game *self)
+{
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
+		self->onMyselfMove(Position::NORTH_WEST);
+	//_network.sendRequest(new EventRequest(MOVE, NORTH_WEST, InfosUser::getInstance().authenticate.id));
+	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
+		self->onMyselfMove(Position::SOUTH_WEST);
+	//_network.sendRequest(new EventRequest(MOVE, SOUTH_WEST, InfosUser::getInstance().authenticate.id));
+	else
+		self->onMyselfMove(Position::WEST);
+	//_network.sendRequest(new EventRequest(MOVE, WEST, InfosUser::getInstance().authenticate.id));
+}
+
+void			Game::onMoveRight(sf::Keyboard::Key key, Game *self)
+{
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
+		self->onMyselfMove(Position::NORTH_EAST);
+	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
+		self->onMyselfMove(Position::SOUTH_EAST);
+	else
+		self->onMyselfMove(Position::EAST);
+}
+
+void			Game::onMoveUp(sf::Keyboard::Key key, Game *self)
+{
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+		self->onMyselfMove(Position::NORTH_EAST);
+	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+		self->onMyselfMove(Position::NORTH_WEST);
+	else
+		self->onMyselfMove(Position::NORTH);
+}
+
+void			Game::onMoveDown(sf::Keyboard::Key key, Game *self)
+{
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+		self->onMyselfMove(Position::SOUTH_EAST);
+	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+		self->onMyselfMove(Position::SOUTH_WEST);
+	else
+		self->onMyselfMove(Position::SOUTH);
+}
+
+void			Game::onFire(sf::Keyboard::Key key, Game *self)
+{
+	self->_objects[self->_objectID] = ObjectFactory::getInstance().createObject(Entity::createType(Entity::MISSILE, 1), self->_objectID, Position(500, 500, Position::EAST));
+	++self->_objectID;
+}
+
 void							Game::run(void)
 {
 	Timer						_playerFireLock(sf::seconds(0.5f));
 	Timer						_playerBlastLock(sf::seconds(2.0f));
 	Timer						_aliveRequest(sf::seconds(0.5f));
 	Timer						_lostConnection(sf::seconds(3.0f));
-	int							id = 2;
+	EventManager				ev(*_event, sf::milliseconds(200));
 	//ARequest					*req;
 
 	//_gameWindow->setFramerateLimit(25);
+	_objectID = 2;
 	_gameWindow->setKeyRepeatEnabled(true);
+	ev.registerKey(sf::Keyboard::Left, new EventManager::Callback<sf::Keyboard::Key, Game *>(&Game::onMoveLeft, this), true);
+	ev.registerKey(sf::Keyboard::Right, new EventManager::Callback<sf::Keyboard::Key, Game *>(&Game::onMoveRight, this), true);
+	ev.registerKey(sf::Keyboard::Up, new EventManager::Callback<sf::Keyboard::Key, Game *>(&Game::onMoveUp, this), true);
+	ev.registerKey(sf::Keyboard::Down, new EventManager::Callback<sf::Keyboard::Key, Game *>(&Game::onMoveDown, this), true);
+	ev.registerKey(sf::Keyboard::Space, new EventManager::Callback<sf::Keyboard::Key, Game *>(&Game::onFire, this), true);
 
 	AudioManager::getInstance().play(AGAME_MUSIC);
 	_objects[1] = ObjectFactory::getInstance().createObject(Entity::createType(Entity::PLAYER, 1), 1, Position(250, 250, Position::EAST));
@@ -150,74 +206,17 @@ void							Game::run(void)
 			case sf::Event::Closed:
 				_gameWindow->close();
 				break;
-			case sf::Event::KeyPressed:
-				switch (_event->key.code)
-				{
-				case sf::Keyboard::Left:
-					if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
-						onMyselfMove(Position::NORTH_WEST);
-						//_network.sendRequest(new EventRequest(MOVE, NORTH_WEST, InfosUser::getInstance().authenticate.id));
-					else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
-						onMyselfMove(Position::SOUTH_WEST);
-					//_network.sendRequest(new EventRequest(MOVE, SOUTH_WEST, InfosUser::getInstance().authenticate.id));
-					else
-						onMyselfMove(Position::WEST);
-					//_network.sendRequest(new EventRequest(MOVE, WEST, InfosUser::getInstance().authenticate.id));
-					break;
-				case sf::Keyboard::Right:
-					if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
-						onMyselfMove(Position::NORTH_EAST);
-					else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
-						onMyselfMove(Position::SOUTH_EAST);
-					else
-						onMyselfMove(Position::EAST);
-					//if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
-					//	_network.sendRequest(new EventRequest(MOVE, NORTH_EAST, InfosUser::getInstance().authenticate.id));
-					//else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
-					//	_network.sendRequest(new EventRequest(MOVE, SOUTH_EAST, InfosUser::getInstance().authenticate.id));
-					//else
-					//	_network.sendRequest(new EventRequest(MOVE, EAST, InfosUser::getInstance().authenticate.id));
-					break;
-				case sf::Keyboard::Up:
-					if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
-						onMyselfMove(Position::NORTH_EAST);
-					else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
-						onMyselfMove(Position::NORTH_WEST);
-					else
-						onMyselfMove(Position::NORTH);
-					//_network.sendRequest(new EventRequest(MOVE, NORTH, InfosUser::getInstance().authenticate.id));
-					break;
-				case sf::Keyboard::Down:
-					if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
-						onMyselfMove(Position::SOUTH_EAST);
-					else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
-						onMyselfMove(Position::SOUTH_WEST);
-					else
-						onMyselfMove(Position::SOUTH);
-					//_network.sendRequest(new EventRequest(MOVE, SOUTH, InfosUser::getInstance().authenticate.id));
-					break;
-				case sf::Keyboard::Space:
-					if (_playerFireLock.isEnded())
-					{
-						_objects[id] = ObjectFactory::getInstance().createObject(Entity::createType(Entity::MISSILE, 1), id, Position(500, 500, Position::EAST));
-						++id;
-						//_network.sendRequest(new EventRequest(SHOOT, SIMPLE, InfosUser::getInstance().authenticate.id));
-						_playerFireLock.restart();
-					}
-					break;
-				case sf::Keyboard::Escape:
-					//_network.sendRequest(new LeaveRequest(InfosUser::getInstance().authenticate.id));
-				  cleanGame();
-				  return;
-					break;
-				default:
-					break;
-				}
-				break;
 			default:
 				break;
 			}
 		}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
+		{
+			//_network.sendRequest(new LeaveRequest(InfosUser::getInstance().authenticate.id));
+			cleanGame();
+			return;
+		}
+		ev.update();
 
 		//while ((req = _network.recvRequest()) != 0)
 		//  {

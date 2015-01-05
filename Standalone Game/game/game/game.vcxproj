@@ -90,6 +90,7 @@
     <ClInclude Include="..\include\AudioManager.hh" />
     <ClInclude Include="..\include\EnumAudio.hh" />
     <ClInclude Include="..\include\EnumLayer.hh" />
+    <ClInclude Include="..\include\EventManager.hh" />
     <ClInclude Include="..\include\GameWindow.hh" />
     <ClInclude Include="..\include\ObjectFactory.hh" />
     <ClInclude Include="..\include\Game.hh" />
@@ -111,6 +112,7 @@
     <ClCompile Include="..\sources\ObjectMover.cpp" />
     <ClCompile Include="..\sources\TextureManager.cpp" />
     <ClCompile Include="..\sources\Timer.cpp" />
+    <ClCompile Include="..\source\EventManager.cpp" />
     <ClCompile Include="..\source\ObjectMoverStraight.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

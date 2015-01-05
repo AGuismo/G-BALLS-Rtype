@@ -5,7 +5,7 @@ class Missile :
 	public Entity
 {
 public:
-	static const velocity		DEFAULT_SPEED = 70;
+	static const velocity		DEFAULT_SPEED = 100;
 	static const unsigned short DEFAULT_LEVEL = 1;
 	static const unsigned short DEFAULT_HP = 1;
 	static const unsigned short DEFAULT_SHIELD = 1;

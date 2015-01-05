@@ -33,9 +33,14 @@ ObjectMoverStraight	&ObjectMoverStraight::operator=(const ObjectMoverStraight &s
 
 void			ObjectMoverStraight::update()
 {
-	if (_previousPos == _nextPos || _moving == false)
+	if (!_isMoving)
 	{
-		ObjectMover::onMove(_entity.getPosition().direction());
+		onMove(_entity.getPosition().direction());
+	}
+	else
+	{
+		_nextMove = _entity.getPosition().direction();
+		_isNextMoveAvailable = true;
 	}
 	ObjectMover::update();
 }

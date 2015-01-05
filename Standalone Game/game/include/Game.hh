@@ -35,10 +35,17 @@ private:
 	sf::Event					*_event;
 	game::TextureManager		_textureManager;
 	callback_map				_map;
+	int							_objectID;
 
 private:
   void						drawObjects(void);
   void						cleanObjects(void);
+  
+  static void				onMoveLeft(sf::Keyboard::Key, Game *self);
+  static void				onMoveRight(sf::Keyboard::Key, Game *self);
+  static void				onMoveUp(sf::Keyboard::Key, Game *self);
+  static void				onMoveDown(sf::Keyboard::Key, Game *self);
+  static void				onFire(sf::Keyboard::Key, Game *self);
   void						onMyselfMove(Position::dir dir);
 
 private:

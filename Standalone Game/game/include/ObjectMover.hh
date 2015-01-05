@@ -6,7 +6,10 @@
 class ObjectMover
 {
 public:
-	ObjectMover(const Entity &e, const Animation &a);
+	static const float	DEFAULT_MOVEMENT_DURATION;
+
+public:
+	ObjectMover(const Entity &e, const Animation &a, float movementDuration = 0.5f);
 	ObjectMover();
 	virtual ~ObjectMover();
 
@@ -28,10 +31,24 @@ protected:
 	Entity			_entity;
 	Animation		_animations;
 
-	sf::Vector2f	_previousPos;
-	sf::Vector2f	_currentPos;
-	sf::Vector2f	_nextPos;
-	sf::Clock		_movement;
-	bool			_moving;
+	struct
+	{
+		sf::Vector2f	previous;
+		sf::Vector2f	current;
+		sf::Vector2f	next;
+	}					_position;
+
+	struct
+	{
+		sf::Clock	timer;
+		float		endTimer;
+	}				_movement;
+
+	float			_moveDuration;
+
+	bool			_isMoving;
+
+	bool			_isNextMoveAvailable;
+	Position::dir	_nextMove;
 };
 
