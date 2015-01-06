@@ -51,11 +51,12 @@ public:
 	};
 
 public:
-	EventManager(sf::Event &e, const sf::Time &refreshTime = sf::milliseconds(20));
+	EventManager(sf::Event &e);
 	~EventManager();
 
 public:
-	void	registerKey(sf::Keyboard::Key key, ICallback<sf::Keyboard::Key> *c, bool repeat = false);
+	void	registerKey(sf::Keyboard::Key key, ICallback<sf::Keyboard::Key> *c, const sf::Time &repeatDelay);
+	void	registerKey(sf::Keyboard::Key key, ICallback<sf::Keyboard::Key> *c);
 	bool	unregisterKey(sf::Keyboard::Key key);
 
 	void	update();
@@ -65,18 +66,18 @@ private:
 	struct State
 	{
 		State(): event(0), active(false), repeated(false) {};
-		State(ICallback<Ev> *ev, bool repeated) : event(ev), active(false), repeated(repeated) {}
+		State(ICallback<Ev> *ev, bool repeated, const sf::Time &delay) : event(ev), active(false), repeated(repeated), delay(delay) {}
 
 		ICallback<Ev>	*event;
 		bool			active;
 		bool			repeated;
 		sf::Clock		lastPress;
+		sf::Time		delay;
 	};
 
 	typedef std::map <sf::Keyboard::Key, State<sf::Keyboard::Key> >	keyboard_callback_map;
 
 private:
-	sf::Time	_refreshTime;
-	sf::Event	&_e;
+	sf::Event				&_e;
 	keyboard_callback_map	_keyCallbacks;
 };

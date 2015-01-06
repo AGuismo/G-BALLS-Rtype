@@ -2,6 +2,8 @@
 
 #include	"ObjectMover.hh"
 
+class Referee;
+
 class ObjectMoverStraight : public ObjectMover
 {
 public:
@@ -12,5 +14,8 @@ public:
 	ObjectMoverStraight(const ObjectMoverStraight &src);
 	ObjectMoverStraight	&operator=(const ObjectMoverStraight &src);
 
-	void			update();
+	void			update(Referee &referee);
+
+private:
+	Position::dir	_direction;
 };

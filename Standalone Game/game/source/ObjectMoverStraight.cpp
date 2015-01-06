@@ -3,7 +3,7 @@
 ObjectMoverStraight::ObjectMoverStraight(const Entity &e, const Animation &a):
 ObjectMover(e, a)
 {
-
+	_direction = e.getPosition().direction();
 }
 
 ObjectMoverStraight::ObjectMoverStraight()
@@ -17,7 +17,7 @@ ObjectMoverStraight::~ObjectMoverStraight()
 }
 
 ObjectMoverStraight::ObjectMoverStraight(const ObjectMoverStraight &src):
-ObjectMover(src)
+ObjectMover(src), _direction(src._direction)
 {
 
 }
@@ -27,20 +27,21 @@ ObjectMoverStraight	&ObjectMoverStraight::operator=(const ObjectMoverStraight &s
 	if (&src != this)
 	{
 		ObjectMover::operator=(src);
+		_direction = src._direction;
 	}
 	return (*this);
 }
 
-void			ObjectMoverStraight::update()
+void			ObjectMoverStraight::update(Referee &referee)
 {
 	if (!_isMoving)
 	{
-		onMove(_entity.getPosition().direction());
+		onMove(_direction, referee);
 	}
 	else
 	{
-		_nextMove = _entity.getPosition().direction();
+		_nextMove = _direction;
 		_isNextMoveAvailable = true;
 	}
-	ObjectMover::update();
+	ObjectMover::update(referee);
 }

@@ -1,7 +1,7 @@
 #include	"EventManager.hh"
 
-EventManager::EventManager(sf::Event &e, const sf::Time &refreshTime):
-_refreshTime(refreshTime), _e(e)
+EventManager::EventManager(sf::Event &e):
+_e(e)
 {
 
 }
@@ -10,9 +10,14 @@ EventManager::~EventManager()
 {
 }
 
-void	EventManager::registerKey(sf::Keyboard::Key key, EventManager::ICallback<sf::Keyboard::Key> *callback, bool repeat)
+void	EventManager::registerKey(sf::Keyboard::Key key, EventManager::ICallback<sf::Keyboard::Key> *callback, const sf::Time &refreshDelay)
 {
-	_keyCallbacks[key] = State<sf::Keyboard::Key>(callback, repeat);
+	_keyCallbacks[key] = State<sf::Keyboard::Key>(callback, true, refreshDelay);
+}
+
+void	EventManager::registerKey(sf::Keyboard::Key key, EventManager::ICallback<sf::Keyboard::Key> *callback)
+{
+	_keyCallbacks[key] = State<sf::Keyboard::Key>(callback, false, sf::Time::Zero);
 }
 
 bool	EventManager::unregisterKey(sf::Keyboard::Key key)
@@ -33,7 +38,7 @@ void	EventManager::update()
 		{
 			if (it->second.repeated)
 			{
-				if (it->second.active && it->second.lastPress.getElapsedTime() > _refreshTime ||
+				if (it->second.active && it->second.lastPress.getElapsedTime() > it->second.delay ||
 					!it->second.active)
 				{
 					(*it->second.event)(it->first);

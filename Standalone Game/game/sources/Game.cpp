@@ -39,7 +39,10 @@ bool							Game::load(void)
 	t.push_back(Texture("./Images/r-typesheet42.png", game::TextureManager::Key(Entity::createType(Entity::PLAYER, 4), Animation::ACT_UP), sf::IntRect(264, 102, 68, 38)));
 	t.push_back(Texture("./Images/r-typesheet42.png", game::TextureManager::Key(Entity::createType(Entity::PLAYER, 4), Animation::ACT_DOWN), sf::IntRect(0, 102, 68, 38)));
 
- 	t.push_back(Texture("./Images/r-typesheet1.png", game::TextureManager::Key(Entity::createType(Entity::MISSILE, 1)), sf::IntRect(368, 336, 162, 40)));
+	t.push_back(Texture("./Images/r-typesheet1.png", game::TextureManager::Key(Entity::createType(Entity::MISSILE, 1)), sf::IntRect(498, 210, 32, 16)));
+	t.push_back(Texture("./Images/r-typesheet1.png", game::TextureManager::Key(Entity::createType(Entity::MISSILE, 2)), sf::IntRect(466, 240, 64, 20)));
+	t.push_back(Texture("./Images/r-typesheet1.png", game::TextureManager::Key(Entity::createType(Entity::MISSILE, 3)), sf::IntRect(335, 274, 96, 24)));
+	t.push_back(Texture("./Images/r-typesheet1.png", game::TextureManager::Key(Entity::createType(Entity::MISSILE, 4)), sf::IntRect(271, 307, 128, 28)));
 
 	//if (!_textureManager.addTexture(server::SBYDOS1, std::string("./Images/r-typesheet5.png")))
 	//	return false;
@@ -124,7 +127,7 @@ void			Game::onMyselfMove(Position::dir direction)
 {
 	ObjectMover	*self = _objects[_idPlayer];
 
-	self->onMove(direction);
+	self->onMove(direction, _referee);
 }
 
 void			Game::onMoveLeft(sf::Keyboard::Key key, Game *self)
@@ -170,6 +173,11 @@ void			Game::onMoveDown(sf::Keyboard::Key key, Game *self)
 		self->onMyselfMove(Position::SOUTH);
 }
 
+void			Game::onEscape(sf::Keyboard::Key key, Game *self)
+{
+	self->_onGame = false;
+}
+
 void			Game::onFire(sf::Keyboard::Key key, Game *self)
 {
 	self->_objects[self->_objectID] = ObjectFactory::getInstance().createObject(Entity::createType(Entity::MISSILE, 1), self->_objectID, Position(500, 500, Position::EAST));
@@ -182,22 +190,24 @@ void							Game::run(void)
 	Timer						_playerBlastLock(sf::seconds(2.0f));
 	Timer						_aliveRequest(sf::seconds(0.5f));
 	Timer						_lostConnection(sf::seconds(3.0f));
-	EventManager				ev(*_event, sf::milliseconds(200));
+	EventManager				ev(*_event);
 	//ARequest					*req;
 
 	//_gameWindow->setFramerateLimit(25);
 	_objectID = 2;
 	_gameWindow->setKeyRepeatEnabled(true);
-	ev.registerKey(sf::Keyboard::Left, new EventManager::Callback<sf::Keyboard::Key, Game *>(&Game::onMoveLeft, this), true);
-	ev.registerKey(sf::Keyboard::Right, new EventManager::Callback<sf::Keyboard::Key, Game *>(&Game::onMoveRight, this), true);
-	ev.registerKey(sf::Keyboard::Up, new EventManager::Callback<sf::Keyboard::Key, Game *>(&Game::onMoveUp, this), true);
-	ev.registerKey(sf::Keyboard::Down, new EventManager::Callback<sf::Keyboard::Key, Game *>(&Game::onMoveDown, this), true);
-	ev.registerKey(sf::Keyboard::Space, new EventManager::Callback<sf::Keyboard::Key, Game *>(&Game::onFire, this), true);
+	ev.registerKey(sf::Keyboard::Left, new EventManager::Callback<sf::Keyboard::Key, Game *>(&Game::onMoveLeft, this), sf::seconds(0.25f));
+	ev.registerKey(sf::Keyboard::Right, new EventManager::Callback<sf::Keyboard::Key, Game *>(&Game::onMoveRight, this), sf::seconds(0.25f));
+	ev.registerKey(sf::Keyboard::Up, new EventManager::Callback<sf::Keyboard::Key, Game *>(&Game::onMoveUp, this), sf::seconds(0.25f));
+	ev.registerKey(sf::Keyboard::Down, new EventManager::Callback<sf::Keyboard::Key, Game *>(&Game::onMoveDown, this), sf::seconds(0.25f));
+	ev.registerKey(sf::Keyboard::Space, new EventManager::Callback<sf::Keyboard::Key, Game *>(&Game::onFire, this), sf::seconds(0.5f));
+	ev.registerKey(sf::Keyboard::Escape, new EventManager::Callback<sf::Keyboard::Key, Game *>(&Game::onEscape, this));
 
 	AudioManager::getInstance().play(AGAME_MUSIC);
 	_objects[1] = ObjectFactory::getInstance().createObject(Entity::createType(Entity::PLAYER, 1), 1, Position(250, 250, Position::EAST));
+	_onGame = true;
 
-	while (_gameWindow->isOpen())
+	while (_gameWindow->isOpen() && _onGame)
 	{
 		while (_gameWindow->pollEvent(*_event))
 		{
@@ -210,12 +220,6 @@ void							Game::run(void)
 				break;
 			}
 		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
-		{
-			//_network.sendRequest(new LeaveRequest(InfosUser::getInstance().authenticate.id));
-			cleanGame();
-			return;
-		}
 		ev.update();
 
 		//while ((req = _network.recvRequest()) != 0)
@@ -227,11 +231,11 @@ void							Game::run(void)
 		//	_lostConnection.restart();
 		//  }
 
-		if (_aliveRequest.isEnded())
-		{
+		//if (_aliveRequest.isEnded())
+		//{
 			//_network.sendRequest(new AliveRequest(InfosUser::getInstance().authenticate.id));
-			_aliveRequest.restart();
-		}
+		//	_aliveRequest.restart();
+		//}
 
 		//if (_lostConnection.isEnded())
 		//{
@@ -253,7 +257,7 @@ void							Game::drawObjects(void)
 {
 	for (obj_map_type::const_iterator it = _objects.begin(); it != _objects.end(); ++it)
 	{
-		it->second->update();
+		it->second->update(_referee);
 
 		const sf::Texture	&texture = it->second->getAnimation().getFrame();
 		sf::Sprite	sprite(texture);
@@ -334,7 +338,7 @@ void							Game::cleanGame()
 	{
 			ObjectMover	*obj = it->second;
 #if defined(DEBUG)
-			std::cout << &obj->getEntity() << std::endl;
+			std::cout << obj->getObjectID() << std::endl;
 #endif
 			it = _objects.erase(it);
 			delete obj;

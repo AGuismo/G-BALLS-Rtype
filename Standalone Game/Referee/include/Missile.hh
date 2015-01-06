@@ -9,8 +9,6 @@ public:
 	static const unsigned short DEFAULT_LEVEL = 1;
 	static const unsigned short DEFAULT_HP = 1;
 	static const unsigned short DEFAULT_SHIELD = 1;
-	static const unsigned short	HEIGHT = 16;
-	static const unsigned short	WIDTH = 32;
 
 public:
 	Missile(unsigned short id, const Position &pos, 

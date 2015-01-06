@@ -6,6 +6,7 @@
 #include	"LayerManager.hh"
 #include	"AudioManager.hh"
 #include	"ObjectFactory.hh"
+#include	"Referee.hh"
 
 class ARequest;
 class ObjectMover;
@@ -36,6 +37,8 @@ private:
 	game::TextureManager		_textureManager;
 	callback_map				_map;
 	int							_objectID;
+	bool						_onGame;
+	Referee						_referee;
 
 private:
   void						drawObjects(void);
@@ -46,6 +49,7 @@ private:
   static void				onMoveUp(sf::Keyboard::Key, Game *self);
   static void				onMoveDown(sf::Keyboard::Key, Game *self);
   static void				onFire(sf::Keyboard::Key, Game *self);
+  static void				onEscape(sf::Keyboard::Key, Game *self);
   void						onMyselfMove(Position::dir dir);
 
 private:
