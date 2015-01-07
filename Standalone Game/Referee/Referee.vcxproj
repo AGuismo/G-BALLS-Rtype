@@ -85,6 +85,7 @@
     <ClInclude Include="include\Entity.hh" />
     <ClInclude Include="include\IReferee.hh" />
     <ClInclude Include="include\Missile.hh" />
+    <ClInclude Include="include\Mob.hh" />
     <ClInclude Include="include\Player.hh" />
     <ClInclude Include="include\Position.hh" />
     <ClInclude Include="include\Referee.hh" />
@@ -99,6 +100,7 @@
     <ClCompile Include="sources\Referee.cpp" />
     <ClCompile Include="source\Clock.cpp" />
     <ClCompile Include="source\Missile.cpp" />
+    <ClCompile Include="source\Mob.cpp" />
     <ClCompile Include="source\Scenario.cpp" />
     <ClCompile Include="source\Time.cpp" />
   </ItemGroup>

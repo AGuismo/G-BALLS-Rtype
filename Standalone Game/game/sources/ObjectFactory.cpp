@@ -2,6 +2,7 @@
 #include			"Position.hh"
 #include			"Player.hh"
 #include			"Missile.hh"
+#include			"Mob.hh"
 
 // Physics
 #include			"ObjectFactory.hh"
@@ -20,6 +21,9 @@ ObjectMover		*ObjectFactory::createObject(const Entity::type &type, unsigned sho
 		break;
 	case Entity::MISSILE:
 		return (new ObjectMoverStraight(Missile(id, pos, type.desc.min), getAnimation(type)));
+		break;
+	case Entity::MOBS:
+		return (new ObjectMover(Mob(id, pos, type.desc.min), getAnimation(type)));
 		break;
 	//case server::SBYDOS1:
 	//	return (new Bydos1(type, id, pos, ldir, text, _gameWindow));

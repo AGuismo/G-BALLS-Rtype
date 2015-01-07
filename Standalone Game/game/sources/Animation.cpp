@@ -4,7 +4,7 @@ const std::string	Animation::ACT_DEFAULT = "Default";
 const std::string	Animation::ACT_UP = "Up";
 const std::string	Animation::ACT_DOWN = "Down";
 
-const float			Animation::ANIM_FRAME_DURATION = 0.25f;
+const float			Animation::ANIM_FRAME_DURATION = 0.2f;
 
 void								Animation::addFrame(const std::string &action, sf::Texture *textureFrame)
 {

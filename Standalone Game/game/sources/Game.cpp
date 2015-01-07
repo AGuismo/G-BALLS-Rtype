@@ -44,6 +44,15 @@ bool							Game::load(void)
 	t.push_back(Texture("./Images/r-typesheet1.png", game::TextureManager::Key(Entity::createType(Entity::MISSILE, 3)), sf::IntRect(335, 274, 96, 24)));
 	t.push_back(Texture("./Images/r-typesheet1.png", game::TextureManager::Key(Entity::createType(Entity::MISSILE, 4)), sf::IntRect(271, 307, 128, 28)));
 
+	t.push_back(Texture("./Images/r-typesheet5.png", game::TextureManager::Key(Entity::createType(Entity::MOBS, 1), Animation::ACT_DEFAULT, 1), sf::IntRect(10, 12, 42, 48)));
+	t.push_back(Texture("./Images/r-typesheet5.png", game::TextureManager::Key(Entity::createType(Entity::MOBS, 1), Animation::ACT_DEFAULT, 2), sf::IntRect(76, 12, 42, 48)));
+	t.push_back(Texture("./Images/r-typesheet5.png", game::TextureManager::Key(Entity::createType(Entity::MOBS, 1), Animation::ACT_DEFAULT, 3), sf::IntRect(142, 12, 42, 48)));
+	t.push_back(Texture("./Images/r-typesheet5.png", game::TextureManager::Key(Entity::createType(Entity::MOBS, 1), Animation::ACT_DEFAULT, 4), sf::IntRect(208, 12, 42, 48)));
+	t.push_back(Texture("./Images/r-typesheet5.png", game::TextureManager::Key(Entity::createType(Entity::MOBS, 1), Animation::ACT_DEFAULT, 5), sf::IntRect(274, 12, 42, 48)));
+	t.push_back(Texture("./Images/r-typesheet5.png", game::TextureManager::Key(Entity::createType(Entity::MOBS, 1), Animation::ACT_DEFAULT, 6), sf::IntRect(340, 12, 42, 48)));
+	t.push_back(Texture("./Images/r-typesheet5.png", game::TextureManager::Key(Entity::createType(Entity::MOBS, 1), Animation::ACT_DEFAULT, 7), sf::IntRect(406, 12, 42, 48)));
+	t.push_back(Texture("./Images/r-typesheet5.png", game::TextureManager::Key(Entity::createType(Entity::MOBS, 1), Animation::ACT_DEFAULT, 8), sf::IntRect(472, 12, 42, 48)));
+
 	//if (!_textureManager.addTexture(server::SBYDOS1, std::string("./Images/r-typesheet5.png")))
 	//	return false;
 
@@ -128,6 +137,7 @@ bool							Game::load(void)
 	_referee.loadScenario(s, 0x4242);
 
 	_objects[0x4242] = ObjectFactory::getInstance().createObject(me.getType(), me.getID(), me.getPosition());;
+	_objects[5] = ObjectFactory::getInstance().createObject(Entity::createType(Entity::MOBS, 1), 5, Position(800, 500, Position::WEST));;
 	return true;
 }
 
