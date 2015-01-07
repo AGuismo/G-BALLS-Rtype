@@ -6,12 +6,15 @@
 #include	"Entity.hh"
 #include	"IReferee.hh"
 #include	"Scenario.hh"
+#include	"Clock.hh"
 
 class Player;
 
 class Referee: public IReferee
 {
 public:
+	static const float	FIRE_LOCK_TIME;
+	static const float	MOVE_LOCK_TIME;
 	typedef std::map<unsigned short, Entity *>	objects_map_type;
 
 public:
@@ -36,15 +39,23 @@ public:
 
 private:
 	void		loadScenario(const Scenario &scenario);
+	void		fire(std::vector<Missile> &createdMissiles);
 
 private:
 	void		pushRequest(); // Add data from MainReferee (server) => acceptMove and acceptFire calls
 
 private:
 	objects_map_type	_objects;
-	unsigned short		_playerID;
 	Scenario			_scenario;
 	unsigned short		_incrementalID;
+	struct
+	{
+		Player			*object;
+		Clock			fireLock;
+		Clock			moveLock;
+	}					_player;
+
+
 	// List of request here...
 };
 

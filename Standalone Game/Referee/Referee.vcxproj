@@ -81,6 +81,7 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\Clock.hh" />
     <ClInclude Include="include\Entity.hh" />
     <ClInclude Include="include\IReferee.hh" />
     <ClInclude Include="include\Missile.hh" />
@@ -89,14 +90,17 @@
     <ClInclude Include="include\Referee.hh" />
     <ClInclude Include="include\Rules.hh" />
     <ClInclude Include="include\Scenario.hh" />
+    <ClInclude Include="include\Time.hh" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sources\Entity.cpp" />
     <ClCompile Include="sources\Player.cpp" />
     <ClCompile Include="sources\Position.cpp" />
     <ClCompile Include="sources\Referee.cpp" />
+    <ClCompile Include="source\Clock.cpp" />
     <ClCompile Include="source\Missile.cpp" />
     <ClCompile Include="source\Scenario.cpp" />
+    <ClCompile Include="source\Time.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

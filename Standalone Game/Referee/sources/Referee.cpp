@@ -6,8 +6,11 @@
 #include	"Player.hh"
 #include	"Scenario.hh"
 
+const float	Referee::MOVE_LOCK_TIME = 0.25f;
+const float	Referee::FIRE_LOCK_TIME = 0.5f;
+
 Referee::Referee(const Scenario &scenario, unsigned short playerID):
-_playerID(playerID), _scenario(scenario), _incrementalID(1)
+_scenario(scenario), _incrementalID(1)
 {
 }
 
@@ -20,17 +23,38 @@ Referee::~Referee()
 	}
 }
 
-bool		Referee::acceptFire(unsigned short id, std::vector<Missile> &createdMissiles) // Fire can only be my player fire in this case
+void				Referee::fire(std::vector<Missile> &createdMissiles)
 {
-	Missile	*missile = new Missile(uniqueID(), Position(500, 500, Position::EAST));
+	Position		missilePos;
+	Missile			*missile = new Missile(uniqueID(), missilePos);
+	const Player	&me = getMyPlayer();
 
+	missilePos.x(me.getPosition().x() + me.getWidth() + 5);
+	missilePos.y(me.getPosition().y() + (me.getHeight() / 2 - missile->getHeight() / 2));
+	missilePos.direction(Position::EAST);
+	missile->setPosition(missilePos);
 	_objects[missile->getID()] = missile;
 	createdMissiles.push_back(*missile);
+}
+
+bool				Referee::acceptFire(unsigned short id, std::vector<Missile> &createdMissiles) // Fire can only be my player fire in this case
+{
+	if (_player.fireLock.getElapsedTime().asSeconds() < (FIRE_LOCK_TIME * _scenario.getGameSpeed()))
+		return (false);
+	_player.fireLock.restart();
+	fire(createdMissiles);
 	return (true);
 }
 
 bool		Referee::acceptMove(unsigned short id, const Position &pos)
 {
+	if (id == _player.object->getID())
+	{
+		if (_player.moveLock.getElapsedTime().asSeconds() < (MOVE_LOCK_TIME * _scenario.getGameSpeed()))
+			return (false);
+		_player.moveLock.restart();
+	}
+	_objects[id]->setPosition(pos);
 	return (true);
 }
 
@@ -96,14 +120,14 @@ void			Referee::setMyPlayer(unsigned short playerID)
 	if (_objects.find(playerID) == _objects.end())
 		throw std::runtime_error("Referee::setMyPlayer(): Invalid playerID");
 #endif
-	_playerID = playerID;
+	_player.object = dynamic_cast<Player *>(_objects[playerID]);
 }
 
 #include	<typeinfo>
 
 const Player	&Referee::getMyPlayer() const
 {
-	return (dynamic_cast<const Player &>(*_objects.find(_playerID)->second));
+	return (*_player.object);
 }
 
 unsigned short	Referee::uniqueID()

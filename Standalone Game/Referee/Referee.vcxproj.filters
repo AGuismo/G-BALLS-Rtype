@@ -42,6 +42,12 @@
     <ClInclude Include="include\IReferee.hh">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\Clock.hh">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Time.hh">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sources\Entity.cpp">
@@ -60,6 +66,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="source\Scenario.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Clock.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Time.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

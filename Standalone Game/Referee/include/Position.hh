@@ -31,9 +31,9 @@ public:
 	pos		y() const;
 	dir		direction() const;
 
-	inline void		x(pos x);
-	inline void		y(pos y);
-	inline void		direction(dir d);
+	void	x(pos x);
+	void	y(pos y);
+	void	direction(dir d);
 
 private:
 	pos		_positions[2];

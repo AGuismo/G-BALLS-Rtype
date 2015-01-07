@@ -5,7 +5,7 @@ class Player :
 	public Entity
 {
 public:
-	static const velocity		DEFAULT_SPEED = 120;
+	static const velocity		DEFAULT_SPEED = 90;
 	static const short			DEFAULT_HP = 1;
 	static const short			DEFAULT_SHIELD = 0;
 	static const unsigned short	HEIGHT = 28;
