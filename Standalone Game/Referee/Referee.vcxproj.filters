@@ -36,6 +36,12 @@
     <ClInclude Include="include\Missile.hh">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\Scenario.hh">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\IReferee.hh">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sources\Entity.cpp">
@@ -51,6 +57,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="source\Missile.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Scenario.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

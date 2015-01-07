@@ -31,18 +31,16 @@ private:
 private:
 	LayerManager				_layerManager;
 	obj_map_type				_objects;
-	unsigned short				_idPlayer;
 	sf::RenderWindow			*_gameWindow;
 	sf::Event					*_event;
 	game::TextureManager		_textureManager;
 	callback_map				_map;
-	int							_objectID;
 	bool						_onGame;
 	Referee						_referee;
 
 private:
   void						drawObjects(void);
-  void						cleanObjects(void);
+  void						draw(void);
   
   static void				onMoveLeft(sf::Keyboard::Key, Game *self);
   static void				onMoveRight(sf::Keyboard::Key, Game *self);

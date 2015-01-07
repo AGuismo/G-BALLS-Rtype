@@ -120,12 +120,20 @@ bool							Game::load(void)
 		return false;
 	if (!AudioManager::getInstance().add(ANEXT_STAGE, ASOUND, false, std::string("./Sounds/NextStage.wav")))
 		return false;
+
+	Scenario	s;
+	Player		me(0x4242, Position(250, 250, Position::EAST), 1);
+
+	s.addPlayer(me);
+	_referee.loadScenario(s, 0x4242);
+
+	_objects[0x4242] = ObjectFactory::getInstance().createObject(me.getType(), me.getID(), me.getPosition());;
 	return true;
 }
 
 void			Game::onMyselfMove(Position::dir direction)
 {
-	ObjectMover	*self = _objects[_idPlayer];
+	ObjectMover	*self = _objects[_referee.getMyPlayer().getID()];
 
 	self->onMove(direction, _referee);
 }
@@ -180,8 +188,13 @@ void			Game::onEscape(sf::Keyboard::Key key, Game *self)
 
 void			Game::onFire(sf::Keyboard::Key key, Game *self)
 {
-	self->_objects[self->_objectID] = ObjectFactory::getInstance().createObject(Entity::createType(Entity::MISSILE, 1), self->_objectID, Position(500, 500, Position::EAST));
-	++self->_objectID;
+	std::vector<Missile>	createdMissiles;
+	const Player			&myPlayer = self->_referee.getMyPlayer();
+
+	if (!self->_referee.acceptFire(myPlayer.getID(), createdMissiles))
+		return;
+	for (std::vector<Missile>::iterator it = createdMissiles.begin(); it != createdMissiles.end(); ++it)
+		self->_objects[it->getID()] = ObjectFactory::getInstance().createObject(it->getType(), it->getID(), it->getPosition());
 }
 
 void							Game::run(void)
@@ -194,7 +207,6 @@ void							Game::run(void)
 	//ARequest					*req;
 
 	//_gameWindow->setFramerateLimit(25);
-	_objectID = 2;
 	_gameWindow->setKeyRepeatEnabled(true);
 	ev.registerKey(sf::Keyboard::Left, new EventManager::Callback<sf::Keyboard::Key, Game *>(&Game::onMoveLeft, this), sf::seconds(0.25f));
 	ev.registerKey(sf::Keyboard::Right, new EventManager::Callback<sf::Keyboard::Key, Game *>(&Game::onMoveRight, this), sf::seconds(0.25f));
@@ -204,7 +216,6 @@ void							Game::run(void)
 	ev.registerKey(sf::Keyboard::Escape, new EventManager::Callback<sf::Keyboard::Key, Game *>(&Game::onEscape, this));
 
 	AudioManager::getInstance().play(AGAME_MUSIC);
-	_objects[1] = ObjectFactory::getInstance().createObject(Entity::createType(Entity::PLAYER, 1), 1, Position(250, 250, Position::EAST));
 	_onGame = true;
 
 	while (_gameWindow->isOpen() && _onGame)
@@ -222,6 +233,11 @@ void							Game::run(void)
 		}
 		ev.update();
 
+		/* Get request from MasterReferee, send it to referee and apply to objects(Mover) */
+
+		_referee.update();
+
+		draw();
 		//while ((req = _network.recvRequest()) != 0)
 		//  {
 		//    callback_map::iterator	it = _map.find(req->code());
@@ -233,27 +249,29 @@ void							Game::run(void)
 
 		//if (_aliveRequest.isEnded())
 		//{
-			//_network.sendRequest(new AliveRequest(InfosUser::getInstance().authenticate.id));
+		//_network.sendRequest(new AliveRequest(InfosUser::getInstance().authenticate.id));
 		//	_aliveRequest.restart();
 		//}
 
 		//if (_lostConnection.isEnded())
 		//{
-			//_network.sendRequest(new LeaveRequest(InfosUser::getInstance().authenticate.id));
+		//_network.sendRequest(new LeaveRequest(InfosUser::getInstance().authenticate.id));
 		//	cleanGame();
 		//	return;
 		//}
-		_gameWindow->clear();
-		cleanObjects();
-		_layerManager.upDraw();
-		drawObjects();
-		_gameWindow->display();
 	}
 	cleanGame();
 }
 
+void		Game::draw()
+{
+	_gameWindow->clear();
+	_layerManager.upDraw();
+	drawObjects();
+	_gameWindow->display();
+}
 
-void							Game::drawObjects(void)
+void		Game::drawObjects(void)
 {
 	for (obj_map_type::const_iterator it = _objects.begin(); it != _objects.end(); ++it)
 	{
@@ -266,28 +284,6 @@ void							Game::drawObjects(void)
 		_gameWindow->draw(sprite);
 	}
 }
-
-
-void							Game::cleanObjects(void)
-{
-//	for (obj_type::iterator it = _objects.begin(); it != _objects.end();)
-//	{
-//		if (!(*it)->isAlive())
-//		{
-//			AObject	*entity = *it;
-//			it = _objects.erase(it);
-//#if defined(DEBUG)
-//			std::cout << entity->getObjType() << std::endl;
-//#endif
-//			delete entity;
-//		}
-//		else
-//			++it;
-//	}
-}
-
-
-
 
 bool						Game::delObj(int id)
 {
@@ -401,7 +397,6 @@ Game::Game(sf::RenderWindow *gameWindow, sf::Event *event) : _layerManager(gameW
 	ObjectFactory::getInstance().init(&_textureManager);
 	_gameWindow = gameWindow;
 	_event = event;
-	_idPlayer = 1;
 
 	_map[requestCode::game::ELEM] = &Game::elem;
 	_map[requestCode::game::DEATH] = &Game::death;
