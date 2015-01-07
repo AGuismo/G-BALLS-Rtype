@@ -88,6 +88,7 @@
     <ClInclude Include="include\Mob.hh" />
     <ClInclude Include="include\Player.hh" />
     <ClInclude Include="include\Position.hh" />
+    <ClInclude Include="include\Rect.hpp" />
     <ClInclude Include="include\Referee.hh" />
     <ClInclude Include="include\Rules.hh" />
     <ClInclude Include="include\Scenario.hh" />

@@ -130,14 +130,14 @@ bool							Game::load(void)
 	if (!AudioManager::getInstance().add(ANEXT_STAGE, ASOUND, false, std::string("./Sounds/NextStage.wav")))
 		return false;
 
-	Scenario	s;
+	Scenario	s(720, 1280);
 	Player		me(0x4242, Position(250, 250, Position::EAST), 1);
 
 	s.addPlayer(me);
 	_referee.loadScenario(s, 0x4242);
 
 	_objects[0x4242] = ObjectFactory::getInstance().createObject(me.getType(), me.getID(), me.getPosition());;
-	_objects[5] = ObjectFactory::getInstance().createObject(Entity::createType(Entity::MOBS, 1), 5, Position(800, 500, Position::WEST));;
+	_objects[5] = ObjectFactory::getInstance().createObject(Entity::createType(Entity::MOBS, 1), 5, Position(800, 500, Position::WEST));
 	return true;
 }
 
@@ -209,11 +209,11 @@ void			Game::onFire(sf::Keyboard::Key key, Game *self)
 
 void							Game::run(void)
 {
-	Timer						_playerFireLock(sf::seconds(0.5f));
 	Timer						_playerBlastLock(sf::seconds(2.0f));
 	Timer						_aliveRequest(sf::seconds(0.5f));
 	Timer						_lostConnection(sf::seconds(3.0f));
 	EventManager				ev(*_event);
+	std::vector<unsigned short>	toDelete;
 	//ARequest					*req;
 
 	//_gameWindow->setFramerateLimit(25);
@@ -245,7 +245,19 @@ void							Game::run(void)
 
 		/* Get request from MasterReferee, send it to referee and apply to objects(Mover) */
 
-		_referee.update();
+		_referee.update(toDelete);
+		if (!toDelete.empty())
+		{
+			for (std::vector<unsigned short>::iterator it = toDelete.begin(); it != toDelete.end(); ++it)
+			{
+				if (*it == _referee.getMyPlayer().getID())
+				{
+					_onGame = false;
+					break;
+				}
+				_objects.erase(*it);
+			}
+		}
 
 		draw();
 		//while ((req = _network.recvRequest()) != 0)
@@ -271,6 +283,7 @@ void							Game::run(void)
 		//}
 	}
 	cleanGame();
+	_gameWindow->close();
 }
 
 void		Game::draw()

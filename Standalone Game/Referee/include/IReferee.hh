@@ -21,7 +21,7 @@ public:
 	virtual bool	acceptFire(unsigned short id, std::vector<Missile> &createdMissiles) = 0;
 	virtual void	loadScenario(const Scenario &scenario) = 0;
 
-	virtual void	update() = 0;
+	virtual void	update(std::vector<unsigned short> &toDelete) = 0;
 	
 	virtual unsigned short	uniqueID() = 0;
 };

@@ -7,8 +7,8 @@
 class Scenario
 {
 public:
-	static const unsigned short			DEFAULT_HEIGHT = 1920;
-	static const unsigned short			DEFAULT_WIDTH = 1080;
+	static const unsigned short			DEFAULT_WIDTH = 1920;
+	static const unsigned short			DEFAULT_HEIGHT = 1080;
 	static const float					DEFAULT_SPEED;
 	static const IReferee::Difficulty	DEFAULT_DIFFICULTY = IReferee::EASY;
 

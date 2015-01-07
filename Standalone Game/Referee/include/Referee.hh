@@ -25,7 +25,7 @@ public:
 	bool		acceptFire(unsigned short id, std::vector<Missile> &createdMissiles);
 
 	void		loadScenario(const Scenario &scenario, unsigned short playerID);
-	void		update();
+	void		update(std::vector<unsigned short> &toDelete);
 
 	void		sendRequest(/* Add network here */); // Send request to the server (acceptMove + acceptFire)
 
@@ -40,6 +40,8 @@ public:
 private:
 	void		loadScenario(const Scenario &scenario);
 	void		fire(std::vector<Missile> &createdMissiles);
+	static bool	isOutsideMap(const Entity &object, unsigned short mapHeight, unsigned short mapWidth);
+	static bool	isCollision(const Entity &object1, const Entity &object2);
 
 private:
 	void		pushRequest(); // Add data from MainReferee (server) => acceptMove and acceptFire calls

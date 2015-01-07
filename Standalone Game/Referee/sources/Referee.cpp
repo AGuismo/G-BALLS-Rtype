@@ -2,6 +2,8 @@
 #include	<stdexcept>
 #endif // !DEBUG
 
+#include	"Mob.hh" // DEBUG
+#include	"Rect.hpp"
 #include	"Referee.hh"
 #include	"Player.hh"
 #include	"Scenario.hh"
@@ -12,6 +14,7 @@ const float	Referee::FIRE_LOCK_TIME = 0.5f;
 Referee::Referee(const Scenario &scenario, unsigned short playerID):
 _scenario(scenario), _incrementalID(1)
 {
+	_objects[5] = new Mob(5, Position(800, 500, Position::WEST), 1);
 }
 
 Referee::~Referee()
@@ -90,23 +93,78 @@ void		Referee::loadScenario(const Scenario &scenario)
 /*
 * Purpose:
 * - Get requests from MasterReferee to update map
-* - Destroy Objects if necessary - MasterReferee will tell you
+* - Destroy Objects if necessary - MasterReferee will tell you or object outside map.
 * - send to MasterReferee Player Position
 *
-* The MasterReferee have also:
+* The MasterReferee have also (that Rerefee doesn't have):
 * - Test if there is collision
 * - Apply actions if collision
 *
 */
-void		Referee::update() 
+void		Referee::update(std::vector<unsigned short>	&toDelete)
 {
+	unsigned short	mapHeight, mapWidth;
+	// GetRequests...
 
+	toDelete.clear();
+	_scenario.getMapSize(mapHeight, mapWidth);
+	for (objects_map_type::iterator it = _objects.begin(); it != _objects.end(); ++it) // Obj vs Map
+	{
+		if (Referee::isOutsideMap(*it->second, mapHeight, mapWidth))
+			toDelete.push_back(it->first);
+	}
+	for (std::vector<unsigned short>::iterator it = toDelete.begin(); it != toDelete.end(); ++it)
+	{
+		if (*it == _player.object->getID())
+			continue; // don't delete it
+		_objects.erase(*it);
+	}
+
+	for (objects_map_type::iterator it = _objects.begin(); it != _objects.end(); ++it) // Obj vs Obj
+	{
+		for (objects_map_type::iterator it2 = _objects.begin(); it2 != _objects.end(); ++it2) // Obj vs Obj
+		{
+			if (it->first != it2->first && Referee::isCollision(*it->second, *it2->second))
+			{
+				toDelete.push_back(it->first);
+				toDelete.push_back(it2->first);
+			}
+		}
+	}
+	for (std::vector<unsigned short>::iterator it = toDelete.begin(); it != toDelete.end(); ++it)
+	{
+		if (*it == _player.object->getID())
+			continue; // don't delete it
+		_objects.erase(*it);
+	}
+	// SendPlayerPosition to MasterReferee...
 }
 
 /* When protocol will be restored */
 void		Referee::sendRequest()
 {
 
+}
+
+bool		Referee::isOutsideMap(const Entity &object, unsigned short mapHeight, unsigned short mapWidth)
+{
+	return (object.getPosition().x() + object.getWidth() > mapWidth || object.getPosition().y() + object.getHeight() > mapHeight);
+}
+
+bool		Referee::isCollision(const Entity &object1, const Entity &object2)
+{
+	Rect<>	obj1(object1.getPosition().x(), object1.getPosition().y(), object1.getWidth(), object1.getHeight());
+	Rect<>	obj2(object2.getPosition().x(), object2.getPosition().y(), object2.getWidth(), object2.getHeight());
+
+	//return NOT(
+	//	(Rect1.Bottom < Rect2.Top) OR
+	//	(Rect1.Top > Rect2.Bottom) OR
+	//	(Rect1.Left > Rect2.Right) OR
+	//	(Rect1.Right < Rect2.Left))
+	return ((obj1.m_y + obj1.m_height > obj2.m_y) &&
+			(obj1.m_y < obj2.m_y + obj2.m_height) &&
+			(obj1.m_x < obj2.m_x + obj2.m_width) &&
+			(obj1.m_x + obj1.m_width > obj2.m_x));
 }
 
 const Referee::objects_map_type	&Referee::getMap() const
@@ -132,10 +190,7 @@ const Player	&Referee::getMyPlayer() const
 
 unsigned short	Referee::uniqueID()
 {
-	if (_objects.find(_incrementalID) != _objects.end())
-	{
+	while (_objects.find(_incrementalID) != _objects.end())
 		++_incrementalID;
-		return (uniqueID());
-	}
 	return (_incrementalID++);
 }
