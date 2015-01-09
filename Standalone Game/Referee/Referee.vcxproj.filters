@@ -39,9 +39,6 @@
     <ClInclude Include="include\Scenario.hh">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\IReferee.hh">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="include\Clock.hh">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -54,9 +51,33 @@
     <ClInclude Include="include\Rect.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\ObjectMover.hh">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ObjectMoverStraight.hh">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\EntityFactory.hh">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="sources\Clock.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="sources\Entity.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\Missile.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\Mob.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\ObjectMover.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\ObjectMoverStraight.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="sources\Player.cpp">
@@ -68,19 +89,13 @@
     <ClCompile Include="sources\Referee.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="source\Missile.cpp">
+    <ClCompile Include="sources\Scenario.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="source\Scenario.cpp">
+    <ClCompile Include="sources\Time.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="source\Clock.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="source\Time.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="source\Mob.cpp">
+    <ClCompile Include="sources\EntityFactory.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

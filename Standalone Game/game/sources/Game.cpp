@@ -15,8 +15,6 @@ using namespace requestCode::game;
 
 Game::~Game()
 {
-  for (obj_map_type::iterator it = _objects.begin(); it != _objects.end(); ++it)
-    delete it->second;
 }
 
 bool							Game::load(void)
@@ -136,16 +134,14 @@ bool							Game::load(void)
 	s.addPlayer(me);
 	_referee.loadScenario(s, 0x4242);
 
-	_objects[0x4242] = ObjectFactory::getInstance().createObject(me.getType(), me.getID(), me.getPosition());;
-	_objects[5] = ObjectFactory::getInstance().createObject(Entity::createType(Entity::MOBS, 1), 5, Position(800, 500, Position::WEST));
+	//_objects[0x4242] = ObjectFactory::getInstance().createObject(me.getType(), me.getID(), me.getPosition());;
+	//_objects[5] = ObjectFactory::getInstance().createObject(Entity::createType(Entity::MOBS, 1), 5, Position(800, 500, Position::WEST));
 	return true;
 }
 
 void			Game::onMyselfMove(Position::dir direction)
 {
-	ObjectMover	*self = _objects[_referee.getMyPlayer().getID()];
-
-	self->onMove(direction, _referee);
+	_referee.acceptMove(direction);
 }
 
 void			Game::onMoveLeft(sf::Keyboard::Key key, Game *self)
@@ -198,13 +194,10 @@ void			Game::onEscape(sf::Keyboard::Key key, Game *self)
 
 void			Game::onFire(sf::Keyboard::Key key, Game *self)
 {
-	std::vector<Missile>	createdMissiles;
-	const Player			&myPlayer = self->_referee.getMyPlayer();
-
-	if (!self->_referee.acceptFire(myPlayer.getID(), createdMissiles))
+	if (!self->_referee.acceptFire())
 		return;
-	for (std::vector<Missile>::iterator it = createdMissiles.begin(); it != createdMissiles.end(); ++it)
-		self->_objects[it->getID()] = ObjectFactory::getInstance().createObject(it->getType(), it->getID(), it->getPosition());
+	//for (std::vector<Missile>::iterator it = createdMissiles.begin(); it != createdMissiles.end(); ++it)
+	//	self->_objects[it->getID()] = ObjectFactory::getInstance().createObject(it->getType(), it->getID(), it->getPosition());
 }
 
 void							Game::run(void)
@@ -294,16 +287,37 @@ void		Game::draw()
 	_gameWindow->display();
 }
 
+Animation	&Game::createAnimation(const Entity &entity)
+{
+	Animation		anim(entity.getType());
+	const game::TextureManager::texture_map_type	textures = _textureManager.getTextureByType(entity.getType());
+
+	for (game::TextureManager::texture_map_type::const_iterator it = textures.begin();
+		it != textures.end(); ++it)
+		anim.addFrame(it->first.action, it->second);
+	_objects[entity.getID()] = anim;
+	return (_objects[entity.getID()]);
+}
+
+Animation	&Game::getAnimation(const Entity &current)
+{
+	obj_map_type::iterator	itAnim = _objects.find(current.getID());
+
+	return (itAnim == _objects.end() ? createAnimation(current) : itAnim->second);
+}
+
 void		Game::drawObjects(void)
 {
-	for (obj_map_type::const_iterator it = _objects.begin(); it != _objects.end(); ++it)
+	const Referee::entity_set_type	&map = _referee.getMap();
+
+	for (Referee::entity_set_type::const_iterator it = map.begin(); it != map.end(); ++it)
 	{
-		it->second->update(_referee);
+		const Entity					*current = *it;
+		Animation						&animation = getAnimation(*current);
+		const sf::Texture				&texture = animation.getFrame();
+		sf::Sprite						sprite(texture);
 
-		const sf::Texture	&texture = it->second->getAnimation().getFrame();
-		sf::Sprite	sprite(texture);
-
-		sprite.setPosition(it->second->getCurrentPos());
+		sprite.setPosition(PositionToVector2f(current->getPosition()));
 		_gameWindow->draw(sprite);
 	}
 }
@@ -314,11 +328,8 @@ bool						Game::delObj(int id)
 
 	if (it != _objects.end())
 	{
-		ObjectMover	*obj = it->second;
-
 		_objects.erase(it);
 		//obj->onDestruction(*this);
-		delete obj;
 		return true;
 	}
 	return false;
@@ -355,12 +366,10 @@ void							Game::cleanGame()
 {
 	for (obj_map_type::iterator it = _objects.begin(); it != _objects.end();)
 	{
-			ObjectMover	*obj = it->second;
 #if defined(DEBUG)
-			std::cout << obj->getObjectID() << std::endl;
+			std::cout << it->first << std::endl;
 #endif
 			it = _objects.erase(it);
-			delete obj;
 	}
 	if (_gameWindow->isOpen())
 		_gameWindow->clear();
@@ -415,9 +424,12 @@ void	Game::nextStage(const ARequest *req)
   AudioManager::getInstance().play(ANEXT_STAGE);
 }
 
+sf::Vector2f	Game::PositionToVector2f(const Position &pos)
+{
+	return (sf::Vector2f(pos.x, pos.y));
+}
 Game::Game(sf::RenderWindow *gameWindow, sf::Event *event) : _layerManager(gameWindow)
 {
-	ObjectFactory::getInstance().init(&_textureManager);
 	_gameWindow = gameWindow;
 	_event = event;
 

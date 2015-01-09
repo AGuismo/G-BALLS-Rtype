@@ -2,19 +2,17 @@
 
 #include	"ObjectMover.hh"
 
-class Referee;
-
 class ObjectMoverStraight : public ObjectMover
 {
 public:
-	ObjectMoverStraight(const Entity &e, const Animation &a);
+	ObjectMoverStraight(const Entity &e);
 	ObjectMoverStraight();
 	~ObjectMoverStraight();
 
 	ObjectMoverStraight(const ObjectMoverStraight &src);
 	ObjectMoverStraight	&operator=(const ObjectMoverStraight &src);
 
-	void			update(Referee &referee);
+	bool			update();
 
 private:
 	Position::dir	_direction;

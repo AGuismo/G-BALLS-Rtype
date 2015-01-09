@@ -2,14 +2,15 @@
 #include	<iostream>
 #include	"ObjectMover.hh"
 #include	"Referee.hh"
+#include	"Time.hh"
 
 static const float	SQRT_2 = sqrtf(2.0f);
 const float			ObjectMover::DEFAULT_MOVEMENT_DURATION = 0.25f;
 
-ObjectMover::ObjectMover(const Entity &entity, const Animation &anim, float movementDuration) :
-_objectID(entity.getID()), _speed(entity.speed()), _animations(anim), _isMoving(false), _isNextMoveAvailable(false), _moveDuration(movementDuration)
+ObjectMover::ObjectMover(const Entity &entity, float movementDuration) :
+_objectID(entity.getID()), _speed(entity.speed()), _isMoving(false), _isNextMoveAvailable(false), _moveDuration(movementDuration)
 {
-	_position.current = _position.previous = _position.next = sf::Vector2f(entity.getPosition().x(), entity.getPosition().y());
+	_position.current = _position.previous = _position.next = entity.getPosition();
 	_movement.endTimer = 0.f;
 }
 
@@ -24,7 +25,7 @@ ObjectMover::~ObjectMover()
 }
 
 ObjectMover::ObjectMover(const ObjectMover &src):
-_objectID(src._objectID), _speed(src._speed), _animations(src._animations), _moveDuration(src._moveDuration),
+_objectID(src._objectID), _speed(src._speed), _moveDuration(src._moveDuration),
 _isMoving(src._isMoving), _isNextMoveAvailable(src._isNextMoveAvailable), _nextMove(src._nextMove)
 {
 	_movement.timer = src._movement.timer;
@@ -40,7 +41,7 @@ ObjectMover	&ObjectMover::operator=(const ObjectMover &src)
 	{
 		_objectID = src._objectID;
 		_speed = src._speed;
-		_animations = src._animations;
+		//_animations = src._animations;
 		_position.previous = src._position.previous;
 		_position.current = src._position.current;
 		_position.next = src._position.next;
@@ -59,29 +60,29 @@ void	ObjectMover::changeSpeed(short speed)
 	_speed = speed;
 }
 
-void		ObjectMover::forcePosition(const sf::Vector2f &currentPos)
+void		ObjectMover::forcePosition(const Position &currentPos)
 {
 	_position.previous = _position.current = _position.next = currentPos;
 	_isMoving = false;
 	_isNextMoveAvailable = false;
 }
 
-Animation	&ObjectMover::getAnimation()
-{
-	return (_animations);
-}
+//Animation	&ObjectMover::getAnimation()
+//{
+//	return (_animations);
+//}
 
-const sf::Vector2f	&ObjectMover::getPreviousPos() const
+const Position	&ObjectMover::getPreviousPos() const
 {
 	return (_position.previous);
 }
 
-const sf::Vector2f	&ObjectMover::getCurrentPos() const
+const Position	&ObjectMover::getCurrentPos() const
 {
 	return (_position.current);
 }
 
-const sf::Vector2f	&ObjectMover::getNextPos() const
+const Position	&ObjectMover::getNextPos() const
 {
 	return (_position.next);
 }
@@ -91,11 +92,11 @@ unsigned short	ObjectMover::getObjectID() const
 	return (_objectID);
 }
 
-void			ObjectMover::onMove(Position::dir direction, Referee &referee)
+void			ObjectMover::onMove(Position::dir direction)
 {
 	if (!_isMoving)
 	{
-		sf::Vector2f	posOffset(0.f, 0.f);
+		Position	posOffset(0, 0);
 
 		if (direction == Position::NORTH)
 			posOffset.y -= _speed;
@@ -120,8 +121,6 @@ void			ObjectMover::onMove(Position::dir direction, Referee &referee)
 			else
 				posOffset.y -= realOffset;
 		}
-		if (!referee.acceptMove(_objectID, Vector2fToPosition(_position.current + posOffset, direction)))
-			return ;
 		_position.next += posOffset;
 		_movement.endTimer += _moveDuration;
 	}
@@ -132,17 +131,18 @@ void			ObjectMover::onMove(Position::dir direction, Referee &referee)
 	}
 }
 
-void			ObjectMover::update(Referee &referee)
+bool			ObjectMover::update()
 {
 	if (_position.previous != _position.next && !_isMoving) // start move
 	{
 		_movement.timer.restart();
 		_isMoving = true;
 		_movement.endTimer = _moveDuration;
+		return (true);
 	}
 	else if (_isMoving) // move in progress
 	{
-		sf::Time	totalTime = _movement.timer.getElapsedTime();
+		Time		totalTime = _movement.timer.getElapsedTime();
 		float		progress = totalTime.asSeconds() / _movement.endTimer;
 
 		_position.current.x = _position.previous.x + (_position.next.x - _position.previous.x) * progress;
@@ -154,23 +154,20 @@ void			ObjectMover::update(Referee &referee)
 			_isMoving = false;
 			if (_isNextMoveAvailable)
 			{
-				onMove(_nextMove, referee);
+				onMove(_nextMove);
 				_isNextMoveAvailable = false;
 				_isMoving = true;
 				_movement.timer.restart();
 				_movement.endTimer = _moveDuration;
+				return (true);
 			}
 			else
 			{
 				_movement.endTimer = 0.0f;
 				_isMoving = false;
 				_position.current = _position.next;
+				return (false);
 			}
 		}
 	}
-}
-
-Position	ObjectMover::Vector2fToPosition(const sf::Vector2f &pos, Position::dir direction)
-{
-	return (Position(pos.x, pos.y, direction));
 }

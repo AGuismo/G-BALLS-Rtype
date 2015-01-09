@@ -82,3 +82,17 @@ protected:
 	short			_shield;
 };
 
+struct EntityComparer : public Entity
+{
+	EntityComparer() {};
+	EntityComparer(unsigned int id)
+	{
+		_id = id;
+	}
+	~EntityComparer() {};
+
+	void	id(unsigned int id)
+	{
+		_id = id;
+	}
+};

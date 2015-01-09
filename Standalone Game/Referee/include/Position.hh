@@ -19,24 +19,34 @@ public:
 	};
 
 public:
-	Position(pos x, pos y, dir direction);
-	Position(pos position[2], dir direction);
+	Position(pos x, pos y, dir direction = 0);
 	Position();
 	~Position();
 	Position(const Position &src);
 	Position	&operator=(const Position &src);
 
 public:
-	pos		x() const;
-	pos		y() const;
+	bool	operator==(const Position &rhs);
+	bool	operator!=(const Position &rhs);
+
+public:
+	Position	&operator+=(const Position &rhs);
+	Position	&operator-=(const Position &rhs);
+
+	Position	operator+(const Position &rhs);
+	Position	operator-(const Position &rhs);
+
+
+public:
 	dir		direction() const;
 
-	void	x(pos x);
-	void	y(pos y);
 	void	direction(dir d);
 
+public:
+	pos		x;
+	pos		y;
+
 private:
-	pos		_positions[2];
 	dir		_dir;
 };
 

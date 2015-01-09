@@ -83,9 +83,11 @@
   <ItemGroup>
     <ClInclude Include="include\Clock.hh" />
     <ClInclude Include="include\Entity.hh" />
-    <ClInclude Include="include\IReferee.hh" />
+    <ClInclude Include="include\EntityFactory.hh" />
     <ClInclude Include="include\Missile.hh" />
     <ClInclude Include="include\Mob.hh" />
+    <ClInclude Include="include\ObjectMover.hh" />
+    <ClInclude Include="include\ObjectMoverStraight.hh" />
     <ClInclude Include="include\Player.hh" />
     <ClInclude Include="include\Position.hh" />
     <ClInclude Include="include\Rect.hpp" />
@@ -95,15 +97,18 @@
     <ClInclude Include="include\Time.hh" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="sources\Clock.cpp" />
     <ClCompile Include="sources\Entity.cpp" />
+    <ClCompile Include="sources\EntityFactory.cpp" />
+    <ClCompile Include="sources\Missile.cpp" />
+    <ClCompile Include="sources\Mob.cpp" />
+    <ClCompile Include="sources\ObjectMover.cpp" />
+    <ClCompile Include="sources\ObjectMoverStraight.cpp" />
     <ClCompile Include="sources\Player.cpp" />
     <ClCompile Include="sources\Position.cpp" />
     <ClCompile Include="sources\Referee.cpp" />
-    <ClCompile Include="source\Clock.cpp" />
-    <ClCompile Include="source\Missile.cpp" />
-    <ClCompile Include="source\Mob.cpp" />
-    <ClCompile Include="source\Scenario.cpp" />
-    <ClCompile Include="source\Time.cpp" />
+    <ClCompile Include="sources\Scenario.cpp" />
+    <ClCompile Include="sources\Time.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

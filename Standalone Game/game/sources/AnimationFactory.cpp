@@ -5,14 +5,12 @@
 #include			"Mob.hh"
 
 // Physics
-#include			"ObjectFactory.hh"
+#include			"AnimationFactory.hh"
 #include			"TextureManager.hh"
-#include			"ObjectMover.hh"
-#include			"ObjectMoverStraight.hh"
 
 using namespace requestCode::game;
 
-ObjectMover		*ObjectFactory::createObject(const Entity::type &type, unsigned short id, const Position &pos)
+ObjectMover		*AnimationFactory::createObject(const Entity::type &type, unsigned short id, const Position &pos)
 {
 	switch (type.desc.maj)
 	{
@@ -76,7 +74,7 @@ ObjectMover		*ObjectFactory::createObject(const Entity::type &type, unsigned sho
 	}
 }
 
-const Animation		ObjectFactory::getAnimation(const Entity::type &t) const
+const Animation		AnimationFactory::getAnimation(const Entity::type &t) const
 {
 	Animation		anim(t);
 	const game::TextureManager::texture_map_type	textures = _textureManager->getTextureByType(t);
@@ -88,25 +86,25 @@ const Animation		ObjectFactory::getAnimation(const Entity::type &t) const
 }
 
 
-void				ObjectFactory::init(game::TextureManager *manager)
+void				AnimationFactory::init(game::TextureManager *manager)
 {
 	_textureManager = manager;
 }
 
-ObjectFactory				&ObjectFactory::getInstance()
+AnimationFactory				&AnimationFactory::getInstance()
 {
-	static ObjectFactory	factory;
+	static AnimationFactory	factory;
 
 	return (factory);
 }
 
-ObjectFactory::ObjectFactory():
+AnimationFactory::AnimationFactory():
 	_textureManager(0)
 {
 
 }
 
-ObjectFactory::~ObjectFactory()
+AnimationFactory::~AnimationFactory()
 {
 
 }

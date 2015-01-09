@@ -1,12 +1,11 @@
-#ifndef OBJECT_FACTORY
-# define	OBJECT_FACTORY
+#ifndef ANIMATION_FACTORY
+# define	ANIMATION_FACTORY
 
 # include	<map>
 # include	"RequestCode.hh"
 # include	"Entity.hh"
 
 class	Position;
-class	ObjectMover;
 class	Animation;
 
 namespace	game
@@ -14,7 +13,7 @@ namespace	game
   class	TextureManager;
 }
 
-class					ObjectFactory
+class					AnimationFactory
 {
 private:
 	typedef std::map<unsigned short, std::string>	texture_code_map_type;
@@ -24,21 +23,21 @@ private:
 	texture_code_map_type	_codes;
 
 public:
-	ObjectMover			*createObject(const Entity::type &type, unsigned short id, const Position &pos);
+	Animation			createAnimation(const Entity::type &type);
 	void				init(game::TextureManager *);
 
 public:
-	static ObjectFactory		&getInstance(void);
+	static AnimationFactory		&getInstance(void);
 
 private:
 	const Animation				getAnimation(const Entity::type &t) const;
 
-	ObjectFactory();
-	~ObjectFactory();
+	AnimationFactory();
+	~AnimationFactory();
 
 private:
-	ObjectFactory(const ObjectFactory &);
-	ObjectFactory			operator=(const ObjectFactory &);
+	AnimationFactory(const AnimationFactory &);
+	AnimationFactory			operator=(const AnimationFactory &);
 };
 
-#endif // !OBJECT_FACTORY
+#endif // !ANIMATION_FACTORY

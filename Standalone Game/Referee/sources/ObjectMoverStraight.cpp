@@ -1,7 +1,7 @@
 #include	"ObjectMoverStraight.hh"
 
-ObjectMoverStraight::ObjectMoverStraight(const Entity &e, const Animation &a):
-ObjectMover(e, a)
+ObjectMoverStraight::ObjectMoverStraight(const Entity &e):
+ObjectMover(e)
 {
 	_direction = e.getPosition().direction();
 }
@@ -32,16 +32,16 @@ ObjectMoverStraight	&ObjectMoverStraight::operator=(const ObjectMoverStraight &s
 	return (*this);
 }
 
-void			ObjectMoverStraight::update(Referee &referee)
+bool			ObjectMoverStraight::update()
 {
 	if (!_isMoving)
 	{
-		onMove(_direction, referee);
+		onMove(_direction);
 	}
 	else
 	{
 		_nextMove = _direction;
 		_isNextMoveAvailable = true;
 	}
-	ObjectMover::update(referee);
+	return (ObjectMover::update());
 }

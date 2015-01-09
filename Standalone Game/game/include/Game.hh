@@ -5,16 +5,15 @@
 #include	"TextureManager.hh"
 #include	"LayerManager.hh"
 #include	"AudioManager.hh"
-#include	"ObjectFactory.hh"
 #include	"Referee.hh"
+#include	"Animation.hh"
 
 class ARequest;
-class ObjectMover;
 
 class Game
 {
 private:
-  typedef std::map<unsigned short, ObjectMover *>	obj_map_type;
+  typedef std::map<unsigned short, Animation>	obj_map_type;
   typedef void	(Game::*game_callback)(const ARequest *);
   typedef std::map<requestCode::CodeID, game_callback>	callback_map;
 
@@ -39,37 +38,40 @@ private:
 	Referee						_referee;
 
 private:
-  void						drawObjects(void);
-  void						draw(void);
+  sf::Vector2f	PositionToVector2f(const Position &pos);
+  Animation		&createAnimation(const Entity &object);
+  Animation		&getAnimation(const Entity &object);
+  void			drawObjects(void);
+  void			draw(void);
   
-  static void				onMoveLeft(sf::Keyboard::Key, Game *self);
-  static void				onMoveRight(sf::Keyboard::Key, Game *self);
-  static void				onMoveUp(sf::Keyboard::Key, Game *self);
-  static void				onMoveDown(sf::Keyboard::Key, Game *self);
-  static void				onFire(sf::Keyboard::Key, Game *self);
-  static void				onEscape(sf::Keyboard::Key, Game *self);
-  void						onMyselfMove(Position::dir dir);
+  static void	onMoveLeft(sf::Keyboard::Key, Game *self);
+  static void	onMoveRight(sf::Keyboard::Key, Game *self);
+  static void	onMoveUp(sf::Keyboard::Key, Game *self);
+  static void	onMoveDown(sf::Keyboard::Key, Game *self);
+  static void	onFire(sf::Keyboard::Key, Game *self);
+  static void	onEscape(sf::Keyboard::Key, Game *self);
+  void			onMyselfMove(Position::dir dir);
 
 private:
-  void						cleanGame(void);
+  void			cleanGame(void);
 
 public:
-  bool						updateObj(game::Type type, game::Dir lDir, int id, int pos);
-  bool						addObj(game::Type type, int id, int pos);
-  bool						delObj(int id);
+  bool			updateObj(game::Type type, game::Dir lDir, int id, int pos);
+  bool			addObj(game::Type type, int id, int pos);
+  bool			delObj(int id);
 
 public:
-  bool						load(void);
-  void						run(void);
+  bool			load(void);
+  void			run(void);
 
 private:
-  void					elem(const ARequest *req);
-  void					death(const ARequest *req);
-  void					buff(const ARequest *req);
-  void					score(const ARequest *req);
-  void					victory(const ARequest *req);
-  void					loose(const ARequest *req);
-  void					nextStage(const ARequest *req);
+  void			elem(const ARequest *req);
+  void			death(const ARequest *req);
+  void			buff(const ARequest *req);
+  void			score(const ARequest *req);
+  void			victory(const ARequest *req);
+  void			loose(const ARequest *req);
+  void			nextStage(const ARequest *req);
 
 public:
   Game(sf::RenderWindow *gameWindow, sf::Event *event);

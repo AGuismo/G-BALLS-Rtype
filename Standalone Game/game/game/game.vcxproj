@@ -92,28 +92,22 @@
     <ClInclude Include="..\include\EnumLayer.hh" />
     <ClInclude Include="..\include\EventManager.hh" />
     <ClInclude Include="..\include\GameWindow.hh" />
-    <ClInclude Include="..\include\ObjectFactory.hh" />
     <ClInclude Include="..\include\Game.hh" />
     <ClInclude Include="..\include\Layer.hh" />
     <ClInclude Include="..\include\LayerManager.hh" />
-    <ClInclude Include="..\include\ObjectMover.hh" />
-    <ClInclude Include="..\include\ObjectMoverStraight.hh" />
     <ClInclude Include="..\include\TextureManager.hh" />
     <ClInclude Include="..\include\Timer.hh" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\sources\Animation.cpp" />
     <ClCompile Include="..\sources\AudioManager.cpp" />
-    <ClCompile Include="..\sources\ObjectFactory.cpp" />
+    <ClCompile Include="..\sources\EventManager.cpp" />
     <ClCompile Include="..\sources\Game.cpp" />
     <ClCompile Include="..\sources\GameWindow.cpp" />
     <ClCompile Include="..\sources\Layer.cpp" />
     <ClCompile Include="..\sources\LayerManager.cpp" />
-    <ClCompile Include="..\sources\ObjectMover.cpp" />
     <ClCompile Include="..\sources\TextureManager.cpp" />
     <ClCompile Include="..\sources\Timer.cpp" />
-    <ClCompile Include="..\source\EventManager.cpp" />
-    <ClCompile Include="..\source\ObjectMoverStraight.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
