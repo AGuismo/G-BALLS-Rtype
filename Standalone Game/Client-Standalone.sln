@@ -15,12 +15,13 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "R-Type", "R-Type\R-Type.vcxproj", "{67477309-8A3F-4986-B032-6E02AB36F1FC}"
 	ProjectSection(ProjectDependencies) = postProject
 		{58935438-3F38-49E8-AC0D-A66DC7E8EF08} = {58935438-3F38-49E8-AC0D-A66DC7E8EF08}
+		{76458539-62E9-412A-87C1-7621EE985A5D} = {76458539-62E9-412A-87C1-7621EE985A5D}
 		{54B9DAB2-4F28-4103-83FF-093E5E14C627} = {54B9DAB2-4F28-4103-83FF-093E5E14C627}
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Protocol", "..\libraries\protocol\Protocol\Protocol.vcxproj", "{D69A5C00-CD7C-4BA7-A23E-4D2BB1D8B76C}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Referee", "Referee\Referee.vcxproj", "{76458539-62E9-412A-87C1-7621EE985A5D}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Referee", "..\libraries\Referee\Referee.vcxproj", "{76458539-62E9-412A-87C1-7621EE985A5D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

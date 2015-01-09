@@ -8,10 +8,11 @@
 #endif // SFML_STATIC
 #include		"GameWindow.hh"
 #include		"AScreen.hh"
+#include		"Game.hh"
 
 bool					GameWindow::load(void)
 {
-  if (!_game.load())
+  if (!_game->load())
     throw AScreen::Exception("Game Window failed to init");
   return true;
 }
@@ -22,12 +23,12 @@ void					GameWindow::clearWindow()
 
 int						GameWindow::run(void)
 {
-	_game.run();
+	_game->run();
 	return AScreen::SCR_MENU;
 }
 
 
 GameWindow::GameWindow(sf::RenderWindow &window) :
-  AScreen(window, AScreen::INGAME), _game(&window, &_event)
+  AScreen(window, AScreen::INGAME), _game(new Game(&window, &_event))
 {
 }

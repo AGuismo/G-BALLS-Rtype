@@ -130,14 +130,14 @@
     <ProjectReference Include="..\..\libraries\protocol\Protocol\Protocol.vcxproj">
       <Project>{d69a5c00-cd7c-4ba7-a23e-4d2bb1d8b76c}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\..\libraries\Referee\Referee.vcxproj">
+      <Project>{76458539-62e9-412a-87c1-7621ee985a5d}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\..\libraries\Thread\Threads\Threads.vcxproj">
       <Project>{58935438-3f38-49e8-ac0d-a66dc7e8ef08}</Project>
     </ProjectReference>
     <ProjectReference Include="..\game\game\game.vcxproj">
       <Project>{54b9dab2-4f28-4103-83ff-093e5e14c627}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\Referee\Referee.vcxproj">
-      <Project>{76458539-62e9-412a-87c1-7621ee985a5d}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

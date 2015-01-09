@@ -40,11 +40,11 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <TargetExt>.lib</TargetExt>
-    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(ProjectDir)/../include;$(ProjectDir)/../../Referee/include;$(ProjectDir)/../../include;$(ProjectDir)/../../network/include;$(SolutionDir)/../libraries/Thread/Threads/include;$(SolutionDir)/../libraries/Bind/include;$(SolutionDir)/../libraries/protocol/include</IncludePath>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(ProjectDir)/../include;$(ProjectDir)/../../include;$(ProjectDir)/../../network/include;$(SolutionDir)/../libraries/Thread/Threads/include;$(SolutionDir)/../libraries/Bind/include;$(SolutionDir)/../libraries/protocol/include;$(SolutionDir)/../libraries/Referee/include</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <TargetExt>.lib</TargetExt>
-    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(ProjectDir)/../include;$(ProjectDir)/../../Referee/include;$(ProjectDir)/../../include;$(ProjectDir)/../../network/include;$(SolutionDir)/../libraries/Thread/Threads/include;$(SolutionDir)/../libraries/Bind/include;$(SolutionDir)/../libraries/protocol/include</IncludePath>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(ProjectDir)/../include;$(ProjectDir)/../../include;$(ProjectDir)/../../network/include;$(SolutionDir)/../libraries/Thread/Threads/include;$(SolutionDir)/../libraries/Bind/include;$(SolutionDir)/../libraries/protocol/include;$(SolutionDir)/../libraries/Referee/include</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
