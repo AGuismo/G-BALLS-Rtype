@@ -17,7 +17,7 @@ Protocol			&VictoryRequest::unserialize(Protocol &rhs)
 	return rhs;
 }
 
-ARequest			*VictoryRequest::clone()
+ARequest			*VictoryRequest::clone() const
 {
 	return new VictoryRequest();
 }

@@ -14,7 +14,6 @@
 # include	<iostream>
 # include	<vector>
 # include	<SFML/Graphics.hpp>
-# include	"NetworkManager.hh"
 
 class		AScreen;
 
@@ -41,7 +40,6 @@ public:
   void	run();
 
 private:
-  network::Manager	_network;
   screen_list		_listScreen;
   sf::RenderWindow	_window;
 };

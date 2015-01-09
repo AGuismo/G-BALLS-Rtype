@@ -1,30 +1,66 @@
-#include	"TextureManager.h"
+#include	"TextureManager.hh"
 
 
 namespace	game
 {
-  TextureManager::~TextureManager()
-  {
-    for (map_type::iterator it = _spriteMap.begin(); it != _spriteMap.end(); ++it)
-      delete it->second;
-    _spriteMap.clear();
-  }
+	TextureManager::~TextureManager()
+	{
+		for (texture_map_type::iterator it = _textures.begin(); it != _textures.end(); ++it)
+			delete it->second;
+		for (image_map_type::iterator it = _images.begin(); it != _images.end(); ++it)
+		  delete it->second;
+	}
 
-  sf::Texture				*TextureManager::getTexture(game::Type obj)
-  {
-    map_type::iterator	it = _spriteMap.find(obj);
+	const sf::Texture	*TextureManager::getTexture(const Key &key) const
+	{
+		texture_map_type::const_iterator	it = _textures.find(key);
 
-    return (it == _spriteMap.end() ? NULL : it->second);
-  }
+		if (it == _textures.end())
+			return (NULL);
+		return (it->second);
+	}
 
-  bool					TextureManager::addTexture(game::Type obj, const std::string &texturePath)
-  {
-    sf::Texture			*newTexture = new sf::Texture;
+	const sf::Image		*TextureManager::getImage(const std::string &ImagePath) const
+	{
+		image_map_type::const_iterator	it = _images.find(ImagePath);
 
-    if (!newTexture->loadFromFile(texturePath.c_str()))
-      return false;
-    else
-      _spriteMap[obj] = newTexture;
-    return true;
-  }
+		return (it != _images.end() ? it->second : NULL);
+	}
+
+	bool					TextureManager::addTexture(const std::string &ImagePath, const Key &key, sf::IntRect &rect)
+	{
+		const sf::Image		*image = getImage(ImagePath);
+		sf::Texture			*newTexture;
+
+		if (_textures.find(key) != _textures.end())
+			return (false);
+		if (image == NULL)
+		{
+			sf::Image	*newImage = new sf::Image();
+
+			if (!newImage->loadFromFile(ImagePath))
+				return false;
+			_images[ImagePath] = newImage;
+			image = newImage;
+		}
+		newTexture = new sf::Texture();
+		if (!newTexture->loadFromImage(*image, rect))
+			return (false);
+		_textures[key] = newTexture;
+		return true;
+	}
+
+	const TextureManager::texture_map_type	TextureManager::getTextureByType(const Entity::type &type) const
+	{
+		texture_map_type	result;
+
+		for (texture_map_type::const_iterator it = _textures.begin(); it != _textures.end(); ++it)
+		{
+			if (it->first.type.full == type.full)
+				result.insert(*it);
+		}
+		return (result);
+	}
+
+
 }

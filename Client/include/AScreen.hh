@@ -47,10 +47,9 @@ protected:
   Status		_status;
   sf::Event		_event;
   sf::RenderWindow	&_window;
-  network::Manager	&_network;
 
 public:
-  AScreen(sf::RenderWindow &window, network::Manager &manager, AScreen::Status status);
+  AScreen(sf::RenderWindow &window, AScreen::Status status);
   virtual ~AScreen();
   virtual int	run(void) = 0;
   virtual void		clearWindow(void) = 0;

@@ -2,8 +2,7 @@
 #define	LAYER_
 
 # include	<SFML/Graphics.hpp>
-# include	"Timer.h"
-# include	"EnumObject.h"
+# include	"Timer.hh"
 # include	<algorithm>
 # include	<functional>
 
@@ -13,7 +12,7 @@ class Layer
 {
 private:
 	int							_id;
-	sf::Texture					*_lTexture;
+	sf::Texture					_lTexture;
 	sf::Sprite					_lSprite;
 
 private:
@@ -37,7 +36,7 @@ public:
 	void						disable(void);
 
 public:
-  Layer(int id, sf::Texture *lText, const sf::Vector2f &lInit,
+  Layer(int id, const sf::Texture &lText, const sf::Vector2f &lInit,
 	const sf::Vector2f &lReset, const sf::Vector2f &lLim,
 	const sf::Vector2f &lInc, Timer *lT, sf::RenderWindow *gWindow, bool lEn);
   ~Layer() {}

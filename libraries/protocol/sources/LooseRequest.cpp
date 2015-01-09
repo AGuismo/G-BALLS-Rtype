@@ -17,7 +17,7 @@ Protocol			&LooseRequest::unserialize(Protocol &rhs)
 	return rhs;
 }
 
-ARequest			*LooseRequest::clone()
+ARequest			*LooseRequest::clone() const
 {
 	return new LooseRequest();
 }

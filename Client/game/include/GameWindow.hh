@@ -3,19 +3,15 @@
 
 # include	<iostream>
 # include	<SFML/Graphics.hpp>
-# include	"game.h"
 # include	"AScreen.hh"
 
-namespace	network
-{
-  class		Manager;
-}
+class Game;
 
 class						GameWindow : public AScreen
 {
 private:
 	sf::Event				_event;
-	Game					_game;
+	Game					*_game;
 	int						_width; // osef
 	int						_height; //osef
 
@@ -25,7 +21,7 @@ public:
 	void					clearWindow(void);
 
 public:
-	GameWindow(sf::RenderWindow &window, network::Manager &network);
+	GameWindow(sf::RenderWindow &window);
 	~GameWindow() {}
 
 private:

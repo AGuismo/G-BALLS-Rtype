@@ -10,22 +10,20 @@
 
 #include	"Application.hh"
 #include	"AScreen.hh"
-#include	"Network.hh"
 #include	"MenuWindow.hh"
-#include	"gameWindow.h"
+#include	"GameWindow.hh"
+#include	"NetworkManager.hh"
 
 const char	*Application::WINDOW_NAME = "R-Type";
 
 Application::Application()
 {
-  _listScreen.push_back(new MenuWindow(_window, _network));
-  _listScreen.push_back(new GameWindow(_window, _network));
+	_listScreen.push_back(new MenuWindow(_window));
+	_listScreen.push_back(new GameWindow(_window));
 }
 
 Application::~Application()
 {
-  _network.stop();
-  _network.join();
   for (screen_list::iterator it = _listScreen.begin(); it != _listScreen.end(); ++it)
     delete *it;
 }
@@ -38,18 +36,12 @@ bool	Application::initialize()
   this->_window.setFramerateLimit(25);
   try
     {
-      _network.initialize();
       for (screen_list::iterator it = _listScreen.begin(); it != _listScreen.end(); ++it)
 	{
 	  (*it)->load();
 	}
     }
   catch (const AScreen::Exception &e)
-    {
-      std::cerr <<  e.what() << std::endl;
-      return (false);
-    }
-  catch (const network::Exception &e)
     {
       std::cerr <<  e.what() << std::endl;
       return (false);
@@ -61,7 +53,7 @@ void	Application::run()
 {
   int	screenIdx = AScreen::SCR_MENU;
 
-  _network.run();
+  network::Manager::getInstance().run();
   while (this->_window.isOpen())
     {
       screenIdx = _listScreen[screenIdx]->run();

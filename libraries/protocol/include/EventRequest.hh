@@ -15,7 +15,7 @@ public:
 public:
   Protocol			&serialize(Protocol &) const;
   Protocol			&unserialize(Protocol &);
-  ARequest			*clone();
+  ARequest			*clone() const;
   Ruint8				event()const;
   void				event(const Ruint8 &);
   Ruint8				param()const;

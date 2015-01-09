@@ -35,7 +35,7 @@ namespace Auth
   public:
     Protocol			&serialize(Protocol &) const;
     Protocol			&unserialize(Protocol &);
-    ARequest			*clone();
+	ARequest			*clone() const;
 
   public:
     const std::string			&username() const;
@@ -59,7 +59,7 @@ namespace Auth
   public:
     Protocol			&serialize(Protocol &) const;
     Protocol			&unserialize(Protocol &);
-    ARequest			*clone();
+	ARequest			*clone() const;
 
   public:
     const std::string			&username() const;
@@ -84,7 +84,7 @@ namespace Auth
   public:
     Protocol			&serialize(Protocol &) const;
     Protocol			&unserialize(Protocol &);
-    ARequest			*clone();
+	ARequest			*clone() const;
 
   public:
     const std::string			&username() const;

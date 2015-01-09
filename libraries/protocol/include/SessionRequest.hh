@@ -17,7 +17,7 @@ public:
 public:
   virtual Protocol	&serialize(Protocol &) const;
   virtual Protocol	&unserialize(Protocol &);
-  ARequest		*clone();
+  ARequest		*clone() const;
 
 public:
   static requestCode::SessionID	Unique(void);

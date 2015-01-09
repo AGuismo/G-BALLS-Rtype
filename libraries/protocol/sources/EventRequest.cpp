@@ -41,7 +41,7 @@ Protocol			&EventRequest::unserialize(Protocol &rhs)
 	return rhs;
 }
 
-ARequest			*EventRequest::clone()
+ARequest			*EventRequest::clone() const
 {
 	return new EventRequest();
 }

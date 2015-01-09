@@ -29,7 +29,7 @@ Protocol		&DeathRequest::unserialize(Protocol &rhs)
 	return rhs;
 }
 
-ARequest		*DeathRequest::clone()
+ARequest		*DeathRequest::clone() const
 {
 	return new DeathRequest(_id);
 }

@@ -21,7 +21,7 @@ Protocol			&LeaveRequest::unserialize(Protocol &rhs)
 	return rhs;
 }
 
-ARequest			*LeaveRequest::clone()
+ARequest			*LeaveRequest::clone() const
 {
 	return new LeaveRequest();
 }

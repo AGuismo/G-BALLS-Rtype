@@ -38,7 +38,7 @@ public:
   ARequest& operator=(ARequest const&);
 
 public:
-  virtual ARequest	*clone() = 0;
+  virtual ARequest	*clone() const = 0;
   virtual Protocol	&serialize(Protocol &) const = 0;
   virtual Protocol	&unserialize(Protocol &) = 0;
 

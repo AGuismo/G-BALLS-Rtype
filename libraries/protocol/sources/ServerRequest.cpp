@@ -59,7 +59,7 @@ Protocol	&ServerRequest::unserialize(Protocol &rhs)
   return (rhs);
 }
 
-ARequest	*ServerRequest::clone()
+ARequest	*ServerRequest::clone() const
 {
   return (new ServerRequest());
 }

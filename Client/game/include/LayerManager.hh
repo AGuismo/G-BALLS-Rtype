@@ -3,9 +3,8 @@
 
 #include	<deque>
 
-# include	"EnumObject.h"
-# include	"EnumLayer.h"
-# include	"Layer.h"
+# include	"EnumLayer.hh"
+# include	"Layer.hh"
 # include	"RequestCode.hh"
 
 class TextureManager;
@@ -24,7 +23,6 @@ class								LayerManager
 {
  private:
   sf::RenderWindow				*_gameWindow;
-  game::TextureManager				*_textureManager;
 
  private:
   typedef std::deque<Layer *>		 layers_type;
@@ -34,7 +32,7 @@ class								LayerManager
   Layer							*findLayer(int lId);
 
  public:
-  bool							addLayer(game::Type objType, LayerType lType, const sf::Vector2f &lInit,
+  bool							addLayer(const std::string &path, LayerType lType, const sf::Vector2f &lInit,
 								 const sf::Vector2f &lReset, const sf::Vector2f &lLim,
 								 const sf::Vector2f &lInc, Timer *lTimer, bool lEn);
   bool							enableLayer(LayerType layer);
@@ -46,7 +44,7 @@ class								LayerManager
   void							upDraw(void);
 
  public:
-  LayerManager(sf::RenderWindow *gameWindow, game::TextureManager *TextureManager);
+  LayerManager(sf::RenderWindow *gameWindow);
   ~LayerManager();
 
  private:

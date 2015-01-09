@@ -13,7 +13,7 @@ public:
 public:
 	Protocol			&serialize(Protocol &) const;
 	Protocol			&unserialize(Protocol &);
-	ARequest			*clone();
+	ARequest			*clone() const;
 private:
 };
 

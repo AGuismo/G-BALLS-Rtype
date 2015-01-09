@@ -17,7 +17,7 @@ Protocol                        &NextStageRequest::unserialize(Protocol &rhs)
     return rhs;
 }
 
-ARequest                        *NextStageRequest::clone()
+ARequest                        *NextStageRequest::clone() const
 {
     return new NextStageRequest();
 }

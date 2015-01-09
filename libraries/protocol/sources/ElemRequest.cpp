@@ -42,7 +42,7 @@ Protocol			&ElemRequest::unserialize(Protocol &rhs)
   return rhs;
 }
 
-ARequest			*ElemRequest::clone()
+ARequest			*ElemRequest::clone() const
 {
   return (new ElemRequest(_type, _pos, _dir, _id));
 }

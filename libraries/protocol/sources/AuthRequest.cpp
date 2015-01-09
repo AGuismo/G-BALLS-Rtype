@@ -98,7 +98,7 @@ namespace Auth
     return (rhs);
   }
 
-  ARequest	*NewUser::clone()
+  ARequest	*NewUser::clone() const
   {
     return (new NewUser());
   }
@@ -170,7 +170,7 @@ namespace Auth
     return (rhs);
   }
 
-  ARequest	*Connect::clone()
+  ARequest	*Connect::clone() const
   {
     return (new Connect());
   }
@@ -256,7 +256,7 @@ namespace Auth
     return (rhs);
   }
 
-  ARequest	*ChangePass::clone()
+  ARequest	*ChangePass::clone() const
   {
     return (new ChangePass());
   }

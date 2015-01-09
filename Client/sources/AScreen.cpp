@@ -11,8 +11,8 @@
 
 #include	"AScreen.hh"
 
-AScreen::AScreen(sf::RenderWindow &window, network::Manager &manager, AScreen::Status status) :
-  _status(status), _window(window), _network(manager)
+AScreen::AScreen(sf::RenderWindow &window, AScreen::Status status) :
+  _status(status), _window(window)
 {
 }
 

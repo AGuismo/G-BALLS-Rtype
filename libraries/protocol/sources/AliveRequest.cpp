@@ -23,7 +23,7 @@ Protocol			&AliveRequest::unserialize(Protocol &rhs)
 	return rhs;
 }
 
-ARequest			*AliveRequest::clone()
+ARequest			*AliveRequest::clone() const
 {
 	return new AliveRequest();
 }

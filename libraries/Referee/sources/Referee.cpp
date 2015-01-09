@@ -184,6 +184,8 @@ void		Referee::update(std::vector<unsigned short>	&toDelete)
 
 	for (std::vector<unsigned short>::const_iterator it = toDelete.begin(); it != toDelete.end(); ++it)
 	{
+		if (*it == _player.entity->getID())
+			continue;
 		delEntity(*it);
 	}
 	//for (mover_set_type::iterator it = _entityMoves.begin(); it != _entityMoves.end(); ++it) // Obj vs Map

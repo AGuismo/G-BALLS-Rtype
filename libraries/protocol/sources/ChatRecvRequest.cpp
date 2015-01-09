@@ -53,7 +53,7 @@ Protocol	&ChatRecvRequest::unserialize(Protocol &rhs)
 	return (rhs);
 }
 
-ARequest	*ChatRecvRequest::clone()
+ARequest	*ChatRecvRequest::clone() const
 {
 	return (new ChatRecvRequest(_msg));
 }

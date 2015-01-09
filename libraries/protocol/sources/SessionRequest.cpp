@@ -56,7 +56,7 @@ Protocol		&SessionRequest::unserialize(Protocol &rhs)
   return (rhs);
 }
 
-ARequest		*SessionRequest::clone()
+ARequest		*SessionRequest::clone() const
 {
   return (new SessionRequest());
 }

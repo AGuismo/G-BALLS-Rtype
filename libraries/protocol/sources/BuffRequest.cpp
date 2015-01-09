@@ -28,7 +28,7 @@ Protocol		&BuffRequest::unserialize(Protocol &rhs)
 	return rhs;
 }
 
-ARequest		*BuffRequest::clone()
+ARequest		*BuffRequest::clone() const
 {
 	return new BuffRequest(_id, _type);
 }
