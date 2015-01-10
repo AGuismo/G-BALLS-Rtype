@@ -36,17 +36,9 @@ public:
 	Position	operator+(const Position &rhs);
 	Position	operator-(const Position &rhs);
 
-
-public:
-	dir		direction() const;
-
-	void	direction(dir d);
-
 public:
 	pos		x;
 	pos		y;
-
-private:
-	dir		_dir;
+	dir		direction;
 };
 

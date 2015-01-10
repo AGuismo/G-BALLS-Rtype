@@ -2,6 +2,8 @@
 
 #include	"Position.hh"
 
+class Protocol;
+
 class Entity
 {
 public:
@@ -42,6 +44,7 @@ public:
 
 public:
 	static type	createType(majortype maj, minortype min = 0);
+	static type	createType(unsigned short full);
 
 public:
 	bool			isMoveable() const;
@@ -66,6 +69,23 @@ public:
 	void			setHeight(unsigned short Height);
 	unsigned short	getWidth() const;
 	void			setWidth(unsigned short Width);
+
+public:
+	friend Protocol &operator<<(Protocol &protocol, const Entity &e)
+	{
+		e.serialize(protocol);
+		return (protocol);
+	}
+
+	friend Protocol &operator>>(Protocol &protocol, Entity &e)
+	{
+		e.unserialize(protocol);
+		return (protocol);
+	}
+
+	virtual void	serialize(Protocol &) const;
+	virtual void	unserialize(Protocol &);
+	virtual Entity	*copy() const;
 
 protected:
 	type			_type;

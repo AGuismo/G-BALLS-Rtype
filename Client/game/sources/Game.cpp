@@ -272,7 +272,7 @@ void							Game::run(void)
 
 		if (_aliveRequest.isEnded())
 		{
-		network::Manager::getInstance().sendRequest(AliveRequest(InfosUser::getInstance().authenticate.id), network::Manager::UDP);
+		network::Manager::getInstance().sendRequest(AliveRequest(InfosUser::getInstance().authenticate.id, 0), network::Manager::UDP); // 0 => stamp
 			_aliveRequest.restart();
 		}
 

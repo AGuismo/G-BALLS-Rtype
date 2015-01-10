@@ -3,7 +3,7 @@
 ObjectMoverStraight::ObjectMoverStraight(const Entity &e):
 ObjectMover(e)
 {
-	_direction = e.getPosition().direction();
+	_direction = e.getPosition().direction;
 }
 
 ObjectMoverStraight::ObjectMoverStraight()

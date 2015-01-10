@@ -2,6 +2,8 @@
 
 #include	"Entity.hh"
 
+class Protocol;
+
 class Mob : public Entity
 {
 public:
@@ -17,6 +19,7 @@ public:
 	Mob();
 	~Mob();
 
+	Mob(const Entity &src_base);
 	Mob(const Mob &src);
 	Mob	&operator=(const Mob &src);
 

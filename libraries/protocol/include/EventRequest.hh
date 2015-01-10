@@ -7,7 +7,7 @@ class EventRequest : public AGameRequest
 {
 public:
 	EventRequest() : AGameRequest(0) {}
-    EventRequest(Ruint8 event, Ruint8 param, requestCode::SessionID id);
+	EventRequest(Ruint8 event, Ruint8 param, requestCode::SessionID id, game::Stamp stamp);
   ~EventRequest();
 
   EventRequest(EventRequest const&);

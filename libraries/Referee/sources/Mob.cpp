@@ -26,6 +26,12 @@ Entity(src)
 
 }
 
+Mob::Mob(const Entity &src_base) :
+Entity(src_base)
+{
+
+}
+
 Mob	&Mob::operator=(const Mob &src)
 {
 	if (&src != this)

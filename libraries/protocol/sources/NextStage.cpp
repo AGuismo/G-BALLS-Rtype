@@ -7,13 +7,13 @@ NextStageRequest::~NextStageRequest()
 
 Protocol                        &NextStageRequest::serialize(Protocol &rhs) const
 {
-    rhs << _code << _sessionID;
+    rhs << _code << _sessionID << _stamp;
     return rhs;
 }
 
 Protocol                        &NextStageRequest::unserialize(Protocol &rhs)
 {
-    rhs >> _sessionID;
+    rhs >> _sessionID >> _stamp;
     return rhs;
 }
 

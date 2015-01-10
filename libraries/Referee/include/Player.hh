@@ -1,6 +1,8 @@
 #pragma once
 #include	"Entity.hh"
 
+class Protocol;
+
 class Player :
 	public Entity
 {
@@ -17,8 +19,14 @@ public:
 	Player();
 	~Player();
 
+	Player(const Entity &src_base);
 	Player(const Player &src);
 	Player	&operator=(const Player &src);
+
+public:
+	void	serialize(Protocol &) const;
+	void	unserialize(Protocol &);
+	Entity	*copy() const;
 
 private:
 	// step2: associated bonuses

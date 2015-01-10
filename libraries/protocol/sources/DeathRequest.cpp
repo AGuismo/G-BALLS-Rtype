@@ -5,8 +5,8 @@ DeathRequest::DeathRequest() : AGameRequest(requestCode::game::DEATH)
 {
 }
 
-DeathRequest::DeathRequest(Ruint16 id) :
-AGameRequest(requestCode::game::DEATH), _id(id)
+DeathRequest::DeathRequest(Ruint16 id, game::Stamp stamp) :
+AGameRequest(requestCode::game::DEATH, 0, stamp), _id(id)
 {
 #if defined(DEBUG)
   std::cout << "Death Request on " << id << std::endl;
@@ -19,19 +19,19 @@ DeathRequest::~DeathRequest()
 
 Protocol			&DeathRequest::serialize(Protocol &rhs) const
 {
-	rhs << _code << _sessionID << _id;
+	rhs << _code << _sessionID << _stamp << _id;
 	return rhs;
 }
 
 Protocol		&DeathRequest::unserialize(Protocol &rhs)
 {
-	rhs >> _sessionID >> _id;
+	rhs >> _sessionID >> _stamp >> _id;
 	return rhs;
 }
 
 ARequest		*DeathRequest::clone() const
 {
-	return new DeathRequest(_id);
+	return new DeathRequest();
 }
 
 Ruint16			DeathRequest::ID() const

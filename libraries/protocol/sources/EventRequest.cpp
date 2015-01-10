@@ -1,6 +1,6 @@
 #include "EventRequest.hh"
 
-EventRequest::EventRequest(Ruint8 event, Ruint8 param, requestCode::SessionID id): AGameRequest(requestCode::game::EVENT, id), _event(event), _param(param)
+EventRequest::EventRequest(Ruint8 event, Ruint8 param, requestCode::SessionID id, game::Stamp stamp) : AGameRequest(requestCode::game::EVENT, id, stamp), _event(event), _param(param)
 {
 }
 
@@ -20,7 +20,7 @@ void				EventRequest::event(const Ruint8 &event)
 {
 	_event = event;
 }
-Ruint8				EventRequest::param()const
+Ruint8				EventRequest::param() const
 {
 	return _param;
 }
@@ -31,13 +31,13 @@ void				EventRequest::param(const Ruint8 &param)
 
 Protocol			&EventRequest::serialize(Protocol &rhs) const
 {
-	rhs << _code << _sessionID << _event << _param;
+	rhs << _code << _sessionID << _stamp << _event << _param;
 	return rhs;
 }
 
 Protocol			&EventRequest::unserialize(Protocol &rhs)
 {
-	rhs >> _sessionID >> _event >> _param;
+	rhs >> _sessionID >> _stamp >> _event >> _param;
 	return rhs;
 }
 

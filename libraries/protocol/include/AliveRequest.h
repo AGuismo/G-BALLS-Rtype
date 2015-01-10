@@ -7,7 +7,7 @@ class AliveRequest : public AGameRequest
 {
 public:
 	AliveRequest();
-	AliveRequest(requestCode::SessionID id);
+	AliveRequest(requestCode::SessionID id, game::Stamp stamp);
 	~AliveRequest();
 
 public:

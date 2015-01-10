@@ -47,6 +47,11 @@ Entity(src)
 
 }
 
+Missile::Missile(const Entity &src_base) :
+Entity(src_base)
+{
+
+}
 Missile	&Missile::operator=(const Missile &src)
 {
 	if (&src != this)

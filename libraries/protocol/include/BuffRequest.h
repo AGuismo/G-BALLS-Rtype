@@ -7,7 +7,7 @@ class BuffRequest : public AGameRequest
 {
  public:
   BuffRequest();
-  BuffRequest(Ruint16 id, Rint8 type);
+  BuffRequest(Ruint16 id, Rint8 type, game::Stamp stamp);
   ~BuffRequest();
 
   BuffRequest(BuffRequest const&);

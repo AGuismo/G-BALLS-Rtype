@@ -40,7 +40,7 @@ void				Referee::fire()
 
 	missilePos.x = me.getPosition().x + me.getWidth() + 5;
 	missilePos.y = me.getPosition().y + (me.getHeight() / 2 - missile->getHeight() / 2);
-	missilePos.direction(Position::EAST);
+	missilePos.direction = Position::EAST;
 	missile->setPosition(missilePos);
 	addEntity(missile);
 }

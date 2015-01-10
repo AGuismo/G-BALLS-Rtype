@@ -31,6 +31,12 @@ Entity(src)
 
 }
 
+Player::Player(const Entity &src_base):
+Entity(src_base)
+{
+
+}
+
 Player	&Player::operator=(const Player &src)
 {
 	if (&src != this)
@@ -38,4 +44,21 @@ Player	&Player::operator=(const Player &src)
 		Entity::operator=(src);
 	}
 	return (*this);
+}
+
+void	Player::serialize(Protocol &p) const
+{
+	Entity::serialize(p);
+	//p << ;
+}
+
+void	Player::unserialize(Protocol &p)
+{
+	Entity::unserialize(p);
+	//p >> ;
+}
+
+Entity	*Player::copy() const
+{
+	return (new Player(*this));
 }

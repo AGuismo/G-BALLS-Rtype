@@ -1,6 +1,8 @@
 #pragma once
 #include	"Entity.hh"
 
+class Protocol;
+
 class Missile :
 	public Entity
 {
@@ -16,10 +18,11 @@ public:
 	Missile();
 	~Missile();
 
+	Missile(const Entity &src_base);
 	Missile(const Missile &src);
 	Missile	&operator=(const Missile &src);
 
 private:
-	// step2: associated bonuses
+
 };
 

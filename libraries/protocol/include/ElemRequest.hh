@@ -1,14 +1,21 @@
 #pragma once
 
-#include "Protocol.hpp"
-#include "AGameRequest.hh"
-#include "types.hh"
+#include	"Protocol.hpp"
+#include	"AGameRequest.hh"
+#include	"types.hh"
+
+class Entity;
 
 class ElemRequest : public AGameRequest
 {
 public:
   ElemRequest();
-  ElemRequest(game::Type type, game::Pos pos, game::Dir dir, game::ID id);
+  template <class E>
+  ElemRequest(const E &entity, requestCode::SessionID session, game::Stamp stamp) : 
+	  AGameRequest(requestCode::game::ELEM, session, stamp)
+  {
+	  _entity = new E(entity);
+  }
   ~ElemRequest();
 
   ElemRequest(ElemRequest const&);
@@ -22,16 +29,17 @@ public:
 public:
   game::Type		type() const;
   void			type(game::Type t);
-  game::Pos		pos() const;
-  void			pos(game::Pos p);
-  game::Dir		dir() const;
-  void			dir(game::Dir d);
   game::ID		ID() const;
   void			ID(game::ID id);
 
+  const Entity	*entity() const;
+
+  template <class E>
+  void			entity(const E entity)
+  {
+	  _entity = new E(entity);
+  }
+
 private:
-  game::Type		_type;
-  game::Pos		_pos;
-  game::Dir		_dir;
-  game::ID		_id;
+	Entity		*_entity;
 };

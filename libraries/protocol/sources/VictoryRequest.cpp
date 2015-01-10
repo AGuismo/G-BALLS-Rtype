@@ -7,13 +7,13 @@ VictoryRequest::~VictoryRequest()
 
 Protocol			&VictoryRequest::serialize(Protocol &rhs) const
 {
-	rhs << _code << _sessionID;
+	rhs << _code << _sessionID << _stamp;
 	return rhs;
 }
 
 Protocol			&VictoryRequest::unserialize(Protocol &rhs)
 {
-	rhs >> _sessionID;
+	rhs >> _sessionID >> _stamp;
 	return rhs;
 }
 

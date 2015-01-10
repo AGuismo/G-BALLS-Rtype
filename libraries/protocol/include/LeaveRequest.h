@@ -7,7 +7,7 @@ class LeaveRequest : public AGameRequest
 {
 public: 
   LeaveRequest();
-  LeaveRequest(requestCode::SessionID);
+  LeaveRequest(requestCode::SessionID, game::Stamp stamp);
 	~LeaveRequest();
 
 public:

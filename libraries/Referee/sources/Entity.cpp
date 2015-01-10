@@ -1,4 +1,5 @@
 #include	"Entity.hh"
+#include	"Protocol.hpp"
 
 Entity::Entity(type t, unsigned short id, const Position &pos, velocity v, short hp, short shield, unsigned short height, unsigned short width) :
 _type(t), _id(id), _p(pos), _height(height), _width(width), _isMoveable(true), _velocity(v), _hp(hp), _shield(shield)
@@ -47,6 +48,14 @@ Entity::type	Entity::createType(Entity::majortype maj, Entity::minortype min)
 
 	t.desc.maj = maj;
 	t.desc.min = min;
+	return (t);
+}
+
+Entity::type	Entity::createType(unsigned short full)
+{
+	type		t;
+
+	t.full = full;
 	return (t);
 }
 
@@ -132,4 +141,20 @@ Entity::velocity	Entity::speed() const
 void		Entity::speed(velocity v)
 {
 	_velocity = v;
+}
+
+// Serialization
+void	Entity::serialize(Protocol &p) const
+{
+	p << _type.full << _id << _p.x << _p.y << _p.direction << _velocity << _hp << _shield;
+}
+
+void	Entity::unserialize(Protocol &p)
+{
+	p >> _type.full >> _id >> _p.x >> _p.y >> _p.direction >> _velocity >> _hp >> _shield;
+}
+
+Entity	*Entity::copy() const
+{
+	return (new Entity(*this));
 }

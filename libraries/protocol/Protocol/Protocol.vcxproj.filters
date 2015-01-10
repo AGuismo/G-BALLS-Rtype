@@ -13,12 +13,21 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Source Files\GameRequest">
+      <UniqueIdentifier>{025260e0-9f57-4a36-89dd-ae4328d27a81}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\MenuRequest">
+      <UniqueIdentifier>{201f5d40-3277-450d-8715-b7b43160c3fa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GameRequest">
+      <UniqueIdentifier>{fd29856c-f6c6-4199-bd9d-f2c6266a9f91}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\MenuRequest">
+      <UniqueIdentifier>{65490a5c-27d6-4a27-9fdc-72230a92e22b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\sources\ARequest.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\sources\AuthRequest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\sources\Protocol.cpp">
@@ -27,63 +36,63 @@
     <ClCompile Include="..\sources\RequestFactory.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\sources\ServerRequest.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\sources\AGameRequest.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\GameRequest</Filter>
     </ClCompile>
-    <ClCompile Include="..\sources\PartyRequest.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\sources\SessionRequest.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\sources\ElemRequest.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\sources\DeathRequest.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\sources\BuffRequest.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\sources\ScoreRequest.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\sources\AliveRequest.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\sources\EventRequest.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\sources\LooseRequest.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\sources\VictoryRequest.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\sources\RootRequest.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\sources\LeaveRequest.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\sources\NextStage.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\sources\ChatSendRequest.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="..\sources\AuthRequest.cpp">
+      <Filter>Source Files\MenuRequest</Filter>
     </ClCompile>
     <ClCompile Include="..\sources\ChatRecvRequest.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\MenuRequest</Filter>
+    </ClCompile>
+    <ClCompile Include="..\sources\ChatSendRequest.cpp">
+      <Filter>Source Files\MenuRequest</Filter>
+    </ClCompile>
+    <ClCompile Include="..\sources\PartyRequest.cpp">
+      <Filter>Source Files\MenuRequest</Filter>
+    </ClCompile>
+    <ClCompile Include="..\sources\RootRequest.cpp">
+      <Filter>Source Files\MenuRequest</Filter>
+    </ClCompile>
+    <ClCompile Include="..\sources\SessionRequest.cpp">
+      <Filter>Source Files\MenuRequest</Filter>
+    </ClCompile>
+    <ClCompile Include="..\sources\AliveRequest.cpp">
+      <Filter>Source Files\GameRequest</Filter>
+    </ClCompile>
+    <ClCompile Include="..\sources\VictoryRequest.cpp">
+      <Filter>Source Files\GameRequest</Filter>
+    </ClCompile>
+    <ClCompile Include="..\sources\ScoreRequest.cpp">
+      <Filter>Source Files\GameRequest</Filter>
+    </ClCompile>
+    <ClCompile Include="..\sources\NextStage.cpp">
+      <Filter>Source Files\GameRequest</Filter>
+    </ClCompile>
+    <ClCompile Include="..\sources\LooseRequest.cpp">
+      <Filter>Source Files\GameRequest</Filter>
+    </ClCompile>
+    <ClCompile Include="..\sources\LeaveRequest.cpp">
+      <Filter>Source Files\GameRequest</Filter>
+    </ClCompile>
+    <ClCompile Include="..\sources\ElemRequest.cpp">
+      <Filter>Source Files\GameRequest</Filter>
+    </ClCompile>
+    <ClCompile Include="..\sources\EventRequest.cpp">
+      <Filter>Source Files\GameRequest</Filter>
+    </ClCompile>
+    <ClCompile Include="..\sources\DeathRequest.cpp">
+      <Filter>Source Files\GameRequest</Filter>
+    </ClCompile>
+    <ClCompile Include="..\sources\BuffRequest.cpp">
+      <Filter>Source Files\GameRequest</Filter>
+    </ClCompile>
+    <ClCompile Include="..\sources\ServerRequest.cpp">
+      <Filter>Source Files\MenuRequest</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\ARequest.hh">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\AuthRequest.hh">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\include\ITransformers.hh">
@@ -98,62 +107,65 @@
     <ClInclude Include="..\include\RequestFactory.hh">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\ServerRequest.hh">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\AGameRequest.hh">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\PartyRequest.hh">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\SessionRequest.hh">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\ElemRequest.hh">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\DeathRequest.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\BuffRequest.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\ScoreRequest.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\RootRequest.hh">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\LeaveRequest.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\AliveRequest.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\EventRequest.hh">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\LooseRequest.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\include\RequestInfo.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\VictoryRequest.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\include\types.hh">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\NextStage.hh">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="..\include\SessionRequest.hh">
+      <Filter>Header Files\MenuRequest</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\RootRequest.hh">
+      <Filter>Header Files\MenuRequest</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\PartyRequest.hh">
+      <Filter>Header Files\MenuRequest</Filter>
     </ClInclude>
     <ClInclude Include="..\include\ChatSendRequest.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\MenuRequest</Filter>
     </ClInclude>
     <ClInclude Include="..\include\ChatRecvRequest.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\MenuRequest</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\AuthRequest.hh">
+      <Filter>Header Files\MenuRequest</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\AGameRequest.hh">
+      <Filter>Header Files\GameRequest</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\AliveRequest.h">
+      <Filter>Header Files\GameRequest</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\BuffRequest.h">
+      <Filter>Header Files\GameRequest</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\DeathRequest.h">
+      <Filter>Header Files\GameRequest</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\ElemRequest.hh">
+      <Filter>Header Files\GameRequest</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\EventRequest.hh">
+      <Filter>Header Files\GameRequest</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\LeaveRequest.h">
+      <Filter>Header Files\GameRequest</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\NextStage.hh">
+      <Filter>Header Files\GameRequest</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\LooseRequest.h">
+      <Filter>Header Files\GameRequest</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\ScoreRequest.h">
+      <Filter>Header Files\GameRequest</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\ServerRequest.hh">
+      <Filter>Header Files\MenuRequest</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\VictoryRequest.h">
+      <Filter>Header Files\GameRequest</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -1,14 +1,14 @@
 #include "Position.hh"
 
 Position::Position(pos pos_x, pos pos_y, dir direction):
-x(pos_x), y(pos_y), _dir(direction)
+x(pos_x), y(pos_y), direction(direction)
 {
 }
 
 Position::Position():
 x(0), y(0)
 {
-	_dir = NORTH;
+	direction = NORTH;
 }
 
 Position::~Position()
@@ -19,7 +19,7 @@ Position::Position(const Position &src)
 {
 	x = src.x;
 	y = src.y;
-	_dir = src._dir;
+	direction = src.direction;
 }
 
 Position	&Position::operator=(const Position &src)
@@ -28,19 +28,9 @@ Position	&Position::operator=(const Position &src)
 	{
 		x = src.x;
 		y = src.y;
-		_dir = src._dir;
+		direction = src.direction;
 	}
 	return (*this);
-}
-
-Position::dir	Position::direction() const
-{
-	return (_dir);
-}
-
-void		Position::direction(dir direction)
-{
-	_dir = direction;
 }
 
 bool		Position::operator==(const Position &rhs)

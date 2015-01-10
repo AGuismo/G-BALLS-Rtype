@@ -7,7 +7,7 @@ class DeathRequest : public AGameRequest
 {
 public:
 	DeathRequest();
-	DeathRequest(Ruint16 id);
+	DeathRequest(Ruint16 id, game::Stamp stamp);
 	~DeathRequest();
 
 	DeathRequest(DeathRequest const&);
