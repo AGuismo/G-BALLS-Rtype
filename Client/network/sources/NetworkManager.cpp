@@ -60,6 +60,7 @@ namespace	network
 		{
 			_tcp.active = true;
 			_select.add(_tcp.mSock);
+			_condSocketChanged.signal();
 		}
 		else
 			_tcp.active = false;
@@ -74,6 +75,7 @@ namespace	network
 		_udp.gPort = port;
 		_udp.active = true;
 		_select.add(_udp.gSock);
+		_condSocketChanged.signal();
 	}
 
 	void	Manager::closeTcp(void)
@@ -85,27 +87,17 @@ namespace	network
 			_select.remove(_tcp.mSock);
 			_tcp.mSock.disconnect();
 			_tcp.active = false;
+			_condSocketChanged.signal();
 		}
 	}
 
-	bool				Manager::isConnected(SendType type)
+	bool				Manager::isConnected(SendType type) const
 	{
-		Thread::MutexGuard	guard(_socketLock);
-
 		if (type == TCP)
 			return (_tcp.active);
 		else if (type == UDP)
 			return (_udp.active);
 		return (false);
-	}
-
-	void				Manager::sendRequest(const ARequest &req, SendType type)
-	{
-		Thread::MutexGuard	guard(_requests.lock);
-		ARequest			*toSend = req.clone();
-
-		*toSend = req;
-		_requests.input.push_back(std::make_pair(type, toSend));
 	}
 
 	ARequest	*Manager::recvRequest()
@@ -152,7 +144,7 @@ namespace	network
 #endif
 			_requests.lock.lock();
 			_requests.output.push_back(std::make_pair(UDP, req));
-			_requests.lock.lock();
+			_requests.lock.unlock();
 		}
 	}
 	//
@@ -188,7 +180,7 @@ namespace	network
 #endif
 			_requests.lock.lock();
 			_requests.output.push_back(std::make_pair(TCP, req));
-			_requests.lock.lock();
+			_requests.lock.unlock();
 		}
 		_tcp.notRead = packet;
 	}
@@ -198,35 +190,46 @@ namespace	network
 		while (_active)
 		{
 			_socketLock.lock();
-			_select.wait(sf::milliseconds(100));
-			if (_tcp.active && _select.isReady(_tcp.mSock))
-				tcpMode();
-			if (_udp.active && _select.isReady(_udp.gSock))
-				udpMode();
-
-			while (!_requests.input.empty())
+			if (!_tcp.active && !_udp.active)
+				_condSocketChanged.wait(_socketLock);
+			else
 			{
-				std::pair<SendType, ARequest *>	req = _requests.input.front();
-				std::vector<Protocol::Byte>		data;
+				_select.wait(sf::milliseconds(100));
+				if (_tcp.active && _select.isReady(_tcp.mSock))
+					tcpMode();
+				if (_udp.active && _select.isReady(_udp.gSock))
+					udpMode();
 
-				if (!product(data, req.second))
-					continue; // Error - Request Lost. Not gonna happend theoricaly
-				if (req.first == TCP && _tcp.active)
+				while (!_requests.input.empty())
 				{
-					Protocol::Byte					buff[1024];
+					std::pair<SendType, ARequest *>	req = _requests.input.front();
+					std::vector<Protocol::Byte>		data;
 
-					std::copy(data.begin(), data.end(), buff);
-					_tcp.mSock.send(buff, data.size());
-				}
-				else if (req.first == UDP && _udp.active)
-				{
-					Protocol::Byte					buff[1024];
+					_requests.lock.lock();
+					_requests.input.pop_front();
+					_requests.lock.unlock();
+					if (!product(data, req.second))
+					{
+						_socketLock.unlock();
+						continue; // Error - Request Lost. Not gonna happend theoricaly
+					}
+					if (req.first == TCP && _tcp.active)
+					{
+						Protocol::Byte					buff[1024];
 
-					std::copy(data.begin(), data.end(), buff);
-					_udp.gSock.send(buff, data.size(), _udp.gIp, _udp.gPort);
+						std::copy(data.begin(), data.end(), buff);
+						_tcp.mSock.send(buff, data.size());
+					}
+					else if (req.first == UDP && _udp.active)
+					{
+						Protocol::Byte					buff[1024];
+
+						std::copy(data.begin(), data.end(), buff);
+						_udp.gSock.send(buff, data.size(), _udp.gIp, _udp.gPort);
+					}
+					else // Error - Request Lost. Not gonna happend with good usage.
+						0 == 0;
 				}
-				else // Error - Request Lost. Not gonna happend with good usage.
-					0 == 0;
 			}
 			_socketLock.unlock();
 		}

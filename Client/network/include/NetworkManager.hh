@@ -47,12 +47,19 @@ namespace	network
 		void	setUdp(const sf::IpAddress &ip, unsigned short port);
 
 		// BOTH
-		bool	isConnected(SendType);
+		bool	isConnected(SendType) const;
 
 	public:
 		ARequest						*recvRequest(void);
 		std::pair<SendType, ARequest *>	recvRequestType(void);
-		void							sendRequest(const ARequest &, SendType);
+
+		template <typename Req>
+		void							sendRequest(const Req &toSend, SendType type)
+		{
+			Thread::MutexGuard	guard(_requests.lock);
+
+			_requests.input.push_back(std::make_pair(type, new Req(toSend)));
+		}
 
 	private:
 		int		routine(void);
@@ -68,6 +75,7 @@ namespace	network
 		bool			_active;
 		Thread::Mutex	_threadLock;
 		Thread::Mutex	_socketLock;
+		Thread::Cond	_condSocketChanged;
 
 		struct
 		{

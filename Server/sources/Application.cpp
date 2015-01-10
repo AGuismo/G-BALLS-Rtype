@@ -22,13 +22,19 @@ Application::Application():
 {
   std::string	file("botlibrary");
 
-  Application::log.changeStream(_log);
+  if (!_log)
+  {
+	  log << "Unable to start loggin on " << rtype::Env::LOG_FILE.c_str()
+		  << ". Switching to standard output." << std::endl;
+  }
+  else
+	Application::log.changeStream(_log);
   log << "rtype server: Initialize..." << std::endl;
   if (!Database::getInstance().loadFile(rtype::Env::getInstance().database.DatabasePath))
 #if defined(DEBUG)
     log << "Warning: There is no Database or a corrupt Database in "
 	<< rtype::Env::getInstance().database.DatabasePath
-	<< ". Client Database will be created for further usage";
+	<< ". Client Database will be created for further usage" << std::endl;
 #endif
   Database::getInstance().newClient("root", md5("4242"), database::SUPER_USER, true);
   try
