@@ -1,15 +1,22 @@
 #include		<SFML/Audio.hpp>
 #include		<SFML/Network.hpp>
 #include		<algorithm>
+#include		"Game.hh"
+#include		"InfosUser.hh"
+
+// Physics
+#include		"Timer.hh"
 #include		"EventManager.hh"
 #include		"Animation.hh"
-#include		"Game.hh"
 #include		"Layer.hh"
-#include		"RequestCode.hh"
-#include		"Timer.hh"
-#include		"ObjectMover.hh"
-#include		"InfosUser.hh"
 #include		"TextureManager.hh"
+
+// Network
+#include		"NetworkManager.hh"
+
+// Protocol
+#include		"RequestCode.hh"
+#include		"AliveRequest.h"
 
 using namespace requestCode::game;
 
@@ -203,7 +210,7 @@ void			Game::onFire(sf::Keyboard::Key key, Game *self)
 void							Game::run(void)
 {
 	Timer						_playerBlastLock(sf::seconds(2.0f));
-	Timer						_aliveRequest(sf::seconds(0.5f));
+	Timer						_aliveRequest(sf::seconds(0.75f));
 	Timer						_lostConnection(sf::seconds(3.0f));
 	EventManager				ev(*_event);
 	std::vector<unsigned short>	toDelete;
@@ -218,6 +225,7 @@ void							Game::run(void)
 	ev.registerKey(sf::Keyboard::Space, new EventManager::Callback<sf::Keyboard::Key, Game *>(&Game::onFire, this), sf::seconds(0.5f));
 	ev.registerKey(sf::Keyboard::Escape, new EventManager::Callback<sf::Keyboard::Key, Game *>(&Game::onEscape, this));
 
+	network::Manager::getInstance().setUdp(sf::IpAddress(InfosUser::getInstance().authenticate.addressIp), InfosUser::getInstance().authenticate.portUDP);
 	AudioManager::getInstance().play(AGAME_MUSIC);
 	_onGame = true;
 
@@ -262,11 +270,11 @@ void							Game::run(void)
 		//	_lostConnection.restart();
 		//  }
 
-		//if (_aliveRequest.isEnded())
-		//{
-		//_network.sendRequest(new AliveRequest(InfosUser::getInstance().authenticate.id));
-		//	_aliveRequest.restart();
-		//}
+		if (_aliveRequest.isEnded())
+		{
+		network::Manager::getInstance().sendRequest(AliveRequest(InfosUser::getInstance().authenticate.id), network::Manager::UDP);
+			_aliveRequest.restart();
+		}
 
 		//if (_lostConnection.isEnded())
 		//{

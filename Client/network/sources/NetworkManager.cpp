@@ -189,12 +189,15 @@ namespace	network
 	{
 		while (_active)
 		{
-			_socketLock.lock();
 			if (!_tcp.active && !_udp.active)
+			{
+				_socketLock.lock();
 				_condSocketChanged.wait(_socketLock);
+			}
 			else
 			{
 				_select.wait(sf::milliseconds(100));
+				_socketLock.lock();
 				if (_tcp.active && _select.isReady(_tcp.mSock))
 					tcpMode();
 				if (_udp.active && _select.isReady(_udp.gSock))
