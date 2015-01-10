@@ -47,12 +47,13 @@ namespace	database
 namespace	game
 {
   typedef Ruint16	ID;
-  typedef Ruint8	Dir;
+  typedef Ruint16	Dir;
   typedef Ruint8	Event;
-  typedef Ruint8	Type;
+  typedef Ruint16	Type;
   typedef Ruint16	Pos;
   typedef Rint8		TypeBuff;
   typedef Ruint8	Shoot;
+  typedef Ruint32	Stamp;
 }
 
 namespace	requestCode

@@ -41,7 +41,7 @@ namespace requestCode
 
     static const CodeID UPDATE =		1300;
     static const CodeID STOPPED =		1301;
-    static const CodeID SERV_START =		1302;
+    static const CodeID SERV_START =	1302;
 
     static const Ruint8	PASS =			1;
     static const Ruint8	NO_PASS =		0;
