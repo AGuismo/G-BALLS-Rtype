@@ -52,9 +52,9 @@ namespace	game
   typedef Ruint16	Type;
   typedef Ruint16	Pos;
   typedef Rint8		TypeBuff;
-  typedef Ruint8	Shoot;
   typedef Ruint32	Stamp;
-}
+  typedef Ruint8	Shoot;
+};
 
 namespace	requestCode
 {
@@ -65,7 +65,7 @@ namespace	requestCode
   typedef Ruint16	SessionID;
   typedef Ruint16	PartyID;
   typedef Ruint8	Status;
-}
+};
 
 struct rtypeAuth
 {

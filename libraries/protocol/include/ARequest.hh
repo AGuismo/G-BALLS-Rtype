@@ -5,9 +5,9 @@
 # include	<exception>
 # include	"types.hh"
 # include	"RequestCode.hh"
-# include	"ITransformers.hh"
+# include	"ISerializable.hh"
 
-class ARequest : public ITransformers
+class ARequest : public ISerializable
 {
 public:
   class Exception : public std::exception

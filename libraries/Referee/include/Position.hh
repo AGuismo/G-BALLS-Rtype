@@ -26,15 +26,15 @@ public:
 	Position	&operator=(const Position &src);
 
 public:
-	bool	operator==(const Position &rhs);
-	bool	operator!=(const Position &rhs);
+	bool	operator==(const Position &rhs) const;
+	bool	operator!=(const Position &rhs) const;
 
 public:
 	Position	&operator+=(const Position &rhs);
 	Position	&operator-=(const Position &rhs);
 
-	Position	operator+(const Position &rhs);
-	Position	operator-(const Position &rhs);
+	Position	operator+(const Position &rhs) const;
+	Position	operator-(const Position &rhs) const;
 
 public:
 	pos		x;

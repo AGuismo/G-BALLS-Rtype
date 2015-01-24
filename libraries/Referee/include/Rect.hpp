@@ -5,7 +5,7 @@ class Rect
 {
 public:
 	Rect(T x, T y, T width, T height):
-		m_x(x), m_y(y), m_width(width), m_height(height)
+		m_x(x), m_y(y), m_height(height), m_width(width)
 	{
 
 	}

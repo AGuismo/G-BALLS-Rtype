@@ -1,3 +1,5 @@
+#include			<stdexcept>
+
 // Class from Referee
 #include			"Position.hh"
 #include			"Player.hh"

@@ -4,8 +4,11 @@
 # if defined(linux)
 #  include	<netinet/in.h>
 # elif defined(WIN32)
-#  include	<WinSock2.h>
+#  include	<winsock2.h>
+# else
+#  error "Undefined Operating system."
 #endif
+
 # include	<queue>
 # include	<map>
 # include	<list>
@@ -14,22 +17,20 @@
 # include	"RequestCode.hh"
 
 class		ARequest;
+class		Player;
 
 namespace	game
 {
-  class		Player;
   class		Game;
   class		GamePool;
-  class		Missile;
-  class		Referee;
 
   class Client
   {
     /*typedef void(*request_callback)(ARequest *, Client *);
       typedef std::map<requestCode::CodeID, request_callback> request_callback_map;*/
   public:
-    Client(requestCode::SessionID);
-    Client(requestCode::SessionID, struct sockaddr_in addr);
+    Client(requestCode::SessionID clientID);
+    Client(requestCode::SessionID clientID, struct sockaddr_in addr);
     virtual ~Client();
 
   public:
@@ -52,15 +53,13 @@ namespace	game
     void			requestPush(ARequest *req);
 
   public:
-    requestCode::SessionID	sessionID() const;
-    void			sessionID(const requestCode::SessionID);
+    requestCode::SessionID	clientID() const;
+    void			clientID(const requestCode::SessionID clientID);
     void			alive(const bool &state);
     bool			alive() const ;
     void			hasLeft(const bool &state);
 
   public:
-    void			player(game::Player *player);
-    game::Player		*player(void) const;
     void			gamePool(GamePool *gamePool);
     GamePool			*gamePool() const;
 
@@ -71,7 +70,6 @@ namespace	game
     void			hasJoin(bool b) { _hasJoin = b; };
 
   private:
-    game::Player		*_player;
     bool			_alive;
     int				_updateToLive;
 
@@ -86,9 +84,6 @@ namespace	game
   private:
     struct sockaddr_in		_addr;
     requestCode::SessionID	_id;
-
-    friend class Game;
-    friend class Referee;
   };
 }
 

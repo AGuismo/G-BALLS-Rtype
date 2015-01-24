@@ -2,7 +2,7 @@
 
 const float	Scenario::DEFAULT_SPEED = 1.0f;
 
-Scenario::Scenario(unsigned short height, unsigned short width, float speed, IReferee::Difficulty difficulty)
+Scenario::Scenario(unsigned short height, unsigned short width, float speed, Difficulty difficulty)
 {
 	_map.height = height;
 	_map.width = width;
@@ -68,12 +68,12 @@ float						Scenario::getGameSpeed() const
 	return (_game.speed);
 }
 
-void						Scenario::setDifficulty(IReferee::Difficulty difficulty)
+void						Scenario::setDifficulty(Difficulty difficulty)
 {
 	_game.difficulty = difficulty;
 }
 
-IReferee::Difficulty		Scenario::getDifficulty() const
+Difficulty		Scenario::getDifficulty() const
 {
 	return (_game.difficulty);
 }

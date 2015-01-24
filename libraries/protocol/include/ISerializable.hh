@@ -1,13 +1,13 @@
-#ifndef ITRANSFORMERS_H_
+#ifndef ISERIALIZABLE_H_
 # define ITRANFORMERS_H_
 
 class	Protocol;
 class	ARequest;
 
-class ITransformers
+class ISerializable
 {
 public:
-  virtual ~ITransformers() {};
+  virtual ~ISerializable() {};
 
 public:
   virtual ARequest	*clone() const = 0;
@@ -15,4 +15,4 @@ public:
   virtual Protocol	&unserialize(Protocol &) = 0;
 };
 
-#endif /* ITRANSFORMERS_H_ */
+#endif /* ISERIALIZABLE_H_ */

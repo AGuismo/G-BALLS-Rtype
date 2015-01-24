@@ -6,84 +6,88 @@
 #include	"Mob.hh"
 #include	"Player.hh"
 
-ElemRequest::ElemRequest() : AGameRequest(requestCode::game::ELEM)
+ElemRequest::ElemRequest(requestCode::SessionID session, game::Stamp stamp) :
+  AGameRequest(requestCode::game::ELEM, session, stamp), _entity(0)
 {
 }
 
-ElemRequest::ElemRequest(const ElemRequest &src) : AGameRequest(src)
+ElemRequest::ElemRequest(const ElemRequest &src) : AGameRequest(src), _entity(0)
 {
-	_entity = src._entity->copy();
+  if (src._entity != 0)
+    _entity = src._entity->copy();
+}
+
+ElemRequest	&ElemRequest::operator=(const ElemRequest &src)
+{
+  if (&src != this)
+  {
+    AGameRequest::operator=(src);
+    if (src._entity != 0)
+      _entity = src._entity->copy();
+  }
+  return (*this);
 }
 
 ElemRequest::~ElemRequest()
 {
+  delete _entity;
 }
 
 Protocol			&ElemRequest::serialize(Protocol &rhs) const
 {
-	rhs << _code << _sessionID << _stamp << *_entity;
-	return rhs;
+  rhs << _code << _sessionID << _stamp << *_entity;
+  return rhs;
 }
 
 Protocol			&ElemRequest::unserialize(Protocol &rhs)
 {
-	Entity			e;
+  Entity			e;
 
-	rhs >> _sessionID >> _stamp >> e;
-	switch (e.getType().desc.maj)
-	{
-	case Entity::MISSILE:
-		_entity = new Missile(e);
-		break;
-	case Entity::PLAYER:
-		_entity = new Player(e);
-		break;
-	case Entity::MOBS:
-		_entity = new Mob(e);
-		break;
-	case Entity::BOSS:
-		_entity = new Entity(e); // Not created yet
-		break;
-	case Entity::WALL:
-		_entity = new Entity(e); // Not created yet
-		break;
-	case Entity::BONUS:
-		_entity = new Entity(e); // Not created yet
-		break;
-	default:
-		_entity = new Entity(e); // Not gonna happend theorically
-		break;
-	}
-	rhs >> *_entity;
-	return rhs;
+  rhs >> _sessionID >> _stamp >> e;
+  switch (e.getType().desc.maj)
+  {
+  case Entity::MISSILE:
+    _entity = new Missile(e);
+    break;
+  case Entity::PLAYER:
+    _entity = new Player(e);
+    break;
+  case Entity::MOBS:
+    _entity = new Mob(e);
+    break;
+  case Entity::BOSS:
+    _entity = new Entity(e); // Not created yet
+    break;
+  case Entity::WALL:
+    _entity = new Entity(e); // Not created yet
+    break;
+  case Entity::BONUS:
+    _entity = new Entity(e); // Not created yet
+    break;
+  default:
+    _entity = new Entity(e); // Not gonna happend theorically
+    break;
+  }
+  rhs >> *_entity;
+  return rhs;
 }
 
 ARequest			*ElemRequest::clone() const
 {
-	return (new ElemRequest());
+  return (new ElemRequest(*this));
 }
 
 game::Type			ElemRequest::type() const
 {
-	return _entity->getType().full;
-}
-
-void			ElemRequest::type(game::Type t)
-{
-	_entity->setType(Entity::createType(t));
+  return _entity->getType().full;
 }
 
 game::ID			ElemRequest::ID() const
 {
-	return _entity->getID();
-}
-
-void			ElemRequest::ID(game::ID id)
-{
-	_entity->setID(id);
+  return _entity->getID();
 }
 
 const Entity	*ElemRequest::entity() const
 {
-	return (_entity);
+  return (_entity);
 }

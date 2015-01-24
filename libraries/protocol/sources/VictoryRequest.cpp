@@ -1,4 +1,4 @@
-#include "VictoryRequest.h"
+#include "VictoryRequest.hh"
 
 VictoryRequest::VictoryRequest(): AGameRequest(requestCode::game::VICTORY)
 {}

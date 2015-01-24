@@ -1,20 +1,25 @@
-#include	"GameClient.hh"
-#include	"GamePool.hh"
-#include	"EventRequest.hh"
-#include	"Player.h"
-#include	"AliveRequest.h"
-#include	"Env.hh"
+// LibProtocol
+#include	"AliveRequest.hh"
 #include	"ElemRequest.hh"
-#include	"DeathRequest.h"
-#include	"LeaveRequest.h"
-#include	"Missile.h"
-#include	"Referee.h"
+#include	"DeathRequest.hh"
+#include	"LeaveRequest.hh"
+
+// LibReferee
+#include	"Player.hh"
+
+// Module
+#include	"GamePool.hh"
+#include	"Env.hh"
+#include	"GameClient.hh"
+#include	"Game.hh"
 #include	"Application.hh" // log purpose
+
+
 
 namespace	game
 {
   Client::Client(requestCode::SessionID id) :
-    _player(0), _alive(true), _updateToLive(0), _hasLeft(false),
+    _alive(true), _updateToLive(0), _hasLeft(false),
     _hasJoin(false), _id(id) // _used(false),
 
   {
@@ -24,7 +29,7 @@ namespace	game
   }
 
   Client::Client(requestCode::SessionID id, struct sockaddr_in addr) :
-    _player(0), _alive(true), _updateToLive(0), _hasLeft(false),
+    _alive(true), _updateToLive(0), _hasLeft(false),
     _hasJoin(false), // _used(false),
     _addr(addr), _id(id)
   {
@@ -62,7 +67,7 @@ namespace	game
       {
 	_hasJoin = true;
 #if defined(DEBUG)
-	Application::log << "game::Client::waitForJoin() Client " << sessionID()
+	Application::log << "game::Client::waitForJoin() Client " << clientID()
 		  << " on Pool " << gamePool()->poolID << " has join his game" << std::endl;
 #endif // !DEBUG
       }
@@ -73,41 +78,41 @@ namespace	game
   void		Client::update(game::Game &game)
   {
     ARequest	*req;
-    bool	move = false;
-    bool	fire = false;
+    // bool	move = false;
+    // bool	fire = false;
 
     while ((req = requestPop()) != 0)
     {
-      EventRequest	*ev;
+      // EventRequest	*ev;
       AliveRequest	*al;
       LeaveRequest	*lv;
 
-      if ((ev = dynamic_cast<EventRequest *>(req)) && _alive)
-      {
-	_updateToLive = -1;
-	if (ev->event() == 0 && !move)
-	{
-	  move = true;
-	  _player->move(ev->param());
-	  if (Referee::isCollision(_player, game) || !Referee::isOnScreen(_player))
-	  {
-	    _alive = false;
-	    game.pushRequest(new DeathRequest(_id));
-	  }
-	  // else
-	  //   game.pushRequest(new ElemRequest(requestCode::game::server::PLAYER,
-	  // 				     _player->_pos[0], _player->_dir, _player->_id));
-	}
-	else if (!fire)
-	{
-	  Missile *missile = _player->fire(game, false);
-	  game.pushMissile(missile);
-	  fire = true;
-	  // game.pushRequest(new ElemRequest(requestCode::game::server::MISSILE,
-	  // 				   missile->pos()[0], missile->dir(), missile->id()));
-	}
-      }
-      else if ((al = dynamic_cast<AliveRequest *>(req)))
+      // if ((ev = dynamic_cast<EventRequest *>(req)) && _alive)
+      // {
+      // 	_updateToLive = -1;
+      // 	if (ev->event() == 0 && !move)
+      // 	{
+      // 	  move = true;
+      // 	  _player->move(ev->param());
+      // 	  if (Referee::isCollision(_player, game) || !Referee::isOnScreen(_player))
+      // 	  {
+      // 	    _alive = false;
+      // 	    game.pushRequest(new DeathRequest(_id, 0)); // STAMP !
+      // 	  }
+      // 	  // else
+      // 	  //   game.pushRequest(new ElemRequest(requestCode::game::server::PLAYER,
+      // 	  // 				     _player->_pos[0], _player->_dir, _player->_id));
+      // 	}
+      // 	else if (!fire)
+      // 	{
+      // 	  Missile *missile = _player->fire(game, false);
+      // 	  game.pushMissile(missile);
+      // 	  fire = true;
+      // 	  // game.pushRequest(new ElemRequest(requestCode::game::server::MISSILE,
+      // 	  // 				   missile->pos()[0], missile->dir(), missile->id()));
+      // 	}
+      // }
+      if ((al = dynamic_cast<AliveRequest *>(req)))
       {
 	_updateToLive = -1;
       }
@@ -115,7 +120,6 @@ namespace	game
       {
 	_alive = false;
 	_hasLeft = true;
-	game.pushRequest(new DeathRequest(_player->_id));
       }
     }
     _updateToLive++;
@@ -123,7 +127,6 @@ namespace	game
     {
       _alive = false;
       _hasLeft = true;
-      game.pushRequest(new DeathRequest(_player->_id));
     }
   }
 
@@ -152,24 +155,14 @@ namespace	game
     _output.requestPush(req);
   }
 
-  requestCode::SessionID	Client::sessionID() const
+  requestCode::SessionID	Client::clientID() const
   {
     return (_id);
   }
 
-  void				Client::sessionID(const requestCode::SessionID id)
+  void				Client::clientID(const requestCode::SessionID id)
   {
     _id = id;
-  }
-
-  void				Client::player(Player *player)
-  {
-    _player = player;
-  }
-
-  Player			*Client::player(void) const
-  {
-    return (_player);
   }
 
   void				Client::gamePool(GamePool *pool)

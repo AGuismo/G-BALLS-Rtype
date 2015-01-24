@@ -33,12 +33,12 @@ Position	&Position::operator=(const Position &src)
 	return (*this);
 }
 
-bool		Position::operator==(const Position &rhs)
+bool		Position::operator==(const Position &rhs) const
 {
 	return (x == rhs.x && y == rhs.y);
 }
 
-bool		Position::operator!=(const Position &rhs)
+bool		Position::operator!=(const Position &rhs) const
 {
 	return (!operator==(rhs));
 }
@@ -57,12 +57,12 @@ Position	&Position::operator-=(const Position &rhs)
 	return (*this);
 }
 
-Position	Position::operator+(const Position &rhs)
+Position	Position::operator+(const Position &rhs) const
 {
 	return (Position(x + rhs.x, y + rhs.y));
 }
 
-Position	Position::operator-(const Position &rhs)
+Position	Position::operator-(const Position &rhs) const
 {
 	return (Position(x - rhs.x, y - rhs.y));
 }

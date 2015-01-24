@@ -1,4 +1,4 @@
-#include "AliveRequest.h"
+#include "AliveRequest.hh"
 
 AliveRequest::AliveRequest(): AGameRequest(requestCode::game::ALIVE)
 {}

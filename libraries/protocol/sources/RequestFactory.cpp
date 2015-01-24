@@ -7,17 +7,16 @@
 #include	"ServerRequest.hh"
 #include	"PartyRequest.hh"
 #include	"RootRequest.hh"
-#include	"AliveRequest.h"
-#include	"BuffRequest.h"
-#include	"DeathRequest.h"
+#include	"AliveRequest.hh"
+#include	"BuffRequest.hh"
+#include	"DeathRequest.hh"
 #include	"ElemRequest.hh"
-#include	"LeaveRequest.h"
-#include	"LooseRequest.h"
-#include	"VictoryRequest.h"
-#include	"EventRequest.hh"
-#include	"ScoreRequest.h"
-#include	"ChatSendRequest.h"
-#include	"ChatRecvRequest.h"
+#include	"LeaveRequest.hh"
+#include	"LooseRequest.hh"
+#include	"VictoryRequest.hh"
+#include	"ScoreRequest.hh"
+#include	"ChatSendRequest.hh"
+#include	"ChatRecvRequest.hh"
 
 namespace	request
 {
@@ -51,7 +50,6 @@ namespace	request
     _lnk[requestCode::game::BUFF] = new BuffRequest;
     _lnk[requestCode::game::DEATH] = new DeathRequest;
     _lnk[requestCode::game::ELEM] = new ElemRequest;
-    _lnk[requestCode::game::EVENT] = new EventRequest;
     _lnk[requestCode::game::LEAVE] = new LeaveRequest;
     _lnk[requestCode::game::LOOSE] = new LooseRequest;
     _lnk[requestCode::game::SCORE] = new ScoreRequest;

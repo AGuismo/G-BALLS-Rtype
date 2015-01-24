@@ -17,13 +17,15 @@ DIR.LOG=	./$(DIR.DEPS)/log/
 DIR.NET=	./$(DIR.DEPS)/network/network/
 DIR.THREAD=	./$(DIR.DEPS)/Thread/Threads/
 DIR.BIND=	./$(DIR.DEPS)/Bind/
+DIR.REF=	./$(DIR.DEPS)/Referee/
 DIR.DAT=	./database/
 DIR.IAAPI=	./../bots/API
 
 DEPS.INC=	-I$(DIR.NET)/include -I$(DIR.THREAD)/include -I$(DIR.BIND)/include
-DEPS.INC+=	-I$(DIR.IAAPI)/include -I$(DIR.LOG)/include
+DEPS.INC+=	-I$(DIR.IAAPI)/include -I$(DIR.LOG)/include -I$(DIR.REF)/include
 
 DEPS.LNK=	-L$(DIR.NET) -lnetwork -L$(DIR.THREAD) -lThread -lpthread -ldl -L$(DIR.LOG) -llog
+DEPS.LNK+=	-L$(DIR.REF) -lReferee
 
 MOD.INC=	-I$(DIR.GAME)/include -I$(DIR.MENU)/include -I$(DIR.LOAD)/include
 MOD.INC+=	-I$(DIR.PROT)/include -I$(DIR.DAT)/include
@@ -34,7 +36,7 @@ MOD.LNK+=	-L$(DIR.PROT) -lprotocol -L$(DIR.DAT)/ -ldb
 F.C	     +=	-W -Wall -Werror
 F.I	     += $(MOD.INC) $(DEPS.INC) -I./include
 F.L	     += $(MOD.LNK) $(DEPS.LNK) -Wl,-rpath=./deps
-F.D	     +=
+F.D	     += -Dlinux
 
 all:		start $(NAME)
 
@@ -53,6 +55,7 @@ compile_deps:
 		@make --no-print-directory -C ./$(DIR.THREAD) all F.D=$(F.D)
 		@make --no-print-directory -C ./$(DIR.NET) all F.D=$(F.D)
 		@make --no-print-directory -C ./$(DIR.LOG) all F.D=$(F.D)
+		@make --no-print-directory -C ./$(DIR.REF) all F.D=$(F.D)
 		@cp ./$(DIR.THREAD)/libThread.so ./deps
 		@cp ./$(DIR.NET)/libnetwork.so ./deps
 		@cp ./$(DIR.LOG)/liblog.so ./deps
@@ -70,6 +73,7 @@ clean_deps:
 		@make --no-print-directory -C ./$(DIR.THREAD) clean
 		@make --no-print-directory -C ./$(DIR.NET) clean
 		@make --no-print-directory -C ./$(DIR.LOG) clean
+		@make --no-print-directory -C ./$(DIR.REF) clean
 
 fclean_mods:
 		@$(ECHO) $(ES) "Full clean Modules" $(EE)
@@ -84,6 +88,7 @@ fclean_deps:
 		@make --no-print-directory -C ./$(DIR.THREAD) fclean
 		@make --no-print-directory -C ./$(DIR.NET) fclean
 		@make --no-print-directory -C ./$(DIR.LOG) fclean
+		@make --no-print-directory -C ./$(DIR.REF) fclean
 		@rm -f ./deps/libThread.so
 		@rm -f ./deps/libnetwork.so
 		@rm -f ./deps/liblog.so

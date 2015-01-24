@@ -8,14 +8,14 @@ static const float	SQRT_2 = sqrtf(2.0f);
 const float			ObjectMover::DEFAULT_MOVEMENT_DURATION = 0.25f;
 
 ObjectMover::ObjectMover(const Entity &entity, float movementDuration) :
-_objectID(entity.getID()), _speed(entity.speed()), _isMoving(false), _isNextMoveAvailable(false), _moveDuration(movementDuration)
+  _objectID(entity.getID()), _speed(entity.speed()), _moveDuration(movementDuration),_isMoving(false), _isNextMoveAvailable(false)
 {
 	_position.current = _position.previous = _position.next = entity.getPosition();
 	_movement.endTimer = 0.f;
 }
 
 ObjectMover::ObjectMover():
-_objectID(0), _isMoving(false), _isNextMoveAvailable(false), _moveDuration(DEFAULT_MOVEMENT_DURATION)
+  _objectID(0), _moveDuration(DEFAULT_MOVEMENT_DURATION), _isMoving(false), _isNextMoveAvailable(false)
 {
 	_movement.endTimer = 0.f;
 }

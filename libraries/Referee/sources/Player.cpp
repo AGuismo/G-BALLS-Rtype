@@ -1,3 +1,6 @@
+#if defined(DEBUG)
+# include	<stdexcept>
+#endif // !DEBUG
 #include "Player.hh"
 
 Player::Player(unsigned short id, const Position &pos, unsigned short playerNo,
@@ -8,9 +11,9 @@ Player::Player(unsigned short id, const Position &pos, unsigned short playerNo,
 	_isDestructible = true;
 #if defined(DEBUG)
 	if (playerNo == 0 || playerNo > 4)
-		throw std::runtime_exception("Player::Player(): Player must have a No between 1 and 4.");
+		throw std::runtime_error("Player::Player(): Player must have a No between 1 and 4.");
 #endif
-	
+
 }
 
 Player::Player()

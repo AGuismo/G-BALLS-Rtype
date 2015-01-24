@@ -1,4 +1,4 @@
-#include "LeaveRequest.h"
+#include "LeaveRequest.hh"
 
 LeaveRequest::LeaveRequest() : AGameRequest(requestCode::game::LEAVE)
 {}

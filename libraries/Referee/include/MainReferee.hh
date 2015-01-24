@@ -1,7 +1,9 @@
 #pragma once
 
 #include	<set>
+#include	<map>
 #include	<list>
+#include	"types.hh"
 #include	"Position.hh"
 #include	"Entity.hh"
 #include	"Scenario.hh"
@@ -10,10 +12,20 @@
 class Player;
 class ObjectMover;
 
-class Referee
+class MainReferee
 {
+  struct	InternalPlayerSystem
+  {
+    Player			*entity;
+    ObjectMover			*move;
+    Clock			fireLock;
+    Clock			moveLock;
+  };
+
   typedef bool(*mover_comp_fn)(const ObjectMover *, const ObjectMover *);
-  typedef std::set<ObjectMover *, mover_comp_fn>	mover_set_type;
+  typedef std::set<ObjectMover *, mover_comp_fn>		mover_set_type;
+  typedef std::map<unsigned short, InternalPlayerSystem>	players_map_type;
+
 
 public:
   static const float	FIRE_LOCK_TIME;
@@ -22,25 +34,21 @@ public:
   typedef std::set<Entity *, entity_comp_fn>	entity_set_type;
 
 public:
-  Referee();
-  Referee(const Scenario &scenario, unsigned short playerID);
-  ~Referee();
+  MainReferee();
+  MainReferee(const Scenario &scenario);
+  ~MainReferee();
 
-  bool		acceptMove(Position::dir direction);
-  bool		acceptFire();
+  bool		acceptMove(unsigned short playerID, Position::dir direction);
+  bool		acceptFire(unsigned short playerID);
 
   void		loadScenario(const Scenario &scenario, unsigned short playerID);
-  void		update(std::vector<unsigned short> &toDelete);
-
-  void		sendRequest(/* Add network here */); // Send request to the server (acceptMove + acceptFire)
+  void		update(std::vector<unsigned short> &deadPlayers);
 
   unsigned short	uniqueID();
 
 public:
   const entity_set_type	&getMap() const;
-
-  void					setMyPlayer(unsigned short playerID);
-  const Player			&getMyPlayer() const;
+  game::Stamp		getStamp() const;
 
 private:
   void		addEntity(Entity *e);
@@ -50,7 +58,7 @@ private:
   static bool	entityMoveComp(const ObjectMover *lhs, const ObjectMover *rhs);
 
   void		loadScenario(const Scenario &scenario);
-  void		fire();
+  void		fire(unsigned short playerID);
 
   void		updateMoves(std::vector<unsigned short> &moved);
   void		checkCollisions(const std::vector<unsigned short> &moved, std::vector<unsigned short>	&toDelete);
@@ -60,21 +68,12 @@ private:
   static bool	isCollision(const Entity &object1, const Entity &object2);
 
 private:
-  void		pushRequest(); // Add data from MainReferee (server) => acceptMove and acceptFire calls
-
-private:
   entity_set_type		_entities;
   mover_set_type		_entityMoves;
+  players_map_type		_players;
   Scenario			_scenario;
   unsigned short		_incrementalID;
-  struct
-  {
-    Player			*entity;
-    ObjectMover		*move;
-    Clock			fireLock;
-    Clock			moveLock;
-  }					_player;
-
+  game::Stamp			_stamp;
 
   // List of request here...
 };

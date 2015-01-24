@@ -1,4 +1,4 @@
-#include "ChatSendRequest.h"
+#include "ChatSendRequest.hh"
 #include "Protocol.hpp"
 
 ChatSendRequest::ChatSendRequest() : ARequest(requestCode::chat::SEND_MSG)

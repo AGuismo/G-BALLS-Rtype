@@ -15,8 +15,8 @@
 #include	"Callback.hh"
 #include	"Application.hh"
 #include	"RequestCode.hh"
-#include	"ChatRecvRequest.h"
-#include	"ChatSendRequest.h"
+#include	"ChatRecvRequest.hh"
+#include	"ChatSendRequest.hh"
 
 namespace	menu
 {

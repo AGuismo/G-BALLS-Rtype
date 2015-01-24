@@ -1,24 +1,24 @@
-NAME	     ?=	requestSerializer
+NAME	     ?=	protocolTest
 
-SRCS =	      	main.cpp		\
+SRCS =	      	AGameRequestTest.cpp	\
+		AuthRequestTest.cpp	\
+		BuffRequestTest.cpp	\
+		ChatRecvRequestTest.cpp	\
+		ChatSendRequestTest.cpp	\
+		DeathRequestTest.cpp	\
+		ElemRequestTest.cpp	\
 
 DIR.PROT=	../
-DIR.DB=		../../../Server/database
-DIR.NET=	$(DIR.DEPS)/network/network
-DIR.DEPS=	../../
+DIR.REF=	../../Referee/
 
-DEPS.INC=	-I$(DIR.NET)/include
+MOD.INC=	-I$(DIR.PROT)/include -I$(DIR.REF)/include
 
-MOD.INC=	-I$(DIR.PROT)/include -I$(DIR.DB)/include
+MOD.LNK=	-L$(DIR.PROT) -lprotocol -L$(DIR.REF) -lReferee -lpthread -lgtest -lgtest_main
 
-DEPS.LNK=	-L$(DIR.NET) -lnetwork
-
-MOD.LNK=	-L$(DIR.PROT) -lprotocol -L$(DIR.DB) -ldb
-
-F.C	     +=	-W -Wall -Werror
-F.I	     +=	-I./include $(MOD.INC) -I../include $(DEPS.INC)
-F.L	     += $(MOD.LNK) $(DEPS.LNK) -Wl,-rpath=$(DIR.NET)
-F.D	     +=
+F.C	     +=	-W -Wall
+F.I	     +=	$(MOD.INC)
+F.L	     += $(MOD.LNK)
+F.D	     += -Dlinux
 
 all:		start $(NAME)
 
@@ -27,20 +27,17 @@ $(NAME):	compile_mods compile
 compile_mods:
 		@$(ECHO) $(ES) "Compile Modules" $(EE)
 		@make --no-print-directory -C ./$(DIR.PROT) all F.D=$(F.D)
-		@make --no-print-directory -C ./$(DIR.DB) all F.D=$(F.D)
-		@make --no-print-directory -C ./$(DIR.NET) all F.D=$(F.D)
+		@make --no-print-directory -C ./$(DIR.REF) all F.D=$(F.D)
 
 clean_mods:
 		@$(ECHO) $(ES) "Clean Modules" $(EE)
 		@make --no-print-directory -C ./$(DIR.PROT) clean
-		@make --no-print-directory -C ./$(DIR.DB) clean
-		@make --no-print-directory -C ./$(DIR.NET) clean
+		@make --no-print-directory -C ./$(DIR.REF) clean
 
 fclean_mods:
 		@$(ECHO) $(ES) "Full clean Modules" $(EE)
 		@make --no-print-directory -C ./$(DIR.PROT) fclean
-		@make --no-print-directory -C ./$(DIR.DB) fclean
-		@make --no-print-directory -C ./$(DIR.NET) fclean
+		@make --no-print-directory -C ./$(DIR.REF) fclean
 
 clean:		remove_objects clean_mods
 

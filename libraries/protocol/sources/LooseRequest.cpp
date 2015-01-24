@@ -1,4 +1,4 @@
-#include "LooseRequest.h"
+#include "LooseRequest.hh"
 
 LooseRequest::LooseRequest(): AGameRequest(requestCode::game::LOOSE)
 {}

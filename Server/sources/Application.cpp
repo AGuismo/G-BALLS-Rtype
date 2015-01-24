@@ -218,7 +218,7 @@ void	Application::endGame(const game::Game *loadedGame)
     {
       client_list::iterator	appIt;
 
-      appIt = std::find_if(_clients.begin(), _clients.end(), PredicateClient((*gameIt)->sessionID()));
+      appIt = std::find_if(_clients.begin(), _clients.end(), PredicateClient((*gameIt)->clientID()));
       // (*appIt)->game().inUse(true);
       // (*appIt)->menu().inUse(false);
       // delete (*appIt)->game();
@@ -248,7 +248,7 @@ void	Application::cancelGame(const game::Game *loadedGame)
     {
       client_list::iterator	appIt;
 
-      appIt = std::find_if(_clients.begin(), _clients.end(), PredicateClient((*gameIt)->sessionID()));
+      appIt = std::find_if(_clients.begin(), _clients.end(), PredicateClient((*gameIt)->clientID()));
       // (*appIt)->game().inUse(true);
       // (*appIt)->menu().inUse(false);
       // delete (*appIt)->game();

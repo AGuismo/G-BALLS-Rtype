@@ -1,4 +1,4 @@
-#include "ScoreRequest.h"
+#include "ScoreRequest.hh"
 
 ScoreRequest::ScoreRequest() : AGameRequest(requestCode::game::SCORE)
 {

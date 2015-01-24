@@ -19,7 +19,7 @@ class BuffRequest : public AGameRequest
   ARequest			*clone() const;
 
  public:
-  Ruint16				ID() const;
+  Ruint16			ID() const;
   void				ID(Ruint16 id);
   Rint8				type() const;
   void				type(Rint8 type);

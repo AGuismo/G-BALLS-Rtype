@@ -5,28 +5,27 @@
 #include	"Mob.hh" // DEBUG
 #include	"Missile.hh"
 #include	"Rect.hpp"
-#include	"Referee.hh"
+#include	"MainReferee.hh"
 #include	"Player.hh"
 #include	"Scenario.hh"
 #include	"ObjectMover.hh"
 #include	"EntityFactory.hh"
 
-const float	Referee::MOVE_LOCK_TIME = 0.25f;
-const float	Referee::FIRE_LOCK_TIME = 0.5f;
+const float	MainReferee::MOVE_LOCK_TIME = 0.25f;
+const float	MainReferee::FIRE_LOCK_TIME = 0.5f;
 
-Referee::Referee():
-  _entities(&entitiesComp), _entityMoves(&entityMoveComp), _incrementalID(1)
+MainReferee::MainReferee():
+  _entities(&entitiesComp), _entityMoves(&entityMoveComp), _incrementalID(1), _stamp(1)
 {
 }
 
-Referee::Referee(const Scenario &scenario, unsigned short playerID):
-  _entities(&entitiesComp), _entityMoves(&entityMoveComp), _incrementalID(1)
+MainReferee::MainReferee(const Scenario &scenario):
+  _entities(&entitiesComp), _entityMoves(&entityMoveComp), _incrementalID(1), _stamp(1)
 {
   loadScenario(scenario);
-  setMyPlayer(playerID);
 }
 
-Referee::~Referee()
+MainReferee::~MainReferee()
 {
   while (!_entities.empty())
   {
@@ -40,47 +39,45 @@ Referee::~Referee()
   }
 }
 
-void				Referee::fire()
+void				MainReferee::fire(unsigned short playerID)
 {
   Position		missilePos;
   Missile		*missile = new Missile(uniqueID(), missilePos);
-  const Player	&me = getMyPlayer();
+  const Player		*me = _players[playerID].entity;
 
-  missilePos.x = me.getPosition().x + me.getWidth() + 5;
-  missilePos.y = me.getPosition().y + (me.getHeight() / 2 - missile->getHeight() / 2);
+  missilePos.x = me->getPosition().x + me->getWidth() + 5;
+  missilePos.y = me->getPosition().y + (me->getHeight() / 2 - missile->getHeight() / 2);
   missilePos.direction = Position::EAST;
   missile->setPosition(missilePos);
   addEntity(missile);
 }
 
-bool				Referee::acceptFire() // Fire can only be my player fire in this case
+bool				MainReferee::acceptFire(unsigned short playerID)
 {
-  if (_player.fireLock.getElapsedTime().asSeconds() < (FIRE_LOCK_TIME * _scenario.getGameSpeed()))
+  InternalPlayerSystem		player = _players[playerID];
+
+  if (player.fireLock.getElapsedTime().asSeconds() < (FIRE_LOCK_TIME * _scenario.getGameSpeed()))
     return (false);
-  _player.fireLock.restart();
-  fire();
+  player.fireLock.restart();
+  fire(playerID);
   return (true);
 }
 
-bool		Referee::acceptMove(Position::dir direction)
+bool		MainReferee::acceptMove(unsigned short playerID, Position::dir direction)
 {
-  if (_player.moveLock.getElapsedTime().asSeconds() < (MOVE_LOCK_TIME * _scenario.getGameSpeed()))
+  InternalPlayerSystem		player = _players[playerID];
+
+  if (player.moveLock.getElapsedTime().asSeconds() < (MOVE_LOCK_TIME * _scenario.getGameSpeed()))
   {
-    _player.move->onMove(direction);
+    player.move->onMove(direction);
     return (false);
   }
-  _player.moveLock.restart();
-  _player.move->onMove(direction);
+  player.moveLock.restart();
+  player.move->onMove(direction);
   return (true);
 }
 
-void		Referee::loadScenario(const Scenario &scenario, unsigned short playerID)
-{
-  loadScenario(scenario);
-  setMyPlayer(playerID);
-}
-
-void		Referee::loadScenario(const Scenario &scenario)
+void		MainReferee::loadScenario(const Scenario &scenario)
 {
   _scenario = scenario;
   while (!_entities.empty())
@@ -95,22 +92,35 @@ void		Referee::loadScenario(const Scenario &scenario)
   }
   for (std::vector<Player>::const_iterator it = scenario.getPlayers().begin();
        it != scenario.getPlayers().end(); ++it)
-    addEntity(new Player(*it));
+  {
+    InternalPlayerSystem	internalPlayer;
+    Player			*player = new Player(*it);
+    ObjectMoverComparer		move(it->getID());
+
+    addEntity(player);
+    mover_set_type::iterator	itMover = _entityMoves.find(&move);
+
+
+    internalPlayer.entity = player;
+    internalPlayer.move = *itMover;
+
+    _players[it->getID()] = internalPlayer;
+  }
   addEntity(new Mob(5, Position(800, 500, Position::WEST), 1)); // DEBUG
 }
 
-void	Referee::addEntity(Entity *e)
+void	MainReferee::addEntity(Entity *e)
 {
   _entities.insert(e);
   _entityMoves.insert(EntityFactory::getInstance().createObject(e->getType(), e->getID(), e->getPosition()));
 }
 
-void	Referee::delEntity(unsigned short id)
+void	MainReferee::delEntity(unsigned short id)
 {
-  EntityComparer				entity(id);
+  EntityComparer		entity(id);
   entity_set_type::iterator	itEntity = _entities.find(&entity);
 
-  ObjectMoverComparer			move(id);
+  ObjectMoverComparer		move(id);
   mover_set_type::iterator	itMover = _entityMoves.find(&move);
 
   delete *itEntity;
@@ -119,7 +129,7 @@ void	Referee::delEntity(unsigned short id)
   _entities.erase(itEntity);
 }
 
-void	Referee::updateMoves(std::vector<unsigned short> &moved)
+void	MainReferee::updateMoves(std::vector<unsigned short> &moved)
 {
   for (mover_set_type::iterator it = _entityMoves.begin(); it != _entityMoves.end(); ++it)
   {
@@ -134,7 +144,7 @@ void	Referee::updateMoves(std::vector<unsigned short> &moved)
   }
 }
 
-void	Referee::checkOutsideMap(const std::vector<unsigned short> &moved, std::vector<unsigned short> &toDelete)
+void	MainReferee::checkOutsideMap(const std::vector<unsigned short> &moved, std::vector<unsigned short> &toDelete)
 {
   unsigned short				mapHeight, mapWidth;
 
@@ -144,12 +154,12 @@ void	Referee::checkOutsideMap(const std::vector<unsigned short> &moved, std::vec
     EntityComparer	c(*it);
     Entity			*current = *_entities.find(&c);
 
-    if (Referee::isOutsideMap(*current, mapHeight, mapWidth))
+    if (MainReferee::isOutsideMap(*current, mapHeight, mapWidth))
       toDelete.push_back(*it);
   }
 }
 
-void	Referee::checkCollisions(const std::vector<unsigned short> &moved, std::vector<unsigned short> &toDelete)
+void	MainReferee::checkCollisions(const std::vector<unsigned short> &moved, std::vector<unsigned short> &toDelete)
 {
   for (std::vector<unsigned short>::const_iterator it = moved.begin(); it != moved.end(); ++it)
   {
@@ -160,7 +170,7 @@ void	Referee::checkCollisions(const std::vector<unsigned short> &moved, std::vec
     {
       Entity		*obj2 = *it2;
 
-      if (obj1 != obj2 && Referee::isCollision(*obj1, *obj2))
+      if (obj1 != obj2 && MainReferee::isCollision(*obj1, *obj2))
       {
 	toDelete.push_back(*it);
 	break;
@@ -171,20 +181,21 @@ void	Referee::checkCollisions(const std::vector<unsigned short> &moved, std::vec
 
 /*
  * Purpose:
- * - Get requests from MasterReferee to update map
- * - Destroy Objects if necessary - MasterReferee will tell you or object outside map.
- * - send to MasterReferee Player Position
+ * - Get requests from MasterMainReferee to update map
+ * - Destroy Objects if necessary - MasterMainReferee will tell you or object outside map.
+ * - send to MasterMainReferee Player Position
  *
- * The MasterReferee have also (that Rerefee doesn't have):
+ * The MasterMainReferee have also (that Rerefee doesn't have):
  * - Test if there is collision
  * - Apply actions if collision
  *
  */
-void		Referee::update(std::vector<unsigned short>	&toDelete)
+void		MainReferee::update(std::vector<unsigned short>	&toDelete)
 {
   std::vector<unsigned short>	moved;
   // GetRequests...
 
+  _stamp++;
   toDelete.clear();
   updateMoves(moved);
   checkOutsideMap(moved, toDelete);
@@ -192,13 +203,13 @@ void		Referee::update(std::vector<unsigned short>	&toDelete)
 
   for (std::vector<unsigned short>::const_iterator it = toDelete.begin(); it != toDelete.end(); ++it)
   {
-    if (*it == _player.entity->getID())
+    if (_players.find(*it) != _players.end())
       continue;
     delEntity(*it);
   }
   //for (mover_set_type::iterator it = _entityMoves.begin(); it != _entityMoves.end(); ++it) // Obj vs Map
   //{
-  //	if (Referee::isOutsideMap(*(*it), mapHeight, mapWidth))
+  //	if (MainReferee::isOutsideMap(*(*it), mapHeight, mapWidth))
   //		toDelete.push_back(it->first);
   //}
   //for (std::vector<unsigned short>::iterator it = toDelete.begin(); it != toDelete.end(); ++it)
@@ -212,7 +223,7 @@ void		Referee::update(std::vector<unsigned short>	&toDelete)
   //{
   //	for (mover_set_type::iterator it2 = _entityMoves.begin(); it2 != _entityMoves.end(); ++it2) // Obj vs Obj
   //	{
-  //		if (it->first != it2->first && Referee::isCollision(*it->second, *it2->second))
+  //		if (it->first != it2->first && MainReferee::isCollision(*it->second, *it2->second))
   //		{
   //			toDelete.push_back(it->first);
   //			toDelete.push_back(it2->first);
@@ -225,21 +236,15 @@ void		Referee::update(std::vector<unsigned short>	&toDelete)
   //		continue; // don't delete it
   //	_objects.erase(*it);
   //}
-  // SendPlayerPosition to MasterReferee...
+  // SendPlayerPosition to MasterMainReferee...
 }
 
-/* When protocol will be restored */
-void		Referee::sendRequest()
-{
-
-}
-
-bool		Referee::isOutsideMap(const Entity &object, unsigned short mapHeight, unsigned short mapWidth)
+bool		MainReferee::isOutsideMap(const Entity &object, unsigned short mapHeight, unsigned short mapWidth)
 {
   return (object.getPosition().x + object.getWidth() > mapWidth || object.getPosition().y + object.getHeight() > mapHeight);
 }
 
-bool		Referee::isCollision(const Entity &object1, const Entity &object2)
+bool		MainReferee::isCollision(const Entity &object1, const Entity &object2)
 {
   Rect<>	obj1(object1.getPosition().x, object1.getPosition().y, object1.getWidth(), object1.getHeight());
   Rect<>	obj2(object2.getPosition().x, object2.getPosition().y, object2.getWidth(), object2.getHeight());
@@ -255,42 +260,45 @@ bool		Referee::isCollision(const Entity &object1, const Entity &object2)
 	  (obj1.m_x + obj1.m_width > obj2.m_x));
 }
 
-bool	Referee::entitiesComp(const Entity *lhs, const Entity *rhs)
+bool	MainReferee::entitiesComp(const Entity *lhs, const Entity *rhs)
 {
   return (lhs->getID() < rhs->getID());
 }
 
-bool	Referee::entityMoveComp(const ObjectMover *lhs, const ObjectMover *rhs)
+bool	MainReferee::entityMoveComp(const ObjectMover *lhs, const ObjectMover *rhs)
 {
   return (lhs->getObjectID() < rhs->getObjectID());
 }
 
 
-const Referee::entity_set_type	&Referee::getMap() const
+const MainReferee::entity_set_type	&MainReferee::getMap() const
 {
   return (_entities);
 }
 
-void			Referee::setMyPlayer(unsigned short playerID)
+game::Stamp				MainReferee::getStamp() const
 {
-  ObjectMoverComparer	moverComp(playerID);
-  EntityComparer		entityComp(playerID);
-#if defined(DEBUG)
-  if (_entities.find(&entityComp) == _entities.end())
-    throw std::runtime_error("Referee::setMyPlayer(): Invalid playerID");
-#endif
-  _player.entity = dynamic_cast<Player *>(*_entities.find(&entityComp));
-  _player.move = *_entityMoves.find(&moverComp);
+  return (_stamp);
 }
 
-#include	<typeinfo>
+// void			MainReferee::setMyPlayer(unsigned short playerID)
+// {
+//   ObjectMoverComparer	moverComp(playerID);
+//   EntityComparer		entityComp(playerID);
+// #if defined(DEBUG)
+//   if (_objects.find(playerID) == _objects.end())
+//     throw std::runtime_error("MainReferee::setMyPlayer(): Invalid playerID");
+// #endif
+//   _player.entity = dynamic_cast<Player *>(*_entities.find(&entityComp));
+//   _player.move = *_entityMoves.find(&moverComp);
+// }
 
-const Player	&Referee::getMyPlayer() const
-{
-  return (*_player.entity);
-}
+// const Player	&MainReferee::getMyPlayer() const
+// {
+//   return (*_player.entity);
+// }
 
-unsigned short	Referee::uniqueID()
+unsigned short	MainReferee::uniqueID()
 {
   EntityComparer	c(_incrementalID);
 
