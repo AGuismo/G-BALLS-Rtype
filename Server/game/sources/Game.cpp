@@ -424,7 +424,7 @@ namespace game
 
     for (client_list::const_iterator it = _clients.begin(); it != _clients.end(); ++it)
     {
-      Position	p(rand() % 50, rand() % 900);      /* Placement du joueur ? */
+      Position	p(rand() % 50, rand() % 900);      /* TODO: Placement du joueur ? */
       Player	currentPlayer((*it)->clientID(), p, playerNo);
 
       s.addPlayer(currentPlayer);
@@ -550,7 +550,7 @@ namespace game
 
     for (MainReferee::entity_set_type::const_iterator it = map.begin(); it != map.end(); it++)
     {
-      switch ((*it)->getType().desc.maj) // Nasty Code
+      switch ((*it)->getType().desc.maj) // Nasty Code?
       {
       case Entity::MISSILE:
 	send(ElemRequest::create<Missile>(**it, _gameID, getStamp()));
