@@ -16,7 +16,8 @@
 
 // Protocol
 #include		"RequestCode.hh"
-#include		"AliveRequest.h"
+#include		"AliveRequest.hh"
+#include		"LeaveRequest.hh"
 
 using namespace requestCode::game;
 
@@ -135,12 +136,6 @@ bool							Game::load(void)
 	if (!AudioManager::getInstance().add(ANEXT_STAGE, ASOUND, false, std::string("./Sounds/NextStage.wav")))
 		return false;
 
-	Scenario	s(720, 1280);
-	Player		me(0x4242, Position(250, 250, Position::EAST), 1);
-
-	s.addPlayer(me);
-	_referee.loadScenario(s, 0x4242);
-
 	//_objects[0x4242] = ObjectFactory::getInstance().createObject(me.getType(), me.getID(), me.getPosition());;
 	//_objects[5] = ObjectFactory::getInstance().createObject(Entity::createType(Entity::MOBS, 1), 5, Position(800, 500, Position::WEST));
 	return true;
@@ -211,7 +206,7 @@ void							Game::run(void)
 {
 	Timer						_playerBlastLock(sf::seconds(2.0f));
 	Timer						_aliveRequest(sf::seconds(0.75f));
-	Timer						_lostConnection(sf::seconds(3.0f));
+	Timer						_lostConnection(sf::seconds(6.0f));
 	EventManager				ev(*_event);
 	std::vector<unsigned short>	toDelete;
 	//ARequest					*req;
@@ -261,26 +256,32 @@ void							Game::run(void)
 		}
 
 		draw();
-		//while ((req = _network.recvRequest()) != 0)
-		//  {
-		//    callback_map::iterator	it = _map.find(req->code());
 
-		//    if (it != _map.end())
-		//      (this->*(it->second))(req);
-		//	_lostConnection.restart();
-		//  }
+		while (true)
+		  {
+			  std::pair<network::Manager::SendType, ARequest *>	message = network::Manager::getInstance().recvRequestType();
+
+			  if (message.first != network::Manager::NONE)
+			  {
+				  std::cout << "Receive request of type: " << message.second->code() << std::endl;
+				  _referee.recvRequestFromServer(*message.second);
+				  delete message.second;
+				  _lostConnection.restart();
+			  }
+			  else
+				  break;
+		  }
 
 		if (_aliveRequest.isEnded())
 		{
-		network::Manager::getInstance().sendRequest(AliveRequest(InfosUser::getInstance().authenticate.id, 0), network::Manager::UDP); // 0 => stamp
+			network::Manager::getInstance().sendRequest(AliveRequest(InfosUser::getInstance().authenticate.id, 0), network::Manager::UDP); // 0 => stamp
 			_aliveRequest.restart();
 		}
 
 		//if (_lostConnection.isEnded())
 		//{
-		//_network.sendRequest(new LeaveRequest(InfosUser::getInstance().authenticate.id));
-		//	cleanGame();
-		//	return;
+		//	network::Manager::getInstance().sendRequest(LeaveRequest(InfosUser::getInstance().authenticate.id, 0), network::Manager::UDP);
+		//	_onGame = false;
 		//}
 	}
 	cleanGame();

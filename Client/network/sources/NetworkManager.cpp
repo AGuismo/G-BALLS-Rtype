@@ -67,15 +67,39 @@ namespace	network
 		return (_tcp.active);
 	}
 
-	void	Manager::setUdp(const sf::IpAddress &ip, unsigned short port)
+	bool	Manager::setUdp(const sf::IpAddress &ip, unsigned short port)
+	{
+		Thread::MutexGuard	guard(_socketLock);
+		sf::Socket::Status	st;
+
+		if (_udp.active)
+			return (false);
+
+		st = _udp.gSock.bind(port);
+		if (st == sf::Socket::Done)
+		{
+			_udp.gIp = ip;
+			_udp.gPort = port;
+			_udp.active = true;
+			_select.add(_udp.gSock);
+			_condSocketChanged.signal();
+		}
+		else
+			_udp.active = false;
+		return (_udp.active);
+	}
+
+	void	Manager::closeUdp()
 	{
 		Thread::MutexGuard	guard(_socketLock);
 
-		_udp.gIp = ip;
-		_udp.gPort = port;
-		_udp.active = true;
-		_select.add(_udp.gSock);
-		_condSocketChanged.signal();
+		if (_udp.active == true)
+		{
+			_select.remove(_udp.gSock);
+			_udp.gSock.unbind();
+			_udp.active = false;
+			_condSocketChanged.signal();
+		}
 	}
 
 	void	Manager::closeTcp(void)

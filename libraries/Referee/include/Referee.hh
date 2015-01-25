@@ -2,18 +2,24 @@
 
 #include	<set>
 #include	<list>
+#include	<map>
 #include	"Position.hh"
 #include	"Entity.hh"
 #include	"Scenario.hh"
 #include	"Clock.hh"
+#include	"types.hh"
 
 class Player;
 class ObjectMover;
+class ARequest;
 
 class Referee
 {
   typedef bool(*mover_comp_fn)(const ObjectMover *, const ObjectMover *);
   typedef std::set<ObjectMover *, mover_comp_fn>	mover_set_type;
+  typedef std::list<ARequest *>	request_list_type;
+  typedef void	(Referee::*request_fn)(const ARequest &);
+  typedef std::map<requestCode::CodeID, request_fn> request_callback_map_type;
 
 public:
   static const float	FIRE_LOCK_TIME;
@@ -22,27 +28,29 @@ public:
   typedef std::set<Entity *, entity_comp_fn>	entity_set_type;
 
 public:
-  Referee();
-  Referee(const Scenario &scenario, unsigned short playerID);
+	Referee();
   ~Referee();
 
   bool		acceptMove(Position::dir direction);
   bool		acceptFire();
 
-  void		loadScenario(const Scenario &scenario, unsigned short playerID);
   void		update(std::vector<unsigned short> &toDelete);
 
-  void		sendRequest(/* Add network here */); // Send request to the server (acceptMove + acceptFire)
+  void		sendRequestToServer(/* Add network here */); // Send request to the server (acceptMove + acceptFire)
+  void		recvRequestFromServer(const ARequest &);
 
   unsigned short	uniqueID();
 
 public:
   const entity_set_type	&getMap() const;
-
-  void					setMyPlayer(unsigned short playerID);
   const Player			&getMyPlayer() const;
 
 private:
+
+	void	executeRequestFromServer();
+	void	request_command_elem(const ARequest &elem);
+	void	request_command_death(const ARequest &death);
+
   void		addEntity(Entity *e);
   void		delEntity(unsigned short id);
 
@@ -60,9 +68,6 @@ private:
   static bool	isCollision(const Entity &object1, const Entity &object2);
 
 private:
-  void		pushRequest(); // Add data from MainReferee (server) => acceptMove and acceptFire calls
-
-private:
   entity_set_type		_entities;
   mover_set_type		_entityMoves;
   Scenario			_scenario;
@@ -75,6 +80,9 @@ private:
     Clock			moveLock;
   }					_player;
 
+  request_list_type			_requestsFromServer;
+  request_list_type			_requestsToServer;
+  request_callback_map_type	_requestCommands;
 
   // List of request here...
 };
