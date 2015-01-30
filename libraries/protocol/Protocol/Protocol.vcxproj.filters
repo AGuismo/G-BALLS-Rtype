@@ -78,9 +78,6 @@
     <ClCompile Include="..\sources\ElemRequest.cpp">
       <Filter>Source Files\GameRequest</Filter>
     </ClCompile>
-    <ClCompile Include="..\sources\EventRequest.cpp">
-      <Filter>Source Files\GameRequest</Filter>
-    </ClCompile>
     <ClCompile Include="..\sources\DeathRequest.cpp">
       <Filter>Source Files\GameRequest</Filter>
     </ClCompile>
@@ -144,9 +141,6 @@
       <Filter>Header Files\GameRequest</Filter>
     </ClInclude>
     <ClInclude Include="..\include\ElemRequest.hh">
-      <Filter>Header Files\GameRequest</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\EventRequest.hh">
       <Filter>Header Files\GameRequest</Filter>
     </ClInclude>
     <ClInclude Include="..\include\LeaveRequest.h">

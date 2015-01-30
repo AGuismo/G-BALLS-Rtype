@@ -51,13 +51,13 @@ Player	&Player::operator=(const Player &src)
 
 void	Player::serialize(Protocol &p) const
 {
-	Entity::serialize(p);
+	//Entity::serialize(p);
 	//p << ;
 }
 
 void	Player::unserialize(Protocol &p)
 {
-	Entity::unserialize(p);
+	//Entity::unserialize(p);
 	//p >> ;
 }
 

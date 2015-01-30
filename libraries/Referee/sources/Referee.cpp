@@ -11,20 +11,29 @@
 #include	"ObjectMover.hh"
 #include	"EntityFactory.hh"
 
+#include	"AGameRequest.hh"
+#include	"ElemRequest.hh"
+#include	"LeaveRequest.hh"
+#include	"DeathRequest.hh"
+
 const float	Referee::MOVE_LOCK_TIME = 0.25f;
 const float	Referee::FIRE_LOCK_TIME = 0.5f;
 
-Referee::Referee():
+Referee::Referee() :
   _entities(&entitiesComp), _entityMoves(&entityMoveComp), _incrementalID(1)
 {
+	_player.entity = 0;
+
+	_requestCommands[requestCode::game::ELEM] = &Referee::request_command_elem;
+	_requestCommands[requestCode::game::DEATH] = &Referee::request_command_death;
 }
 
-Referee::Referee(const Scenario &scenario, unsigned short playerID):
-  _entities(&entitiesComp), _entityMoves(&entityMoveComp), _incrementalID(1)
-{
-  loadScenario(scenario);
-  setMyPlayer(playerID);
-}
+//Referee::Referee(const Scenario &scenario, unsigned short playerID):
+//  _entities(&entitiesComp), _entityMoves(&entityMoveComp), _incrementalID(1)
+//{
+//  loadScenario(scenario);
+  //setMyPlayer(playerID);
+//}
 
 Referee::~Referee()
 {
@@ -55,6 +64,8 @@ void				Referee::fire()
 
 bool				Referee::acceptFire() // Fire can only be my player fire in this case
 {
+	if (_player.entity == 0)
+		return (false);
   if (_player.fireLock.getElapsedTime().asSeconds() < (FIRE_LOCK_TIME * _scenario.getGameSpeed()))
     return (false);
   _player.fireLock.restart();
@@ -64,7 +75,9 @@ bool				Referee::acceptFire() // Fire can only be my player fire in this case
 
 bool		Referee::acceptMove(Position::dir direction)
 {
-  if (_player.moveLock.getElapsedTime().asSeconds() < (MOVE_LOCK_TIME * _scenario.getGameSpeed()))
+	if (_player.entity == 0)
+		return (false);
+	if (_player.moveLock.getElapsedTime().asSeconds() < (MOVE_LOCK_TIME * _scenario.getGameSpeed()))
   {
     _player.move->onMove(direction);
     return (false);
@@ -74,11 +87,11 @@ bool		Referee::acceptMove(Position::dir direction)
   return (true);
 }
 
-void		Referee::loadScenario(const Scenario &scenario, unsigned short playerID)
-{
-  loadScenario(scenario);
-  setMyPlayer(playerID);
-}
+//void		Referee::loadScenario(const Scenario &scenario, unsigned short playerID)
+//{
+//  loadScenario(scenario);
+//  setMyPlayer(playerID);
+//}
 
 void		Referee::loadScenario(const Scenario &scenario)
 {
@@ -98,6 +111,42 @@ void		Referee::loadScenario(const Scenario &scenario)
     addEntity(new Player(*it));
   addEntity(new Mob(5, Position(800, 500, Position::WEST), 1)); // DEBUG
 }
+
+void	Referee::executeRequestFromServer()
+{
+	for (request_list_type::iterator it = _requestsFromServer.begin();
+		it != _requestsFromServer.end(); ++it)
+	{
+		request_callback_map_type::iterator	command = _requestCommands.find((*it)->code());
+
+		if (command != _requestCommands.end())
+			(this->*(command->second))(**it);
+	}
+	_requestsFromServer.clear();
+}
+
+void	Referee::request_command_elem(const ARequest &base)
+{
+	const ElemRequest	&elem = dynamic_cast<const ElemRequest &>(base);
+	EntityComparer		comparer(elem.ID());
+
+	if (_entities.find(&comparer) == _entities.end())
+		addEntity(elem.entity()->copy());
+	else
+	{
+		// TODO: Move Object
+	}
+}
+
+void	Referee::request_command_death(const ARequest &base)
+{
+	const ElemRequest	&elem = dynamic_cast<const ElemRequest &>(base);
+	EntityComparer		comparer(elem.ID());
+
+	if (_entities.find(&comparer) == _entities.end())
+		delEntity(elem.ID());
+}
+
 
 void	Referee::addEntity(Entity *e)
 {
@@ -186,6 +235,7 @@ void		Referee::update(std::vector<unsigned short>	&toDelete)
   // GetRequests...
 
   toDelete.clear();
+  executeRequestFromServer();
   updateMoves(moved);
   checkOutsideMap(moved, toDelete);
   checkCollisions(moved, toDelete);
@@ -229,9 +279,13 @@ void		Referee::update(std::vector<unsigned short>	&toDelete)
 }
 
 /* When protocol will be restored */
-void		Referee::sendRequest()
+void		Referee::sendRequestToServer()
 {
+}
 
+void		Referee::recvRequestFromServer(const ARequest &req)
+{
+	_requestsFromServer.push_back(req.clone());
 }
 
 bool		Referee::isOutsideMap(const Entity &object, unsigned short mapHeight, unsigned short mapWidth)
@@ -271,17 +325,17 @@ const Referee::entity_set_type	&Referee::getMap() const
   return (_entities);
 }
 
-void			Referee::setMyPlayer(unsigned short playerID)
-{
-  ObjectMoverComparer	moverComp(playerID);
-  EntityComparer		entityComp(playerID);
-#if defined(DEBUG)
-  if (_entities.find(&entityComp) == _entities.end())
-    throw std::runtime_error("Referee::setMyPlayer(): Invalid playerID");
-#endif
-  _player.entity = dynamic_cast<Player *>(*_entities.find(&entityComp));
-  _player.move = *_entityMoves.find(&moverComp);
-}
+//void			Referee::setMyPlayer(unsigned short playerID)
+//{
+//  ObjectMoverComparer	moverComp(playerID);
+//  EntityComparer		entityComp(playerID);
+//#if defined(DEBUG)
+//  if (_entities.find(&entityComp) == _entities.end())
+//    throw std::runtime_error("Referee::setMyPlayer(): Invalid playerID");
+//#endif
+//  _player.entity = dynamic_cast<Player *>(*_entities.find(&entityComp));
+//  _player.move = *_entityMoves.find(&moverComp);
+//}
 
 #include	<typeinfo>
 

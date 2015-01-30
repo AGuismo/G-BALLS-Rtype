@@ -44,7 +44,8 @@ namespace	network
 		void	closeTcp();
 
 		// UDP
-		void	setUdp(const sf::IpAddress &ip, unsigned short port);
+		bool	setUdp(const sf::IpAddress &ip, unsigned short port);
+		void	closeUdp();
 
 		// BOTH
 		bool	isConnected(SendType) const;
