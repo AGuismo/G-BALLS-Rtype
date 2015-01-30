@@ -20,7 +20,7 @@ const float	Referee::MOVE_LOCK_TIME = 0.25f;
 const float	Referee::FIRE_LOCK_TIME = 0.5f;
 
 Referee::Referee() :
-  _entities(&entitiesComp), _entityMoves(&entityMoveComp), _incrementalID(1)
+_entities(&entitiesComp), _entityMoves(&entityMoveComp), _incrementalID(1)
 {
 	_player.entity = 0;
 
@@ -84,6 +84,7 @@ bool		Referee::acceptMove(Position::dir direction)
   }
   _player.moveLock.restart();
   _player.move->onMove(direction);
+  _player.entity->setPosition(_player.move->getNextPos());
   return (true);
 }
 
@@ -109,7 +110,6 @@ void		Referee::loadScenario(const Scenario &scenario)
   for (std::vector<Player>::const_iterator it = scenario.getPlayers().begin();
        it != scenario.getPlayers().end(); ++it)
     addEntity(new Player(*it));
-  addEntity(new Mob(5, Position(800, 500, Position::WEST), 1)); // DEBUG
 }
 
 void	Referee::executeRequestFromServer()
@@ -151,7 +151,12 @@ void	Referee::request_command_death(const ARequest &base)
 void	Referee::addEntity(Entity *e)
 {
   _entities.insert(e);
-  _entityMoves.insert(EntityFactory::getInstance().createObject(e->getType(), e->getID(), e->getPosition()));
+  std::pair<mover_set_type::iterator, bool> result = _entityMoves.insert(EntityFactory::getInstance().createObject(e->getType(), e->getID(), e->getPosition()));
+  if (_player.entity == 0 && result.second && e->getID() == _player.id)
+  {
+	  _player.entity = dynamic_cast<Player *>(e);
+	  _player.move = *result.first;
+  }
 }
 
 void	Referee::delEntity(unsigned short id)
@@ -278,9 +283,13 @@ void		Referee::update(std::vector<unsigned short>	&toDelete)
   // SendPlayerPosition to MasterReferee...
 }
 
-/* When protocol will be restored */
-void		Referee::sendRequestToServer()
+bool		Referee::playerInformations(Player &myPlayer, missile_list_type &associatedMissiles) const
 {
+	if (_player.entity == 0)
+		return (false);
+	myPlayer = getMyPlayer();
+	associatedMissiles.clear();
+	return (true);
 }
 
 void		Referee::recvRequestFromServer(const ARequest &req)
@@ -337,7 +346,10 @@ const Referee::entity_set_type	&Referee::getMap() const
 //  _player.move = *_entityMoves.find(&moverComp);
 //}
 
-#include	<typeinfo>
+void			Referee::setPlayerID(requestCode::SessionID playerID)
+{
+	_player.id = playerID;
+}
 
 const Player	&Referee::getMyPlayer() const
 {
