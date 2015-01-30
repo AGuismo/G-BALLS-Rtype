@@ -77,6 +77,30 @@ bool		MainReferee::acceptMove(unsigned short playerID, Position::dir direction)
   return (true);
 }
 
+bool		MainReferee::acceptPlayerPosition(const Player &currentPlayer)
+{
+  InternalPlayerSystem		player = _players[currentPlayer.getID()];
+
+  if (player.moveLock.getElapsedTime().asSeconds() < (MOVE_LOCK_TIME * _scenario.getGameSpeed()))
+  {
+    player.entity->setPosition(currentPlayer.getPosition());
+    // TODO: Add PlayerMove
+  }
+  return (true);
+}
+
+bool		MainReferee::acceptFire(const Missile &missile)
+{
+  EntityComparer		entity(missile.getID());
+  entity_set_type::iterator	itEntity = _entities.find(&entity);
+
+  if (itEntity == _entities.end())
+  {
+    addEntity(missile.copy()); // TODO: check If he can Fire or not
+  }
+  return (true);
+}
+
 void		MainReferee::loadScenario(const Scenario &scenario)
 {
   _scenario = scenario;

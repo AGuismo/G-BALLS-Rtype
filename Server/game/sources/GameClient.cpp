@@ -6,6 +6,7 @@
 
 // LibReferee
 #include	"Player.hh"
+#include	"MainReferee.hh"
 
 // Module
 #include	"GamePool.hh"
@@ -26,6 +27,10 @@ namespace	game
 #if defined(DEBUG)
     Application::log << "game::client created" << std::endl;
 #endif
+    _requestCallback[requestCode::game::LEAVE] = &Client::request_leave;
+    _requestCallback[requestCode::game::ALIVE] = &Client::request_alive;
+    _requestCallback[requestCode::game::ELEM] = &Client::request_elem;
+
   }
 
   Client::Client(requestCode::SessionID id, struct sockaddr_in addr) :
@@ -36,6 +41,10 @@ namespace	game
 #if defined(DEBUG)
     Application::log << "game::client created" << std::endl;
 #endif
+
+    _requestCallback[requestCode::game::LEAVE] = &Client::request_leave;
+    _requestCallback[requestCode::game::ALIVE] = &Client::request_alive;
+    _requestCallback[requestCode::game::ELEM] = &Client::request_elem;
   }
 
   Client::~Client()
@@ -75,18 +84,24 @@ namespace	game
     }
   }
 
-  void		Client::update(game::Game &game)
+  void		Client::update(MainReferee &game)
   {
     ARequest	*req;
     // bool	move = false;
     // bool	fire = false;
 
+    std::cerr << "Client::update(): " << _updateToLive << std::endl;
+    _updateToLive++;
     while ((req = requestPop()) != 0)
     {
-      // EventRequest	*ev;
-      AliveRequest	*al;
-      LeaveRequest	*lv;
+      request_callback_map_type::iterator	found = _requestCallback.find(req->code());
 
+      if (found != _requestCallback.end())
+	(this->*(found->second))(*req);
+
+      // EventRequest	*ev;
+      // AliveRequest	*al;
+      // LeaveRequest	*lv;
       // if ((ev = dynamic_cast<EventRequest *>(req)) && _alive)
       // {
       // 	_updateToLive = -1;
@@ -112,17 +127,7 @@ namespace	game
       // 	  // 				   missile->pos()[0], missile->dir(), missile->id()));
       // 	}
       // }
-      if ((al = dynamic_cast<AliveRequest *>(req)))
-      {
-	_updateToLive = -1;
-      }
-      else if ((lv = dynamic_cast<LeaveRequest *>(req)))
-      {
-	_alive = false;
-	_hasLeft = true;
-      }
     }
-    _updateToLive++;
     if (_updateToLive == rtype::Env::getInstance().game.updateToLive)
     {
       _alive = false;
@@ -154,6 +159,26 @@ namespace	game
   {
     _output.requestPush(req);
   }
+
+  // Request Callbacks
+
+  void		Client::request_alive(const ARequest &req)
+  {
+    _updateToLive = 0;
+  }
+
+  void		Client::request_leave(const ARequest &req)
+  {
+    _alive = false;
+    _hasLeft = true;
+  }
+
+  void		Client::request_elem(const ARequest &req)
+  {
+  }
+
+
+
 
   requestCode::SessionID	Client::clientID() const
   {

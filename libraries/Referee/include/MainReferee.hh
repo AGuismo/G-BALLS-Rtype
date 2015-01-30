@@ -10,6 +10,7 @@
 #include	"Clock.hh"
 
 class Player;
+class Missile;
 class ObjectMover;
 
 class MainReferee
@@ -37,6 +38,10 @@ public:
   MainReferee();
   MainReferee(const Scenario &scenario);
   ~MainReferee();
+
+  bool		acceptPlayerPosition(const Player &player);
+  bool		acceptFire(const Missile &missile);
+
 
   bool		acceptMove(unsigned short playerID, Position::dir direction);
   bool		acceptFire(unsigned short playerID);

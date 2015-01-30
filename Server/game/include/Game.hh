@@ -56,6 +56,7 @@ namespace game
     }
 
     bool		update();
+    bool		playerUpdate();
     void		prepareGame();
 
   private:

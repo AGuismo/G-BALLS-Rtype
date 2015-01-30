@@ -24,6 +24,9 @@
 #include	"GameManager.hh"
 #include	"Game.hh"
 #include	"Application.hh" // Log purpose
+#include	"Log.hh"
+
+using namespace loglib;
 
 namespace game
 {
@@ -283,24 +286,23 @@ namespace game
   //   _missiles.push_back(missile);
   // }
 
-  // bool	Game::playerUpdate()
-  // {
-  //   std::list<game::Client *>::iterator itm = _clients.begin();
+  bool	Game::playerUpdate()
+  {
+    std::list<game::Client *>::iterator itm = _clients.begin();
 
-  //   for (itm = _clients.begin(); itm != _clients.end(); )
-  //   {
-  //     (*itm)->update(*this);
-  //     if ((*itm)->hasLeft())
-  //     {
-  // 	// delete (*itm)->player();
-  // 	itm = _clients.erase(itm);
-  // 	return true;
-  //     }
-  //     else
-  // 	itm++;
-  //   }
-  //   return false;
-  // }
+    for (itm = _clients.begin(); itm != _clients.end(); )
+    {
+      (*itm)->update(*_referee);
+      if ((*itm)->hasLeft())
+      {
+  	// delete (*itm)->player();
+  	itm = _clients.erase(itm);
+      }
+      else
+  	itm++;
+    }
+    return true;
+  }
 
   // void	Game::popIA()
   // {
@@ -368,10 +370,13 @@ namespace game
     Application::log << "Game::updateGame() - " << this << ": GAME UPDATE" << std::endl;
 #endif
 
+    playerUpdate();
     _referee->update(toDelete);
     sendUpdates(toDelete);
 
-    // playerUpdate();
+    if (_clients.empty()) // TODO: test if referee says the game is finished
+      _status = FINISHED;
+
     // iaUpdate();
     // wallUpdate();
     // missileUpdate();
@@ -532,6 +537,11 @@ namespace game
 
       buf = Protocol::product(req);
       std::copy(buf.begin(), buf.end(), data);
+#if defined(DEBUG)
+      Application::log << "Game::send(): " << req.code()
+		       << Log::hexDump(buf) << std::endl;
+#endif
+
       if ((*it)->hasJoin())
 	_parent->parent()->server().directWrite(data, buf.size(), (*it)->getAddr());
     }

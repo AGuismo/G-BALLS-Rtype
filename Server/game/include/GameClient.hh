@@ -18,23 +18,23 @@
 
 class		ARequest;
 class		Player;
+class		MainReferee;
 
 namespace	game
 {
-  class		Game;
   class		GamePool;
 
   class Client
   {
-    /*typedef void(*request_callback)(ARequest *, Client *);
-      typedef std::map<requestCode::CodeID, request_callback> request_callback_map;*/
+    typedef void(Client::*request_fn)(const ARequest &);
+    typedef std::map<requestCode::CodeID, request_fn>	request_callback_map_type;
   public:
     Client(requestCode::SessionID clientID);
     Client(requestCode::SessionID clientID, struct sockaddr_in addr);
     virtual ~Client();
 
   public:
-    void	update(Game &game);
+    void	update(MainReferee &referee);
     void	finalize();
     void	waitForJoin();
 
@@ -70,6 +70,11 @@ namespace	game
     void			hasJoin(bool b) { _hasJoin = b; };
 
   private:
+    void			request_alive(const ARequest &req);
+    void			request_leave(const ARequest &req);
+    void			request_elem(const ARequest &req);
+
+  private:
     bool			_alive;
     int				_updateToLive;
 
@@ -79,7 +84,7 @@ namespace	game
     RequestQueue		_input;
     RequestQueue		_output;
     GamePool			*_associatedPool;
-    /*request_callback_map _requestCallback;*/
+    request_callback_map_type	_requestCallback;
 
   private:
     struct sockaddr_in		_addr;
