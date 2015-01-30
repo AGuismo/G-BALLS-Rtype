@@ -10,6 +10,7 @@
 #include		"Animation.hh"
 #include		"Layer.hh"
 #include		"TextureManager.hh"
+#include		"Missile.hh"
 
 // Network
 #include		"NetworkManager.hh"
@@ -18,6 +19,7 @@
 #include		"RequestCode.hh"
 #include		"AliveRequest.hh"
 #include		"LeaveRequest.hh"
+#include		"ElemRequest.hh"
 
 using namespace requestCode::game;
 
@@ -202,6 +204,22 @@ void			Game::onFire(sf::Keyboard::Key key, Game *self)
 	//	self->_objects[it->getID()] = ObjectFactory::getInstance().createObject(it->getType(), it->getID(), it->getPosition());
 }
 
+void							Game::sendPlayerInfo() const
+{
+	Player						myPlayer;
+	Referee::missile_list_type	playerMissiles;
+	network::Manager			&networkManager = network::Manager::getInstance();
+
+	if (!_referee.playerInformations(myPlayer, playerMissiles))
+		return;
+	networkManager.sendRequest(ElemRequest::create<Player>(myPlayer, InfosUser::getInstance().authenticate.id, 0), network::Manager::UDP);
+	for (Referee::missile_list_type::const_iterator it = playerMissiles.begin();
+		it != playerMissiles.end(); ++it)
+	{
+		networkManager.sendRequest(ElemRequest::create<Missile>(*it, InfosUser::getInstance().authenticate.id, 0), network::Manager::UDP);
+	}
+}
+
 void							Game::run(void)
 {
 	Timer						_playerBlastLock(sf::seconds(2.0f));
@@ -221,6 +239,7 @@ void							Game::run(void)
 	ev.registerKey(sf::Keyboard::Escape, new EventManager::Callback<sf::Keyboard::Key, Game *>(&Game::onEscape, this));
 
 	network::Manager::getInstance().setUdp(sf::IpAddress(InfosUser::getInstance().authenticate.addressIp), InfosUser::getInstance().authenticate.portUDP);
+	_referee.setPlayerID(InfosUser::getInstance().authenticate.id);
 	AudioManager::getInstance().play(AGAME_MUSIC);
 	_onGame = true;
 
@@ -275,6 +294,7 @@ void							Game::run(void)
 		if (_aliveRequest.isEnded())
 		{
 			network::Manager::getInstance().sendRequest(AliveRequest(InfosUser::getInstance().authenticate.id, 0), network::Manager::UDP); // 0 => stamp
+			sendPlayerInfo();
 			_aliveRequest.restart();
 		}
 

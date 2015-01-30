@@ -10,6 +10,7 @@
 #include	"types.hh"
 
 class Player;
+class Missile;
 class ObjectMover;
 class ARequest;
 
@@ -17,15 +18,16 @@ class Referee
 {
   typedef bool(*mover_comp_fn)(const ObjectMover *, const ObjectMover *);
   typedef std::set<ObjectMover *, mover_comp_fn>	mover_set_type;
-  typedef std::list<ARequest *>	request_list_type;
   typedef void	(Referee::*request_fn)(const ARequest &);
   typedef std::map<requestCode::CodeID, request_fn> request_callback_map_type;
+  typedef std::list<ARequest *>	request_list_type;
 
 public:
   static const float	FIRE_LOCK_TIME;
   static const float	MOVE_LOCK_TIME;
   typedef bool(*entity_comp_fn)(const Entity *, const Entity *);
   typedef std::set<Entity *, entity_comp_fn>	entity_set_type;
+  typedef std::list<Missile>					missile_list_type;
 
 public:
 	Referee();
@@ -44,6 +46,8 @@ public:
 public:
   const entity_set_type	&getMap() const;
   const Player			&getMyPlayer() const;
+  void					setPlayerID(requestCode::SessionID playerID);
+  bool					playerInformations(Player &myPlayer, missile_list_type &associatedMissiles) const; // TODO: Bonus list
 
 private:
 
@@ -74,6 +78,7 @@ private:
   unsigned short		_incrementalID;
   struct
   {
+	requestCode::SessionID	id;
     Player			*entity;
     ObjectMover		*move;
     Clock			fireLock;
@@ -81,7 +86,6 @@ private:
   }					_player;
 
   request_list_type			_requestsFromServer;
-  request_list_type			_requestsToServer;
   request_callback_map_type	_requestCommands;
 
   // List of request here...

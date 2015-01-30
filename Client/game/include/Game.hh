@@ -56,6 +56,7 @@ private:
   void			cleanGame(void);
 
 public:
+  void			sendPlayerInfo() const;
   bool			updateObj(game::Type type, game::Dir lDir, int id, int pos);
   bool			addObj(game::Type type, int id, int pos);
   bool			delObj(int id);
