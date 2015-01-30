@@ -24,8 +24,8 @@ public:
 	Player	&operator=(const Player &src);
 
 public:
-	void	serialize(Protocol &) const;
-	void	unserialize(Protocol &);
+	// void	serialize(Protocol &) const;
+	// void	unserialize(Protocol &);
 	Entity	*copy() const;
 
 private:

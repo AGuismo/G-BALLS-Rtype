@@ -49,18 +49,6 @@ Player	&Player::operator=(const Player &src)
 	return (*this);
 }
 
-void	Player::serialize(Protocol &p) const
-{
-	//Entity::serialize(p);
-	//p << ;
-}
-
-void	Player::unserialize(Protocol &p)
-{
-	//Entity::unserialize(p);
-	//p >> ;
-}
-
 Entity	*Player::copy() const
 {
 	return (new Player(*this));
