@@ -68,7 +68,6 @@ Protocol			&ElemRequest::unserialize(Protocol &rhs)
     _entity = new Entity(e); // Not gonna happend theorically
     break;
   }
-  rhs >> *_entity;
   return rhs;
 }
 
