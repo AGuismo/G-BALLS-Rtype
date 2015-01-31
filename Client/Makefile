@@ -23,24 +23,27 @@ SRCS =	      	main.cpp		\
 		InfosUser.cpp		\
 		MD5.cpp			\
 
-DIR.THREAD=	../libraries/Thread/Threads
-DIR.BIND=	../libraries/Bind
+DIR.LIB=	../libraries/
+DIR.THREAD=	./$(DIR.LIB)/Thread/Threads/
+DIR.BIND=	./$(DIR.LIB)/Bind/
 DIR.NETWORK=	./network/
 DIR.GAME=	./game/
-DIR.PROTO=	../libraries/protocol
+DIR.REF=	./$(DIR.LIB)/Referee/
+DIR.PROTO=	./$(DIR.LIB)/protocol/
 DIR.SFML=	/usr/local/
 
-DEPS.INC=	-I$(DIR.BIND)/include -I$(DIR.THREAD)/include -I$(DIR.GAME)/include -I$(DIR.SFML)/include
+DEPS.INC+=	-I$(DIR.BIND)/include -I$(DIR.THREAD)/include -I$(DIR.GAME)/include -I$(DIR.SFML)/include
+DEPS.INC+=	-I$(DIR.REF)/include
 
-DEPS.LNK=	-L$(DIR.SFML)/lib/ -lsfml-graphics -lsfml-window -lsfml-system  -lsfml-network -lsfml-audio -lGLEW
+DEPS.LNK+=	-L$(DIR.SFML)/lib/ -lsfml-graphics -lsfml-window -lsfml-system  -lsfml-network -lsfml-audio -lGLEW
 DEPS.LNK+=	-L$(DIR.THREAD) -lThread -lpthread
 
-MOD.INC=	-I$(DIR.NETWORK)/include -I$(DIR.PROTO)/include
+MOD.INC+=	-I$(DIR.NETWORK)/include -I$(DIR.PROTO)/include
 
-MOD.LNK=	-L$(DIR.NETWORK) -lnetwork -L$(DIR.GAME) -lgame -L$(DIR.PROTO) -lprotocol
+MOD.LNK+=	-L$(DIR.NETWORK) -lnetwork -L$(DIR.GAME) -lgame -L$(DIR.PROTO) -lprotocol -L$(DIR.REF) -lReferee
 
 F.C	     +=	-W -Wall -Werror
-F.I	     += $(MOD.INC) $(DEPS.INC) -I./include
+F.I	     += -I./include $(MOD.INC) $(DEPS.INC) 
 F.L	     += $(MOD.LNK) $(DEPS.LNK) -Wl,--rpath=$(DIR.THREAD):/usr/local/lib
 F.D	     +=
 

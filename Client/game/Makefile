@@ -7,41 +7,27 @@
 NAME	     ?=	libgame.a
 
 SRCS =	      	Animation.cpp		\
-		AObject.cpp		\
 		AudioManager.cpp	\
-		Bang.cpp		\
-		Bydos1.cpp		\
-		BydosPlasma.cpp		\
-		IndestructibleWall.cpp	\
-		DestructibleWall.cpp	\
-		BydosLaser.cpp		\
-		GarbageBoss.cpp		\
-		ShrimpBoss.cpp		\
-		Factory.cpp		\
 		Game.cpp		\
 		GameWindow.cpp		\
 		Layer.cpp		\
 		LayerManager.cpp	\
 		TextureManager.cpp	\
-		Player.cpp		\
-		PlayerLaser.cpp		\
-		PlayerBlast.cpp		\
-		PowerBonus.cpp		\
-		VitalityBonus.cpp	\
-		ZogZog.cpp		\
+		EventManager.cpp	\
 		Timer.cpp		\
-		Slider.cpp		\
-		VitalityBonus.cpp	\
-		PowerBonus.cpp		\
 
-DIR.THREAD=	../../libraries/Thread/Threads
-DIR.BIND=	../../libraries/Bind
-DIR.PROT=	../../libraries/protocol
+DIR.SFML=	/usr/local/
+DIR.LIB=	../../libraries/
+DIR.THREAD=	./$(DIR.LIB)/Thread/Threads
+DIR.BIND=	./$(DIR.LIB)/Bind
+DIR.PROT=	./$(DIR.LIB)/protocol
+DIR.REF=	./$(DIR.LIB)/Referee/
 DIR.NET=	../network/
 
-F.C	     +=	-W -Wall -Werror
-F.I	     +=	-I $(DIR.H) -I$(DIR.BIND)/include -I$(DIR.THREAD)/include -I../include -I$(DIR.NET)/include -I$(DIR.PROT)/include
-F.D	     +=
+F.C	     	+= -W -Wall
+F.I	     	+= -I./include -I$(DIR.BIND)/include -I$(DIR.THREAD)/include -I../include -I$(DIR.SFML)
+F.I		+= -I$(DIR.REF)/include -I$(DIR.NET)/include -I$(DIR.PROT)/include
+F.D	     	+=
 
 
 all:		start $(NAME)
