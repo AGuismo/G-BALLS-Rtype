@@ -21,7 +21,7 @@ namespace	Party
   public:
     Protocol			&serialize(Protocol &) const;
     Protocol			&unserialize(Protocol &);
-    ARequest			*clone();
+    ARequest			*clone() const;
   };
 
   struct	List : public ARequest
@@ -37,7 +37,7 @@ namespace	Party
   public:
     Protocol	&serialize(Protocol &) const;
     Protocol	&unserialize(Protocol &);
-    ARequest	*clone();
+    ARequest	*clone() const;
   };
 
   struct	Create : public ARequest
@@ -55,7 +55,7 @@ namespace	Party
   public:
     Protocol	&serialize(Protocol &) const;
     Protocol	&unserialize(Protocol &);
-    ARequest	*clone();
+    ARequest	*clone() const;
 
   public:
     std::string			_partyName;
@@ -77,7 +77,7 @@ namespace	Party
   public:
     Protocol	&serialize(Protocol &) const;
     Protocol	&unserialize(Protocol &);
-    ARequest	*clone();
+    ARequest	*clone() const;
   };
 
   struct	Join : public ARequest
@@ -95,7 +95,7 @@ namespace	Party
   public:
     Protocol	&serialize(Protocol &) const;
     Protocol	&unserialize(Protocol &);
-    ARequest	*clone();
+    ARequest	*clone() const;
 
   public:
     std::string			_partyName;
@@ -126,7 +126,7 @@ namespace	Party
   public:
     Protocol	&serialize(Protocol &) const;
     Protocol	&unserialize(Protocol &);
-    ARequest	*clone();
+    ARequest	*clone() const;
 
   public:
     static requestCode::PartyID	Unique();
@@ -153,7 +153,7 @@ namespace	Party
   public:
     Protocol	&serialize(Protocol &) const;
     Protocol	&unserialize(Protocol &);
-    ARequest	*clone();
+    ARequest	*clone() const;
 
     std::string		_partyName;
     Ruint8		_availableSlots;
@@ -178,7 +178,7 @@ namespace	Party
   public:
     Protocol	&serialize(Protocol &) const;
     Protocol	&unserialize(Protocol &);
-    ARequest	*clone();
+    ARequest	*clone() const;
   };
 }
 

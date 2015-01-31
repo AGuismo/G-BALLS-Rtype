@@ -13,7 +13,7 @@
 
 namespace net
 {
-  class ABS_SOCKET_API UdpClient : public ClientAccepted
+  class UdpClient : public ClientAccepted
   {
   public:
     UdpClient(void);

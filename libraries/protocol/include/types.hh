@@ -47,13 +47,14 @@ namespace	database
 namespace	game
 {
   typedef Ruint16	ID;
-  typedef Ruint8	Dir;
+  typedef Ruint16	Dir;
   typedef Ruint8	Event;
-  typedef Ruint8	Type;
+  typedef Ruint16	Type;
   typedef Ruint16	Pos;
   typedef Rint8		TypeBuff;
+  typedef Ruint32	Stamp;
   typedef Ruint8	Shoot;
-}
+};
 
 namespace	requestCode
 {
@@ -64,7 +65,7 @@ namespace	requestCode
   typedef Ruint16	SessionID;
   typedef Ruint16	PartyID;
   typedef Ruint8	Status;
-}
+};
 
 struct rtypeAuth
 {

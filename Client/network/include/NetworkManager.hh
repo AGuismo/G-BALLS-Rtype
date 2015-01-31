@@ -12,85 +12,113 @@ class	ARequest;
 
 namespace	network
 {
-  class Manager
-  {
-    typedef Threads<int (Manager::*)()>		thread_type;
-    typedef std::deque<ARequest *>		request_list;
-  public:
-    enum	State
-      {
-	NONE,
-	TCP,
-	UDP,
-	SHUTDOWN
-      };
-  public:
-    Manager();
-    virtual ~Manager();
+	class Manager
+	{
+		typedef Threads<int (Manager::*)()>	thread_type;
+	public:
+		enum SendType
+		{
+			NONE,
+			TCP,
+			UDP
+		};
 
-  public:
-    void	stop(void);
-    void	join(void);
+	private:
+		typedef std::deque<std::pair<SendType, ARequest *> >	request_list;
 
-  public:
-    void	initialize(void);
-    bool	setTcp(const sf::IpAddress &ip, unsigned short port);
-    void	setUdp(const sf::IpAddress &ip, unsigned short port);
-    bool	isConnected();
-    void	closeTcp();
-    void	run(void);
-    void	switchTo(State s);
-    ARequest	*recvRequest(void);
-    void	sendRequest(const ARequest *);
+	private:
+		Manager();
+		virtual ~Manager();
 
-  private:
-    int		routine(void);
-    void	tcpMode(void);
-    void	udpMode(void);
+	public:
+		static Manager	&getInstance();
 
-  private:
-    Manager(Manager const&);
-    Manager& operator=(Manager const&);
+	public:
+		void	stop(void);
+		void	join(void);
+		void	run(void);
 
-  private:
-    thread_type		_th;
-    request_list	_requests;
-    Thread::Mutex	_state;
-    Thread::Mutex	_reqlist;
-    Thread::Mutex	_sock;
-    Thread::Cond	_wake;
-    struct
-    {
-      std::vector<Protocol::Byte>	notRead;
-      sf::TcpSocket			mSock;
-    }			_tcp;
+	public:
+		// TCP
+		bool	setTcp(const sf::IpAddress &ip, unsigned short port);
+		void	closeTcp();
 
-    struct
-    {
-      sf::UdpSocket	gSock;
-      sf::IpAddress	gIp;
-      unsigned short	gPort;
-    }			_udp;
-    State		_curState;
-    bool		_connected;
-  };
+		// UDP
+		bool	setUdp(const sf::IpAddress &ip, unsigned short port);
+		void	closeUdp();
 
-  class Exception
-  {
-  public:
-    Exception(const std::string &msg) throw();
-    virtual ~Exception() throw();
+		// BOTH
+		bool	isConnected(SendType) const;
 
-  public:
-    Exception(Exception const&) throw();
-    Exception& operator=(Exception const&) throw();
+	public:
+		ARequest						*recvRequest(void);
+		std::pair<SendType, ARequest *>	recvRequestType(void);
 
-  public:
-    virtual const char	*what() const throw();
+		template <typename Req>
+		void							sendRequest(const Req &toSend, SendType type)
+		{
+			Thread::MutexGuard	guard(_requests.lock);
 
-  private:
-    std::string		_what;
-  };
+			_requests.input.push_back(std::make_pair(type, new Req(toSend)));
+		}
+
+	private:
+		int		routine(void);
+		void	tcpMode(void);
+		void	udpMode(void);
+
+	private:
+		Manager(Manager const&);
+		Manager& operator=(Manager const&);
+
+	private:
+		thread_type		_th;
+		bool			_active;
+		Thread::Mutex	_threadLock;
+		Thread::Mutex	_socketLock;
+		Thread::Cond	_condSocketChanged;
+
+		struct
+		{
+			request_list	input;
+			request_list	output;
+			Thread::Mutex	lock;
+		}					_requests;
+
+		struct
+		{
+			std::vector<Protocol::Byte>	notRead;
+			sf::TcpSocket					mSock;
+			bool							active;
+		}								_tcp;
+
+		struct
+		{
+			sf::UdpSocket		gSock;
+			sf::IpAddress		gIp;
+			unsigned short	gPort;
+			bool				active;
+		}					_udp;
+
+		sf::SocketSelector	_select;
+	};
+
+	class Exception
+	{
+	public:
+		Exception(const std::string &msg) throw();
+		virtual ~Exception() throw();
+
+	public:
+		Exception(Exception const&) throw();
+		Exception& operator=(Exception const&) throw();
+
+	public:
+		virtual const char	*what() const throw();
+
+	private:
+		std::string		_what;
+	};
 }
 
 #endif /* NETWORKMANAGER_H_ */

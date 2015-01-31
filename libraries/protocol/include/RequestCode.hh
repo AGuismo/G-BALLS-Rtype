@@ -41,7 +41,7 @@ namespace requestCode
 
     static const CodeID UPDATE =		1300;
     static const CodeID STOPPED =		1301;
-    static const CodeID SERV_START =		1302;
+    static const CodeID SERV_START =	1302;
 
     static const Ruint8	PASS =			1;
     static const Ruint8	NO_PASS =		0;
@@ -60,7 +60,6 @@ namespace requestCode
 
   namespace game
   {
-    static const CodeID EVENT =			600;
     static const CodeID LEAVE =			606;
     static const CodeID ALIVE =			607;
 
@@ -73,60 +72,54 @@ namespace requestCode
     static const CodeID NEXTSTAGE =		1606;
     namespace client
     {
-      using ::game::Event;
-      using ::game::Dir;
-      using ::game::Shoot;
+      static const ::game::Event	MOVE =		0;
+      static const ::game::Event	SHOOT =		1;
 
+      static const ::game::Dir	NORTH =			0;
+      static const ::game::Dir	NORTH_EAST =		1;
+      static const ::game::Dir	EAST =			2;
+      static const ::game::Dir	SOUTH_EAST =		3;
+      static const ::game::Dir	SOUTH =			4;
+      static const ::game::Dir	SOUTH_WEST =		5;
+      static const ::game::Dir	WEST =			6;
+      static const ::game::Dir	NORTH_WEST =		7;
 
-      static const Event	MOVE =		0;
-      static const Event	SHOOT =		1;
-
-      static const Dir	NORTH =			0;
-      static const Dir	NORTH_EAST =		1;
-      static const Dir	EAST =			2;
-      static const Dir	SOUTH_EAST =		3;
-      static const Dir	SOUTH =			4;
-      static const Dir	SOUTH_WEST =		5;
-      static const Dir	WEST =			6;
-      static const Dir	NORTH_WEST =		7;
-
-      static const Shoot	SIMPLE =	0;
-      static const Shoot	BLAST =		1;
+      static const ::game::Shoot	SIMPLE =	0;
+      static const ::game::Shoot	BLAST =		1;
     }
 
     namespace server
     {
-      using ::game::Type;
-      static const Type PLAYER1 =		0;
-      static const Type PLAYER2 =		1;
-      static const Type PLAYER3 =		2;
-      static const Type PLAYER4 =		3;
-      static const Type SBYDOS1 =		4;
-      static const Type SLIDER =		5;
-      static const Type ZOGZOG =		6;
-      static const Type SHRIMP_BOSS =		7;
-      static const Type GARBAGE_BOSS =		8;
-      static const Type PLAYER_LASER =		9;
-      static const Type PLAYER_BLAST =		10;
-      static const Type BYDOS_PLASMA =		11;
-      static const Type BYDOS_LASER =		12;
-      static const Type DESTRUCTIBLE_WALL =	13;
-      static const Type INDESTRUCTIBLE_WALL =	14;
-      static const Type BG1 =			15;
-      static const Type BG2 =			16;
-      static const Type VICTORY =		17;
-      static const Type LOOSE =			18;
-      static const Type NEXSTAGE =		19;
-      static const Type COMET =			20;
-      static const Type NORMAL_BANG =		21;
-      static const Type BIG_BANG =		22;
-      static const Type VITALITY_BONUS =	23;
-      static const Type POWER_BONUS =		24;
-      static const Type MISSILE =		25;
-      static const Type IA =			26;
-      static const Type BOSS =			27;
-      static const Type PLAYER =		28;
-      static const Type BONUS =			29;
+      static const ::game::Type PLAYER1 =		0;
+      static const ::game::Type PLAYER2 =		1;
+      static const ::game::Type PLAYER3 =		2;
+      static const ::game::Type PLAYER4 =		3;
+      static const ::game::Type SBYDOS1 =		4;
+      static const ::game::Type SLIDER =		5;
+      static const ::game::Type ZOGZOG =		6;
+      static const ::game::Type SHRIMP_BOSS =		7;
+      static const ::game::Type GARBAGE_BOSS =		8;
+      static const ::game::Type PLAYER_LASER =		9;
+      static const ::game::Type PLAYER_BLAST =		10;
+      static const ::game::Type BYDOS_PLASMA =		11;
+      static const ::game::Type BYDOS_LASER =		12;
+      static const ::game::Type DESTRUCTIBLE_WALL =	13;
+      static const ::game::Type INDESTRUCTIBLE_WALL =	14;
+      static const ::game::Type BG1 =			15;
+      static const ::game::Type BG2 =			16;
+      static const ::game::Type VICTORY =		17;
+      static const ::game::Type LOOSE =			18;
+      static const ::game::Type NEXSTAGE =		19;
+      static const ::game::Type COMET =			20;
+      static const ::game::Type NORMAL_BANG =		21;
+      static const ::game::Type BIG_BANG =		22;
+      static const ::game::Type VITALITY_BONUS =	23;
+      static const ::game::Type POWER_BONUS =		24;
+      static const ::game::Type MISSILE =		25;
+      static const ::game::Type IA =			26;
+      static const ::game::Type BOSS =			27;
+      static const ::game::Type PLAYER =		28;
+      static const ::game::Type BONUS =			29;
     }
   }
 }

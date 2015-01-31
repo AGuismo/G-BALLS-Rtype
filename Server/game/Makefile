@@ -11,32 +11,23 @@ SRCS =	      	GameManager.cpp		\
 		GameException.cpp	\
 		GameClient.cpp		\
 		GamePool.cpp		\
-		Boss.cpp		\
-		BaseIA.cpp		\
-		IA.cpp			\
-		BaseBoss.cpp		\
-		Bonus.cpp		\
-		ElapsedTime.cpp		\
-		Entity.cpp		\
-		Missile.cpp		\
 		Game.cpp		\
-		Clock.cpp		\
-		Player.cpp		\
-		Referee.cpp		\
-		Time.cpp		\
 
-DIR.THREADS=	../deps/Threads
-DIR.NET=	../deps/network
-DIR.LOG=	../deps/log/
-DIR.BIND=	../deps/Bind
+DIR.DEPS=	../../libraries/
+DIR.THREADS=	./$(DIR.DEPS)/Thread/Threads/
+DIR.NET=	./$(DIR.DEPS)/network/network/
+DIR.BIND=	./$(DIR.DEPS)/Bind
+DIR.PROT=	./$(DIR.DEPS)/protocol/
+DIR.LOG=	./$(DIR.DEPS)/log/
+DIR.REF=	./$(DIR.DEPS)/Referee
+DIR.MENU=	../menu/
 DIR.LOADER=	../loader/
-DIR.PROT=	../deps/protocol/
 DIR.IAAPI=	../../bots/API/
 
 F.C	     +=	-W -Wall 
 F.I	     +=	-I $(DIR.H) -I$(DIR.THREADS)/include -I$(DIR.BIND)/include -I../include
 F.I	     += -I$(DIR.IAAPI) -I$(DIR.NET)/include -I$(DIR.LOG)/include
-F.I	     += -I$(DIR.LOADER)/include -I$(DIR.PROT)/include
+F.I	     += -I$(DIR.LOADER)/include -I$(DIR.PROT)/include -I$(DIR.REF)/include
 F.D	     +=
 
 all:		start $(NAME)

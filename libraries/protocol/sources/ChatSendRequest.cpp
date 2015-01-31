@@ -1,4 +1,4 @@
-#include "ChatSendRequest.h"
+#include "ChatSendRequest.hh"
 #include "Protocol.hpp"
 
 ChatSendRequest::ChatSendRequest() : ARequest(requestCode::chat::SEND_MSG)
@@ -54,7 +54,7 @@ Protocol	&ChatSendRequest::unserialize(Protocol &rhs)
 	return (rhs);
 }
 
-ARequest	*ChatSendRequest::clone()
+ARequest	*ChatSendRequest::clone() const
 {
 	return (new ChatSendRequest(_msg));
 }

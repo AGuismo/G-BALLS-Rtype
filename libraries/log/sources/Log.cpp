@@ -2,7 +2,7 @@
 #include	<iomanip>
 #include	"Log.hh"
 
-using namespace log;
+using namespace loglib;
 
 Log::Log(std::ostream &stream):
   _stream(&stream)

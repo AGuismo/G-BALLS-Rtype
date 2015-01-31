@@ -1,10 +1,10 @@
 #include	<iostream>
 #include	<algorithm>
+#include	"AGameRequest.hh"
 #include	"Game.hh"
 #include	"ICallbacks.hh"
 #include	"GameManager.hh"
 #include	"Client.hh"
-#include	"AGameRequest.hh"
 #include	"sys.hh"
 #include	"Bind.hpp"
 #include	"NetException.h"
@@ -14,6 +14,8 @@
 #include	"GamePool.hh"
 #include	"Callback.hh"
 #include	"Application.hh"
+
+using namespace loglib;
 
 namespace	game
 {
@@ -89,7 +91,7 @@ namespace	game
     _server.lookRead(buf, 512);
 #if defined(DEBUG)
     Application::log<< "Manager::getRequest::buf = " << buf.size()
-		    << log::Log::hexDump(buf) << std::endl;
+		    << Log::hexDump(buf) << std::endl;
 #endif
     try
     {
@@ -120,7 +122,7 @@ namespace	game
       if (it != _gameClients.end())
       {
 #if defined(DEBUG)
-	Application::log << "Client " << (*it)->sessionID()
+	Application::log << "Client " << (*it)->clientID()
 			 << "send a request of type " << req->code() << std::endl;
 #endif
 	(*it)->setAddr(_server.getClientAddr());
@@ -271,9 +273,9 @@ namespace	game
   bool		Manager::predicate::operator()(const Client *rhs)
   {
 #if defined(DEBUG)
-    Application::log << _id << " || " << rhs->sessionID()  << std::endl;
+    Application::log << _id << " || " << rhs->clientID()  << std::endl;
 #endif
-    return (_id == rhs->sessionID());
+    return (_id == rhs->clientID());
   }
 
   Manager::PredicateClients::PredicateClients(const client_list &clients):

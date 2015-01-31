@@ -1,7 +1,6 @@
 #pragma once
-#include	"abs_sockets.h"
 
-class  ABS_SOCKET_API WinInit
+class  WinInit
 {
 public:
 	static WinInit* GetInstance();

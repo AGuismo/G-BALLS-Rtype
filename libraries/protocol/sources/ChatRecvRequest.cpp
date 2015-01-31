@@ -1,4 +1,4 @@
-#include "ChatRecvRequest.h"
+#include "ChatRecvRequest.hh"
 #include "Protocol.hpp"
 
 ChatRecvRequest::ChatRecvRequest() : ARequest(requestCode::chat::RECV_MSG)
@@ -53,7 +53,7 @@ Protocol	&ChatRecvRequest::unserialize(Protocol &rhs)
 	return (rhs);
 }
 
-ARequest	*ChatRecvRequest::clone()
+ARequest	*ChatRecvRequest::clone() const
 {
 	return (new ChatRecvRequest(_msg));
 }

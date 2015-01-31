@@ -74,7 +74,7 @@ int			UdpServer::readData(char *data, int maxSize)
   return (readSize);
 }
 
-int			UdpServer::directWrite(const char *data, int size,
+int			UdpServer::directWrite(const char *data, size_t size,
 					       const struct sockaddr_in &client)
 {
   WSABUF	wbuff;
@@ -82,7 +82,7 @@ int			UdpServer::directWrite(const char *data, int size,
 
   wbuff.buf = const_cast<char *>(data);
   wbuff.len = size;
-  if (WSASendTo(_sock, &wbuff, 1, &writeSize, 0, reinterpret_cast<sockaddr *>(&client),
+  if (WSASendTo(_sock, &wbuff, 1, &writeSize, 0, reinterpret_cast<const sockaddr *>(&client),
 		sizeof(client), 0, 0) == -1)
   {
     _state = STATEERROR;

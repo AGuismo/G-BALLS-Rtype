@@ -192,7 +192,7 @@ bool			ClientAccepted::isOpen() const
 
 bool			ClientAccepted::isDisconnected() const
 {
-  return (_state == DISCONNECTED);
+  return (_state == DISCONNECTED || _state == STATEERROR);
 }
 
 bool			ClientAccepted::isClosed() const

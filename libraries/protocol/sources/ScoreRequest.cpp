@@ -1,4 +1,4 @@
-#include "ScoreRequest.h"
+#include "ScoreRequest.hh"
 
 ScoreRequest::ScoreRequest() : AGameRequest(requestCode::game::SCORE)
 {
@@ -29,7 +29,7 @@ Protocol		&ScoreRequest::unserialize(Protocol &rhs)
 	return rhs;
 }
 
-ARequest		*ScoreRequest::clone()
+ARequest		*ScoreRequest::clone() const
 {
 	return new ScoreRequest(_id, _score);
 }

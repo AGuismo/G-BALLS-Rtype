@@ -1,4 +1,5 @@
 #include	<iostream>
+#include	<algorithm>
 #include	"Protocol.hpp"
 #include	"NetworkManager.hh"
 
@@ -7,317 +8,306 @@ bool	product(std::vector<Protocol::Byte> &b, const ARequest *req);
 
 namespace	network
 {
-  Manager::Manager() :
-    _th(Func::Bind(&Manager::routine, this)), _curState(NONE), _connected(false)
-  {
-  }
+	Manager	&Manager::getInstance()
+	{
+		static Manager	singleton;
 
-  Manager::~Manager()
-  {
+		return (singleton);
+	}
 
-  }
+	Manager::Manager() :
+		_th(Func::Bind(&Manager::routine, this))
+	{
+		_tcp.active = false;
+		_udp.active = false;
+		_active = false;
+	}
 
-  void	Manager::initialize()
-  {
+	Manager::~Manager()
+	{
+		stop();
+		join();
+		_active = false;
+	}
 
-  }
+	void	Manager::run()
+	{
+		_th.run();
+		_active = true;
+	}
 
-  void	Manager::run()
-  {
-    _th.run();
-  }
+	void	Manager::stop()
+	{
+		Thread::MutexGuard	guard(_threadLock);
 
-  void	Manager::stop()
-  {
-    _th.cancel();
-  }
+		_active = false;
+	}
 
-  void	Manager::join()
-  {
-    _th.join();
-  }
+	void	Manager::join()
+	{
+		_th.join();
+	}
 
-  bool	Manager::setTcp(const sf::IpAddress &ip, unsigned short port)
-  {
-    Thread::MutexGuard	guard(_sock);
-    sf::Socket::Status	st;
+	bool	Manager::setTcp(const sf::IpAddress &ip, unsigned short port)
+	{
+		Thread::MutexGuard	guard(_socketLock);
+		sf::Socket::Status	st;
 
-    if (isConnected())
-      return (false);
-    st = _tcp.mSock.connect(ip, port);
-    if (st == sf::Socket::Done)
-      _connected = true;
-    else
-      _connected = false;
-    return (_connected);
-  }
+		if (_tcp.active)
+			return (false);
+		st = _tcp.mSock.connect(ip, port);
+		if (st == sf::Socket::Done)
+		{
+			_tcp.active = true;
+			_select.add(_tcp.mSock);
+			_condSocketChanged.signal();
+		}
+		else
+			_tcp.active = false;
+		return (_tcp.active);
+	}
 
-  void	Manager::setUdp(const sf::IpAddress &ip, unsigned short port)
-  {
-    Thread::MutexGuard	guard(_sock);
+	bool	Manager::setUdp(const sf::IpAddress &ip, unsigned short port)
+	{
+		Thread::MutexGuard	guard(_socketLock);
+		sf::Socket::Status	st;
 
-    _udp.gIp = ip;
-    _udp.gPort = port;
-    _connected = true;
-  }
+		if (_udp.active)
+			return (false);
 
-  bool	Manager::isConnected()
-  {
-    return (_connected);
-  }
+		st = _udp.gSock.bind(port);
+		if (st == sf::Socket::Done)
+		{
+			_udp.gIp = ip;
+			_udp.gPort = port;
+			_udp.active = true;
+			_select.add(_udp.gSock);
+			_condSocketChanged.signal();
+		}
+		else
+			_udp.active = false;
+		return (_udp.active);
+	}
 
-  void	Manager::closeTcp(void)
-  {
-    Thread::MutexGuard	guard(_sock);
+	void	Manager::closeUdp()
+	{
+		Thread::MutexGuard	guard(_socketLock);
 
-    _tcp.mSock.disconnect();
-    _connected = false;
-  }
+		if (_udp.active == true)
+		{
+			_select.remove(_udp.gSock);
+			_udp.gSock.unbind();
+			_udp.active = false;
+			_condSocketChanged.signal();
+		}
+	}
 
-  void	Manager::switchTo(Manager::State st)
-  {
-    Thread::MutexGuard	guard(_state);
+	void	Manager::closeTcp(void)
+	{
+		Thread::MutexGuard	guard(_socketLock);
 
-    if (_curState == NONE)
-      _wake.signal();
-    switch (st)
-      {
-      case TCP:
-	if (!_connected)
-	  return ;
-	break;
-      case UDP:
-	if (!_connected)
-	  return ;
-	break;
-      case NONE:
-	break;
-      default:
-	break;
-      }
-    _curState = st;
-  }
+		if (_tcp.active == true)
+		{
+			_select.remove(_tcp.mSock);
+			_tcp.mSock.disconnect();
+			_tcp.active = false;
+			_condSocketChanged.signal();
+		}
+	}
 
-  void				Manager::sendRequest(const ARequest *req)
-  {
-    std::vector<Protocol::Byte>	packet;
-    Protocol::Byte		bytes[1024];
+	bool				Manager::isConnected(SendType type) const
+	{
+		if (type == TCP)
+			return (_tcp.active);
+		else if (type == UDP)
+			return (_udp.active);
+		return (false);
+	}
 
-    if (!product(packet, req))
-      return ;
+	ARequest	*Manager::recvRequest()
+	{
+		return (recvRequestType().second);
+	}
+
+	std::pair<Manager::SendType, ARequest *>	Manager::recvRequestType()
+	{
+		Thread::MutexGuard				guard(_requests.lock);
+		std::pair<SendType, ARequest *>	req;
+
+		if (_requests.output.empty())
+			return (std::make_pair(NONE, (ARequest *)0));
+		req = _requests.output.front();
+		_requests.output.pop_front();
+		return (req);
+	}
+
+	void				Manager::udpMode()
+	{
+		ARequest			*req = 0;
+		Protocol::Byte		bytes[1024];
+		std::size_t			extracted;
+		std::vector<Protocol::Byte>	packet;
+		sf::Socket::Status		st;
+		st = _udp.gSock.receive(bytes, 1024, extracted, _udp.gIp, _udp.gPort);
+		if (st == sf::Socket::Error)
+		{
+			_udp.active = false;
+			return;
+		}
+		else if (st == sf::Socket::Disconnected)
+		{
+			_udp.active = false;
+			return;
+		}
+		packet.insert(packet.begin(), bytes, bytes + extracted);
+		while (consume(packet, req))
+		{
 #if defined(DEBUG)
-   std::cout << "network::Manager::sendRequest(const ARequest *)"
-	      << "Packet Size: " << packet.size() << std::endl;
+			std::cout << "network::Manager::udpMode(const ARequest *) -- "
+				<< "Last Packet Size: " << packet.size() << std::endl;
 #endif
-    for (std::vector<Protocol::Byte>::size_type it = 0; it != packet.size(); ++it)
-      bytes[it] = packet[it];
-    _state.lock();
-    if (_curState == TCP)
-      {
-	_state.unlock();
-	if (_tcp.mSock.send(bytes, packet.size()) == sf::Socket::Error)
-	  switchTo(NONE);
-	return ;
-      }
-    else if (_curState == UDP)
-      {
-	_state.unlock();
-	if (_udp.gSock.send(bytes, packet.size(),
-			    _udp.gIp, _udp.gPort) == sf::Socket::Error)
-	  switchTo(NONE);
-	return ;
-      }
-    _state.unlock();
-  }
+			_requests.lock.lock();
+			_requests.output.push_back(std::make_pair(UDP, req));
+			_requests.lock.unlock();
+		}
+	}
+	//
+	void					Manager::tcpMode()
+	{
+		ARequest			*req = 0;
+		std::vector<Protocol::Byte>	packet;
+		Protocol::Byte		bytes[1024];
+		std::size_t			received;
+		sf::Socket::Status	status;
 
-  ARequest	*Manager::recvRequest()
-  {
-    Thread::MutexGuard	guard(_reqlist);
-    ARequest		*req;
+		status = _tcp.mSock.receive(bytes, 1024, received);
+		if (status == sf::Socket::Error)
+		{
+			_tcp.active = false;
+			return;
+		}
+		else if (status == sf::Socket::Disconnected)
+		{
+			_tcp.mSock.disconnect();
+			_tcp.active = false;
+			return;
+		}
 
-    if (_requests.empty())
-      return (0);
-    req = _requests.front();
-    _requests.pop_front();
-    return (req);
-  }
+		packet.insert(packet.begin(), _tcp.notRead.begin(), _tcp.notRead.end());
+		packet.insert(packet.end(), bytes, bytes + received);
 
-  void				Manager::udpMode()
-  {
-    ARequest			*req = 0;
-    Protocol::Byte		bytes[1024];
-    std::size_t			extracted;
-    std::vector<Protocol::Byte>	packet;
-    sf::SocketSelector		select;
-    sf::Socket::Status		st;
-
-    _sock.lock();
-    select.add(_udp.gSock);
-    select.wait(sf::milliseconds(100));
-    if (select.isReady(_udp.gSock))
-      {
-	st = _udp.gSock.receive(bytes, 1024, extracted, _udp.gIp, _udp.gPort);
-	if (st == sf::Socket::Error)
-	  {
-	    switchTo(NONE);
-	    _connected = false;
-	    _sock.unlock();
-	    return ;
-	  }
-	else if (st == sf::Socket::Disconnected)
-	  {
-	    _connected = false;
-	    _sock.unlock();
-	    return ;
-	  }
-	_sock.unlock();
-      }
-    else
-      {
-	_sock.unlock();
-	return ;
-      }
-
-    for (std::size_t it = 0; it < extracted; it++)
-      packet.insert(packet.end(), bytes[it]);
-
-    while (consume(packet, req))
-      {
+		while (consume(packet, req))
+		{
 #if defined(DEBUG)
-	std::cout << "network::Manager::udpMode(const ARequest *) -- "
-		  << "Last Packet Size: " << packet.size() << std::endl;
+			std::cout << "network::Manager::tcpMode(const ARequest *) -- "
+				<< "Packet Size: " << packet.size() << std::endl;
 #endif
-	_reqlist.lock();
-	_requests.push_back(req);
-	_reqlist.unlock();
-      }
-  }
+			_requests.lock.lock();
+			_requests.output.push_back(std::make_pair(TCP, req));
+			_requests.lock.unlock();
+		}
+		_tcp.notRead = packet;
+	}
 
-  void				Manager::tcpMode()
-  {
-    ARequest			*req = 0;
-    Protocol::Byte		bytes[1024];
-    std::size_t			received;
-    std::vector<Protocol::Byte>	packet;
-    sf::Socket::Status		status;
-    sf::SocketSelector		select;
+	int		Manager::routine()
+	{
+		while (_active)
+		{
+			if (!_tcp.active && !_udp.active)
+			{
+				_socketLock.lock();
+				_condSocketChanged.wait(_socketLock);
+			}
+			else
+			{
+				_select.wait(sf::milliseconds(100));
+				_socketLock.lock();
+				if (_tcp.active && _select.isReady(_tcp.mSock))
+					tcpMode();
+				if (_udp.active && _select.isReady(_udp.gSock))
+					udpMode();
 
-    _sock.lock();
-    select.add(_tcp.mSock);
-    select.wait(sf::milliseconds(100));
-    if (select.isReady(_tcp.mSock))
-      status = _tcp.mSock.receive(bytes, 1024, received);
-    else
-      {
-	_sock.unlock();
-	return ;
-      }
-    if (status == sf::Socket::Error)
-      {
-	switchTo(NONE);
-	_connected = false;
-	_sock.unlock();
-	return ;
-      }
-    else if (status == sf::Socket::Disconnected)
-      {
-	_tcp.mSock.disconnect();
-	_connected = false;
-	_sock.unlock();
-	return ;
-      }
-    _sock.unlock();
+				while (!_requests.input.empty())
+				{
+					std::pair<SendType, ARequest *>	req = _requests.input.front();
+					std::vector<Protocol::Byte>		data;
 
-    packet.insert(packet.begin(), _tcp.notRead.begin(), _tcp.notRead.end());
-    for (std::size_t it = 0; it < received; it++)
-      packet.insert(packet.end(), bytes[it]);
+					_requests.lock.lock();
+					_requests.input.pop_front();
+					_requests.lock.unlock();
+					if (!product(data, req.second))
+					{
+						_socketLock.unlock();
+						continue; // Error - Request Lost. Not gonna happend theoricaly
+					}
+					if (req.first == TCP && _tcp.active)
+					{
+						Protocol::Byte					buff[1024];
 
-    while (consume(packet, req))
-      {
-#if defined(DEBUG)
-	std::cout << "network::Manager::tcpMode(const ARequest *) -- "
-		  << "Packet Size: " << packet.size() << std::endl;
-#endif
-	_reqlist.lock();
-	_requests.push_back(req);
-	_reqlist.unlock();
-      }
-    _tcp.notRead = packet;
-  }
+						std::copy(data.begin(), data.end(), buff);
+						_tcp.mSock.send(buff, data.size());
+					}
+					else if (req.first == UDP && _udp.active)
+					{
+						Protocol::Byte					buff[1024];
 
-  int		Manager::routine()
-  {
-    while (true)
-      {
-	_state.lock();
-	switch (_curState)
-	  {
-	  case SHUTDOWN:
-	    _state.unlock();
-	    return (0);
-	    break;
-	  case TCP:
-	    _state.unlock();
-	    tcpMode();
-	    break;
-	  case UDP:
-	    _state.unlock();
-	    udpMode();
-	    break;
-	  case NONE:
-	    _wake.wait(_state);
-	    _state.unlock();
-	    break;
-	  }
-      }
-    return (0);
-  }
+						std::copy(data.begin(), data.end(), buff);
+						_udp.gSock.send(buff, data.size(), _udp.gIp, _udp.gPort);
+					}
+					else // Error - Request Lost. Not gonna happend with good usage.
+						0 == 0;
+				}
+			}
+			_socketLock.unlock();
+		}
+		return (0);
+	}
 }
 
 bool		consume(std::vector<Protocol::Byte> &b, ARequest *&req)
 {
-  int		extracted;
+	int		extracted;
 
-  if (b.empty())
-    return (false);
-  try
-    {
-      req = Protocol::consume(b, extracted);
-    }
-  catch (Protocol::ConstructRequest &e)
-    {
+	if (b.empty())
+		return (false);
+	try
+	{
+		req = Protocol::consume(b, extracted);
+	}
+	catch (Protocol::ConstructRequest &e)
+	{
 #if defined(DEBUG)
-      std::cerr << "Manager::operator>>(sf::Packet &, const ARequest *): " << e.what() << std::endl;
+		std::cerr << "Manager::operator>>(sf::Packet &, const ARequest *): " << e.what() << std::endl;
 #endif
-      return (false);
-    }
-  b.erase(b.begin(), b.begin() + extracted);
-  return (true);
+		return (false);
+	}
+	b.erase(b.begin(), b.begin() + extracted);
+	return (true);
 }
 
 bool		product(std::vector<Protocol::Byte> &b, const ARequest *req)
 {
-  std::string			data;
+	std::string			data;
 
-  try
-    {
-      b = Protocol::product(*req);
-    }
-  catch (Protocol::ConstructRequest &e)
-    {
+	try
+	{
+		b = Protocol::product(*req);
+	}
+	catch (Protocol::ConstructRequest &e)
+	{
 #if defined(DEBUG)
-      std::cerr << "Manager::operator<<(sf::Packet &, const ARequest *): " << e.what() << std::endl;
+		std::cerr << "Manager::operator<<(sf::Packet &, const ARequest *): " << e.what() << std::endl;
 #endif
-      b.clear();
-      delete req;
-      return (false);
-    }
-  delete req;
-  return (true);
+		b.clear();
+		delete req;
+		return (false);
+	}
+	delete req;
+	return (true);
 }
 
-network::Exception::Exception(const std::string &msg) throw():
-  _what(msg)
+network::Exception::Exception(const std::string &msg) throw() :
+_what(msg)
 {
 
 }
@@ -328,21 +318,21 @@ network::Exception::~Exception() throw()
 }
 
 network::Exception::Exception(const network::Exception &src) throw() :
-  _what(src._what)
+_what(src._what)
 {
 
 }
 
 network::Exception	&network::Exception::operator=(const network::Exception &src) throw()
 {
-  if (&src != this)
-    {
-      this->_what = src._what;
-    }
-  return (*this);
+	if (&src != this)
+	{
+		this->_what = src._what;
+	}
+	return (*this);
 }
 
 const char		*network::Exception::what() const throw()
 {
-  return (this->_what.c_str());
+	return (this->_what.c_str());
 }

@@ -4,8 +4,11 @@
 # if defined(linux)
 #  include	<netinet/in.h>
 # elif defined(WIN32)
-#  include	<WinSock2.h>
+#  include	<winsock2.h>
+# else
+#  error "Undefined Operating system."
 #endif
+
 # include	<queue>
 # include	<map>
 # include	<list>
@@ -13,27 +16,25 @@
 # include	"RequestQueue.hh"
 # include	"RequestCode.hh"
 
+class		ARequest;
+class		Player;
+class		MainReferee;
 
 namespace	game
 {
-  class		Player;
-  class		Game;
   class		GamePool;
-  // class		ARequest;
-  // class		Missile;
-  // class		Referee;
 
   class Client
   {
-    /*typedef void(*request_callback)(ARequest *, Client *);
-      typedef std::map<requestCode::CodeID, request_callback> request_callback_map;*/
+    typedef void(Client::*request_fn)(const ARequest &);
+    typedef std::map<requestCode::CodeID, request_fn>	request_callback_map_type;
   public:
-    Client(requestCode::SessionID);
-    Client(requestCode::SessionID, struct sockaddr_in addr);
+    Client(requestCode::SessionID clientID);
+    Client(requestCode::SessionID clientID, struct sockaddr_in addr);
     virtual ~Client();
 
   public:
-    void	update(Game &game);
+    void	update(MainReferee &referee);
     void	finalize();
     void	waitForJoin();
 
@@ -52,15 +53,13 @@ namespace	game
     void			requestPush(ARequest *req);
 
   public:
-    requestCode::SessionID	sessionID() const;
-    void			sessionID(const requestCode::SessionID);
+    requestCode::SessionID	clientID() const;
+    void			clientID(const requestCode::SessionID clientID);
     void			alive(const bool &state);
     bool			alive() const ;
     void			hasLeft(const bool &state);
 
   public:
-    void			player(game::Player *player);
-    game::Player		*player(void) const;
     void			gamePool(GamePool *gamePool);
     GamePool			*gamePool() const;
 
@@ -71,7 +70,11 @@ namespace	game
     void			hasJoin(bool b) { _hasJoin = b; };
 
   private:
-    game::Player		*_player;
+    void			request_alive(const ARequest &req);
+    void			request_leave(const ARequest &req);
+    void			request_elem(const ARequest &req);
+
+  private:
     bool			_alive;
     int				_updateToLive;
 
@@ -81,14 +84,11 @@ namespace	game
     RequestQueue		_input;
     RequestQueue		_output;
     GamePool			*_associatedPool;
-    /*request_callback_map _requestCallback;*/
+    request_callback_map_type	_requestCallback;
 
   private:
     struct sockaddr_in		_addr;
     requestCode::SessionID	_id;
-
-    friend class Game;
-    friend class Referee;
   };
 }
 

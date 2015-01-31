@@ -3,8 +3,8 @@
 
 # include	<list>
 # include	"ThreadEvent.hpp"
-# include	"Clock.h"
 # include	"Threads.hpp"
+# include	"Clock.hh"
 
 class		ICallbacks;
 class		AGameRequest;
@@ -38,7 +38,7 @@ namespace	game
 
   public:
     input_event	&input();
-    void	updateGameClocks(const Clock::clock_time &time);
+    void	updateGameClocks(const Time &time);
     void	updateGame();
     Manager	*parent() const;
 

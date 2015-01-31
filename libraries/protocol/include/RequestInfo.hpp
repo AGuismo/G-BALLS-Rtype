@@ -9,14 +9,13 @@
 # include	"SessionRequest.hh"
 # include	"ElemRequest.hh"
 # include	"ServerRequest.hh"
-# include	"EventRequest.hh"
-# include	"AliveRequest.h"
-# include	"VictoryRequest.h"
-# include	"BuffRequest.h"
-# include	"ScoreRequest.h"
-# include	"DeathRequest.h"
-# include	"LeaveRequest.h"
-# include	"LooseRequest.h"
+# include	"AliveRequest.hh"
+# include	"VictoryRequest.hh"
+# include	"BuffRequest.hh"
+# include	"ScoreRequest.hh"
+# include	"DeathRequest.hh"
+# include	"LeaveRequest.hh"
+# include	"LooseRequest.hh"
 
 struct	detail
 {
@@ -29,7 +28,6 @@ struct	detail
   static const char	*GAME_ALIVE;
   static const char	*GAME_DEATH;
   static const char	*GAME_ELEM;
-  static const char	*GAME_EVENT;
   static const char	*GAME_LEAVE;
   static const char	*GAME_LOOSE;
   static const char	*GAME_VICTORY;
@@ -68,7 +66,6 @@ template <> struct Info<BuffRequest> {static const char * Detail() {return (deta
 template <> struct Info<AliveRequest> {static const char * Detail() {return (detail::GAME_ALIVE);}};
 template <> struct Info<DeathRequest> {static const char * Detail() {return (detail::GAME_DEATH);}};
 template <> struct Info<ElemRequest> {static const char * Detail() {return (detail::GAME_ELEM);}};
-template <> struct Info<EventRequest> {static const char * Detail() {return (detail::GAME_EVENT);}};
 template <> struct Info<LeaveRequest> {static const char * Detail() {return (detail::GAME_LEAVE);}};
 template <> struct Info<LooseRequest> {static const char * Detail() {return (detail::GAME_LOOSE);}};
 template <> struct Info<VictoryRequest> {static const char * Detail() {return (detail::GAME_VICTORY);}};

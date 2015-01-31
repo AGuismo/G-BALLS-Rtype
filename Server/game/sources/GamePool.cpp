@@ -1,14 +1,15 @@
+#if defined(DEBUG)
+# include	<iostream>
+#endif // !DEBUG
+#include	<ctime>
 #include	<algorithm>
+#include	"AGameRequest.hh"
 #include	"GamePool.hh"
 #include	"Game.hh"
 #include	"GameManager.hh"
 #include	"ICallbacks.hh"
 #include	"Callback.hh"
-#include	"AGameRequest.hh"
 #include	"Application.hh" // Log purpose
-#if defined(DEBUG)
-# include	<iostream>
-#endif // !DEBUG
 
 using namespace game;
 
@@ -73,7 +74,7 @@ void	GamePool::dispatchMessages(AGameRequest *req)
 
     for (Game::client_list::iterator itCli = clients.begin(); itCli != clients.end(); ++itCli)
     {
-      if (req->SessionID() == (*itCli)->sessionID())
+      if (req->SessionID() == (*itCli)->clientID())
       {
 	(*itCli)->requestPushInput(req);
 	return ;
@@ -120,15 +121,15 @@ void		GamePool::executeCallback()
 
 void	GamePool::routine(GamePool *self)
 {
-  self->_clock.start();
+  self->_clock.restart();
   while (self->_active)
   {
 #if defined(DEBUG)
     Application::log << "GamePool(" << self->poolID << ")::routine" << std::endl;
 #endif
     self->executeCallback();
-    self->_clock.update();
-    self->updateGameClocks(self->_clock.getElapsedTime());
+    Time	elapsedTime = self->_clock.restart();
+    self->updateGameClocks(elapsedTime);
     self->updateGame();
 
     // Si un jeu tourne, mettre un timeout sur la prochain jeu a mettre à jour dans l'eventQueue.
@@ -175,11 +176,11 @@ void	GamePool::routine(GamePool *self)
   }
 }
 
-void		GamePool::updateGameClocks(const Clock::clock_time &time)
+void		GamePool::updateGameClocks(const Time &time)
 {
   for (game_list::iterator it = _games.begin(); it != _games.end(); it++)
   {
-    (*it)->timer().tv_usec -= time;
+    (*it)->timer().tv_usec -= time.asMicroseconds();
     if ((*it)->timer().tv_usec < 0)
       (*it)->timer().tv_usec = 0;
   }

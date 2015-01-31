@@ -11,11 +11,10 @@
 
 #include "ClientAccepted.h"
 #include "AMonitorable.h"
-#include "abs_sockets.h"
 
 namespace net
 {
-  class  ABS_SOCKET_API TcpServer : public AMonitorable
+  class TcpServer : public AMonitorable
   {
   public:
     TcpServer();

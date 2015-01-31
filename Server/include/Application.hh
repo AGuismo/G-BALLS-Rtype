@@ -66,7 +66,7 @@ public:
   virtual ~Application();
 
 public:
-  static log::Log	log;
+  static loglib::Log	log;
 
 public:
   void	stop(menu::Client *);

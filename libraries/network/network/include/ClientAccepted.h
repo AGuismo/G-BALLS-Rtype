@@ -14,13 +14,12 @@
 # include	<exception>
 # include	"AMonitorable.h"
 # include	"cBuffer.h"
-# include	"abs_sockets.h"
 # include	"state.h"
 # include	"IODevice.hh"
 
 namespace net
 {
-  class ABS_SOCKET_API ClientAccepted: public AMonitorable, public IODevice
+  class ClientAccepted: public AMonitorable, public IODevice
   {
   public:
     ClientAccepted();

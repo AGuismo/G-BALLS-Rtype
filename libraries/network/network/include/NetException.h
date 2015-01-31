@@ -3,7 +3,6 @@
 
 #include	<stdexcept>
 #include	<string>
-#include	"abs_sockets.h"
 
 #if defined(WIN32)
 #pragma warning( disable : 4251)
@@ -11,7 +10,7 @@
 
 namespace net
 {
-	class ABS_SOCKET_API Exception : public std::exception
+	class Exception : public std::exception
   {
   public:
     Exception(const std::string &) throw();

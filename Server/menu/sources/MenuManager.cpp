@@ -4,7 +4,7 @@
 #include	"MenuClient.hh"
 #include	"MenuManager.hh"
 #include	"MenuException.hh"
-#include	"sys.hh"
+//#include	"sys.hh"
 #include	"Client.hh"
 #include	"NetException.h"
 #include	"AuthRequest.hh"
@@ -15,8 +15,8 @@
 #include	"Callback.hh"
 #include	"Application.hh"
 #include	"RequestCode.hh"
-#include	"ChatRecvRequest.h"
-#include	"ChatSendRequest.h"
+#include	"ChatRecvRequest.hh"
+#include	"ChatSendRequest.hh"
 
 namespace	menu
 {
@@ -148,7 +148,7 @@ namespace	menu
 	Application::log << "menu::Manager::disconnectClients()"
 			 << "Client was in a game: " << client->currentGame()->partyName() << std::endl;
 #endif
-	if ((*it)->owner() == client)
+	if ((*it)->owner() == client && (*it)->status() == requestCode::party::OUT_GAME)
 	{
 	  delParty(*it);
 	  _games.erase(it);
@@ -268,6 +268,7 @@ namespace	menu
 			    game->ispassword() ? requestCode::party::PASS : requestCode::party::NO_PASS,
 			    requestCode::party::FINISHED));
     _games.erase(it);
+    delete game;
   }
 
   ///////////////////////

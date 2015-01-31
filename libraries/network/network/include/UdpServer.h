@@ -10,13 +10,12 @@
 #endif
 # include	"ClientAccepted.h"
 # include	"AMonitorable.h"
-# include	"abs_sockets.h"
 # include	"cBuffer.h"
 # include	"IODevice.hh"
 
 namespace net
 {
-  class ABS_SOCKET_API UdpServer : public AMonitorable, public IODevice
+  class UdpServer : public AMonitorable, public IODevice
   {
   public:
     static const int	NB_CLIENTS = 10;

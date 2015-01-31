@@ -44,7 +44,7 @@ namespace	Party
     return (rhs);
   }
 
-  ARequest			*Start::clone()
+  ARequest			*Start::clone() const
   {
     return (new Start());
   }
@@ -89,7 +89,7 @@ namespace	Party
     return (rhs);
   }
 
-  ARequest			*List::clone()
+  ARequest			*List::clone() const
   {
     return (new List());
   }
@@ -166,7 +166,7 @@ namespace	Party
     return (rhs);
   }
 
-  ARequest			*Create::clone()
+  ARequest			*Create::clone() const
   {
     return (new Create());
   }
@@ -211,7 +211,7 @@ namespace	Party
     return (rhs);
   }
 
-  ARequest			*Cancel::clone()
+  ARequest			*Cancel::clone() const
   {
     return (new Cancel());
   }
@@ -286,7 +286,7 @@ namespace	Party
     return (rhs);
   }
 
-  ARequest			*Join::clone()
+  ARequest			*Join::clone() const
   {
     return (new Join());
   }
@@ -342,7 +342,7 @@ namespace	Party
     return (rhs);
   }
 
-  ARequest			*Launch::clone()
+  ARequest			*Launch::clone() const
   {
     return (new Launch());
   }
@@ -417,7 +417,7 @@ namespace	Party
     return (rhs);
   }
 
-  ARequest			*Update::clone()
+  ARequest			*Update::clone() const
   {
     return (new Update());
   }
@@ -462,7 +462,7 @@ namespace	Party
     return (rhs);
   }
 
-  ARequest			*Stopped::clone()
+  ARequest			*Stopped::clone() const
   {
     return (new Stopped());
   }

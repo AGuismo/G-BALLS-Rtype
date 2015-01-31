@@ -40,11 +40,11 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <TargetExt>.lib</TargetExt>
-    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(ProjectDir)/../include;$(ProjectDir)/../../include;$(ProjectDir)/../../network/include;$(SolutionDir)/../libraries/Thread/Threads/include;$(SolutionDir)/../libraries/Bind/include;$(SolutionDir)/../libraries/protocol/include</IncludePath>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(ProjectDir)/../include;$(ProjectDir)/../../include;$(ProjectDir)/../../network/include;$(SolutionDir)/../libraries/Thread/Threads/include;$(SolutionDir)/../libraries/Bind/include;$(SolutionDir)/../libraries/protocol/include;$(SolutionDir)/../libraries/Referee/include</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <TargetExt>.lib</TargetExt>
-    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(ProjectDir)/../include;$(ProjectDir)/../../include;$(ProjectDir)/../../network/include;$(SolutionDir)/../libraries/Thread/Threads/include;$(SolutionDir)/../libraries/Bind/include;$(SolutionDir)/../libraries/protocol/include</IncludePath>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(ProjectDir)/../include;$(ProjectDir)/../../include;$(ProjectDir)/../../network/include;$(SolutionDir)/../libraries/Thread/Threads/include;$(SolutionDir)/../libraries/Bind/include;$(SolutionDir)/../libraries/protocol/include;$(SolutionDir)/../libraries/Referee/include</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -86,63 +86,28 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\include\Animation.h" />
-    <ClInclude Include="..\include\AObject.h" />
-    <ClInclude Include="..\include\AudioManager.h" />
-    <ClInclude Include="..\include\Bang.h" />
-    <ClInclude Include="..\include\Bydos1.h" />
-    <ClInclude Include="..\include\BydosLaser.h" />
-    <ClInclude Include="..\include\BydosPlasma.h" />
-    <ClInclude Include="..\include\DestructibleWall.h" />
-    <ClInclude Include="..\include\EnumAudio.h" />
-    <ClInclude Include="..\include\EnumLayer.h" />
-    <ClInclude Include="..\include\EnumObject.h" />
-    <ClInclude Include="..\include\Factory.h" />
-    <ClInclude Include="..\include\game.h" />
-    <ClInclude Include="..\include\gameWindow.h" />
-    <ClInclude Include="..\include\GarbageBoss.h" />
-    <ClInclude Include="..\include\IndestructibleWall.h" />
-    <ClInclude Include="..\include\IObject.h" />
-    <ClInclude Include="..\include\Layer.h" />
-    <ClInclude Include="..\include\LayerManager.h" />
-    <ClInclude Include="..\include\Network.h" />
-    <ClInclude Include="..\include\Player.h" />
-    <ClInclude Include="..\include\PlayerBlast.h" />
-    <ClInclude Include="..\include\PlayerLaser.h" />
-    <ClInclude Include="..\include\PowerBonus.h" />
-    <ClInclude Include="..\include\ShrimpBoss.h" />
-    <ClInclude Include="..\include\Slider.h" />
-    <ClInclude Include="..\include\TextureManager.h" />
-    <ClInclude Include="..\include\Timer.h" />
-    <ClInclude Include="..\include\VitalityBonus.h" />
-    <ClInclude Include="..\include\ZogZog.h" />
+    <ClInclude Include="..\include\Animation.hh" />
+    <ClInclude Include="..\include\AudioManager.hh" />
+    <ClInclude Include="..\include\EnumAudio.hh" />
+    <ClInclude Include="..\include\EnumLayer.hh" />
+    <ClInclude Include="..\include\EventManager.hh" />
+    <ClInclude Include="..\include\Game.hh" />
+    <ClInclude Include="..\include\GameWindow.hh" />
+    <ClInclude Include="..\include\Layer.hh" />
+    <ClInclude Include="..\include\LayerManager.hh" />
+    <ClInclude Include="..\include\TextureManager.hh" />
+    <ClInclude Include="..\include\Timer.hh" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\sources\Animation.cpp" />
-    <ClCompile Include="..\sources\AObject.cpp" />
     <ClCompile Include="..\sources\AudioManager.cpp" />
-    <ClCompile Include="..\sources\Bang.cpp" />
-    <ClCompile Include="..\sources\Bydos1.cpp" />
-    <ClCompile Include="..\sources\BydosLaser.cpp" />
-    <ClCompile Include="..\sources\BydosPlasma.cpp" />
-    <ClCompile Include="..\sources\DestructibleWall.cpp" />
-    <ClCompile Include="..\sources\Factory.cpp" />
+    <ClCompile Include="..\sources\EventManager.cpp" />
     <ClCompile Include="..\sources\Game.cpp" />
     <ClCompile Include="..\sources\GameWindow.cpp" />
-    <ClCompile Include="..\sources\GarbageBoss.cpp" />
-    <ClCompile Include="..\sources\IndestructibleWall.cpp" />
     <ClCompile Include="..\sources\Layer.cpp" />
     <ClCompile Include="..\sources\LayerManager.cpp" />
-    <ClCompile Include="..\sources\Player.cpp" />
-    <ClCompile Include="..\sources\PlayerLaser.cpp" />
-    <ClCompile Include="..\sources\PlayerBlast.cpp" />
-    <ClCompile Include="..\sources\PowerBonus.cpp" />
-    <ClCompile Include="..\sources\ShrimpBoss.cpp" />
-    <ClCompile Include="..\sources\Slider.cpp" />
     <ClCompile Include="..\sources\TextureManager.cpp" />
     <ClCompile Include="..\sources\Timer.cpp" />
-    <ClCompile Include="..\sources\VitalityBonus.cpp" />
-    <ClCompile Include="..\sources\ZogZog.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

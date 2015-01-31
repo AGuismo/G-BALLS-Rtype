@@ -1,6 +1,4 @@
-#include	<ctime>
-
-namespace	log
+namespace	loglib
 {
 
   template <typename T>

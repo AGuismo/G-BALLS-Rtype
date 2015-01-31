@@ -5,8 +5,9 @@
 #include	<sstream>
 #include	<vector>
 
-namespace	log
+namespace	loglib
 {
+
   class Log
   {
     typedef std::ostream& (*ostream_manipulator)(std::ostream&);

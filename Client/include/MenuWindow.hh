@@ -62,7 +62,7 @@ private:
   sf::Vector2f			_secondPos;
 
 public:
-  MenuWindow(sf::RenderWindow &window, network::Manager &network);
+  MenuWindow(sf::RenderWindow &window);
   ~MenuWindow(void);
 
 private:

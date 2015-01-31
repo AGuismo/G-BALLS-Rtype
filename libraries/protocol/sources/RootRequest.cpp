@@ -40,7 +40,7 @@ namespace	root
     return (rhs);
   }
 
-  ARequest			*Shutdown::clone()
+  ARequest			*Shutdown::clone() const
   {
     return (new Shutdown());
   }
