@@ -27,6 +27,8 @@ public:
 	const Position		&getCurrentPos() const;
 	const Position		&getNextPos() const;
 	unsigned short		getObjectID() const;
+	unsigned int		getLastUpdate() const;
+	void				setLastUpdate(unsigned int stamp);
 
 protected:
 	unsigned short	_objectID;
@@ -51,6 +53,7 @@ protected:
 
 	bool			_isNextMoveAvailable;
 	Position::dir	_nextMove;
+	unsigned int		_lastUpdate;
 };
 
 struct ObjectMoverComparer : public ObjectMover

@@ -8,14 +8,16 @@ static const float	SQRT_2 = sqrtf(2.0f);
 const float			ObjectMover::DEFAULT_MOVEMENT_DURATION = 0.25f;
 
 ObjectMover::ObjectMover(const Entity &entity, float movementDuration) :
-  _objectID(entity.getID()), _speed(entity.speed()), _moveDuration(movementDuration),_isMoving(false), _isNextMoveAvailable(false)
+  _objectID(entity.getID()), _speed(entity.speed()), _moveDuration(movementDuration),
+  _isMoving(false), _isNextMoveAvailable(false), _lastUpdate(0)
 {
 	_position.current = _position.previous = _position.next = entity.getPosition();
 	_movement.endTimer = 0.f;
 }
 
 ObjectMover::ObjectMover():
-  _objectID(0), _moveDuration(DEFAULT_MOVEMENT_DURATION), _isMoving(false), _isNextMoveAvailable(false)
+  _objectID(0), _moveDuration(DEFAULT_MOVEMENT_DURATION), _isMoving(false), 
+  _isNextMoveAvailable(false), _lastUpdate(0)
 {
 	_movement.endTimer = 0.f;
 }
@@ -26,7 +28,8 @@ ObjectMover::~ObjectMover()
 
 ObjectMover::ObjectMover(const ObjectMover &src):
 _objectID(src._objectID), _speed(src._speed), _moveDuration(src._moveDuration),
-_isMoving(src._isMoving), _isNextMoveAvailable(src._isNextMoveAvailable), _nextMove(src._nextMove)
+_isMoving(src._isMoving), _isNextMoveAvailable(src._isNextMoveAvailable), _nextMove(src._nextMove),
+_lastUpdate(src._lastUpdate)
 {
 	_movement.timer = src._movement.timer;
 	_movement.endTimer = src._movement.endTimer;
@@ -51,6 +54,7 @@ ObjectMover	&ObjectMover::operator=(const ObjectMover &src)
 		_isMoving = src._isMoving;
 		_isNextMoveAvailable = src._isNextMoveAvailable;
 		_nextMove = src._nextMove;
+		_lastUpdate = src._lastUpdate;
 	}
 	return (*this);
 }
@@ -62,9 +66,12 @@ void	ObjectMover::changeSpeed(short speed)
 
 void		ObjectMover::forcePosition(const Position &currentPos)
 {
-	_position.previous = _position.current = _position.next = currentPos;
-	_isMoving = false;
-	_isNextMoveAvailable = false;
+	if (currentPos != _position.next && currentPos != _position.previous)
+	{
+		_position.previous = _position.current = _position.next = currentPos;
+		_isMoving = false;
+		_isNextMoveAvailable = false;
+	}
 }
 
 //Animation	&ObjectMover::getAnimation()
@@ -91,6 +98,17 @@ unsigned short	ObjectMover::getObjectID() const
 {
 	return (_objectID);
 }
+
+unsigned int		ObjectMover::getLastUpdate() const
+{
+	return (_lastUpdate);
+}
+
+void			ObjectMover::setLastUpdate(unsigned int stamp)
+{
+	_lastUpdate = stamp;
+}
+
 
 void			ObjectMover::onMove(Position::dir direction)
 {

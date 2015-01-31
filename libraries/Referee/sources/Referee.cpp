@@ -129,13 +129,23 @@ void	Referee::request_command_elem(const ARequest &base)
 {
 	const ElemRequest	&elem = dynamic_cast<const ElemRequest &>(base);
 	EntityComparer		comparer(elem.ID());
+	entity_set_type::iterator	it = _entities.find(&comparer);
 
-	if (_entities.find(&comparer) == _entities.end())
+	if (it == _entities.end())
 		addEntity(elem.entity()->copy());
 	else
 	{
-		// TODO: Move Object
+		ObjectMoverComparer			moveComparer(elem.ID());
+		mover_set_type::iterator	itMover = _entityMoves.find(&moveComparer);
+		
+		if ((*itMover)->getLastUpdate() < elem.Stamp())
+		{
+			(*itMover)->forcePosition(elem.entity()->getPosition());
+			(*itMover)->setLastUpdate(elem.Stamp());
+			// TODO: Move Object
+		}
 	}
+
 }
 
 void	Referee::request_command_death(const ARequest &base)
