@@ -20,11 +20,13 @@ Log::Log(const Log &src):
 
 void	Log::changeStream(std::ostream &stream)
 {
-  _stream = &stream;
+	Thread::MutexGuard	guard(_bufferLock);
+	_stream = &stream;
 }
 
 Log	&Log::operator<<(Log::ostream_manipulator manipulator)
 {
+	Thread::MutexGuard	guard(_bufferLock);
   std::string	str;
 
   _buffer << manipulator;

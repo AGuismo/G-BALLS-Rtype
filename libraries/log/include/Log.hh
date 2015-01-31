@@ -4,6 +4,7 @@
 #include	<iostream>
 #include	<sstream>
 #include	<vector>
+#include	"ThreadMutex.hh"
 
 namespace	loglib
 {
@@ -40,6 +41,7 @@ namespace	loglib
     Log& operator=(Log const&);
 
   private:
+	  Thread::Mutex	_bufferLock;
     std::ostream	*_stream;
     std::stringstream	_buffer;
   };
