@@ -304,6 +304,7 @@ void							Game::run(void)
 		//	_onGame = false;
 		//}
 	}
+	network::Manager::getInstance().closeUdp();
 	cleanGame();
 	_gameWindow->close();
 }

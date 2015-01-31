@@ -170,5 +170,5 @@ bool			ObjectMover::update()
 			}
 		}
 	}
-	return (false);
+	return (true);
 }
