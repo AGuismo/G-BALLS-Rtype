@@ -79,11 +79,11 @@ void				MainReferee::fire(unsigned short playerID)
 
 bool		MainReferee::acceptPlayerPosition(const Player &currentPlayer, unsigned short stamp)
 {
-  InternalPlayerSystem		player = _players[currentPlayer.getID()];
-  float				sec = player.moveLock.getElapsedTime().asSeconds();
-  float				minRefresh = (MOVE_LOCK_TIME * _scenario.getGameSpeed());
+  InternalPlayerSystem	player = _players[currentPlayer.getID()];
+  const float		lastMove = player.moveLock.getElapsedTime().asSeconds();
+  const float		minDelayMove = (MOVE_LOCK_TIME * _scenario.getGameSpeed());
 
-  if (sec > minRefresh)
+  if (lastMove > minDelayMove)
   {
     ObjectMoverComparer		moveComparer(currentPlayer.getID());
     mover_set_type::iterator	itMover = _entityMoves.find(&moveComparer);
