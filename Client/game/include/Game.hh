@@ -36,6 +36,7 @@ private:
 	callback_map				_map;
 	bool						_onGame;
 	Referee						_referee;
+	unsigned short				_stamp;
 
 private:
   sf::Vector2f	PositionToVector2f(const Position &pos);

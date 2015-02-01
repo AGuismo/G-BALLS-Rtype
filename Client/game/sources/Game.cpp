@@ -212,11 +212,11 @@ void							Game::sendPlayerInfo() const
 
   if (!_referee.playerInformations(myPlayer, playerMissiles))
     return;
-  networkManager.sendRequest(ElemRequest::create<Player>(myPlayer, InfosUser::getInstance().authenticate.id, 0), network::Manager::UDP);
+  networkManager.sendRequest(ElemRequest::create<Player>(myPlayer, InfosUser::getInstance().authenticate.id, _stamp), network::Manager::UDP);
   for (Referee::missile_list_type::const_iterator it = playerMissiles.begin();
        it != playerMissiles.end(); ++it)
   {
-    networkManager.sendRequest(ElemRequest::create<Missile>(*it, InfosUser::getInstance().authenticate.id, 0), network::Manager::UDP);
+	  networkManager.sendRequest(ElemRequest::create<Missile>(*it, InfosUser::getInstance().authenticate.id, _stamp), network::Manager::UDP);
   }
 }
 
@@ -240,6 +240,7 @@ void							Game::run(void)
 
   network::Manager::getInstance().setUdp(sf::IpAddress(InfosUser::getInstance().authenticate.addressIp), InfosUser::getInstance().authenticate.portUDP);
   _referee.setPlayerID(InfosUser::getInstance().authenticate.id);
+  _stamp = 1;
   AudioManager::getInstance().play(AGAME_MUSIC);
   _onGame = true;
 
@@ -267,7 +268,7 @@ void							Game::run(void)
       {
 	if (*it == _referee.getMyPlayer().getID())
 	{
-	  _onGame = false;
+      _onGame = false;
 	  break;
 	}
 	_objects.erase(*it);
@@ -293,10 +294,11 @@ void							Game::run(void)
 
     if (_aliveRequest.isEnded())
     {
-      network::Manager::getInstance().sendRequest(AliveRequest(InfosUser::getInstance().authenticate.id, 0), network::Manager::UDP); // 0 => stamp
+      network::Manager::getInstance().sendRequest(AliveRequest(InfosUser::getInstance().authenticate.id, _stamp), network::Manager::UDP);
       sendPlayerInfo();
       _aliveRequest.restart();
-    }
+	  _stamp++;
+	}
 
     //if (_lostConnection.isEnded())
     //{
