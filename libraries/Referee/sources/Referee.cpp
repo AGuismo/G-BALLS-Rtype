@@ -2,6 +2,8 @@
 #include	<stdexcept>
 #endif // !DEBUG
 
+#include	<cmath>
+
 #include	"Mob.hh" // DEBUG
 #include	"Missile.hh"
 #include	"Rect.hpp"
@@ -137,12 +139,13 @@ void	Referee::request_command_elem(const ARequest &base)
 	{
 		ObjectMoverComparer			moveComparer(elem.ID());
 		mover_set_type::iterator	itMover = _entityMoves.find(&moveComparer);
-		
+		const Entity				*player = elem.entity();
+
 		if ((*itMover)->getLastUpdate() < elem.Stamp())
 		{
-			(*itMover)->forcePosition(elem.entity()->getPosition());
+			if (distance(player->getPosition(), (*itMover)->getCurrentPos()) > player->speed())
+				(*itMover)->forcePosition(player->getPosition());
 			(*itMover)->setLastUpdate(elem.Stamp());
-			// TODO: Move Object
 		}
 	}
 
@@ -326,6 +329,11 @@ bool		Referee::isCollision(const Entity &object1, const Entity &object2)
 	  (obj1.m_y < obj2.m_y + obj2.m_height) &&
 	  (obj1.m_x < obj2.m_x + obj2.m_width) &&
 	  (obj1.m_x + obj1.m_width > obj2.m_x));
+}
+
+float	Referee::distance(const Position &a, const Position &b)
+{
+	return (sqrtf(powf(b.x - a.x, 2) + powf(b.y - a.y, 2)));
 }
 
 bool	Referee::entitiesComp(const Entity *lhs, const Entity *rhs)

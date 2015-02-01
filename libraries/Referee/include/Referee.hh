@@ -70,6 +70,7 @@ private:
 
   static bool	isOutsideMap(const Entity &object, unsigned short mapHeight, unsigned short mapWidth);
   static bool	isCollision(const Entity &object1, const Entity &object2);
+  static float	distance(const Position &a, const Position &b);
 
 private:
   entity_set_type		_entities;
