@@ -5,8 +5,37 @@
 
 namespace rtype
 {
+  /* Database and Log */
   const std::string Env::DB_PATH = "./misc/rtype.db";
   const std::string Env::LOG_FILE = "./misc/rtype_server.log";
+
+  /* Network */
+  const unsigned short int	Env::TCP_SERVER_PORT     =	44201;
+  const unsigned short int	Env::UDP_SERVER_PORT     =	44202;
+  const unsigned int		Env::MAX_PENDING_CLIENTS =	10;
+  const unsigned int		Env::MAX_UDP_PACKET_LENGTH =	4096;
+
+  /* Game */
+  const unsigned short int	Env::MAX_SIMULTANEOUS_GAMES	=	20;
+  const unsigned long long	Env::BOSS_DELAY		=	90000000;
+  const unsigned long long	Env::GAME_DELAY		=	250000;
+  const unsigned short int	Env::UPDATE_TO_LIVE		=	16;
+  const unsigned short int	Env::MIN_IA			=	4;
+  const unsigned short int	Env::MAX_IA			=	24;
+  const unsigned short int	Env::POP_IA_RANGE		=	2;
+  const unsigned short int	Env::POP_IA_MAX		=	5;
+  const unsigned short int	Env::MAPSIZE			=	16;
+  const unsigned short int	Env::MAXBOSS			=	2;
+  const unsigned short int	Env::MINWALL			=	0;
+  const unsigned short int	Env::MAXWALL			=	0;
+  const unsigned short int	Env::POPRANGEMINWALL		=	0;
+  const unsigned short int	Env::POPRANGEMAXWALL		=	5;
+  const unsigned short int	Env::CHANCETOBREAKABLEMIN	=	2;
+  const unsigned short int	Env::CHANCETOBREAKABLEMAX	=	5;
+
+  /* Security */
+  const unsigned int		Env::PASS_SIZE	=	32;
+
 
   Env		&Env::getInstance()
   {
@@ -27,35 +56,35 @@ namespace rtype
   {
     game.maxSimultaneousGames = MAX_SIMULTANEOUS_GAMES;
     game.bossDelay = BOSS_DELAY;
-	game.mapSize = MAPSIZE;
-	game.maxBoss = MAXBOSS;
-	game.maxIA = MAX_IA;
-	game.minIA = MIN_IA;
-	game.popIAmax = POP_IA_MAX;
-	game.popIArange = POP_IA_RANGE;
-	game.updateToLive = UPDATE_TO_LIVE;
-	game.gameDelay = GAME_DELAY;
-	game.minWall = MINWALL;
-	game.maxWall = MAXWALL;
-	game.popRangeMinWall = POPRANGEMINWALL;
-	game.popRangeMaxWall = POPRANGEMAXWALL;
-	game.chanceToBreakableMin = CHANCETOBREAKABLEMIN;
-	game.chanceToBreakableMax = CHANCETOBREAKABLEMAX;
+    game.mapSize = MAPSIZE;
+    game.maxBoss = MAXBOSS;
+    game.maxIA = MAX_IA;
+    game.minIA = MIN_IA;
+    game.popIAmax = POP_IA_MAX;
+    game.popIArange = POP_IA_RANGE;
+    game.updateToLive = UPDATE_TO_LIVE;
+    game.gameDelay = GAME_DELAY;
+    game.minWall = MINWALL;
+    game.maxWall = MAXWALL;
+    game.popRangeMinWall = POPRANGEMINWALL;
+    game.popRangeMaxWall = POPRANGEMAXWALL;
+    game.chanceToBreakableMin = CHANCETOBREAKABLEMIN;
+    game.chanceToBreakableMax = CHANCETOBREAKABLEMAX;
   }
 
   template <typename T>
   void	Env::Set(T &obj, const std::string &value)
   {
-	  std::stringstream	ss(value);
+    std::stringstream	ss(value);
 
-	  ss >> obj;
+    ss >> obj;
   }
 
   bool	Env::loadFile(const std::string &file)
   {
     (void)file;
-	  /*map = getMap(file) -> arnaud_k*/
-	  // std::map<std::string, std::map<std::string, std::string >> map;
+    /*map = getMap(file) -> arnaud_k*/
+    // std::map<std::string, std::map<std::string, std::string >> map;
     // if (map.find("network") != map.end() && map["network"].find("TCP_SERVER_PORT") != map["network"].end())
     // 		  Set(network.TCPServerPort, map["network"]["TCP_SERVER_PORT"]);
     // 	  if (map.find("network") != map.end() && map["network"].find("UDP_SERVER_PORT") != map["network"].end())

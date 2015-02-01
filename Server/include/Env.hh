@@ -15,10 +15,10 @@ namespace rtype
       unsigned int			maxPendingClients;
       unsigned int			maxUDPpacketLength;
     }					network;
-    static const unsigned short int	TCP_SERVER_PORT     =	44201;
-    static const unsigned short int	UDP_SERVER_PORT     =	44202;
-    static const unsigned int		MAX_PENDING_CLIENTS =	10;
-    static const unsigned int		MAX_UDP_PACKET_LENGTH =	4096;
+    static const unsigned short int	TCP_SERVER_PORT;
+    static const unsigned short int	UDP_SERVER_PORT;
+    static const unsigned int		MAX_PENDING_CLIENTS;
+    static const unsigned int		MAX_UDP_PACKET_LENGTH;
 
   public:
     struct
@@ -47,24 +47,24 @@ namespace rtype
       unsigned short int		chanceToBreakableMin;
       unsigned short int		chanceToBreakableMax;
     }					game;
-    static const unsigned short int	MAX_SIMULTANEOUS_GAMES	=	20;
-    static const unsigned long long	BOSS_DELAY		=	90000000;
-    static const unsigned long long	GAME_DELAY		=	250000;
-    static const unsigned short int	UPDATE_TO_LIVE		=	65000;
-    static const unsigned short int	MIN_IA			=	4;
-    static const unsigned short int	MAX_IA			=	24;
-    static const unsigned short int	POP_IA_RANGE		=	2;
-    static const unsigned short int	POP_IA_MAX		=	5;
-    static const unsigned short int	MAPSIZE			=	16;
-    static const unsigned short int	MAXBOSS			=	2;
-    static const unsigned short int	MINWALL			=	0;
-    static const unsigned short int	MAXWALL			=	0;
-    static const unsigned short int	POPRANGEMINWALL		=	0;
-    static const unsigned short int	POPRANGEMAXWALL		=	5;
-    static const unsigned short int	CHANCETOBREAKABLEMIN	=	2;
-    static const unsigned short int	CHANCETOBREAKABLEMAX	=	5;
+    static const unsigned short int	MAX_SIMULTANEOUS_GAMES;
+    static const unsigned long long	BOSS_DELAY;
+    static const unsigned long long	GAME_DELAY;
+    static const unsigned short int	UPDATE_TO_LIVE;
+    static const unsigned short int	MIN_IA;
+    static const unsigned short int	MAX_IA;
+    static const unsigned short int	POP_IA_RANGE;
+    static const unsigned short int	POP_IA_MAX;
+    static const unsigned short int	MAPSIZE;
+    static const unsigned short int	MAXBOSS;
+    static const unsigned short int	MINWALL;
+    static const unsigned short int	MAXWALL;
+    static const unsigned short int	POPRANGEMINWALL;
+    static const unsigned short int	POPRANGEMAXWALL;
+    static const unsigned short int	CHANCETOBREAKABLEMIN;
+    static const unsigned short int	CHANCETOBREAKABLEMAX;
   public:
-    static const unsigned int		PASS_SIZE	=	32;
+    static const unsigned int		PASS_SIZE;
     static const std::string		LOG_FILE;
 
   public:

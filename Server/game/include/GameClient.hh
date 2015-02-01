@@ -26,7 +26,7 @@ namespace	game
 
   class Client
   {
-    typedef void(Client::*request_fn)(const ARequest &);
+    typedef void(Client::*request_fn)(const ARequest &, MainReferee &);
     typedef std::map<requestCode::CodeID, request_fn>	request_callback_map_type;
   public:
     Client(requestCode::SessionID clientID);
@@ -70,9 +70,9 @@ namespace	game
     void			hasJoin(bool b) { _hasJoin = b; };
 
   private:
-    void			request_alive(const ARequest &req);
-    void			request_leave(const ARequest &req);
-    void			request_elem(const ARequest &req);
+    void			request_alive(const ARequest &req, MainReferee &referee);
+    void			request_leave(const ARequest &req, MainReferee &referee);
+    void			request_elem(const ARequest &req, MainReferee &referee);
 
   private:
     bool			_alive;

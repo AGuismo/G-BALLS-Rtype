@@ -52,44 +52,54 @@ void				MainReferee::fire(unsigned short playerID)
   addEntity(missile);
 }
 
-bool				MainReferee::acceptFire(unsigned short playerID)
-{
-  InternalPlayerSystem		player = _players[playerID];
+// bool				MainReferee::acceptFire(unsigned short playerID)
+// {
+//   InternalPlayerSystem		player = _players[playerID];
 
-  if (player.fireLock.getElapsedTime().asSeconds() < (FIRE_LOCK_TIME * _scenario.getGameSpeed()))
-    return (false);
-  player.fireLock.restart();
-  fire(playerID);
-  return (true);
-}
+//   if (player.fireLock.getElapsedTime().asSeconds() < (FIRE_LOCK_TIME * _scenario.getGameSpeed()))
+//     return (false);
+//   player.fireLock.restart();
+//   fire(playerID);
+//   return (true);
+// }
 
-bool		MainReferee::acceptMove(unsigned short playerID, Position::dir direction)
-{
-  InternalPlayerSystem		player = _players[playerID];
+// bool		MainReferee::acceptMove(unsigned short playerID, Position::dir direction)
+// {
+//   InternalPlayerSystem		player = _players[playerID];
 
-  if (player.moveLock.getElapsedTime().asSeconds() < (MOVE_LOCK_TIME * _scenario.getGameSpeed()))
-  {
-    player.move->onMove(direction);
-    return (false);
-  }
-  player.moveLock.restart();
-  player.move->onMove(direction);
-  return (true);
-}
+//   if (player.moveLock.getElapsedTime().asSeconds() < (MOVE_LOCK_TIME * _scenario.getGameSpeed()))
+//   {
+//     player.move->onMove(direction);
+//     return (false);
+//   }
+//   player.moveLock.restart();
+//   player.move->onMove(direction);
+//   return (true);
+// }
 
-bool		MainReferee::acceptPlayerPosition(const Player &currentPlayer)
+bool		MainReferee::acceptPlayerPosition(const Player &currentPlayer, unsigned short stamp)
 {
   InternalPlayerSystem		player = _players[currentPlayer.getID()];
+  float				sec = player.moveLock.getElapsedTime().asSeconds();
+  float				minRefresh = (MOVE_LOCK_TIME * _scenario.getGameSpeed());
 
-  if (player.moveLock.getElapsedTime().asSeconds() < (MOVE_LOCK_TIME * _scenario.getGameSpeed()))
+  if (sec > minRefresh)
   {
-    player.entity->setPosition(currentPlayer.getPosition());
-    // TODO: Add PlayerMove
+    ObjectMoverComparer		moveComparer(currentPlayer.getID());
+    mover_set_type::iterator	itMover = _entityMoves.find(&moveComparer);
+
+    if ((*itMover)->getLastUpdate() < stamp)
+    {
+      // TODO: Test if he can move (since last move (stamp)
+      player.entity->setPosition(currentPlayer.getPosition());
+      (*itMover)->forcePosition(currentPlayer.getPosition());
+      (*itMover)->setLastUpdate(stamp);
+    }
   }
   return (true);
 }
 
-bool		MainReferee::acceptFire(const Missile &missile)
+bool		MainReferee::acceptFire(const Missile &missile, unsigned short stamp)
 {
   EntityComparer		entity(missile.getID());
   entity_set_type::iterator	itEntity = _entities.find(&entity);
@@ -97,6 +107,10 @@ bool		MainReferee::acceptFire(const Missile &missile)
   if (itEntity == _entities.end())
   {
     addEntity(missile.copy()); // TODO: check If he can Fire or not
+  }
+  else
+  {
+    // (*itEntity)->
   }
   return (true);
 }
@@ -160,7 +174,7 @@ void	MainReferee::updateMoves(std::vector<unsigned short> &moved)
     if ((*it)->update())
     {
       EntityComparer	c((*it)->getObjectID());
-      Entity			*current = *_entities.find(&c);
+      Entity		*current = *_entities.find(&c);
 
       moved.push_back((*it)->getObjectID());
       current->setPosition((*it)->getCurrentPos());

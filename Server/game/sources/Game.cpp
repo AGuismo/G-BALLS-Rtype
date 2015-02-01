@@ -429,7 +429,7 @@ namespace game
 
     for (client_list::const_iterator it = _clients.begin(); it != _clients.end(); ++it)
     {
-      Position	p(rand() % 50, rand() % 900);      /* TODO: Placement du joueur ? */
+      Position	p(rand() % 50, rand() % 800);      /* TODO: Placement du joueur ? */
       Player	currentPlayer((*it)->clientID(), p, playerNo);
 
       s.addPlayer(currentPlayer);

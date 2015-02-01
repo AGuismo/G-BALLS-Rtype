@@ -6,6 +6,7 @@
 
 // LibReferee
 #include	"Player.hh"
+#include	"Missile.hh"
 #include	"MainReferee.hh"
 
 // Module
@@ -97,7 +98,7 @@ namespace	game
       request_callback_map_type::iterator	found = _requestCallback.find(req->code());
 
       if (found != _requestCallback.end())
-	(this->*(found->second))(*req);
+	(this->*(found->second))(*req, game);
 
       // EventRequest	*ev;
       // AliveRequest	*al;
@@ -162,19 +163,27 @@ namespace	game
 
   // Request Callbacks
 
-  void		Client::request_alive(const ARequest &req)
+  void		Client::request_alive(const ARequest &req, MainReferee &referee)
   {
     _updateToLive = 0;
+    (void)referee;
   }
 
-  void		Client::request_leave(const ARequest &req)
+  void		Client::request_leave(const ARequest &req, MainReferee &referee)
   {
     _alive = false;
     _hasLeft = true;
+    // TODO: referee.hasLeft(playerID);
   }
 
-  void		Client::request_elem(const ARequest &req)
+  void		Client::request_elem(const ARequest &req, MainReferee &referee)
   {
+    const ElemRequest	&elem = dynamic_cast<const ElemRequest &>(req);
+
+    if (elem.entity()->getType().desc.maj == Entity::PLAYER)
+      referee.acceptPlayerPosition(dynamic_cast<const Player &>(*elem.entity()), elem.Stamp());
+    else if (elem.entity()->getType().desc.maj == Entity::MISSILE)
+      referee.acceptFire(dynamic_cast<const Missile &>(*elem.entity()), elem.Stamp());
   }
 
 

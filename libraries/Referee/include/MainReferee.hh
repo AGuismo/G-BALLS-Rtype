@@ -39,12 +39,12 @@ public:
   MainReferee(const Scenario &scenario);
   ~MainReferee();
 
-  bool		acceptPlayerPosition(const Player &player);
-  bool		acceptFire(const Missile &missile);
+  bool		acceptPlayerPosition(const Player &player, unsigned short stamp);
+  bool		acceptFire(const Missile &missile, unsigned short stamp);
 
 
-  bool		acceptMove(unsigned short playerID, Position::dir direction);
-  bool		acceptFire(unsigned short playerID);
+  // bool		acceptMove(unsigned short playerID, Position::dir direction);
+  // bool		acceptFire(unsigned short playerID);
 
   void		loadScenario(const Scenario &scenario, unsigned short playerID);
   void		update(std::vector<unsigned short> &deadPlayers);
