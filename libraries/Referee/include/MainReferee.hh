@@ -18,9 +18,9 @@ class MainReferee
   struct	InternalPlayerSystem
   {
     Player			*entity;
-    ObjectMover			*move;
     Clock			fireLock;
     Clock			moveLock;
+    unsigned short		lastUpdate;
   };
 
   typedef bool(*mover_comp_fn)(const ObjectMover *, const ObjectMover *);
@@ -56,6 +56,7 @@ public:
   game::Stamp		getStamp() const;
 
 private:
+  void		addPlayer(const Player &e);
   void		addEntity(Entity *e);
   void		delEntity(unsigned short id);
 

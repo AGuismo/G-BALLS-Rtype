@@ -83,19 +83,16 @@ bool		MainReferee::acceptPlayerPosition(const Player &currentPlayer, unsigned sh
   const float		lastMove = player.moveLock.getElapsedTime().asSeconds();
   const float		minDelayMove = (MOVE_LOCK_TIME * _scenario.getGameSpeed());
 
-  if (lastMove > minDelayMove)
-  {
-    ObjectMoverComparer		moveComparer(currentPlayer.getID());
-    mover_set_type::iterator	itMover = _entityMoves.find(&moveComparer);
-
-    if ((*itMover)->getLastUpdate() < stamp)
-    {
-      // TODO: Test if he can move (since last move (stamp)
-      player.entity->setPosition(currentPlayer.getPosition());
-      (*itMover)->forcePosition(currentPlayer.getPosition());
-      (*itMover)->setLastUpdate(stamp);
-    }
-  }
+  player.entity->setPosition(currentPlayer.getPosition());
+  player.lastUpdate = stamp;
+  player.moveLock.restart();
+  // if (lastMove > minDelayMove)
+  // {
+  //   if (player.lastUpdate < stamp)
+  //   {
+  //	   TODO: Test if he can move (since last move (stamp)
+  //   }
+  // }
   return (true);
 }
 
@@ -130,21 +127,17 @@ void		MainReferee::loadScenario(const Scenario &scenario)
   }
   for (std::vector<Player>::const_iterator it = scenario.getPlayers().begin();
        it != scenario.getPlayers().end(); ++it)
-  {
-    InternalPlayerSystem	internalPlayer;
-    Player			*player = new Player(*it);
-    ObjectMoverComparer		move(it->getID());
-
-    addEntity(player);
-    mover_set_type::iterator	itMover = _entityMoves.find(&move);
-
-
-    internalPlayer.entity = player;
-    internalPlayer.move = *itMover;
-
-    _players[it->getID()] = internalPlayer;
-  }
+    addPlayer(*it);
   addEntity(new Mob(5, Position(800, 500, Position::WEST), 1)); // DEBUG
+}
+
+void	MainReferee::addPlayer(const Player &player)
+{
+    InternalPlayerSystem	internalPlayer;
+    Player			*newPlayer = new Player(player);
+
+    internalPlayer.entity = newPlayer;
+    _players[player.getID()] = internalPlayer;
 }
 
 void	MainReferee::addEntity(Entity *e)
