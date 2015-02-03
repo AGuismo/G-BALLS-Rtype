@@ -27,7 +27,6 @@ namespace	network
 	{
 		stop();
 		join();
-		_active = false;
 	}
 
 	void	Manager::run()
@@ -40,6 +39,8 @@ namespace	network
 	{
 		Thread::MutexGuard	guard(_threadLock);
 
+		closeUdp();
+		closeTcp();
 		_active = false;
 	}
 
@@ -227,12 +228,17 @@ namespace	network
 				if (_udp.active && _select.isReady(_udp.gSock))
 					udpMode();
 
-				while (!_requests.input.empty())
+				while (true)
 				{
+					_requests.lock.lock();
+					if (_requests.input.empty())
+					{
+						_requests.lock.unlock();
+						break;
+					}
 					std::pair<SendType, ARequest *>	req = _requests.input.front();
 					std::vector<Protocol::Byte>		data;
 
-					_requests.lock.lock();
 					_requests.input.pop_front();
 					_requests.lock.unlock();
 					if (!product(data, req.second))
