@@ -143,7 +143,7 @@ void	Referee::request_command_elem(const ARequest &base)
 
 		if ((*itMover)->getLastUpdate() < elem.Stamp())
 		{
-			if (distance(player->getPosition(), (*itMover)->getCurrentPos()) > player->speed())
+			if (distance(player->getPosition(), (*itMover)->getCurrentPos()) > (player->speed() * 2)) // TODO: Something...
 				(*itMover)->forcePosition(player->getPosition());
 			(*itMover)->setLastUpdate(elem.Stamp());
 		}
