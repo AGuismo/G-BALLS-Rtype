@@ -5,7 +5,7 @@
 ## Login   <barato_j@epitech.net>
 ##
 ## Started on  Sun May 19 02:33:10 2013 jules baratoux
-## Last update Thu Feb  5 19:32:05 2015 lamber_k
+## Last update Thu Feb  5 22:04:00 2015 lamber_k
 ##
 ## ┌───────────────────────────────────────────────────────────────────────────┐
 ## │                                MAKEFILE                                   │
@@ -27,6 +27,7 @@ SRCS	      =	Clock.cpp		\
 		ObjectMoverStraight.cpp	\
 		Player.cpp		\
 		Position.cpp		\
+		GameMap.cpp		\
 		RefereeClient.cpp	\
 		Scenario.cpp		\
 		Time.cpp
