@@ -3,7 +3,7 @@
 
 # include	<list>
 # include	<string>
-# include	"types.hh"
+# include	"ProtocolTypes.hh"
 # include	"MenuClient.hh"
 
 // namespace game
@@ -28,19 +28,19 @@ namespace	menu
     const client_list		&clients() const;
 
     bool				ispassword() const;
-    const requestCode::PasswordType	&password() const;
-    void				password(const requestCode::PasswordType &);
+    const rtype::protocol::PasswordType	&password() const;
+    void				password(const rtype::protocol::PasswordType &);
 
     const std::string		&partyName() const;
     void			partyName(const std::string &);
 
-    Ruint8			availableSlots(void) const;
+    rtype::protocol::Ruint8			availableSlots(void) const;
 
-    Ruint8			maxPlayers(void) const;
-    void			maxPlayers(Ruint8);
+    rtype::protocol::Ruint8			maxPlayers(void) const;
+    void			maxPlayers(rtype::protocol::Ruint8);
 
-    requestCode::Status		status(void) const;
-    void			status(requestCode::Status);
+    rtype::protocol::Status		status(void) const;
+    void			status(rtype::protocol::Status);
 
     // game::Game			*game(void) const;
     // void			game(game::Game *);
@@ -61,10 +61,10 @@ namespace	menu
     client_list			_clients;
     std::string			_partyName;
     bool			_ispassword;
-    Ruint8			_maxPlayers;
-    requestCode::Status		_status;
+    rtype::protocol::Ruint8			_maxPlayers;
+    rtype::protocol::Status		_status;
     // ::Game			*_game;
-    requestCode::PasswordType	_password;
+    rtype::protocol::PasswordType	_password;
 
   private:
     struct	Predicate : public std::unary_function<Client *, bool>

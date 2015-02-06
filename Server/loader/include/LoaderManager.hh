@@ -6,6 +6,11 @@
 #include	"CheckFileAbstract.h"
 #include	"DynamicAbstract.h"
 
+namespace loglib
+{
+  class	Log;
+}
+
 class	AIaAlgo;
 
 namespace	botLoader
@@ -13,7 +18,8 @@ namespace	botLoader
   class		Manager
   {
   public:
-    static	Manager	&getInstance();
+    Manager(loglib::Log &log);
+    ~Manager();
 
   public:
     typedef AIaAlgo	*(*instance_call)(void);
@@ -37,8 +43,6 @@ namespace	botLoader
     static void		routine(Manager *);
 
   private:
-    Manager();
-    ~Manager();
     Manager(Manager const&);
     Manager& operator=(Manager const&);
   public:
@@ -53,6 +57,7 @@ namespace	botLoader
     std::map<std::string, UPDATE>	*_upList;
     Threads<void (*)(Manager *)>	_th;
     Thread::Mutex			_lock;
+    loglib::Log				&_log;
   };
 
 }

@@ -2,7 +2,7 @@
 
 #include	<vector>
 #include	<list>
-#include	"types.hh"
+#include	"ProtocolTypes.hh"
 #include	"GameClient.hh"
 #include	"Clock.hh"
 
@@ -45,9 +45,9 @@ namespace game
     Status			status() const;
     void			parent(GamePool *parent);
     GamePool			*gamePool() const;
-    void			gameID(requestCode::SessionID gameID);
-    requestCode::SessionID	gameID() const;
-    game::Stamp			getStamp() const;
+    void			gameID(rtype::protocol::SessionID gameID);
+    rtype::protocol::SessionID	gameID() const;
+    rtype::protocol::game::Stamp			getStamp() const;
 
     template <typename Req>
     void		pushRequestToEveryone(const Req &req)
@@ -69,7 +69,7 @@ namespace game
     void		waitingForPlayers();
 
   private:
-    requestCode::SessionID	_gameID;
+    rtype::protocol::SessionID	_gameID;
     GamePool		*_parent;
     Clock		_clock;
     struct timeval	_timer;

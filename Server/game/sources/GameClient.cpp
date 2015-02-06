@@ -20,7 +20,7 @@
 
 namespace	game
 {
-  Client::Client(requestCode::SessionID id) :
+  Client::Client(rtype::protocol::SessionID id) :
     _alive(true), _updateToLive(0), _hasLeft(false),
     _hasJoin(false), _id(id) // _used(false),
 
@@ -28,13 +28,13 @@ namespace	game
 #if defined(DEBUG)
     Application::log << "game::client created" << std::endl;
 #endif
-    _requestCallback[requestCode::game::LEAVE] = &Client::request_leave;
-    _requestCallback[requestCode::game::ALIVE] = &Client::request_alive;
-    _requestCallback[requestCode::game::ELEM] = &Client::request_elem;
+    _requestCallback[rtype::protocol::requestCode::game::LEAVE] = &Client::request_leave;
+    _requestCallback[rtype::protocol::requestCode::game::ALIVE] = &Client::request_alive;
+    _requestCallback[rtype::protocol::requestCode::game::ELEM] = &Client::request_elem;
 
   }
 
-  Client::Client(requestCode::SessionID id, struct sockaddr_in addr) :
+  Client::Client(rtype::protocol::SessionID id, struct sockaddr_in addr) :
     _alive(true), _updateToLive(0), _hasLeft(false),
     _hasJoin(false), // _used(false),
     _addr(addr), _id(id)
@@ -43,9 +43,9 @@ namespace	game
     Application::log << "game::client created" << std::endl;
 #endif
 
-    _requestCallback[requestCode::game::LEAVE] = &Client::request_leave;
-    _requestCallback[requestCode::game::ALIVE] = &Client::request_alive;
-    _requestCallback[requestCode::game::ELEM] = &Client::request_elem;
+    _requestCallback[rtype::protocol::requestCode::game::LEAVE] = &Client::request_leave;
+    _requestCallback[rtype::protocol::requestCode::game::ALIVE] = &Client::request_alive;
+    _requestCallback[rtype::protocol::requestCode::game::ELEM] = &Client::request_elem;
   }
 
   Client::~Client()
@@ -73,7 +73,7 @@ namespace	game
 
     while ((req = requestPop()) != 0)
     {
-      if (req->code() == requestCode::game::ALIVE)
+      if (req->code() == rtype::protocol::requestCode::game::ALIVE)
       {
 	_hasJoin = true;
 #if defined(DEBUG)
@@ -116,7 +116,7 @@ namespace	game
       // 	    game.pushRequest(new DeathRequest(_id, 0)); // STAMP !
       // 	  }
       // 	  // else
-      // 	  //   game.pushRequest(new ElemRequest(requestCode::game::server::PLAYER,
+      // 	  //   game.pushRequest(new ElemRequest(rtype::protocol::game::server::PLAYER,
       // 	  // 				     _player->_pos[0], _player->_dir, _player->_id));
       // 	}
       // 	else if (!fire)
@@ -124,7 +124,7 @@ namespace	game
       // 	  Missile *missile = _player->fire(game, false);
       // 	  game.pushMissile(missile);
       // 	  fire = true;
-      // 	  // game.pushRequest(new ElemRequest(requestCode::game::server::MISSILE,
+      // 	  // game.pushRequest(new ElemRequest(rtype::protocol::game::server::MISSILE,
       // 	  // 				   missile->pos()[0], missile->dir(), missile->id()));
       // 	}
       // }
@@ -180,21 +180,21 @@ namespace	game
   {
     const ElemRequest	&elem = dynamic_cast<const ElemRequest &>(req);
 
-    if (elem.entity()->getType().desc.maj == Entity::PLAYER)
+    if (elem.entity()->getType().desc.maj == entity::PLAYER)
       referee.acceptPlayerPosition(dynamic_cast<const Player &>(*elem.entity()), elem.Stamp());
-    else if (elem.entity()->getType().desc.maj == Entity::MISSILE)
+    else if (elem.entity()->getType().desc.maj == entity::MISSILE)
       referee.acceptFire(dynamic_cast<const Missile &>(*elem.entity()), elem.Stamp());
   }
 
 
 
 
-  requestCode::SessionID	Client::clientID() const
+  rtype::protocol::SessionID	Client::clientID() const
   {
     return (_id);
   }
 
-  void				Client::clientID(const requestCode::SessionID id)
+  void				Client::clientID(const rtype::protocol::SessionID id)
   {
     _id = id;
   }

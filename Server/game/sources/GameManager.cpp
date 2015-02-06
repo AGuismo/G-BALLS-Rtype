@@ -259,7 +259,7 @@ namespace	game
   // Predicate //
   ///////////////
 
-  Manager::predicate::predicate(const requestCode::SessionID id):
+  Manager::predicate::predicate(const rtype::protocol::SessionID id):
     _id(id)
   {
 
@@ -320,7 +320,7 @@ namespace	game
 //       {
 // 	(*it)->alive(false);
 // 	(*it)->hasLeft(true);
-// 	_output.push(new ApplicationCallback<requestCode::SessionID>((*it)->sessionID(), &Application::ClientLeaveGame));
+// 	_output.push(new ApplicationCallback<rtype::protocol::SessionID>((*it)->sessionID(), &Application::ClientLeaveGame));
 //       }
 //       _output.push(new ApplicationCallback<game::Game *>(game, &Application::endGame));
 //       _games.pop_front();
@@ -358,7 +358,7 @@ namespace	game
 // 	game::Client	*c = *it;
 
 // 	it = _gameClients.erase(it);
-// 	_output.push(new ApplicationCallback<requestCode::SessionID>(c->sessionID(), &Application::ClientLeaveGame));
+// 	_output.push(new ApplicationCallback<rtype::protocol::SessionID>(c->sessionID(), &Application::ClientLeaveGame));
 // 	delete c;
 //       }
 //       else

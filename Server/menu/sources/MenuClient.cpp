@@ -219,32 +219,32 @@ namespace	menu
     return (_auth._username);
   }
 
-  void					Client::password(const requestCode::PasswordType &password)
+  void					Client::password(const rtype::protocol::PasswordType &password)
   {
     _auth._password = password;
   }
 
-  const requestCode::PasswordType	&Client::password(void) const
+  const rtype::protocol::PasswordType	&Client::password(void) const
   {
     return (_auth._password);
   }
 
-  void					Client::sessionID(const requestCode::SessionID &sessionID)
+  void					Client::sessionID(const rtype::protocol::SessionID &sessionID)
   {
     _id = sessionID;
   }
 
-  const requestCode::SessionID		&Client::sessionID(void) const
+  const rtype::protocol::SessionID		&Client::sessionID(void) const
   {
     return (_id);
   }
 
-  void					Client::permissions(database::Rights perm)
+  void					Client::permissions(rtype::protocol::database::Rights perm)
   {
     _auth._permissions = perm;
   }
 
-  database::Rights			Client::permissions(void) const
+  rtype::protocol::database::Rights			Client::permissions(void) const
   {
     return (_auth._permissions);
   }

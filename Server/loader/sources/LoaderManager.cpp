@@ -6,12 +6,14 @@
 #include	"IaAlgo.hh"
 #include	"LoaderManager.hh"
 #include	"LoaderException.hh"
-#include	"Application.hh" // Log purpose
+#include	"Log.hh"
+
+using namespace loglib;
 
 namespace	botLoader
 {
-  Manager::Manager() :
-    _checkFile(0), _dynLoader(0), _upList(0), _th(Func::Bind(&Manager::routine, this))
+  Manager::Manager(Log &log) :
+    _checkFile(0), _dynLoader(0), _upList(0), _th(Func::Bind(&Manager::routine, this)), _log(log)
   {
 
   }
@@ -31,7 +33,7 @@ namespace	botLoader
     _dynLoader = new DynamicAbstract;
     _upList = _checkFile->refreshFile();
     if (_upList == NULL)
-      Application::log << "Bot library repertory empty or inexistant but we have defaults IA" << std::endl;
+      _log << "Bot library repertory empty or inexistant but we have defaults IA" << std::endl;
     else
     {
       for (std::map<std::string, UPDATE>::iterator it = _upList->begin(); it != _upList->end(); ++it)
@@ -194,12 +196,6 @@ namespace	botLoader
   int			Manager::getSimpleBydosSize(void)
   {
     return  (_bossBydos.size());
-  }
-
-  Manager	&Manager::getInstance()
-  {
-    static Manager manager;
-    return manager;
   }
 
 }

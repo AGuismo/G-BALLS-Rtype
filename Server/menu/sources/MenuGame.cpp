@@ -3,6 +3,8 @@
 #include	"MenuGame.hh"
 #include	"Client.hh"
 
+using namespace rtype::protocol;
+
 namespace	menu
 {
   Game::Game(Client *client) :
@@ -48,12 +50,12 @@ namespace	menu
     return (_ispassword);
   }
 
-  const requestCode::PasswordType	&Game::password() const // Undef behaviour if no password
+  const PasswordType	&Game::password() const // Undef behaviour if no password
   {
     return (_password);
   }
 
-  void				Game::password(const requestCode::PasswordType &password)
+  void				Game::password(const PasswordType &password)
   {
     _password = password;
     _ispassword = true;

@@ -26,15 +26,15 @@ namespace	menu
   {
     _server.monitor(true, false);
 
-    _requestCallback[requestCode::auth::CONNECT] = &tryConnect;
-    _requestCallback[requestCode::auth::NEW_USER] = &newUser;
-    _requestCallback[requestCode::party::LIST] = &listGames;
-    _requestCallback[requestCode::party::CREAT] = &createGame;
-    _requestCallback[requestCode::party::JOIN] = &joinGame;
-    _requestCallback[requestCode::party::CANCEL] = &cancelGame;
-    _requestCallback[requestCode::party::CLI_START] = &launchGame;
-    _requestCallback[requestCode::chat::SEND_MSG] = &chatRecv;
-    _requestCallback[requestCode::root::SHUTDOWN] = &shutdown;
+    _requestCallback[rtype::protocol::requestCode::auth::CONNECT] = &tryConnect;
+    _requestCallback[rtype::protocol::requestCode::auth::NEW_USER] = &newUser;
+    _requestCallback[rtype::protocol::requestCode::party::LIST] = &listGames;
+    _requestCallback[rtype::protocol::requestCode::party::CREAT] = &createGame;
+    _requestCallback[rtype::protocol::requestCode::party::JOIN] = &joinGame;
+    _requestCallback[rtype::protocol::requestCode::party::CANCEL] = &cancelGame;
+    _requestCallback[rtype::protocol::requestCode::party::CLI_START] = &launchGame;
+    _requestCallback[rtype::protocol::requestCode::chat::SEND_MSG] = &chatRecv;
+    _requestCallback[rtype::protocol::requestCode::root::SHUTDOWN] = &shutdown;
   }
 
   Manager::~Manager()
@@ -82,7 +82,7 @@ namespace	menu
 
       _clients.push_back(menuClient);
       _monitor.setMonitor(*(menuClient->TcpLayer()));
-      _output.push(new ApplicationCallback<requestCode::SessionID>(menuClient->sessionID(), &Application::newClient));
+      _output.push(new ApplicationCallback<rtype::protocol::SessionID>(menuClient->sessionID(), &Application::newClient));
     }
   }
 
@@ -112,8 +112,8 @@ namespace	menu
     broadcast(Party::Update(game->partyName(),
 			    game->availableSlots(),
 			    game->maxPlayers(),
-			    game->ispassword() ? requestCode::party::PASS : requestCode::party::NO_PASS,
-			    requestCode::party::UPDATE_GAME));
+			    game->ispassword() ? rtype::protocol::requestCode::party::PASS : rtype::protocol::requestCode::party::NO_PASS,
+			    rtype::protocol::requestCode::party::UPDATE_GAME));
   }
 
   void	Manager::delParty(Game *game)
@@ -126,8 +126,8 @@ namespace	menu
     broadcast(Party::Update(game->partyName(),
 			    game->availableSlots(),
 			    game->maxPlayers(),
-			    game->ispassword() ? requestCode::party::PASS : requestCode::party::NO_PASS,
-			    requestCode::party::CANCELED));
+			    game->ispassword() ? rtype::protocol::requestCode::party::PASS : rtype::protocol::requestCode::party::NO_PASS,
+			    rtype::protocol::requestCode::party::CANCELED));
     delete game;
   }
 
@@ -148,7 +148,7 @@ namespace	menu
 	Application::log << "menu::Manager::disconnectClients()"
 			 << "Client was in a game: " << client->currentGame()->partyName() << std::endl;
 #endif
-	if ((*it)->owner() == client && (*it)->status() == requestCode::party::OUT_GAME)
+	if ((*it)->owner() == client && (*it)->status() == rtype::protocol::requestCode::party::OUT_GAME)
 	{
 	  delParty(*it);
 	  _games.erase(it);
@@ -173,7 +173,7 @@ namespace	menu
 	Client	*processed = *it;
 	disconnectClient(processed);
 	it = _clients.erase(it);
-	_output.push(new ApplicationCallback<requestCode::SessionID>(processed->sessionID(), &Application::clientDisconnected));
+	_output.push(new ApplicationCallback<rtype::protocol::SessionID>(processed->sessionID(), &Application::clientDisconnected));
 	delete processed;
 	continue;
       }
@@ -240,7 +240,7 @@ namespace	menu
   // Callback Functions //
   ////////////////////////
 
-  void		Manager::clientLeaveGame(requestCode::SessionID clientID)
+  void		Manager::clientLeaveGame(rtype::protocol::SessionID clientID)
   {
     client_list::iterator	itCli = std::find_if(_clients.begin(), _clients.end(),
 						     PredicateClient(clientID));
@@ -265,8 +265,8 @@ namespace	menu
     broadcast(Party::Update(game->partyName(),
 			    game->availableSlots(),
 			    game->maxPlayers(),
-			    game->ispassword() ? requestCode::party::PASS : requestCode::party::NO_PASS,
-			    requestCode::party::FINISHED));
+			    game->ispassword() ? rtype::protocol::requestCode::party::PASS : rtype::protocol::requestCode::party::NO_PASS,
+			    rtype::protocol::requestCode::party::FINISHED));
     _games.erase(it);
     delete game;
   }
@@ -308,7 +308,7 @@ namespace	menu
 	  c.session = SessionRequest::Unique();
 	client->sessionID(c.session);
 
-	client->requestPush(new ServerRequest(requestCode::server::OK));
+	client->requestPush(new ServerRequest(rtype::protocol::requestCode::server::OK));
 	client->requestPush(new SessionRequest(client->sessionID()));
 	listGames(0, client, manager);
 	delete req;
@@ -318,7 +318,7 @@ namespace	menu
 #if defined(DEBUG)
     Application::log << client << ": Authentification failed" << std::endl;
 #endif
-    client->requestPush(new ServerRequest(requestCode::server::FORBIDDEN));
+    client->requestPush(new ServerRequest(rtype::protocol::requestCode::server::FORBIDDEN));
     delete req;
   }
 
@@ -337,7 +337,7 @@ namespace	menu
     {
       if (Database::getInstance().newClient(request->username(), request->password()))
       {
-	client->requestPush(new ServerRequest(requestCode::server::OK));
+	client->requestPush(new ServerRequest(rtype::protocol::requestCode::server::OK));
 	delete req;
 	return ;
       }
@@ -345,7 +345,7 @@ namespace	menu
 #if defined(DEBUG)
     Application::log << client << ": Can't create new user named" << request->username() << std::endl;
 #endif
-    client->requestPush(new ServerRequest(requestCode::server::FORBIDDEN));
+    client->requestPush(new ServerRequest(rtype::protocol::requestCode::server::FORBIDDEN));
     delete req;
   }
 
@@ -359,7 +359,7 @@ namespace	menu
 #endif
     if (!client->authenticated())
     {
-      client->requestPush(new ServerRequest(requestCode::server::FORBIDDEN));
+      client->requestPush(new ServerRequest(rtype::protocol::requestCode::server::FORBIDDEN));
       delete req;
       return ;
     }
@@ -372,7 +372,7 @@ namespace	menu
       client->requestPush(new Party::Update((*it)->partyName(),
 					    (*it)->availableSlots(),
 					    (*it)->maxPlayers(),
-					    (*it)->ispassword() ? requestCode::party::PASS : requestCode::party::NO_PASS,
+					    (*it)->ispassword() ? rtype::protocol::requestCode::party::PASS : rtype::protocol::requestCode::party::NO_PASS,
 					    (*it)->status()));
     }
     delete req;
@@ -391,7 +391,7 @@ namespace	menu
     if (!client->authenticated() || client->inLobby() ||
 	find_if(manager->_games.begin(), manager->_games.end(), PredicateParty(request->_partyName)) != manager->_games.end())
     {
-      client->requestPush(new ServerRequest(requestCode::server::FORBIDDEN));
+      client->requestPush(new ServerRequest(rtype::protocol::requestCode::server::FORBIDDEN));
       delete req;
       return ;
     }
@@ -399,16 +399,16 @@ namespace	menu
 
     game->partyName(request->_partyName);
     game->maxPlayers(request->_maxPlayers);
-    if (request->_isPassword == requestCode::party::PASS)
+    if (request->_isPassword == rtype::protocol::requestCode::party::PASS)
       game->password(request->_partyPass);
     manager->_games.push_back(game);
     delete req;
-    game->status(requestCode::party::OUT_GAME);
-    client->requestPush(new ServerRequest(requestCode::server::OK));
+    game->status(rtype::protocol::requestCode::party::OUT_GAME);
+    client->requestPush(new ServerRequest(rtype::protocol::requestCode::server::OK));
     manager->broadcast(Party::Update(game->partyName(),
 				     game->availableSlots(),
 				     game->maxPlayers(),
-				     game->ispassword() ? requestCode::party::PASS : requestCode::party::NO_PASS,
+				     game->ispassword() ? rtype::protocol::requestCode::party::PASS : rtype::protocol::requestCode::party::NO_PASS,
 				     game->status()));
   }
 
@@ -427,15 +427,15 @@ namespace	menu
     if (!client->authenticated() || it == manager->_games.end() ||
 	!(*it)->newPlayer(client))
     {
-      client->requestPush(new ServerRequest(requestCode::server::FORBIDDEN));
+      client->requestPush(new ServerRequest(rtype::protocol::requestCode::server::FORBIDDEN));
       delete req;
       return ;
     }
-    client->requestPush(new ServerRequest(requestCode::server::OK));
+    client->requestPush(new ServerRequest(rtype::protocol::requestCode::server::OK));
     manager->broadcast(Party::Update((*it)->partyName(),
 				     (*it)->availableSlots(),
 				     (*it)->maxPlayers(),
-				     (*it)->ispassword() ? requestCode::party::PASS : requestCode::party::NO_PASS,
+				     (*it)->ispassword() ? rtype::protocol::requestCode::party::PASS : rtype::protocol::requestCode::party::NO_PASS,
 				     (*it)->status()));
     delete req;
   }
@@ -454,7 +454,7 @@ namespace	menu
       game_list::iterator	it = find_if(manager->_games.begin(), manager->_games.end(),
 					     PredicateParty(client->currentGame()->partyName()));
 
-      if (it != manager->_games.end() && (*it)->status() == requestCode::party::OUT_GAME)
+      if (it != manager->_games.end() && (*it)->status() == rtype::protocol::requestCode::party::OUT_GAME)
       {
 #if defined(DEBUG)
 	Application::log << "menu::Manager::cancelGame(): " << std::endl;
@@ -476,7 +476,7 @@ namespace	menu
 
     }
 
-    client->requestPush(new ServerRequest(requestCode::server::FORBIDDEN));
+    client->requestPush(new ServerRequest(rtype::protocol::requestCode::server::FORBIDDEN));
     delete req;
     return ;
   }
@@ -493,19 +493,19 @@ namespace	menu
 				     PredicateOwner(client));
 
     if (!client->authenticated() || it == manager->_games.end() ||
-	(*it)->status() != requestCode::party::OUT_GAME)
+	(*it)->status() != rtype::protocol::requestCode::party::OUT_GAME)
     {
-      client->requestPush(new ServerRequest(requestCode::server::FORBIDDEN));
+      client->requestPush(new ServerRequest(rtype::protocol::requestCode::server::FORBIDDEN));
       delete req;
       return;
     }
-    client->requestPush(new ServerRequest(requestCode::server::OK));
+    client->requestPush(new ServerRequest(rtype::protocol::requestCode::server::OK));
     (*it)->broadcast(Party::Launch(Party::Launch::Unique()));
-    (*it)->status(requestCode::party::IN_GAME);
+    (*it)->status(rtype::protocol::requestCode::party::IN_GAME);
     manager->broadcast(Party::Update((*it)->partyName(),
 				     (*it)->availableSlots(),
 				     (*it)->maxPlayers(),
-				     (*it)->ispassword() ? requestCode::party::PASS : requestCode::party::NO_PASS,
+				     (*it)->ispassword() ? rtype::protocol::requestCode::party::PASS : rtype::protocol::requestCode::party::NO_PASS,
 				     (*it)->status()));
     manager->_output.push(new ApplicationCallback<menu::Game *>(*it, &Application::newGame));
     delete req;
@@ -518,11 +518,11 @@ namespace	menu
   {
     if (!client->authenticated() || client->permissions() != database::SUPER_USER)
     {
-      client->requestPush(new ServerRequest(requestCode::server::FORBIDDEN));
+      client->requestPush(new ServerRequest(rtype::protocol::requestCode::server::FORBIDDEN));
       delete req;
       return;
     }
-    client->requestPush(new ServerRequest(requestCode::server::OK));
+    client->requestPush(new ServerRequest(rtype::protocol::requestCode::server::OK));
     delete req;
     manager->_output.push(new ApplicationCallback<Client *>(client, &Application::stop));
   }
@@ -538,7 +538,7 @@ namespace	menu
 
     if (!client->authenticated())
     {
-      client->requestPush(new ServerRequest(requestCode::server::FORBIDDEN));
+      client->requestPush(new ServerRequest(rtype::protocol::requestCode::server::FORBIDDEN));
       delete req;
       return;
     }
@@ -556,7 +556,7 @@ namespace	menu
 
   }
 
-  Manager::PredicateClient::PredicateClient(const requestCode::SessionID id) :
+  Manager::PredicateClient::PredicateClient(const rtype::protocol::SessionID id) :
     _id(id)
   {
 

@@ -10,7 +10,7 @@
 // # include	"GameManager.hh"
 # include	"LoaderManager.hh"
 # include	"ThreadEvent.hpp"
-# include	"RequestCode.hh"
+# include	"ProtocolTypes.hh"
 # include	"Log.hh"
 
 #if defined(WIN32)
@@ -74,12 +74,12 @@ public:
   void	routine();
 
 public:
-  void	newClient(requestCode::SessionID clientID);
-  void  clientDisconnected(requestCode::SessionID clientID);
+  void	newClient(rtype::protocol::SessionID clientID);
+  void  clientDisconnected(rtype::protocol::SessionID clientID);
   void	newGame(menu::Game *game);
   void	endGame(const game::Game *game);
   void	cancelGame(const game::Game *game);
-  void	ClientLeaveGame(requestCode::SessionID clientID);
+  void	ClientLeaveGame(rtype::protocol::SessionID clientID);
 
 private:
   Application(Application const&);
@@ -90,20 +90,20 @@ private:
   input_event		_gameOutput;
   input_event		_menuOutput;
   output_event		_input;
+  std::ofstream		_log;
   menu::Manager		*_menuManager;
   game::Manager		*_gameManager;
-  //  botLoader::Manager	_botLoaderManager;
+  botLoader::Manager	_botLoaderManager;
   client_list		_clients;
   game_list		_games;
-  std::ofstream		_log;
 
 private:
   struct	PredicateClient : public std::unary_function<Client *, bool>
   {
-    PredicateClient(requestCode::SessionID client);
+    PredicateClient(rtype::protocol::SessionID client);
     bool	operator()(const Client *);
 
-    requestCode::SessionID	_client;
+    rtype::protocol::SessionID	_client;
   };
 
   struct	PredicateGame : public std::unary_function<game_pair, bool>

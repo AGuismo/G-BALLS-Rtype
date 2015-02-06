@@ -20,14 +20,14 @@ public:
 
 public:
   Client();
-  Client(requestCode::SessionID id, State st = NONE);
+  Client(rtype::protocol::SessionID id, State st = NONE);
   ~Client();
 
 public:
-  static requestCode::SessionID		generateUniqueID();
+  static rtype::protocol::SessionID		generateUniqueID();
 
-  const requestCode::SessionID		&id() const;
-  void					id(requestCode::SessionID id);
+  const rtype::protocol::SessionID		&id() const;
+  void					id(rtype::protocol::SessionID id);
   State					state() const;
   void					state(State st);
 
@@ -36,7 +36,7 @@ private:
   Client& operator=(Client const&);
 
 private:
-  requestCode::SessionID	_id;
+  rtype::protocol::SessionID	_id;
   State				_state;
 };
 

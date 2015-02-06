@@ -10,7 +10,7 @@ Client::Client():
 {
 }
 
-Client::Client(requestCode::SessionID id, State st):
+Client::Client(rtype::protocol::SessionID id, State st):
   _id(id), _state(st)
 {
 }
@@ -19,12 +19,12 @@ Client::~Client()
 {
 }
 
-const requestCode::SessionID	&Client::id() const
+const rtype::protocol::SessionID	&Client::id() const
 {
   return _id;
 }
 
-void	Client::id(requestCode::SessionID id)
+void	Client::id(rtype::protocol::SessionID id)
 {
   _id = id;
 }
@@ -39,9 +39,9 @@ void				Client::state(State st)
   _state = st;
 }
 
-requestCode::SessionID		Client::generateUniqueID()
+rtype::protocol::SessionID		Client::generateUniqueID()
 {
-  static requestCode::SessionID	id = 1;
+  static rtype::protocol::SessionID	id = 1;
 
   return (id++);
 }

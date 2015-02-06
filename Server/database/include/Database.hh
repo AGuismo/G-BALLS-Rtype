@@ -5,12 +5,12 @@
 # include	<vector>
 # include	"IDatabase.hh"
 # include	"ThreadMutex.hh"
-# include	"types.hh"
+# include	"ProtocolTypes.hh"
 
 namespace database
 {
-  static const Rights	NORMAL_USER = 0;
-  static const Rights	SUPER_USER = 1;
+  static const rtype::protocol::database::Rights	NORMAL_USER = 0;
+  static const rtype::protocol::database::Rights	SUPER_USER = 1;
 }
 
 class Database : public IDatabase
@@ -28,22 +28,22 @@ public:
 
 public:
   bool		newClient(const std::string &login,
-			  const requestCode::PasswordType &password,
-			  const database::Rights right_level = database::NORMAL_USER,
+			  const rtype::protocol::PasswordType &password,
+			  const rtype::protocol::database::Rights right_level = database::NORMAL_USER,
 			  bool trunc = false);
   bool		delClient(const std::string &login,
-			  const requestCode::PasswordType &password);
+			  const rtype::protocol::PasswordType &password);
   bool		modClientPass(const std::string &login,
-			      const requestCode::PasswordType &oldpassword,
-			      const requestCode::PasswordType &newpassword);
+			      const rtype::protocol::PasswordType &oldpassword,
+			      const rtype::protocol::PasswordType &newpassword);
   bool		modClientSessionID(const std::string &login,
-				   const requestCode::SessionID sessionID);
+				   const rtype::protocol::SessionID sessionID);
   bool		clientExist(const std::string &login);
   bool		clientExist(const std::string &login,
-			    const requestCode::PasswordType &password);
+			    const rtype::protocol::PasswordType &password);
   bool		clientExist(const std::string &login,
-			    const requestCode::PasswordType &password,
-			    const database::Rights rights);
+			    const rtype::protocol::PasswordType &password,
+			    const rtype::protocol::database::Rights rights);
 private:
   Database(Database const&);
   Database& operator=(Database const&);
@@ -55,10 +55,10 @@ public:
 public:
   struct			Client
   {
-    std::string			login;
-    requestCode::PasswordType	password;
-    requestCode::SessionID	session;
-    database::Rights		rights;
+    std::string				login;
+    rtype::protocol::PasswordType	password;
+    rtype::protocol::SessionID		session;
+    rtype::protocol::database::Rights	rights;
 
     Client() : session(0), rights(0) {}
   };
@@ -81,26 +81,26 @@ private:
   struct			PredicateLoginPass : public PredicateLogin
   {
     PredicateLoginPass(const std::string &login,
-		       requestCode::PasswordType p): PredicateLogin(login), _pass(p) {}
+		       rtype::protocol::PasswordType p): PredicateLogin(login), _pass(p) {}
     bool	operator()(const Client obj) const
     {
       return (_login == obj.login && _pass == obj.password);
     }
   protected:
-    const requestCode::PasswordType	_pass;
+    const rtype::protocol::PasswordType	_pass;
   };
 
   struct			PredicateLoginPassRights : public PredicateLoginPass
   {
     PredicateLoginPassRights(const std::string &login,
-			     requestCode::PasswordType p,
-			     database::Rights r): PredicateLoginPass(login, p), _right(r) {}
+			     rtype::protocol::PasswordType p,
+			     rtype::protocol::database::Rights r): PredicateLoginPass(login, p), _right(r) {}
     bool	operator()(const Client obj) const
     {
       return (_login == obj.login && _pass == obj.password && _right == obj.rights);
     }
   protected:
-    const database::Rights	_right;
+    const rtype::protocol::database::Rights	_right;
   };
 
 private:

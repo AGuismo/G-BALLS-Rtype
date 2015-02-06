@@ -3,7 +3,7 @@
 
 //#if defined(WIN32)
 //#include <WinSock2.h>
-//#include 
+//#include
 //#elif defined(linux)
 //#include <sys/time.h>
 //#else
@@ -103,14 +103,14 @@ namespace	game
     class predicate : public std::unary_function< Client *, bool>
     {
     public:
-      predicate(const requestCode::SessionID id);
+      predicate(const rtype::protocol::SessionID id);
       ~predicate();
 
     public:
       bool		operator()(const Client *rhs);
 
     private:
-      const requestCode::SessionID	_id;
+      const rtype::protocol::SessionID	_id;
     };
 
     class PredicateClients : public std::unary_function< const Client *, bool>

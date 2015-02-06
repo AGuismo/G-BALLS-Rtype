@@ -3,6 +3,8 @@
 #include	"Backup.hpp"
 #include	"Env.hh"
 
+using namespace rtype::protocol;
+
 Database	&Database::getInstance()
 {
   static Database	db;
@@ -92,8 +94,8 @@ save::Backup &	Database::load(save::Backup &backup)
 }
 
 bool		Database::newClient(const std::string &login,
-				    const requestCode::PasswordType &password,
-				    const database::Rights right_level,
+				    const PasswordType &password,
+				    const rtype::protocol::database::Rights right_level,
 				    bool trunc)
 {
   Thread::MutexGuard	guard(_lock);
@@ -116,7 +118,7 @@ bool		Database::newClient(const std::string &login,
 }
 
 bool		Database::delClient(const std::string &login,
-				    const requestCode::PasswordType &password)
+				    const PasswordType &password)
 {
   Thread::MutexGuard	guard(_lock);
   client_list::iterator it = std::find_if(_clients.begin(), _clients.end(), PredicateLogin(login));
@@ -130,8 +132,8 @@ bool		Database::delClient(const std::string &login,
 }
 
 bool		Database::modClientPass(const std::string &login,
-					const requestCode::PasswordType &oldpassword,
-					const requestCode::PasswordType &newpassword)
+					const PasswordType &oldpassword,
+					const PasswordType &newpassword)
 {
   Thread::MutexGuard	guard(_lock);
   client_list::iterator it = std::find_if(_clients.begin(), _clients.end(), PredicateLogin(login));
@@ -145,7 +147,7 @@ bool		Database::modClientPass(const std::string &login,
 }
 
 bool		Database::modClientSessionID(const std::string &login,
-					     const requestCode::SessionID sessionID)
+					     const SessionID sessionID)
 {
   Thread::MutexGuard	guard(_lock);
   client_list::iterator it = std::find_if(_clients.begin(), _clients.end(), PredicateLogin(login));
@@ -174,15 +176,15 @@ bool		Database::clientExist(const std::string &login)
 }
 
 bool		Database::clientExist(const std::string &login,
-				      const requestCode::PasswordType &password)
+				      const PasswordType &password)
 {
   return (std::find_if(_clients.begin(), _clients.end(),
 		       PredicateLoginPass(login, password)) != _clients.end());
 }
 
 bool		Database::clientExist(const std::string &login,
-				      const requestCode::PasswordType &password,
-				      const database::Rights rights)
+				      const PasswordType &password,
+				      const rtype::protocol::database::Rights rights)
 {
   return (std::find_if(_clients.begin(), _clients.end(),
 		       PredicateLoginPassRights(login, password, rights)) != _clients.end());

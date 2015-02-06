@@ -32,7 +32,7 @@ namespace	menu
     typedef Thread::EventQueue<ICallbacks *>			input_event;
     typedef std::list<Game *>					game_list;
     typedef std::list<Client *>					client_list;
-    typedef std::map<requestCode::CodeID, request_callback>	request_callback_map;
+    typedef std::map<rtype::protocol::CodeID, request_callback>	request_callback_map;
   public:
     Manager(input_event &input, output_event &output);
     virtual ~Manager();
@@ -44,7 +44,7 @@ namespace	menu
     void	join();
 
     void	endGame(menu::Game *game);
-    void	clientLeaveGame(requestCode::SessionID);
+    void	clientLeaveGame(rtype::protocol::SessionID);
 
   private:
     void	disconnectClient(Client *client);
@@ -78,11 +78,11 @@ namespace	menu
     struct	PredicateClient : std::unary_function<Client *, bool>
     {
       PredicateClient(const std::string &login);
-      PredicateClient(const requestCode::SessionID);
+      PredicateClient(const rtype::protocol::SessionID);
       bool	operator()(const Client *client);
 
       const std::string			_login;
-      const requestCode::SessionID	_id;
+      const rtype::protocol::SessionID	_id;
     };
 
     bool	isConnected(const std::string &login);

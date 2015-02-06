@@ -17,8 +17,8 @@ Salt::size_type	Salt::SALT = 42;
 loglib::Log	Application::log;
 
 Application::Application():
-  _menuManager(0), _gameManager(0),
-  _log(rtype::Env::LOG_FILE.c_str(), std::ofstream::app | std::ofstream::out)
+  _log(rtype::Env::LOG_FILE.c_str(), std::ofstream::app | std::ofstream::out),
+  _menuManager(0), _gameManager(0), _botLoaderManager(log)
 {
   std::string	file("botlibrary");
 
@@ -43,7 +43,7 @@ Application::Application():
     _menuManager->initialize(); // Load the menu
     _gameManager = new game::Manager(_gameOutput, _input);
     _gameManager->initialize(); // Load the game system
-    botLoader::Manager::getInstance().initialize(file); // Load the bot-Loader
+    _botLoaderManager.initialize(file); // Load the bot-Loader
   }
   catch (const menu::Exception &e) // Menu loader exception
   {
@@ -85,7 +85,7 @@ void	Application::run()
   log << "Start Application::Run" << std::endl;
 #endif
   _gameManager->run();
-  botLoader::Manager::getInstance().run();
+  _botLoaderManager.run();
   _menuManager->run();
   _active = true;
   log << "rtype server: started" << std::endl;
@@ -129,11 +129,11 @@ void	Application::routine()
   }
   _gameManager->stop();
   _menuManager->stop();
-  botLoader::Manager::getInstance().stop();
+  _botLoaderManager.stop();
   log << "rtype server: stopped" << std::endl;
 }
 
-void	Application::clientDisconnected(requestCode::SessionID clientID)
+void	Application::clientDisconnected(rtype::protocol::SessionID clientID)
 {
   client_list::iterator	appIt;
 
@@ -142,12 +142,12 @@ void	Application::clientDisconnected(requestCode::SessionID clientID)
 #endif
   appIt = std::find_if(_clients.begin(), _clients.end(), PredicateClient(clientID));
   (*appIt)->state(Client::DISCONNECTED); // erase/delete appIt ? Memory Leak
-  // _menuOutput.push(new Callback<menu::Manager, requestCode::SessionID>(_menuManager, (*appIt)->id(),
+  // _menuOutput.push(new Callback<menu::Manager, rtype::protocol::SessionID>(_menuManager, (*appIt)->id(),
   // 								       &menu::Manager::clientLeaveGame));
 }
 
 
-void	Application::ClientLeaveGame(requestCode::SessionID client)
+void	Application::ClientLeaveGame(rtype::protocol::SessionID client)
 {
   client_list::iterator	appIt;
 
@@ -156,7 +156,7 @@ void	Application::ClientLeaveGame(requestCode::SessionID client)
 #endif
   appIt = std::find_if(_clients.begin(), _clients.end(), PredicateClient(client));
   (*appIt)->state(Client::MENU);
-  _menuOutput.push(new Callback<menu::Manager, requestCode::SessionID>(_menuManager, (*appIt)->id(),
+  _menuOutput.push(new Callback<menu::Manager, rtype::protocol::SessionID>(_menuManager, (*appIt)->id(),
 								       &menu::Manager::clientLeaveGame));
   // (*appIt)->menu()->inUse(true);
   // delete (*appIt)->game();
@@ -165,7 +165,7 @@ void	Application::ClientLeaveGame(requestCode::SessionID client)
   //  (*appIt)->game().alive(true);
 }
 
-void	Application::newClient(requestCode::SessionID clientID)
+void	Application::newClient(rtype::protocol::SessionID clientID)
 {
 #if defined(DEBUG)
   log << "Application::newClient(): " << "new Client with ID(" << clientID << ")" << std::endl;
@@ -300,7 +300,7 @@ const char	*Application::InitExcept::what() const throw()
 //  Application Predicate  //
 /////////////////////////////
 
-Application::PredicateClient::PredicateClient(requestCode::SessionID client):
+Application::PredicateClient::PredicateClient(rtype::protocol::SessionID client):
   _client(client)
 {
 

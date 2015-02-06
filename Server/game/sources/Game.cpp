@@ -8,7 +8,7 @@
 #include	"ElemRequest.hh"
 #include	"VictoryRequest.hh"
 #include	"LooseRequest.hh"
-#include	"NextStage.hh"
+// #include	"NextStage.hh"
 
 // LibReferee
 #include	"Player.hh"
@@ -560,26 +560,27 @@ namespace game
 
     for (MainReferee::entity_set_type::const_iterator it = map.begin(); it != map.end(); it++)
     {
-      switch ((*it)->getType().desc.maj) // Nasty Code?
-      {
-      case Entity::MISSILE:
-	send(ElemRequest::create<Missile>(**it, _gameID, getStamp()));
-	break;
-      case Entity::PLAYER:
-	send(ElemRequest::create<Player>(**it, _gameID, getStamp()));
-	break;
-      case Entity::MOBS:
-	send(ElemRequest::create<Mob>(**it, _gameID, getStamp()));
-	break;
-      case Entity::BOSS:
-	break;
-      case Entity::WALL:
-	break;
-      case Entity::BONUS:
-	break;
-      default:
-	break;
-      }
+      send(ElemRequest(**it, _gameID, getStamp()));
+      // switch ((*it)->getType().desc.maj) // Nasty Code?
+      // {
+      // case entity::MISSILE:
+      // 	send(ElemRequest::create<Missile>(**it, _gameID, getStamp()));
+      // 	break;
+      // case entity::PLAYER:
+      // 	send(ElemRequest::create<Player>(**it, _gameID, getStamp()));
+      // 	break;
+      // case Entity::MOBS:
+      // 	send(ElemRequest::create<Mob>(**it, _gameID, getStamp()));
+      // 	break;
+      // case Entity::BOSS:
+      // 	break;
+      // case Entity::WALL:
+      // 	break;
+      // case Entity::BONUS:
+      // 	break;
+      // default:
+      // 	break;
+      // }
     }
 
 
@@ -654,17 +655,17 @@ namespace game
     return (_status);
   }
 
-  void			Game::gameID(requestCode::SessionID gameID)
+  void			Game::gameID(rtype::protocol::SessionID gameID)
   {
     _gameID = gameID;
   }
 
-  requestCode::SessionID	Game::gameID() const
+  rtype::protocol::SessionID	Game::gameID() const
   {
     return (_gameID);
   }
 
-  game::Stamp		Game::getStamp() const
+  rtype::protocol::game::Stamp		Game::getStamp() const
   {
     return (_referee->getStamp());
   }

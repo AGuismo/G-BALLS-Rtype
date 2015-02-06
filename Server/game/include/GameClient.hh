@@ -27,10 +27,10 @@ namespace	game
   class Client
   {
     typedef void(Client::*request_fn)(const ARequest &, MainReferee &);
-    typedef std::map<requestCode::CodeID, request_fn>	request_callback_map_type;
+    typedef std::map<rtype::protocol::CodeID, request_fn>	request_callback_map_type;
   public:
-    Client(requestCode::SessionID clientID);
-    Client(requestCode::SessionID clientID, struct sockaddr_in addr);
+    Client(rtype::protocol::SessionID clientID);
+    Client(rtype::protocol::SessionID clientID, struct sockaddr_in addr);
     virtual ~Client();
 
   public:
@@ -53,8 +53,8 @@ namespace	game
     void			requestPush(ARequest *req);
 
   public:
-    requestCode::SessionID	clientID() const;
-    void			clientID(const requestCode::SessionID clientID);
+    rtype::protocol::SessionID	clientID() const;
+    void			clientID(const rtype::protocol::SessionID clientID);
     void			alive(const bool &state);
     bool			alive() const ;
     void			hasLeft(const bool &state);
@@ -88,7 +88,7 @@ namespace	game
 
   private:
     struct sockaddr_in		_addr;
-    requestCode::SessionID	_id;
+    rtype::protocol::SessionID	_id;
   };
 }
 

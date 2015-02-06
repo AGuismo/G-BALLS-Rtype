@@ -60,12 +60,12 @@ namespace	menu
     void				currentGame(Game *);
     void				username(const std::string &);
     const std::string			&username(void) const;
-    void				password(const requestCode::PasswordType &);
-    const requestCode::PasswordType	&password(void) const;
-    void				sessionID(const requestCode::SessionID &);
-    const requestCode::SessionID	&sessionID(void) const;
-    void				permissions(database::Rights);
-    database::Rights			permissions(void) const;
+    void				password(const rtype::protocol::PasswordType &);
+    const rtype::protocol::PasswordType	&password(void) const;
+    void				sessionID(const rtype::protocol::SessionID &);
+    const rtype::protocol::SessionID	&sessionID(void) const;
+    void				permissions(rtype::protocol::database::Rights);
+    rtype::protocol::database::Rights			permissions(void) const;
     void				authenticated(bool);
     bool				authenticated(void) const;
 
@@ -73,7 +73,7 @@ namespace	menu
     RequestQueue		_input;
     RequestQueue		_output;
     net::ClientAccepted		*_TcpLayer;
-    requestCode::SessionID	_id;
+    rtype::protocol::SessionID	_id;
     Game			*_game;
 
   private:
@@ -81,8 +81,8 @@ namespace	menu
     {
       bool				_authenticated;
       std::string			_username;
-      requestCode::PasswordType		_password;
-      database::Rights			_permissions;
+      rtype::protocol::PasswordType		_password;
+      rtype::protocol::database::Rights			_permissions;
     }					_auth;
   };
 }

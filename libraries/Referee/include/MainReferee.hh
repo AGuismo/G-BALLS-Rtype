@@ -53,7 +53,7 @@ public:
 
 public:
   const entity_set_type	&getMap() const;
-  game::Stamp		getStamp() const;
+  rtype::protocol::game::Stamp		getStamp() const;
 
 private:
   void		addPlayer(const Player &e);
@@ -79,7 +79,7 @@ private:
   players_map_type		_players;
   Scenario			_scenario;
   unsigned short		_incrementalID;
-  game::Stamp			_stamp;
+  rtype::protocol::game::Stamp			_stamp;
 
   // List of request here...
 };
