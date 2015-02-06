@@ -1,14 +1,15 @@
 #ifndef AGAMEREQUEST_H_
 # define AGAMEREQUEST_H_
 
-# include	"types.hh"
+# include	"ProtocolTypes.hh"
 # include	"ARequest.hh"
 
 class AGameRequest : public ARequest
 {
 public:
-  AGameRequest(const requestCode::CodeID, requestCode::SessionID, game::Stamp stamp);
-  AGameRequest(const requestCode::CodeID);
+  AGameRequest(const rtype::protocol::CodeID, rtype::protocol::SessionID,
+	       rtype::protocol::game::Stamp stamp);
+  AGameRequest(const rtype::protocol::CodeID);
   virtual ~AGameRequest();
 
 public:
@@ -16,10 +17,10 @@ public:
   AGameRequest& operator=(AGameRequest const&);
 
 public:
-  requestCode::SessionID	SessionID() const;
-  void				SessionID(const requestCode::SessionID);
-  game::Stamp			Stamp() const;
-  void				Stamp(const game::Stamp);
+  rtype::protocol::SessionID	SessionID() const;
+  void				SessionID(const rtype::protocol::SessionID);
+  rtype::protocol::game::Stamp			Stamp() const;
+  void				Stamp(const rtype::protocol::game::Stamp);
 
 public:
   virtual ARequest	*clone() const = 0;
@@ -27,8 +28,8 @@ public:
   virtual Protocol	&unserialize(Protocol &) = 0;
 
 protected:
-  requestCode::SessionID	_sessionID;
-  game::Stamp				_stamp;
+  rtype::protocol::SessionID	_sessionID;
+  rtype::protocol::game::Stamp				_stamp;
 };
 
 #endif /* AGAMEREQUEST_H_ */

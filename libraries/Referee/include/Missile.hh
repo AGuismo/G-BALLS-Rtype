@@ -13,7 +13,7 @@ public:
 	static const unsigned short DEFAULT_SHIELD = 1;
 
 public:
-	Missile(unsigned short id, const Position &pos, 
+  Missile(rtype::protocol::game::ID id, const Position &pos,
 		    unsigned short level = DEFAULT_LEVEL, velocity v = DEFAULT_SPEED);
 	Missile();
 	~Missile();

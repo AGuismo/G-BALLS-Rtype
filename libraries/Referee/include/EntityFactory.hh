@@ -1,28 +1,25 @@
-#ifndef ENTITY_FACTORY
-# define	ENTITY_FACTORY
+#ifndef ENTITYFACTORY_H_
+# define ENTITYFACTORY_H_
 
 # include	<map>
-# include	"Entity.hh"
+# include	"IEntityFactory.hh"
 
-class	Position;
-class	ObjectMover;
-
-class					EntityFactory
+class EntityFactory : public IEntityFactory
 {
 public:
-	ObjectMover			*createObject(const Entity::type &type, unsigned short id, const Position &pos);
+  EntityFactory();
+  virtual ~EntityFactory();
 
-public:
-	static EntityFactory		&getInstance(void);
+  Entity	*createEntityByType(rtype::protocol::game::FullType entityType) const;
+  Entity	*createEntityByType(rtype::protocol::game::MajorType entityMajorType) const;
 
-private:
-
-	EntityFactory();
-	~EntityFactory();
 
 private:
-	EntityFactory(const EntityFactory &);
-	EntityFactory			operator=(const EntityFactory &);
+  EntityFactory(EntityFactory const&);
+  EntityFactory& operator=(EntityFactory const&);
+
+private:
+  std::map<rtype::protocol::game::FullType, Entity *>	_correspondanceEntityTypeMap;
 };
 
-#endif // !ENTITY_FACTORY
+#endif /* ENTITYFACTORY_H_ */

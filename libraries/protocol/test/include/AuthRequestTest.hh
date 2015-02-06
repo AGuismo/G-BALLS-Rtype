@@ -8,10 +8,10 @@ class AuthRequestTest : public ::testing::Test
 {
 public:
   static const std::string			AN_USERNAME;
-  static const requestCode::PasswordType	A_PASSWORD;
-  static const requestCode::PasswordType	CURRENT_PASSWORD;
-  static const requestCode::PasswordType	NEW_PASSWORD;
-  static const requestCode::SessionID		A_SESSION_ID;
+  static const rtype::protocol::PasswordType	A_PASSWORD;
+  static const rtype::protocol::PasswordType	CURRENT_PASSWORD;
+  static const rtype::protocol::PasswordType	NEW_PASSWORD;
+  static const rtype::protocol::SessionID		A_SESSION_ID;
 
 protected:
 

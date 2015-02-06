@@ -8,7 +8,7 @@ namespace	Party
   ///////////
 
   Start::Start() :
-    ARequest(requestCode::party::CLI_START)
+    ARequest(rtype::protocol::requestCode::party::CLI_START)
   {
 
   }
@@ -53,7 +53,7 @@ namespace	Party
   // List //
   //////////
   List::List() :
-    ARequest(requestCode::party::LIST)
+    ARequest(rtype::protocol::requestCode::party::LIST)
   {
 
   }
@@ -98,21 +98,21 @@ namespace	Party
   // Create //
   ////////////
   Create::Create() :
-    ARequest(requestCode::party::CREAT)
+    ARequest(rtype::protocol::requestCode::party::CREAT)
   {
 
   }
 
-  Create::Create(const std::string &partyName, Ruint8 nbPlayers) :
-    ARequest(requestCode::party::CREAT), _partyName(partyName), _maxPlayers(nbPlayers),
-    _isPassword(requestCode::party::NO_PASS)
+  Create::Create(const std::string &partyName, rtype::protocol::Ruint8 nbPlayers) :
+    ARequest(rtype::protocol::requestCode::party::CREAT), _partyName(partyName), _maxPlayers(nbPlayers),
+    _isPassword(rtype::protocol::requestCode::party::NO_PASS)
   {
 
   }
 
-  Create::Create(const std::string &partyName, Ruint8 nbPlayers, requestCode::PasswordType pass) :
-    ARequest(requestCode::party::CREAT), _partyName(partyName), _maxPlayers(nbPlayers),
-    _isPassword(requestCode::party::PASS), _partyPass(pass)
+  Create::Create(const std::string &partyName, rtype::protocol::Ruint8 nbPlayers, rtype::protocol::PasswordType pass) :
+    ARequest(rtype::protocol::requestCode::party::CREAT), _partyName(partyName), _maxPlayers(nbPlayers),
+    _isPassword(rtype::protocol::requestCode::party::PASS), _partyPass(pass)
   {
 
   }
@@ -144,25 +144,25 @@ namespace	Party
 
   Protocol			&Create::serialize(Protocol &rhs) const
   {
-    requestCode::PartynameLen	len = _partyName.length();
+    rtype::protocol::PartynameLen	len = _partyName.length();
 
     rhs << _code << len;
     rhs.push(_partyName, len);
     rhs << _maxPlayers << _isPassword;
-    if (_isPassword == requestCode::party::PASS)
-      rhs.push(_partyPass, rtypeAuth::PASS_SIZE);
+    if (_isPassword == rtype::protocol::requestCode::party::PASS)
+      rhs.push(_partyPass, rtype::protocol::rtypeAuth::PASS_SIZE);
     return (rhs);
   }
 
   Protocol			&Create::unserialize(Protocol &rhs)
   {
-    requestCode::PartynameLen	len;
+    rtype::protocol::PartynameLen	len;
 
     rhs >> len;
     rhs.pop(_partyName, len);
     rhs >> _maxPlayers >> _isPassword;
-    if (_isPassword == requestCode::party::PASS)
-      rhs.pop(_partyPass, rtypeAuth::PASS_SIZE);
+    if (_isPassword == rtype::protocol::requestCode::party::PASS)
+      rhs.pop(_partyPass, rtype::protocol::rtypeAuth::PASS_SIZE);
     return (rhs);
   }
 
@@ -175,7 +175,7 @@ namespace	Party
   // Cancel //
   ////////////
   Cancel::Cancel() :
-    ARequest(requestCode::party::CANCEL)
+    ARequest(rtype::protocol::requestCode::party::CANCEL)
   {
 
   }
@@ -220,20 +220,20 @@ namespace	Party
   // Join //
   //////////
   Join::Join():
-    ARequest(requestCode::party::JOIN)
+    ARequest(rtype::protocol::requestCode::party::JOIN)
   {
 
   }
 
   Join::Join(const std::string &partyName) :
-    ARequest(requestCode::party::JOIN), _partyName(partyName), _isPassword(requestCode::party::NO_PASS)
+    ARequest(rtype::protocol::requestCode::party::JOIN), _partyName(partyName), _isPassword(rtype::protocol::requestCode::party::NO_PASS)
   {
 
   }
 
-  Join::Join(const std::string &partyName, requestCode::PasswordType pass) :
-    ARequest(requestCode::party::JOIN), _partyName(partyName),
-    _isPassword(requestCode::party::PASS), _partyPass(pass)
+  Join::Join(const std::string &partyName, rtype::protocol::PasswordType pass) :
+    ARequest(rtype::protocol::requestCode::party::JOIN), _partyName(partyName),
+    _isPassword(rtype::protocol::requestCode::party::PASS), _partyPass(pass)
   {
 
   }
@@ -264,25 +264,25 @@ namespace	Party
 
   Protocol			&Join::serialize(Protocol &rhs) const
   {
-    requestCode::PartynameLen	len = _partyName.length();
+    rtype::protocol::PartynameLen	len = _partyName.length();
 
     rhs << _code << len;
     rhs.push(_partyName, _partyName.length());
     rhs << _isPassword;
-    if (_isPassword == requestCode::party::PASS)
-      rhs.push(_partyPass, rtypeAuth::PASS_SIZE);
+    if (_isPassword == rtype::protocol::requestCode::party::PASS)
+      rhs.push(_partyPass, rtype::protocol::rtypeAuth::PASS_SIZE);
     return (rhs);
   }
 
   Protocol			&Join::unserialize(Protocol &rhs)
   {
-    requestCode::PartynameLen	len;
+    rtype::protocol::PartynameLen	len;
 
     rhs >> len;
     rhs.pop(_partyName, len);
     rhs >> _isPassword;
-    if (_isPassword == requestCode::party::PASS)
-      rhs.pop(_partyPass, rtypeAuth::PASS_SIZE);
+    if (_isPassword == rtype::protocol::requestCode::party::PASS)
+      rhs.pop(_partyPass, rtype::protocol::rtypeAuth::PASS_SIZE);
     return (rhs);
   }
 
@@ -299,13 +299,13 @@ namespace	Party
   // Launch //
   ////////////
   Launch::Launch() :
-    ARequest(requestCode::party::SERV_START), _id(0)
+    ARequest(rtype::protocol::requestCode::party::SERV_START), _id(0)
   {
 
   }
 
-  Launch::Launch(requestCode::PartyID id) :
-    ARequest(requestCode::party::SERV_START), _id(id)
+  Launch::Launch(rtype::protocol::PartyID id) :
+    ARequest(rtype::protocol::requestCode::party::SERV_START), _id(id)
   {
 
   }
@@ -347,9 +347,9 @@ namespace	Party
     return (new Launch());
   }
 
-  requestCode::PartyID		Launch::Unique()
+  rtype::protocol::PartyID		Launch::Unique()
   {
-    static requestCode::PartyID	id = 0;
+    static rtype::protocol::PartyID	id = 0;
 
     return (++id);
   }
@@ -358,14 +358,14 @@ namespace	Party
   // Update //
   ////////////
   Update::Update() :
-    ARequest(requestCode::party::UPDATE)
+    ARequest(rtype::protocol::requestCode::party::UPDATE)
   {
 
   }
 
-  Update::Update(const std::string &partyName, Ruint8 availableSlots, Ruint8 maxPlayers,
-		 Ruint8 partyPass, Ruint8 status) :
-    ARequest(requestCode::party::UPDATE), _partyName(partyName), _availableSlots(availableSlots),
+  Update::Update(const std::string &partyName, rtype::protocol::Ruint8 availableSlots, rtype::protocol::Ruint8 maxPlayers,
+		 rtype::protocol::Ruint8 partyPass, rtype::protocol::Ruint8 status) :
+    ARequest(rtype::protocol::requestCode::party::UPDATE), _partyName(partyName), _availableSlots(availableSlots),
     _maxPlayers(maxPlayers), _isPassword(partyPass), _status(status)
   {
 
@@ -399,7 +399,7 @@ namespace	Party
 
   Protocol			&Update::serialize(Protocol &rhs) const
   {
-    requestCode::PartynameLen	len = _partyName.length();
+    rtype::protocol::PartynameLen	len = _partyName.length();
 
     rhs << _code << len;
     rhs.push(_partyName, len);
@@ -409,7 +409,7 @@ namespace	Party
 
   Protocol			&Update::unserialize(Protocol &rhs)
   {
-    requestCode::PartynameLen	len;
+    rtype::protocol::PartynameLen	len;
 
     rhs >> len;
     rhs.pop(_partyName, len);
@@ -426,7 +426,7 @@ namespace	Party
   // Stopped //
   ////////////
   Stopped::Stopped() :
-    ARequest(requestCode::party::STOPPED)
+    ARequest(rtype::protocol::requestCode::party::STOPPED)
   {
 
   }

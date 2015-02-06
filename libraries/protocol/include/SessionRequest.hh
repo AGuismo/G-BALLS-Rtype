@@ -7,7 +7,7 @@ class SessionRequest : public ARequest
 {
 public:
   SessionRequest();
-  SessionRequest(requestCode::SessionID);
+  SessionRequest(rtype::protocol::SessionID);
   virtual ~SessionRequest();
 
 public:
@@ -20,14 +20,14 @@ public:
   ARequest		*clone() const;
 
 public:
-  static requestCode::SessionID	Unique(void);
+  static rtype::protocol::SessionID	Unique(void);
 
 public:
-  requestCode::SessionID	SessionID() const;
-  void				SessionID(requestCode::SessionID);
+  rtype::protocol::SessionID	SessionID() const;
+  void				SessionID(rtype::protocol::SessionID);
 
 private:
-  requestCode::SessionID	_sessionID;
+  rtype::protocol::SessionID	_sessionID;
 };
 
 #endif /* SESSIONREQUEST_H_ */

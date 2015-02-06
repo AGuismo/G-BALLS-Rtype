@@ -1,12 +1,12 @@
 #include	"AGameRequest.hh"
 
-AGameRequest::AGameRequest(const requestCode::CodeID code, requestCode::SessionID id, game::Stamp stamp):
+AGameRequest::AGameRequest(const rtype::protocol::CodeID code, rtype::protocol::SessionID id, rtype::protocol::game::Stamp stamp):
 ARequest(code), _sessionID(id), _stamp(stamp)
 {
 
 }
 
-AGameRequest::AGameRequest(const requestCode::CodeID code):
+AGameRequest::AGameRequest(const rtype::protocol::CodeID code):
 ARequest(code), _sessionID(0), _stamp(0)
 {
 
@@ -34,22 +34,22 @@ AGameRequest	&AGameRequest::operator=(const AGameRequest &src)
   return (*this);
 }
 
-requestCode::SessionID	AGameRequest::SessionID() const
+rtype::protocol::SessionID	AGameRequest::SessionID() const
 {
   return (_sessionID);
 }
 
-void			AGameRequest::SessionID(const requestCode::SessionID id)
+void			AGameRequest::SessionID(const rtype::protocol::SessionID id)
 {
   _sessionID = id;
 }
 
-game::Stamp		AGameRequest::Stamp() const
+rtype::protocol::game::Stamp		AGameRequest::Stamp() const
 {
 	return (_stamp);
 }
 
-void			AGameRequest::Stamp(const game::Stamp stamp)
+void			AGameRequest::Stamp(const rtype::protocol::game::Stamp stamp)
 {
 	_stamp = stamp;
 }

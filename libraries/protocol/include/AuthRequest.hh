@@ -8,7 +8,7 @@
 class AuthRequest : public ARequest
 {
 public:
-  AuthRequest(const requestCode::CodeID);
+  AuthRequest(const rtype::protocol::CodeID);
   virtual ~AuthRequest();
 
 public:
@@ -26,7 +26,7 @@ namespace Auth
   {
   public:
     Connect();
-    Connect(const std::string &name, const requestCode::PasswordType);
+    Connect(const std::string &name, const rtype::protocol::PasswordType);
     ~Connect();
 
     Connect(Connect const&);
@@ -39,18 +39,18 @@ namespace Auth
 
   public:
     const std::string			&username() const;
-    const requestCode::PasswordType	&password() const;
+    const rtype::protocol::PasswordType	&password() const;
 
   private:
     std::string			_username;
-    requestCode::PasswordType	_password;
+    rtype::protocol::PasswordType	_password;
   };
 
   struct	NewUser : public AuthRequest
   {
   public:
     NewUser();
-    NewUser(const std::string &name, const requestCode::PasswordType);
+    NewUser(const std::string &name, const rtype::protocol::PasswordType);
     ~NewUser();
 
     NewUser(NewUser const&);
@@ -63,18 +63,18 @@ namespace Auth
 
   public:
     const std::string			&username() const;
-    const requestCode::PasswordType	&password() const;
+    const rtype::protocol::PasswordType	&password() const;
 
   private:
     std::string			_username;
-    requestCode::PasswordType	_password; // Work in progress
+    rtype::protocol::PasswordType	_password; // Work in progress
   };
 
   struct	ChangePass : public AuthRequest
   {
   public:
-    ChangePass(const std::string &name, const requestCode::PasswordType &curPass,
-	       const requestCode::PasswordType &newPass, const requestCode::SessionID id);
+    ChangePass(const std::string &name, const rtype::protocol::PasswordType &curPass,
+	       const rtype::protocol::PasswordType &newPass, const rtype::protocol::SessionID id);
     ChangePass();
     ~ChangePass();
 
@@ -88,15 +88,15 @@ namespace Auth
 
   public:
     const std::string			&username() const;
-    const requestCode::PasswordType	&curpassword() const;
-    const requestCode::PasswordType	&newpassword() const;
-    requestCode::SessionID		sessionID() const;
+    const rtype::protocol::PasswordType	&curpassword() const;
+    const rtype::protocol::PasswordType	&newpassword() const;
+    rtype::protocol::SessionID		sessionID() const;
 
   private:
     std::string			_username;
-    requestCode::PasswordType	_curpassword; // Work in progress
-    requestCode::PasswordType	_newpassword; // Work in progress
-    requestCode::SessionID	_sessionID;
+    rtype::protocol::PasswordType	_curpassword; // Work in progress
+    rtype::protocol::PasswordType	_newpassword; // Work in progress
+    rtype::protocol::SessionID	_sessionID;
   };
 }
 #endif /* AUTHREQUEST_H_ */

@@ -1,7 +1,7 @@
 #include	"DeathRequestTest.hh"
 
-const Ruint16		DeathRequestTest::AN_ID = 45;
-const game::Stamp	DeathRequestTest::A_STAMP = 42;
+const rtype::protocol::Ruint16		DeathRequestTest::AN_ID = 45;
+const rtype::protocol::game::Stamp	DeathRequestTest::A_STAMP = 42;
 
 void	DeathRequestTest::SetUp()
 {

@@ -5,9 +5,9 @@
 
 class LeaveRequest : public AGameRequest
 {
-public: 
+public:
   LeaveRequest();
-  LeaveRequest(requestCode::SessionID, game::Stamp stamp);
+  LeaveRequest(rtype::protocol::SessionID, rtype::protocol::game::Stamp stamp);
 	~LeaveRequest();
 
 public:

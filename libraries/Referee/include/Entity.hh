@@ -1,5 +1,6 @@
 #pragma once
 
+#include	"EntityType.hh"
 #include	"Position.hh"
 
 class Protocol;
@@ -7,32 +8,10 @@ class Protocol;
 class Entity
 {
 public:
-  enum majortype : unsigned char
-  {
-    NONE,
-      PLAYER,
-      BOSS,
-      MOBS,
-      WALL,
-      BONUS,
-      MISSILE
-      };
-
-  typedef unsigned char	minortype;
   typedef short		velocity;
 
-  union	type
-  {
-    struct
-    {
-      majortype		maj;
-      minortype		min;
-    }			desc;
-    unsigned short	full;
-  };
-
 public:
-  Entity(type t, unsigned short id, const Position &pos,
+  Entity(entity::Type t, rtype::protocol::game::ID id, const Position &pos,
 	 velocity v, short hp, short shield,
 	 unsigned short height, unsigned short width);
   Entity();
@@ -43,8 +22,8 @@ public:
   Entity		&operator=(const Entity &src);
 
 public:
-  static type		createType(majortype maj, minortype min = 0);
-  static type		createType(unsigned short full);
+  static entity::Type	createType(entity::MajorType maj, entity::MinorType min = 0);
+  static entity::Type	createType(entity::FullType full);
 
 public:
   bool			isMoveable() const;
@@ -59,8 +38,8 @@ public:
   void			shield(short shield);
 
 public:
-  type			getType() const;
-  void			setType(const type &t);
+  entity::Type		getType() const;
+  void			setType(const entity::Type &t);
   unsigned short	getID() const;
   void			setID(unsigned short ID);
   Position		getPosition() const;
@@ -88,7 +67,7 @@ public:
   virtual Entity	*copy() const;
 
 protected:
-  type			_type;
+  entity::Type		_type;
   unsigned short	_id;
   Position		_p;
   unsigned short	_height;

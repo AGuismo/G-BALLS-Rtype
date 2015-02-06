@@ -44,8 +44,8 @@ namespace	Party
   {
   public:
     Create();
-    Create(const std::string &partyName, Ruint8 nbPlayers);
-    Create(const std::string &partyName, Ruint8 nbPlayers, requestCode::PasswordType pass);
+    Create(const std::string &partyName, rtype::protocol::Ruint8 nbPlayers);
+    Create(const std::string &partyName, rtype::protocol::Ruint8 nbPlayers, rtype::protocol::PasswordType pass);
     virtual ~Create();
 
   public:
@@ -59,9 +59,9 @@ namespace	Party
 
   public:
     std::string			_partyName;
-    Ruint8			_maxPlayers;
-    Ruint8			_isPassword;
-    requestCode::PasswordType	_partyPass;
+    rtype::protocol::Ruint8			_maxPlayers;
+    rtype::protocol::Ruint8			_isPassword;
+    rtype::protocol::PasswordType	_partyPass;
   };
 
   struct	Cancel : public ARequest
@@ -84,7 +84,7 @@ namespace	Party
   {
   public:
     Join(const std::string &partyName);
-    Join(const std::string &partyName, requestCode::PasswordType pass);
+    Join(const std::string &partyName, rtype::protocol::PasswordType pass);
     Join();
     virtual ~Join();
 
@@ -99,9 +99,9 @@ namespace	Party
 
   public:
     std::string			_partyName;
-    Ruint8			_maxPlayers;
-    Ruint8			_isPassword;
-    requestCode::PasswordType	_partyPass;
+    rtype::protocol::Ruint8			_maxPlayers;
+    rtype::protocol::Ruint8			_isPassword;
+    rtype::protocol::PasswordType	_partyPass;
   };
 
 
@@ -116,7 +116,7 @@ namespace	Party
   {
   public:
     Launch();
-    Launch(requestCode::PartyID);
+    Launch(rtype::protocol::PartyID);
     virtual ~Launch();
 
   public:
@@ -129,10 +129,10 @@ namespace	Party
     ARequest	*clone() const;
 
   public:
-    static requestCode::PartyID	Unique();
+    static rtype::protocol::PartyID	Unique();
 
   public:
-    requestCode::PartyID	_id;
+    rtype::protocol::PartyID	_id;
   };
 
   ////////////
@@ -142,8 +142,8 @@ namespace	Party
   {
   public:
     Update();
-    Update(const std::string &partyName, Ruint8 availableSlots, Ruint8 maxPlayer,
-	   Ruint8 partyPass, requestCode::Status status);
+    Update(const std::string &partyName, rtype::protocol::Ruint8 availableSlots, rtype::protocol::Ruint8 maxPlayer,
+	   rtype::protocol::Ruint8 partyPass, rtype::protocol::Status status);
     virtual ~Update();
 
   public:
@@ -156,10 +156,10 @@ namespace	Party
     ARequest	*clone() const;
 
     std::string		_partyName;
-    Ruint8		_availableSlots;
-    Ruint8		_maxPlayers;
-    Ruint8		_isPassword;
-    requestCode::Status	_status;
+    rtype::protocol::Ruint8		_availableSlots;
+    rtype::protocol::Ruint8		_maxPlayers;
+    rtype::protocol::Ruint8		_isPassword;
+    rtype::protocol::Status	_status;
   };
 
   ///////////////////////////////

@@ -1,6 +1,6 @@
 #include "VictoryRequest.hh"
 
-VictoryRequest::VictoryRequest(): AGameRequest(requestCode::game::VICTORY)
+VictoryRequest::VictoryRequest(): AGameRequest(rtype::protocol::requestCode::game::VICTORY)
 {}
 VictoryRequest::~VictoryRequest()
 {}

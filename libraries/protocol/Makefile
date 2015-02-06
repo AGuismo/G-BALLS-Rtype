@@ -5,7 +5,7 @@
 ## Login   <barato_j@epitech.net>
 ##
 ## Started on  Sun May 19 02:33:10 2013 jules baratoux
-## Last update Fri Jan 23 18:27:11 2015 lamber_k
+## Last update Thu Feb  5 18:58:49 2015 lamber_k
 ##
 ## ┌───────────────────────────────────────────────────────────────────────────┐
 ## │                                MAKEFILE                                   │
@@ -26,24 +26,19 @@ SRCS =	      	ARequest.cpp		\
 		RequestFactory.cpp	\
 		AliveRequest.cpp	\
 		RootRequest.cpp		\
-		BuffRequest.cpp		\
 		DeathRequest.cpp	\
 		ElemRequest.cpp		\
-		NextStage.cpp		\
 		LooseRequest.cpp	\
 		LeaveRequest.cpp	\
-		ScoreRequest.cpp	\
 		VictoryRequest.cpp	\
 		ChatRecvRequest.cpp	\
 		ChatSendRequest.cpp	\
 
-# DIR.BIND=	../deps/Bind
-# DIR.NET=	../deps/network
 DIR.REF=	../Referee/
 
 F.C	     +=	-W -Wall 
 F.I	     +=	-I $(DIR.H) -I$(DIR.REF)/include
-F.D	     +=
+F.D	     += -Dlinux -std=c++11
 
 
 all:		start $(NAME)

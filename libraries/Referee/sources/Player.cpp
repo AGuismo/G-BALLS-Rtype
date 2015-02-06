@@ -3,9 +3,9 @@
 #endif // !DEBUG
 #include "Player.hh"
 
-Player::Player(unsigned short id, const Position &pos, unsigned short playerNo,
+Player::Player(rtype::protocol::game::ID id, const Position &pos, unsigned short playerNo,
 			   velocity v, short hp, short shield):
-			   Entity(Entity::createType(Entity::PLAYER, playerNo), id, pos, v, hp, shield, HEIGHT, WIDTH)
+			   Entity(Entity::createType(entity::PLAYER, playerNo), id, pos, v, hp, shield, HEIGHT, WIDTH)
 {
 	_isMoveable = true;
 	_isDestructible = true;
@@ -20,7 +20,7 @@ Player::Player()
 {
 	_isMoveable = true;
 	_isDestructible = true;
-	type(createType(PLAYER, 0));
+	setType(createType(entity::PLAYER, 0));
 }
 
 

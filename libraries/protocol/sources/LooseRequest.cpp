@@ -1,6 +1,6 @@
 #include "LooseRequest.hh"
 
-LooseRequest::LooseRequest(): AGameRequest(requestCode::game::LOOSE)
+LooseRequest::LooseRequest(): AGameRequest(rtype::protocol::requestCode::game::LOOSE)
 {}
 LooseRequest::~LooseRequest()
 {}

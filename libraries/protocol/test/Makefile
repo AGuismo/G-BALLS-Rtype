@@ -2,7 +2,6 @@ NAME	     ?=	protocolTest
 
 SRCS =	      	AGameRequestTest.cpp	\
 		AuthRequestTest.cpp	\
-		BuffRequestTest.cpp	\
 		ChatRecvRequestTest.cpp	\
 		ChatSendRequestTest.cpp	\
 		DeathRequestTest.cpp	\

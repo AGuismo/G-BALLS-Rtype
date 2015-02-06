@@ -2,30 +2,25 @@
 
 #include	"Protocol.hpp"
 #include	"AGameRequest.hh"
-#include	"types.hh"
+#include	"ProtocolTypes.hh"
 
-class Entity;
+class	IEntityFactory;
+class	Entity;
 
 class ElemRequest : public AGameRequest
 {
+private:
+  static const std::string	NO_ENTITY_FACTORY;
+
 public:
-  ElemRequest(requestCode::SessionID session = 0, game::Stamp stamp = 0);
+  ElemRequest(const Entity &entity, rtype::protocol::SessionID session,
+	      rtype::protocol::game::Stamp stamp);
+  ElemRequest();
 
   ~ElemRequest();
 
   ElemRequest(ElemRequest const&);
   ElemRequest& operator=(ElemRequest const&);
-
-  template <class E>
-  static const ElemRequest	create(const Entity &entity, requestCode::SessionID session,
-				       game::Stamp stamp)
-  {
-    ElemRequest		created(session, stamp);
-
-    created._entity = new E(entity);
-
-    return (created);
-  }
 
 public:
   Protocol		&serialize(Protocol &) const;
@@ -33,16 +28,12 @@ public:
   ARequest		*clone() const;
 
 public:
-  game::Type		type() const;
-  game::ID		ID() const;
+  rtype::protocol::game::FullType	type() const;
+  rtype::protocol::game::ID		ID() const;
   const Entity		*entity() const;
-
-  template <class E>
-  void			entity(const Entity &entity)
-  {
-    _entity = new E(entity);
-  }
+  void			entity(const Entity &entity);
 
 private:
   Entity		*_entity;
+  IEntityFactory	*_entityFactory;
 };

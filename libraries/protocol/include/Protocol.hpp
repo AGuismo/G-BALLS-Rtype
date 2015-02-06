@@ -5,7 +5,7 @@
 # include	<deque>
 # include	<vector>
 # include	"ARequest.hh"
-# include	"types.hh"
+# include	"ProtocolTypes.hh"
 # include	"RequestCode.hh"
 
 class Protocol
@@ -27,31 +27,31 @@ public:
   };
 
 public:
-  typedef Ruint8			Byte;
+  typedef rtype::protocol::Ruint8	Byte;
   typedef std::deque<Byte>		container_type;
   typedef container_type::size_type	size_type;
 
 public:
-  Protocol&                 operator<<(const Rint8);
-  Protocol&                 operator<<(const Rint32);
-  Protocol&                 operator<<(const Rint16);
-  Protocol&                 operator<<(const Ruint8);
-  Protocol&                 operator<<(const Ruint32);
-  Protocol&                 operator<<(const Ruint16);
-  Protocol&                 operator<<(const Rdouble);
-  Protocol&                 operator<<(const Rfloat);
-  Protocol&                 operator<<(const Rint8* s);
+  Protocol&                 operator<<(const rtype::protocol::Rint8);
+  Protocol&                 operator<<(const rtype::protocol::Rint32);
+  Protocol&                 operator<<(const rtype::protocol::Rint16);
+  Protocol&                 operator<<(const rtype::protocol::Ruint8);
+  Protocol&                 operator<<(const rtype::protocol::Ruint32);
+  Protocol&                 operator<<(const rtype::protocol::Ruint16);
+  Protocol&                 operator<<(const rtype::protocol::Rdouble);
+  Protocol&                 operator<<(const rtype::protocol::Rfloat);
+  Protocol&                 operator<<(const rtype::protocol::Rint8* s);
   Protocol&                 operator<<(const std::string & s);
 
-  Protocol&                 operator>>(Rint8 &);
-  Protocol&                 operator>>(Rint32 &);
-  Protocol&                 operator>>(Rint16 &);
-  Protocol&                 operator>>(Ruint8 &);
-  Protocol&                 operator>>(Ruint32 &);
-  Protocol&                 operator>>(Ruint16 &);
-  Protocol&                 operator>>(Rdouble &);
-  Protocol&                 operator>>(Rfloat &);
-  Protocol&                 operator>>(Rint8* s);
+  Protocol&                 operator>>(rtype::protocol::Rint8 &);
+  Protocol&                 operator>>(rtype::protocol::Rint32 &);
+  Protocol&                 operator>>(rtype::protocol::Rint16 &);
+  Protocol&                 operator>>(rtype::protocol::Ruint8 &);
+  Protocol&                 operator>>(rtype::protocol::Ruint32 &);
+  Protocol&                 operator>>(rtype::protocol::Ruint16 &);
+  Protocol&                 operator>>(rtype::protocol::Rdouble &);
+  Protocol&                 operator>>(rtype::protocol::Rfloat &);
+  Protocol&                 operator>>(rtype::protocol::Rint8* s);
   Protocol&                 operator>>(std::string & s);
 
 public:
@@ -68,8 +68,8 @@ public:
   std::string	&pop(std::string &, size_type count);
 
 public:
-  Rbool		empty() const;
-  Ruint32	size() const;
+  rtype::protocol::Rbool	empty() const;
+  rtype::protocol::Ruint32	size() const;
   Byte		*data();
 
 public:

@@ -1,9 +1,9 @@
 #include	"ElemRequestTest.hh"
 
-const unsigned short		ElemRequestTest::A_PLAYER_ID = 55;
-const game::Stamp		ElemRequestTest::A_STAMP = 12;
-const requestCode::SessionID	ElemRequestTest::A_SESSION_ID = 47;
-const Position			ElemRequestTest::A_PLAYER_POSITION = Position(17, 24);
+const unsigned short			ElemRequestTest::A_PLAYER_ID = 55;
+const rtype::protocol::game::Stamp	ElemRequestTest::A_STAMP = 12;
+const rtype::protocol::SessionID	ElemRequestTest::A_SESSION_ID = 47;
+const Position				ElemRequestTest::A_PLAYER_POSITION = Position(17, 24);
 const Entity	*ElemRequestTest::AN_ENTITY = new Player(ElemRequestTest::A_PLAYER_ID,
 							 ElemRequestTest::A_PLAYER_POSITION);
 
@@ -19,9 +19,9 @@ void	ElemRequestTest::TearDown()
 
 TEST_F(ElemRequestTest, whenUseConstructorParameterItSetsProperly)
 {
-  ElemRequest	myElemRequest = ElemRequest::create<Player>(*ElemRequestTest::AN_ENTITY,
-							    ElemRequestTest::A_SESSION_ID,
-							    ElemRequestTest::A_STAMP);
+  ElemRequest	myElemRequest(*ElemRequestTest::AN_ENTITY,
+			      ElemRequestTest::A_SESSION_ID,
+			      ElemRequestTest::A_STAMP);
 
   EXPECT_EQ(ElemRequestTest::A_SESSION_ID, myElemRequest.SessionID());
   EXPECT_EQ(ElemRequestTest::A_STAMP, myElemRequest.Stamp());
@@ -32,7 +32,7 @@ TEST_F(ElemRequestTest, whenUseConstructorParameterItSetsProperly)
 
 TEST_F(ElemRequestTest, whenCopyWithConstructorObjectItRemainsIdentical)
 {
-  elemRequest->entity<Player>(*ElemRequestTest::AN_ENTITY);
+  elemRequest->entity(*ElemRequestTest::AN_ENTITY);
 
   ElemRequest	theCopy(*elemRequest);
 
@@ -43,7 +43,7 @@ TEST_F(ElemRequestTest, whenCopyWithConstructorObjectItRemainsIdentical)
 
 TEST_F(ElemRequestTest, whenCopyWithOperatorObjectItRemainsIdentical)
 {
-  elemRequest->entity<Player>(*ElemRequestTest::AN_ENTITY);
+  elemRequest->entity(*ElemRequestTest::AN_ENTITY);
   ElemRequest	theCopy;
 
   theCopy = *elemRequest;
@@ -63,7 +63,7 @@ TEST_F(ElemRequestTest, whenCloneItCreateElemObject)
 
 TEST_F(ElemRequestTest, whenCloneItCreatesIdenticalObject)
 {
-  elemRequest->entity<Player>(*ElemRequestTest::AN_ENTITY);
+  elemRequest->entity(*ElemRequestTest::AN_ENTITY);
 
   ElemRequest	*theCopy = dynamic_cast<ElemRequest *>(elemRequest->clone());
 

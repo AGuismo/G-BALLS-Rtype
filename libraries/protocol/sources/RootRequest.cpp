@@ -4,7 +4,7 @@
 namespace	root
 {
   Shutdown::Shutdown() :
-    ARequest(requestCode::root::SHUTDOWN)
+    ARequest(rtype::protocol::requestCode::root::SHUTDOWN)
   {
 
   }

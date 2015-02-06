@@ -1,12 +1,12 @@
 #include "ScoreRequest.hh"
 
-ScoreRequest::ScoreRequest() : AGameRequest(requestCode::game::SCORE)
+ScoreRequest::ScoreRequest() : AGameRequest(rtype::protocol::requestCode::game::SCORE)
 {
 
 }
 
 ScoreRequest::ScoreRequest(Ruint16 id, Ruint16 score) :
-AGameRequest(requestCode::game::SCORE), _id(id), _score(score)
+AGameRequest(rtype::protocol::requestCode::game::SCORE), _id(id), _score(score)
 {
 
 }

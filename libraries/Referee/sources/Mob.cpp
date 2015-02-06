@@ -1,8 +1,8 @@
 #include	"Mob.hh"
 
-Mob::Mob(unsigned short id, const Position &pos, Entity::minortype mobType,
+Mob::Mob(unsigned short id, const Position &pos, entity::MinorType mobType,
 	velocity v, short hp, short shield) :
-	Entity(Entity::createType(Entity::MOBS, mobType), id, pos, v, hp, shield, HEIGHT, WIDTH)
+	Entity(Entity::createType(entity::MOBS, mobType), id, pos, v, hp, shield, HEIGHT, WIDTH)
 {
 	_isMoveable = true;
 	_isDestructible = true;
@@ -12,7 +12,7 @@ Mob::Mob()
 {
 	_isMoveable = true;
 	_isDestructible = true;
-	type(createType(MOBS, 0));
+	setType(createType(entity::MOBS, 0));
 }
 
 

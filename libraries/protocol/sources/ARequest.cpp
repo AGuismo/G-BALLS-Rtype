@@ -1,7 +1,7 @@
 #include	"Protocol.hpp"
 #include	"ARequest.hh"
 
-ARequest::ARequest(const requestCode::CodeID code):
+ARequest::ARequest(const rtype::protocol::CodeID code):
   _code(code)
 {
 
@@ -27,12 +27,12 @@ ARequest	&ARequest::operator=(const ARequest &src)
   return (*this);
 }
 
-requestCode::CodeID	ARequest::code() const
+rtype::protocol::CodeID	ARequest::code() const
 {
   return (_code);
 }
 
-void			ARequest::code(const requestCode::CodeID code)
+void			ARequest::code(const rtype::protocol::CodeID code)
 {
   _code = code;
 }

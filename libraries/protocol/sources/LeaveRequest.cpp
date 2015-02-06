@@ -1,9 +1,9 @@
 #include "LeaveRequest.hh"
 
-LeaveRequest::LeaveRequest() : AGameRequest(requestCode::game::LEAVE)
+LeaveRequest::LeaveRequest() : AGameRequest(rtype::protocol::requestCode::game::LEAVE)
 {}
 
-LeaveRequest::LeaveRequest(requestCode::SessionID id, game::Stamp stamp) : AGameRequest(requestCode::game::LEAVE, id, stamp)
+LeaveRequest::LeaveRequest(rtype::protocol::SessionID id, rtype::protocol::game::Stamp stamp) : AGameRequest(rtype::protocol::requestCode::game::LEAVE, id, stamp)
 {}
 
 LeaveRequest::~LeaveRequest()

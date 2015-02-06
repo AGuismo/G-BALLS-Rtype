@@ -11,8 +11,8 @@
 # include	"ServerRequest.hh"
 # include	"AliveRequest.hh"
 # include	"VictoryRequest.hh"
-# include	"BuffRequest.hh"
-# include	"ScoreRequest.hh"
+// # include	"BuffRequest.hh"
+// # include	"ScoreRequest.hh"
 # include	"DeathRequest.hh"
 # include	"LeaveRequest.hh"
 # include	"LooseRequest.hh"
@@ -62,7 +62,7 @@ template <> struct Info<Auth::ChangePass> {static const char * Detail() {return 
 
 template <> struct Info<SessionRequest> {static const char * Detail() {return (detail::SESSION);}};
 
-template <> struct Info<BuffRequest> {static const char * Detail() {return (detail::GAME_BUFF);}};
+// template <> struct Info<BuffRequest> {static const char * Detail() {return (detail::GAME_BUFF);}};
 template <> struct Info<AliveRequest> {static const char * Detail() {return (detail::GAME_ALIVE);}};
 template <> struct Info<DeathRequest> {static const char * Detail() {return (detail::GAME_DEATH);}};
 template <> struct Info<ElemRequest> {static const char * Detail() {return (detail::GAME_ELEM);}};
@@ -81,23 +81,23 @@ template <> struct Info<Party::Stopped> {static const char * Detail() {return (d
 
 template <> struct Info<root::Shutdown> {static const char * Detail() {return (detail::ROOT_SHUTDOWN);}};
 
-template <> struct Info<ScoreRequest> {static const char * Detail() {return (detail::SCORE);}};
+// template <> struct Info<ScoreRequest> {static const char * Detail() {return (detail::SCORE);}};
 
 template <> struct Info<ServerRequest>
 {
-  static const char * Detail(const requestCode::CodeID id)
+  static const char * Detail(const rtype::protocol::CodeID id)
   {
-    static std::map<requestCode::CodeID, const char *>	_map;
+    static std::map<rtype::protocol::CodeID, const char *>	_map;
 
     if (_map.size() == 0)
       {
-	_map[requestCode::server::OK] = detail::OK;
-	_map[requestCode::server::BAD_REQ] = detail::BAD_REQ;
-	_map[requestCode::server::FORBIDDEN] = detail::FORBIDDEN;
-	_map[requestCode::server::NOT_IMPLEMENTED] = detail::NOT_IMPLEMENTED;
-	_map[requestCode::server::NO_CONTENT] = detail::NO_CONTENT;
-	_map[requestCode::server::PARTIAL_CONTENT] = detail::PARTIAL_CONTENT;
-	_map[requestCode::server::NO_SLOTS] = detail::NO_SLOTS;
+	_map[rtype::protocol::requestCode::server::OK] = detail::OK;
+	_map[rtype::protocol::requestCode::server::BAD_REQ] = detail::BAD_REQ;
+	_map[rtype::protocol::requestCode::server::FORBIDDEN] = detail::FORBIDDEN;
+	_map[rtype::protocol::requestCode::server::NOT_IMPLEMENTED] = detail::NOT_IMPLEMENTED;
+	_map[rtype::protocol::requestCode::server::NO_CONTENT] = detail::NO_CONTENT;
+	_map[rtype::protocol::requestCode::server::PARTIAL_CONTENT] = detail::PARTIAL_CONTENT;
+	_map[rtype::protocol::requestCode::server::NO_SLOTS] = detail::NO_SLOTS;
       }
     return (_map[id]);
   }

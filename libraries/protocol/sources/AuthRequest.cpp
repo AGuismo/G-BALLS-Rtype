@@ -3,7 +3,7 @@
 #include	"Protocol.hpp"
 #include	"AuthRequest.hh"
 
-AuthRequest::AuthRequest(const requestCode::CodeID code) :
+AuthRequest::AuthRequest(const rtype::protocol::CodeID code) :
   ARequest(code)
 {
 }
@@ -35,13 +35,13 @@ namespace Auth
   //////////////
 
   NewUser::NewUser():
-    AuthRequest(requestCode::auth::NEW_USER)
+    AuthRequest(rtype::protocol::requestCode::auth::NEW_USER)
   {
 
   }
 
-  NewUser::NewUser(const std::string &name, const requestCode::PasswordType pass):
-    AuthRequest(requestCode::auth::NEW_USER), _username(name), _password(pass)
+  NewUser::NewUser(const std::string &name, const rtype::protocol::PasswordType pass):
+    AuthRequest(rtype::protocol::requestCode::auth::NEW_USER), _username(name), _password(pass)
   {
 
   }
@@ -73,28 +73,28 @@ namespace Auth
     return (_username);
   }
 
-  const requestCode::PasswordType	&NewUser::password() const
+  const rtype::protocol::PasswordType	&NewUser::password() const
   {
     return (_password);
   }
 
   Protocol			&NewUser::serialize(Protocol &rhs) const
   {
-    requestCode::UsernameLen	len = _username.length();
+    rtype::protocol::UsernameLen	len = _username.length();
 
     rhs << _code << len;
     rhs.push(_username, len);
-    rhs.push(_password, rtypeAuth::PASS_SIZE);
+    rhs.push(_password, rtype::protocol::rtypeAuth::PASS_SIZE);
     return (rhs);
   }
 
   Protocol	&NewUser::unserialize(Protocol &rhs)
   {
-    requestCode::UsernameLen	len;
+    rtype::protocol::UsernameLen	len;
 
     rhs >> len;
     rhs.pop(_username, len);
-    rhs.pop(_password, rtypeAuth::PASS_SIZE);
+    rhs.pop(_password, rtype::protocol::rtypeAuth::PASS_SIZE);
     return (rhs);
   }
 
@@ -108,13 +108,13 @@ namespace Auth
   //////////////
 
   Connect::Connect():
-    AuthRequest(requestCode::auth::CONNECT)
+    AuthRequest(rtype::protocol::requestCode::auth::CONNECT)
   {
 
   }
 
-  Connect::Connect(const std::string &name, const requestCode::PasswordType pass):
-    AuthRequest(requestCode::auth::CONNECT), _username(name), _password(pass)
+  Connect::Connect(const std::string &name, const rtype::protocol::PasswordType pass):
+    AuthRequest(rtype::protocol::requestCode::auth::CONNECT), _username(name), _password(pass)
   {
 
   }
@@ -146,27 +146,27 @@ namespace Auth
     return (_username);
   }
 
-  const requestCode::PasswordType	&Connect::password() const
+  const rtype::protocol::PasswordType	&Connect::password() const
   {
     return (_password);
   }
 
   Protocol			&Connect::serialize(Protocol &rhs) const
   {
-    requestCode::UsernameLen	len = _username.length();
+    rtype::protocol::UsernameLen	len = _username.length();
 
     rhs << _code << len << _username;
-    rhs.push(_password, rtypeAuth::PASS_SIZE);
+    rhs.push(_password, rtype::protocol::rtypeAuth::PASS_SIZE);
     return (rhs);
   }
 
   Protocol	&Connect::unserialize(Protocol &rhs)
   {
-    requestCode::UsernameLen	len;
+    rtype::protocol::UsernameLen	len;
 
     rhs >> len;
     rhs.pop(_username, len);
-    rhs.pop(_password, rtypeAuth::PASS_SIZE);
+    rhs.pop(_password, rtype::protocol::rtypeAuth::PASS_SIZE);
     return (rhs);
   }
 
@@ -180,14 +180,14 @@ namespace Auth
   /////////////////
 
   ChangePass::ChangePass():
-    AuthRequest(requestCode::auth::CHANGE_PASSWD)
+    AuthRequest(rtype::protocol::requestCode::auth::CHANGE_PASSWD)
   {
 
   }
 
-  ChangePass::ChangePass(const std::string &name, const requestCode::PasswordType &curPass,
-			 const requestCode::PasswordType &newPass, const requestCode::SessionID id):
-    AuthRequest(requestCode::auth::CHANGE_PASSWD), _username(name), _curpassword(curPass),
+  ChangePass::ChangePass(const std::string &name, const rtype::protocol::PasswordType &curPass,
+			 const rtype::protocol::PasswordType &newPass, const rtype::protocol::SessionID id):
+    AuthRequest(rtype::protocol::requestCode::auth::CHANGE_PASSWD), _username(name), _curpassword(curPass),
     _newpassword(newPass), _sessionID(id)
   {
 
@@ -223,24 +223,24 @@ namespace Auth
     return (_username);
   }
 
-  const requestCode::PasswordType	&ChangePass::curpassword() const
+  const rtype::protocol::PasswordType	&ChangePass::curpassword() const
   {
     return (_curpassword);
   }
 
-  const requestCode::PasswordType	&ChangePass::newpassword() const
+  const rtype::protocol::PasswordType	&ChangePass::newpassword() const
   {
     return (_newpassword);
   }
 
-  requestCode::SessionID		ChangePass::sessionID() const
+  rtype::protocol::SessionID		ChangePass::sessionID() const
   {
     return (_sessionID);
   }
 
   Protocol			&ChangePass::serialize(Protocol &rhs) const
   {
-    requestCode::UsernameLen	len = _username.length();
+    rtype::protocol::UsernameLen	len = _username.length();
 
     rhs << _code << len << _username << _sessionID << _curpassword << _newpassword;
     return (rhs);
@@ -248,7 +248,7 @@ namespace Auth
 
   Protocol	&ChangePass::unserialize(Protocol &rhs)
   {
-    requestCode::UsernameLen	len;
+    rtype::protocol::UsernameLen	len;
 
     rhs >> len;
     rhs.pop(_username, len);

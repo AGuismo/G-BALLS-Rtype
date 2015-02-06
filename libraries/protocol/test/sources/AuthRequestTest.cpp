@@ -1,10 +1,10 @@
 #include	"AuthRequestTest.hh"
 
 const std::string		AuthRequestTest::AN_USERNAME = "myTest";
-const requestCode::PasswordType	AuthRequestTest::A_PASSWORD = "aPassword";
-const requestCode::PasswordType	AuthRequestTest::CURRENT_PASSWORD = "ACurrentPassword";
-const requestCode::PasswordType	AuthRequestTest::NEW_PASSWORD = "TheChangePassword";
-const requestCode::SessionID	AuthRequestTest::A_SESSION_ID = 42;
+const rtype::protocol::PasswordType	AuthRequestTest::A_PASSWORD = "aPassword";
+const rtype::protocol::PasswordType	AuthRequestTest::CURRENT_PASSWORD = "ACurrentPassword";
+const rtype::protocol::PasswordType	AuthRequestTest::NEW_PASSWORD = "TheChangePassword";
+const rtype::protocol::SessionID	AuthRequestTest::A_SESSION_ID = 42;
 
 
 void	AuthRequestTest::SetUp()

@@ -2,13 +2,13 @@
 #include	"Protocol.hpp"
 
 SessionRequest::SessionRequest() :
-  ARequest(requestCode::auth::SESSION), _sessionID(0)
+  ARequest(rtype::protocol::requestCode::auth::SESSION), _sessionID(0)
 {
 
 }
 
-SessionRequest::SessionRequest(const requestCode::SessionID id) :
-  ARequest(requestCode::auth::SESSION), _sessionID(id)
+SessionRequest::SessionRequest(const rtype::protocol::SessionID id) :
+  ARequest(rtype::protocol::requestCode::auth::SESSION), _sessionID(id)
 {
 
 }
@@ -34,12 +34,12 @@ SessionRequest	&SessionRequest::operator=(SessionRequest const &src)
   return (*this);
 }
 
-requestCode::SessionID	SessionRequest::SessionID() const
+rtype::protocol::SessionID	SessionRequest::SessionID() const
 {
   return (_sessionID);
 }
 
-void			SessionRequest::SessionID(requestCode::SessionID id)
+void			SessionRequest::SessionID(rtype::protocol::SessionID id)
 {
   _sessionID = id;
 }
@@ -61,9 +61,9 @@ ARequest		*SessionRequest::clone() const
   return (new SessionRequest());
 }
 
-requestCode::SessionID	SessionRequest::Unique()
+rtype::protocol::SessionID	SessionRequest::Unique()
 {
-  static requestCode::SessionID	id = 0;
+  static rtype::protocol::SessionID	id = 0;
 
   return (++id);
 }

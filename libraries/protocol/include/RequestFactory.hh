@@ -11,7 +11,7 @@ namespace	request
 {
   class		Factory
   {
-    typedef	std::map<requestCode::CodeID, ARequest *> lnk_type;
+    typedef	std::map<rtype::protocol::CodeID, ARequest *> lnk_type;
   private:
     Factory();
     ~Factory();
@@ -20,7 +20,7 @@ namespace	request
     static Factory	&getInstance();
 
   public:
-    static ARequest	*factory(Protocol &, const requestCode::CodeID code);
+    static ARequest	*factory(Protocol &, const rtype::protocol::CodeID code);
     static void		factory(Protocol &, const ARequest &);
 
   private:

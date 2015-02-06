@@ -1,9 +1,9 @@
 #include "AliveRequest.hh"
 
-AliveRequest::AliveRequest(): AGameRequest(requestCode::game::ALIVE)
+AliveRequest::AliveRequest(): AGameRequest(rtype::protocol::requestCode::game::ALIVE)
 {}
 
-AliveRequest::AliveRequest(requestCode::SessionID id, game::Stamp stamp) : AGameRequest(requestCode::game::ALIVE, id, stamp)
+AliveRequest::AliveRequest(rtype::protocol::SessionID id, rtype::protocol::game::Stamp stamp) : AGameRequest(rtype::protocol::requestCode::game::ALIVE, id, stamp)
 {
 
 }

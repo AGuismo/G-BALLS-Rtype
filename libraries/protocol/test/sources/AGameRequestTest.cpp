@@ -1,9 +1,9 @@
 #include	"AGameRequest.hh"
 #include	"AGameRequestTest.hh"
 
-const unsigned short	AGameRequestTest::A_CODE_ID = 42;
-const unsigned short	AGameRequestTest::A_SESSION_ID = 5;
-const unsigned char	AGameRequestTest::A_STAMP = 15;
+const rtype::protocol::CodeID		AGameRequestTest::A_CODE_ID = 42;
+const rtype::protocol::SessionID	AGameRequestTest::A_SESSION_ID = 5;
+const rtype::protocol::game::Stamp	AGameRequestTest::A_STAMP = 15;
 
 void	AGameRequestTest::SetUp()
 {

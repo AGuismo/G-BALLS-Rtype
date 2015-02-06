@@ -14,7 +14,7 @@ public:
 	static const unsigned short	WIDTH = 48;
 
 public:
-	Mob(unsigned short id, const Position &pos, Entity::minortype mobType = 0,
+  Mob(rtype::protocol::game::ID id, const Position &pos, entity::MinorType mobType = 0,
 		velocity v = DEFAULT_SPEED, short hp = DEFAULT_HP, short shield = DEFAULT_SHIELD);
 	Mob();
 	~Mob();

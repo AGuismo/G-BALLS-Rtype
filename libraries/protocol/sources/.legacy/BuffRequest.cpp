@@ -1,12 +1,12 @@
 #include "BuffRequest.hh"
 
-BuffRequest::BuffRequest() : AGameRequest(requestCode::game::BUFF)
+BuffRequest::BuffRequest() : AGameRequest(rtype::protocol::requestCode::game::BUFF)
 {
 
 }
 
-BuffRequest::BuffRequest(Ruint16 id, Rint8 type, game::Stamp stamp) :
-  AGameRequest(requestCode::game::BUFF, 0, stamp), _id(id), _type(type)
+BuffRequest::BuffRequest(Ruint16 id, Rint8 type, rtype::protocol::game::Stamp stamp) :
+  AGameRequest(rtype::protocol::game::BUFF, 0, stamp), _id(id), _type(type)
 {
 
 }

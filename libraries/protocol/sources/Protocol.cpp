@@ -13,12 +13,12 @@ Protocol::~Protocol()
   delete [] _data;
 }
 
-Rbool	Protocol::empty() const
+rtype::protocol::Rbool	Protocol::empty() const
 {
   return (_container.empty());
 }
 
-Ruint32	Protocol::size() const
+rtype::protocol::Ruint32	Protocol::size() const
 {
   return (_container.size());
 }
@@ -50,31 +50,31 @@ Protocol::Byte		*Protocol::data()
     return (*this);				\
   }
 
-Protocol&	Protocol::operator LC(Rint8, val);
-Protocol&	Protocol::operator LC(Rint16, val);
-Protocol&	Protocol::operator LC(Rint32, val);
-Protocol&	Protocol::operator LC(Ruint8, val);
-Protocol&	Protocol::operator LC(Ruint16, val);
-Protocol&	Protocol::operator LC(Ruint32, val);
-Protocol&	Protocol::operator LC(Rdouble, val);
-Protocol&	Protocol::operator LC(Rfloat, val);
+Protocol&	Protocol::operator LC(rtype::protocol::Rint8, val);
+Protocol&	Protocol::operator LC(rtype::protocol::Rint16, val);
+Protocol&	Protocol::operator LC(rtype::protocol::Rint32, val);
+Protocol&	Protocol::operator LC(rtype::protocol::Ruint8, val);
+Protocol&	Protocol::operator LC(rtype::protocol::Ruint16, val);
+Protocol&	Protocol::operator LC(rtype::protocol::Ruint32, val);
+Protocol&	Protocol::operator LC(rtype::protocol::Rdouble, val);
+Protocol&	Protocol::operator LC(rtype::protocol::Rfloat, val);
 
-Protocol&	Protocol::operator RC(Rint8, val);
-Protocol&	Protocol::operator RC(Rint16, val);
-Protocol&	Protocol::operator RC(Rint32, val);
-Protocol&	Protocol::operator RC(Ruint8, val);
-Protocol&	Protocol::operator RC(Ruint16, val);
-Protocol&	Protocol::operator RC(Ruint32, val);
-Protocol&	Protocol::operator RC(Rdouble, val);
-Protocol&	Protocol::operator RC(Rfloat, val);
+Protocol&	Protocol::operator RC(rtype::protocol::Rint8, val);
+Protocol&	Protocol::operator RC(rtype::protocol::Rint16, val);
+Protocol&	Protocol::operator RC(rtype::protocol::Rint32, val);
+Protocol&	Protocol::operator RC(rtype::protocol::Ruint8, val);
+Protocol&	Protocol::operator RC(rtype::protocol::Ruint16, val);
+Protocol&	Protocol::operator RC(rtype::protocol::Ruint32, val);
+Protocol&	Protocol::operator RC(rtype::protocol::Rdouble, val);
+Protocol&	Protocol::operator RC(rtype::protocol::Rfloat, val);
 
-Protocol&	Protocol::operator<<(const Rint8* s)
+Protocol&	Protocol::operator<<(const rtype::protocol::Rint8* s)
 {
   while (*s && push(*s++, 1));
   return (*this);
 }
 
-Protocol&	Protocol::operator>>(Rint8* s)
+Protocol&	Protocol::operator>>(rtype::protocol::Rint8* s)
 {
   while (*s && pop(*s++));
   return (*this);
@@ -117,7 +117,7 @@ std::string		Protocol::push(const std::string &val, Protocol::size_type count)
 ARequest		*Protocol::consume(std::vector<Byte> &input, int &extracted)
 {
   Protocol		p;
-  requestCode::CodeID	code;
+  rtype::protocol::CodeID	code;
   ARequest		*req;
 
 #if defined(DEBUG)

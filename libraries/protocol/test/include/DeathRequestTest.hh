@@ -7,8 +7,8 @@
 class DeathRequestTest : public ::testing::Test
 {
 public:
-  static const Ruint16		AN_ID;
-  static const game::Stamp	A_STAMP;
+  static const rtype::protocol::Ruint16		AN_ID;
+  static const rtype::protocol::game::Stamp	A_STAMP;
 
 protected:
 

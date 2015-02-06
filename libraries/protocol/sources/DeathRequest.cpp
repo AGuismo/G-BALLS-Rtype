@@ -1,12 +1,12 @@
 #include "DeathRequest.hh"
 #include <iostream>
 
-DeathRequest::DeathRequest() : AGameRequest(requestCode::game::DEATH)
+DeathRequest::DeathRequest() : AGameRequest(rtype::protocol::requestCode::game::DEATH)
 {
 }
 
-DeathRequest::DeathRequest(Ruint16 id, game::Stamp stamp) :
-  AGameRequest(requestCode::game::DEATH, 0, stamp), _id(id)
+DeathRequest::DeathRequest(rtype::protocol::Ruint16 id, rtype::protocol::game::Stamp stamp) :
+  AGameRequest(rtype::protocol::requestCode::game::DEATH, 0, stamp), _id(id)
 {
 #if defined(DEBUG)
   std::cout << "Death Request on " << id << std::endl;
@@ -50,12 +50,12 @@ ARequest		*DeathRequest::clone() const
   return new DeathRequest(*this);
 }
 
-Ruint16			DeathRequest::ID() const
+rtype::protocol::game::ID			DeathRequest::ID() const
 {
   return _id;
 }
 
-void			DeathRequest::ID(Ruint16 id)
+void			DeathRequest::ID(rtype::protocol::game::ID id)
 {
   _id = id;
 }

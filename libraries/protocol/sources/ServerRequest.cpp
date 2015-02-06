@@ -12,18 +12,18 @@ const char *detail::NO_CONTENT = "No content found";
 const char *detail::PARTIAL_CONTENT = "Partial content";
 const char *detail::NO_SLOTS = "No slot available";
 
-ServerRequest::ServerRequest(const requestCode::CodeID id):
+ServerRequest::ServerRequest(const rtype::protocol::CodeID id):
   ARequest(id)
 {
-  if (id != requestCode::server::OK && id != requestCode::server::BAD_REQ &&
-      id != requestCode::server::FORBIDDEN && id != requestCode::server::NOT_IMPLEMENTED &&
-      id != requestCode::server::NO_CONTENT && id != requestCode::server::PARTIAL_CONTENT &&
-      id != requestCode::server::NO_SLOTS)
+  if (id != rtype::protocol::requestCode::server::OK && id != rtype::protocol::requestCode::server::BAD_REQ &&
+      id != rtype::protocol::requestCode::server::FORBIDDEN && id != rtype::protocol::requestCode::server::NOT_IMPLEMENTED &&
+      id != rtype::protocol::requestCode::server::NO_CONTENT && id != rtype::protocol::requestCode::server::PARTIAL_CONTENT &&
+      id != rtype::protocol::requestCode::server::NO_SLOTS)
     throw ARequest::Exception("Invalid Server Request");
 }
 
 ServerRequest::ServerRequest():
-  ARequest(requestCode::server::OK)
+  ARequest(rtype::protocol::requestCode::server::OK)
 {
 
 }

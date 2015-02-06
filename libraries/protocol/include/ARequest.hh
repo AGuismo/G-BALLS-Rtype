@@ -3,7 +3,7 @@
 
 # include	<string>
 # include	<exception>
-# include	"types.hh"
+# include	"ProtocolTypes.hh"
 # include	"RequestCode.hh"
 # include	"ISerializable.hh"
 
@@ -26,12 +26,12 @@ public:
   };
 
 public:
-  ARequest(const requestCode::CodeID);
+  ARequest(const rtype::protocol::CodeID);
   virtual ~ARequest();
 
 public:
-  requestCode::CodeID	code() const;
-  void			code(const requestCode::CodeID);
+  rtype::protocol::CodeID	code() const;
+  void			code(const rtype::protocol::CodeID);
 
 public:
   ARequest(ARequest const&);
@@ -43,7 +43,7 @@ public:
   virtual Protocol	&unserialize(Protocol &) = 0;
 
 protected:
-  requestCode::CodeID	_code;
+  rtype::protocol::CodeID	_code;
 };
 
 #endif /* AREQUEST_H_ */
